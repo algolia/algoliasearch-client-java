@@ -451,9 +451,19 @@ public class Index {
         return client.getRequest("/1/indexes/" + encodedIndexName + "/browse?page=" + page, false);
     }
     
-    static class IndexBrower implements Iterator<JSONObject> {
-        
+    /**
+     * @deprecated See {@code IndexBrowser}
+     *
+     */
+    static class IndexBrower extends IndexBrowser {
         IndexBrower(APIClient client, String encodedIndexName, Query params, String startingCursor) throws AlgoliaException {
+            super(client, encodedIndexName, params, startingCursor);
+        }        
+    }
+    
+    static class IndexBrowser implements Iterator<JSONObject> {
+        
+        IndexBrowser(APIClient client, String encodedIndexName, Query params, String startingCursor) throws AlgoliaException {
             this.client = client;
             this.params = params;
             this.encodedIndexName = encodedIndexName;
@@ -534,14 +544,14 @@ public class Index {
      * Browse all index content
      */
     public Iterator<JSONObject> browse(Query params) throws AlgoliaException {
-        return new IndexBrower(client, encodedIndexName, params, null);
+        return new IndexBrowser(client, encodedIndexName, params, null);
     }
 
     /**
      * Browse all index content starting from a cursor
      */
     public Iterator<JSONObject> browseFrow(Query params, String cursor) throws AlgoliaException {
-        return new IndexBrower(client, encodedIndexName, params, cursor);
+        return new IndexBrowser(client, encodedIndexName, params, cursor);
     }
 
     /**
