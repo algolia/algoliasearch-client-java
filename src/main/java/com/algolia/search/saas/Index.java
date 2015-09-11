@@ -386,6 +386,7 @@ public class Index {
     	attributesToRetrieve.add("objectID");
     	query.setAttributesToRetrieve(attributesToRetrieve);
     	query.setHitsPerPage(1000);
+    	query.enableDistinct(false);
     	
     	JSONObject results = this.search(query);
     	try {
