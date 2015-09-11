@@ -550,8 +550,13 @@ public class Index {
     /**
      * Browse all index content starting from a cursor
      */
-    public Iterator<JSONObject> browseFrow(Query params, String cursor) throws AlgoliaException {
+    public Iterator<JSONObject> browseFrom(Query params, String cursor) throws AlgoliaException {
         return new IndexBrowser(client, encodedIndexName, params, cursor);
+    }
+    
+    @Deprecated
+    public Iterator<JSONObject> browseFrow(Query params, String cursor) throws AlgoliaException {
+        return browseFrom(params, cursor);
     }
 
     /**
