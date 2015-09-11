@@ -159,7 +159,7 @@ public class APIClient {
         
         this.buildHostsArray = new ArrayList<String>(buildHostsArray);
         this.queryHostsArray = new ArrayList<String>(queryHostArray);
-        httpClient = HttpClientBuilder.create().disableAutomaticRetries().build();
+        httpClient = HttpClientBuilder.create().disableAutomaticRetries().useSystemProperties().build();
         headers = new HashMap<String, String>();
     }
     
