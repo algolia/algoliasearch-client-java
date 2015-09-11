@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.3.14 (2015-09-11)
+-------------------
+- The underlying HttpClient now uses the system-wide defined properties
+- Fixed a typo in the browseFrom method
+- Ensure the deleteByQuery calls are disabling distinct
+
 1.3.13 (2015-08-20)
 -------------------
 - The search request is now doing a POST request instead of a GET to bypass the URL limit
