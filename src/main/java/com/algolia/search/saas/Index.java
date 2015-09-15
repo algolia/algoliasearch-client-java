@@ -462,7 +462,11 @@ public class Index {
         }        
     }
     
-    static class IndexBrowser implements Iterator<JSONObject> {
+    /**
+     * This class iterates over an index using the cursor-based browse mechanism
+     *
+     */
+    static public class IndexBrowser implements Iterator<JSONObject> {
         
         IndexBrowser(APIClient client, String encodedIndexName, Query params, String startingCursor) throws AlgoliaException {
             this.client = client;
@@ -508,6 +512,9 @@ public class Index {
             return hit;
         }
         
+        /**
+         * @return the underlying cursor used by the enumeration
+         */
         public String getCursor() {
             try {
                 return answer != null && answer.has("cursor") ? answer.getString("cursor") : null;
@@ -544,19 +551,19 @@ public class Index {
     /**
      * Browse all index content
      */
-    public Iterator<JSONObject> browse(Query params) throws AlgoliaException {
+    public IndexBrowser browse(Query params) throws AlgoliaException {
         return new IndexBrowser(client, encodedIndexName, params, null);
     }
 
     /**
      * Browse all index content starting from a cursor
      */
-    public Iterator<JSONObject> browseFrom(Query params, String cursor) throws AlgoliaException {
+    public IndexBrowser browseFrom(Query params, String cursor) throws AlgoliaException {
         return new IndexBrowser(client, encodedIndexName, params, cursor);
     }
     
     @Deprecated
-    public Iterator<JSONObject> browseFrow(Query params, String cursor) throws AlgoliaException {
+    public IndexBrowser browseFrow(Query params, String cursor) throws AlgoliaException {
         return browseFrom(params, cursor);
     }
 
