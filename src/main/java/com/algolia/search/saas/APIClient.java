@@ -21,6 +21,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
@@ -725,8 +726,8 @@ public class APIClient {
             try {
                 InputStream istream = response.getEntity().getContent();
                 InputStreamReader is = new InputStreamReader(istream, "UTF-8");
-                JSONTokener tokener = new JSONTokener(is);
-                JSONObject res = new JSONObject(tokener);
+                String jsonRaw = IOUtils.toString(is);
+                JSONObject res = new JSONObject(jsonRaw);
                 is.close();
                 return res;
             } catch (IOException e) {
