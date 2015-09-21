@@ -731,8 +731,7 @@ public class APIClient {
                     jsonRaw.append(buffer, 0, read);
                 }
                 is.close();
-                JSONObject res = new JSONObject(jsonRaw.toString());
-                return res;
+                return new JSONObject(jsonRaw.toString());
             } catch (IOException e) {
             	if (verbose) {
 	        		System.out.println(String.format("%s: %s=%s", host, e.getClass().getName(), e.getMessage()));
