@@ -21,7 +21,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
@@ -40,7 +39,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 /*
  * Copyright (c) 2015 Algolia
@@ -726,9 +724,14 @@ public class APIClient {
             try {
                 InputStream istream = response.getEntity().getContent();
                 InputStreamReader is = new InputStreamReader(istream, "UTF-8");
-                String jsonRaw = IOUtils.toString(is);
-                JSONObject res = new JSONObject(jsonRaw);
+                StringBuilder jsonRaw = new StringBuilder();
+                char[] buffer = new  char[4096];
+                int read = 0;
+                while ((read = is.read(buffer)) > 0) {
+                    jsonRaw.append(buffer, 0, read);
+                }
                 is.close();
+                JSONObject res = new JSONObject(jsonRaw.toString());
                 return res;
             } catch (IOException e) {
             	if (verbose) {
