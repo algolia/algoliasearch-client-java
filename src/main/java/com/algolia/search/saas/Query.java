@@ -81,6 +81,7 @@ public class Query {
 	protected List<String> attributes;
 	protected List<String> attributesToHighlight;
 	protected List<String> attributesToSnippet;
+	protected List<String> noTypoToleranceOn;
 	protected Integer minWordSizeForApprox1;
 	protected Integer minWordSizeForApprox2;
 	protected Boolean getRankingInfo;
@@ -96,6 +97,7 @@ public class Query {
 	protected Integer minProximity;
 	protected String numerics;
 	protected String insideBoundingBox;
+	protected String insidePolygon;
 	protected String aroundLatLong;
 	protected Boolean aroundLatLongViaIP;
 	protected String query;
@@ -111,6 +113,8 @@ public class Query {
 	protected RemoveWordsType removeWordsIfNoResult;
 	protected TypoTolerance typoTolerance;
 	protected String analyticsTags;
+	protected integer aroundPrecision;
+	protected integer aroundRadius;
 
 	public Query(String query) {
 		minWordSizeForApprox1 = null;
@@ -129,6 +133,7 @@ public class Query {
 		analyticsTags = null;
 		typoTolerance = TypoTolerance.TYPO_NOTSET;
 		removeWordsIfNoResult = RemoveWordsType.REMOVE_NOTSET;
+		aroundPrecision = aroundRadius = 0;
 	}
 
 	public Query() {
@@ -136,6 +141,9 @@ public class Query {
 	}
 
 	public Query(Query other) {
+		if (other.noTypoToleranceOn != null) {
+			noTypoToleranceOn = new ArrayList<String>(other.noTypoToleranceOn);
+		}
 		if (other.attributesToHighlight != null) {
 			attributesToHighlight = new ArrayList<String>(other.attributesToHighlight);
 		}
@@ -160,6 +168,9 @@ public class Query {
 		tags = other.tags;
 		numerics = other.numerics;
 		insideBoundingBox = other.insideBoundingBox;
+		insidePolygon = other.insidePolygon;
+		aroundRadius = other.aroundRadius;
+		aroundPrecision = other.aroundPrecision;
 		aroundLatLong = other.aroundLatLong;
 		aroundLatLongViaIP = other.aroundLatLongViaIP;
 		query = other.query;
@@ -229,6 +240,14 @@ public class Query {
 	 */
 	public Query setAttributesToHighlight(List<String> attributes) {
 		this.attributesToHighlight = attributes;
+		return this;
+	}
+
+	/*
+	 * List of attributes on which you want to disable typo tolerance (must be a subset of the attributesToIndex index setting).
+	 */
+	public Query disableTypoToleranceOnAttributes(List<String> attributes) {
+		this.noTypoToleranceOn = attributes;
 		return this;
 	}
 
@@ -434,6 +453,14 @@ public class Query {
 	}
 
 	/**
+	 * Search for entries around a given latitude/longitude with an automatic radius computed depending of the density of the area.
+	 */
+	public Query aroundLatitudeLongitude(float latitude, float longitude) {
+		aroundLatLong = "aroundLatLng=" + latitude + "," + longitude;
+		return this;
+	}
+
+	/**
 	 * Search for entries around a given latitude/longitude.
 	 * 
 	 * @param radius
@@ -443,15 +470,31 @@ public class Query {
 	 *            {"_geoloc":{"lat":48.853409, "lng":2.348800}})
 	 */
 	public Query aroundLatitudeLongitude(float latitude, float longitude, int radius) {
-		aroundLatLong = "aroundLatLng=" + latitude + "," + longitude + "&aroundRadius=" + radius;
+		aroundLatLong = "aroundLatLng=" + latitude + "," + longitude;
+		aroundRadius = radius;
 		return this;
 	}
 
 	/**
+	 * Change the radius or around latitude/longitude query
+	 */
+	public Query setAroundRadius(int value) {
+		aroundRadius = radius;
+		return this;
+	}
+
+	/**
+	 * Change the precision or around latitude/longitude query
+	 */
+	public Query setAroundPrecision(int precision) {
+		aroundPrecision = precision;
+		return this;
+	}
+	/**
 	 * Search for entries around a given latitude/longitude.
 	 * 
 	 * @param radius
-	 *            set the maximum distance in meters.
+	 *            set the maximum distance in meters (manually defined)
 	 * @param precision
 	 *            set the precision for ranking (for example if you set
 	 *            precision=100, two objects that are distant of less than 100m
@@ -461,7 +504,18 @@ public class Query {
 	 *            example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
 	 */
 	public Query aroundLatitudeLongitude(float latitude, float longitude, int radius, int precision) {
-		aroundLatLong = "aroundLatLng=" + latitude + "," + longitude + "&aroundRadius=" + radius + "&aroundPrecision=" + precision;
+		aroundLatLong = "aroundLatLng=" + latitude + "," + longitude;
+		aroundRadius = radius;
+		aroundPrecision = precision;
+		return this;
+	}
+
+	/**
+	 * Search for entries around the latitude/longitude of user (using IP
+	 * geolocation) with an automatic radius depending on area density
+	 */
+	public Query aroundLatitudeLongitudeViaIP(boolean enabled) {
+		aroundLatLongViaIP = enabled;
 		return this;
 	}
 
@@ -470,13 +524,10 @@ public class Query {
 	 * geolocation)
 	 * 
 	 * @param radius
-	 *            set the maximum distance in meters. Note: at indexing, geoloc
-	 *            of an object should be set with _geoloc attribute containing
-	 *            lat and lng attributes (for example
-	 *            {"_geoloc":{"lat":48.853409, "lng":2.348800}})
+	 *            set the maximum distance in meters manually
 	 */
 	public Query aroundLatitudeLongitudeViaIP(boolean enabled, int radius) {
-		aroundLatLong = "aroundRadius=" + radius;
+		aroundRadius = radius;
 		aroundLatLongViaIP = enabled;
 		return this;
 	}
@@ -496,19 +547,39 @@ public class Query {
 	 *            example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
 	 */
 	public Query aroundLatitudeLongitudeViaIP(boolean enabled, int radius, int precision) {
-		aroundLatLong = "aroundRadius=" + radius + "&aroundPrecision=" + precision;
+		aroundRadius = radius;
+		aroundPrecision = precision;
 		aroundLatLongViaIP = enabled;
 		return this;
 	}
 
 	/**
-	 * Search for entries inside a given area defined by the two extreme points
-	 * of a rectangle. At indexing, geoloc of an object should be set with
-	 * _geoloc attribute containing lat and lng attributes (for example
-	 * {"_geoloc":{"lat":48.853409, "lng":2.348800}})
+	 * Search for entries inside a given area defined by the two extreme points of a rectangle.
+	 * At indexing, you should specify geoloc of an object with the _geoloc attribute (in the form "_geoloc":{"lat":48.853409, "lng":2.348800} or 
+	 * "_geoloc":[{"lat":48.853409, "lng":2.348800},{"lat":48.547456, "lng":2.972075}] if you have several geo-locations in your record).
+	 * 
+	 * You can use several bounding boxes (OR) by calling this method several times.
 	 */
 	public Query insideBoundingBox(float latitudeP1, float longitudeP1, float latitudeP2, float longitudeP2) {
-		insideBoundingBox = "insideBoundingBox=" + latitudeP1 + "," + longitudeP1 + "," + latitudeP2 + "," + longitudeP2;
+		if (insideBoundingBox == null) {
+			insideBoundingBox = "insideBoundingBox=" + latitudeP1 + "," + longitudeP1 + "," + latitudeP2 + "," + longitudeP2;
+		} else if (insideBoundingBox.length() > 18) {
+			insideBoundingBox += "," + latitudeP1 + "," + longitudeP1 + "," + latitudeP2 + "," + longitudeP2;
+		}
+		return this;
+	}
+
+	/**
+	 * Add a point to the polygon of geo-search (requires a minimum of three points to define a valid polygon)
+	 * At indexing, you should specify geoloc of an object with the _geoloc attribute (in the form "_geoloc":{"lat":48.853409, "lng":2.348800} or 
+	 * "_geoloc":[{"lat":48.853409, "lng":2.348800},{"lat":48.547456, "lng":2.972075}] if you have several geo-locations in your record).
+	 */
+	public Query addInsidePolygon(float latitude, float longitude) {
+		if (insidePolygon == null) {
+			insidePolygon = "insidePolygon=" + latitude + "," + longitude;
+		} else if (insidePolygon.length() > 14) {
+			insidePolygon += "," + latitude + "," + longitude;
+		}
 		return this;
 	}
 
@@ -659,6 +730,18 @@ public class Query {
 				for (String attr : this.attributes) {
 					if (!first)
 						stringBuilder.append(",");
+					stringBuilder.append(URLEncoder.encode(attr, "UTF-8"));
+					first = false;
+				}
+			}
+			if (noTypoToleranceOn != null) {
+				if (stringBuilder.length() > 0)
+					stringBuilder.append('&');
+				stringBuilder.append("disableTypoToleranceOnAttributes=");
+				boolean first = true;
+				for (String attr : this.noTypoToleranceOn) {
+					if (!first)
+						stringBuilder.append(',');
 					stringBuilder.append(URLEncoder.encode(attr, "UTF-8"));
 					first = false;
 				}
@@ -837,11 +920,25 @@ public class Query {
 				if (stringBuilder.length() > 0)
 					stringBuilder.append('&');
 				stringBuilder.append(aroundLatLong);
+			} else if (insidePolygon != null) {
+				if (stringBuilder.length() > 0)
+					stringBuilder.append('&');
+				stringBuilder.append(insidePolygon);
 			}
 			if (aroundLatLongViaIP != null) {
 				if (stringBuilder.length() > 0)
 					stringBuilder.append('&');
 				stringBuilder.append("aroundLatLngViaIP=").append(aroundLatLongViaIP ? '1' : '0');
+			}
+			if (aroundRadius > 0) {
+				if (stringBuilder.length() > 0)
+					stringBuilder.append('&');
+				stringBuilder.append("aroundRadius=").append(aroundRadius);
+			}
+			if (aroundPrecision > 0) {
+				if (stringBuilder.length() > 0)
+					stringBuilder.append('&');
+				stringBuilder.append("aroundPrecision=").append(aroundPrecision);
 			}
 			if (query != null) {
 				if (stringBuilder.length() > 0)
