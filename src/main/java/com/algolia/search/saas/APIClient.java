@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.zip.GZIPInputStream;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -637,6 +638,7 @@ public class APIClient {
 		}
     	
     	// set auth headers
+        req.setHeader("Accept-Encoding", "gzip");
     	req.setHeader("X-Algolia-Application-Id", this.applicationID);
     	if (forwardAdminAPIKey == null) {
     		req.setHeader("X-Algolia-API-Key", this.apiKey);
@@ -657,10 +659,10 @@ public class APIClient {
         	if (!(req instanceof HttpEntityEnclosingRequestBase)) {
         		throw new IllegalArgumentException("Method " + req.getMethod() + " cannot enclose entity");
         	}
-            req.setHeader("Content-type", "application/json");
+            req.setHeader("Content-type", "gzip");
             try {
                 StringEntity se = new StringEntity(json, "UTF-8"); 
-                se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "gzip"));
                 ((HttpEntityEnclosingRequestBase) req).setEntity(se); 
             } catch (Exception e) {
                 throw new AlgoliaException("Invalid JSON Object: " + json); // $COVERAGE-IGNORE$
@@ -723,6 +725,10 @@ public class APIClient {
             }
             try {
                 InputStream istream = response.getEntity().getContent();
+                String encoding = response.getEntity().getContentEncoding() != null ? response.getEntity().getContentEncoding().getValue() : null;
+                if (encoding != null && encoding.contains("gzip")) {
+                	istream = new GZIPInputStream(istream);
+                }
                 InputStreamReader is = new InputStreamReader(istream, "UTF-8");
                 StringBuilder jsonRaw = new StringBuilder();
                 char[] buffer = new  char[4096];
