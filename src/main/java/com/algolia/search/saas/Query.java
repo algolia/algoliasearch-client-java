@@ -92,6 +92,7 @@ public class Query {
 	protected Integer hitsPerPage;
 	protected String restrictSearchableAttributes;
 	protected String tags;
+	protected String filters;
 	protected String highlightPreTag;
 	protected String highlightPostTag;
 	protected Integer minProximity;
@@ -178,6 +179,7 @@ public class Query {
 		optionalWords = other.optionalWords;
 		facets = other.facets;
 		facetFilters = other.facetFilters;
+		filters = other.filters;
 		maxNumberOfFacets = other.maxNumberOfFacets;
 		analytics = other.analytics;
 		analyticsTags = other.analyticsTags;
@@ -611,6 +613,23 @@ public class Query {
 		this.optionalWords = builder.toString();
 		return this;
 	}
+	
+	/**
+	 * Filter the query with numeric, facet or/and tag filters.
+	 * The syntax is a SQL like syntax, you can use the OR and AND keywords.
+	 * The syntax for the underlying numeric, facet and tag filters is the same than in the other filters:
+	 * available=1 AND (category:Book OR NOT category:Ebook) AND public
+     * date: 1441745506 TO 1441755506 AND inStock > 0 AND author:"John Doe"
+     * The list of keywords is:
+     * OR: create a disjunctive filter between two filters.
+     * AND: create a conjunctive filter between two filters.
+     * TO: used to specify a range for a numeric filter.
+     * NOT: used to negate a filter. The syntax with the ‘-‘ isn’t allowed.
+	 */
+	public Query setFilters(String filters) {
+		this.filters = filters;
+		return this;
+	}
 
 	/**
 	 * Filter the query by a list of facets. Each filter is encoded as
@@ -952,6 +971,12 @@ public class Query {
 				stringBuilder.append("facets=");
 				stringBuilder.append(URLEncoder.encode(facets, "UTF-8"));
 			}
+			if (filters != null) {
+				if (stringBuilder.length() > 0)
+					stringBuilder.append('&');
+				stringBuilder.append("filters=");
+				stringBuilder.append(URLEncoder.encode(filters, "UTF-8"));
+			}
 			if (facetFilters != null) {
 				if (stringBuilder.length() > 0)
 					stringBuilder.append('&');
@@ -1152,6 +1177,13 @@ public class Query {
 	 */
 	public String getFacets() {
 		return facets;
+	}
+	
+	/**
+	 * @return the filters
+	 */
+	public String getFilters() {
+		return filters;
 	}
 
 	/**
