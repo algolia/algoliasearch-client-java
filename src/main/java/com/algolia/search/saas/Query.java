@@ -102,6 +102,7 @@ public class Query {
 	protected String aroundLatLong;
 	protected Boolean aroundLatLongViaIP;
 	protected String query;
+	protected String similarQuery;
 	protected QueryType queryType;
 	protected String optionalWords;
 	protected String facets;
@@ -116,6 +117,7 @@ public class Query {
 	protected String analyticsTags;
 	protected int aroundPrecision;
 	protected int aroundRadius;
+        protected Boolean removeStopWords;
 
 	public Query(String query) {
 		minWordSizeForApprox1 = null;
@@ -127,9 +129,11 @@ public class Query {
 		minProximity = null;
 		hitsPerPage = null;
 		this.query = query;
+		this.similarQuery = null;
 		queryType = QueryType.PREFIX_NOTSET;
 		maxNumberOfFacets = null;
 		advancedSyntax = null;
+		removeStopWords = null;
 		analytics = synonyms = replaceSynonyms = allowTyposOnNumericTokens = null;
 		analyticsTags = null;
 		typoTolerance = TypoTolerance.TYPO_NOTSET;
@@ -163,6 +167,7 @@ public class Query {
 		highlightPostTag = other.highlightPostTag;
 		distinct = other.distinct;
 		advancedSyntax = other.advancedSyntax;
+		removeStopWords = other.removeStopWords;
 		page = other.page;
 		hitsPerPage = other.hitsPerPage;
 		restrictSearchableAttributes = other.restrictSearchableAttributes;
@@ -175,6 +180,7 @@ public class Query {
 		aroundLatLong = other.aroundLatLong;
 		aroundLatLongViaIP = other.aroundLatLongViaIP;
 		query = other.query;
+		similarQuery = other.similarQuery;
 		queryType = other.queryType;
 		optionalWords = other.optionalWords;
 		facets = other.facets;
@@ -224,6 +230,14 @@ public class Query {
 	 */
 	public Query setQueryString(String query) {
 		this.query = query;
+		return this;
+	}
+
+	/**
+	 * Set the full text similar query string
+	 */
+	public Query setSimilarQueryString(String query) {
+		this.similarQuery = query;
 		return this;
 	}
 
@@ -724,6 +738,14 @@ public class Query {
 		return this;
 	}
 
+        /**
+	 * Enable the removal of stop words. Defaults to false
+         */
+        public Query enableRemoveStopWords(boolean removeStopWords) {
+	        this.removeStopWords = removeStopWords;
+	        return this;
+        }
+
 	/**
 	 * Enable the advanced query syntax. Defaults to false. - Phrase query: a
 	 * phrase query defines a particular sequence of terms. A phrase query is
@@ -888,6 +910,11 @@ public class Query {
 				stringBuilder.append("distinct=");
 				stringBuilder.append(distinct);
 			}
+			if (removeStopWords != null) {
+				if (stringBuilder.length() > 0)
+					stringBuilder.append('&');
+				stringBuilder.append("removeStopWords=").append(removeStopWords ? '1' : '0');
+			}
 			if (advancedSyntax != null) {
 				if (stringBuilder.length() > 0)
 					stringBuilder.append('&');
@@ -965,6 +992,13 @@ public class Query {
 				stringBuilder.append("query=");
 				stringBuilder.append(URLEncoder.encode(query, "UTF-8"));
 			}
+			if (similarQuery != null) {
+				if (stringBuilder.length() > 0)
+					stringBuilder.append('&');
+				stringBuilder.append("similarQuery=");
+				stringBuilder.append(URLEncoder.encode(similarQuery, "UTF-8"));
+			}
+
 			if (facets != null) {
 				if (stringBuilder.length() > 0)
 					stringBuilder.append('&');
@@ -1157,6 +1191,13 @@ public class Query {
 	public String getQuery() {
 		return query;
 	}
+
+	/**
+	 * @return the similar query
+	 */
+        public String getSimilarQuery() {
+    	        return similarQuery;
+        }
 
 	/**
 	 * @return the queryType
