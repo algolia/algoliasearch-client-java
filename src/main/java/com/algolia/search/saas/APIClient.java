@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UTFDataFormatException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.zip.GZIPInputStream;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -540,8 +543,10 @@ public class APIClient {
      * @param privateApiKey your private API Key
      * @param tagFilters the list of tags applied to the query (used as security)
      * @throws NoSuchAlgorithmException 
-     * @throws InvalidKeyException 
+     * @throws InvalidKeyException
+     * @deprecated Use `generateSecuredApiKey(String privateApiKey, Query query)` version 
      */
+    @Deprecated
     public String generateSecuredApiKey(String privateApiKey, String tagFilters) throws NoSuchAlgorithmException, InvalidKeyException {
         return generateSecuredApiKey(privateApiKey, tagFilters, null);
     }
@@ -556,7 +561,7 @@ public class APIClient {
      * @throws InvalidKeyException 
      */
     public String generateSecuredApiKey(String privateApiKey, Query query) throws NoSuchAlgorithmException, InvalidKeyException {
-        return generateSecuredApiKey(privateApiKey, query.toString(), null);
+        return generateSecuredApiKey(privateApiKey, query, null);
     }
     
     /**
@@ -568,7 +573,9 @@ public class APIClient {
      * @param userToken an optional token identifying the current user
      * @throws NoSuchAlgorithmException 
      * @throws InvalidKeyException 
+     * @deprecated Use `generateSecuredApiKey(String privateApiKey, Query query, String userToken)` version
      */
+    @Deprecated
     public String generateSecuredApiKey(String privateApiKey, String tagFilters, String userToken) throws NoSuchAlgorithmException, InvalidKeyException {
     	return hmac(privateApiKey, tagFilters + (userToken != null ? userToken : ""));
         
@@ -585,7 +592,13 @@ public class APIClient {
      * @throws InvalidKeyException 
      */
     public String generateSecuredApiKey(String privateApiKey, Query query, String userToken) throws NoSuchAlgorithmException, InvalidKeyException {
-    	return hmac(privateApiKey, query.toString() + (userToken != null ? userToken : ""));
+        if (userToken != null && userToken.length() > 0) {
+            query.setUserToken(userToken);
+        }
+        String queryStr = query.getQueryString();
+        String key = hmac(privateApiKey, queryStr);
+        
+    	return Base64.encodeBase64String(String.format("%s%s", key, queryStr).getBytes(Charset.forName("UTF8")));
         
     }
     

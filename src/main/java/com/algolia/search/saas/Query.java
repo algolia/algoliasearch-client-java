@@ -117,7 +117,9 @@ public class Query {
 	protected String analyticsTags;
 	protected int aroundPrecision;
 	protected int aroundRadius;
-        protected Boolean removeStopWords;
+	protected Boolean removeStopWords;
+	protected String userToken;
+	protected String referers;
 
 	public Query(String query) {
 		minWordSizeForApprox1 = null;
@@ -139,6 +141,7 @@ public class Query {
 		typoTolerance = TypoTolerance.TYPO_NOTSET;
 		removeWordsIfNoResult = RemoveWordsType.REMOVE_NOTSET;
 		aroundPrecision = aroundRadius = 0;
+		userToken = referers = null;
 	}
 
 	public Query() {
@@ -194,6 +197,8 @@ public class Query {
 		typoTolerance = other.typoTolerance;
 		allowTyposOnNumericTokens = other.allowTyposOnNumericTokens;
 		removeWordsIfNoResult = other.removeWordsIfNoResult;
+		referers = other.referers;
+		userToken = other.userToken;
 	}
 
 	/**
@@ -467,6 +472,22 @@ public class Query {
 	public Query setNbHitsPerPage(int nbHitsPerPage) {
 		return setHitsPerPage(nbHitsPerPage);
 	}
+	
+	/**
+	 * Set the userToken used as identifier for the ratelimit
+	 */
+	public Query setUserToken(String userToken) {
+	    this.userToken = userToken;
+	    return this;
+	}
+	
+	/**
+     * Set the referers used to restrict the query from a specific website. Works only on HTTP.
+     */
+    public Query setReferers(String referers) {
+        this.referers = referers;
+        return this;
+    }
 
 	/**
 	 * Search for entries around a given latitude/longitude with an automatic radius computed depending of the density of the area.
@@ -1052,7 +1073,22 @@ public class Query {
 					stringBuilder.append('&');
 				stringBuilder.append("queryType=prefixNone");
 				break;
+			default:
+			    //Do nothing
+			    break;
 			}
+			if (referers != null) {
+                if (stringBuilder.length() > 0)
+                    stringBuilder.append('&');
+                stringBuilder.append("referer=");
+                stringBuilder.append(URLEncoder.encode(referers, "UTF-8"));
+            }
+			if (userToken != null) {
+                if (stringBuilder.length() > 0)
+                    stringBuilder.append('&');
+                stringBuilder.append("userToken=");
+                stringBuilder.append(URLEncoder.encode(userToken, "UTF-8"));
+            }
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}

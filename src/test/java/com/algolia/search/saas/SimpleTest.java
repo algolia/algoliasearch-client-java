@@ -594,6 +594,12 @@ public class SimpleTest {
     }
     
     @Test
+    public void test34_newSecuredApiKeys() throws InvalidKeyException, NoSuchAlgorithmException {
+        assertEquals("MDZkNWNjNDY4M2MzMDA0NmUyNmNkZjY5OTMzYjVlNmVlMTk1NTEwMGNmNTVjZmJhMmIwOTIzYjdjMTk2NTFiMnRhZ0ZpbHRlcnM9JTI4cHVibGljJTJDdXNlcjElMjk=", client.generateSecuredApiKey("182634d8894831d5dbce3b3185c50881", new Query().setTagFilters("(public,user1)")));
+        assertEquals("OGYwN2NlNTdlOGM2ZmM4MjA5NGM0ZmYwNTk3MDBkNzMzZjQ0MDI3MWZjNTNjM2Y3YTAzMWM4NTBkMzRiNTM5YnRhZ0ZpbHRlcnM9JTI4cHVibGljJTJDdXNlcjElMjkmdXNlclRva2VuPTQy", client.generateSecuredApiKey("182634d8894831d5dbce3b3185c50881", new Query().setTagFilters("(public,user1)").setUserToken("42")));
+    }
+    
+    @Test
     public void test34_multipleQueries() throws AlgoliaException, JSONException {
     	JSONObject obj = index.addObject(new JSONObject().put("i", 42).put("s", "foo").put("b", true));
         index.waitTask(obj.getString("taskID"));
