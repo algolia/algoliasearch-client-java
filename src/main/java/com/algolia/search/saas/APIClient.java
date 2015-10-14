@@ -548,7 +548,7 @@ public class APIClient {
      */
     @Deprecated
     public String generateSecuredApiKey(String privateApiKey, String tagFilters) throws NoSuchAlgorithmException, InvalidKeyException {
-        return generateSecuredApiKey(privateApiKey, tagFilters, null);
+        return generateSecuredApiKey(privateApiKey, new Query().setTagFilters(tagFilters), null);
     }
     
     /**
@@ -577,7 +577,7 @@ public class APIClient {
      */
     @Deprecated
     public String generateSecuredApiKey(String privateApiKey, String tagFilters, String userToken) throws NoSuchAlgorithmException, InvalidKeyException {
-    	return hmac(privateApiKey, tagFilters + (userToken != null ? userToken : ""));
+    	return generateSecuredApiKey(privateApiKey, new Query().setTagFilters(tagFilters), userToken);
         
     }
     
