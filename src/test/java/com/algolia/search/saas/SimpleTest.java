@@ -585,15 +585,6 @@ public class SimpleTest {
     }
     
     @Test
-    public void test34_securedApiKeys() throws InvalidKeyException, NoSuchAlgorithmException {
-        assertEquals("1fd74b206c64fb49fdcd7a5f3004356cd3bdc9d9aba8733656443e64daafc417", APIClient.hmac("my_api_key", "(public,user1)"));
-        String key = client.generateSecuredApiKey("my_api_key", "(public,user1)");
-        assertEquals(key, APIClient.hmac("my_api_key", "(public,user1)"));
-        key = client.generateSecuredApiKey("my_api_key", "(public,user1)", "" + 42);
-        assertEquals(key, APIClient.hmac("my_api_key", "(public,user1)42"));
-    }
-    
-    @Test
     public void test34_newSecuredApiKeys() throws InvalidKeyException, NoSuchAlgorithmException {
         assertEquals("MDZkNWNjNDY4M2MzMDA0NmUyNmNkZjY5OTMzYjVlNmVlMTk1NTEwMGNmNTVjZmJhMmIwOTIzYjdjMTk2NTFiMnRhZ0ZpbHRlcnM9JTI4cHVibGljJTJDdXNlcjElMjk=", client.generateSecuredApiKey("182634d8894831d5dbce3b3185c50881", "(public,user1)"));
         assertEquals("MDZkNWNjNDY4M2MzMDA0NmUyNmNkZjY5OTMzYjVlNmVlMTk1NTEwMGNmNTVjZmJhMmIwOTIzYjdjMTk2NTFiMnRhZ0ZpbHRlcnM9JTI4cHVibGljJTJDdXNlcjElMjk=", client.generateSecuredApiKey("182634d8894831d5dbce3b3185c50881", new Query().setTagFilters("(public,user1)")));
