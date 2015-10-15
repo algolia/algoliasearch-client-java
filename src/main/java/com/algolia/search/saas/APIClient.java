@@ -548,7 +548,11 @@ public class APIClient {
      */
     @Deprecated
     public String generateSecuredApiKey(String privateApiKey, String tagFilters) throws NoSuchAlgorithmException, InvalidKeyException {
-        return generateSecuredApiKey(privateApiKey, new Query().setTagFilters(tagFilters), null);
+        if (!tagFilters.contains("="))
+            return generateSecuredApiKey(privateApiKey, new Query().setTagFilters(tagFilters), null);
+        else {
+            return Base64.encodeBase64String(String.format("%s%s", hmac(privateApiKey, tagFilters), tagFilters).getBytes(Charset.forName("UTF8")));
+        }
     }
     
     /**
@@ -573,12 +577,23 @@ public class APIClient {
      * @param userToken an optional token identifying the current user
      * @throws NoSuchAlgorithmException 
      * @throws InvalidKeyException 
+     * @throws AlgoliaException 
      * @deprecated Use `generateSecuredApiKey(String privateApiKey, Query query, String userToken)` version
      */
     @Deprecated
-    public String generateSecuredApiKey(String privateApiKey, String tagFilters, String userToken) throws NoSuchAlgorithmException, InvalidKeyException {
-    	return generateSecuredApiKey(privateApiKey, new Query().setTagFilters(tagFilters), userToken);
-        
+    public String generateSecuredApiKey(String privateApiKey, String tagFilters, String userToken) throws NoSuchAlgorithmException, InvalidKeyException, AlgoliaException {
+        if (!tagFilters.contains("="))
+            return generateSecuredApiKey(privateApiKey, new Query().setTagFilters(tagFilters), userToken);
+        else {
+            if (userToken != null && userToken.length() > 0) {
+                try {
+                    tagFilters = String.format("%s%s%s", tagFilters, "&userToken=", URLEncoder.encode(userToken, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    throw new AlgoliaException(e.getMessage());
+                }
+            }
+            return Base64.encodeBase64String(String.format("%s%s", hmac(privateApiKey, tagFilters), tagFilters).getBytes(Charset.forName("UTF8")));
+        }
     }
     
     /**
