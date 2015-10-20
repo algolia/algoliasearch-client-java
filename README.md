@@ -4,7 +4,6 @@
 
 
 
-
 [Algolia Search](http://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
 
 Our Java client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest_api) from your Java Application. It wraps the [Algolia Search REST API](http://www.algolia.com/doc/rest_api).
@@ -25,6 +24,7 @@ Table of Contents
 1. [Quick Start](#quick-start)
 1. [Online documentation](#documentation)
 1. [Tutorials](#tutorials)
+
 
 **Commands Reference**
 
@@ -187,6 +187,7 @@ Check out our [tutorials](http://www.algolia.com/doc/tutorials):
 
 
 
+
 Commands Reference
 ==================
 
@@ -328,7 +329,9 @@ You can use the following optional arguments:
   * **TYPO_STRICT**: Hits matching with 2 typos are not retrieved if there are some matching without typos. This option is useful if you want to avoid false positives as much as possible.
  * **enableTyposOnNumericTokens**: If set to false, disables typo tolerance on numeric tokens (numbers). Defaults to true.
  * **ignorePlural**: If set to true, plural won't be considered as a typo. For example, car and cars will be considered as equals. Defaults to false.
+ * **disableTypoToleranceOnAttributes** List of attributes on which you want to disable typo tolerance (must be a subset of the `attributesToIndex` index setting). Attributes are separated with a comma such as `"name,address"`. You can also use JSON string array encoding such as `encodeURIComponent("[\"name\",\"address\"]")`. By default, this list is empty.
  * **restrictSearchableAttributes** List of attributes you want to use for textual search (must be a subset of the `attributesToIndex` index setting). Attributes are separated with a comma such as `"name,address"`. You can also use JSON string array encoding such as `encodeURIComponent("[\"name\",\"address\"]")`. By default, all attributes specified in `attributesToIndex` settings are used to search.
+ * **enableRemoveStopWords**: Remove stop words from query before executing it. Defaults to false. Contains stop words for 41 languages (Arabic, Armenian, Basque, Bengali, Brazilian, Bulgarian, Catalan, Chinese, Czech, Danish, Dutch, English, Finnish, French, Galician, German, Greek, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Korean, Kurdish, Latvian, Lithuanian, Marathi, Norwegian, Persian, Polish, Portugese, Romanian, Russian, Slovak, Spanish, Swedish, Thai, Turkish, Ukranian, Urdu).
  * **enableAdvancedSyntax**: Enables the advanced query syntax. Defaults to 0 (false).
     * **Phrase query**: A phrase query defines a particular sequence of terms. A phrase query is built by Algolia's query parser for words surrounded by `"`. For example, `"search engine"` will retrieve records having `search` next to `engine` only. Typo tolerance is _disabled_ on phrase queries.
     * **Prohibit operator**: The prohibit operator excludes records that contain the term after the `-` symbol. For example, `search -engine` will retrieve records containing `search` but not `engine`.
@@ -344,15 +347,16 @@ You can use the following optional arguments:
 
 #### Geo-search Parameters
 
- * **aroundLatitudeLongitude(float, float, int)**: Search for entries around a given latitude/longitude.<br/>You specify the maximum distance in meters with the **radius** parameter.<br/>At indexing, you should specify the geo location of an object with the `_geoloc` attribute in the form ` {"_geoloc":{"lat":48.853409, "lng":2.348800}} `.
- * **aroundLatitudeLongitude(float, float, int, int)**: Search for entries around a given latitude/longitude with a given precision for ranking. For example, if you set precision=100, two objects that are a distance of less than 100 meters will be considered as identical for the "geo" ranking parameter.
+ * **aroundLatitudeLongitude(float, float)**: Search for entries around a given latitude/longitude.<br/>The maximum distance is automatically guessed depending of the density of the area but you also manually specify the maximum distance in meters with the **radius** parameter.<br/>At indexing, you should specify the geo location of an object with the `_geoloc` attribute in the form ` {"_geoloc":{"lat":48.853409, "lng":2.348800}} `.
+ * **aroundLatitudeLongitude(float, float, int, int)**: Search for entries around a given latitude/longitude with a given precision for ranking. For example, if you set aroundPrecision=100, the distances will be considered by ranges of 100m, for example all distances 0 and 100m will be considered as identical for the "geo" ranking parameter.
 
 
- * **aroundLatitudeLongitudeViaIP(int)**: Search for entries around the latitude/longitude automatically computed from user IP address.<br/>You specify the maximum distance in meters with the **radius** parameter.<br/>At indexing, you should specify the geo location of an object with the `_geoloc` attribute in the form ` {"_geoloc":{"lat":48.853409, "lng":2.348800}} `.
+ * **aroundLatitudeLongitudeViaIP()**: Search for entries around the latitude/longitude automatically computed from user IP address.<br/>The radius is automatically guessed based on density but you can also specify it manually with the **radius** parameter (optional).<br/>At indexing, you should specify the geo location of an object with the `_geoloc` attribute in the form ` {"_geoloc":{"lat":48.853409, "lng":2.348800}} `.
  * **aroundLatitudeLongitudeViaIP(int, int)**: Search for entries around a latitude/longitude automatically computed from user IP address with a given precision for ranking. For example if you set precision=100, two objects that are a distance of less than 100 meters will be considered as identical for the "geo" ranking parameter.
 
 
- * **insideBoundingBox**: Search entries inside a given area defined by the two extreme points of a rectangle (defined by 4 floats: p1Lat,p1Lng,p2Lat,p2Lng).<br/>For example, `insideBoundingBox=47.3165,4.9665,47.3424,5.0201`).<br/>At indexing, you should specify the geo location of an object with the _geoloc attribute in the form `{"_geoloc":{"lat":48.853409, "lng":2.348800}}`.
+ * **insideBoundingBox**: Search entries inside a given area defined by the two extreme points of a rectangle (defined by 4 floats: p1Lat,p1Lng,p2Lat,p2Lng).<br/>For example, `insideBoundingBox=47.3165,4.9665,47.3424,5.0201`).<br/>At indexing, you should specify geoloc of an object with the _geoloc attribute (in the form `"_geoloc":{"lat":48.853409, "lng":2.348800}` or `"_geoloc":[{"lat":48.853409, "lng":2.348800},{"lat":48.547456, "lng":2.972075}]` if you have several geo-locations in your record). You can use several bounding boxes (OR) by passing more than 4 values. For example instead of having 4 values you can pass 8 to use or OR between two bounding boxes.
+ * **insidePolygon**: Search entries inside a given area defined by a set of points (defined by a minimum of 6 floats: p1Lat,p1Lng,p2Lat,p2Lng,p3Lat,p3Long).<br/>For example, `insideBoundingBox=47.3165,4.9665,47.3424,5.0201`).<br/>At indexing, you should specify geoloc of an object with the _geoloc attribute (in the form `"_geoloc":{"lat":48.853409, "lng":2.348800}` or `"_geoloc":[{"lat":48.853409, "lng":2.348800},{"lat":48.547456, "lng":2.972075}]` if you have several geo-locations in your record).
 
 #### Parameters to Control Results Content
 
@@ -363,6 +367,7 @@ You can use the following optional arguments:
   * **none**: If none of the query terms were found.
  * **setAttributesToSnippet**: The list of attributes to snippet alongside the number of words to return (syntax is `attributeName:nbWords`). By default, no snippet is computed.
  * **getRankingInfo**: If set to true, the result hits will contain ranking information in the **_rankingInfo** attribute.
+ * **setHighlightingTags**: (string, string) Specify the string that is inserted before the highlighted parts in the query result (defaults to "&lt;em&gt;") and the string that is inserted after the highlighted parts in the query result (defaults to "&lt;/em&gt;")..
 
 
 #### Numeric Search Parameters
@@ -379,8 +384,26 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
 
 #### Faceting Parameters
  * **setFacetFilters**: Filter the query with a list of facets. Facets are separated by commas and is encoded as `attributeName:value`. To OR facets, you must add parentheses. For example: `facetFilters=(category:Book,category:Movie),author:John%20Doe`. You can also use a string array encoding. For example, `[["category:Book","category:Movie"],"author:John%20Doe"]`.
- * **setFacets**: List of object attributes that you want to use for faceting. <br/>Attributes are separated with a comma. For example, `"category,author"`. You can also use JSON string array encoding. For example, `["category","author"]`. Only the attributes that have been added in **attributesForFaceting** index setting can be used in this parameter. You can also use `*` to perform faceting on all attributes specified in **attributesForFaceting**.
+ * **setFacets**: List of object attributes that you want to use for faceting. <br/>Attributes are separated with a comma. For example, `"category,author"`. You can also use JSON string array encoding. For example, `["category","author"]`. Only the attributes that have been added in **attributesForFaceting** index setting can be used in this parameter. You can also use `*` to perform faceting on all attributes specified in **attributesForFaceting**. If the number of results is important, the count can be approximate, the attribute `exhaustiveFacetsCount` in the response is true when the count is exact.
  * **setMaxValuesPerFacet**: Limit the number of facet values returned for each facet. For example, `maxValuesPerFacet=10` will retrieve a maximum of 10 values per facet.
+
+#### UNIFIED FILTER PARAMETER (SQL LIKE)
+ * **setFilters**: Filter the query with numeric, facet or/and tag filters. The syntax is a SQL like syntax, you can use the OR and AND keywords. The syntax for the underlying numeric, facet and tag filters is the same than in the other filters:
+  `available=1 AND (category:Book OR NOT category:Ebook) AND public`
+  `date: 1441745506 TO 1441755506 AND inStock > 0 AND author:"John Doe"`
+The list of keywords is:
+ **OR**: create a disjunctive filter between two filters.
+ **AND**: create a conjunctive filter between two filters.
+ **TO**: used to specify a range for a numeric filter.
+ **NOT**: used to negate a filter. The syntax with the ‘-‘ isn’t allowed.
+
+ *Note*: To specify a value with spaces or with a value equal to a keyword, it's possible to add quotes.
+
+ **Warning:**
+  * Like for the other filter for performance reason, it's not possible to have FILTER1 OR (FILTER2 AND FILTER3).
+  * It's not possible to mix different category of filter inside a OR like num=3 OR tag1 OR facet:value
+  * It's not possible to negate an group, it's only possible to negate a filters:  NOT(FILTER1 OR (FILTER2) is not allowed.
+
 
 #### Distinct Parameter
  * **setDistinct**: If set to true, enables the distinct feature, disabled by default, if the `attributeForDistinct` index setting is set. This feature is similar to the SQL "distinct" keyword. When enabled in a query with the `distinct=1` parameter, all hits containing a duplicate value for the attributeForDistinct attribute are removed from results. For example, if the chosen attribute is `show_name` and several hits have the same value for `show_name`, then only the best one is kept and the others are removed.
@@ -541,7 +564,8 @@ You can decide to have the same priority for two attributes by passing them in t
  * **placeholders**: (hash of array of words). This is an advanced use case to define a token substitutable by a list of words without having the original token searchable. It is defined by a hash associating placeholders to lists of substitutable words. For example, `"placeholders": { "<streetnumber>": ["1", "2", "3", ..., "9999"]}` would allow it to be able to match all street numbers. We use the `< >` tag syntax to define placeholders in an attribute. For example:
   * Push a record with the placeholder: `{ "name" : "Apple Store", "address" : "&lt;streetnumber&gt; Opera street, Paris" }`.
   * Configure the placeholder in your index settings: `"placeholders": { "<streetnumber>" : ["1", "2", "3", "4", "5", ... ], ... }`.
- * **disableTypoToleranceOn**: (string array) Specify a list of words on which automatic typo tolerance will be disabled.
+ * **disableTypoToleranceOnWords**: (string array) Specify a list of words on which automatic typo tolerance will be disabled.
+ * **disableTypoToleranceOnAttributes**: (string array) List of attributes on which you want to disable typo tolerance (must be a subset of the `attributesToIndex` index setting). By default the list is empty.
  * **altCorrections**: (object array) Specify alternative corrections that you want to consider. Each alternative correction is described by an object containing three attributes:
   * **word**: The word to correct.
   * **correction**: The corrected word.
@@ -559,6 +583,26 @@ You can decide to have the same priority for two attributes by passing them in t
  * **highlightPreTag**: (string) Specify the string that is inserted before the highlighted parts in the query result (defaults to "&lt;em&gt;").
  * **highlightPostTag**: (string) Specify the string that is inserted after the highlighted parts in the query result (defaults to "&lt;/em&gt;").
  * **optionalWords**: (array of strings) Specify a list of words that should be considered optional when found in the query.
+ * **allowTyposOnNumericTokens**: (boolean) If set to false, disable typo-tolerance on numeric tokens (=numbers) in the query word. For example the query `"304"` will match with `"30450"`, but not with `"40450"` that would have been the case with typo-tolerance enabled. Can be very useful on serial numbers and zip codes searches. Default to false.
+ * **ignorePlurals**: (boolean) If set to true, simple plural forms won’t be considered as typos (for example car/cars will be considered as equal). Default to false.
+ * **advancedSyntax**: Enable the advanced query syntax. Defaults to 0 (false).
+
+  * **Phrase query:** a phrase query defines a particular sequence of terms. A phrase query is build by Algolia's query parser for words surrounded by `"`. For example, `"search engine"` will retrieve records having `search` next to `engine` only. Typo-tolerance is disabled on phrase queries.
+  
+  * **Prohibit operator:** The prohibit operator excludes records that contain the term after the `-` symbol. For example `search -engine` will retrieve records containing `search` but not `engine`.
+ * **replaceSynonymsInHighlight**: (boolean) If set to false, words matched via synonyms expansion will not be replaced by the matched synonym in the highlighted result. Default to true.
+ * **maxValuesPerFacet**: (integer) Limit the number of facet values returned for each facet. For example: `maxValuesPerFacet=10` will retrieve max 10 values per facet.
+ * **distinct**: (integer) Enable the distinct feature (disabled by default) if the `attributeForDistinct` index setting is set. This feature is similar to the SQL "distinct" keyword: when enabled in a query with the `distinct=1` parameter, all hits containing a duplicate value for the`attributeForDistinct` attribute are removed from results. For example, if the chosen attribute is `show_name` and several hits have the same value for `show_name`, then only the best one is kept and others are removed.
+ * **typoTolerance**: (string) This setting has four different options:
+
+  * **true:** activate the typo-tolerance (default value).
+
+  * **false:** disable the typo-tolerance
+
+  * **min:** keep only results with the lowest number of typo. For example if one result match without typos, then all results with typos will be hidden.
+
+  * **strict:** if there is a match without typo, then all results with 2 typos or more will be removed. This option is useful if you want to avoid as much as possible false positive.
+ * **removeStopWords**: (boolean) Remove stop words from query before executing it. Defaults to false. Contains stop words for 41 languages (Arabic, Armenian, Basque, Bengali, Brazilian, Bulgarian, Catalan, Chinese, Czech, Danish, Dutch, English, Finnish, French, Galician, German, Greek, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Korean, Kurdish, Latvian, Lithuanian, Marathi, Norwegian, Persian, Polish, Portugese, Romanian, Russian, Slovak, Spanish, Swedish, Thai, Turkish, Ukranian, Urdu)
 
 You can easily retrieve settings or update them:
 
@@ -781,14 +825,13 @@ You may have a single index containing per user data. In that case, all records 
 ```java
 // generate a public API key for user 42. Here, records are tagged with:
 //  - 'user_XXXX' if they are visible by user XXXX
-String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", "tagFilters=user_42");
+String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setTagFilters("user_42"));
 ```
 
 This public API key can then be used in your JavaScript code as follow:
 
 ```js
 var client = algoliasearch('YourApplicationID', '<%= public_api_key %>');
-client.setExtraHeader('X-Algolia-QueryParameters', 'tagFilters=user_42'); // must be same than those used at generation-time
 
 var index = client.initIndex('indexName')
 
@@ -802,12 +845,12 @@ index.search('something', function(err, content) {
 });
 ```
 
-You can mix rate limits and secured API keys by setting an extra `user_token` attribute both at API key generation time and query time. When set, a unique user will be identified by her `IP + user_token` instead of only by her `IP`. This allows you to restrict a single user to performing a maximum of `N` API calls per hour, even if she shares her `IP` with another user.
+You can mix rate limits and secured API keys by setting a `userToken` query parameter at API key generation time. When set, a unique user will be identified by her `IP + user_token` instead of only by her `IP`. This allows you to restrict a single user to performing a maximum of `N` API calls per hour, even if she shares her `IP` with another user.
 
 ```java
 // generate a public API key for user 42. Here, records are tagged with:
 //  - 'user_XXXX' if they are visible by user XXXX
-String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", "tagFilters=user_42", "42");
+String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setTagFilters("user_42").setUserToken("42"));
 ```
 
 This public API key can then be used in your JavaScript code as follow:
@@ -815,12 +858,6 @@ This public API key can then be used in your JavaScript code as follow:
 ```js
 var client = algoliasearch('YourApplicationID', '<%= public_api_key %>');
 
-// must be same than those used at generation-time
-client.setExtraHeader('X-Algolia-QueryParameters', 'tagFilters=user_42');
-
-// must be same than the one used at generation-time
-client.setUserToken('user_42');
-
 var index = client.initIndex('indexName')
 
 index.search('another query', function(err, content) {
@@ -832,27 +869,6 @@ index.search('another query', function(err, content) {
   console.log(content);
 });
 ```
-
-You can also generate secured API keys to limit the usage of a key to a referer. The generation use the same function than the Per user restriction. This public API key can be used in your JavaScript code as follow:
-
-```js
-var client = algoliasearch('YourApplicationID', '<%= public_api_key %>');
-
-// must be same than those used at generation-time
-client.setExtraHeader('X-Algolia-AllowedReferer', 'algolia.com/*');
-
-var index = client.initIndex('indexName')
-
-index.search('another query', function(err, content) {
-  if (err) {
-    console.error(err);
-    return;
-  }
-
-  console.log(content);
-});
-```
-
 
 
 Copy or rename an index
