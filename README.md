@@ -58,7 +58,7 @@ If you're using Maven, add the following dependency to your pom file:
 <dependency>
     <groupId>com.algolia</groupId>
     <artifactId>algoliasearch</artifactId>
-    <version>[1.3.3,]</version>
+    <version>[1.5,]</version>
 </dependency>
 ```
 
