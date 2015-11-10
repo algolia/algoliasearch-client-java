@@ -17,8 +17,8 @@ public class QueryTest {
     @Test
     public void hitsPerPageEquals20() {
         Query q0 = new Query();
-        q0.setHitsPerPage( 20 );
+        q0.setHitsPerPage(20);
         String qs = q0.getQueryString();
-        assertTrue( qs.contains( "hitsPerPage=20" ) );
+        assertTrue(qs.contains("hitsPerPage=20"));
     }
 }
