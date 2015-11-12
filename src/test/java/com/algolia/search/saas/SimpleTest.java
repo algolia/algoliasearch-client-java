@@ -1,35 +1,23 @@
 package com.algolia.search.saas;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.lang.reflect.Field;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
+import com.algolia.search.saas.APIClient.LogType;
+import com.algolia.search.saas.Query.QueryType;
+import com.algolia.search.saas.Query.TypoTolerance;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.AfterClass;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 
-import com.algolia.search.saas.APIClient.LogType;
-import com.algolia.search.saas.Query.QueryType;
-import com.algolia.search.saas.Query.TypoTolerance;
+import java.lang.reflect.Field;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -66,21 +54,21 @@ public class SimpleTest {
         index = client.initIndex(indexName);
     }
 
-    @Before
-    public void eachInit() {
-        try {
-            index.clearIndex();
-        } catch (AlgoliaException e) {
-            //Normal
-        }
-    }
-
     @AfterClass
     public static void dispose() {
         try {
             client.deleteIndex(indexName);
         } catch (AlgoliaException e) {
             // Not fatal
+        }
+    }
+
+    @Before
+    public void eachInit() {
+        try {
+            index.clearIndex();
+        } catch (AlgoliaException e) {
+            //Normal
         }
     }
 
@@ -247,15 +235,15 @@ public class SimpleTest {
                 .put("company", "California Paint"));
         index.waitTask(task.getString("taskID"));
         JSONObject res = index.search(new Query("jimie"));
-        task = index.deleteObject("a/go/?à");
+        index.deleteObject("a/go/?à");
         assertEquals(1, res.getInt("nbHits"));
     }
 
     @Test
     public void test13_settings() throws AlgoliaException, JSONException {
         JSONObject task = index.setSettings(new JSONObject()
-                .put("attributesToRetrieve", Arrays.asList("firstname")));
-        index.waitTask(new Long(task.getLong("taskID")).toString());
+                .put("attributesToRetrieve", Collections.singletonList("firstname")));
+        index.waitTask(Long.toString(task.getLong("taskID")));
         JSONObject settings = index.getSettings();
         assertEquals("firstname", settings.getJSONArray("attributesToRetrieve").getString(0));
     }
@@ -359,27 +347,27 @@ public class SimpleTest {
 
     @Test
     public void test18_user_key_index() throws AlgoliaException, JSONException {
-        JSONObject newKey = index.addUserKey(Arrays.asList("search"));
+        JSONObject newKey = index.addUserKey(Collections.singletonList("search"));
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         assertTrue(!newKey.getString("key").equals(""));
         JSONObject res = index.listUserKeys();
         assertTrue(isPresent(res.getJSONArray("keys"), newKey.getString("key"), "value"));
         JSONObject getKey = index.getUserKeyACL(newKey.getString("key"));
         assertEquals(newKey.getString("key"), getKey.getString("value"));
-        index.updateUserKey(newKey.getString("key"), Arrays.asList("addObject"));
+        index.updateUserKey(newKey.getString("key"), Collections.singletonList("addObject"));
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         getKey = index.getUserKeyACL(newKey.getString("key"));
         assertEquals(getKey.getJSONArray("acl").get(0), "addObject");
         index.deleteUserKey(getKey.getString("value"));
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         JSONObject resAfter = index.listUserKeys();
         assertTrue(!isPresent(resAfter.getJSONArray("keys"), newKey.getString("key"), "value"));
@@ -387,27 +375,27 @@ public class SimpleTest {
 
     @Test
     public void test19_user_key() throws AlgoliaException, JSONException {
-        JSONObject newKey = client.addUserKey(Arrays.asList("search"));
+        JSONObject newKey = client.addUserKey(Collections.singletonList("search"));
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         assertTrue(!newKey.getString("key").equals(""));
         JSONObject res = client.listUserKeys();
         assertTrue(isPresent(res.getJSONArray("keys"), newKey.getString("key"), "value"));
         JSONObject getKey = client.getUserKeyACL(newKey.getString("key"));
         assertEquals(newKey.getString("key"), getKey.getString("value"));
-        client.updateUserKey(newKey.getString("key"), Arrays.asList("addObject"));
+        client.updateUserKey(newKey.getString("key"), Collections.singletonList("addObject"));
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         getKey = client.getUserKeyACL(newKey.getString("key"));
         assertEquals(getKey.getJSONArray("acl").get(0), "addObject");
         client.deleteUserKey(getKey.getString("value"));
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         JSONObject resAfter = client.listUserKeys();
         assertTrue(!isPresent(resAfter.getJSONArray("keys"), newKey.getString("key"), "value"));
@@ -427,7 +415,7 @@ public class SimpleTest {
         Query query = new Query();
         query.setQueryType(QueryType.PREFIX_ALL);
         query.setQueryString("jimye");
-        query.setAttributesToRetrieve(Arrays.asList("firstname"));
+        query.setAttributesToRetrieve(Collections.singletonList("firstname"));
         query.setAttributesToHighlight(new ArrayList<String>());
         query.setAttributesToSnippet(new ArrayList<String>());
         query.enableDistinct(false);
@@ -537,10 +525,10 @@ public class SimpleTest {
 
     @Test
     public void test29_user_keyLimit() throws AlgoliaException, JSONException {
-        JSONObject newKey = client.addUserKey(Arrays.asList("search"), 0, 2, 2);
+        JSONObject newKey = client.addUserKey(Collections.singletonList("search"), 0, 2, 2);
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         assertTrue(!newKey.getString("key").equals(""));
         JSONObject res = client.listUserKeys();
@@ -550,10 +538,10 @@ public class SimpleTest {
 
     @Test
     public void test30_user_key_indexLimit() throws AlgoliaException, JSONException {
-        JSONObject newKey = index.addUserKey(Arrays.asList("search"), 0, 2, 2);
+        JSONObject newKey = index.addUserKey(Collections.singletonList("search"), 0, 2, 2);
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         assertTrue(!newKey.getString("key").equals(""));
         JSONObject res = index.listUserKeys();

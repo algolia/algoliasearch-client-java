@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UTFDataFormatException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -148,7 +147,7 @@ public class APIClient {
      * @param buildHostsArray the list of hosts that you have received for the service
      * @param queryHostsArray the list of hosts that you have received for the service
      */
-    public APIClient(String applicationID, String apiKey, List<String> buildHostsArray, List<String> queryHostArray) {
+    public APIClient(String applicationID, String apiKey, List<String> buildHostsArray, List<String> queryHostsArray) {
         userAgent = "Algolia for Java " + version;
         verbose = System.getenv("VERBOSE") != null;
         forwardRateLimitAPIKey = forwardAdminAPIKey = forwardEndUserIP = null;
@@ -160,12 +159,12 @@ public class APIClient {
             throw new RuntimeException("AlgoliaSearch requires an apiKey.");
         }
         this.apiKey = apiKey;
-        if (buildHostsArray == null || buildHostsArray.size() == 0 || queryHostArray == null || queryHostArray.size() == 0) {
+        if (buildHostsArray == null || buildHostsArray.size() == 0 || queryHostsArray == null || queryHostsArray.size() == 0) {
             throw new RuntimeException("AlgoliaSearch requires a list of hostnames.");
         }
 
         this.buildHostsArray = new ArrayList<String>(buildHostsArray);
-        this.queryHostsArray = new ArrayList<String>(queryHostArray);
+        this.queryHostsArray = new ArrayList<String>(queryHostsArray);
         httpClient = HttpClientBuilder.create().disableAutomaticRetries().useSystemProperties().build();
         headers = new HashMap<String, String>();
     }
@@ -247,16 +246,7 @@ public class APIClient {
      * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination will be overriten if it already exist).
      */
     public JSONObject moveIndex(String srcIndexName, String dstIndexName) throws AlgoliaException {
-        try {
-            JSONObject content = new JSONObject();
-            content.put("operation", "move");
-            content.put("destination", dstIndexName);
-            return postRequest("/1/indexes/" + URLEncoder.encode(srcIndexName, "UTF-8") + "/operation", content.toString(), true, false);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e); // $COVERAGE-IGNORE$
-        } catch (JSONException e) {
-            throw new AlgoliaException(e.getMessage()); // $COVERAGE-IGNORE$
-        }
+        return operationOnIndex("move", srcIndexName, dstIndexName);
     }
 
     /**
@@ -266,9 +256,13 @@ public class APIClient {
      * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination will be overriten if it already exist).
      */
     public JSONObject copyIndex(String srcIndexName, String dstIndexName) throws AlgoliaException {
+        return operationOnIndex("copy", srcIndexName, dstIndexName);
+    }
+
+    private JSONObject operationOnIndex(String operation, String srcIndexName, String dstIndexName) throws AlgoliaException {
         try {
             JSONObject content = new JSONObject();
-            content.put("operation", "copy");
+            content.put("operation", operation);
             content.put("destination", dstIndexName);
             return postRequest("/1/indexes/" + URLEncoder.encode(srcIndexName, "UTF-8") + "/operation", content.toString(), true, false);
         } catch (UnsupportedEncodingException e) {
@@ -496,19 +490,7 @@ public class APIClient {
      * @param indexes                the list of targeted indexes
      */
     public JSONObject addUserKey(List<String> acls, int validity, int maxQueriesPerIPPerHour, int maxHitsPerQuery, List<String> indexes) throws AlgoliaException {
-        JSONArray array = new JSONArray(acls);
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("acl", array);
-            jsonObject.put("validity", validity);
-            jsonObject.put("maxQueriesPerIPPerHour", maxQueriesPerIPPerHour);
-            jsonObject.put("maxHitsPerQuery", maxHitsPerQuery);
-            if (indexes != null) {
-                jsonObject.put("indexes", new JSONArray(indexes));
-            }
-        } catch (JSONException e) {
-            throw new RuntimeException(e); // $COVERAGE-IGNORE$
-        }
+        JSONObject jsonObject = generateUserKeyJson(acls, validity, maxQueriesPerIPPerHour, maxHitsPerQuery, indexes);
         return addUserKey(jsonObject);
     }
 
@@ -529,6 +511,11 @@ public class APIClient {
      * @param indexes                the list of targeted indexes
      */
     public JSONObject updateUserKey(String key, List<String> acls, int validity, int maxQueriesPerIPPerHour, int maxHitsPerQuery, List<String> indexes) throws AlgoliaException {
+        JSONObject jsonObject = generateUserKeyJson(acls, validity, maxQueriesPerIPPerHour, maxHitsPerQuery, indexes);
+        return updateUserKey(key, jsonObject);
+    }
+
+    private JSONObject generateUserKeyJson(List<String> acls, int validity, int maxQueriesPerIPPerHour, int maxHitsPerQuery, List<String> indexes) {
         JSONArray array = new JSONArray(acls);
         JSONObject jsonObject = new JSONObject();
         try {
@@ -542,7 +529,7 @@ public class APIClient {
         } catch (JSONException e) {
             throw new RuntimeException(e); // $COVERAGE-IGNORE$
         }
-        return updateUserKey(key, jsonObject);
+        return jsonObject;
     }
 
     /**
@@ -623,7 +610,6 @@ public class APIClient {
         String key = hmac(privateApiKey, queryStr);
 
         return Base64.encodeBase64String(String.format("%s%s", key, queryStr).getBytes(Charset.forName("UTF8")));
-
     }
 
     static String hmac(String key, String msg) {
@@ -643,8 +629,8 @@ public class APIClient {
         return new String(hexBytes);
     }
 
-    private static enum Method {
-        GET, POST, PUT, DELETE, OPTIONS, TRACE, HEAD;
+    private enum Method {
+        GET, POST, PUT, DELETE
     }
 
     protected JSONObject getRequest(String url, boolean search) throws AlgoliaException {
@@ -769,7 +755,7 @@ public class APIClient {
                 InputStreamReader is = new InputStreamReader(istream, "UTF-8");
                 StringBuilder jsonRaw = new StringBuilder();
                 char[] buffer = new char[4096];
-                int read = 0;
+                int read;
                 while ((read = is.read(buffer)) > 0) {
                     jsonRaw.append(buffer, 0, read);
                 }
@@ -811,8 +797,7 @@ public class APIClient {
         List<String> hosts = build ? this.buildHostsArray : this.queryHostsArray;
 
         // for each host
-        for (int i = 0; i < hosts.size(); ++i) {
-            String host = hosts.get(i);
+        for (String host : hosts) {
             JSONObject res = _requestByHost(req, host, url, json, errors, search);
             if (res != null) {
                 return res;
@@ -830,7 +815,7 @@ public class APIClient {
         throw new AlgoliaException(builder.toString());
     }
 
-    static public class IndexQuery {
+    public static class IndexQuery {
         private String index;
         private Query query;
 
@@ -873,7 +858,7 @@ public class APIClient {
             JSONObject body = new JSONObject().put("requests", requests);
             return postRequest("/1/indexes/*/queries?strategy=" + strategy, body.toString(), false, true);
         } catch (JSONException e) {
-            new AlgoliaException(e.getMessage());
+            new AlgoliaException(e);
         }
         return null;
     }
@@ -885,13 +870,7 @@ public class APIClient {
      * @throws AlgoliaException
      */
     public JSONObject batch(JSONArray actions) throws AlgoliaException {
-        try {
-            JSONObject content = new JSONObject();
-            content.put("requests", actions);
-            return postRequest("/1/indexes/*/batch", content.toString(), true, false);
-        } catch (JSONException e) {
-            throw new AlgoliaException(e.getMessage());
-        }
+        return postBatch(actions);
     }
 
     /**
@@ -901,6 +880,10 @@ public class APIClient {
      * @throws AlgoliaException
      */
     public JSONObject batch(List<JSONObject> actions) throws AlgoliaException {
+        return postBatch(actions);
+    }
+
+    private JSONObject postBatch(Object actions) throws AlgoliaException {
         try {
             JSONObject content = new JSONObject();
             content.put("requests", actions);

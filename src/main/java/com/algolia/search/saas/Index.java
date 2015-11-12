@@ -43,10 +43,11 @@ import com.algolia.search.saas.APIClient.IndexQuery;
  * You should use APIClient.initIndex(indexName) to retrieve this object
  */
 public class Index {
+    private static final long MAX_TIME_MS_TO_WAIT = 10000L;
+
     private APIClient client;
     private String encodedIndexName;
     private String indexName;
-    private final long MAX_TIME_MS_TO_WAIT = 10000L;
 
     /**
      * Index initialization (You should not call this yourself)
@@ -99,13 +100,7 @@ public class Index {
      * @throws AlgoliaException
      */
     public JSONObject batch(JSONArray actions) throws AlgoliaException {
-        try {
-            JSONObject content = new JSONObject();
-            content.put("requests", actions);
-            return client.postRequest("/1/indexes/" + encodedIndexName + "/batch", content.toString(), true, false);
-        } catch (JSONException e) {
-            throw new AlgoliaException(e.getMessage());
-        }
+        return postBatch(actions);
     }
 
     /**
@@ -115,12 +110,16 @@ public class Index {
      * @throws AlgoliaException
      */
     public JSONObject batch(List<JSONObject> actions) throws AlgoliaException {
+        return postBatch(actions);
+    }
+
+    private JSONObject postBatch(Object actions) throws AlgoliaException {
         try {
             JSONObject content = new JSONObject();
             content.put("requests", actions);
             return client.postRequest("/1/indexes/" + encodedIndexName + "/batch", content.toString(), true, false);
         } catch (JSONException e) {
-            throw new AlgoliaException(e.getMessage());
+            throw new AlgoliaException(e);
         }
     }
 
@@ -149,13 +148,13 @@ public class Index {
      *
      * @param objects the array of objects to add
      */
-    public JSONObject addObjects(JSONArray inputArray) throws AlgoliaException {
+    public JSONObject addObjects(JSONArray objects) throws AlgoliaException {
         try {
             JSONArray array = new JSONArray();
-            for (int n = 0; n < inputArray.length(); n++) {
+            for (int n = 0; n < objects.length(); n++) {
                 JSONObject action = new JSONObject();
                 action.put("action", "addObject");
-                action.put("body", inputArray.getJSONObject(n));
+                action.put("body", objects.getJSONObject(n));
                 array.put(action);
             }
             return batch(array);
@@ -262,16 +261,11 @@ public class Index {
      *
      * @param objects the array of objects to update (each object must contains an objectID attribute)
      */
-    public JSONObject partialUpdateObjects(JSONArray inputArray) throws AlgoliaException {
+    public JSONObject partialUpdateObjects(JSONArray objects) throws AlgoliaException {
         try {
             JSONArray array = new JSONArray();
-            for (int n = 0; n < inputArray.length(); n++) {
-                JSONObject obj = inputArray.getJSONObject(n);
-                JSONObject action = new JSONObject();
-                action.put("action", "partialUpdateObject");
-                action.put("objectID", obj.getString("objectID"));
-                action.put("body", obj);
-                array.put(action);
+            for (int n = 0; n < objects.length(); n++) {
+                array.put(objects.getJSONObject(n));
             }
             return batch(array);
         } catch (JSONException e) {
@@ -288,16 +282,20 @@ public class Index {
         try {
             JSONArray array = new JSONArray();
             for (JSONObject obj : objects) {
-                JSONObject action = new JSONObject();
-                action.put("action", "partialUpdateObject");
-                action.put("objectID", obj.getString("objectID"));
-                action.put("body", obj);
-                array.put(action);
+                array.put(partialUpdateObject(obj));
             }
             return batch(array);
         } catch (JSONException e) {
             throw new AlgoliaException(e.getMessage());
         }
+    }
+
+    private JSONObject partialUpdateObject(JSONObject object) throws JSONException {
+        JSONObject action = new JSONObject();
+        action.put("action", "partialUpdateObject");
+        action.put("objectID", object.getString("objectID"));
+        action.put("body", object);
+        return action;
     }
 
     /**
@@ -339,11 +337,11 @@ public class Index {
      *
      * @param objects the array of objects to update (each object must contains an objectID attribute)
      */
-    public JSONObject saveObjects(JSONArray inputArray) throws AlgoliaException {
+    public JSONObject saveObjects(JSONArray objects) throws AlgoliaException {
         try {
             JSONArray array = new JSONArray();
-            for (int n = 0; n < inputArray.length(); n++) {
-                JSONObject obj = inputArray.getJSONObject(n);
+            for (int n = 0; n < objects.length(); n++) {
+                JSONObject obj = objects.getJSONObject(n);
                 JSONObject action = new JSONObject();
                 action.put("action", "updateObject");
                 action.put("objectID", obj.getString("objectID"));
@@ -362,8 +360,9 @@ public class Index {
      * @param objectID the unique identifier of object to delete
      */
     public JSONObject deleteObject(String objectID) throws AlgoliaException {
-        if (objectID.length() == 0 || objectID == null)
+        if (objectID == null || objectID.length() == 0) {
             throw new AlgoliaException("Invalid objectID");
+        }
         try {
             return client.deleteRequest("/1/indexes/" + encodedIndexName + "/" + URLEncoder.encode(objectID, "UTF-8"), false);
         } catch (UnsupportedEncodingException e) {
@@ -375,7 +374,6 @@ public class Index {
      * Delete all objects matching a query
      *
      * @param query  the query string
-     * @param params the optional query parameters
      * @throws AlgoliaException
      */
     public void deleteByQuery(Query query) throws AlgoliaException {
@@ -588,7 +586,7 @@ public class Index {
                     return;
                 try {
                     Thread.sleep(timeToWait);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                 }
                 timeToWait *= 2;
                 timeToWait = timeToWait > MAX_TIME_MS_TO_WAIT ? MAX_TIME_MS_TO_WAIT : timeToWait;
@@ -627,7 +625,7 @@ public class Index {
     /**
      * Set settings for this index
      *
-     * @param settigns the settings object that can contains :
+     * @param settings the settings object that can contains :
      *                 - minWordSizefor1Typo: (integer) the minimum number of characters to accept one typo (default = 3).
      *                 - minWordSizefor2Typos: (integer) the minimum number of characters to accept two typos (default = 7).
      *                 - hitsPerPage: (integer) the number of hits per page (default = 10).
@@ -777,17 +775,12 @@ public class Index {
      * @param maxHitsPerQuery        Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
      */
     public JSONObject addUserKey(List<String> acls, int validity, int maxQueriesPerIPPerHour, int maxHitsPerQuery) throws AlgoliaException {
-        JSONArray array = new JSONArray(acls);
-        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("acl", array);
-            jsonObject.put("validity", validity);
-            jsonObject.put("maxQueriesPerIPPerHour", maxQueriesPerIPPerHour);
-            jsonObject.put("maxHitsPerQuery", maxHitsPerQuery);
+            JSONObject jsonObject = generateUpdateUser(acls, validity, maxQueriesPerIPPerHour, maxHitsPerQuery);
+            return addUserKey(jsonObject);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        return addUserKey(jsonObject);
     }
 
     /**
@@ -806,17 +799,21 @@ public class Index {
      * @param maxHitsPerQuery        Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
      */
     public JSONObject updateUserKey(String key, List<String> acls, int validity, int maxQueriesPerIPPerHour, int maxHitsPerQuery) throws AlgoliaException {
-        JSONArray array = new JSONArray(acls);
-        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("acl", array);
-            jsonObject.put("validity", validity);
-            jsonObject.put("maxQueriesPerIPPerHour", maxQueriesPerIPPerHour);
-            jsonObject.put("maxHitsPerQuery", maxHitsPerQuery);
+            JSONObject jsonObject = generateUpdateUser(acls, validity, maxQueriesPerIPPerHour, maxHitsPerQuery);
+            return updateUserKey(key, jsonObject);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        return updateUserKey(key, jsonObject);
+    }
+
+    private JSONObject generateUpdateUser(List<String> acls, int validity, int maxQueriesPerIPPerHour, int maxHitsPerQuery) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("acl", new JSONArray(acls));
+        jsonObject.put("validity", validity);
+        jsonObject.put("maxQueriesPerIPPerHour", maxQueriesPerIPPerHour);
+        jsonObject.put("maxHitsPerQuery", maxHitsPerQuery);
+        return jsonObject;
     }
 
     /**
