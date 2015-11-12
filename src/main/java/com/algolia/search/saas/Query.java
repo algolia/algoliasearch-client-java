@@ -804,7 +804,7 @@ public class Query {
     }
 
     private StringBuilder append(StringBuilder stringBuilder, String key, Integer value) {
-        if (value != null) {
+        if (value != null && value > 0) {
             return append(stringBuilder, key, value.toString());
         }
         return stringBuilder;

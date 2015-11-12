@@ -265,7 +265,7 @@ public class Index {
         try {
             JSONArray array = new JSONArray();
             for (int n = 0; n < objects.length(); n++) {
-                array.put(objects.getJSONObject(n));
+                array.put(partialUpdateObject(objects.getJSONObject(n)));
             }
             return batch(array);
         } catch (JSONException e) {
