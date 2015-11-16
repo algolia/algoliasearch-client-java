@@ -283,7 +283,7 @@ public class Query {
     }
 
     /**
-     * @param If set to true, enable the distinct feature (disabled by default)
+     * @param distinct set to true, enable the distinct feature (disabled by default)
      *           if the attributeForDistinct index setting is set. This feature
      *           is similar to the SQL "distinct" keyword: when enabled in a
      *           query with the distinct=1 parameter, all hits containing a
@@ -311,7 +311,7 @@ public class Query {
     }
 
     /**
-     * @param If set to false, this query will not be taken into account in
+     * @param enabled set to false, this query will not be taken into account in
      *           analytics feature. Default to true.
      */
     public Query enableAnalytics(boolean enabled) {
@@ -320,7 +320,7 @@ public class Query {
     }
 
     /**
-     * @param Set the analytics tags identifying the query
+     * @param analyticsTags the analytics tags identifying the query
      */
     public Query setAnalyticsTags(String analyticsTags) {
         this.analyticsTags = analyticsTags;
@@ -328,7 +328,7 @@ public class Query {
     }
 
     /**
-     * @param If set to false, this query will not use synonyms defined in
+     * @param enabled set to false, this query will not use synonyms defined in
      *           configuration. Default to true.
      */
     public Query enableSynonyms(boolean enabled) {
@@ -337,7 +337,7 @@ public class Query {
     }
 
     /**
-     * @param If set to false, words matched via synonyms expansion will not be
+     * @param enabled set to false, words matched via synonyms expansion will not be
      *           replaced by the matched synonym in highlight result. Default
      *           to true.
      */
@@ -347,7 +347,7 @@ public class Query {
     }
 
     /**
-     * @param If set to false, disable typo-tolerance. Default to true.
+     * @param enabled set to false, disable typo-tolerance. Default to true.
      */
     public Query enableTypoTolerance(boolean enabled) {
         if (enabled) {
@@ -359,7 +359,7 @@ public class Query {
     }
 
     /**
-     * @param This option allow to control the number of typo in the results set.
+     * @param typoTolerance option allow to control the number of typo in the results set.
      */
     public Query setTypoTolerance(TypoTolerance typoTolerance) {
         this.typoTolerance = typoTolerance;
@@ -411,7 +411,7 @@ public class Query {
     }
 
     /**
-     * @param If set to false, disable typo-tolerance on numeric tokens.
+     * @param enabled set to false, disable typo-tolerance on numeric tokens.
      *           Default to true.
      */
     public Query enableTyposOnNumericTokens(boolean enabled) {
@@ -765,59 +765,71 @@ public class Query {
         return this;
     }
 
+    private StringBuilder append(StringBuilder stringBuilder, String key, List<String> values) throws UnsupportedEncodingException {
+        if (values != null) {
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append('&');
+            }
+            stringBuilder.append(key).append("=");
+            boolean first = true;
+            for (String attr : values) {
+                if (!first) {
+                    stringBuilder.append(',');
+                }
+                stringBuilder.append(URLEncoder.encode(attr, "UTF-8"));
+                first = false;
+            }
+        }
+        return stringBuilder;
+    }
+
+    private StringBuilder append(StringBuilder stringBuilder, String key, String value) {
+        if (value != null) {
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append('&');
+            }
+            stringBuilder.append(key).append("=").append(value);
+        }
+        return stringBuilder;
+    }
+
+    private StringBuilder appendWithEncoding(StringBuilder stringBuilder, String key, String value) throws UnsupportedEncodingException {
+        if (value != null) {
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append('&');
+            }
+            stringBuilder.append(key).append("=").append(URLEncoder.encode(value, "UTF-8"));
+        }
+        return stringBuilder;
+    }
+
+    private StringBuilder append(StringBuilder stringBuilder, String key, Integer value) {
+        if (value != null && value > 0) {
+            return append(stringBuilder, key, value.toString());
+        }
+        return stringBuilder;
+    }
+
+    private StringBuilder append(StringBuilder stringBuilder, String key, Boolean value) {
+        if (value != null) {
+            return append(stringBuilder, key, value ? "1" : "0");
+        }
+        return stringBuilder;
+    }
+
     protected String getQueryString() {
         StringBuilder stringBuilder = new StringBuilder();
 
         try {
-            if (attributes != null) {
-                stringBuilder.append("attributes=");
-                boolean first = true;
-                for (String attr : this.attributes) {
-                    if (!first)
-                        stringBuilder.append(",");
-                    stringBuilder.append(URLEncoder.encode(attr, "UTF-8"));
-                    first = false;
-                }
-            }
-            if (noTypoToleranceOn != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("disableTypoToleranceOnAttributes=");
-                boolean first = true;
-                for (String attr : this.noTypoToleranceOn) {
-                    if (!first)
-                        stringBuilder.append(',');
-                    stringBuilder.append(URLEncoder.encode(attr, "UTF-8"));
-                    first = false;
-                }
-            }
-            if (attributesToHighlight != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("attributesToHighlight=");
-                boolean first = true;
-                for (String attr : this.attributesToHighlight) {
-                    if (!first)
-                        stringBuilder.append(',');
-                    stringBuilder.append(URLEncoder.encode(attr, "UTF-8"));
-                    first = false;
-                }
-            }
-            if (attributesToSnippet != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("attributesToSnippet=");
-                boolean first = true;
-                for (String attr : this.attributesToSnippet) {
-                    if (!first)
-                        stringBuilder.append(',');
-                    stringBuilder.append(URLEncoder.encode(attr, "UTF-8"));
-                    first = false;
-                }
-            }
+            stringBuilder = append(stringBuilder, "attributes", attributes);
+            stringBuilder = append(stringBuilder, "disableTypoToleranceOnAttributes", noTypoToleranceOn);
+            stringBuilder = append(stringBuilder, "attributesToHighlight", attributesToHighlight);
+            stringBuilder = append(stringBuilder, "attributesToSnippet", attributesToSnippet);
+
             if (typoTolerance != TypoTolerance.TYPO_NOTSET) {
-                if (stringBuilder.length() > 0)
+                if (stringBuilder.length() > 0) {
                     stringBuilder.append('&');
+                }
                 stringBuilder.append("typoTolerance=");
                 switch (typoTolerance) {
                     case TYPO_FALSE:
@@ -836,242 +848,121 @@ public class Query {
                         throw new IllegalStateException("code not reachable");
                 }
             }
-            if (allowTyposOnNumericTokens != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("allowTyposOnNumericTokens=").append(allowTyposOnNumericTokens ? '1' : '0');
-            }
-            if (minWordSizeForApprox1 != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("minWordSizefor1Typo=");
-                stringBuilder.append(minWordSizeForApprox1);
-            }
-            if (minWordSizeForApprox2 != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("minWordSizefor2Typos=");
-                stringBuilder.append(minWordSizeForApprox2);
-            }
+
+            stringBuilder = append(stringBuilder, "allowTyposOnNumericTokens", allowTyposOnNumericTokens);
+            stringBuilder = append(stringBuilder, "minWordSizefor1Typo", minWordSizeForApprox1);
+            stringBuilder = append(stringBuilder, "minWordSizefor2Typos", minWordSizeForApprox2);
+
             switch (removeWordsIfNoResult) {
                 case REMOVE_LAST_WORDS:
-                    if (stringBuilder.length() > 0)
+                    if (stringBuilder.length() > 0) {
                         stringBuilder.append('&');
+                    }
                     stringBuilder.append("removeWordsIfNoResult=LastWords");
                     break;
                 case REMOVE_FIRST_WORDS:
-                    if (stringBuilder.length() > 0)
+                    if (stringBuilder.length() > 0) {
                         stringBuilder.append('&');
+                    }
                     stringBuilder.append("removeWordsIfNoResult=FirstWords");
                     break;
                 case REMOVE_ALLOPTIONAL:
-                    if (stringBuilder.length() > 0)
+                    if (stringBuilder.length() > 0) {
                         stringBuilder.append('&');
+                    }
                     stringBuilder.append("removeWordsIfNoResult=allOptional");
                     break;
                 case REMOVE_NONE:
-                    if (stringBuilder.length() > 0)
+                    if (stringBuilder.length() > 0) {
                         stringBuilder.append('&');
+                    }
                     stringBuilder.append("removeWordsIfNoResult=none");
                     break;
                 case REMOVE_NOTSET:
                     // Nothing to do
                     break;
             }
-            if (getRankingInfo != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("getRankingInfo=").append(getRankingInfo ? '1' : '0');
-            }
-            if (ignorePlural != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("ignorePlural=").append(ignorePlural ? '1' : '0');
-            }
-            if (analytics != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("analytics=").append(analytics ? '1' : '0');
-            }
-            if (analyticsTags != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("analyticsTags=" + analyticsTags);
-            }
-            if (synonyms != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("synonyms=").append(synonyms ? '1' : '0');
-            }
-            if (replaceSynonyms != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("replaceSynonymsInHighlight=").append(replaceSynonyms ? '1' : '0');
-            }
-            if (distinct != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("distinct=");
-                stringBuilder.append(distinct);
-            }
-            if (removeStopWords != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("removeStopWords=").append(removeStopWords ? '1' : '0');
-            }
-            if (advancedSyntax != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("advancedSyntax=").append(advancedSyntax ? '1' : '0');
-            }
-            if (page != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("page=");
-                stringBuilder.append(page);
-            }
-            if (minProximity != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("minProximity=");
-                stringBuilder.append(minProximity);
-            }
+
+            stringBuilder = append(stringBuilder, "getRankingInfo", getRankingInfo);
+            stringBuilder = append(stringBuilder, "ignorePlural", ignorePlural);
+            stringBuilder = append(stringBuilder, "analytics", analytics);
+            stringBuilder = append(stringBuilder, "analyticsTags", analyticsTags);
+            stringBuilder = append(stringBuilder, "synonyms", synonyms);
+            stringBuilder = append(stringBuilder, "replaceSynonymsInHighlight", replaceSynonyms);
+            stringBuilder = append(stringBuilder, "distinct", distinct);
+            stringBuilder = append(stringBuilder, "removeStopWords", removeStopWords);
+            stringBuilder = append(stringBuilder, "advancedSyntax", advancedSyntax);
+            stringBuilder = append(stringBuilder, "page", page);
+            stringBuilder = append(stringBuilder, "minProximity", minProximity);
+
             if (highlightPreTag != null && highlightPostTag != null) {
-                if (stringBuilder.length() > 0)
+                if (stringBuilder.length() > 0) {
                     stringBuilder.append('&');
+                }
                 stringBuilder.append("highlightPreTag=");
                 stringBuilder.append(highlightPreTag);
                 stringBuilder.append("&highlightPostTag=");
                 stringBuilder.append(highlightPostTag);
             }
-            if (hitsPerPage != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("hitsPerPage=");
-                stringBuilder.append(hitsPerPage);
-            }
-            if (tags != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("tagFilters=");
-                stringBuilder.append(URLEncoder.encode(tags, "UTF-8"));
-            }
-            if (numerics != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("numericFilters=");
-                stringBuilder.append(URLEncoder.encode(numerics, "UTF-8"));
-            }
+            stringBuilder = append(stringBuilder, "hitsPerPage", hitsPerPage);
+            stringBuilder = appendWithEncoding(stringBuilder, "tagFilters", tags);
+            stringBuilder = appendWithEncoding(stringBuilder, "numericFilters", numerics);
+
             if (insideBoundingBox != null) {
-                if (stringBuilder.length() > 0)
+                if (stringBuilder.length() > 0) {
                     stringBuilder.append('&');
+                }
                 stringBuilder.append(insideBoundingBox);
             } else if (aroundLatLong != null) {
-                if (stringBuilder.length() > 0)
+                if (stringBuilder.length() > 0) {
                     stringBuilder.append('&');
+                }
                 stringBuilder.append(aroundLatLong);
             } else if (insidePolygon != null) {
-                if (stringBuilder.length() > 0)
+                if (stringBuilder.length() > 0) {
                     stringBuilder.append('&');
+                }
                 stringBuilder.append(insidePolygon);
             }
-            if (aroundLatLongViaIP != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("aroundLatLngViaIP=").append(aroundLatLongViaIP ? '1' : '0');
-            }
-            if (aroundRadius > 0) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("aroundRadius=").append(aroundRadius);
-            }
-            if (aroundPrecision > 0) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("aroundPrecision=").append(aroundPrecision);
-            }
-            if (query != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("query=");
-                stringBuilder.append(URLEncoder.encode(query, "UTF-8"));
-            }
-            if (similarQuery != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("similarQuery=");
-                stringBuilder.append(URLEncoder.encode(similarQuery, "UTF-8"));
-            }
 
-            if (facets != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("facets=");
-                stringBuilder.append(URLEncoder.encode(facets, "UTF-8"));
-            }
-            if (filters != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("filters=");
-                stringBuilder.append(URLEncoder.encode(filters, "UTF-8"));
-            }
-            if (facetFilters != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("facetFilters=");
-                stringBuilder.append(URLEncoder.encode(facetFilters, "UTF-8"));
-            }
-            if (maxNumberOfFacets != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("maxNumberOfFacets=");
-                stringBuilder.append(maxNumberOfFacets);
-            }
-            if (optionalWords != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("optionalWords=");
-                stringBuilder.append(URLEncoder.encode(optionalWords, "UTF-8"));
-            }
-            if (restrictSearchableAttributes != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("restrictSearchableAttributes=");
-                stringBuilder.append(URLEncoder.encode(restrictSearchableAttributes, "UTF-8"));
-            }
+            stringBuilder = append(stringBuilder, "aroundLatLongViaIP", aroundLatLongViaIP);
+            stringBuilder = append(stringBuilder, "aroundRadius", aroundRadius);
+            stringBuilder = append(stringBuilder, "aroundPrecision", aroundPrecision);
+            stringBuilder = appendWithEncoding(stringBuilder, "query", query);
+            stringBuilder = appendWithEncoding(stringBuilder, "similarQuery", similarQuery);
+            stringBuilder = appendWithEncoding(stringBuilder, "facets", facets);
+            stringBuilder = appendWithEncoding(stringBuilder, "filters", filters);
+            stringBuilder = appendWithEncoding(stringBuilder, "facetFilters", facetFilters);
+            stringBuilder = append(stringBuilder, "maxNumberOfFacets", maxNumberOfFacets);
+            stringBuilder = appendWithEncoding(stringBuilder, "optionalWords", optionalWords);
+            stringBuilder = appendWithEncoding(stringBuilder, "restrictSearchableAttributes", restrictSearchableAttributes);
 
             switch (queryType) {
                 case PREFIX_ALL:
-                    if (stringBuilder.length() > 0)
+                    if (stringBuilder.length() > 0) {
                         stringBuilder.append('&');
+                    }
                     stringBuilder.append("queryType=prefixAll");
                     break;
                 case PREFIX_LAST:
-                    if (stringBuilder.length() > 0)
+                    if (stringBuilder.length() > 0) {
                         stringBuilder.append('&');
+                    }
                     stringBuilder.append("queryType=prefixLast");
                     break;
                 case PREFIX_NONE:
-                    if (stringBuilder.length() > 0)
+                    if (stringBuilder.length() > 0) {
                         stringBuilder.append('&');
+                    }
                     stringBuilder.append("queryType=prefixNone");
                     break;
                 default:
                     //Do nothing
                     break;
             }
-            if (referers != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("referer=");
-                stringBuilder.append(URLEncoder.encode(referers, "UTF-8"));
-            }
-            if (userToken != null) {
-                if (stringBuilder.length() > 0)
-                    stringBuilder.append('&');
-                stringBuilder.append("userToken=");
-                stringBuilder.append(URLEncoder.encode(userToken, "UTF-8"));
-            }
+
+            stringBuilder = appendWithEncoding(stringBuilder, "referer", referers);
+            stringBuilder = appendWithEncoding(stringBuilder, "userToken", userToken);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

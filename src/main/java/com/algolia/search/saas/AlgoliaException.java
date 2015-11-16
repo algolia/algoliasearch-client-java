@@ -24,6 +24,11 @@ package com.algolia.search.saas;
  */
 public class AlgoliaException extends Exception {
 
+    public AlgoliaException(Throwable cause) {
+        super(cause);
+        this.code = 0;
+    }
+
     public AlgoliaException(String message) {
         this(0, message);
     }
