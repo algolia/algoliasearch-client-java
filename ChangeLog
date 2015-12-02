@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.6.1 (2015-12-02)
+------------------
+- Improve the performance of the deleteByQuery method
+
 1.6.0 (2015-10-29)
 ------------------
 - New Secured API keys format
