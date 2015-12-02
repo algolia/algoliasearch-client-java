@@ -377,27 +377,36 @@ public class Index {
      * @throws AlgoliaException
      */
     public void deleteByQuery(Query query) throws AlgoliaException {
-        List<String> attributesToRetrieve = new ArrayList<String>();
-        attributesToRetrieve.add("objectID");
-        query.setAttributesToRetrieve(attributesToRetrieve);
-        query.setHitsPerPage(1000);
-        query.enableDistinct(false);
-
-        JSONObject results = this.search(query);
-        try {
-            while (results.getInt("nbHits") != 0) {
-                List<String> objectIDs = new ArrayList<String>();
-                for (int i = 0; i < results.getJSONArray("hits").length(); ++i) {
-                    JSONObject hit = results.getJSONArray("hits").getJSONObject(i);
-                    objectIDs.add(hit.getString("objectID"));
-                }
-                JSONObject task = this.deleteObjects(objectIDs);
+        deleteByQuery(query, 100000);
+    }
+    public void deleteByQuery(Query query, int batchLimit) throws AlgoliaException {
+    	List<String> attributesToRetrieve = new ArrayList<String>();
+    	attributesToRetrieve.add("objectID");
+    	query.setAttributesToRetrieve(attributesToRetrieve);
+    	query.setAttributesToHighlight(new ArrayList<String>());
+    	query.setAttributesToSnippet(new ArrayList<String>());
+    	query.setHitsPerPage(1000);
+    	query.enableDistinct(false);
+    	
+    	IndexBrowser it = this.browse(query);
+    	try {
+    	    while (true) {
+    	        List<String> objectIDs = new ArrayList<String>();
+    	        while (it.hasNext()) {
+    	            JSONObject elt = it.next();
+    	            objectIDs.add(elt.getString("objectID"));
+    	            if (objectIDs.size() > batchLimit) {
+    	                break;
+    	            }
+    	        }
+    	        JSONObject task = this.deleteObjects(objectIDs);
                 this.waitTask(task.getString("taskID"));
-                results = this.search(query);
-            }
-        } catch (JSONException e) {
-            throw new AlgoliaException(e.getMessage());
-        }
+                if (!it.hasNext())
+                    break;
+    	    }
+		} catch (JSONException e) {
+			throw new AlgoliaException(e.getMessage());
+		}
     }
 
     /**
