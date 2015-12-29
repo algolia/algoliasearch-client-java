@@ -364,7 +364,7 @@ public class Index {
             throw new AlgoliaException("Invalid objectID");
         }
         try {
-            return client.deleteRequest("/1/indexes/" + encodedIndexName + "/" + URLEncoder.encode(objectID, "UTF-8"), false);
+            return client.deleteRequest("/1/indexes/" + encodedIndexName + "/" + URLEncoder.encode(objectID, "UTF-8"), true);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

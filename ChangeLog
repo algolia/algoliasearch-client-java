@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.6.2 (2015-12-29)
+------------------
+- Fix DNS records used by the deleteObject method
+
 1.6.1 (2015-12-02)
 ------------------
 - Improve the performance of the deleteByQuery method
