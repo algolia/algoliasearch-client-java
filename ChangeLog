@@ -1,9 +1,17 @@
 Changelog
 =========
 
-1.6.2 (2015-12-29)
+1.6.4 (2015-12-29)
 ------------------
 - Fix DNS records used by the deleteObject method
+
+1.6.3
+------------------
+- Skipped version
+
+1.6.2
+------------------
+- Skipped version
 
 1.6.1 (2015-12-02)
 ------------------
