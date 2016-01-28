@@ -121,6 +121,8 @@ public class Query {
     protected Boolean removeStopWords;
     protected String userToken;
     protected String referers;
+    protected Integer validUntil;
+    protected String restrictIndices;
 
     public Query(String query) {
         minWordSizeForApprox1 = null;
@@ -143,6 +145,8 @@ public class Query {
         removeWordsIfNoResult = RemoveWordsType.REMOVE_NOTSET;
         aroundPrecision = aroundRadius = 0;
         userToken = referers = null;
+        validUntil = null;
+        restrictIndices = null;
     }
 
     public Query() {
@@ -201,6 +205,8 @@ public class Query {
         removeWordsIfNoResult = other.removeWordsIfNoResult;
         referers = other.referers;
         userToken = other.userToken;
+        validUntil = other.validUntil;
+        restrictIndices = other.restrictIndices;
     }
 
     /**
@@ -776,6 +782,16 @@ public class Query {
         return this;
     }
 
+    public Query setValidUntil(Integer timestamp) {
+        this.validUntil = timestamp;
+        return this;
+    }
+
+    public Query setRestrictIndicies(String indices) {
+        this.restrictIndices = indices;
+        return this;
+    }
+
     private StringBuilder append(StringBuilder stringBuilder, String key, List<String> values) throws UnsupportedEncodingException {
         if (values != null) {
             if (stringBuilder.length() > 0) {
@@ -977,6 +993,8 @@ public class Query {
 
             stringBuilder = appendWithEncoding(stringBuilder, "referer", referers);
             stringBuilder = appendWithEncoding(stringBuilder, "userToken", userToken);
+            stringBuilder = append(stringBuilder, "validUntil", validUntil);
+            stringBuilder = appendWithEncoding(stringBuilder, "restrictIndices", restrictIndices);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -1212,5 +1230,19 @@ public class Query {
      */
     public TypoTolerance getTypoTolerance() {
         return typoTolerance;
+    }
+
+    /**
+     * @return the validity used for ephemeral API Keys
+     */
+    public Integer getValidUntil() {
+        return validUntil;
+    }
+
+    /**
+     * @return The list of indices allowed
+     */
+    public String getRestrictIndices() {
+        return restrictIndices;
     }
 }
