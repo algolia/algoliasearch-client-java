@@ -1,7 +1,12 @@
 Changelog
 =========
 
-1.6.5 (2016-02-28)
+1.6.6 (2016-02-01)
+------------------
+- Add validUntil as a query parameter
+- Add restrictIndices as a query parameter
+
+1.6.5 (2016-01-28)
 ------------------
 - Add snippetEllipsisText as a search parameter
 
