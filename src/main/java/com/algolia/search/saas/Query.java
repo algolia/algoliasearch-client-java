@@ -521,7 +521,7 @@ public class Query {
     }
 
     /**
-     * Change the radius or around latitude/longitude query
+     * Change the radius of around latitude/longitude query
      */
     public Query setAroundRadius(int radius) {
         aroundRadius = radius;
@@ -537,7 +537,7 @@ public class Query {
     }
 
     /**
-     * Change the precision or around latitude/longitude query
+     * Change the precision of around latitude/longitude query
      */
     public Query setAroundPrecision(int precision) {
         aroundPrecision = precision;
