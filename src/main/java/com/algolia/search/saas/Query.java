@@ -118,6 +118,7 @@ public class Query {
     protected String analyticsTags;
     protected int aroundPrecision;
     protected int aroundRadius;
+    protected int minimumAroundRadius;
     protected Boolean removeStopWords;
     protected String userToken;
     protected String referers;
@@ -143,7 +144,7 @@ public class Query {
         analyticsTags = null;
         typoTolerance = TypoTolerance.TYPO_NOTSET;
         removeWordsIfNoResult = RemoveWordsType.REMOVE_NOTSET;
-        aroundPrecision = aroundRadius = 0;
+        aroundPrecision = aroundRadius = minimumAroundRadius = 0;
         userToken = referers = null;
         validUntil = null;
         restrictIndices = null;
@@ -185,6 +186,7 @@ public class Query {
         insideBoundingBox = other.insideBoundingBox;
         insidePolygon = other.insidePolygon;
         aroundRadius = other.aroundRadius;
+        minimumAroundRadius = other.minimumAroundRadius;
         aroundPrecision = other.aroundPrecision;
         aroundLatLong = other.aroundLatLong;
         aroundLatLongViaIP = other.aroundLatLongViaIP;
@@ -519,7 +521,7 @@ public class Query {
     }
 
     /**
-     * Change the radius or around latitude/longitude query
+     * Change the radius of around latitude/longitude query
      */
     public Query setAroundRadius(int radius) {
         aroundRadius = radius;
@@ -527,7 +529,15 @@ public class Query {
     }
 
     /**
-     * Change the precision or around latitude/longitude query
+     * Change the minimum radius of around latitude/longitude query
+     */
+    public Query setMinimumAroundRadius(int radius) {
+        minimumAroundRadius = radius;
+        return this;
+    }
+
+    /**
+     * Change the precision of around latitude/longitude query
      */
     public Query setAroundPrecision(int precision) {
         aroundPrecision = precision;
@@ -957,6 +967,7 @@ public class Query {
 
             stringBuilder = append(stringBuilder, "aroundLatLongViaIP", aroundLatLongViaIP);
             stringBuilder = append(stringBuilder, "aroundRadius", aroundRadius);
+            stringBuilder = append(stringBuilder, "minimumAroundRadius", minimumAroundRadius);
             stringBuilder = append(stringBuilder, "aroundPrecision", aroundPrecision);
             stringBuilder = appendWithEncoding(stringBuilder, "query", query);
             stringBuilder = appendWithEncoding(stringBuilder, "similarQuery", similarQuery);

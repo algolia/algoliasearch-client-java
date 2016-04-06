@@ -760,6 +760,4 @@ public class SimpleTest {
             assertEquals(42, i);
         }
     }
-
-
 }
