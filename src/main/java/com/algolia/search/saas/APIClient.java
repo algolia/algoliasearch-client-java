@@ -641,6 +641,7 @@ public class APIClient {
         return _request(Method.DELETE, url, null, build, false);
     }
 
+
     protected JSONObject postRequest(String url, String obj, boolean build, boolean search) throws AlgoliaException {
         return _request(Method.POST, url, obj, build, search);
     }

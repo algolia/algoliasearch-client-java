@@ -3,6 +3,10 @@ package com.algolia.search.saas;
 import com.algolia.search.saas.APIClient.LogType;
 import com.algolia.search.saas.Query.QueryType;
 import com.algolia.search.saas.Query.TypoTolerance;
+import com.algolia.search.saas.synonyms.OneWaySynonym;
+import com.algolia.search.saas.synonyms.AbstractSynonym;
+import com.algolia.search.saas.synonyms.PlaceholderSynonym;
+import com.algolia.search.saas.synonyms.Synonym;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +19,6 @@ import java.lang.reflect.Field;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -759,5 +762,134 @@ public class SimpleTest {
             }
             assertEquals(42, i);
         }
+    }
+
+    @Test
+    public void test42_synonyms() throws AlgoliaException, JSONException {
+        JSONObject addTask = index.addObject(new JSONObject().put("id", 42).put("name", "589 Howard St., San Francisco"));
+
+        ArrayList<Synonym> synonyms = new ArrayList<Synonym>();
+        synonyms.add(new Synonym("city", "San Francisco", "SF"));
+        synonyms.add(new Synonym("street", "St", "Street"));
+
+        List<AbstractSynonym.Type> types = new ArrayList<AbstractSynonym.Type>();
+        types.add(AbstractSynonym.Type.SYNONYM);
+
+        index.waitTask(addTask.getString("taskID"));
+
+        // Test batch/get
+        JSONObject res = index.batchSynonyms(synonyms);
+        index.waitTask(res.getString("taskID"));
+
+
+        // Test searchSynonyms
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("we should have two synonyms", 2, res.getInt("nbHits"));
+
+        res = index.getSynonym("city");
+        assertEquals("get should return the synonym sent by batch", "city", res.getString("objectID"));
+
+        // Test search uses synonyms
+        res = index.search(new Query("Howard Street SF"));
+        assertEquals("search should handle synonyms", 1, res.getInt("nbHits"));
+
+        // Test delete
+        res = index.deleteSynonym("street");
+        index.waitTask(res.getString("taskID"));
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("one synonym should remain after deleting the other", 1, res.getInt("nbHits"));
+
+        // Test clear
+        res = index.clearSynonyms();
+        index.waitTask(res.getString("taskID"));
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("no synonym should remain after clear", 0, res.getInt("nbHits"));
+    }
+
+
+    @Test
+    public void test43_placeholder() throws AlgoliaException, JSONException {
+        JSONObject addTask = index.addObject(new JSONObject().put("id", 42).put("name", "<d> Howard Street <city>"));
+
+        ArrayList<PlaceholderSynonym> synonyms = new ArrayList<PlaceholderSynonym>();
+        synonyms.add(new PlaceholderSynonym("digit", "<d>", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"));
+        synonyms.add(new PlaceholderSynonym("city", "<city>", "Paris", "SF"));
+
+        List<AbstractSynonym.Type> types = new ArrayList<AbstractSynonym.Type>();
+        types.add(AbstractSynonym.Type.PLACEHOLDER);
+
+        index.waitTask(addTask.getString("taskID"));
+
+        // Test batch/get
+        JSONObject res = index.batchSynonyms(synonyms);
+        index.waitTask(res.getString("taskID"));
+
+
+        // Test searchSynonyms
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("we should have two placeholders", 2, res.getInt("nbHits"));
+
+        res = index.getSynonym("digit");
+        assertEquals("get should return the placeholder sent by batch", "city", res.getString("objectID"));
+
+        // Test search uses synonyms
+        res = index.search(new Query("1 Howard Street SF"));
+        assertEquals("search should handle placeholders", 1, res.getInt("nbHits"));
+
+        // Test delete
+        res = index.deleteSynonym("street");
+        index.waitTask(res.getString("taskID"));
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("one synonym should remain after deleting the other", 1, res.getInt("nbHits"));
+
+        // Test clear
+        res = index.clearSynonyms();
+        index.waitTask(res.getString("taskID"));
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("no synonym should remain after clear", 0, res.getInt("nbHits"));
+    }
+
+
+
+    @Test
+    public void test44_oneWay() throws AlgoliaException, JSONException {
+        JSONObject addTask = index.addObject(new JSONObject().put("id", 42).put("name", "<d> Howard Street <city>"));
+
+        ArrayList<OneWaySynonym> synonyms = new ArrayList<OneWaySynonym>();
+        synonyms.add(new OneWaySynonym("phone", "iPhone", "yPhone", "I-phone"));
+        synonyms.add(new OneWaySynonym("brand", "Apple", "apeul", "aple"));
+
+        List<AbstractSynonym.Type> types = new ArrayList<AbstractSynonym.Type>();
+        types.add(AbstractSynonym.Type.PLACEHOLDER);
+
+        index.waitTask(addTask.getString("taskID"));
+
+        // Test batch/get
+        JSONObject res = index.batchSynonyms(synonyms);
+        index.waitTask(res.getString("taskID"));
+
+
+        // Test searchSynonyms
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("we should have two oneWays", 2, res.getInt("nbHits"));
+
+        res = index.getSynonym("digit");
+        assertEquals("get should return the placeholder sent by batch", "city", res.getString("objectID"));
+
+        // Test search uses synonyms
+        res = index.search(new Query("1 Howard Street SF"));
+        assertEquals("search should handle placeholders", 1, res.getInt("nbHits"));
+
+        // Test delete
+        res = index.deleteSynonym("street");
+        index.waitTask(res.getString("taskID"));
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("one synonym should remain after deleting the other", 1, res.getInt("nbHits"));
+
+        // Test clear
+        res = index.clearSynonyms();
+        index.waitTask(res.getString("taskID"));
+        res = index.searchSynonyms("", types, 0, 5);
+        assertEquals("no synonym should remain after clear", 0, res.getInt("nbHits"));
     }
 }
