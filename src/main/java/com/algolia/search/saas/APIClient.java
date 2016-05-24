@@ -72,9 +72,9 @@ import org.json.JSONObject;
  * to start using Algolia Search API
  */
 public class APIClient {
-    private int httpSocketTimeoutMS = 30000;
+    private int httpSocketTimeoutMS = 20000;
     private int httpConnectTimeoutMS = 2000;
-    private int httpSearchTimeoutMS = 5000;
+    private int httpSearchTimeoutMS = 2000;
 
     private final static String version;
     private final static String fallbackDomain;
