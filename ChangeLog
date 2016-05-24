@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.7.0 (2016-05-24)
+------------------
+- Add minimumAroundRadius parameter
+- Reduce all timeouts to 2 seconds
+- Drop support for Java 1.6
+
 1.6.6 (2016-02-01)
 ------------------
 - Add validUntil as a query parameter
@@ -45,7 +51,7 @@ Changelog
 - Added support of polygon for geo-search
 - Added support of automatic radius computation for geo-search
 - Added support of disableTypoToleranceOnAttributes
-	
+
 1.3.16 (2015-09-21)
 -------------------
 - Ensure the JSON answer is read before trying to tokenize to throw IOException instead of JSONException
