@@ -2,8 +2,6 @@ language: java
 jdk:
 - oraclejdk7
 - oraclejdk8
-- openjdk6
-- openjdk7
 after_success:
 - mvn -e -X clean test jacoco:report coveralls:jacoco
 env:
