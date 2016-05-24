@@ -1126,7 +1126,7 @@ You can send multiple queries with a single API call using a batch of queries:
 List<APIClient.IndexQuery> queries = new ArrayList<APIClient.IndexQuery>();
 
 queries.add(new APIClient.IndexQuery("categories", new Query(myQueryString).setHitsPerPage(3)));
-queries.add(new APIClient.IndexQuery("products", new Query(myQueryString).setHitsPerPage(3).setTagFilters("promotion"));
+queries.add(new APIClient.IndexQuery("products", new Query(myQueryString).setHitsPerPage(3).setFilters("promotion"));
 queries.add(new APIClient.IndexQuery("products", new Query(myQueryString).setHitsPerPage(10)));
 
 JSONObject res = client.multipleQueries(queries);
@@ -1969,10 +1969,10 @@ Example:
 
 ```java
 // Iterate with a filter over the index
-Iterator<JSONObject> it = index.browse(new Query("text").setNumericFilters("i<42"));
+Iterator<JSONObject> it = index.browse(new Query("text").setFilters("i<42"));
 
 // Retrieve the next cursor from the browse method
-Iterator<JSONObject> it  = index.browseFrom(new Query("text").setNumericFilters("i<42"), "");
+Iterator<JSONObject> it  = index.browseFrom(new Query("text").setFilters("i<42"), "");
 System.out.println(it.getCursor());
 ```
 
@@ -2200,7 +2200,7 @@ You may have a single index containing **per user** data. In that case, all reco
 ```java
 // generate a public API key for user 42. Here, records are tagged with:
 //  - 'user_XXXX' if they are visible by user XXXX
-String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setTagFilters("user_42"));
+String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setFilters("user_42"));
 ```
 
 This public API key can then be used in your JavaScript code as follow:
@@ -2225,7 +2225,7 @@ You can mix rate limits and secured API keys by setting a `userToken` query para
 ```java
 // generate a public API key for user 42. Here, records are tagged with:
 //  - 'user_XXXX' if they are visible by user XXXX
-String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setTagFilters("user_42").setUserToken("42"));
+String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setFilters("user_42").setUserToken("42"));
 ```
 
 This public API key can then be used in your JavaScript code as follow:
