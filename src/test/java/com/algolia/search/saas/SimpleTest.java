@@ -17,72 +17,15 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.AfterClass;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 
-import com.algolia.search.saas.APIClient.LogType;
-import com.algolia.search.saas.Query.QueryType;
-import com.algolia.search.saas.Query.TypoTolerance;
-
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SimpleTest {
-    private static final String indexName = safe_name("àlgol?à-java");
-
-    private static APIClient client;
-    private static Index index;
-
-
-    public static String safe_name(String name) {
-        if (System.getenv("TRAVIS") != null) {
-            String[] id = System.getenv("TRAVIS_JOB_NUMBER").split("\\.");
-            return name + "_travis" + id[id.length - 1];
-        }
-        return name;
-
-    }
-
-    public static boolean isPresent(JSONArray array, String search, String attr) throws JSONException {
-        boolean isPresent = false;
-        for (int i = 0; i < array.length(); ++i) {
-            isPresent = isPresent || array.getJSONObject(i).getString(attr).equals(search);
-        }
-        return isPresent;
-    }
-
-    @BeforeClass
-    public static void init() {
-        String applicationID = System.getenv("ALGOLIA_APPLICATION_ID");
-        String apiKey = System.getenv("ALGOLIA_API_KEY");
-        Assume.assumeFalse("You must set environement variables ALGOLIA_APPLICATION_ID and ALGOLIA_API_KEY to run the tests.", applicationID == null || apiKey == null);
-        client = new APIClient(applicationID, apiKey);
-        index = client.initIndex(indexName);
-    }
-
-    @AfterClass
-    public static void dispose() {
-        try {
-            client.deleteIndex(indexName);
-        } catch (AlgoliaException e) {
-            // Not fatal
-        }
-    }
-
-    @Before
-    public void eachInit() {
-        try {
-            index.clearIndex();
-        } catch (AlgoliaException e) {
-            //Normal
-        }
-    }
+public class SimpleTest extends AlgoliaTest {
 
     @Test
     public void test01_deleteIndexIfExists() {
@@ -103,7 +46,7 @@ public class SimpleTest {
     public void test03_search() throws AlgoliaException, JSONException {
         JSONObject obj = index.addObject(new JSONObject().put("i", 42).put("s", "foo").put("b", true));
         index.waitTask(obj.getString("taskID"));
-        JSONObject res = index.search(new Query("foo").setTypoTolerance(TypoTolerance.TYPO_FALSE));
+        JSONObject res = index.search(new Query("foo").setTypoTolerance(Query.TypoTolerance.TYPO_FALSE));
         assertEquals(1, res.getJSONArray("hits").length());
         assertEquals("foo", res.getJSONArray("hits").getJSONObject(0).getString("s"));
         assertEquals(42, res.getJSONArray("hits").getJSONObject(0).getLong("i"));
@@ -207,8 +150,7 @@ public class SimpleTest {
 
     @Test
     public void test09_partialUpdateObjectNoCreate_whenObjectDoesNotExist() throws AlgoliaException, JSONException {
-        JSONObject task = task = index.partialUpdateObjectNoCreate(new JSONObject()
-                .put("firtname", "Jimmie"), "a/go/?à");
+        JSONObject task = index.partialUpdateObjectNoCreate(new JSONObject().put("firtname", "Jimmie"), "a/go/?à");
         index.waitTask(task.getString("taskID"));
         JSONObject res = index.search(new Query("jimie"));
         assertEquals(0, res.getInt("nbHits"));
@@ -409,7 +351,7 @@ public class SimpleTest {
         Index newIndex = client.initIndex(indexName + "2");
         newIndex.waitTask(task.getString("taskID"));
         Query query = new Query();
-        query.setQueryType(QueryType.PREFIX_ALL);
+        query.setQueryType(Query.QueryType.PREFIX_ALL);
         query.setQueryString("jimye");
         query.setAttributesToRetrieve(Collections.singletonList("firstname"));
         query.setAttributesToHighlight(new ArrayList<String>());
@@ -472,7 +414,7 @@ public class SimpleTest {
         assertTrue(res.getJSONArray("logs").length() == 1);
         res = client.getLogs(0, 1, false);
         assertTrue(res.getJSONArray("logs").length() == 1);
-        res = client.getLogs(0, 1, LogType.LOG_ALL);
+        res = client.getLogs(0, 1, APIClient.LogType.LOG_ALL);
         assertTrue(res.getJSONArray("logs").length() == 1);
     }
 
@@ -518,7 +460,7 @@ public class SimpleTest {
         JSONObject res = index.search(new Query());
         assertEquals(1, res.getInt("nbHits"));
     }
-    
+
     private void waitKey(APIClient client, String key, String acls) {
         for (int i = 0; i < 60; ++i) {
             try {
@@ -761,7 +703,7 @@ public class SimpleTest {
                 .put("name", "Los Angeles").put("objectID", "1")).put(new JSONObject()
                 .put("name", "San Francisco").put("objectID", "2")));
         index.waitTask(task.getString("taskID"));
-        
+
         // Redefine a client to break the current keep alive
         String applicationID = System.getenv("ALGOLIA_APPLICATION_ID");
         String apiKey = System.getenv("ALGOLIA_API_KEY");

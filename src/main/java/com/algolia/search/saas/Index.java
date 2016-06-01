@@ -379,6 +379,7 @@ public class Index {
     public void deleteByQuery(Query query) throws AlgoliaException {
         deleteByQuery(query, 100000);
     }
+
     public void deleteByQuery(Query query, int batchLimit) throws AlgoliaException {
     	List<String> attributesToRetrieve = new ArrayList<String>();
     	attributesToRetrieve.add("objectID");
@@ -621,7 +622,7 @@ public class Index {
      * Get settings of this index
      */
     public JSONObject getSettings() throws AlgoliaException {
-        return client.getRequest("/1/indexes/" + encodedIndexName + "/settings", false);
+        return client.getRequest("/1/indexes/" + encodedIndexName + "/settings?getVersion=2", false);
     }
 
     /**
@@ -960,4 +961,130 @@ public class Index {
     public JSONObject searchDisjunctiveFaceting(Query query, List<String> disjunctiveFacets) throws AlgoliaException {
         return searchDisjunctiveFaceting(query, disjunctiveFacets, null);
     }
+
+    /**
+     * @param query         the query
+     * @throws AlgoliaException
+     */
+    public JSONObject searchSynonyms(SynonymQuery query) throws AlgoliaException, JSONException {
+        JSONObject body = new JSONObject().put("query", query.getQueryString());
+        if(query.hasTypes()) {
+            String type = "";
+            boolean first = true;
+            for (SynonymQuery.SynonymType t : query.getTypes()) {
+                if(!first) {
+                    type += ",";
+                }
+                type += t.name;
+                first = false;
+            }
+            body = body.put("type", type);
+        }
+        if(query.getPage() != null) {
+            body = body.put("page", query.getPage());
+        }
+        if(query.getHitsPerPage() != null) {
+            body = body.put("hitsPerPage", query.getHitsPerPage());
+        }
+
+        return client.postRequest("/1/indexes/" + encodedIndexName + "/synonyms/search", body.toString(), false, true);
+    }
+
+    /**
+     * Get one synonym
+     *
+     * @param objectID      the objectId of the synonym to get
+     */
+    public JSONObject getSynonym(String objectID) throws AlgoliaException {
+        if (objectID == null || objectID.length() == 0) {
+            throw new AlgoliaException("Invalid objectID");
+        }
+        try {
+            return client.getRequest("/1/indexes/" + encodedIndexName + "/synonyms/" + URLEncoder.encode(objectID, "UTF-8"), true);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Delete one synonym
+     *
+     * @param objectID          The objectId of the synonym to delete
+     * @param forwardToSlaves   Forward the operation to the slave indices
+     */
+    public JSONObject deleteSynonym(String objectID, boolean forwardToSlaves) throws AlgoliaException {
+        if (objectID == null || objectID.length() == 0) {
+            throw new AlgoliaException("Invalid objectID");
+        }
+        try {
+            return client.deleteRequest("/1/indexes/" + encodedIndexName + "/synonyms/" + URLEncoder.encode(objectID, "UTF-8") + "/?page=forwardToSlaves" + forwardToSlaves, false);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public JSONObject deleteSynonym(String objectID) throws AlgoliaException {
+        return deleteSynonym(objectID, false);
+    }
+
+    /**
+     * Delete all synonym set
+     *
+     * @param forwardToSlaves   Forward the operation to the slave indices
+     */
+    public JSONObject clearSynonyms(boolean forwardToSlaves) throws AlgoliaException {
+        return client.postRequest("/1/indexes/" + encodedIndexName + "/synonyms/clear?forwardToSlaves=" + forwardToSlaves, "", true, false);
+    }
+    public JSONObject clearSynonyms() throws AlgoliaException {
+        return clearSynonyms(false);
+    }
+
+    /**
+     * Add or Replace a list of synonyms
+     *
+     * @param objects                   List of synonyms
+     * @param forwardToSlaves           Forward the operation to the slave indices
+     * @param replaceExistingSynonyms   Replace the existing synonyms with this batch
+     * @return
+     */
+    public JSONObject batchSynonyms(List<JSONObject> objects, boolean forwardToSlaves, boolean replaceExistingSynonyms) throws AlgoliaException {
+        JSONArray array = new JSONArray();
+        for (JSONObject obj : objects) {
+            array.put(obj);
+        }
+
+        return client.postRequest("/1/indexes/" + encodedIndexName + "/synonyms/batch?forwardToSlaves=" + forwardToSlaves + "&replaceExistingSynonyms=" + replaceExistingSynonyms, array.toString(), false, true);
+    }
+
+    public JSONObject batchSynonyms(List<JSONObject> objects, boolean forwardToSlaves) throws AlgoliaException {
+        return batchSynonyms(objects, forwardToSlaves, false);
+    }
+
+    public JSONObject batchSynonyms(List<JSONObject> objects) throws AlgoliaException  {
+        return batchSynonyms(objects, false, false);
+    }
+
+
+    /**
+     * Update one synonym
+     *
+     * @param objectID                  The objectId of the synonym to save
+     * @param content                   The new content of this synonym
+     * @param forwardToSlaves           Forward the operation to the slave indices
+     * @param replaceExistingSynonyms   Replace the existing synonyms with this save
+     */
+    public JSONObject saveSynonym(String objectID, JSONObject content, boolean forwardToSlaves, boolean replaceExistingSynonyms) throws AlgoliaException {
+        try {
+            return client.putRequest("/1/indexes/" + encodedIndexName + "/synonyms/" + URLEncoder.encode(objectID, "UTF-8") + "?forwardToSlaves=" + forwardToSlaves + "&replaceExistingSynonyms=" + replaceExistingSynonyms, content.toString(), true);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public JSONObject saveSynonym(String objectID, JSONObject content, boolean forwardToSlaves) throws AlgoliaException {
+        return saveSynonym(objectID, content, forwardToSlaves, false);
+    }
+    public JSONObject saveSynonym(String objectID, JSONObject content) throws AlgoliaException {
+        return saveSynonym(objectID, content, false, false);
+    }
+
 }
