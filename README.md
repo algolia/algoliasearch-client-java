@@ -21,6 +21,13 @@ Our Java client lets you easily use the [Algolia Search API](https://www.algolia
 [![Build Status](https://travis-ci.org/algolia/algoliasearch-client-java.png?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-java) [![GitHub version](https://badge.fury.io/gh/algolia%2Falgoliasearch-client-java.png)](http://badge.fury.io/gh/algolia%2Falgoliasearch-client-java) [![Coverage Status](https://coveralls.io/repos/algolia/algoliasearch-client-java/badge.svg)](https://coveralls.io/r/algolia/algoliasearch-client-java)[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/)
 
 
+**WARNING:** 
+The JVM has an infinite cache on successful DNS resolution. As our hostnames points to multiple IPs, the load could be not evenly spread among our machines, and you might also target a dead machine.
+
+You should change this TTL by setting the property `networkaddress.cache.ttl`. For example to set the cache to 60 seconds:
+```java
+java.security.Security.setProperty("networkaddress.cache.ttl", "60");
+```
 
 
 
