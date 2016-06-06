@@ -312,7 +312,7 @@ Search
 
 To perform a search, you only need to initialize the index and perform a call to the search function.
 
-The search query allows only to retrieve 1000 hits, if you need to retrieve more than 1000 hits for seo, you can use [Backup / Retrieve all index content](#backup--retrieve-of-all-index-content)
+The search query allows only to retrieve 1000 hits, if you need to retrieve more than 1000 hits for seo, you can use [Backup / Retrieve all index content](#backup--export-an-index)
 
 ```java
 Index index = client.initIndex("contacts");
@@ -1059,8 +1059,10 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
       </td>
       <td class='client-readme-param-content'>
         <p>Filter the query with numeric, facet or/and tag filters. The syntax is a SQL like syntax, you can use the OR and AND keywords. The syntax for the underlying numeric, facet and tag filters is the same than in the other filters:
-<code>available=1 AND (category:Book OR NOT category:Ebook) AND public</code>
+<code>available=1 AND (category:Book OR NOT category:Ebook) AND _tags:public</code>
 <code>date: 1441745506 TO 1441755506 AND inStock &gt; 0 AND author:&quot;John Doe&quot;</code></p>
+
+<p>If no attribute name is specified, the filter applies to <code>_tags</code>. For example: <code>public OR user_42</code> will translate to <code>_tags:public OR _tags:user_42</code>.</p>
 
 <p>The list of keywords is:</p>
 
@@ -1126,7 +1128,7 @@ You can send multiple queries with a single API call using a batch of queries:
 List<APIClient.IndexQuery> queries = new ArrayList<APIClient.IndexQuery>();
 
 queries.add(new APIClient.IndexQuery("categories", new Query(myQueryString).setHitsPerPage(3)));
-queries.add(new APIClient.IndexQuery("products", new Query(myQueryString).setHitsPerPage(3).setTagFilters("promotion"));
+queries.add(new APIClient.IndexQuery("products", new Query(myQueryString).setHitsPerPage(3).setFilters("_tags:promotion"));
 queries.add(new APIClient.IndexQuery("products", new Query(myQueryString).setHitsPerPage(10)));
 
 JSONObject res = client.multipleQueries(queries);
@@ -1969,10 +1971,10 @@ Example:
 
 ```java
 // Iterate with a filter over the index
-Iterator<JSONObject> it = index.browse(new Query("text").setNumericFilters("i<42"));
+Iterator<JSONObject> it = index.browse(new Query("text").setFilters("i<42"));
 
 // Retrieve the next cursor from the browse method
-Iterator<JSONObject> it  = index.browseFrom(new Query("text").setNumericFilters("i<42"), "");
+Iterator<JSONObject> it  = index.browseFrom(new Query("text").setFilters("i<42"), "");
 System.out.println(it.getCursor());
 ```
 
@@ -2200,7 +2202,7 @@ You may have a single index containing **per user** data. In that case, all reco
 ```java
 // generate a public API key for user 42. Here, records are tagged with:
 //  - 'user_XXXX' if they are visible by user XXXX
-String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setTagFilters("user_42"));
+String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setFilters("_tags:user_42"));
 ```
 
 This public API key can then be used in your JavaScript code as follow:
@@ -2225,7 +2227,7 @@ You can mix rate limits and secured API keys by setting a `userToken` query para
 ```java
 // generate a public API key for user 42. Here, records are tagged with:
 //  - 'user_XXXX' if they are visible by user XXXX
-String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setTagFilters("user_42").setUserToken("42"));
+String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setFilters("_tags:user_42").setUserToken("42"));
 ```
 
 This public API key can then be used in your JavaScript code as follow:
