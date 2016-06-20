@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.0 ()
+--------
+- Add support for Google AppEngine
+
+
 1.7.0 (2016-05-24)
 ------------------
 - Add minimumAroundRadius parameter
