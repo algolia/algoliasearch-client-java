@@ -32,7 +32,7 @@ class AlgoliaHttpClient {
     this.jacksonParser = new JacksonParser(objectMapper);
   }
 
-  private HttpRequest buildRequest(HttpMethod method, String host, List<String> path, Map<String, String> parameters, HttpContent content) throws IOException {
+  HttpRequest buildRequest(HttpMethod method, String host, List<String> path, Map<String, String> parameters, HttpContent content) throws IOException {
     GenericUrl url = new GenericUrl();
     url.setScheme("https");
     url.setHost(host);
@@ -48,7 +48,13 @@ class AlgoliaHttpClient {
       }
     }
 
-    return requestFactory.buildRequest(method.name, url, content);
+    return requestFactory
+      .buildRequest(method.name, url, content)
+      .setParser(jacksonParser)
+      .setLoggingEnabled(true)
+      .setCurlLoggingEnabled(true) //nice logging it necessary
+      .setThrowExceptionOnExecuteError(false) //4XX won't throw exceptions
+      .setNumberOfRetries(0); //let us handle retries
   }
 
   <T> T requestWithRetry(HttpMethod method, boolean isSearch, List<String> path, Type type) throws AlgoliaException {
@@ -78,12 +84,7 @@ class AlgoliaHttpClient {
     List<IOException> ioExceptionList = new ArrayList<>(4);
     for (String host : hosts) {
       try {
-        request = buildRequest(method, host, path, parameters, content)
-          .setParser(jacksonParser)
-          .setLoggingEnabled(true)
-          .setCurlLoggingEnabled(true) //nice logging it necessary
-          .setThrowExceptionOnExecuteError(false) //4XX won't throw exceptions
-          .setNumberOfRetries(0); //let us handle retries
+        request = buildRequest(method, host, path, parameters, content);
         httpResponse = request.execute();
       } catch (IOException e) {
         ioExceptionList.add(e);
