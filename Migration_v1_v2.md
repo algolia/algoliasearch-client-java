@@ -17,11 +17,13 @@
 
 # TODO
 
-* partialUpdateObjectSSSS
 * Update apache http client
+* retry strategy test
 * browse
 * deleteByQuery
 * custom query param
 * custom index settings
 * gae tests
-* multi query
+* new params
+* async
+

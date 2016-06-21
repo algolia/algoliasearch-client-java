@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("WeakerAccess")
 public class Index<T> {
 
   /**
