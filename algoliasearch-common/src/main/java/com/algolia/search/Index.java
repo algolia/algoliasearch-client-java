@@ -466,6 +466,42 @@ public class Index<T> {
   }
 
   /**
+   * Add or Replace a list of synonyms
+   *
+   * @param synonyms                 List of synonyms
+   * @param forwardToSlaves         Forward the operation to the slave indices
+   * @param replaceExistingSynonyms Replace the existing synonyms with this batch
+   * @return the associated task
+   * @throws AlgoliaException
+   */
+  public Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToSlaves, boolean replaceExistingSynonyms) throws AlgoliaException {
+    return client.batchSynonyms(name, synonyms, forwardToSlaves, replaceExistingSynonyms);
+  }
+
+  /**
+   * Add or Replace a list of synonyms, no replacement
+   *
+   * @param synonyms         List of synonyms
+   * @param forwardToSlaves Forward the operation to the slave indices
+   * @return the associated task
+   * @throws AlgoliaException
+   */
+  public Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToSlaves) throws AlgoliaException {
+    return batchSynonyms(synonyms, forwardToSlaves, false);
+  }
+
+  /**
+   * Add or Replace a list of synonyms, no forward to slaves, and no replacement
+   *
+   * @param synonyms List of synonyms
+   * @return the associated task
+   * @throws AlgoliaException
+   */
+  public Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms) throws AlgoliaException {
+    return batchSynonyms(synonyms, false, false);
+  }
+
+  /**
    * Delete records matching a query
    *
    * @param query The query

@@ -7,9 +7,16 @@ public class Synonym implements AbstractSynonym {
   private String objectID;
   private List<String> synonyms;
 
+  public Synonym() {
+  }
+
+  public Synonym(List<String> synonyms) {
+    this.synonyms = synonyms;
+  }
+
   @Override
   public String getObjectID() {
-    return null;
+    return objectID;
   }
 
   public Synonym setObjectID(String objectID) {
@@ -19,7 +26,7 @@ public class Synonym implements AbstractSynonym {
 
   @Override
   public String getType() {
-    return "altCorrection1";
+    return SynonymType.SYNONYM;
   }
 
   public List<String> getSynonyms() {

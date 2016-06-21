@@ -625,7 +625,7 @@ public class APIClient {
 
   Task saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToSlaves, Boolean replaceExistingSynonyms) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
-      HttpMethod.POST,
+      HttpMethod.PUT,
       false,
       Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
       ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString()),
@@ -681,6 +681,19 @@ public class APIClient {
     );
   }
 
+  Task batchSynonyms(String indexName, List<AbstractSynonym> synonyms, Boolean forwardToSlaves, Boolean replaceExistingSynonyms) throws AlgoliaException {
+    Task task = httpClient.requestWithRetry(
+      HttpMethod.POST,
+      false,
+      Arrays.asList("1", "indexes", indexName, "synonyms", "batch"),
+      ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString()),
+      synonyms,
+      Task.class
+    );
+
+    return task.setAttributes(indexName, this);
+  }
+
   //TODO
   TaskSingleIndex deleteByQuery(String indexName, Query query) {
     return null;
@@ -694,4 +707,6 @@ public class APIClient {
 
     return task.setAttributes(indexName, this);
   }
+
+
 }
