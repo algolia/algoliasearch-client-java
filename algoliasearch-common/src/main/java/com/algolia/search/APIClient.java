@@ -305,6 +305,36 @@ public class APIClient {
   }
 
   /**
+   * Performs multiple searches on multiple indices with the strategy <code>{@link MultiQueriesStrategy.NONE}</code>
+   *
+   * @param queries the queries
+   * @return the result of the queries
+   * @throws AlgoliaException
+   */
+  public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries) throws AlgoliaException {
+    return multipleQueries(queries, MultiQueriesStrategy.NONE);
+  }
+
+  /**
+   * Performs multiple searches on multiple indices
+   *
+   * @param queries  the queries
+   * @param strategy the strategy to apply to this multiple queries
+   * @return the result of the queries
+   * @throws AlgoliaException
+   */
+  public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy) throws AlgoliaException {
+    return httpClient.requestWithRetry(
+     HttpMethod.POST,
+      true,
+      Arrays.asList("1", "indexes", "*", "queries"),
+      ImmutableMap.of("strategy", strategy.getName()),
+      new MultipleQueriesRequests(queries),
+      MultiQueriesResult.class
+    );
+  }
+
+  /**
    * Package protected method for the Index class
    **/
 
