@@ -10,7 +10,7 @@ public class OneWaySynonym implements AbstractSynonym {
 
   @Override
   public String getObjectID() {
-    return null;
+    return objectID;
   }
 
   public OneWaySynonym setObjectID(String objectID) {
@@ -20,7 +20,7 @@ public class OneWaySynonym implements AbstractSynonym {
 
   @Override
   public String getType() {
-    return "oneWaySynonym";
+    return SynonymType.ONE_WAY_SYNONYM;
   }
 
   public String getInput() {

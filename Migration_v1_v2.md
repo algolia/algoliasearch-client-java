@@ -17,13 +17,15 @@
 
 # TODO
 
-* Update apache http client
 * retry strategy test
 * browse
 * deleteByQuery
+* new params
+
 * custom query param
 * custom index settings
+
+* Update apache http client
 * gae tests
-* new params
 * async
 

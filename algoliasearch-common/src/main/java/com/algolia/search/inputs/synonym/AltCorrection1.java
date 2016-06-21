@@ -10,7 +10,7 @@ public class AltCorrection1 implements AbstractSynonym {
 
   @Override
   public String getObjectID() {
-    return null;
+    return objectID;
   }
 
   public AltCorrection1 setObjectID(String objectID) {
@@ -20,7 +20,7 @@ public class AltCorrection1 implements AbstractSynonym {
 
   @Override
   public String getType() {
-    return "altCorrection1";
+    return SynonymType.ALT_CORRECTION_1;
   }
 
   public String getWord() {

@@ -1,7 +1,6 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.BatchOperations;
 import com.algolia.search.inputs.batch.BatchClearIndexOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;

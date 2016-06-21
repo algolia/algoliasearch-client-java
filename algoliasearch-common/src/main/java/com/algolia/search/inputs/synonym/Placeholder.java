@@ -10,7 +10,7 @@ public class Placeholder implements AbstractSynonym {
 
   @Override
   public String getObjectID() {
-    return null;
+    return objectID;
   }
 
   public Placeholder setObjectID(String objectID) {
@@ -20,7 +20,7 @@ public class Placeholder implements AbstractSynonym {
 
   @Override
   public String getType() {
-    return "placeholder";
+    return SynonymType.PLACEHOLDER;
   }
 
   public String getPlaceholder() {
