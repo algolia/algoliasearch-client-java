@@ -4,6 +4,7 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.*;
 import com.algolia.search.inputs.batch.BatchAddObjectOperation;
 import com.algolia.search.inputs.batch.BatchDeleteObjectOperation;
+import com.algolia.search.inputs.batch.BatchPartialUpdateObjectOperation;
 import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
@@ -550,8 +551,9 @@ public class APIClient {
   }
 
   TaskSingleIndex batch(String indexName, List<BatchOperation> operations) throws AlgoliaException {
-    boolean onSameIndex = operations.stream().allMatch(o -> Objects.equals(indexName, o.getIndexName()));
-    if (onSameIndex) {
+    //Special case for single index batches, indexName of operations should be null
+    boolean onSameIndex = operations.stream().allMatch(o -> Objects.equals(null, o.getIndexName()));
+    if (!onSameIndex) {
       throw new AlgoliaException("All operations are not on the same index");
     }
 
@@ -654,8 +656,12 @@ public class APIClient {
     return null;
   }
 
-  //TODO
-  TaskSingleIndex partialUpdateObjects(String indexName, List<Object> objects) {
-    return null;
+  TaskSingleIndex partialUpdateObjects(String indexName, List<Object> objects) throws AlgoliaException {
+    TaskSingleIndex task = batch(
+      indexName,
+      objects.stream().map(BatchPartialUpdateObjectOperation::new).collect(Collectors.toList())
+    );
+
+    return task.setAttributes(indexName, this);
   }
 }

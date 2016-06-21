@@ -1,5 +1,6 @@
 package com.algolia.search.objects;
 
+import com.algolia.search.objects.Query;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

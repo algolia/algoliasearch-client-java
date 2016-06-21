@@ -33,6 +33,7 @@ public class PartialUpdateObjectTest extends AlgoliaIntegrationTest {
     client.batch(clean).waitForCompletion();
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void partialUpdates() throws AlgoliaException {
     Index<AlgoliaObjectWithArray> index = client.initIndex("index1", AlgoliaObjectWithArray.class);
@@ -48,6 +49,7 @@ public class PartialUpdateObjectTest extends AlgoliaIntegrationTest {
     assertThat(obj.getTags()).containsOnly("tag3", "tag2");
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void partialUpdateAttributes() throws AlgoliaException {
     Index<AlgoliaObjectWithArray> index = client.initIndex("index2", AlgoliaObjectWithArray.class);
@@ -74,11 +76,6 @@ public class PartialUpdateObjectTest extends AlgoliaIntegrationTest {
       this.age = age;
       return this;
     }
-  }
-
-  @Test
-  public void partialUpdateObjects() throws AlgoliaException {
-    assertThat(true).isFalse();
   }
 
 }
