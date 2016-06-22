@@ -28,7 +28,7 @@ public class MultipleQueriesRequests {
 
     QueryWithIndex(@Nonnull IndexQuery q) {
       this.indexName = q.getIndexName();
-      this.params = q.getQuery().getQueryString();
+      this.params = q.getQuery().toParam();
     }
 
     public String getIndexName() {

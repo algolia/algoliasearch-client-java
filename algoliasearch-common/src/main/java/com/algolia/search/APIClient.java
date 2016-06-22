@@ -250,7 +250,7 @@ public class APIClient {
     if (userToken != null && userToken.length() > 0) {
       query.setUserToken(userToken);
     }
-    String queryStr = query.getQueryString();
+    String queryStr = query.toParam();
     String key = hmac(privateApiKey, queryStr);
 
     return new String(Base64.getEncoder().encode(String.format("%s%s", key, queryStr).getBytes(Charset.forName("UTF8"))));
@@ -708,5 +708,18 @@ public class APIClient {
     return task.setAttributes(indexName, this);
   }
 
+  <T> BrowseResult<T> browse(String indexName, Query query, String cursor, Class<T> klass) throws AlgoliaException {
+    TypeToken<BrowseResult<T>> typeToken =
+      new TypeToken<BrowseResult<T>>() {
+      }.where(new TypeParameter<T>() {
+      }, klass);
 
+    return httpClient.requestWithRetry(
+      HttpMethod.GET,
+      true,
+      Arrays.asList("1", "indexes", indexName, "browse"),
+      query.setCursor(cursor).toQueryParam(),
+      typeToken.getType()
+    );
+  }
 }

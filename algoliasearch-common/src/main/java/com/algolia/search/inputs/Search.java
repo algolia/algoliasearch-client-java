@@ -7,7 +7,7 @@ public class Search {
   private final String params;
 
   public Search(Query params) {
-    this.params = params.getQueryString();
+    this.params = params.toParam();
   }
 
   @SuppressWarnings("unused")

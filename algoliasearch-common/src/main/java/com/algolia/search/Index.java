@@ -468,7 +468,7 @@ public class Index<T> {
   /**
    * Add or Replace a list of synonyms
    *
-   * @param synonyms                 List of synonyms
+   * @param synonyms                List of synonyms
    * @param forwardToSlaves         Forward the operation to the slave indices
    * @param replaceExistingSynonyms Replace the existing synonyms with this batch
    * @return the associated task
@@ -481,7 +481,7 @@ public class Index<T> {
   /**
    * Add or Replace a list of synonyms, no replacement
    *
-   * @param synonyms         List of synonyms
+   * @param synonyms        List of synonyms
    * @param forwardToSlaves Forward the operation to the slave indices
    * @return the associated task
    * @throws AlgoliaException
@@ -499,6 +499,29 @@ public class Index<T> {
    */
   public Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms) throws AlgoliaException {
     return batchSynonyms(synonyms, false, false);
+  }
+
+  /**
+   * Browse all the content of this index
+   *
+   * @param query The query to use to browse
+   * @return the iterator on top of this index
+   * @throws AlgoliaException
+   */
+  public IndexIterable<T> browse(Query query) throws AlgoliaException {
+    return new IndexIterable<>(client, name, query, klass);
+  }
+
+  /**
+   * Browse all the content of this index
+   *
+   * @param query  The query to use to browse
+   * @param cursor the cursor to start from
+   * @return the iterator on top of this index
+   * @throws AlgoliaException
+   */
+  public IndexIterable<T> browseFrom(Query query, String cursor) throws AlgoliaException {
+    return new IndexIterable<>(client, name, query, cursor, klass);
   }
 
   /**

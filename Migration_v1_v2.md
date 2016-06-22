@@ -13,12 +13,12 @@
 * partialUpdateObject => specific class
 * remove enableRateLimitForward
 * userkey => key
-
+* APIClient.IndexQuery => IndexQuery
+* Index.IndexBrowser => IndexIterable<T>
+* add a .stream() to IndexIterable
 
 # TODO
 
-* retry strategy test
-* browse
 * deleteByQuery
 * new params
 
