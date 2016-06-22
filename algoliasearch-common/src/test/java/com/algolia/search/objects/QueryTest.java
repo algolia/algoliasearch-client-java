@@ -10,12 +10,12 @@ public class QueryTest {
   public void queryStringWithQuery() {
     Query query = new Query();
     query.setQuery("search");
-    assertThat(query.getQueryString()).isEqualTo("query=search");
+    assertThat(query.toParam()).isEqualTo("query=search");
   }
 
   @Test
   public void queryStringEmpty() {
     Query query = new Query();
-    assertThat(query.getQueryString()).isEqualTo("");
+    assertThat(query.toParam()).isEqualTo("");
   }
 }
