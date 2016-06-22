@@ -48,4 +48,8 @@ public class IndexIterator<T> implements Iterator<T> {
       return BrowseResult.empty();
     }
   }
+
+  public String getCursor() {
+    return currentCursor;
+  }
 }

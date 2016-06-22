@@ -1,105 +1,81 @@
 package com.algolia.search.objects;
 
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.util.Strings;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class Query {
 
-  private List<String> attributes;
-
-  private List<String> attributesToHighlight;
-
-  private List<String> attributesToSnippet;
-
-  private List<String> noTypoToleranceOn;
-
+  /* FULL TEXT SEARCH PARAMETERS */
+  private String query;
+  private QueryType queryType;
+  private TypoTolerance typoTolerance;
   private Integer minWordSizeForApprox1;
-
   private Integer minWordSizeForApprox2;
-
-  private Boolean getRankingInfo;
-
+  private Boolean allowTyposOnNumericTokens;
   private Boolean ignorePlural;
-
-  private Integer distinct;
-
+  private String restrictSearchableAttributes;
   private Boolean advancedSyntax;
+  private Boolean analytics;
+  private String analyticsTags;
+  private Boolean synonyms;
+  private Boolean replaceSynonymsInHighlight;
+  private String optionalWords;
+  private Integer minProximity;
+  private RemoveWordsType removeWordsIfNoResult;
+  private String disableTypoToleranceOnAttributes;
+  private Object removeStopWords;
+  private String exactOnSingleWordQuery;
+  private String alternativesAsExact;
 
+  /* PAGINATION PARAMETERS */
   private Integer page;
-
   private Integer hitsPerPage;
 
-  private String restrictSearchableAttributes;
-
-  private String tags;
-
-  private String filters;
-
+  /* PARAMETERS TO CONTROL RESULTS CONTENT */
+  private List<String> attributesToRetrieve;
+  private List<String> attributesToHighlight;
+  private List<String> attributesToSnippet;
+  private Boolean getRankingInfo;
   private String highlightPreTag;
-
   private String highlightPostTag;
-
   private String snippetEllipsisText;
 
-  private Integer minProximity;
+  /* NUMERIC SEARCH PARAMETERS */
+  private String numericFilters;
 
-  private String numerics;
+  /* CATEGORY SEARCH PARAMETER */
+  private String tagsFilters;
 
+  /* DISTINCT PARAMETER */
+  private Integer distinct;
+
+  /* FACETING PARAMETERS */
+  private String facets;
+  private String facetFilters;
+  private Integer maxValuesPerFacet;
+
+  /* UNIFIED FILTER PARAMETER (SQL LIKE) */
+  private String filters;
+
+  /* GEO-SEARCH PARAMETERS */
+  private String aroundLatLng;
+  private Boolean aroundLatLngViaIP;
+  private Object aroundRadius;
+  private Integer aroundPrecision;
+  private Integer minimumAroundRadius;
   private String insideBoundingBox;
-
   private String insidePolygon;
 
-  private String aroundLatLong;
-
-  private Boolean aroundLatLongViaIP;
-
-  private String query;
-
-  private String similarQuery;
-
-  private QueryType queryType;
-
-  private String optionalWords;
-
-  private String facets;
-
-  private String facetFilters;
-
-  private Integer maxNumberOfFacets;
-
-  private Boolean analytics;
-
-  private Boolean synonyms;
-
-  private Boolean replaceSynonyms;
-
-  private Boolean allowTyposOnNumericTokens;
-
-  private RemoveWordsType removeWordsIfNoResult;
-
-  private TypoTolerance typoTolerance;
-
-  private String analyticsTags;
-
-  private Integer aroundPrecision;
-
-  private Integer aroundRadius;
-
-  private Integer minimumAroundRadius;
-
-  private Boolean removeStopWords;
-
+  /* SECURED API KEYS */
   private String userToken;
 
-  private String referers;
-
-  private Integer validUntil;
-
-  private String restrictIndices;
-
+  /* BROWSE */
   private String cursor;
 
   public Query() {
@@ -112,55 +88,81 @@ public class Query {
   public Map<String, String> toQueryParam() {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 
-    builder = add(builder, "attributes", attributes);
-    builder = add(builder, "attributesToHighlight", attributesToHighlight);
-    builder = add(builder, "attributesToSnippet", attributesToSnippet);
-    builder = add(builder, "noTypoToleranceOn", noTypoToleranceOn);
+    /* FULL TEXT SEARCH PARAMETERS */
+    builder = add(builder, "query", query);
+    builder = add(builder, "queryType", queryType);
+    builder = add(builder, "typoTolerance", typoTolerance);
     builder = add(builder, "minWordSizeForApprox1", minWordSizeForApprox1);
     builder = add(builder, "minWordSizeForApprox2", minWordSizeForApprox2);
-    builder = add(builder, "getRankingInfo", getRankingInfo);
+    builder = add(builder, "allowTyposOnNumericTokens", allowTyposOnNumericTokens);
     builder = add(builder, "ignorePlural", ignorePlural);
-    builder = add(builder, "distinct", distinct);
+    builder = add(builder, "restrictSearchableAttributes", restrictSearchableAttributes);
     builder = add(builder, "advancedSyntax", advancedSyntax);
+    builder = add(builder, "analytics", analytics);
+    builder = add(builder, "analyticsTags", analyticsTags);
+    builder = add(builder, "synonyms", synonyms);
+    builder = add(builder, "replaceSynonymsInHighlight", replaceSynonymsInHighlight);
+    builder = add(builder, "optionalWords", optionalWords);
+    builder = add(builder, "minProximity", minProximity);
+    builder = add(builder, "removeWordsIfNoResult", removeWordsIfNoResult);
+    builder = add(builder, "disableTypoToleranceOnAttributes", disableTypoToleranceOnAttributes);
+    builder = add(builder, "removeStopWords", removeStopWords);
+    builder = add(builder, "exactOnSingleWordQuery", exactOnSingleWordQuery);
+    builder = add(builder, "alternativesAsExact", alternativesAsExact);
+
+    /* PAGINATION PARAMETERS */
     builder = add(builder, "page", page);
     builder = add(builder, "hitsPerPage", hitsPerPage);
-    builder = add(builder, "restrictSearchableAttributes", restrictSearchableAttributes);
-    builder = add(builder, "tags", tags);
-    builder = add(builder, "filters", filters);
+
+    /* PARAMETERS TO CONTROL RESULTS CONTENT */
+    builder = add(builder, "attributesToRetrieve", attributesToRetrieve);
+    builder = add(builder, "attributesToHighlight", attributesToHighlight);
+    builder = add(builder, "attributesToSnippet", attributesToSnippet);
+    builder = add(builder, "getRankingInfo", getRankingInfo);
     builder = add(builder, "highlightPreTag", highlightPreTag);
     builder = add(builder, "highlightPostTag", highlightPostTag);
     builder = add(builder, "snippetEllipsisText", snippetEllipsisText);
-    builder = add(builder, "minProximity", minProximity);
-    builder = add(builder, "numerics", numerics);
-    builder = add(builder, "insideBoundingBox", insideBoundingBox);
-    builder = add(builder, "insidePolygon", insidePolygon);
-    builder = add(builder, "aroundLatLong", aroundLatLong);
-    builder = add(builder, "aroundLatLongViaIP", aroundLatLongViaIP);
-    builder = add(builder, "query", query);
-    builder = add(builder, "similarQuery", similarQuery);
-    builder = add(builder, "queryType", queryType);
-    builder = add(builder, "optionalWords", optionalWords);
+
+    /* NUMERIC SEARCH PARAMETERS */
+    builder = add(builder, "numericFilters", numericFilters);
+
+    /* CATEGORY SEARCH PARAMETER */
+    builder = add(builder, "tagsFilters", tagsFilters);
+
+    /* DISTINCT PARAMETER */
+    builder = add(builder, "distinct", distinct);
+
+    /* FACETING PARAMETERS */
     builder = add(builder, "facets", facets);
     builder = add(builder, "facetFilters", facetFilters);
-    builder = add(builder, "maxNumberOfFacets", maxNumberOfFacets);
-    builder = add(builder, "analytics", analytics);
-    builder = add(builder, "synonyms", synonyms);
-    builder = add(builder, "replaceSynonyms", replaceSynonyms);
-    builder = add(builder, "allowTyposOnNumericTokens", allowTyposOnNumericTokens);
-    builder = add(builder, "removeWordsIfNoResult", removeWordsIfNoResult);
-    builder = add(builder, "typoTolerance", typoTolerance);
-    builder = add(builder, "analyticsTags", analyticsTags);
-    builder = add(builder, "aroundPrecision", aroundPrecision);
+    builder = add(builder, "maxValuesPerFacet", maxValuesPerFacet);
+
+    /* UNIFIED FILTER PARAMETER (SQL LIKE) */
+    builder = add(builder, "filters", filters);
+
+    /* GEO-SEARCH PARAMETERS */
+    builder = add(builder, "aroundLatLng", aroundLatLng);
+    builder = add(builder, "aroundLatLngViaIP", aroundLatLngViaIP);
     builder = add(builder, "aroundRadius", aroundRadius);
+    builder = add(builder, "aroundPrecision", aroundPrecision);
     builder = add(builder, "minimumAroundRadius", minimumAroundRadius);
-    builder = add(builder, "removeStopWords", removeStopWords);
+    builder = add(builder, "insideBoundingBox", insideBoundingBox);
+    builder = add(builder, "insidePolygon", insidePolygon);
+
+    /* SECURED API KEYS */
     builder = add(builder, "userToken", userToken);
-    builder = add(builder, "referers", referers);
-    builder = add(builder, "validUntil", validUntil);
-    builder = add(builder, "restrictIndices", restrictIndices);
+
+    /* BROWSE */
     builder = add(builder, "cursor", cursor);
 
     return builder.build();
+  }
+
+  private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, Object value) {
+    if(value == null) {
+      return builder;
+    }
+    return builder.put(name, value.toString());
   }
 
   private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, Enum<?> value) {
@@ -200,52 +202,9 @@ public class Query {
 
   public String toParam() {
     GenericUrl url = new GenericUrl();
-    url = add(url, "attributes", attributes);
-    url = add(url, "attributesToHighlight", attributesToHighlight);
-    url = add(url, "attributesToSnippet", attributesToSnippet);
-    url = add(url, "noTypoToleranceOn", noTypoToleranceOn);
-    url = url.set("minWordSizeForApprox1", minWordSizeForApprox1);
-    url = url.set("minWordSizeForApprox2", minWordSizeForApprox2);
-    url = url.set("getRankingInfo", getRankingInfo);
-    url = url.set("ignorePlural", ignorePlural);
-    url = url.set("distinct", distinct);
-    url = url.set("advancedSyntax", advancedSyntax);
-    url = url.set("page", page);
-    url = url.set("hitsPerPage", hitsPerPage);
-    url = url.set("restrictSearchableAttributes", restrictSearchableAttributes);
-    url = url.set("tags", tags);
-    url = url.set("filters", filters);
-    url = url.set("highlightPreTag", highlightPreTag);
-    url = url.set("highlightPostTag", highlightPostTag);
-    url = url.set("snippetEllipsisText", snippetEllipsisText);
-    url = url.set("minProximity", minProximity);
-    url = url.set("numerics", numerics);
-    url = url.set("insideBoundingBox", insideBoundingBox);
-    url = url.set("insidePolygon", insidePolygon);
-    url = url.set("aroundLatLong", aroundLatLong);
-    url = url.set("aroundLatLongViaIP", aroundLatLongViaIP);
-    url = url.set("query", query);
-    url = url.set("similarQuery", similarQuery);
-    url = url.set("queryType", queryType);
-    url = url.set("optionalWords", optionalWords);
-    url = url.set("facets", facets);
-    url = url.set("facetFilters", facetFilters);
-    url = url.set("maxNumberOfFacets", maxNumberOfFacets);
-    url = url.set("analytics", analytics);
-    url = url.set("synonyms", synonyms);
-    url = url.set("replaceSynonyms", replaceSynonyms);
-    url = url.set("allowTyposOnNumericTokens", allowTyposOnNumericTokens);
-    url = url.set("removeWordsIfNoResult", removeWordsIfNoResult);
-    url = url.set("typoTolerance", typoTolerance);
-    url = url.set("analyticsTags", analyticsTags);
-    url = url.set("aroundPrecision", aroundPrecision);
-    url = url.set("aroundRadius", aroundRadius);
-    url = url.set("minimumAroundRadius", minimumAroundRadius);
-    url = url.set("removeStopWords", removeStopWords);
-    url = url.set("userToken", userToken);
-    url = url.set("referers", referers);
-    url = url.set("validUntil", validUntil);
-    url = url.set("restrictIndices", restrictIndices);
+    for (Map.Entry<String, String> entry : toQueryParam().entrySet()) {
+      url.set(entry.getKey(), entry.getValue());
+    }
 
     String params = url.buildRelativeUrl();
     if (!params.isEmpty() && params.charAt(0) == '?') {
@@ -255,35 +214,18 @@ public class Query {
     return params;
   }
 
-  private GenericUrl add(GenericUrl url, String name, List<String> attributes) {
-    if (attributes == null) {
-      return url;
-    }
-    return url.set(name, String.join(",", attributes));
-  }
-
-  public Query setUserToken(String userToken) {
-    this.userToken = userToken;
+  public Query setQuery(String query) {
+    this.query = query;
     return this;
   }
 
-  public Query setAttributesToRetrieve(List<String> attributes) {
-    this.attributes = attributes;
+  public Query setQueryType(QueryType queryType) {
+    this.queryType = queryType;
     return this;
   }
 
-  public Query setAttributesToHighlight(List<String> attributesToHighlight) {
-    this.attributesToHighlight = attributesToHighlight;
-    return this;
-  }
-
-  public Query setAttributesToSnippet(List<String> attributesToSnippet) {
-    this.attributesToSnippet = attributesToSnippet;
-    return this;
-  }
-
-  public Query setNoTypoToleranceOn(List<String> noTypoToleranceOn) {
-    this.noTypoToleranceOn = noTypoToleranceOn;
+  public Query setTypoTolerance(TypoTolerance typoTolerance) {
+    this.typoTolerance = typoTolerance;
     return this;
   }
 
@@ -297,8 +239,8 @@ public class Query {
     return this;
   }
 
-  public Query setGetRankingInfo(Boolean getRankingInfo) {
-    this.getRankingInfo = getRankingInfo;
+  public Query setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
+    this.allowTyposOnNumericTokens = allowTyposOnNumericTokens;
     return this;
   }
 
@@ -307,13 +249,73 @@ public class Query {
     return this;
   }
 
-  public Query setDistinct(boolean distinct) {
-    this.distinct = distinct ? 1 : 0;
+  public Query setRestrictSearchableAttributes(String restrictSearchableAttributes) {
+    this.restrictSearchableAttributes = restrictSearchableAttributes;
     return this;
   }
 
   public Query setAdvancedSyntax(Boolean advancedSyntax) {
     this.advancedSyntax = advancedSyntax;
+    return this;
+  }
+
+  public Query setAnalytics(Boolean analytics) {
+    this.analytics = analytics;
+    return this;
+  }
+
+  public Query setAnalyticsTags(String analyticsTags) {
+    this.analyticsTags = analyticsTags;
+    return this;
+  }
+
+  public Query setSynonyms(Boolean synonyms) {
+    this.synonyms = synonyms;
+    return this;
+  }
+
+  public Query setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
+    this.replaceSynonymsInHighlight = replaceSynonymsInHighlight;
+    return this;
+  }
+
+  public Query setOptionalWords(String optionalWords) {
+    this.optionalWords = optionalWords;
+    return this;
+  }
+
+  public Query setMinProximity(Integer minProximity) {
+    this.minProximity = minProximity;
+    return this;
+  }
+
+  public Query setRemoveWordsIfNoResult(RemoveWordsType removeWordsIfNoResult) {
+    this.removeWordsIfNoResult = removeWordsIfNoResult;
+    return this;
+  }
+
+  public Query setDisableTypoToleranceOnAttributes(String disableTypoToleranceOnAttributes) {
+    this.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes;
+    return this;
+  }
+
+  public Query setRemoveStopWords(Boolean removeStopWords) {
+    this.removeStopWords = removeStopWords;
+    return this;
+  }
+
+  public Query setRemoveStopWords(List<String> isoCode) {
+    this.removeStopWords = isoCode.stream().collect(Collectors.joining(","));
+    return this;
+  }
+
+  public Query setExactOnSingleWordQuery(String exactOnSingleWordQuery) {
+    this.exactOnSingleWordQuery = exactOnSingleWordQuery;
+    return this;
+  }
+
+  public Query setAlternativesAsExact(String alternativesAsExact) {
+    this.alternativesAsExact = alternativesAsExact;
     return this;
   }
 
@@ -327,18 +329,23 @@ public class Query {
     return this;
   }
 
-  public Query setRestrictSearchableAttributes(String restrictSearchableAttributes) {
-    this.restrictSearchableAttributes = restrictSearchableAttributes;
+  public Query setAttributesToRetrieve(List<String> attributesToRetrieve) {
+    this.attributesToRetrieve = attributesToRetrieve;
     return this;
   }
 
-  public Query setTags(String tags) {
-    this.tags = tags;
+  public Query setAttributesToHighlight(List<String> attributesToHighlight) {
+    this.attributesToHighlight = attributesToHighlight;
     return this;
   }
 
-  public Query setFilters(String filters) {
-    this.filters = filters;
+  public Query setAttributesToSnippet(List<String> attributesToSnippet) {
+    this.attributesToSnippet = attributesToSnippet;
+    return this;
+  }
+
+  public Query setGetRankingInfo(Boolean getRankingInfo) {
+    this.getRankingInfo = getRankingInfo;
     return this;
   }
 
@@ -357,53 +364,18 @@ public class Query {
     return this;
   }
 
-  public Query setMinProximity(Integer minProximity) {
-    this.minProximity = minProximity;
+  public Query setNumericFilters(String numericFilters) {
+    this.numericFilters = numericFilters;
     return this;
   }
 
-  public Query setNumerics(String numerics) {
-    this.numerics = numerics;
+  public Query setTagsFilters(String tagsFilters) {
+    this.tagsFilters = tagsFilters;
     return this;
   }
 
-  public Query setInsideBoundingBox(String insideBoundingBox) {
-    this.insideBoundingBox = insideBoundingBox;
-    return this;
-  }
-
-  public Query setInsidePolygon(String insidePolygon) {
-    this.insidePolygon = insidePolygon;
-    return this;
-  }
-
-  public Query setAroundLatLong(String aroundLatLong) {
-    this.aroundLatLong = aroundLatLong;
-    return this;
-  }
-
-  public Query setAroundLatLongViaIP(Boolean aroundLatLongViaIP) {
-    this.aroundLatLongViaIP = aroundLatLongViaIP;
-    return this;
-  }
-
-  public Query setQuery(String query) {
-    this.query = query;
-    return this;
-  }
-
-  public Query setSimilarQuery(String similarQuery) {
-    this.similarQuery = similarQuery;
-    return this;
-  }
-
-  public Query setQueryType(QueryType queryType) {
-    this.queryType = queryType;
-    return this;
-  }
-
-  public Query setOptionalWords(String optionalWords) {
-    this.optionalWords = optionalWords;
+  public Query setDistinct(Boolean distinct) {
+    this.distinct = distinct ? 1 : 0;
     return this;
   }
 
@@ -417,83 +389,23 @@ public class Query {
     return this;
   }
 
-  public Query setMaxNumberOfFacets(Integer maxNumberOfFacets) {
-    this.maxNumberOfFacets = maxNumberOfFacets;
+  public Query setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+    this.maxValuesPerFacet = maxValuesPerFacet;
     return this;
   }
 
-  public Query setAnalytics(Boolean analytics) {
-    this.analytics = analytics;
+  public Query setFilters(String filters) {
+    this.filters = filters;
     return this;
   }
 
-  public Query setSynonyms(Boolean synonyms) {
-    this.synonyms = synonyms;
+  public Query setAroundLatLng(String aroundLatLng) {
+    this.aroundLatLng = aroundLatLng;
     return this;
   }
 
-  public Query setReplaceSynonyms(Boolean replaceSynonyms) {
-    this.replaceSynonyms = replaceSynonyms;
-    return this;
-  }
-
-  public Query setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
-    this.allowTyposOnNumericTokens = allowTyposOnNumericTokens;
-    return this;
-  }
-
-  public Query setRemoveWordsIfNoResult(RemoveWordsType removeWordsIfNoResult) {
-    this.removeWordsIfNoResult = removeWordsIfNoResult;
-    return this;
-  }
-
-  public Query setTypoTolerance(TypoTolerance typoTolerance) {
-    this.typoTolerance = typoTolerance;
-    return this;
-  }
-
-  public Query setAnalyticsTags(String analyticsTags) {
-    this.analyticsTags = analyticsTags;
-    return this;
-  }
-
-  public Query setAroundPrecision(int aroundPrecision) {
-    this.aroundPrecision = aroundPrecision;
-    return this;
-  }
-
-  public Query setAroundRadius(int aroundRadius) {
-    this.aroundRadius = aroundRadius;
-    return this;
-  }
-
-  public Query setMinimumAroundRadius(int minimumAroundRadius) {
-    this.minimumAroundRadius = minimumAroundRadius;
-    return this;
-  }
-
-  public Query setRemoveStopWords(Boolean removeStopWords) {
-    this.removeStopWords = removeStopWords;
-    return this;
-  }
-
-  public Query setReferers(String referers) {
-    this.referers = referers;
-    return this;
-  }
-
-  public Query setValidUntil(Integer validUntil) {
-    this.validUntil = validUntil;
-    return this;
-  }
-
-  public Query setRestrictIndices(String restrictIndices) {
-    this.restrictIndices = restrictIndices;
-    return this;
-  }
-
-  public Query setAroundPrecision(Integer aroundPrecision) {
-    this.aroundPrecision = aroundPrecision;
+  public Query setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
+    this.aroundLatLngViaIP = aroundLatLngViaIP;
     return this;
   }
 
@@ -502,8 +414,33 @@ public class Query {
     return this;
   }
 
+  public Query setAroundRadiusAll() {
+    this.aroundRadius = "all";
+    return this;
+  }
+
+  public Query setAroundPrecision(Integer aroundPrecision) {
+    this.aroundPrecision = aroundPrecision;
+    return this;
+  }
+
   public Query setMinimumAroundRadius(Integer minimumAroundRadius) {
     this.minimumAroundRadius = minimumAroundRadius;
+    return this;
+  }
+
+  public Query setInsideBoundingBox(String insideBoundingBox) {
+    this.insideBoundingBox = insideBoundingBox;
+    return this;
+  }
+
+  public Query setInsidePolygon(String insidePolygon) {
+    this.insidePolygon = insidePolygon;
+    return this;
+  }
+
+  public Query setUserToken(String userToken) {
+    this.userToken = userToken;
     return this;
   }
 
