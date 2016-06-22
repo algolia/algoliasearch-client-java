@@ -22,7 +22,8 @@ public class BrowseTest extends AlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
-    "index2"
+    "index2",
+    "index3"
   );
 
   @BeforeClass
@@ -36,7 +37,7 @@ public class BrowseTest extends AlgoliaIntegrationTest {
   public void browse() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index1", AlgoliaObject.class);
 
-    List<AlgoliaObject> objects = IntStream.range(1, 10).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
+    List<AlgoliaObject> objects = IntStream.rangeClosed(1, 10).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
     index.addObjects(objects).waitForCompletion();
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
@@ -45,5 +46,29 @@ public class BrowseTest extends AlgoliaIntegrationTest {
       assertThat(object.getName()).startsWith("name");
       assertThat(object.getAge()).isBetween(1, 10);
     }
+  }
+
+  @Test
+  public void deleteByQuery() throws AlgoliaException {
+    Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
+
+    List<AlgoliaObject> objects = IntStream.rangeClosed(1, 10).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
+    index.addObjects(objects).waitForCompletion();
+
+    index.deleteByQuery(new Query(""));
+
+    assertThat(index.search(new Query("")).getHits()).isEmpty();
+  }
+
+  @Test
+  public void deleteByQueryBatchSize2() throws AlgoliaException {
+    Index<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
+
+    List<AlgoliaObject> objects = IntStream.rangeClosed(1, 10).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
+    index.addObjects(objects).waitForCompletion();
+
+    index.deleteByQuery(new Query(""), 2);
+
+    assertThat(index.search(new Query("")).getHits()).isEmpty();
   }
 }

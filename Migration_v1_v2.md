@@ -19,7 +19,6 @@
 
 # TODO
 
-* deleteByQuery
 * new params
 
 * custom query param
