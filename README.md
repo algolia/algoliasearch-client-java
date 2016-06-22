@@ -39,7 +39,7 @@ Table of Contents
 
 1. [Setup](#setup)
 1. [Quick Start](#quick-start)
-1. [Guides & Tutorials](#guides-tutorials)
+1. [Philosophy of the java client](#philosophy)1. [Guides & Tutorials](#guides-tutorials)
 
 
 **Commands Reference**
@@ -74,9 +74,19 @@ To setup your project, follow these steps:
 If you're using Maven, add the following dependency to your `pom.xml` file:
 ```xml
 <dependency>
-    <groupId>com.algolia</groupId>
-    <artifactId>algoliasearch</artifactId>
-    <version>[1.6,]</version>
+  <groupId>com.algolia</groupId>
+  <artifactId>algoliasearch</artifactId>
+  <version>[2,]</version>
+</dependency>
+```
+
+On Google AppEngine use this:
+
+```xml
+<dependency>
+  <groupId>com.algolia</groupId>
+  <artifactId>algoliasearch-appengine</artifactId>
+  <version>[2,]</version>
 </dependency>
 ```
 
@@ -85,7 +95,7 @@ Initialize the client with your Application ID and API Key. You can find them on
 
 
 ```java
-  APIClient client = new APIClient("YourApplicationID", "YourAPIKey");
+APIClient client = new ApacheAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
 ```
 
 
@@ -99,17 +109,28 @@ In 30 seconds, this quick start tutorial will show you how to index and search o
 
 Without any prior configuration, you can start indexing contacts in the ```contacts``` index using the following code:
 ```java
-Index index = client.initIndex("contacts");
+class Contact {
+
+	private String firstname;
+	private String lastname;
+	private int followers;
+	private String company;
+
+	//Getters/Setters ommitted
+}
+
+
+Index<Contact> index = client.initIndex("contacts", Contact.class);
+index.addObject(new Contact()
+      .setFirstname("Jimmie")
+      .setLastname("Barninger")
+      .setFollowers(93)
+      .setCompany("California Paint"));
 index.addObject(new JSONObject()
-      .put("firstname", "Jimmie")
-      .put("lastname", "Barninger")
-      .put("followers", 93)
-      .put("company", "California Paint"));
-index.addObject(new JSONObject()
-      .put("firstname", "Warren")
-      .put("lastname", "Speach")
-      .put("followers", 42)
-      .put("company", "Norwalk Crmc"));
+      .setFirstname("Warren")
+      .setLastname("Speach")
+      .setFollowers(42)
+      .setCompany("Norwalk Crmc"));
 ```
 
 You can now search for contacts using firstname, lastname, company, etc. (even with typos):
@@ -126,16 +147,14 @@ System.out.println(index.search(new Query("jimmie paint")));
 
 Settings can be customized to tune the search behavior. For example, you can add a custom sort by number of followers to the already great built-in relevance:
 ```java
-index.setSettings(new JSONObject().append("customRanking", "desc(followers)"));
+index.setSettings(new IndexSettings().setCustomRanking(Arrays.asList("desc(followers)")));
 ```
 
 You can also configure the list of attributes you want to index by order of importance (first = most important):
 ```java
-index.setSettings(new JSONObject()
-      .append("attributesToIndex", "lastname")
-      .append("attributesToIndex", "firstname")
-      .append("attributesToIndex", "company"));
-
+index.setSettings(new IndexSettings().setAttributesToIndex(
+	Arrays.asList("lastname", "firstname", "company")
+);
 ```
 
 Since the engine is designed to suggest results as you type, you'll generally search by prefix. In this case the order of attributes is very important to decide which hit is the best:
@@ -183,6 +202,20 @@ function searchCallback(err, content) {
 
 
 
+Philosophy
+==========
+
+Builder
+-------
+The v2 of the api client, uses a builder to create the APIClient object. If you are on a regular JVM (not android, not Google App Engine), use the `ApacheAPIClientBuilder`, if you are on Google App Engine use the `AppEngineAPIClientBuilder`
+
+
+JSON & Jackson2
+--------------
+All the serialization/deserialization is done with Jackson2. You can add your custom ObjectMapper with the method `setObjectMapper` of the builder.
+Changing it might result in unexpected result. You can find the one used in the interface `com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER`.
+
+
 
 <!--NO_HTML-->
 
@@ -224,19 +257,22 @@ Objects are schema less so you don't need any configuration to start indexing. I
 Example with automatic `objectID` assignment:
 
 ```java
-JSONObject obj = index.addObject(new JSONObject()
-      .put("firstname", "Jimmie")
-      .put("lastname", "Barninger"));
-System.out.println(obj.getString("objectID"));
+TaskIndexing task = index.addObject(new MyPojo()
+      .setFirstName("Jimmie")
+      .setLastName("Barninger"));
+
+String objectID = task.getObjectID("objectID"));
 ```
 
 Example with manual `objectID` assignment:
 
 ```java
-JSONObject obj = index.addObject(new JSONObject()
-      .put("firstname", "Jimmie")
-      .put("lastname", "Barninger"), "myID");
-System.out.println(obj.getString("objectID"));
+JSONObject obj = index.addObject(new MyPojoWithID()
+      .setFirstName("Jimmie"),
+      .setLastname("Barninger")
+      .setObjectID("objectID"));
+
+String objectID = task.getObjectID("objectID"));
 ```
 
 Update an existing object in the Index
@@ -251,10 +287,11 @@ You have three options when updating an existing object:
 Example on how to replace all attributes of an existing object:
 
 ```java
-index.saveObject(new JSONObject()
-      .put("firstname", "Jimmie")
-      .put("lastname", "Barninger")
-      .put("city", "New York"), "myID");
+index.saveObject(new MyPojoWithId()
+      .setFirstname("Jimmie")
+      .setLastname("Barninger")
+      .setCity("New York")
+      .setObjectID("myID"));
 ```
 
 You have many ways to update an object's attributes:
@@ -269,31 +306,31 @@ You have many ways to update an object's attributes:
 Example to update only the city attribute of an existing object:
 
 ```java
-index.partialUpdateObject(new JSONObject().put("city", "San Francisco"), "myID");
+index.partialUpdateObject("myID", new MyPojoWithOnlyCity().setCity("San Francisco"));
 ```
 
 Example to add a tag:
 
 ```java
-index.partialUpdateObject(new JSONObject().put("_tags", new JSONObject().put("value", "MyTags").put("_operation", "Add")), "myID");
+index.partialUpdateObject(new AddValueOperation("myID", "_tags", "MyTags"));
 ```
 
 Example to remove a tag:
 
 ```java
-index.partialUpdateObject(new JSONObject().put("_tags", new JSONObject().put("value", "MyTags").put("_operation", "Remove")), "myID");
+index.partialUpdateObject(new RemoveValueOperation("myID", "_tags", "MyTags"));
 ```
 
 Example to add a tag if it doesn't exist:
 
 ```java
-index.partialUpdateObject(new JSONObject().put("_tags", new JSONObject().put("value", "MyTags").put("_operation", "AddUnique")), "myID");
+index.partialUpdateObject(new AddValueUniqueOperation("myID", "_tags", "MyTags"));
 ```
 
 Example to increment a numeric value:
 
 ```java
-index.partialUpdateObject(new JSONObject().put("price", new JSONObject().put("value", 42).put("_operation", "Increment")), "myID");
+index.partialUpdateObject(new IncrementValueOperation("myID", "price", 42));
 ```
 
 Note: Here we are incrementing the value by `42`. To increment just by one, put
@@ -302,7 +339,7 @@ Note: Here we are incrementing the value by `42`. To increment just by one, put
 Example to decrement a numeric value:
 
 ```java
-index.partialUpdateObject(new JSONObject().put("price", new JSONObject().put("value", 42).put("_operation", "Decrement")), "myID");
+index.partialUpdateObject(new DecrementValueOperation("myID", "price", 42));
 ```
 
 Note: Here we are decrementing the value by `42`. To decrement just by one, put
@@ -322,11 +359,11 @@ To perform a search, you only need to initialize the index and perform a call to
 The search query allows only to retrieve 1000 hits, if you need to retrieve more than 1000 hits for seo, you can use [Backup / Retrieve all index content](#backup--export-an-index)
 
 ```java
-Index index = client.initIndex("contacts");
-System.out.println(index.search(new Query("query string")));
-System.out.println(index.search(new Query("query string").
+Index<Contact> index = client.initIndex("contacts", Contact.class);
+SearchResult<Contact> search1 = index.search(new Query("query string"));
+SearchResult<Contact> search2 = index.search(new Query("query string").
              setAttributesToRetrieve(Arrays.asList("firstname", "lastname")).
-             setNbHitsPerPage(50)));
+             setNbHitsPerPage(50));
 ```
 
 The server response will look like:
@@ -1132,15 +1169,13 @@ You can send multiple queries with a single API call using a batch of queries:
 //  - 1st query targets index `categories`
 //  - 2nd and 3rd queries target index `products`
 
-List<APIClient.IndexQuery> queries = new ArrayList<APIClient.IndexQuery>();
+List<IndexQuery> queries = Arrays.asList(
+	new IndexQuery("categories", new Query(myQueryString).setHitsPerPage(3)),
+	new IndexQuery("products", new Query(myQueryString).setHitsPerPage(3).setFilters("_tags:promotion")),
+	new IndexQuery("products", new Query(myQueryString).setHitsPerPage(10))
+);
 
-queries.add(new APIClient.IndexQuery("categories", new Query(myQueryString).setHitsPerPage(3)));
-queries.add(new APIClient.IndexQuery("products", new Query(myQueryString).setHitsPerPage(3).setFilters("_tags:promotion"));
-queries.add(new APIClient.IndexQuery("products", new Query(myQueryString).setHitsPerPage(10)));
-
-JSONObject res = client.multipleQueries(queries);
-
-System.out.println(res.getJSONArray("results").toString())
+MultiQueriesResult search = client.multipleQueries(queries);
 ```
 
 The resulting JSON answer contains a ```results``` array storing the underlying queries answers. The answers order is the same than the requests order.
@@ -1157,16 +1192,13 @@ Get an object
 You can easily retrieve an object using its `objectID` and optionally specify a comma separated list of attributes you want:
 
 ```java
-// Retrieves all attributes
-index.getObject("myID");
-// Retrieves only the firstname attribute
-index.getObject("myID", Arrays.asList("firstname"));
+MyPojo myPojo = index.getObject("myID");
 ```
 
 You can also retrieve a set of objects:
 
 ```java
-index.getObjects(Arrays.asList("myObj1", "myObj2"));
+List<MyPojo> list = index.getObjects(Arrays.asList("myObj1", "myObj2"));
 ```
 
 Delete an object
@@ -1195,13 +1227,12 @@ Index Settings
 
 You can easily retrieve or update settings:
 
-
 ```java
 System.out.println(index.getSettings());
 ```
 
 ```java
-index.setSettings(new JSONObject().append("customRanking", "desc(followers)"));
+index.setSettings(new IndexSettings().setCustomRanking(Arrays.asList("desc(followers)")));
 ```
 
 
@@ -1853,7 +1884,7 @@ List indices
 You can list all your indices along with their associated information (number of entries, disk size, etc.) with the `listIndexes` method:
 
 ```java
-client.listIndexes();
+client.listIndices();
 ```
 
 
@@ -1865,7 +1896,8 @@ Delete an index
 You can delete an index using its name:
 
 ```java
-client.deleteIndex("contacts");
+Index contacts = client.initIndex("contacts");
+contacts.delete();
 ```
 
 
@@ -1877,7 +1909,7 @@ Clear an index
 You can delete the index contents without removing settings and index specific API keys by using the clearIndex command:
 
 ```java
-index.clearIndex();
+index.clear();
 ```
 
 Wait indexing
@@ -1895,8 +1927,9 @@ You can wait for a task to complete using the `waitTask` method on the `taskID` 
 
 For example, to wait for indexing of a new object:
 ```java
-JSONObject res = index.addObject(new JSONObject().put("firstname", "Jimmie").put("lastname", "Barninger"));
-index.waitTask(String.valueOf(res.getLong("taskID")));
+//Every Task object, has a method waitForCompletion()
+TaskIndexing task = index.addObject(new MyPojo().setFirstname("Jimmie").setLastname("Barninger"));
+task.waitForCompletion();
 ```
 
 If you want to ensure multiple objects have been indexed, you only need to check
@@ -1914,33 +1947,32 @@ We expose four methods to perform batch operations:
 
 Example using automatic `objectID` assignment:
 ```java
-List<JSONObject> array = new ArrayList<JSONObject>();
-array.add(new JSONObject().put("firstname", "Jimmie").put("lastname", "Barninger"));
-array.add(new JSONObject().put("firstname", "Warren").put("lastname", "Speach"));
-index.addObjects(array);
+index.addObjects(Arrays.asList(
+  new MyPojo().setFirstName("Jimmie").setLastName("Barninger"),
+  new MyPojo().setFirstName("Warren").setLastName("Speach")
+));
 ```
 
 Example with user defined `objectID` (add or update):
 ```java
-List<JSONObject> array = new ArrayList<JSONObject>();
-array.add(new JSONObject().put("firstname", "Jimmie").put("lastname", "Barninger").put("objectID", "SFO"));
-array.add(new JSONObject().put("firstname", "Warren").put("lastname", "Speach").put("objectID", "LA"));
-index.saveObjects(array);
+index.saveObjects(Arrays.asList(
+  new MyPojoWithId().setFirstName("Jimmie").setLastName("Barninger").setObjectID("SFO"),
+  new MyPojoWithId().setFirstName("Warren").setLastName("Speach").setIbjectID("LA")
+));
 ```
 
 Example that deletes a set of records:
 ```java
-List<String> ids = new ArrayList<String>();
-ids.add("myID1");
-ids.add("myID2");
-index.deleteObjects(ids);
+index.deleteObjects(Arrays.asList("myID1", "myID2"));
 ```
 
 Example that updates only the `firstname` attribute:
 ```java
-List<JSONObject> array = new ArrayList<JSONObject>();
-array.add(new JSONObject().put("firstname", "Jimmie").put("objectID", "SFO"));
-array.add(new JSONObject().put("firstname", "Warren").put("objectID", "LA"));
+List<JSONObject> array = Arrays.asList(
+	new MyPojoWithOnlyCityAndId().setCity("San Francisco").setObjectID("MyID"),
+	new MyPojoWithOnlyCityAndId().setCity("Paris").setObjectID("MyID2")
+);
+
 index.partialUpdateObjects(array);
 ```
 
@@ -1949,12 +1981,14 @@ index.partialUpdateObjects(array);
 If you have one index per user, you may want to perform a batch operations across severals indexes.
 We expose a method to perform this type of batch:
 ```java
-List<JSONObject> array = new ArrayList<JSONObject>();
-array.add(new JSONObject().put("action". "addObject").put("indexName", "index1")
-	.put("body", new JSONObject().put("firstname", "Jimmie").put("lastname", "Barninger")));
-array.add(new JSONObject().put("action". "addObject").put("indexName", "index2")
-	.put("body", new JSONObject().put("firstname", "Warren").put("lastname", "Speach")));
-client.batch(array);
+//BatchOperation accepts an Index object or a String
+
+Index<MyPojo> index1 = client.initIndex("index1", MyPojo.class);
+
+client.batch(Arrays.asList(
+	new BatchAddObjectOperation<>(index1, new MyPojo().setFirstName("Jimmie").setLastName("Barninger")),
+	new BatchAddObjectOperation<>("index2", new MyPojo().setFirstName("Warren").setLastName("Speach")),
+));
 ```
 
 The attribute **action** can have these values:
@@ -1971,10 +2005,13 @@ You can easily copy or rename an existing index using the `copy` and `move` comm
 **Note**: Move and copy commands overwrite the destination index.
 
 ```java
+Index myIndex = client.initIndex("MyIndex");
+
 // Rename MyIndex in MyIndexNewName
-client.moveIndex("MyIndex", "MyIndexNewName");
+myIndex.moveTo("MyIndexNewName");
+
 // Copy MyIndex in MyIndexCopy
-client.copyIndex("MyIndex", "MyIndexCopy");
+myIndex.copyTo("MyIndexCopy");
 ```
 
 The move command is particularly useful if you want to update a big index atomically from one version to another. For example, if you recreate your index `MyIndex` each night from a database by batch, you only need to:
@@ -1982,8 +2019,10 @@ The move command is particularly useful if you want to update a big index atomic
  1. Rename `MyNewIndex` to `MyIndex` using the move command. This will automatically override the old index and new queries will be served on the new one.
 
 ```java
+Index myNewIndex = client.initIndex("MyNewIndex");
+
 // Rename MyNewIndex in MyIndex (and overwrite it)
-client.moveIndex("MyNewIndex", "MyIndex");
+myNewIndex.moveTo("MyIndex");
 ```
 
 Backup / Export an index
@@ -2010,10 +2049,13 @@ Example:
 
 ```java
 // Iterate with a filter over the index
-Iterator<JSONObject> it = index.browse(new Query("text").setFilters("i<42"));
+IndexIterable<MyPojo> it = index.browse(new Query("text").setFilters("i<42"));
+
+// Iterate with a stream
+it.stream.map(o -> {});
 
 // Retrieve the next cursor from the browse method
-Iterator<JSONObject> it  = index.browseFrom(new Query("text").setFilters("i<42"), "");
+IndexIterable<MyPojo> it  = index.browseFrom(new Query("text").setFilters("i<42"), null);
 System.out.println(it.getCursor());
 ```
 
@@ -2035,9 +2077,10 @@ To list existing keys, you can use:
 
 ```java
 // Lists global API Keys
-client.listUserKeys();
+List<ApiKey> global = client.listKeys();
+
 // Lists API Keys that can access only to this index
-index.listUserKeys();
+List<ApiKey> indexKeys = index.listKeys();
 ```
 
 Each key is defined by a set of permissions that specify the authorized actions. The different permissions are:
@@ -2057,11 +2100,14 @@ To create API keys:
 
 ```java
 // Creates a new global API key that can only perform search actions
-JSONObject res = client.addUserKey(Arrays.asList("search"));
-System.out.println("Key: " + res.getString("key"));
+ApiKey apiKey = new ApiKey().setAcl(Arrays.asList("search")));
+CreateUpdateKey res = client.addKey(apiKey);
+System.out.println("Key: " + apiKey.getKey());
+
 // Creates a new API key that can only perform search action on this index
-JSONObject res = index.addUserKey(Arrays.asList("search"));
-System.out.println("Key: " + res.getString("key"));
+ApiKey apiKey = new ApiKey().setAcl(Arrays.asList("search")));
+CreateUpdateKey res = index.addKey(apiKey);
+System.out.println("Key: " + apiKey.getKey());
 ```
 
 You can also create an API Key with advanced settings:
@@ -2186,21 +2232,18 @@ You can also create an API Key with advanced settings:
 
 ```java
 // Creates a new global API key that is valid for 300 seconds
-JSONObject param = new JSONObject();
-param.put("acl", Arrays.asList("search"));
-param.put("maxHitsPerQuery", 20);
-param.put("maxQueriesPerIPPerHour", 100);
-param.put("validity", 300);
-param.put("indexes", Arrays.asList("myIndex"));
-param.put("referers", Arrays.asList("algolia.com/*"));
-param.put("queryParameters", "typoTolerance=strict&ignorePlurals=false");
-param.put("description", "Limited search only API key for algolia.com");
+ApiKey apiKey = new ApiKey();
+	.setAcl(Arrays.asList("search")).
+	.setMaxHitsPerQuery(20).
+	.setMaxQueriesPerIPPerHour(100).
+	.setValidity(300).
+	.setIndexes(Arrays.asList("myIndex")).
+	.setReferers(Arrays.asList("algolia.com/*")).
+	.setQueryParameters("typoTolerance=strict&ignorePlurals=false").
+	.setDescription("Limited search only API key for algolia.com");
 
-JSONObject res = client.addUserKey(param);
-System.out.println("Key: " + res.getString("key"));
-// Creates a new index specific API key valid for 300 seconds, with a rate limit of 100 calls per hour per IP and a maximum of 20 hits
-JSONObject res = index.addUserKey(param);
-System.out.println("Key: " + res.getString("key"));
+CreateUpdateKey res = client.addKey(apiKey);
+System.out.println("Key: " + res.getKey());
 ```
 
 ## Update API keys
@@ -2208,18 +2251,24 @@ System.out.println("Key: " + res.getString("key"));
 To update the permissions of an existing key:
 ```java
 // Creates a new global API key that is valid for 300 seconds
-JSONObject res = client.updateUserKey("myAPIKey", Arrays.asList("search"), 300, 0, 0);
-Log.d("debug", "Key: " + res.getString("key"));
+CreateUpdateKey res = client.updateUserKey("myAPIKey", new ApiKey().setAcl(Arrays.asList("search")).setValidity(300));
+
+
 // Update a index specific API key valid for 300 seconds, with a rate limit of 100 calls per hour per IP and a maximum of 20 hits
-JSONObject res = index.updateUserKey("myAPIKey", Arrays.asList("search"), 300, 100, 20);
-Log.d("debug", "Key: " + res.getString("key"));
+CreateUpdateKey res = index.updateUserKey("myAPIKey", new ApiKey()
+	.setAcl(Arrays.asList("search"))
+	.setValidity(300)
+	.setMaxQueriesPerIPPerHour(200)
+	.setMaxHitsPerQuery(20)
+);
 ```
 To get the permissions of a given key:
 ```java
 // Gets the rights of a global key
-client.getUserKeyACL("f420238212c54dcfad07ea0aa6d5c45f");
+Optional<ApiKey> apiKey1 = client.getKey("f420238212c54dcfad07ea0aa6d5c45f");
+
 // Gets the rights of an index specific key
-index.getUserKeyACL("71671c38001bf3ac857bc82052485107");
+Optional<ApiKey> apiKey2 = index.getKey("71671c38001bf3ac857bc82052485107");
 ```
 
 ## Delete API keys
@@ -2227,9 +2276,10 @@ index.getUserKeyACL("71671c38001bf3ac857bc82052485107");
 To delete an existing key:
 ```java
 // Deletes a global key
-client.deleteUserKey("f420238212c54dcfad07ea0aa6d5c45f");
+client.deleteKey("f420238212c54dcfad07ea0aa6d5c45f");
+
 // Deletes an index specific key
-index.deleteUserKey("71671c38001bf3ac857bc82052485107");
+index.deleteKey("71671c38001bf3ac857bc82052485107");
 ```
 
 
@@ -2381,8 +2431,9 @@ You can retrieve the logs of your last 1,000 API calls and browse them using the
 ```java
 // Get last 10 log entries
 client.getLogs();
-// Get last 100 log entries
-client.getLogs(0, 100);
+
+// Get last 100 log entries, of type build
+client.getLogs(0, 100, LogType.LOG_BUILD);
 ```
 
 
