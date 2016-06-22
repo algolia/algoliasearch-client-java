@@ -8,27 +8,28 @@ import java.util.stream.StreamSupport;
 
 public class IndexIterable<T> implements Iterable<T> {
 
-  private final APIClient apiClient;
-  private final String indexName;
-  private final Query query;
-  private final Class<T> klass;
-  private final String cursor;
+  private final IndexIterator<T> iterator;
 
   IndexIterable(APIClient apiClient, String indexName, Query query, Class<T> klass) {
     this(apiClient, indexName, query, null, klass);
   }
 
   IndexIterable(APIClient apiClient, String indexName, Query query, String cursor, Class<T> klass) {
-    this.apiClient = apiClient;
-    this.indexName = indexName;
-    this.query = query;
-    this.cursor = cursor;
-    this.klass = klass;
+    this.iterator = new IndexIterator<>(apiClient, indexName, query, cursor, klass);
   }
 
   @Override
   public Iterator<T> iterator() {
-    return new IndexIterator<>(apiClient, indexName, query, cursor, klass);
+    return iterator;
+  }
+
+  /**
+   * Get the cursor
+   *
+   * @return the cursor (can be null)
+   */
+  public String getCursor() {
+    return iterator.getCursor();
   }
 
   /**

@@ -503,11 +503,15 @@ public class APIClient {
     );
   }
 
-  Task setSettings(String indexName, IndexSettings settings) throws AlgoliaException {
+  Task setSettings(String indexName, IndexSettings settings, Boolean forwardToSlaves) throws AlgoliaException {
+    Map<String, String> params = new HashMap<>();
+    params.put("forwardToSlaves", forwardToSlaves.toString());
+
     Task result = httpClient.requestWithRetry(
       HttpMethod.PUT,
       false,
       Arrays.asList("1", "indexes", indexName, "settings"),
+      params,
       settings,
       Task.class
     );
@@ -706,14 +710,14 @@ public class APIClient {
     for (ObjectID o : new IndexIterable<>(this, indexName, query, ObjectID.class)) {
       objectToDelete.add(o.getObjectID());
 
-      while(objectToDelete.size() >= batchSize) {
+      while (objectToDelete.size() >= batchSize) {
         List<String> subList = objectToDelete.subList(0, batchSize);
         deleteObjects(indexName, subList).waitForCompletion();
         subList.clear();
       }
     }
 
-    if(!objectToDelete.isEmpty()) {
+    if (!objectToDelete.isEmpty()) {
       deleteObjects(indexName, objectToDelete).waitForCompletion();
     }
   }

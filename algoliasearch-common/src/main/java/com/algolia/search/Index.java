@@ -201,14 +201,26 @@ public class Index<T> {
   }
 
   /**
-   * Set settings of this index
+   * Set settings of this index, and do not forward to slaves
    *
    * @param settings the settings to set
    * @return the related Task
    * @throws AlgoliaException
    */
   public Task setSettings(@Nonnull IndexSettings settings) throws AlgoliaException {
-    return client.setSettings(name, settings);
+    return setSettings(settings, false);
+  }
+
+  /**
+   * Set settings of this index
+   *
+   * @param settings        the settings to set
+   * @param forwardToSlaves should these updates be forwarded to the slaves
+   * @return the related Task
+   * @throws AlgoliaException
+   */
+  public Task setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToSlaves) throws AlgoliaException {
+    return client.setSettings(name, settings, forwardToSlaves);
   }
 
   /**

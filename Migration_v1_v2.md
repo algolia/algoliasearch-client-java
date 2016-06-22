@@ -16,6 +16,17 @@
 * APIClient.IndexQuery => IndexQuery
 * Index.IndexBrowser => IndexIterable<T>
 * add a .stream() to IndexIterable
+* query
+** attributes -> attributesToRetrieve
+** numerics -> numericFilters
+** tags -> tagsFilters
+** maxNumberOfFacets -> maxValuesPerFacet
+** removed noTypoToleranceOn, similarQuery, referers
+** aroundLatLong -> aroundLatLng
+** aroundLatLongViaIP -> aroundLatLngViaIP
+** add setAroundRadiusAll()
+** add setRemoveStopWords(List<String> isoCode)
+
 
 # TODO
 
