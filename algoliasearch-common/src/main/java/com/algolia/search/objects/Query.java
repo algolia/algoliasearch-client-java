@@ -4,6 +4,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.util.Strings;
 import com.google.common.collect.ImmutableMap;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -77,6 +78,9 @@ public class Query {
 
   /* BROWSE */
   private String cursor;
+
+  /* CUSTOM */
+  private Map<String, String> customParameters = new HashMap<>();
 
   public Query() {
   }
@@ -154,6 +158,11 @@ public class Query {
 
     /* BROWSE */
     builder = add(builder, "cursor", cursor);
+
+    /* CUSTOM */
+    for (Map.Entry<String, String> entry : customParameters.entrySet()) {
+      builder = add(builder, entry.getKey(), entry.getValue());
+    }
 
     return builder.build();
   }
@@ -446,6 +455,11 @@ public class Query {
 
   public Query setCursor(String cursor) {
     this.cursor = cursor;
+    return this;
+  }
+
+  public Query addCustomParameter(String key, String value) {
+    this.customParameters.put(key, value);
     return this;
   }
 
