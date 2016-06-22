@@ -267,7 +267,7 @@ public class Query {
     return this;
   }
 
-  public Query setAttributes(List<String> attributes) {
+  public Query setAttributesToRetrieve(List<String> attributes) {
     this.attributes = attributes;
     return this;
   }
@@ -307,8 +307,8 @@ public class Query {
     return this;
   }
 
-  public Query setDistinct(Integer distinct) {
-    this.distinct = distinct;
+  public Query setDistinct(boolean distinct) {
+    this.distinct = distinct ? 1 : 0;
     return this;
   }
 

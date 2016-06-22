@@ -27,7 +27,7 @@ public class IndexIterator<T> implements Iterator<T> {
 
   @Override
   public boolean hasNext() {
-    return isFirstRequest || currentCursor != null;
+    return isFirstRequest || (currentIterator != null && currentIterator.hasNext());
   }
 
   @Override

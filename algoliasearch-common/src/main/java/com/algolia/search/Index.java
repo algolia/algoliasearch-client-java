@@ -12,6 +12,7 @@ import com.algolia.search.responses.SearchSynonymResult;
 import com.google.api.client.util.Preconditions;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -508,7 +509,7 @@ public class Index<T> {
    * @return the iterator on top of this index
    * @throws AlgoliaException
    */
-  public IndexIterable<T> browse(Query query) throws AlgoliaException {
+  public IndexIterable<T> browse(@Nonnull Query query) throws AlgoliaException {
     return new IndexIterable<>(client, name, query, klass);
   }
 
@@ -520,19 +521,29 @@ public class Index<T> {
    * @return the iterator on top of this index
    * @throws AlgoliaException
    */
-  public IndexIterable<T> browseFrom(Query query, String cursor) throws AlgoliaException {
+  public IndexIterable<T> browseFrom(@Nonnull Query query, @Nullable String cursor) throws AlgoliaException {
     return new IndexIterable<>(client, name, query, cursor, klass);
   }
 
   /**
-   * Delete records matching a query
+   * Delete records matching a query, with a batch size of 1000, internally uses browse
    *
    * @param query The query
-   * @return the associated task
    * @throws AlgoliaException
    */
-  public TaskSingleIndex deleteByQuery(@Nonnull Query query) throws AlgoliaException {
-    return client.deleteByQuery(name, query);
+  public void deleteByQuery(@Nonnull Query query) throws AlgoliaException {
+    client.deleteByQuery(name, query, 1000);
+  }
+
+  /**
+   * Delete records matching a query, internally uses browse
+   *
+   * @param query     The query
+   * @param batchSize the size of the batches
+   * @throws AlgoliaException
+   */
+  public void deleteByQuery(@Nonnull Query query, int batchSize) throws AlgoliaException {
+    client.deleteByQuery(name, query, batchSize);
   }
 
   @SuppressWarnings("unused")

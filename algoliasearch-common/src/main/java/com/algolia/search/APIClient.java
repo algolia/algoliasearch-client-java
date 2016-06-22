@@ -305,7 +305,7 @@ public class APIClient {
   }
 
   /**
-   * Performs multiple searches on multiple indices with the strategy <code>{@link MultiQueriesStrategy.NONE}</code>
+   * Performs multiple searches on multiple indices with the strategy <code>MultiQueriesStrategy.NONE</code>
    *
    * @param queries the queries
    * @return the result of the queries
@@ -325,7 +325,7 @@ public class APIClient {
    */
   public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy) throws AlgoliaException {
     return httpClient.requestWithRetry(
-     HttpMethod.POST,
+      HttpMethod.POST,
       true,
       Arrays.asList("1", "indexes", "*", "queries"),
       ImmutableMap.of("strategy", strategy.getName()),
@@ -694,9 +694,28 @@ public class APIClient {
     return task.setAttributes(indexName, this);
   }
 
-  //TODO
-  TaskSingleIndex deleteByQuery(String indexName, Query query) {
-    return null;
+  void deleteByQuery(String indexName, Query query, int batchSize) throws AlgoliaException {
+    query = query
+      .setAttributesToRetrieve(Collections.singletonList("objectID"))
+      .setAttributesToHighlight(Collections.emptyList())
+      .setAttributesToSnippet(Collections.emptyList())
+      .setHitsPerPage(1000) //Magic number
+      .setDistinct(false);
+
+    List<String> objectToDelete = new ArrayList<>(batchSize);
+    for (ObjectID o : new IndexIterable<>(this, indexName, query, ObjectID.class)) {
+      objectToDelete.add(o.getObjectID());
+
+      while(objectToDelete.size() >= batchSize) {
+        List<String> subList = objectToDelete.subList(0, batchSize);
+        deleteObjects(indexName, subList).waitForCompletion();
+        subList.clear();
+      }
+    }
+
+    if(!objectToDelete.isEmpty()) {
+      deleteObjects(indexName, objectToDelete).waitForCompletion();
+    }
   }
 
   TaskSingleIndex partialUpdateObjects(String indexName, List<Object> objects) throws AlgoliaException {
@@ -721,5 +740,22 @@ public class APIClient {
       query.setCursor(cursor).toQueryParam(),
       typeToken.getType()
     );
+  }
+
+  /**
+   * Used internally for deleteByQuery
+   */
+  private static class ObjectID {
+
+    private String objectID;
+
+    public String getObjectID() {
+      return objectID;
+    }
+
+    public ObjectID setObjectID(String objectID) {
+      this.objectID = objectID;
+      return this;
+    }
   }
 }
