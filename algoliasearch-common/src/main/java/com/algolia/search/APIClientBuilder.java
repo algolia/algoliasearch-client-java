@@ -50,7 +50,7 @@ public abstract class APIClientBuilder {
    * @param customAgentVersion value of this key to add to the user agent
    * @return this
    */
-  public APIClientBuilder setUserAgent(String customAgent, String customAgentVersion) {
+  public APIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
     this.customAgent = customAgent;
     this.customAgentVersion = customAgentVersion;
     return this;
