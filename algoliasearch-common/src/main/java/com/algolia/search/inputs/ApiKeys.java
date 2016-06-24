@@ -1,7 +1,6 @@
 package com.algolia.search.inputs;
 
 import com.algolia.search.objects.ApiKey;
-import com.google.api.client.util.Key;
 
 import java.util.List;
 

@@ -18,6 +18,7 @@
     <guava.version>19.0</guava.version>
     <jackson.version>2.7.4</jackson.version>
     <jsr305.version>3.0.1</jsr305.version>
+    <url-builder.version>1.1.0</url-builder.version>
   </properties>
 
   <licenses>
@@ -51,6 +52,7 @@
   <modules>
     <module>algoliasearch-common</module>
     <module>algoliasearch-appengine</module>
+    <module>algoliasearch-google-http-client</module>
     <module>algoliasearch</module>
   </modules>
 
@@ -166,6 +168,12 @@
       </dependency>
 
       <dependency>
+        <groupId>com.palominolabs.http</groupId>
+        <artifactId>url-builder</artifactId>
+        <version>${url-builder.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
@@ -191,6 +199,11 @@
       <dependency>
         <groupId>com.algolia</groupId>
         <artifactId>algoliasearch-common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.algolia</groupId>
+        <artifactId>algoliasearch-google-http-client</artifactId>
         <version>${project.version}</version>
       </dependency>
 

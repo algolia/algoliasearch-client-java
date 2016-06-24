@@ -1,14 +1,15 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
-import com.google.api.client.http.LowLevelHttpRequest;
-import com.google.api.client.json.Json;
-import com.google.api.client.testing.http.MockHttpTransport;
-import com.google.api.client.testing.http.MockLowLevelHttpResponse;
+import com.algolia.search.http.*;
+import com.algolia.search.responses.AlgoliaError;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,200 +21,238 @@ import static org.mockito.Mockito.*;
 
 public class AlgoliaHttpClientTest {
 
-  private AlgoliaHttpClient client;
-  private LowLevelHttpRequest mock;
+  private final String applicationId = "APP_ID";
+  private MockedAlgoliaHttpClient mockClient;
 
   @Before
   public void before() {
-    mock = mock(LowLevelHttpRequest.class);
-
-    client = new AlgoliaHttpClient(
-      new MockHttpTransport() {
-        @Override
-        public LowLevelHttpRequest buildRequest(String method, final String url) throws IOException {
-          return mock;
-        }
-      }.createRequestFactory(),
-      Defaults.DEFAULT_OBJECT_MAPPER,
-      generateQueryHosts("APP_ID"),
-      generateBuildHosts("APP_ID")
-    );
+    mockClient = spy(new MockedAlgoliaHttpClient());
   }
 
   @Test
   public void oneCallOne200() throws AlgoliaException, IOException {
-    when(mock.execute()).thenReturn(response(200));
+    when(makeMockRequest()).thenReturn(response(200));
 
-    client.requestWithRetry(
-      HttpMethod.GET,
-      false,
-      Arrays.asList("1", "indexes"),
-      Result.class
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.GET,
+        true,
+        Arrays.asList("1", "indexes"),
+        Result.class
+      )
     );
-
-    verify(mock, times(1)).execute();
   }
 
   @Test
   public void oneCallOne404() throws AlgoliaException, IOException {
-    when(mock.execute()).thenReturn(response(404));
+    when(makeMockRequest()).thenReturn(response(404));
 
-    Result result = client.requestWithRetry(
-      HttpMethod.GET,
-      false,
-      Arrays.asList("1", "indexes"),
-      Result.class
-    );
-
-    assertThat(result).isNull();
-
-    verify(mock, times(1)).execute();
-  }
-
-  @Test
-  public void oneCallOne400() throws AlgoliaException, IOException {
-    when(mock.execute()).thenReturn(response(400));
-
-    assertThatThrownBy(() ->
-      client.requestWithRetry(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "indexes"),
-        Result.class
-      )).hasMessage("Bad buildRequest");
-
-    verify(mock, times(1)).execute();
-  }
-
-  @Test
-  public void oneCallOne403() throws AlgoliaException, IOException {
-    when(mock.execute()).thenReturn(response(403));
-
-    assertThatThrownBy(() ->
-      client.requestWithRetry(
+    Result result = mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
         HttpMethod.GET,
         false,
         Arrays.asList("1", "indexes"),
         Result.class
       )
-    ).hasMessage("Invalid Application-ID or API-Key");
+    );
 
-    verify(mock, times(1)).execute();
+    assertThat(result).isNull();
+  }
+
+  @Test
+  public void oneCallOne400() throws AlgoliaException, IOException {
+    when(makeMockRequest()).thenReturn(response(400));
+
+    assertThatThrownBy(() ->
+      mockClient.requestWithRetry(
+        new AlgoliaRequest<>(
+          HttpMethod.GET,
+          false,
+          Arrays.asList("1", "indexes"),
+          Result.class
+        )
+      )).hasMessage("Bad buildRequest");
+  }
+
+  @Test
+  public void oneCallOne403() throws AlgoliaException, IOException {
+    when(makeMockRequest()).thenReturn(response(403));
+
+    assertThatThrownBy(() ->
+      mockClient.requestWithRetry(
+        new AlgoliaRequest<>(
+          HttpMethod.GET,
+          false,
+          Arrays.asList("1", "indexes"),
+          Result.class
+        )
+      )
+    ).hasMessage("Invalid Application-ID or API-Key");
   }
 
   @Test
   public void oneCallOne401() throws AlgoliaException, IOException {
-    when(mock.execute()).thenReturn(response(401));
+    when(makeMockRequest()).thenReturn(response(401));
 
     assertThatThrownBy(() ->
-      client.requestWithRetry(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "indexes"),
-        Result.class
+      mockClient.requestWithRetry(
+        new AlgoliaRequest<>(
+          HttpMethod.GET,
+          false,
+          Arrays.asList("1", "indexes"),
+          Result.class
+        )
       )).hasMessage("Error");
-
-    verify(mock, times(1)).execute();
   }
 
   @Test
   public void twoCallsOneExceptionOne200() throws AlgoliaException, IOException {
-    when(mock.execute())
+    when(makeMockRequest())
       .thenThrow(new IOException())
       .thenReturn(response(200));
 
-    client.requestWithRetry(
-      HttpMethod.GET,
-      false,
-      Arrays.asList("1", "indexes"),
-      Result.class
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.GET,
+        false,
+        Arrays.asList("1", "indexes"),
+        Result.class
+      )
     );
-
-    verify(mock, times(2)).execute();
   }
 
   @Test
   public void threeCallsTwoExceptionOne200() throws AlgoliaException, IOException {
-    when(mock.execute())
+    when(makeMockRequest())
       .thenThrow(new IOException())
       .thenThrow(new IOException())
       .thenReturn(response(200));
 
-    client.requestWithRetry(
-      HttpMethod.GET,
-      false,
-      Arrays.asList("1", "indexes"),
-      Result.class
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.GET,
+        false,
+        Arrays.asList("1", "indexes"),
+        Result.class
+      )
     );
-
-    verify(mock, times(3)).execute();
   }
 
   @Test
   public void fourCallsFourExceptions() throws AlgoliaException, IOException {
-    when(mock.execute())
+    when(makeMockRequest())
       .thenThrow(new IOException())
       .thenThrow(new IOException())
       .thenThrow(new IOException())
       .thenThrow(new IOException());
 
     assertThatThrownBy(() ->
-      client.requestWithRetry(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "indexes"),
-        Result.class
+      mockClient.requestWithRetry(
+        new AlgoliaRequest<>(
+          HttpMethod.GET,
+          false,
+          Arrays.asList("1", "indexes"),
+          Result.class
+        )
       )).hasMessage("All retries failed, exceptions: [null,null,null,null]");
-
-    verify(mock, times(4)).execute();
   }
 
   @Test
   public void fourCallsThreeExceptionOne200() throws AlgoliaException, IOException {
-    when(mock.execute())
+    when(makeMockRequest())
       .thenThrow(new IOException())
       .thenThrow(new IOException())
       .thenThrow(new IOException())
       .thenReturn(response(200));
 
-    client.requestWithRetry(
-      HttpMethod.GET,
-      false,
-      Arrays.asList("1", "indexes"),
-      Result.class
-    );
-
-    verify(mock, times(4)).execute();
-  }
-
-  private MockLowLevelHttpResponse response(int status) {
-    return new MockLowLevelHttpResponse()
-      .setStatusCode(status)
-      .setContent("{\"a\":1}")
-      .setContentEncoding(Json.MEDIA_TYPE);
-  }
-
-  private List<String> generateBuildHosts(String applicationId) {
-    return Arrays.asList(
-      applicationId + "." + ALGOLIA_NET,
-      applicationId + "-1." + ALGOLIANET_COM,
-      applicationId + "-2." + ALGOLIANET_COM,
-      applicationId + "-3." + ALGOLIANET_COM
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.GET,
+        false,
+        Arrays.asList("1", "indexes"),
+        Result.class
+      )
     );
   }
 
-  private List<String> generateQueryHosts(String applicationId) {
-    return Arrays.asList(
-      applicationId + "-dsn." + ALGOLIA_NET,
-      applicationId + "-1." + ALGOLIANET_COM,
-      applicationId + "-2." + ALGOLIANET_COM,
-      applicationId + "-3." + ALGOLIANET_COM
+  private AlgoliaHttpResponse makeMockRequest() throws IOException {
+    return mockClient.request(
+      any(AlgoliaHttpRequest.class)
     );
   }
+
+  private AlgoliaHttpResponse response(int status) {
+    return new AlgoliaHttpResponse() {
+      @Override
+      public int getStatusCode() {
+        return status;
+      }
+
+      @Override
+      public <T> T parseAs(Class<T> klass) throws IOException {
+        if (status / 100 == 4) {
+          return (T) new AlgoliaError();
+        } else {
+          return (T) new Result();
+        }
+      }
+
+      @Override
+      public Object parseAs(Type type) throws IOException {
+        if (status / 100 == 4) {
+          return new AlgoliaError();
+        } else {
+          return new Result();
+        }
+      }
+    };
+  }
+
 
   private static class Result {
 
-    public int a;
+    int a;
+
+    Result() {
+      this.a = 1;
+    }
 
   }
+
+  private class MockedAlgoliaHttpClient extends AlgoliaHttpClient {
+
+    public MockedAlgoliaHttpClient() {
+    }
+
+    @Override
+    public AlgoliaHttpResponse request(@Nonnull AlgoliaHttpRequest request) throws IOException {
+      return null;
+    }
+
+    @Override
+    public ObjectMapper getObjectMapper() {
+      return Defaults.DEFAULT_OBJECT_MAPPER;
+    }
+
+    @Override
+    public List<String> getQueryHosts() {
+      return Arrays.asList(
+        applicationId + "-dsn." + ALGOLIA_NET,
+        applicationId + "-1." + ALGOLIANET_COM,
+        applicationId + "-2." + ALGOLIANET_COM,
+        applicationId + "-3." + ALGOLIANET_COM
+      );
+    }
+
+    @Override
+    public List<String> getBuildHosts() {
+      return Arrays.asList(
+        applicationId + "." + ALGOLIA_NET,
+        applicationId + "-1." + ALGOLIANET_COM,
+        applicationId + "-2." + ALGOLIANET_COM,
+        applicationId + "-3." + ALGOLIANET_COM
+      );
+    }
+  }
 }
+

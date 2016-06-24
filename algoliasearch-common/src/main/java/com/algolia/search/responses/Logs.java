@@ -1,7 +1,6 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.objects.Log;
-import com.google.api.client.util.Key;
 
 import java.util.ArrayList;
 import java.util.List;

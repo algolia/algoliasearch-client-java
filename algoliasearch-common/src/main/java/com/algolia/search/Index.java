@@ -9,7 +9,7 @@ import com.algolia.search.responses.CreateUpdateKey;
 import com.algolia.search.responses.DeleteKey;
 import com.algolia.search.responses.SearchResult;
 import com.algolia.search.responses.SearchSynonymResult;
-import com.google.api.client.util.Preconditions;
+import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

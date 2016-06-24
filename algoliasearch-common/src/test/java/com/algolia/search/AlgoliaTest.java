@@ -1,7 +1,8 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.BatchOperations;
+import com.algolia.search.http.AlgoliaHttpClient;
+import com.algolia.search.http.AlgoliaRequest;
 import com.algolia.search.inputs.batch.BatchClearIndexOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.TaskSingleIndex;
@@ -10,7 +11,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -28,11 +29,7 @@ public class AlgoliaTest {
   @Test
   public void batchesMustBeOnTheSameIndex() throws AlgoliaException {
     when(httpClient.requestWithRetry(
-      eq(HttpMethod.POST),
-      eq(false),
-      anyListOf(String.class),
-      any(BatchOperations.class),
-      any(Class.class)
+      any(AlgoliaRequest.class)
     )).thenReturn(new TaskSingleIndex());
 
     Index index = client.initIndex("index");

@@ -1,6 +1,7 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.apache.ApacheHttpTransport;
@@ -10,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.net.ssl.SSLContext;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 
 public final class ApacheAPIClientBuilder extends APIClientBuilder {
 
@@ -18,7 +20,12 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
   }
 
   @Override
-  protected APIClient build(String applicationId, String apiKey, ObjectMapper objectMapper, List<String> buildHosts, List<String> queryHosts, int connectTimeout, HttpRequestInitializer httpRequestInitializer) {
+  protected APIClient build(String applicationId, String apiKey, ObjectMapper objectMapper, List<String> buildHosts, List<String> queryHosts, Map<String, String> headers, int connectTimeout, int readTimeout) {
+    HttpHeaders httpHeaders = new HttpHeaders();
+    for (Map.Entry<String, String> e : headers.entrySet()) {
+      httpHeaders = httpHeaders.set(e.getKey(), e.getValue());
+    }
+
     SSLSocketFactory sslSocketFactory;
     try {
       sslSocketFactory = new SSLSocketFactory(SSLContext.getDefault(), new TimeoutableHostNameResolver(connectTimeout));
@@ -27,9 +34,16 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
     }
 
     ApacheHttpTransport httpTransport = new ApacheHttpTransport.Builder().setSocketFactory(sslSocketFactory).build();
-    HttpRequestFactory requestFactory = httpTransport.createRequestFactory(httpRequestInitializer);
+    HttpRequestFactory requestFactory = httpTransport.createRequestFactory(buildHttpRequestInitializer(connectTimeout, readTimeout, httpHeaders));
 
-    return new APIClient(new AlgoliaHttpClient(requestFactory, objectMapper, queryHosts, buildHosts));
+    return new APIClient(new GoogleHttpClient(requestFactory, objectMapper, queryHosts, buildHosts));
+  }
+
+  private HttpRequestInitializer buildHttpRequestInitializer(int connectTimeout, int readTimeout, HttpHeaders headers) {
+    return request -> request
+      .setConnectTimeout(connectTimeout)
+      .setReadTimeout(readTimeout)
+      .setHeaders(headers);
   }
 
 //  @Override
