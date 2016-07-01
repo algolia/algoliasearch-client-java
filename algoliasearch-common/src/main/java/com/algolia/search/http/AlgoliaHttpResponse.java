@@ -5,9 +5,7 @@ import java.lang.reflect.Type;
 
 public interface AlgoliaHttpResponse {
 
-  int getStatusCode();
+  public int getStatusCode();
 
-  <T> T parseAs(Class<T> klass) throws IOException;
-
-  Object parseAs(Type type) throws IOException;
+  public String getBody() throws IOException;
 }

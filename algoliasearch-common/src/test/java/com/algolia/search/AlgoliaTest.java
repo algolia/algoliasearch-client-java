@@ -23,9 +23,10 @@ public class AlgoliaTest {
   @Before
   public void before() {
     httpClient = mock(AlgoliaHttpClient.class);
-    client = new APIClient(httpClient);
+    client = new APIClient(httpClient, null);
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void batchesMustBeOnTheSameIndex() throws AlgoliaException {
     when(httpClient.requestWithRetry(

@@ -3,7 +3,9 @@ package com.algolia.search.http;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaHttpException;
 import com.algolia.search.exceptions.AlgoliaHttpRetriesException;
+import com.algolia.search.exceptions.AlgoliaIOException;
 import com.algolia.search.responses.AlgoliaError;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.Nonnull;
@@ -35,12 +37,12 @@ public abstract class AlgoliaHttpClient {
 
     AlgoliaHttpResponse response = null;
 
-    List<IOException> ioExceptionList = new ArrayList<>(4);
+    List<AlgoliaIOException> ioExceptionList = new ArrayList<>(4);
     for (String host : hosts) {
       try {
         response = request(new AlgoliaHttpRequest(host, content, request));
       } catch (IOException e) {
-        ioExceptionList.add(e);
+        ioExceptionList.add(new AlgoliaIOException(host, e));
         continue;
       }
 
@@ -57,11 +59,11 @@ public abstract class AlgoliaHttpClient {
     try {
       int code = response.getStatusCode();
       if (code / 100 == 4) {
-        String message = response.parseAs(AlgoliaError.class).getMessage();
+        String message = parseAs(response.getBody(), AlgoliaError.class).getMessage();
 
         switch (code) {
           case 400:
-            throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Bad buildRequest");
+            throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Bad build request");
           case 403:
             throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Invalid Application-ID or API-Key");
           case 404:
@@ -71,10 +73,18 @@ public abstract class AlgoliaHttpClient {
         }
       }
 
-      return (T) response.parseAs(request.getResultType());
+      return parseAs(response.getBody(), request.getJavaType(getObjectMapper().getTypeFactory()));
     } catch (IOException e) {
       throw new AlgoliaException("Error while deserialization the response", e);
     }
+  }
+
+  private <T> T parseAs(String content, Class<T> klass) throws IOException {
+    return getObjectMapper().readValue(content, getObjectMapper().getTypeFactory().constructType(klass));
+  }
+
+  private <T> T parseAs(String content, JavaType type) throws IOException {
+    return getObjectMapper().readValue(content, type);
   }
 
 }

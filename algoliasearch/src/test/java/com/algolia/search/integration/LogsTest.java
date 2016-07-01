@@ -1,5 +1,6 @@
 package com.algolia.search.integration;
 
+import com.algolia.search.AlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.LogType;
 import org.junit.Test;

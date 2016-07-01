@@ -115,9 +115,6 @@ public abstract class APIClientBuilder {
     return "N/A";
   }
 
-//  protected abstract AsyncAPIClient buildAsync(Executor executor, String applicationId, String apiKey, List<String> buildHosts, List<String> queryHosts, HttpRequestInitializer httpRequestInitializer);
-
-
   protected List<String> generateBuildHosts() {
     return Arrays.asList(
       applicationId + "." + ALGOLIA_NET,
@@ -176,16 +173,9 @@ public abstract class APIClientBuilder {
 //  }
 
 
-  protected abstract APIClient build(
-    String applicationId,
-    String apiKey,
-    ObjectMapper objectMapper,
-    List<String> buildHosts,
-    List<String> queryHosts,
-    Map<String, String> headers,
-    int connectTimeout,
-    int readTimeout
-  );
+  //  protected abstract AsyncAPIClient buildAsync(Executor executor, String applicationId, String apiKey, List<String> buildHosts, List<String> queryHosts, HttpRequestInitializer httpRequestInitializer);
+
+  protected abstract APIClient build(@Nonnull APIClientConfiguration configuration);
 
   /**
    * Build the APIClient
@@ -194,14 +184,15 @@ public abstract class APIClientBuilder {
    */
   public APIClient build() {
     return build(
-      applicationId,
-      apiKey,
-      objectMapper,
-      generateBuildHosts(),
-      generateQueryHosts(),
-      generateHeaders(),
-      connectTimeout,
-      readTimeout
+      new APIClientConfiguration()
+        .setApplicationId(applicationId)
+        .setApiKey(apiKey)
+        .setObjectMapper(objectMapper)
+        .setBuildHosts(generateBuildHosts())
+        .setQueryHosts(generateQueryHosts())
+        .setHeaders(generateHeaders())
+        .setConnectTimeout(connectTimeout)
+        .setReadTimeout(readTimeout)
     );
   }
 

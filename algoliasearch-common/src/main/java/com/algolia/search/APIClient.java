@@ -16,8 +16,6 @@ import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.BaseEncoding;
-import com.google.common.reflect.TypeParameter;
-import com.google.common.reflect.TypeToken;
 
 import javax.annotation.Nonnull;
 import javax.crypto.Mac;
@@ -36,9 +34,11 @@ public class APIClient {
    * Constructor & protected stuff
    */
   protected final AlgoliaHttpClient httpClient;
+  protected final APIClientConfiguration configuration;
 
-  APIClient(AlgoliaHttpClient httpClient) {
+  APIClient(AlgoliaHttpClient httpClient, APIClientConfiguration configuration) {
     this.httpClient = httpClient;
+    this.configuration = configuration;
   }
 
   private static String hmac(String key, String msg) throws AlgoliaException {
@@ -498,23 +498,18 @@ public class APIClient {
     return result.setAttributes(indexName, this);
   }
 
+  @SuppressWarnings("unchecked")
   <T> List<T> getObjects(String indexName, List<String> objectIDs, Class<T> klass) throws AlgoliaException {
-    TypeToken<Results<T>> typeToken =
-      new TypeToken<Results<T>>() {
-      }.where(new TypeParameter<T>() {
-      }, klass);
-
-    Results<T> result = httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        true,
-        Arrays.asList("1", "indexes", "*", "objects"),
-        typeToken
-      )
-        .setData(new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o)).collect(Collectors.toList())))
+    Requests requests = new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o)).collect(Collectors.toList()));
+    AlgoliaRequest<Results> algoliaRequest = new AlgoliaRequest<>(
+      HttpMethod.POST,
+      true,
+      Arrays.asList("1", "indexes", "*", "objects"),
+      Results.class,
+      klass
     );
 
-    return result.getResults();
+    return httpClient.requestWithRetry(algoliaRequest.setData(requests)).getResults();
   }
 
   IndexSettings getSettings(String indexName) throws AlgoliaException {
@@ -600,20 +595,17 @@ public class APIClient {
     );
   }
 
+  @SuppressWarnings("unchecked")
   <T> SearchResult<T> search(String indexName, Query query, Class<T> klass) throws AlgoliaException {
-    TypeToken<SearchResult<T>> typeToken =
-      new TypeToken<SearchResult<T>>() {
-      }.where(new TypeParameter<T>() {
-      }, klass);
-
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        true,
-        Arrays.asList("1", "indexes", indexName, "query"),
-        typeToken
-      ).setData(new Search(query))
+    AlgoliaRequest<SearchResult> algoliaRequest = new AlgoliaRequest<>(
+      HttpMethod.POST,
+      true,
+      Arrays.asList("1", "indexes", indexName, "query"),
+      SearchResult.class,
+      klass
     );
+
+    return httpClient.requestWithRetry(algoliaRequest.setData(new Search(query)));
   }
 
   TaskSingleIndex batch(String indexName, List<BatchOperation> operations) throws AlgoliaException {
@@ -772,20 +764,17 @@ public class APIClient {
     return task.setAttributes(indexName, this);
   }
 
+  @SuppressWarnings("unchecked")
   <T> BrowseResult<T> browse(String indexName, Query query, String cursor, Class<T> klass) throws AlgoliaException {
-    TypeToken<BrowseResult<T>> typeToken =
-      new TypeToken<BrowseResult<T>>() {
-      }.where(new TypeParameter<T>() {
-      }, klass);
-
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        true,
-        Arrays.asList("1", "indexes", indexName, "browse"),
-        typeToken
-      ).setParameters(query.setCursor(cursor).toQueryParam())
+    AlgoliaRequest<BrowseResult> algoliaRequest = new AlgoliaRequest<>(
+      HttpMethod.GET,
+      true,
+      Arrays.asList("1", "indexes", indexName, "browse"),
+      BrowseResult.class,
+      klass
     );
+
+    return httpClient.requestWithRetry(algoliaRequest.setParameters(query.setCursor(cursor).toQueryParam()));
   }
 
   /**

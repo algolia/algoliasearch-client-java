@@ -16,14 +16,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.google.http-client</groupId>
-      <artifactId>google-http-client-appengine</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.algolia</groupId>
-      <artifactId>algoliasearch-google-http-client</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.algolia</groupId>
       <artifactId>algoliasearch-common</artifactId>
     </dependency>

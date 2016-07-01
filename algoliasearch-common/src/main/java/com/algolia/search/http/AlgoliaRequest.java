@@ -1,8 +1,8 @@
 package com.algolia.search.http;
 
-import com.google.common.reflect.TypeToken;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +14,9 @@ public class AlgoliaRequest<T> {
 
   private Map<String, String> parameters;
   private Object data;
-  private TypeToken<T> resultTypeToken;
   private Class<T> resultClass;
+  private Class<T> collectionClass;
+  private Class<?> elementClass;
 
   public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, Class<T> resultClass) {
     this.method = method;
@@ -24,19 +25,24 @@ public class AlgoliaRequest<T> {
     this.resultClass = resultClass;
   }
 
-  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, TypeToken<T> resultTypeToken) {
+  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, Class<T> collectionClass, Class<?> elementClass) {
     this.method = method;
     this.isSearch = isSearch;
     this.path = path;
-    this.resultTypeToken = resultTypeToken;
+    this.collectionClass = collectionClass;
+    this.elementClass = elementClass;
   }
 
-  public Type getResultType() {
-    return resultTypeToken == null ? resultClass : resultTypeToken.getType();
+  JavaType getJavaType(TypeFactory factory) {
+    if (resultClass != null) {
+      return factory.constructType(resultClass);
+    } else {
+      return factory.constructParametricType(collectionClass, elementClass);
+    }
   }
 
 
-  public HttpMethod getMethod() {
+  HttpMethod getMethod() {
     return method;
   }
 
@@ -44,15 +50,15 @@ public class AlgoliaRequest<T> {
     return isSearch;
   }
 
-  public List<String> getPath() {
+  List<String> getPath() {
     return path;
   }
 
-  public boolean hasData() {
+  boolean hasData() {
     return data != null;
   }
 
-  public Object getData() {
+  Object getData() {
     return data;
   }
 
@@ -61,7 +67,7 @@ public class AlgoliaRequest<T> {
     return this;
   }
 
-  public Map<String, String> getParameters() {
+  Map<String, String> getParameters() {
     return parameters;
   }
 

@@ -9,19 +9,19 @@ import java.util.Map;
 public class TasksMultipleIndex extends GenericTask<Map<String, Long>> {
 
   //FIXME: disabled because API render non valid JSON
-  //private List<String> objectIDs;
+  private List<String> objectIDs;
   private String createdAt;
 
-//  @SuppressWarnings("unused")
-//  public List<String> getObjectIDs() {
-//    return objectIDs;
-//  }
+  @SuppressWarnings("unused")
+  public List<String> getObjectIDs() {
+    return objectIDs;
+  }
 
-//  @SuppressWarnings("unused")
-//  public TasksMultipleIndex setObjectIDs(List<String> objectIDs) {
-//    this.objectIDs = objectIDs;
-//    return this;
-//  }
+  @SuppressWarnings("unused")
+  public TasksMultipleIndex setObjectIDs(List<String> objectIDs) {
+    this.objectIDs = objectIDs;
+    return this;
+  }
 
   @SuppressWarnings("unused")
   public String getCreatedAt() {

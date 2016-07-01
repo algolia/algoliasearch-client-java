@@ -33,8 +33,8 @@ public class AlgoliaHttpClientTest {
   public void oneCallOne200() throws AlgoliaException, IOException {
     when(makeMockRequest()).thenReturn(response(200));
 
-    mockClient.requestWithRetry(
-      new AlgoliaRequest<>(
+    mockClient.<Result>requestWithRetry(
+      new AlgoliaRequest<Result>(
         HttpMethod.GET,
         true,
         Arrays.asList("1", "indexes"),
@@ -71,7 +71,7 @@ public class AlgoliaHttpClientTest {
           Arrays.asList("1", "indexes"),
           Result.class
         )
-      )).hasMessage("Bad buildRequest");
+      )).hasMessage("Bad build request");
   }
 
   @Test
@@ -154,7 +154,7 @@ public class AlgoliaHttpClientTest {
           Arrays.asList("1", "indexes"),
           Result.class
         )
-      )).hasMessage("All retries failed, exceptions: [null,null,null,null]");
+      )).hasMessage("All retries failed, exceptions: [Failed to query host [APP_ID.algolia.net]: null,Failed to query host [APP_ID-1.algolianet.com]: null,Failed to query host [APP_ID-2.algolianet.com]: null,Failed to query host [APP_ID-3.algolianet.com]: null]");
   }
 
   @Test
@@ -189,20 +189,11 @@ public class AlgoliaHttpClientTest {
       }
 
       @Override
-      public <T> T parseAs(Class<T> klass) throws IOException {
+      public String getBody() {
         if (status / 100 == 4) {
-          return (T) new AlgoliaError();
+          return "{\"message\":\"\"}";
         } else {
-          return (T) new Result();
-        }
-      }
-
-      @Override
-      public Object parseAs(Type type) throws IOException {
-        if (status / 100 == 4) {
-          return new AlgoliaError();
-        } else {
-          return new Result();
+          return "{\"a\":1}";
         }
       }
     };
