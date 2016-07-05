@@ -1,4 +1,4 @@
-operation supplémentaire<!--NO_HTML-->
+<!--NO_HTML-->
 
 # Algolia Search API Client for Java2
 
