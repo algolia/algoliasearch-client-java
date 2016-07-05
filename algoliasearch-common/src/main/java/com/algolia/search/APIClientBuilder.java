@@ -134,7 +134,7 @@ public abstract class APIClientBuilder {
   }
 
   protected Map<String, String> generateHeaders() {
-    String userAgent = String.format("Algolia for Java %s API %s", System.getProperty("java.version"), getApiClientVersion());
+    String userAgent = String.format("Algolia for Java %s; JVM %s", getApiClientVersion(), System.getProperty("java.version"));
     if (customAgent != null) {
       userAgent += " " + customAgent + " " + customAgentVersion;
     }
