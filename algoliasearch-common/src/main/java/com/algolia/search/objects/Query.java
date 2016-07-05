@@ -1,13 +1,12 @@
 package com.algolia.search.objects;
 
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.util.Strings;
 import com.google.common.collect.ImmutableMap;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class Query {
@@ -168,7 +167,7 @@ public class Query {
   }
 
   private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, Object value) {
-    if(value == null) {
+    if (value == null) {
       return builder;
     }
     return builder.put(name, value.toString());
@@ -210,17 +209,18 @@ public class Query {
   }
 
   public String toParam() {
-    GenericUrl url = new GenericUrl();
+    StringBuilder builder = new StringBuilder();
     for (Map.Entry<String, String> entry : toQueryParam().entrySet()) {
-      url.set(entry.getKey(), entry.getValue());
+      try {
+        builder = builder
+          .append(entry.getKey())
+          .append("=")
+          .append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+      } catch (UnsupportedEncodingException ignore) {
+      }
     }
 
-    String params = url.buildRelativeUrl();
-    if (!params.isEmpty() && params.charAt(0) == '?') {
-      params = params.substring(1); //remove the first `?`
-    }
-
-    return params;
+    return builder.toString();
   }
 
   public Query setQuery(String query) {

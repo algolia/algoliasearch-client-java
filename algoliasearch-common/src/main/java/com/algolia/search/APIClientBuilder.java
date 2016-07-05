@@ -1,9 +1,10 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.util.Preconditions;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.net.HttpHeaders;
+import com.google.common.net.MediaType;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
@@ -114,25 +115,6 @@ public abstract class APIClientBuilder {
     return "N/A";
   }
 
-  protected abstract APIClient build(
-    String applicationId,
-    String apiKey,
-    ObjectMapper objectMapper,
-    List<String> buildHosts,
-    List<String> queryHosts,
-    int connectTimeout,
-    HttpRequestInitializer httpRequestInitializer
-  );
-
-//  protected abstract AsyncAPIClient buildAsync(Executor executor, String applicationId, String apiKey, List<String> buildHosts, List<String> queryHosts, HttpRequestInitializer httpRequestInitializer);
-
-  protected HttpRequestInitializer buildHttpRequestInitializer(int connectTimeout, int readTimeout, HttpHeaders headers) {
-    return request -> request
-      .setConnectTimeout(connectTimeout)
-      .setReadTimeout(readTimeout)
-      .setHeaders(headers);
-  }
-
   protected List<String> generateBuildHosts() {
     return Arrays.asList(
       applicationId + "." + ALGOLIA_NET,
@@ -151,21 +133,21 @@ public abstract class APIClientBuilder {
     );
   }
 
-  protected HttpHeaders generateHeaders() {
+  protected Map<String, String> generateHeaders() {
     String userAgent = String.format("Algolia for Java %s API %s", System.getProperty("java.version"), getApiClientVersion());
     if (customAgent != null) {
       userAgent += " " + customAgent + " " + customAgentVersion;
     }
 
-    HttpHeaders headers = new HttpHeaders()
-      .setAcceptEncoding("gzip")
-      .setContentType("application/json; charset=UTF-8")
-      .setUserAgent(userAgent)
-      .set("X-Algolia-Application-Id", applicationId)
-      .set("X-Algolia-API-Key", apiKey);
-    headers.putAll(customHeaders);
-
-    return headers;
+    return ImmutableMap
+      .<String, String>builder()
+      .put(HttpHeaders.ACCEPT_ENCODING, "gzip")
+      .put(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.type())
+      .put(HttpHeaders.USER_AGENT, userAgent)
+      .put("X-Algolia-Application-Id", applicationId)
+      .put("X-Algolia-API-Key", apiKey)
+      .putAll(customHeaders)
+      .build();
   }
 
 //  public AsyncAPIClient buildAsync() {
@@ -190,6 +172,11 @@ public abstract class APIClientBuilder {
 //    );
 //  }
 
+
+  //  protected abstract AsyncAPIClient buildAsync(Executor executor, String applicationId, String apiKey, List<String> buildHosts, List<String> queryHosts, HttpRequestInitializer httpRequestInitializer);
+
+  protected abstract APIClient build(@Nonnull APIClientConfiguration configuration);
+
   /**
    * Build the APIClient
    *
@@ -197,13 +184,15 @@ public abstract class APIClientBuilder {
    */
   public APIClient build() {
     return build(
-      applicationId,
-      apiKey,
-      objectMapper,
-      generateBuildHosts(),
-      generateQueryHosts(),
-      connectTimeout,
-      buildHttpRequestInitializer(connectTimeout, readTimeout, generateHeaders())
+      new APIClientConfiguration()
+        .setApplicationId(applicationId)
+        .setApiKey(apiKey)
+        .setObjectMapper(objectMapper)
+        .setBuildHosts(generateBuildHosts())
+        .setQueryHosts(generateQueryHosts())
+        .setHeaders(generateHeaders())
+        .setConnectTimeout(connectTimeout)
+        .setReadTimeout(readTimeout)
     );
   }
 

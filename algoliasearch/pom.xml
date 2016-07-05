@@ -16,12 +16,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.algolia</groupId>
-      <artifactId>algoliasearch-common</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.algolia</groupId>
+      <artifactId>algoliasearch-common</artifactId>
     </dependency>
 
     <dependency>

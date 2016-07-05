@@ -2,14 +2,13 @@ package com.algolia.search;
 
 import com.google.common.util.concurrent.SimpleTimeLimiter;
 import com.google.common.util.concurrent.TimeLimiter;
-import org.apache.http.conn.scheme.HostNameResolver;
+import org.apache.http.conn.DnsResolver;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
-class TimeoutableHostNameResolver implements HostNameResolver {
+class TimeoutableHostNameResolver implements DnsResolver {
 
   /**
    * Timeout in ms
@@ -24,10 +23,10 @@ class TimeoutableHostNameResolver implements HostNameResolver {
   }
 
   @Override
-  public InetAddress resolve(String hostname) throws IOException {
+  public InetAddress[] resolve(String hostname) throws UnknownHostException {
     try {
       return timeLimiter.callWithTimeout(
-        () -> InetAddress.getByName(hostname),
+        () -> new InetAddress[]{InetAddress.getByName(hostname)},
         timeout,
         TimeUnit.MILLISECONDS,
         true

@@ -28,7 +28,7 @@ public class QueryTest {
   @Test
   public void queryWithHTMLEntities() {
     Query query = new Query("&?@:=");
-    assertThat(query.toParam()).isEqualTo("query=%26?@:%3D");
+    assertThat(query.toParam()).isEqualTo("query=%26%3F%40%3A%3D");
   }
 
   @Test
