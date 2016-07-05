@@ -25,7 +25,7 @@ Our Java2 client lets you easily use the [Algolia Search API](https://www.algoli
 
 
 
-[![Build Status](https://travis-ci.org/algolia/algoliasearch-client-java.png?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-java) [![GitHub version](https://badge.fury.io/gh/algolia%2Falgoliasearch-client-java.png)](http://badge.fury.io/gh/algolia%2Falgoliasearch-client-java) [![Coverage Status](https://coveralls.io/repos/algolia/algoliasearch-client-java/badge.svg)](https://coveralls.io/r/algolia/algoliasearch-client-java)[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/)
+[![Build Status](https://travis-ci.org/algolia/algoliasearch-client-java-2.png?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-java-2-2) [![GitHub version](https://badge.fury.io/gh/algolia%2Falgoliasearch-client-java-2-2.png)](http://badge.fury.io/gh/algolia%2Falgoliasearch-client-java-2) [![Coverage Status](https://coveralls.io/repos/algolia/algoliasearch-client-java-2/badge.svg)](https://coveralls.io/r/algolia/algoliasearch-client-java-2)[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/)
 
 
 **WARNING:** 
@@ -46,7 +46,6 @@ Table of Contents
 
 1. [Setup](#setup)
 1. [Quick Start](#quick-start)
-
 1. [Philosophy of the java client](#philosophy)
 1. [Guides & Tutorials](#guides-tutorials)
 
@@ -224,7 +223,6 @@ JSON & Jackson2
 --------------
 All the serialization/deserialization is done with Jackson2. You can add your custom ObjectMapper with the method `setObjectMapper` of the builder.
 Changing it might result in unexpected result. You can find the one used in the interface `com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER`.
-
 
 
 <!--NO_HTML-->
@@ -2006,7 +2004,10 @@ To get a full description of how the Ranking works, you can have a look at our <
     
   </tbody></table>
 
+
 To add a custom setting for an index, simply extend the class `IndexSettings` and add your getter/setter. The new settings will be automatically serialized by jackson.
+
+
 
 List indices
 ==================
