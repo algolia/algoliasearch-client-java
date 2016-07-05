@@ -1,6 +1,6 @@
-<!--NO_HTML-->
+operation supplémentaire<!--NO_HTML-->
 
-# Algolia Search API Client for Java
+# Algolia Search API Client for Java2
 
 <!--/NO_HTML-->
 
@@ -9,7 +9,7 @@
 
 In June 2016, we released the v2 of our Java client. If you were using version 1.x of the client, read the [migration guide to version 2.x](https://github.com/algolia/algoliasearch-client-java/wiki/Migration-guide-from-1.x-to-2.x).
 
-Version 1.x is no longer under active development. It will still supported for bug fixes, but will not receive new features.
+Version 1.x is no longer under active development. It will still supported for bug fixes, and new query parameters & index settings.
 
 
 
@@ -21,7 +21,7 @@ Version 1.x is no longer under active development. It will still supported for b
 
 <!--/NO_HTML-->
 
-Our Java client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your Java Application. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
+Our Java2 client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your backend. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
 
 
 
@@ -46,7 +46,9 @@ Table of Contents
 
 1. [Setup](#setup)
 1. [Quick Start](#quick-start)
-1. [Philosophy of the java client](#philosophy)1. [Guides & Tutorials](#guides-tutorials)
+
+1. [Philosophy of the java client](#philosophy)
+1. [Guides & Tutorials](#guides-tutorials)
 
 
 **Commands Reference**
@@ -214,7 +216,8 @@ Philosophy
 
 Builder
 -------
-The v2 of the api client, uses a builder to create the APIClient object. If you are on a regular JVM (not android, not Google App Engine), use the `ApacheAPIClientBuilder`, if you are on Google App Engine use the `AppEngineAPIClientBuilder`
+The v2 of the api client, uses a builder to create the APIClient object. If you are on a regular JVM (not android, not Google App Engine), use the `ApacheAPIClientBuilder`, if you are on Google App Engine use the `AppEngineAPIClientBuilder`.
+As for Android, please use the [Android API Client](https://github.com/algolia/algoliasearch-client-android)
 
 
 JSON & Jackson2
@@ -230,7 +233,7 @@ Guides & Tutorials
 ================
 Check our [online guides](https://www.algolia.com/doc):
  * [Data Formatting](https://www.algolia.com/doc/indexing/formatting-your-data)
- * [Import and Synchronize data](https://www.algolia.com/doc/indexing/import-synchronize-data/java)
+ * [Import and Synchronize data](https://www.algolia.com/doc/indexing/import-synchronize-data/java2)
  * [Autocomplete](https://www.algolia.com/doc/search/auto-complete)
  * [Instant search page](https://www.algolia.com/doc/search/instant-search)
  * [Filtering and Faceting](https://www.algolia.com/doc/search/filtering-faceting)
@@ -264,7 +267,7 @@ Objects are schema less so you don't need any configuration to start indexing. I
 Example with automatic `objectID` assignment:
 
 ```java
-TaskIndexing task = index.addObject(new MyPojo()
+TaskIndexing task = index.addObject(new Contact()
       .setFirstName("Jimmie")
       .setLastName("Barninger"));
 
@@ -274,7 +277,7 @@ String objectID = task.getObjectID("objectID"));
 Example with manual `objectID` assignment:
 
 ```java
-JSONObject obj = index.addObject(new MyPojoWithID()
+JSONObject obj = index.addObject(new Contact()
       .setFirstName("Jimmie"),
       .setLastname("Barninger")
       .setObjectID("objectID"));
@@ -294,7 +297,7 @@ You have three options when updating an existing object:
 Example on how to replace all attributes of an existing object:
 
 ```java
-index.saveObject(new MyPojoWithId()
+index.saveObject(new Contact()
       .setFirstname("Jimmie")
       .setLastname("Barninger")
       .setCity("New York")
@@ -313,7 +316,7 @@ You have many ways to update an object's attributes:
 Example to update only the city attribute of an existing object:
 
 ```java
-index.partialUpdateObject("myID", new MyPojoWithOnlyCity().setCity("San Francisco"));
+index.partialUpdateObject("myID", new Contact().setCity("San Francisco"));
 ```
 
 Example to add a tag:
@@ -418,7 +421,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setQueryString</code></div>
+            <div class='client-readme-param-name'><code>query</code></div>
             <div class="client-readme-param-meta"><div><em>Type: <strong>string</strong></em></div></div>
           </div>
         </div>
@@ -435,8 +438,8 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setQueryType</code></div>
-            <div class="client-readme-param-meta"><div><em>Default: <strong>PREFIX_ALL</strong></em></div></div>
+            <div class='client-readme-param-name'><code>queryType</code></div>
+            <div class="client-readme-param-meta"><div><em>Default: <strong>prefixLast</strong></em></div></div>
           </div>
         </div>
       </td>
@@ -444,9 +447,9 @@ You can use the following optional arguments:
         <p>Selects how the query words are interpreted. It can be one of the following values:</p>
 
 <ul>
-<li><code>PREFIX_ALL</code>: All query words are interpreted as prefixes. This option is not recommended.</li>
-<li><code>PREFIX_ALL</code>: Only the last word is interpreted as a prefix (default behavior).</li>
-<li><code>PREFIX_NONE</code>: No query word is interpreted as a prefix. This option is not recommended.</li>
+<li><code>prefixAll</code>: All query words are interpreted as prefixes. This option is not recommended.</li>
+<li><code>prefixLast</code>: Only the last word is interpreted as a prefix (default behavior).</li>
+<li><code>prefixNone</code>: No query word is interpreted as a prefix. This option is not recommended.</li>
 </ul>
 
       </td>
@@ -459,7 +462,7 @@ You can use the following optional arguments:
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
             <div class='client-readme-param-name'><code>removeWordsIfNoResults</code></div>
-            <div class="client-readme-param-meta"><div><em>Default: <strong>REMOVE_NONE</strong></em></div></div>
+            <div class="client-readme-param-meta"><div><em>Default: <strong>none</strong></em></div></div>
           </div>
         </div>
       </td>
@@ -467,10 +470,10 @@ You can use the following optional arguments:
         <p>This option is used to select a strategy in order to avoid having an empty result page. There are three different options:</p>
 
 <ul>
-<li><code>REMOVE_LAST_WORDS</code>: When a query does not return any results, the last word will be added as optional. The process is repeated with n-1 word, n-2 word, ... until there are results.</li>
-<li><code>REMOVE_FIRST_WORDS</code>: When a query does not return any results, the first word will be added as optional. The process is repeated with second word, third word, ... until there are results.</li>
-<li><code>REMOVE_ALL_OPTIONAL</code>: When a query does not return any results, a second trial will be made with all words as optional. This is equivalent to transforming the AND operand between query terms to an OR operand.</li>
-<li><code>REMOVE_NONE</code>: No specific processing is done when a query does not return any results (default behavior).</li>
+<li><code>lastWords</code>: When a query does not return any results, the last word will be added as optional. The process is repeated with n-1 word, n-2 word, ... until there are results.</li>
+<li><code>firstWords</code>: When a query does not return any results, the first word will be added as optional. The process is repeated with second word, third word, ... until there are results.</li>
+<li><code>allOptional</code>: When a query does not return any results, a second trial will be made with all words as optional. This is equivalent to transforming the AND operand between query terms to an OR operand.</li>
+<li><code>none</code>: No specific processing is done when a query does not return any results (default behavior).</li>
 </ul>
 
       </td>
@@ -482,7 +485,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setMinWordSizeToAllowOneTypo</code></div>
+            <div class='client-readme-param-name'><code>minWordSizefor1Typo</code></div>
             <div class="client-readme-param-meta"><div><em>Type: <strong>number</strong></em></div><div><em>Default: <strong>4</strong></em></div></div>
           </div>
         </div>
@@ -499,7 +502,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setMinWordSizeToAllowTwoTypos</code></div>
+            <div class='client-readme-param-name'><code>minWordSizefor2Typos</code></div>
             <div class="client-readme-param-meta"><div><em>Type: <strong>number</strong></em></div><div><em>Default: <strong>8</strong></em></div></div>
           </div>
         </div>
@@ -516,7 +519,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setTypoTolerance</code></div>
+            <div class='client-readme-param-name'><code>typoTolerance</code></div>
             <div class="client-readme-param-meta"><div><em>Default: <strong>true</strong></em></div></div>
           </div>
         </div>
@@ -525,10 +528,10 @@ You can use the following optional arguments:
         <p>This option allows you to control the number of typos allowed in the result set:</p>
 
 <ul>
-<li><code>TYPO_TRUE</code>: The typo tolerance is enabled and all matching hits are retrieved (default behavior).</li>
-<li><code>TYPO_FALSE</code>: The typo tolerance is disabled. All results with typos will be hidden.</li>
-<li><code>TYPO_MIN</code>: Only keep results with the minimum number of typos. For example, if one result matches without typos, then all results with typos will be hidden.</li>
-<li><code>TYPO_STRICT</code>: Hits matching with 2 typos are not retrieved if there are some matching without typos.</li>
+<li><code>true</code>: The typo tolerance is enabled and all matching hits are retrieved (default behavior).</li>
+<li><code>false</code>: The typo tolerance is disabled. All results with typos will be hidden.</li>
+<li><code>min</code>: Only keep results with the minimum number of typos. For example, if one result matches without typos, then all results with typos will be hidden.</li>
+<li><code>strict</code>: Hits matching with 2 typos are not retrieved if there are some matching without typos.</li>
 </ul>
 
       </td>
@@ -540,7 +543,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>enableTyposOnNumericTokens</code></div>
+            <div class='client-readme-param-name'><code>allowTyposOnNumericTokens</code></div>
             <div class="client-readme-param-meta"><div><em>Default: <strong>true</strong></em></div></div>
           </div>
         </div>
@@ -608,13 +611,25 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>enableRemoveStopWords</code></div>
+            <div class='client-readme-param-name'><code>removeStopWords</code></div>
             <div class="client-readme-param-meta"><div><em>Default: <strong>false</strong></em></div></div>
           </div>
         </div>
       </td>
       <td class='client-readme-param-content'>
-        <p>Remove the stop words from query before executing it. Defaults to false. Contains a list of stop words from 41 languages (Arabic, Armenian, Basque, Bengali, Brazilian, Bulgarian, Catalan, Chinese, Czech, Danish, Dutch, English, Finnish, French, Galician, German, Greek, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Korean, Kurdish, Latvian, Lithuanian, Marathi, Norwegian, Persian, Polish, Portugese, Romanian, Russian, Slovak, Spanish, Swedish, Thai, Turkish, Ukranian, Urdu). In most use-cases, we don&#39;t recommend enabling this option.</p>
+        <p>Remove stop words from the query <strong>before</strong> executing it. Defaults to <code>false</code>. Use a boolean to enable/disable all 41 supported languages and a comma separated list of iso codes of the languages you want to use consider to enable the stopwords removal on a subset of them (select the one you have in your records). In most use-cases, you shouldn&#39;t need to enable this option.</p>
+
+<p>List of 41 supported languages with their associated iso code: Arabic=ar, Armenian=hy, Basque=eu, Bengali=bn, Brazilian=pt-br, Bulgarian=bg, Catalan=ca, Chinese=zh, Czech=cs, Danish=da, Dutch=nl, English=en, Finnish=fi, French=fr, Galician=gl, German=de, Greek=el, Hindi=hi, Hungarian=hu, Indonesian=id, Irish=ga, Italian=it, Japanese=ja, Korean=ko, Kurdish=ku, Latvian=lv, Lithuanian=lt, Marathi=mr, Norwegian=no, Persian (Farsi)=fa, Polish=pl, Portugese=pt, Romanian=ro, Russian=ru, Slovak=sk, Spanish=es, Swedish=sv, Thai=th, Turkish=tr, Ukranian=uk, Urdu=ur</p>
+
+<p>Stop words removal is applied on query words that are not interpreted as a prefix. The behavior depends of the queryType parameter:</p>
+
+<ul>
+<li><p><code>queryType=prefixLast</code> means the last query word is a prefix and it won’t be considered for stop words removal</p></li>
+<li><p><code>queryType=prefixNone</code> means no query word are prefix, stop words removal will be applied on all query words</p></li>
+<li><p><code>queryType=prefixAll</code> means all query terms are prefix, stop words won’t be removed</p></li>
+</ul>
+
+<p>This parameter is useful when you have a query in natural language like “what is a record?”. In this case, before executing the query, we will remove “what”, “is” and “a” in order to just search for “record”. This removal will remove false positive because of stop words, especially when combined with optional words. For most use cases, it is better to not use this feature as people search by keywords on search engines.</p>
 
       </td>
     </tr>
@@ -625,7 +640,53 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>enableAdvancedSyntax</code></div>
+            <div class='client-readme-param-name'><code>exactOnSingleWordQuery</code></div>
+            <div class="client-readme-param-meta"><div><em>Default: <strong>attribute</strong></em></div></div>
+          </div>
+        </div>
+      </td>
+      <td class='client-readme-param-content'>
+        <p>This parameter control how the <code>exact</code> ranking criterion is computed when the query contains one word. There is three different values:</p>
+
+<ul>
+<li><p><code>none</code>: no exact on single word query</p></li>
+<li><p><code>word</code>: exact set to 1 if the query word is found in the record. The query word needs to have at least 3 chars and not be part of our stop words dictionary</p></li>
+<li><p><code>attribute</code> (default): exact set to 1 if there is an attribute containing a string equals to the query</p></li>
+</ul>
+
+      </td>
+    </tr>
+    
+
+  
+    <tr>
+      <td valign='top'>
+        <div class='client-readme-param-container'>
+          <div class='client-readme-param-container-inner'>
+            <div class='client-readme-param-name'><code>alternativesAsExact</code></div>
+            <div class="client-readme-param-meta"><div><em>Default: <strong>["ignorePlurals", "singleWordSynonym"]</strong></em></div></div>
+          </div>
+        </div>
+      </td>
+      <td class='client-readme-param-content'>
+        <p>Specify the list of approximation that should be considered as an exact match in the ranking formula:</p>
+
+<ul>
+<li><p><code>ignorePlurals</code>: alternative words added by the ignorePlurals feature</p></li>
+<li><p><code>singleWordSynonym</code>: single-word synonym (For example &quot;NY&quot; = &quot;NYC&quot;)</p></li>
+<li><p><code>multiWordsSynonym</code>: multiple-words synonym (For example &quot;NY&quot; = &quot;New York&quot;)</p></li>
+</ul>
+
+      </td>
+    </tr>
+    
+
+  
+    <tr>
+      <td valign='top'>
+        <div class='client-readme-param-container'>
+          <div class='client-readme-param-container-inner'>
+            <div class='client-readme-param-name'><code>advancedSyntax</code></div>
             <div class="client-readme-param-meta"><div><em>Default: <strong>0 (false)</strong></em></div></div>
           </div>
         </div>
@@ -647,7 +708,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>enableAnalytics</code></div>
+            <div class='client-readme-param-name'><code>analytics</code></div>
             <div class="client-readme-param-meta"><div><em>Default: <strong>true</strong></em></div></div>
           </div>
         </div>
@@ -664,7 +725,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>enableSynonyms</code></div>
+            <div class='client-readme-param-name'><code>synonyms</code></div>
             <div class="client-readme-param-meta"><div><em>Default: <strong>true</strong></em></div></div>
           </div>
         </div>
@@ -681,7 +742,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>enableReplaceSynonymsInHighlight</code></div>
+            <div class='client-readme-param-name'><code>replaceSynonymsInHighlight</code></div>
             <div class="client-readme-param-meta"><div><em>Default: <strong>true</strong></em></div></div>
           </div>
         </div>
@@ -698,7 +759,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setOptionalWords</code></div>
+            <div class='client-readme-param-name'><code>optionalWords</code></div>
             <div class="client-readme-param-meta"><div><em>Default: <strong>[]</strong></em></div></div>
           </div>
         </div>
@@ -721,7 +782,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setPage</code></div>
+            <div class='client-readme-param-name'><code>page</code></div>
             <div class="client-readme-param-meta"><div><em>Type: <strong>integer</strong></em></div><div><em>Default: <strong>0</strong></em></div></div>
           </div>
         </div>
@@ -738,7 +799,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setHitsPerPage</code></div>
+            <div class='client-readme-param-name'><code>hitsPerPage</code></div>
             <div class="client-readme-param-meta"><div><em>Type: <strong>integer</strong></em></div><div><em>Default: <strong>20</strong></em></div></div>
           </div>
         </div>
@@ -762,7 +823,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>aroundLatitudeLongitude(float, float)</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             <div class="client-readme-param-meta"><div><em>Type: <strong>float,float</strong></em></div></div>
           </div>
         </div>
@@ -779,7 +840,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>aroundLatitudeLongitude(float, float, int, int)</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             
           </div>
         </div>
@@ -790,7 +851,6 @@ You can use the following optional arguments:
       </td>
     </tr>
     
-
   
 
   
@@ -800,7 +860,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>aroundLatitudeLongitudeViaIP()</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             
           </div>
         </div>
@@ -817,7 +877,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>aroundLatitudeLongitudeViaIP(int, int)</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             
           </div>
         </div>
@@ -878,7 +938,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setAttributesToRetrieve</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             
           </div>
         </div>
@@ -895,7 +955,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setAttributesToHighlight</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             
           </div>
         </div>
@@ -918,7 +978,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setAttributesToSnippet</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             
           </div>
         </div>
@@ -935,7 +995,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>getRankingInfo</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             
           </div>
         </div>
@@ -952,7 +1012,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setHighlightingTags</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             <div class="client-readme-param-meta"><div><em>Type: <strong>string, string</strong></em></div></div>
           </div>
         </div>
@@ -969,7 +1029,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setSnippetEllipsisText</code></div>
+            <div class='client-readme-param-name'><code></code></div>
             
           </div>
         </div>
@@ -993,7 +1053,7 @@ You can use the following optional arguments:
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setNumericFilters</code></div>
+            <div class='client-readme-param-name'><code>numericFilters</code></div>
             
           </div>
         </div>
@@ -1020,7 +1080,7 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setTagFilters</code></div>
+            <div class='client-readme-param-name'><code>tagFilters</code></div>
             
           </div>
         </div>
@@ -1044,7 +1104,7 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setFacetFilters</code></div>
+            <div class='client-readme-param-name'><code>facetFilters</code></div>
             
           </div>
         </div>
@@ -1061,7 +1121,7 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setFacets</code></div>
+            <div class='client-readme-param-name'><code>facets</code></div>
             
           </div>
         </div>
@@ -1080,7 +1140,7 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setMaxValuesPerFacet</code></div>
+            <div class='client-readme-param-name'><code>maxValuesPerFacet</code></div>
             
           </div>
         </div>
@@ -1103,7 +1163,7 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setFilters</code></div>
+            <div class='client-readme-param-name'><code>filters</code></div>
             
           </div>
         </div>
@@ -1146,13 +1206,13 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
       <td valign='top'>
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>setDistinct</code></div>
+            <div class='client-readme-param-name'><code>distinct</code></div>
             
           </div>
         </div>
       </td>
       <td class='client-readme-param-content'>
-        <p>If set to true, enables the distinct feature, disabled by default, if the <code>attributeForDistinct</code> index setting is set. This feature is similar to the SQL &quot;distinct&quot; keyword. When enabled in a query with the <code>distinct=1</code> parameter, all hits containing a duplicate value for the attributeForDistinct attribute are removed from results. For example, if the chosen attribute is <code>show_name</code> and several hits have the same value for <code>show_name</code>, then only the best one is kept and the others are removed.</p>
+        <p>If set to 1, enables the distinct feature, disabled by default, if the <code>attributeForDistinct</code> index setting is set. This feature is similar to the SQL &quot;distinct&quot; keyword. When enabled in a query with the <code>distinct=1</code> parameter, all hits containing a duplicate value for the attributeForDistinct attribute are removed from results. For example, if the chosen attribute is <code>show_name</code> and several hits have the same value for <code>show_name</code>, then only the best one is kept and the others are removed.</p>
 
       </td>
     </tr>
@@ -1199,13 +1259,13 @@ Get an object
 You can easily retrieve an object using its `objectID` and optionally specify a comma separated list of attributes you want:
 
 ```java
-MyPojo myPojo = index.getObject("myID");
+Contact contact = index.getObject("myID");
 ```
 
 You can also retrieve a set of objects:
 
 ```java
-List<MyPojo> list = index.getObjects(Arrays.asList("myObj1", "myObj2"));
+List<Contact> list = index.getObjects(Arrays.asList("myObj1", "myObj2"));
 ```
 
 Delete an object
@@ -1242,6 +1302,13 @@ System.out.println(index.getSettings());
 index.setSettings(new IndexSettings().setCustomRanking(Arrays.asList("desc(followers)")));
 ```
 
+## Slave settings
+
+You can forward all settings updates to the slaves of an index by using the `forwardToSlaves` option:
+
+```java
+index.setSettings(new IndexSettings().setCustomRanking(Arrays.asList("desc(followers)")), true);
+```
 
 ## Indexing parameters
 
@@ -1871,24 +1938,79 @@ To get a full description of how the Ranking works, you can have a look at our <
         <div class='client-readme-param-container'>
           <div class='client-readme-param-container-inner'>
             <div class='client-readme-param-name'><code>removeStopWords</code></div>
-            <div class="client-readme-param-meta"><div><em>Type: <strong>boolean</strong></em></div><div><em>Default: <strong>false</strong></em></div></div>
+            <div class="client-readme-param-meta"><div><em>Type: <strong>boolean or string array</strong></em></div><div><em>Default: <strong>false</strong></em></div></div>
           </div>
         </div>
       </td>
       <td class='client-readme-param-content'>
-        <p>Remove stop words from query before executing it. Defaults to false. Contains stop words for 41 languages (Arabic, Armenian, Basque, Bengali, Brazilian, Bulgarian, Catalan, Chinese, Czech, Danish, Dutch, English, Finnish, French, Galician, German, Greek, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Korean, Kurdish, Latvian, Lithuanian, Marathi, Norwegian, Persian, Polish, Portugese, Romanian, Russian, Slovak, Spanish, Swedish, Thai, Turkish, Ukranian, Urdu)</p>
+        <p>Remove stop words from the query <strong>before</strong> executing it. Defaults to <code>false</code>. Use a boolean to enable/disable all 41 supported languages and an array of string listing the iso codes of the languages you want to use consider to enable the stop words removal on a subset of them (select the one you have in your records).</p>
+
+<p>List of 41 supported languages with their associated iso code: Arabic=ar, Armenian=hy, Basque=eu, Bengali=bn, Brazilian=pt-br, Bulgarian=bg, Catalan=ca, Chinese=zh, Czech=cs, Danish=da, Dutch=nl, English=en, Finnish=fi, French=fr, Galician=gl, German=de, Greek=el, Hindi=hi, Hungarian=hu, Indonesian=id, Irish=ga, Italian=it, Japanese=ja, Korean=ko, Kurdish=ku, Latvian=lv, Lithuanian=lt, Marathi=mr, Norwegian=no, Persian (Farsi)=fa, Polish=pl, Portugese=pt, Romanian=ro, Russian=ru, Slovak=sk, Spanish=es, Swedish=sv, Thai=th, Turkish=tr, Ukranian=uk, Urdu=ur.</p>
+
+<p>Stop words removal is applied on query words that are not interpreted as a prefix. The behavior depends of the queryType setting:</p>
+
+<ul>
+<li><p><code>queryType=prefixLast</code> means the last query word is a prefix and it won’t be considered for stop words removal</p></li>
+<li><p><code>queryType=prefixNone</code> means no query word are prefix, stop words removal will be applied on all query words</p></li>
+<li><p><code>queryType=prefixAll</code> means all query terms are prefix, stop words won’t be removed</p></li>
+</ul>
+
+<p>This index setting is useful when you have queries in natural language like “what is a record?”. In this case, before executing the query, we will remove “what”, “is” and “a” in order to just search for “record”. This removal will remove false positive because of stop words. For most use cases, it is better to not use this feature as people search by keywords on search engines.</p>
+
+      </td>
+    </tr>
+    
+  
+    <tr>
+      <td valign='top'>
+        <div class='client-readme-param-container'>
+          <div class='client-readme-param-container-inner'>
+            <div class='client-readme-param-name'><code>exactOnSingleWordQuery</code></div>
+            <div class="client-readme-param-meta"><div><em>Type: <strong>string</strong></em></div><div><em>Default: <strong>attribute</strong></em></div></div>
+          </div>
+        </div>
+      </td>
+      <td class='client-readme-param-content'>
+        <p>This parameter controls how the <code>exact</code> ranking criterion is computed when the query contains one word. There is three different values:</p>
+
+<ul>
+<li><p><code>none</code>: no <code>exact</code> on single word query</p></li>
+<li><p><code>word</code>: <code>exact</code> set to 1 if the query word is found in the record. The query word needs to have at least 3 chars and not be part of our stop words dictionary</p></li>
+<li><p><code>attribute</code> (default): exact set to 1 if there is an attribute containing a string equals to the query</p></li>
+</ul>
+
+      </td>
+    </tr>
+    
+  
+    <tr>
+      <td valign='top'>
+        <div class='client-readme-param-container'>
+          <div class='client-readme-param-container-inner'>
+            <div class='client-readme-param-name'><code>alternativesAsExact</code></div>
+            <div class="client-readme-param-meta"><div><em>Type: <strong>string array</strong></em></div><div><em>Default: <strong>["ignorePlurals", "singleWordSynonym"]</strong></em></div></div>
+          </div>
+        </div>
+      </td>
+      <td class='client-readme-param-content'>
+        <p>Specify the list of approximation that should be considered as an exact match in the ranking formula:</p>
+
+<ul>
+<li><p><code>ignorePlurals</code>: alternative words added by the ignorePlurals feature</p></li>
+<li><p><code>singleWordSynonym</code>: single-word synonym (For example &quot;NY&quot; = &quot;NYC&quot;)</p></li>
+<li><p><code>multiWordsSynonym</code>: multiple-words synonym (For example &quot;NY&quot; = &quot;New York&quot;)</p></li>
+</ul>
 
       </td>
     </tr>
     
   </tbody></table>
 
-
-
+To add a custom setting for an index, simply extend the class `IndexSettings` and add your getter/setter. The new settings will be automatically serialized by jackson.
 
 List indices
 ==================
-You can list all your indices along with their associated information (number of entries, disk size, etc.) with the `listIndexes` method:
+You can list all your indices along with their associated information (number of entries, disk size, etc.) with the `` method:
 
 ```java
 client.listIndices();
@@ -1935,7 +2057,7 @@ You can wait for a task to complete using the `waitTask` method on the `taskID` 
 For example, to wait for indexing of a new object:
 ```java
 //Every Task object, has a method waitForCompletion()
-TaskIndexing task = index.addObject(new MyPojo().setFirstname("Jimmie").setLastname("Barninger"));
+TaskIndexing task = index.addObject(new Contact().setFirstname("Jimmie").setLastname("Barninger"));
 task.waitForCompletion();
 ```
 
@@ -1947,24 +2069,24 @@ Batch writes
 
 You may want to perform multiple operations with one API call to reduce latency.
 We expose four methods to perform batch operations:
- * `addObjects`: Add an array of objects using automatic `objectID` assignment.
- * `saveObjects`: Add or update an array of objects that contains an `objectID` attribute.
- * `deleteObjects`: Delete an array of objectIDs.
- * `partialUpdateObjects`: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
+ * ``: Add an array of objects using automatic `objectID` assignment.
+ * ``: Add or update an array of objects that contains an `objectID` attribute.
+ * ``: Delete an array of objectIDs.
+ * ``: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
 
 Example using automatic `objectID` assignment:
 ```java
 index.addObjects(Arrays.asList(
-  new MyPojo().setFirstName("Jimmie").setLastName("Barninger"),
-  new MyPojo().setFirstName("Warren").setLastName("Speach")
+  new Contact().setFirstName("Jimmie").setLastName("Barninger"),
+  new Contact().setFirstName("Warren").setLastName("Speach")
 ));
 ```
 
 Example with user defined `objectID` (add or update):
 ```java
 index.saveObjects(Arrays.asList(
-  new MyPojoWithId().setFirstName("Jimmie").setLastName("Barninger").setObjectID("SFO"),
-  new MyPojoWithId().setFirstName("Warren").setLastName("Speach").setIbjectID("LA")
+  new Contact().setFirstName("Jimmie").setLastName("Barninger").setObjectID("SFO"),
+  new Contact().setFirstName("Warren").setLastName("Speach").setIbjectID("LA")
 ));
 ```
 
@@ -1976,8 +2098,8 @@ index.deleteObjects(Arrays.asList("myID1", "myID2"));
 Example that updates only the `firstname` attribute:
 ```java
 List<JSONObject> array = Arrays.asList(
-	new MyPojoWithOnlyCityAndId().setCity("San Francisco").setObjectID("MyID"),
-	new MyPojoWithOnlyCityAndId().setCity("Paris").setObjectID("MyID2")
+	new Contact().setCity("San Francisco").setObjectID("MyID"),
+	new Contact().setCity("Paris").setObjectID("MyID2")
 );
 
 index.partialUpdateObjects(array);
@@ -1990,11 +2112,11 @@ We expose a method to perform this type of batch:
 ```java
 //BatchOperation accepts an Index object or a String
 
-Index<MyPojo> index1 = client.initIndex("index1", MyPojo.class);
+Index<Contact> index1 = client.initIndex("index1", Contact.class);
 
 client.batch(Arrays.asList(
-	new BatchAddObjectOperation<>(index1, new MyPojo().setFirstName("Jimmie").setLastName("Barninger")),
-	new BatchAddObjectOperation<>("index2", new MyPojo().setFirstName("Warren").setLastName("Speach")),
+	new BatchAddObjectOperation<>(index1, new Contact().setFirstName("Jimmie").setLastName("Barninger")),
+	new BatchAddObjectOperation<>("index2", new Contact().setFirstName("Warren").setLastName("Speach")),
 ));
 ```
 
@@ -2056,13 +2178,13 @@ Example:
 
 ```java
 // Iterate with a filter over the index
-IndexIterable<MyPojo> it = index.browse(new Query("text").setFilters("i<42"));
+IndexIterable<Contact> it = index.browse(new Query("text").setFilters("i<42"));
 
 // Iterate with a stream
 it.stream.map(o -> {});
 
 // Retrieve the next cursor from the browse method
-IndexIterable<MyPojo> it  = index.browseFrom(new Query("text").setFilters("i<42"), null);
+IndexIterable<Contact> it  = index.browseFrom(new Query("text").setFilters("i<42"), null);
 System.out.println(it.getCursor());
 ```
 
