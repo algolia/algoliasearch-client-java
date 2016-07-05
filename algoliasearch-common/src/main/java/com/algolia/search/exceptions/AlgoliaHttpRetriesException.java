@@ -3,6 +3,9 @@ package com.algolia.search.exceptions;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Algolia Exception if all retries failed
+ */
 public class AlgoliaHttpRetriesException extends AlgoliaException {
 
   /**

@@ -1,5 +1,8 @@
 package com.algolia.search.exceptions;
 
+/**
+ * Algolia Exception if there was an unexpected response code (!= 2XX)
+ */
 public class AlgoliaHttpException extends AlgoliaException {
 
   /**
