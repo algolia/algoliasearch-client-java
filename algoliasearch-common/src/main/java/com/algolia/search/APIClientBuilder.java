@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
 
@@ -11,10 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.algolia.search.Defaults.*;
 
@@ -23,6 +21,8 @@ import static com.algolia.search.Defaults.*;
  */
 @SuppressWarnings("WeakerAccess")
 public abstract class APIClientBuilder {
+
+  protected final Random random = new Random();
 
   private final String applicationId;
   private final String apiKey;
@@ -116,21 +116,27 @@ public abstract class APIClientBuilder {
   }
 
   protected List<String> generateBuildHosts() {
-    return Arrays.asList(
-      applicationId + "." + ALGOLIA_NET,
+    List<String> hosts = Lists.newArrayList(
       applicationId + "-1." + ALGOLIANET_COM,
       applicationId + "-2." + ALGOLIANET_COM,
       applicationId + "-3." + ALGOLIANET_COM
     );
+    Collections.shuffle(hosts, random);
+    hosts.add(0, applicationId + "." + ALGOLIA_NET);
+
+    return hosts;
   }
 
   protected List<String> generateQueryHosts() {
-    return Arrays.asList(
-      applicationId + "-dsn." + ALGOLIA_NET,
+    List<String> hosts = Lists.newArrayList(
       applicationId + "-1." + ALGOLIANET_COM,
       applicationId + "-2." + ALGOLIANET_COM,
       applicationId + "-3." + ALGOLIANET_COM
     );
+    Collections.shuffle(hosts, random);
+    hosts.add(0, applicationId + "-dsn." + ALGOLIA_NET);
+
+    return hosts;
   }
 
   protected Map<String, String> generateHeaders() {
