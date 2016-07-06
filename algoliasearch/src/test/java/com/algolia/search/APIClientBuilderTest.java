@@ -36,7 +36,7 @@ public class APIClientBuilderTest {
           "appId-3.algolianet.com"
         ))
         .setObjectMapper(Defaults.DEFAULT_OBJECT_MAPPER),
-      "headers"
+      "headers", "buildHosts", "queryHosts"
     );
 
     assertThat(apiClient.configuration.getHeaders())
@@ -57,5 +57,20 @@ public class APIClientBuilderTest {
     assertThat(apiClient.configuration.getHeaders().get("User-Agent"))
       .startsWith("Algolia for Java 2.0.0; JVM 1.8.");
 
+    assertThat(apiClient.configuration.getBuildHosts())
+      .containsOnly(
+        "appId.algolia.net",
+        "appId-1.algolianet.com",
+        "appId-2.algolianet.com",
+        "appId-3.algolianet.com"
+      );
+
+    assertThat(apiClient.configuration.getQueryHosts())
+      .containsOnly(
+        "appId-dsn.algolia.net",
+        "appId-1.algolianet.com",
+        "appId-2.algolianet.com",
+        "appId-3.algolianet.com"
+      );
   }
 }

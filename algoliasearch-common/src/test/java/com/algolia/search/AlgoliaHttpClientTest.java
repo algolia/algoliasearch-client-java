@@ -2,14 +2,12 @@ package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.http.*;
-import com.algolia.search.responses.AlgoliaError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,8 +31,8 @@ public class AlgoliaHttpClientTest {
   public void oneCallOne200() throws AlgoliaException, IOException {
     when(makeMockRequest()).thenReturn(response(200));
 
-    mockClient.<Result>requestWithRetry(
-      new AlgoliaRequest<Result>(
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
         HttpMethod.GET,
         true,
         Arrays.asList("1", "indexes"),
@@ -212,7 +210,7 @@ public class AlgoliaHttpClientTest {
 
   private class MockedAlgoliaHttpClient extends AlgoliaHttpClient {
 
-    public MockedAlgoliaHttpClient() {
+    MockedAlgoliaHttpClient() {
     }
 
     @Override
