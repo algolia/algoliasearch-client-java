@@ -50,7 +50,7 @@ public class Query {
   private String numericFilters;
 
   /* CATEGORY SEARCH PARAMETER */
-  private String tagsFilters;
+  private String tagFilters;
 
   /* DISTINCT PARAMETER */
   private Integer distinct;
@@ -130,7 +130,7 @@ public class Query {
     builder = add(builder, "numericFilters", numericFilters);
 
     /* CATEGORY SEARCH PARAMETER */
-    builder = add(builder, "tagsFilters", tagsFilters);
+    builder = add(builder, "tagFilters", tagFilters);
 
     /* DISTINCT PARAMETER */
     builder = add(builder, "distinct", distinct);
@@ -210,14 +210,20 @@ public class Query {
 
   public String toParam() {
     StringBuilder builder = new StringBuilder();
+    boolean firstOne = true;
     for (Map.Entry<String, String> entry : toQueryParam().entrySet()) {
       try {
+        if(!firstOne) {
+          builder = builder.append("&");
+        }
+
         builder = builder
           .append(entry.getKey())
           .append("=")
           .append(URLEncoder.encode(entry.getValue(), "UTF-8"));
       } catch (UnsupportedEncodingException ignore) {
       }
+      firstOne = false;
     }
 
     return builder.toString();
@@ -378,8 +384,8 @@ public class Query {
     return this;
   }
 
-  public Query setTagsFilters(String tagsFilters) {
-    this.tagsFilters = tagsFilters;
+  public Query setTagFilters(String tagFilters) {
+    this.tagFilters = tagFilters;
     return this;
   }
 

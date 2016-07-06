@@ -15,7 +15,6 @@ import com.algolia.search.objects.*;
 import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.io.BaseEncoding;
 
 import javax.annotation.Nonnull;
 import javax.crypto.Mac;
@@ -52,7 +51,11 @@ public class APIClient {
       throw new AlgoliaException("Can not init HmacSHA256 algorithm", e);
     }
     byte[] rawHmac = hmac.doFinal(msg.getBytes());
-    return BaseEncoding.base32Hex().encode(rawHmac);
+    StringBuilder sb = new StringBuilder(rawHmac.length * 2);
+    for (byte b : rawHmac) {
+      sb.append(String.format("%02x", b & 0xff));
+    }
+    return sb.toString();
   }
 
   /**

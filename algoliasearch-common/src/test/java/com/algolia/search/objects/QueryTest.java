@@ -36,4 +36,10 @@ public class QueryTest {
     Query query = new Query("é®„");
     assertThat(query.toParam()).isEqualTo("query=%C3%A9%C2%AE%E2%80%9E");
   }
+
+  @Test
+  public void queryWithMultipleParams() {
+    Query query = new Query("é®„").setTagFilters("(attribute)");
+    assertThat(query.toParam()).isEqualTo("query=%C3%A9%C2%AE%E2%80%9E&tagFilters=%28attribute%29");
+  }
 }
