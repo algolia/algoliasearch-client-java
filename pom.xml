@@ -8,7 +8,7 @@
 
   <name>Algolia Search Parent POM</name>
   <description>Java client for Algolia Search API</description>
-  <url>https://github.com/algolia/algoliasearch-client-java</url>
+  <url>https://github.com/algolia/algoliasearch-client-java-2</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,9 +34,9 @@
     <version>9</version>
   </parent>
   <scm>
-    <connection>scm:git:git@github.com:algolia/algoliasearch-client-java.git</connection>
-    <url>scm:git:git@github.com:algolia/algoliasearch-client-java.git</url>
-    <developerConnection>scm:git:git@github.com:algolia/algoliasearch-client-java.git</developerConnection>
+    <connection>scm:git:git@github.com:algolia/algoliasearch-client-java-2.git</connection>
+    <url>scm:git:git@github.com:algolia/algoliasearch-client-java-2.git</url>
+    <developerConnection>scm:git:git@github.com:algolia/algoliasearch-client-java-2.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
@@ -45,7 +45,7 @@
       <id>algolia</id>
       <name>Algolia SAS</name>
       <email>contact@algolia.com</email>
-      <url>https://github.com/algolia/algoliasearch-client-java</url>
+      <url>https://github.com/algolia/algoliasearch-client-java-2</url>
     </developer>
   </developers>
 
