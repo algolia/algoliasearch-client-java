@@ -2,6 +2,8 @@
 mvn -Darguments="-DskipTests" release:prepare
 mvn -Darguments="-DskipTests" release:perform
 
+sleep 5
+
 REP_ID=`mvn nexus-staging:rc-list | grep comalgolia | cut -d" " -f2`
 
 if [ -z "$REP_ID" ]; then
