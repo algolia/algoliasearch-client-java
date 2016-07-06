@@ -8,8 +8,8 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.Query;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BrowseTest extends AlgoliaIntegrationTest {
+abstract public class BrowseTest extends AlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
@@ -27,9 +27,9 @@ public class BrowseTest extends AlgoliaIntegrationTest {
     "index3"
   );
 
-  @BeforeClass
-  @AfterClass
-  public static void cleanUp() throws AlgoliaException {
+  @Before
+  @After
+  public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }

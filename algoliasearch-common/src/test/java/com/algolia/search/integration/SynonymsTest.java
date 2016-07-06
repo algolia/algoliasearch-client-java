@@ -9,8 +9,8 @@ import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.SynonymQuery;
 import com.algolia.search.responses.SearchSynonymResult;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SynonymsTest extends AlgoliaIntegrationTest {
+abstract public class SynonymsTest extends AlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
@@ -29,9 +29,9 @@ public class SynonymsTest extends AlgoliaIntegrationTest {
     "index4"
   );
 
-  @BeforeClass
-  @AfterClass
-  public static void cleanUp() throws AlgoliaException {
+  @Before
+  @After
+  public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }

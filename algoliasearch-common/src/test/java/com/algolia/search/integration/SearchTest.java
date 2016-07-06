@@ -1,18 +1,17 @@
 package com.algolia.search.integration;
 
+import com.algolia.search.APIClient;
 import com.algolia.search.AlgoliaIntegrationTest;
-import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.Index;
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.IndexQuery;
 import com.algolia.search.objects.Query;
 import com.algolia.search.responses.MultiQueriesResult;
 import com.algolia.search.responses.SearchResult;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,16 +19,16 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SearchTest extends AlgoliaIntegrationTest {
+abstract public class SearchTest extends AlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
     "index2"
   );
 
-  @BeforeClass
-  @AfterClass
-  public static void cleanUp() throws AlgoliaException {
+  @Before
+  @After
+  public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }

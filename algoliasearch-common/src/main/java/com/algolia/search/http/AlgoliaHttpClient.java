@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,11 +80,11 @@ public abstract class AlgoliaHttpClient {
     }
   }
 
-  private <T> T parseAs(String content, Class<T> klass) throws IOException {
+  private <T> T parseAs(Reader content, Class<T> klass) throws IOException {
     return getObjectMapper().readValue(content, getObjectMapper().getTypeFactory().constructType(klass));
   }
 
-  private <T> T parseAs(String content, JavaType type) throws IOException {
+  private <T> T parseAs(Reader content, JavaType type) throws IOException {
     return getObjectMapper().readValue(content, type);
   }
 

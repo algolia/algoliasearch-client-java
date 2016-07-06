@@ -34,4 +34,8 @@ public class AlgoliaHttpRequest {
   public String getContent() {
     return content;
   }
+
+  public boolean hasContent() {
+    return content != null && !content.isEmpty();
+  }
 }

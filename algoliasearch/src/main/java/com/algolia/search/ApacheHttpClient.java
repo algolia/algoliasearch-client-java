@@ -13,10 +13,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.util.EntityUtils;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,8 +68,8 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
       }
 
       @Override
-      public String getBody() throws IOException {
-        return EntityUtils.toString(response.getEntity(), UTF8);
+      public Reader getBody() throws IOException {
+        return new InputStreamReader(response.getEntity().getContent(), UTF8);
       }
     };
   }

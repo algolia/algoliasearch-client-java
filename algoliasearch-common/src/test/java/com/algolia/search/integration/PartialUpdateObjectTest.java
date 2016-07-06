@@ -1,17 +1,17 @@
 package com.algolia.search.integration;
 
 import com.algolia.search.AlgoliaIntegrationTest;
-import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.AlgoliaObjectWithArray;
 import com.algolia.search.Index;
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.partial_update.AddValueOperation;
 import com.algolia.search.inputs.partial_update.IncrementValueOperation;
 import com.algolia.search.inputs.partial_update.RemoveValueOperation;
 import com.algolia.search.objects.TaskIndexing;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -20,16 +20,16 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PartialUpdateObjectTest extends AlgoliaIntegrationTest {
+abstract public class PartialUpdateObjectTest extends AlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
     "index2"
   );
 
-  @BeforeClass
-  @AfterClass
-  public static void after() throws AlgoliaException {
+  @Before
+  @After
+  public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }
@@ -64,7 +64,7 @@ public class PartialUpdateObjectTest extends AlgoliaIntegrationTest {
     assertThat(obj.getAge()).isEqualTo(10);
   }
 
-  private static class AlgoliaObjectOnlyAge {
+  public static class AlgoliaObjectOnlyAge {
 
     private int age;
 
@@ -73,7 +73,7 @@ public class PartialUpdateObjectTest extends AlgoliaIntegrationTest {
       return age;
     }
 
-    AlgoliaObjectOnlyAge setAge(int age) {
+    public AlgoliaObjectOnlyAge setAge(int age) {
       this.age = age;
       return this;
     }

@@ -1,11 +1,12 @@
 package com.algolia.search.http;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.lang.reflect.Type;
 
 public interface AlgoliaHttpResponse {
 
-  public int getStatusCode();
+  int getStatusCode();
 
-  public String getBody() throws IOException;
+  Reader getBody() throws IOException;
 }

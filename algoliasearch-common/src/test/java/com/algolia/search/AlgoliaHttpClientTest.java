@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -187,11 +189,11 @@ public class AlgoliaHttpClientTest {
       }
 
       @Override
-      public String getBody() {
+      public Reader getBody() {
         if (status / 100 == 4) {
-          return "{\"message\":\"\"}";
+          return new StringReader("{\"message\":\"\"}");
         } else {
-          return "{\"a\":1}";
+          return new StringReader("{\"a\":1}");
         }
       }
     };

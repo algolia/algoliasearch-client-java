@@ -2,7 +2,6 @@ package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,9 +15,21 @@ import java.util.concurrent.Callable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
-public class ApacheHttpClientTest extends AlgoliaIntegrationTest {
+public class ApacheHttpClientTest {
 
+  protected static String APPLICATION_ID = System.getenv("APPLICATION_ID");
+  protected static String API_KEY = System.getenv("API_KEY");
   private APIClientConfiguration defaultConfig;
+
+  @Before
+  public void checkEnvVariables() throws Exception {
+    if (APPLICATION_ID == null || APPLICATION_ID.isEmpty()) {
+      throw new Exception("APPLICATION_ID is not defined or empty");
+    }
+    if (API_KEY == null || API_KEY.isEmpty()) {
+      throw new Exception("API_KEY is not defined or empty");
+    }
+  }
 
   @Before
   public void before() {
