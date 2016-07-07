@@ -1,5 +1,6 @@
 package com.algolia.search.http;
 
+import com.algolia.search.Utils;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaHttpException;
 import com.algolia.search.exceptions.AlgoliaHttpRetriesException;
@@ -60,7 +61,7 @@ public abstract class AlgoliaHttpClient {
     try {
       int code = response.getStatusCode();
       if (code / 100 == 4) {
-        String message = parseAs(response.getBody(), AlgoliaError.class).getMessage();
+        String message = Utils.parseAs(getObjectMapper(), response.getBody(), AlgoliaError.class).getMessage();
 
         switch (code) {
           case 400:
@@ -74,18 +75,10 @@ public abstract class AlgoliaHttpClient {
         }
       }
 
-      return parseAs(response.getBody(), request.getJavaType(getObjectMapper().getTypeFactory()));
+      return Utils.parseAs(getObjectMapper(), response.getBody(), request.getJavaType(getObjectMapper().getTypeFactory()));
     } catch (IOException e) {
       throw new AlgoliaException("Error while deserialization the response", e);
     }
-  }
-
-  private <T> T parseAs(Reader content, Class<T> klass) throws IOException {
-    return getObjectMapper().readValue(content, getObjectMapper().getTypeFactory().constructType(klass));
-  }
-
-  private <T> T parseAs(Reader content, JavaType type) throws IOException {
-    return getObjectMapper().readValue(content, type);
   }
 
 }

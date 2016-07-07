@@ -1,6 +1,6 @@
 package com.algolia.search.objects;
 
-import com.algolia.search.Index;
+import com.algolia.search.AbstractIndex;
 
 import javax.annotation.Nonnull;
 
@@ -14,7 +14,7 @@ public class IndexQuery {
     this.query = query;
   }
 
-  public IndexQuery(@Nonnull Index<?> index, @Nonnull Query query) {
+  public IndexQuery(@Nonnull AbstractIndex<?> index, @Nonnull Query query) {
     this.query = query;
     this.indexName = index.getName();
   }

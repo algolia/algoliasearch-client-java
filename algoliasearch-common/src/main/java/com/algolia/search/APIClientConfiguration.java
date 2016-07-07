@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class APIClientConfiguration {
 
-  private String applicationId;
-  private String apiKey;
-  private ObjectMapper objectMapper;
-  private List<String> buildHosts;
-  private List<String> queryHosts;
-  private Map<String, String> headers;
-  private int connectTimeout;
-  private int readTimeout;
+  protected String applicationId;
+  protected String apiKey;
+  protected ObjectMapper objectMapper;
+  protected List<String> buildHosts;
+  protected List<String> queryHosts;
+  protected Map<String, String> headers;
+  protected int connectTimeout;
+  protected int readTimeout;
 
   public String getApplicationId() {
     return applicationId;

@@ -2,12 +2,13 @@ package com.algolia.search.integration;
 
 import com.algolia.search.APIClient;
 import com.algolia.search.AppEngineAPIClientBuilder;
+import com.algolia.search.integration.sync.SyncPartialUpdateObjectTest;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalURLFetchServiceTestConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-public class AppEnginePartialUpdateObjectTest extends PartialUpdateObjectTest {
+public class AppEnginePartialUpdateObjectTest extends SyncPartialUpdateObjectTest {
 
   private static final LocalServiceTestHelper helper =
     new LocalServiceTestHelper(new LocalURLFetchServiceTestConfig());

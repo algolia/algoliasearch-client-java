@@ -1,11 +1,43 @@
 package com.algolia.search;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.annotation.Nonnull;
 
 public final class ApacheAPIClientBuilder extends APIClientBuilder {
 
   public ApacheAPIClientBuilder(@Nonnull String applicationId, @Nonnull String apiKey) {
     super(applicationId, apiKey);
+  }
+
+  @Override
+  public ApacheAPIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
+    super.setUserAgent(customAgent, customAgentVersion);
+    return this;
+  }
+
+  @Override
+  public ApacheAPIClientBuilder setExtraHeader(@Nonnull String key, String value) {
+    super.setExtraHeader(key, value);
+    return this;
+  }
+
+  @Override
+  public ApacheAPIClientBuilder setConnectTimeout(int connectTimeout) {
+    super.setConnectTimeout(connectTimeout);
+    return this;
+  }
+
+  @Override
+  public ApacheAPIClientBuilder setReadTimeout(int readTimeout) {
+    super.setReadTimeout(readTimeout);
+    return this;
+  }
+
+  @Override
+  public ApacheAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
+    super.setObjectMapper(objectMapper);
+    return this;
   }
 
   @Override

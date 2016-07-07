@@ -2,8 +2,9 @@ package com.algolia.search.integration;
 
 import com.algolia.search.APIClient;
 import com.algolia.search.ApacheAPIClientBuilder;
+import com.algolia.search.integration.sync.SyncBatchTest;
 
-public class ApacheBatchTest extends BatchTest {
+public class ApacheBatchTest extends SyncBatchTest {
 
   @Override
   public APIClient createInstance(String appId, String apiKey) {

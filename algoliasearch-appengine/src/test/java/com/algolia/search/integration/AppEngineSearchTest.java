@@ -2,12 +2,13 @@ package com.algolia.search.integration;
 
 import com.algolia.search.APIClient;
 import com.algolia.search.AppEngineAPIClientBuilder;
+import com.algolia.search.integration.sync.SyncSearchTest;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalURLFetchServiceTestConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-public class AppEngineSearchTest extends SearchTest {
+public class AppEngineSearchTest extends SyncSearchTest {
 
   private static final LocalServiceTestHelper helper =
     new LocalServiceTestHelper(new LocalURLFetchServiceTestConfig());

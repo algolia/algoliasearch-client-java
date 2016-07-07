@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public interface Defaults {
   String ALGOLIANET_COM = "algolianet.com";
   String ALGOLIA_NET = "algolia.net";
+  long MAX_TIME_MS_TO_WAIT = 10000L;
 
   ObjectMapper DEFAULT_OBJECT_MAPPER =
     new ObjectMapper()

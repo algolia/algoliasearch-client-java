@@ -1,6 +1,6 @@
 package com.algolia.search.inputs.batch;
 
-import com.algolia.search.Index;
+import com.algolia.search.AbstractIndex;
 import com.algolia.search.inputs.BatchOperation;
 
 public class BatchDeleteObjectOperation implements BatchOperation {
@@ -9,7 +9,6 @@ public class BatchDeleteObjectOperation implements BatchOperation {
   private final String indexName;
 
   /**
-   *
    * @param indexName
    * @param objectID
    */
@@ -19,7 +18,6 @@ public class BatchDeleteObjectOperation implements BatchOperation {
   }
 
   /**
-   *
    * @param objectID
    */
   public BatchDeleteObjectOperation(String objectID) {
@@ -27,11 +25,10 @@ public class BatchDeleteObjectOperation implements BatchOperation {
   }
 
   /**
-   *
    * @param index
    * @param objectID
    */
-  public BatchDeleteObjectOperation(Index<?> index, String objectID) {
+  public BatchDeleteObjectOperation(AbstractIndex<?> index, String objectID) {
     this(index.getName(), objectID);
   }
 

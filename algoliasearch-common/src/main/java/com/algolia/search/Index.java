@@ -4,7 +4,13 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
-import com.algolia.search.objects.*;
+import com.algolia.search.objects.ApiKey;
+import com.algolia.search.objects.IndexSettings;
+import com.algolia.search.objects.Query;
+import com.algolia.search.objects.SynonymQuery;
+import com.algolia.search.objects.tasks.sync.Task;
+import com.algolia.search.objects.tasks.sync.TaskIndexing;
+import com.algolia.search.objects.tasks.sync.TaskSingleIndex;
 import com.algolia.search.responses.CreateUpdateKey;
 import com.algolia.search.responses.DeleteKey;
 import com.algolia.search.responses.SearchResult;
@@ -17,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("WeakerAccess")
-public class Index<T> {
+public class Index<T> extends AbstractIndex<T> {
 
   /**
    * Index name
@@ -112,7 +118,7 @@ public class Index<T> {
   public void waitTask(@Nonnull Task task, long timeToWait) throws AlgoliaException {
     Preconditions.checkArgument(timeToWait >= 0, "timeToWait must be >= 0, was %s", timeToWait);
 
-    client.waitTask(name, task, timeToWait);
+    client.waitTask(task, timeToWait);
   }
 
   /**
@@ -122,7 +128,7 @@ public class Index<T> {
    * @throws AlgoliaException
    */
   public void waitTask(@Nonnull Task task) throws AlgoliaException {
-    client.waitTask(name, task, 100);
+    client.waitTask(task, 100);
   }
 
   /**
