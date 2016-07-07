@@ -5,5 +5,9 @@ jdk:
 cache:
   maven: true
 
+script:
+- "mvn clean test jacoco:report coveralls:report -B"
+
+#deploy snapshots
 after_success:
-- mvn clean test jacoco:report coveralls:report
+- "mvn clean deploy -DskipTests --settings settings-for-travis.xml"
