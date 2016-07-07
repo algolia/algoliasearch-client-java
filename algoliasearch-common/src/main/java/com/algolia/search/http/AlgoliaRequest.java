@@ -2,6 +2,7 @@ package com.algolia.search.http;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.google.common.collect.Maps;
 
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,8 @@ public class AlgoliaRequest<T> {
   private final boolean isSearch;
   private final List<String> path;
 
-  private Map<String, String> parameters;
-  private Object data;
+  private Map<String, String> parameters = Maps.newHashMap();
+  private Object data = null;
   private Class<T> resultClass;
   private Class<T> collectionClass;
   private Class<?> elementClass;

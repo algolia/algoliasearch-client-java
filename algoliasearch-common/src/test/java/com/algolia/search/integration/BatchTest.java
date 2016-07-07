@@ -10,8 +10,8 @@ import com.algolia.search.inputs.batch.BatchClearIndexOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
 import com.algolia.search.objects.Query;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BatchTest extends AlgoliaIntegrationTest {
+abstract public class BatchTest extends AlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
@@ -31,9 +31,9 @@ public class BatchTest extends AlgoliaIntegrationTest {
     "index5"
   );
 
-  @BeforeClass
-  @AfterClass
-  public static void after() throws AlgoliaException {
+  @Before
+  @After
+  public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }
@@ -97,7 +97,7 @@ public class BatchTest extends AlgoliaIntegrationTest {
     assertThat(obj2.get()).isEqualToComparingFieldByField(new AlgoliaObjectWithID("2", "name", 20));
   }
 
-  private static class AlgoliaObjectOnlyAgeAndId {
+  public static class AlgoliaObjectOnlyAgeAndId {
 
     private int age;
     private String objectID;
@@ -107,7 +107,7 @@ public class BatchTest extends AlgoliaIntegrationTest {
       return age;
     }
 
-    AlgoliaObjectOnlyAgeAndId setAge(int age) {
+    public AlgoliaObjectOnlyAgeAndId setAge(int age) {
       this.age = age;
       return this;
     }
@@ -117,7 +117,7 @@ public class BatchTest extends AlgoliaIntegrationTest {
       return objectID;
     }
 
-    AlgoliaObjectOnlyAgeAndId setObjectID(String objectID) {
+    public AlgoliaObjectOnlyAgeAndId setObjectID(String objectID) {
       this.objectID = objectID;
       return this;
     }

@@ -10,7 +10,7 @@ public final class AppEngineAPIClientBuilder extends APIClientBuilder {
 
   @Override
   protected APIClient build(@Nonnull APIClientConfiguration configuration) {
-    throw new UnsupportedOperationException();
+    return new APIClient(new AppEngineHttpClient(configuration), configuration);
   }
 
 }

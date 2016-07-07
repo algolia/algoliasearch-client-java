@@ -21,10 +21,17 @@
       <groupId>com.algolia</groupId>
       <artifactId>algoliasearch-common</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
+    </dependency>
+
+    <!--Test-->
+    <dependency>
+      <groupId>com.algolia</groupId>
+      <artifactId>algoliasearch-common</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

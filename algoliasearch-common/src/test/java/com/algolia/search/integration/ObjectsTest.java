@@ -1,13 +1,15 @@
 package com.algolia.search.integration;
 
 import com.algolia.search.AlgoliaIntegrationTest;
-import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AlgoliaObjectWithID;
 import com.algolia.search.Index;
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ObjectsTest extends AlgoliaIntegrationTest {
+abstract public class ObjectsTest extends AlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
@@ -28,13 +30,14 @@ public class ObjectsTest extends AlgoliaIntegrationTest {
     "index7"
   );
 
-  @BeforeClass
-  @AfterClass
-  public static void after() throws AlgoliaException {
+  @Before
+  @After
+  public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void getAnObject() throws AlgoliaException {
     Index<AlgoliaObjectWithID> index = client.initIndex("index1", AlgoliaObjectWithID.class);
@@ -46,6 +49,7 @@ public class ObjectsTest extends AlgoliaIntegrationTest {
     assertThat(objectWithID).isEqualToComparingFieldByField(result.get());
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void getAnObjectWithId() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
@@ -71,6 +75,7 @@ public class ObjectsTest extends AlgoliaIntegrationTest {
     assertThat(objects).extracting("objectID").containsOnly("1", "2");
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void saveObject() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
@@ -84,6 +89,7 @@ public class ObjectsTest extends AlgoliaIntegrationTest {
     assertThat(result.get()).isEqualToComparingFieldByField(new AlgoliaObject("algolia", 5));
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void saveObjects() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index5", AlgoliaObject.class);
