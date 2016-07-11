@@ -7,7 +7,7 @@
 
 **Migration note from v1.x to v2.x**
 
-In June 2016, we released the v2 of our Java client. If you were using version 1.x of the client, read the [migration guide to version 2.x](https://github.com/algolia/algoliasearch-client-java/wiki/Migration-guide-from-1.x-to-2.x).
+In June 2016, we released the v2 of our Java client. If you were using version 1.x of the client, read the [migration guide to version 2.x](https://github.com/algolia/algoliasearch-client-java-2/wiki/Migration-guide-from-1.x-to-2.x).
 
 Version 1.x is no longer under active development. It will still supported for bug fixes, and new query parameters & index settings.
 
