@@ -5,7 +5,7 @@ import com.algolia.search.http.AlgoliaHttpClient;
 import com.algolia.search.http.AlgoliaRequest;
 import com.algolia.search.inputs.batch.BatchClearIndexOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
-import com.algolia.search.objects.TaskSingleIndex;
+import com.algolia.search.objects.tasks.sync.TaskSingleIndex;
 import org.junit.Before;
 import org.junit.Test;
 

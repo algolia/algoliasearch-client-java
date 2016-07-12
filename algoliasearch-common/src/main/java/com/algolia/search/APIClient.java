@@ -12,22 +12,16 @@ import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.objects.*;
+import com.algolia.search.objects.tasks.sync.*;
 import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 import javax.annotation.Nonnull;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.Charset;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class APIClient {
-
-  private static final long MAX_TIME_MS_TO_WAIT = 10000L;
 
   /**
    * Constructor & protected stuff
@@ -38,24 +32,6 @@ public class APIClient {
   APIClient(AlgoliaHttpClient httpClient, APIClientConfiguration configuration) {
     this.httpClient = httpClient;
     this.configuration = configuration;
-  }
-
-  private static String hmac(String key, String msg) throws AlgoliaException {
-    Mac hmac;
-    try {
-      hmac = Mac.getInstance("HmacSHA256");
-      hmac.init(new SecretKeySpec(key.getBytes(), "HmacSHA256"));
-    } catch (NoSuchAlgorithmException e) {
-      throw new AlgoliaException("Can not find HmacSHA256 algorithm", e);
-    } catch (InvalidKeyException e) {
-      throw new AlgoliaException("Can not init HmacSHA256 algorithm", e);
-    }
-    byte[] rawHmac = hmac.doFinal(msg.getBytes());
-    StringBuilder sb = new StringBuilder(rawHmac.length * 2);
-    for (byte b : rawHmac) {
-      sb.append(String.format("%02x", b & 0xff));
-    }
-    return sb.toString();
   }
 
   /**
@@ -243,6 +219,7 @@ public class APIClient {
    * @param query         contains the parameter applied to the query (used as security)
    * @throws AlgoliaException
    */
+  @SuppressWarnings("unused")
   public String generateSecuredApiKey(@Nonnull String privateApiKey, @Nonnull Query query) throws AlgoliaException {
     return generateSecuredApiKey(privateApiKey, query, null);
   }
@@ -256,24 +233,19 @@ public class APIClient {
    * @param userToken     an optional token identifying the current user
    * @throws AlgoliaException
    */
+  @SuppressWarnings("WeakerAccess")
   public String generateSecuredApiKey(@Nonnull String privateApiKey, @Nonnull Query query, String userToken) throws AlgoliaException {
-    if (userToken != null && userToken.length() > 0) {
-      query.setUserToken(userToken);
-    }
-    String queryStr = query.toParam();
-    String key = hmac(privateApiKey, queryStr);
-
-    return new String(Base64.getEncoder().encode(String.format("%s%s", key, queryStr).getBytes(Charset.forName("UTF8"))));
+    return Utils.generateSecuredApiKey(privateApiKey, query, userToken);
   }
 
-  public <T> void waitTask(@Nonnull String indexName, @Nonnull GenericTask<T> task, long timeToWait) throws AlgoliaException {
+  public <T> void waitTask(@Nonnull GenericTask<T> task, long timeToWait) throws AlgoliaException {
     Preconditions.checkArgument(timeToWait >= 0, "timeToWait must be >= 0, was %s", timeToWait);
     while (true) {
       TaskStatus status = httpClient.requestWithRetry(
         new AlgoliaRequest<>(
           HttpMethod.GET,
           false,
-          Arrays.asList("1", "indexes", indexName, "task", task.getTaskIDToWaitFor().toString()),
+          Arrays.asList("1", "indexes", task.getIndexName(), "task", task.getTaskIDToWaitFor().toString()),
           TaskStatus.class)
       );
 
@@ -285,7 +257,7 @@ public class APIClient {
       } catch (InterruptedException ignored) {
       }
       timeToWait *= 2;
-      timeToWait = timeToWait > MAX_TIME_MS_TO_WAIT ? MAX_TIME_MS_TO_WAIT : timeToWait;
+      timeToWait = timeToWait > Defaults.MAX_TIME_MS_TO_WAIT ? Defaults.MAX_TIME_MS_TO_WAIT : timeToWait;
     }
   }
 
@@ -313,7 +285,7 @@ public class APIClient {
       ).setData(new BatchOperations(operations))
     );
 
-    return request.setAttributes(null, this);
+    return request.setAPIClient(this);
   }
 
   /**
@@ -335,6 +307,7 @@ public class APIClient {
    * @return the result of the queries
    * @throws AlgoliaException
    */
+  @SuppressWarnings("WeakerAccess")
   public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
@@ -362,7 +335,7 @@ public class APIClient {
       ).setData(new OperationOnIndex("move", dstIndexName))
     );
 
-    return result.setAttributes(srcIndexName, this);
+    return result.setAPIClient(this).setIndex(srcIndexName);
   }
 
   Task copyIndex(String srcIndexName, String dstIndexName) throws AlgoliaException {
@@ -375,20 +348,20 @@ public class APIClient {
       ).setData(new OperationOnIndex("copy", dstIndexName))
     );
 
-    return result.setAttributes(srcIndexName, this);
+    return result.setAPIClient(this).setIndex(srcIndexName);
   }
 
-  Task deleteIndex(String name) throws AlgoliaException {
+  Task deleteIndex(String indexName) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
         false,
-        Arrays.asList("1", "indexes", name),
+        Arrays.asList("1", "indexes", indexName),
         Task.class
       )
     );
 
-    return result.setAttributes(name, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   <T> TaskIndexing addObject(String indexName, T object) throws AlgoliaException {
@@ -401,7 +374,7 @@ public class APIClient {
       ).setData(object)
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   <T> TaskIndexing addObject(String indexName, String objectID, T object) throws AlgoliaException {
@@ -414,7 +387,7 @@ public class APIClient {
       ).setData(object)
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   <T> Optional<T> getObject(String indexName, String objectID, Class<T> klass) throws AlgoliaException {
@@ -432,10 +405,12 @@ public class APIClient {
     return batchSingleIndex(
       indexName,
       objects.stream().map(BatchAddObjectOperation::new).collect(Collectors.toList())
-    ).setAttributes(indexName, this);
+    )
+      .setAPIClient(this)
+      .setIndex(indexName);
   }
 
-  TaskSingleIndex batchSingleIndex(String indexName, List<BatchOperation> operations) throws AlgoliaException {
+  private TaskSingleIndex batchSingleIndex(String indexName, List<BatchOperation> operations) throws AlgoliaException {
     TaskSingleIndex result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
@@ -445,7 +420,7 @@ public class APIClient {
       ).setData(new Batch(operations))
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   <T> Task saveObject(String indexName, String objectID, T object) throws AlgoliaException {
@@ -458,14 +433,16 @@ public class APIClient {
       ).setData(object)
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   <T> TaskSingleIndex saveObjects(String indexName, List<T> objects) throws AlgoliaException {
     return batchSingleIndex(
       indexName,
       objects.stream().map(BatchUpdateObjectOperation::new).collect(Collectors.toList())
-    ).setAttributes(indexName, this);
+    )
+      .setAPIClient(this)
+      .setIndex(indexName);
   }
 
   Task deleteObject(String indexName, String objectID) throws AlgoliaException {
@@ -478,14 +455,16 @@ public class APIClient {
       )
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   TaskSingleIndex deleteObjects(String indexName, List<String> objectIDs) throws AlgoliaException {
     return batchSingleIndex(
       indexName,
       objectIDs.stream().map(BatchDeleteObjectOperation::new).collect(Collectors.toList())
-    ).setAttributes(indexName, this);
+    )
+      .setAPIClient(this)
+      .setIndex(indexName);
   }
 
   Task clearIndex(String indexName) throws AlgoliaException {
@@ -498,7 +477,7 @@ public class APIClient {
       )
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   @SuppressWarnings("unchecked")
@@ -538,7 +517,7 @@ public class APIClient {
         .setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   List<ApiKey> listKeys(String indexName) throws AlgoliaException {
@@ -627,7 +606,7 @@ public class APIClient {
       ).setData(new BatchOperations(operations))
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   TaskSingleIndex partialUpdateObject(String indexName, PartialUpdateOperation operation, Boolean createIfNotExists) throws AlgoliaException {
@@ -640,7 +619,7 @@ public class APIClient {
       ).setParameters(ImmutableMap.of("createIfNotExists", createIfNotExists.toString())).setData(operation.toSerialize())
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   TaskSingleIndex partialUpdateObject(String indexName, String objectID, Object object) throws AlgoliaException {
@@ -653,7 +632,7 @@ public class APIClient {
       ).setData(object)
     );
 
-    return result.setAttributes(indexName, this);
+    return result.setAPIClient(this).setIndex(indexName);
   }
 
   Task saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToSlaves, Boolean replaceExistingSynonyms) throws AlgoliaException {
@@ -667,7 +646,7 @@ public class APIClient {
     );
 
 
-    return task.setAttributes(indexName, this);
+    return task.setAPIClient(this).setIndex(indexName);
   }
 
   Optional<AbstractSynonym> getSynonym(String indexName, String synonymID) throws AlgoliaException {
@@ -693,7 +672,7 @@ public class APIClient {
       ).setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
     );
 
-    return task.setAttributes(indexName, this);
+    return task.setAPIClient(this).setIndex(indexName);
   }
 
   Task clearSynonyms(String indexName, Boolean forwardToSlaves) throws AlgoliaException {
@@ -706,7 +685,7 @@ public class APIClient {
       ).setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
     );
 
-    return task.setAttributes(indexName, this);
+    return task.setAPIClient(this).setIndex(indexName);
   }
 
   SearchSynonymResult searchSynonyms(String indexName, SynonymQuery query) throws AlgoliaException {
@@ -731,7 +710,7 @@ public class APIClient {
         .setData(synonyms)
     );
 
-    return task.setAttributes(indexName, this);
+    return task.setAPIClient(this).setIndex(indexName);
   }
 
   void deleteByQuery(String indexName, Query query, int batchSize) throws AlgoliaException {
@@ -764,7 +743,7 @@ public class APIClient {
       objects.stream().map(BatchPartialUpdateObjectOperation::new).collect(Collectors.toList())
     );
 
-    return task.setAttributes(indexName, this);
+    return task.setAPIClient(this).setIndex(indexName);
   }
 
   @SuppressWarnings("unchecked")

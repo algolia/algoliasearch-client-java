@@ -1,6 +1,6 @@
 package com.algolia.search.inputs.batch;
 
-import com.algolia.search.Index;
+import com.algolia.search.AbstractIndex;
 import com.algolia.search.inputs.BatchOperation;
 
 public class BatchPartialUpdateObjectNoCreateOperation<T> implements BatchOperation {
@@ -9,7 +9,6 @@ public class BatchPartialUpdateObjectNoCreateOperation<T> implements BatchOperat
   private final String indexName;
 
   /**
-   *
    * @param indexName
    * @param body
    */
@@ -19,7 +18,6 @@ public class BatchPartialUpdateObjectNoCreateOperation<T> implements BatchOperat
   }
 
   /**
-   *
    * @param body
    */
   public BatchPartialUpdateObjectNoCreateOperation(T body) {
@@ -27,11 +25,10 @@ public class BatchPartialUpdateObjectNoCreateOperation<T> implements BatchOperat
   }
 
   /**
-   *
    * @param index
    * @param body
    */
-  public BatchPartialUpdateObjectNoCreateOperation(Index<T> index, T body) {
+  public BatchPartialUpdateObjectNoCreateOperation(AbstractIndex<T> index, T body) {
     this(index.getName(), body);
   }
 
