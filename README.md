@@ -266,7 +266,7 @@ Example with automatic `objectID` assignment:
 
 ```java
 TaskIndexing task = index.addObject(new Contact()
-      .setFirstName("Jimmie")
+      .setFirstName("Jimmi")
       .setLastName("Barninger"));
 
 String objectID = task.getObjectID("objectID"));
