@@ -74,6 +74,8 @@ public class Query {
 
   /* SECURED API KEYS */
   private String userToken;
+  private Integer validUntil;
+  private List<String> restrictIndices;
 
   /* BROWSE */
   private String cursor;
@@ -154,6 +156,8 @@ public class Query {
 
     /* SECURED API KEYS */
     builder = add(builder, "userToken", userToken);
+    builder = add(builder, "validUntil", validUntil);
+    builder = add(builder, "restrictIndices", restrictIndices);
 
     /* BROWSE */
     builder = add(builder, "cursor", cursor);
@@ -466,6 +470,24 @@ public class Query {
 
   public Query addCustomParameter(String key, String value) {
     this.customParameters.put(key, value);
+    return this;
+  }
+
+  public Integer getValidUntil() {
+    return validUntil;
+  }
+
+  public Query setValidUntil(Integer validUntil) {
+    this.validUntil = validUntil;
+    return this;
+  }
+
+  public List<String> getRestrictIndices() {
+    return restrictIndices;
+  }
+
+  public Query setRestrictIndices(List<String> restrictIndices) {
+    this.restrictIndices = restrictIndices;
     return this;
   }
 
