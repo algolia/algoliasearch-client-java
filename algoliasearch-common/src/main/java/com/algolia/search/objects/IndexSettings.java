@@ -7,10 +7,10 @@ public class IndexSettings {
   private List<String> attributesToIndex;
   private List<String> numericAttributesToIndex;
   private List<String> attributesForFaceting;
-  private String attributeForDistinc;
+  private String attributeForDistinct;
   private List<String> ranking;
   private List<String> customRanking;
-  private String separatorsToInde;
+  private String separatorsToIndex;
   private List<String> slaves;
   private List<String> unretrievableAttributes;
   private Boolean allowCompressionOfIntegerArray;
@@ -34,6 +34,7 @@ public class IndexSettings {
   private Boolean allowTyposOnNumericTokens;
   private Boolean ignorePlurals;
   private Boolean advancedSyntax;
+  private String removeWordsIfNoResults;
   private Boolean replaceSynonymsInHighlight;
   private Integer maxValuesPerFacet;
   private Integer distinct;
@@ -53,8 +54,8 @@ public class IndexSettings {
     return attributesForFaceting;
   }
 
-  public String getAttributeForDistinc() {
-    return attributeForDistinc;
+  public String getAttributeForDistinct() {
+    return attributeForDistinct;
   }
 
   public List<String> getRanking() {
@@ -65,8 +66,8 @@ public class IndexSettings {
     return customRanking;
   }
 
-  public String getSeparatorsToInde() {
-    return separatorsToInde;
+  public String getSeparatorsToIndex() {
+    return separatorsToIndex;
   }
 
   public List<String> getSlaves() {
@@ -184,8 +185,8 @@ public class IndexSettings {
     return this;
   }
 
-  public IndexSettings setAttributeForDistinc(String attributeForDistinc) {
-    this.attributeForDistinc = attributeForDistinc;
+  public IndexSettings setAttributeForDistinct(String attributeForDistinct) {
+    this.attributeForDistinct = attributeForDistinct;
     return this;
   }
 
@@ -199,8 +200,8 @@ public class IndexSettings {
     return this;
   }
 
-  public IndexSettings setSeparatorsToInde(String separatorsToInde) {
-    this.separatorsToInde = separatorsToInde;
+  public IndexSettings setSeparatorsToIndex(String separatorsToIndex) {
+    this.separatorsToIndex = separatorsToIndex;
     return this;
   }
 
@@ -326,6 +327,15 @@ public class IndexSettings {
 
   public IndexSettings setSnippetEllipsisText(String snippetEllipsisText) {
     this.snippetEllipsisText = snippetEllipsisText;
+    return this;
+  }
+
+  public String getRemoveWordsIfNoResults() {
+    return removeWordsIfNoResults;
+  }
+
+  public IndexSettings setRemoveWordsIfNoResults(String removeWordsIfNoResults) {
+    this.removeWordsIfNoResults = removeWordsIfNoResults;
     return this;
   }
 }
