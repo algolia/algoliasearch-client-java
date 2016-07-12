@@ -1,10 +1,18 @@
 Changelog
 =========
 
-2.0.0 ()
---------
+2.1.0 (2016-07-12)
+------------------
+- Fix Query#toParam
+- Fix secure key generation
+- Randomize hosts
 - Add support for Google AppEngine
 
+2.0.0 (2016-07-01)
+------------------
+- See migration guide: https://github.com/algolia/algoliasearch-client-java-2/wiki/Migration-guide-from-1.x-to-2.x
+- Add support for Google AppEngine
+- Add type safety
 
 1.7.0 (2016-05-24)
 ------------------
