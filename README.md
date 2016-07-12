@@ -7,7 +7,7 @@
 
 **Migration note from v1.x to v2.x**
 
-In June 2016, we released the v2 of our Java client. If you were using version 1.x of the client, read the [migration guide to version 2.x](https://github.com/algolia/algoliasearch-client-java-2/wiki/Migration-guide-from-1.x-to-2.x).
+In June 2016, we released the v2 of our Java client. If you were using version 1.x of the client, read the [migration guide to version 2.x](https://github.com/algolia/algoliasearch-client-java/wiki/Migration-guide-from-1.x-to-2.x).
 
 Version 1.x is no longer under active development. It will still supported for bug fixes, and new query parameters & index settings.
 
@@ -25,7 +25,7 @@ Our Java2 client lets you easily use the [Algolia Search API](https://www.algoli
 
 
 
-[![Build Status](https://travis-ci.org/algolia/algoliasearch-client-java-2.png?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-java-2) [![GitHub version](https://badge.fury.io/gh/algolia%2Falgoliasearch-client-java-2-2.png)](http://badge.fury.io/gh/algolia%2Falgoliasearch-client-java-2) [![Coverage Status](https://coveralls.io/repos/algolia/algoliasearch-client-java-2/badge.svg)](https://coveralls.io/r/algolia/algoliasearch-client-java-2)[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/)
+[![Build Status](https://travis-ci.org/algolia/algoliasearch-client-java-2.png?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-java-2-2) [![GitHub version](https://badge.fury.io/gh/algolia%2Falgoliasearch-client-java-2-2.png)](http://badge.fury.io/gh/algolia%2Falgoliasearch-client-java-2) [![Coverage Status](https://coveralls.io/repos/algolia/algoliasearch-client-java-2/badge.svg)](https://coveralls.io/r/algolia/algoliasearch-client-java-2)[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.algolia/algoliasearch/)
 
 
 **WARNING:** 
