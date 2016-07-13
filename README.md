@@ -80,6 +80,7 @@ Manage Indices
 1. [Move an index](#move-index---moveindex)
 
 Api Keys
+
 1. [Generate API keys](#generate-key---generatesecuredapikey)
 
 Advanced
@@ -1966,6 +1967,8 @@ System.out.println(it.getCursor());
 ```
 
 
+
+
 ### List api keys - ``
 
 To list existing keys, you can use:
@@ -2278,8 +2281,6 @@ Optional<ApiKey> apiKey1 = client.getKey("f420238212c54dcfad07ea0aa6d5c45f").get
 // Gets the rights of an index specific key
 Optional<ApiKey> apiKey2 = index.getKey("71671c38001bf3ac857bc82052485107").get();
 ```
-
-
 
 ### Multiple queries - ``
 
