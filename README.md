@@ -35,10 +35,10 @@ java.security.Security.setProperty("networkaddress.cache.ttl", "60");
 
 **Getting Started**
 
-1. [Setup](#setup)
+1. [Getting started](#getting-started)
 1. [Quick Start](#quick-start)
 1. [Philosophy of the java client](#philosophy)
-1. [Guides & Tutorials](#guides-tutorials)
+1. [Guides & Tutorials](#guides--tutorials)
 
 
 **Commands Reference**
@@ -94,7 +94,7 @@ Advanced
 1. [Wait for operations](#wait-for-operations---waittask)
 1. [Multiple queries](#multiple-queries---multiplequeries)
 1. [Delete by query](#delete-by-query---deletebyquery)
-1. [Backup / Export an index](#backup-/-export-an-index---browse)
+1. [Backup / Export an index](#backup-)-export-an-index---browse)
 1. [List api keys](#list-api-keys---listapikeys)
 1. [Add user key](#add-user-key---adduserkey)
 1. [Update user key](#update-user-key---updateuserkey)
