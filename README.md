@@ -1929,7 +1929,10 @@ This method saves a single synonym record into the index.
 In this example, we specify true to forward the creation to slave indices.
 By default the behavior is to save only on the specified index.
 
-
+```java
+index.saveSynonym("a-unique-identifier", new Synonym()
+           .setSynonyms(Arrays.asList("car", "vehicle", "auto")), true);
+```
 
 ### Batch synonyms - `batchSynonyms`
 
@@ -1942,7 +1945,17 @@ You should always use replaceExistingSynonyms to atomically replace all synonyms
 on a production index. This is the only way to ensure the index always
 has a full list of synonyms to use during the indexing of the new list.
 
-
+```java
+// Batch synonyms, with slave forwarding and atomic replacement of existing synonyms
+index.batchSynonyms(Arrays.asList(
+      new Synonym()
+           .setObjectID("a-unique-identifier")
+           .setSynonyms(Arrays.asList("car", "vehicle", "auto")),
+      new Synonym()
+           .setObjectID("another-unique-identifier")
+           .setSynonyms(Arrays.asList("street", "st"))
+), true);
+```
 
 ### Editing Synonyms
 
@@ -1961,7 +1974,10 @@ Use the normal index delete method to delete synonyms,
 specifying the objectID of the synonym record you want to delete.
 Forward the deletion to slave indices by setting the forwardToSlaves parameter to true.
 
-
+```java
+// Delete and forward to slaves
+index.deleteSynonym("a-unique-identifier", true);
+```
 
 ### Clear all synonyms - `clearSynonyms`
 
@@ -1973,14 +1989,19 @@ at all.
 To atomically replace all synonyms of an index,
 use the batch method with the replaceExistingSynonyms parameter set to true.
 
-
+```java
+// Clear synonyms and forward to slaves
+index.clearSynonyms(true);
+```
 
 ### Get synonym - `getSynonym`
 
 Search for synonym records by their objectID or by the text they contain.
 Both methods are covered here.
 
-
+```java
+Optional<AbstractSynonym> synonym = index.getSynonym("a-unique-identifier");
+```
 
 ### Search synonyms - `searchSynonyms`
 
@@ -1992,7 +2013,10 @@ Accepted search parameters:
 - page: the page to fetch when browsing through several pages of results. This value is zero-based.
 hitsPerPage: the number of synonyms to return for each call. The default value is 100.
 
-
+```java
+// Searching for "street" in synonyms and one-way synonyms; fetch the second page with 10 hits per page
+SearchSynonymResult results = index.searchSynonyms(new SynonymQuery("street").setTypes(Arrays.asList("synonym", "one_way")).setPage(1).setHitsPerPage(10));
+```
 
 
 
