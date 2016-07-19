@@ -44,7 +44,8 @@ java.security.Security.setProperty("networkaddress.cache.ttl", "60");
 
 Getting started
 
-1. [Install and init](#install-and-init---initindex)
+1. [Install](#install)
+1. [Init index](#init-index---initindex)
 
 Search
 
@@ -133,9 +134,11 @@ Check our [online guides](https://www.algolia.com/doc):
 
 ## Getting Started
 
-### Install and init - `InitIndex`
+### Install
+
 
 If you're using Maven, add the following dependency to your `pom.xml` file:
+
 ```xml
 <dependency>
   <groupId>com.algolia</groupId>
@@ -164,9 +167,14 @@ On Google AppEngine use this:
 </dependency>
 ```
 
-Initialize the client with your Application ID and API Key. You can find them on [your Algolia account](https://www.algolia.com/users/edit):
 
 
+
+
+
+### Init index - `InitIndex`
+
+To initialize the client you need your ApplicationID and API-Key. You can find all of them on [your Algolia account](http://www.algolia.com/users/edit)
 
 ```java
 APIClient client = new ApacheAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
@@ -183,7 +191,6 @@ For Google AppEngine
 ```java
 APIClient client = new AppEngineAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
 ```
-
 
 
 
@@ -1046,11 +1053,9 @@ you can have a look at our [Ranking guide](https://www.algolia.com/doc/relevance
 
 #### slaves
 
-#### ranking
-
 - scope: `settings`
 - type: `array of strings`
-- default: `['typo', 'geo', 'words', 'filters', 'proximity', 'attribute', 'exact', 'custom']`
+- default: `[]`
 
 
 The list of indices on which you want to replicate all write operations.
