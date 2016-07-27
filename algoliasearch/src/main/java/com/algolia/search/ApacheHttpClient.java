@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ApacheHttpClient extends AlgoliaHttpClient {
@@ -55,6 +56,10 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
     RequestBuilder builder = RequestBuilder
       .create(request.getMethod().name)
       .setUri("https://" + request.getHost() + "/" + String.join("/", request.getPath()));
+
+    for (Map.Entry<String, String> entry : request.getParameters().entrySet()) {
+      builder = builder.addParameter(entry.getKey(), entry.getValue());
+    }
 
     if (request.getContent() != null) {
       builder = builder.setEntity(new StringEntity(request.getContent(), ContentType.APPLICATION_JSON));
