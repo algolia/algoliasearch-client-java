@@ -27,23 +27,35 @@ public class IndexIterator<T> implements Iterator<T> {
 
   @Override
   public boolean hasNext() {
-    return isFirstRequest || (currentIterator != null && currentIterator.hasNext());
+    if (isFirstRequest) {
+      executeQueryAndSetInnerState();
+      isFirstRequest = false;
+    }
+    return currentIterator != null && currentIterator.hasNext();
   }
 
   @Override
   public T next() {
     if (currentIterator == null || !currentIterator.hasNext()) {
-      BrowseResult<T> browseResult = doQuery(currentCursor);
-      currentCursor = browseResult.getCursor();
-      currentIterator = browseResult.getHits().iterator();
+      executeQueryAndSetInnerState();
       isFirstRequest = false;
     }
     return currentIterator.next();
   }
 
+  private void executeQueryAndSetInnerState() {
+    BrowseResult<T> browseResult = doQuery(currentCursor);
+    currentCursor = browseResult.getCursor();
+    currentIterator = browseResult.getHits().iterator();
+  }
+
   private BrowseResult<T> doQuery(String cursor) {
     try {
-      return apiClient.browse(indexName, query, cursor, klass);
+      BrowseResult<T> browseResult = apiClient.browse(indexName, query, cursor, klass);
+      if (browseResult == null) { //Non existing index
+        return BrowseResult.empty();
+      }
+      return browseResult;
     } catch (AlgoliaException e) {
       return BrowseResult.empty();
     }
