@@ -1,9 +1,9 @@
 package com.algolia.search.integration.sync;
 
-import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.Index;
 import com.algolia.search.IndexIterable;
+import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
@@ -25,7 +25,9 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     "index1",
     "index2",
     "index3",
-    "index4"
+    "index4",
+    "index5",
+    "index6"
   );
 
   @Before
@@ -65,6 +67,27 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
       assertThat(object.getName()).startsWith("name");
       assertThat(object.getAge()).isBetween(1, 10);
     }
+  }
+
+  @Test
+  public void browseNonExistingIndex() throws AlgoliaException {
+    Index<AlgoliaObject> index = client.initIndex("index5", AlgoliaObject.class);
+
+    IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
+
+    assertThat(iterator).isEmpty();
+  }
+
+  @Test
+  public void browseEmptyIndex() throws AlgoliaException {
+    Index<AlgoliaObject> index = client.initIndex("index6", AlgoliaObject.class);
+
+    //Add object then clear => index is empty
+    index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
+    index.clear().waitForCompletion();
+
+    IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
+    assertThat(iterator).isEmpty();
   }
 
   @Test

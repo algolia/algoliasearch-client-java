@@ -69,7 +69,7 @@ public abstract class AlgoliaHttpClient {
           case 403:
             throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Invalid Application-ID or API-Key");
           case 404:
-            return null; //Special case, means we didn't find the object
+            return null; //Special case, means we didn't find the object or the index is not existing
           default:
             throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Error");
         }
