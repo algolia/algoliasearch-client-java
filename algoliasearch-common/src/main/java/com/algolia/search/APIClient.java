@@ -754,9 +754,10 @@ public class APIClient {
       Arrays.asList("1", "indexes", indexName, "browse"),
       BrowseResult.class,
       klass
-    );
+    )
+      .setParameters(query.setCursor(cursor).toQueryParam());
 
-    return httpClient.requestWithRetry(algoliaRequest.setParameters(query.setCursor(cursor).toQueryParam()));
+    return httpClient.requestWithRetry(algoliaRequest);
   }
 
   /**

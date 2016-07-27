@@ -24,7 +24,8 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
   private static List<String> indicesNames = Arrays.asList(
     "index1",
     "index2",
-    "index3"
+    "index3",
+    "index4"
   );
 
   @Before
@@ -43,6 +44,23 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
 
+    for (AlgoliaObject object : iterator) {
+      assertThat(object.getName()).startsWith("name");
+      assertThat(object.getAge()).isBetween(1, 10);
+    }
+  }
+
+  @Test
+  public void browseWithQuery() throws AlgoliaException {
+    Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
+
+    List<AlgoliaObject> objects = IntStream.rangeClosed(1, 5).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
+    objects.addAll(IntStream.rangeClosed(1, 5).mapToObj(i -> new AlgoliaObject("other" + i, i)).collect(Collectors.toList()));
+    index.addObjects(objects).waitForCompletion();
+
+    IndexIterable<AlgoliaObject> iterator = index.browse(new Query("name").setHitsPerPage(5));
+
+    assertThat(iterator).hasSize(5);
     for (AlgoliaObject object : iterator) {
       assertThat(object.getName()).startsWith("name");
       assertThat(object.getAge()).isBetween(1, 10);
