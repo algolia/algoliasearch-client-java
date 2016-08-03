@@ -574,8 +574,8 @@ Parameters that can also be used in a setSettings also have the `indexing` [scop
 - [disableTypoToleranceOnAttributes](#disabletypotoleranceonattributes) `settings`, `search`
 
 **Geo-Search**
-- [aroundLatitudeLongitude(float, float)](#aroundlatitudelongitudefloat,-float) `search`
-- [aroundLatitudeLongitude(float, float, int, int)](#aroundlatitudelongitudefloat,-float,-int,-int) `search`
+- [aroundLatitudeLongitude(float, float)](#aroundlatitudelongitudefloat-float) `search`
+- [aroundLatitudeLongitude(float, float, int, int)](#aroundlatitudelongitudefloat-float-int-int) `search`
 - [aroundLatLngViaIP](#aroundlatlngviaip) `search`
 - [insideBoundingBox](#insideboundingbox) `search`
 - [insidePolygon](#insidepolygon) `search`
@@ -990,8 +990,8 @@ They are three scopes:
 
 **Geo-Search**
 
-- [aroundLatitudeLongitude(float, float)](#aroundlatitudelongitudefloat,-float) `search`
-- [aroundLatitudeLongitude(float, float, int, int)](#aroundlatitudelongitudefloat,-float,-int,-int) `search`
+- [aroundLatitudeLongitude(float, float)](#aroundlatitudelongitudefloat-float) `search`
+- [aroundLatitudeLongitude(float, float, int, int)](#aroundlatitudelongitudefloat-float-int-int) `search`
 - [aroundLatLngViaIP](#aroundlatlngviaip) `search`
 - [insideBoundingBox](#insideboundingbox) `search`
 - [insidePolygon](#insidepolygon) `search`
@@ -1941,16 +1941,13 @@ index.clear();
 
 ### Copy index - `clear`
 
-You can easily copy or rename an existing index using the `copy` and `move` commands.
-**Note**: Move and copy commands overwrite the destination index.
+You can copy an existing index using the `copy` command.
+**Note**: The copy command will overwrite the destination index.
 
 ```java
 //Sync version
 
 Index myIndex = client.initIndex("MyIndex");
-
-// Rename MyIndex in MyIndexNewName
-myIndex.moveTo("MyIndexNewName");
 
 // Copy MyIndex in MyIndexCopy
 myIndex.copyTo("MyIndexCopy");
@@ -1960,9 +1957,6 @@ myIndex.copyTo("MyIndexCopy");
 //Async version
 AsyncIndex myIndex = client.initIndex("MyIndex");
 
-// Rename MyIndex in MyIndexNewName
-myIndex.moveTo("MyIndexNewName");
-
 // Copy MyIndex in MyIndexCopy
 myIndex.copyTo("MyIndexCopy");
 ```
@@ -1970,9 +1964,9 @@ myIndex.copyTo("MyIndexCopy");
 
 ### Move index - `moveTo`
 
-The move command is particularly useful if you want to update a big index atomically from one version to another. For example, if you recreate your index `MyIndex` each night from a database by batch, you only need to:
- 1. Import your database into a new index using [batches](#batch-writes). Let's call this new index `MyNewIndex`.
- 1. Rename `MyNewIndex` to `MyIndex` using the move command. This will automatically override the old index and new queries will be served on the new one.
+In some cases, you may want to totally reindex all your data. In order to keep your existing service
+running while re-importing your data we recommend the usage of a temporary index plus an atomical
+move using the moveTo method.
 
 ```java
 //For the sync version
@@ -1989,6 +1983,28 @@ AsyncIndex myNewIndex = client.initIndex("MyNewIndex");
 // Rename MyNewIndex in MyIndex (and overwrite it)
 myNewIndex.moveTo("MyIndex");
 ```
+
+**Note**:
+
+The moveTo method will overwrite the destination index, and delete the temporary index.
+
+**Warning**
+
+The moveTo operation will override all settings of the destination,
+There is one exception for the [slaves](#slaves) parameter which is not impacted.
+
+For example, if you want to fully update your index `MyIndex` every night, we recommend the following process:
+ 1. Get settings and synonyms from the old index using [Get settings](#get-settings---getsettings)
+  and Get synonym - `getSynonym`.
+ 1. Apply settings and synonyms to the temporary index `MyTmpIndex`, (this will create the `MyTmpIndex` index)
+  using [Set settings](#set-settings) and Batch synonyms - `batchSynonyms`
+  (make sure to remove the [slaves](#slaves) parameter from the settings if it exists).
+ 1. Import your records into a new index using [Add objects](#add-objects---addobjects).
+ 1. Atomically replace the index `MyIndex` with the content and settings of the index `MyTmpIndex`
+ using the moveTo method.
+ This will automatically override the old index without any downtime on the search.
+ 1. You'll end up with only one index called `MyIndex`, that contains the records and settings pushed to `MyTmpIndex`
+ and the slave-indices that were initially attached to `MyIndex` will be in sync with the new data.
 
 
 
