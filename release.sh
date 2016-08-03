@@ -16,5 +16,7 @@ echo "----------------------"
 echo "REP_ID found: $REP_ID"
 echo "----------------------"
 
+sleep 5
+
 mvn nexus-staging:close -DstagingRepositoryId="$REP_ID"
 mvn nexus-staging:release -DstagingRepositoryId="$REP_ID"
