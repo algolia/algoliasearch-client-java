@@ -137,9 +137,9 @@ public abstract class GenericAPIClientBuilder {
   }
 
   protected Map<String, String> generateHeaders() {
-    String userAgent = String.format("Algolia for Java %s; JVM %s", getApiClientVersion(), System.getProperty("java.version"));
+    String userAgent = String.format("Algolia for Java (%s); JVM (%s)", getApiClientVersion(), System.getProperty("java.version"));
     if (customAgent != null) {
-      userAgent += " " + customAgent + " " + customAgentVersion;
+      userAgent += "; " + customAgent + " (" + customAgentVersion + ")";
     }
 
     return ImmutableMap
