@@ -1,7 +1,9 @@
 package com.algolia.search.objects.tasks;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class AbstractTask<T> {
 
   @JsonIgnore

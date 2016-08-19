@@ -1,9 +1,11 @@
 package com.algolia.search.objects.tasks.sync;
 
 import com.algolia.search.APIClient;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskSingleIndex extends Task {
 
   private List<String> objectIDs;
