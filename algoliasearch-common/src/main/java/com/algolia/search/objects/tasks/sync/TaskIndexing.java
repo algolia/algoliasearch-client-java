@@ -1,7 +1,9 @@
 package com.algolia.search.objects.tasks.sync;
 
 import com.algolia.search.APIClient;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskIndexing extends Task {
 
   private String objectID;

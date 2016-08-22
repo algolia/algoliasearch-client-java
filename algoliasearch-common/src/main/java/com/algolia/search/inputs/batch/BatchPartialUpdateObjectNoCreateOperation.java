@@ -2,7 +2,9 @@ package com.algolia.search.inputs.batch;
 
 import com.algolia.search.AbstractIndex;
 import com.algolia.search.inputs.BatchOperation;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BatchPartialUpdateObjectNoCreateOperation<T> implements BatchOperation {
 
   private final T body;

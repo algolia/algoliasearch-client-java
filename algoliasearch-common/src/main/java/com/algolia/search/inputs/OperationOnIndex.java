@@ -1,5 +1,8 @@
 package com.algolia.search.inputs;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OperationOnIndex {
 
   private final String operation;

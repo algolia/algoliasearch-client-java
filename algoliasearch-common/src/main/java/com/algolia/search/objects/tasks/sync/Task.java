@@ -2,7 +2,9 @@ package com.algolia.search.objects.tasks.sync;
 
 import com.algolia.search.APIClient;
 import com.algolia.search.exceptions.AlgoliaException;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Task extends GenericTask<Long> {
 
   public Task setAPIClient(APIClient apiClient) {

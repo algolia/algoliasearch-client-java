@@ -1,5 +1,6 @@
 package com.algolia.search.objects;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ImmutableMap;
 
 import java.io.UnsupportedEncodingException;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Query {
 
   /* FULL TEXT SEARCH PARAMETERS */

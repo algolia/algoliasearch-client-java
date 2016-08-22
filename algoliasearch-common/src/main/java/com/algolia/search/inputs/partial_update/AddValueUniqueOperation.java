@@ -1,9 +1,11 @@
 package com.algolia.search.inputs.partial_update;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddValueUniqueOperation implements PartialUpdateOperation {
 
   private final Map<String, ?> map;

@@ -1,7 +1,9 @@
 package com.algolia.search.objects.tasks.async;
 
 import com.algolia.search.objects.tasks.AbstractTask;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class AsyncGenericTask<T> extends AbstractTask<T> {
 
   @Override

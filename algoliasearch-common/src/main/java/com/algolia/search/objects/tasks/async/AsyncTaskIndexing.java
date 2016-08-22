@@ -1,5 +1,8 @@
 package com.algolia.search.objects.tasks.async;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AsyncTaskIndexing extends AsyncTask {
 
   private String objectID;

@@ -1,5 +1,8 @@
 package com.algolia.search.inputs.partial_update;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class TagOperation {
 
   private final String value;

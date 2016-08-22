@@ -93,13 +93,18 @@ public abstract class GenericAPIClientBuilder {
   }
 
   /**
-   * Set the Jackson ObjectMapper
+   * Set the Jackson ObjectMapper, it overrides the default one and add 2 features:
+   * * Enables: AUTO_CLOSE_JSON_CONTENT
+   * * Disables: FAIL_ON_UNKNOWN_PROPERTIES
    *
    * @param objectMapper the mapper
    * @return this
    */
   public GenericAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
-    this.objectMapper = objectMapper;
+    this.objectMapper = objectMapper
+      .copy()
+      .enable(Defaults.OBJECT_MAPPER_DEFAULT_FEATURE)
+      .disable(Defaults.OBJECT_MAPPER_DEFAULT_DESERIALIZATION_FEATURE);
     return this;
   }
 
