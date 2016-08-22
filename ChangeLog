@@ -1,6 +1,19 @@
 Changelog
 =========
 
+2.3.0 (2016-08-22)
+------------------
+- Better support for custom object mappers
+
+2.2.1 (2016-08-03)
+------------------
+- Update user agent to new format
+
+2.2.0 (2016-07-27)
+------------------
+- Fix browse query
+- Fix browse with empty index
+
 2.1.0 (2016-07-12)
 ------------------
 - Fix Query#toParam
