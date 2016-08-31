@@ -18,10 +18,12 @@ public class Requests {
     return requests;
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   public static class Request {
 
     private String indexName;
     private String objectID;
+    private String attributesToRetrieve;
 
     @SuppressWarnings("unused")
     public String getIndexName() {
@@ -43,6 +45,17 @@ public class Requests {
     public Request setObjectID(String objectID) {
       this.objectID = objectID;
       return this;
+    }
+
+    @SuppressWarnings("unused")
+    public Request setAttributesToRetrieve(String attributesToRetrieve) {
+      this.attributesToRetrieve = attributesToRetrieve;
+      return this;
+    }
+
+    @SuppressWarnings("unused")
+    public String getAttributesToRetrieve() {
+      return attributesToRetrieve;
     }
   }
 

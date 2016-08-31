@@ -494,6 +494,21 @@ public class APIClient {
     return httpClient.requestWithRetry(algoliaRequest.setData(requests)).getResults();
   }
 
+  @SuppressWarnings("unchecked")
+  <T> List<T> getObjects(String indexName, List<String> objectIDs, List<String> attributesToRetrieve, Class<T> klass) throws AlgoliaException {
+    final String encodedAttributesToRetrieve = String.join(",", attributesToRetrieve);
+    Requests requests = new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o).setAttributesToRetrieve(encodedAttributesToRetrieve)).collect(Collectors.toList()));
+    AlgoliaRequest<Results> algoliaRequest = new AlgoliaRequest<>(
+      HttpMethod.POST,
+      true,
+      Arrays.asList("1", "indexes", "*", "objects"),
+      Results.class,
+      klass
+    );
+
+    return httpClient.requestWithRetry(algoliaRequest.setData(requests)).getResults();
+  }
+
   IndexSettings getSettings(String indexName) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(

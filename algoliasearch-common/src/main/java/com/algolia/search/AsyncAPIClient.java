@@ -19,7 +19,10 @@ import com.google.common.collect.ImmutableMap;
 
 import javax.annotation.Nonnull;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 public class AsyncAPIClient {
@@ -467,6 +470,23 @@ public class AsyncAPIClient {
   @SuppressWarnings("unchecked")
   <T> CompletableFuture<List<T>> getObjects(String indexName, List<String> objectIDs, Class<T> klass) {
     Requests requests = new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o)).collect(Collectors.toList()));
+    AlgoliaRequest<Results> algoliaRequest = new AlgoliaRequest<>(
+      HttpMethod.POST,
+      true,
+      Arrays.asList("1", "indexes", "*", "objects"),
+      Results.class,
+      klass
+    );
+
+    return httpClient
+      .requestWithRetry(algoliaRequest.setData(requests))
+      .thenApply(Results::getResults);
+  }
+
+  @SuppressWarnings("unchecked")
+  <T> CompletableFuture<List<T>> getObjects(String indexName, List<String> objectIDs, List<String> attributesToRetrieve, Class<T> klass) {
+    String encodedAttributesToRetrieve = String.join(",", attributesToRetrieve);
+    Requests requests = new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o).setAttributesToRetrieve(encodedAttributesToRetrieve)).collect(Collectors.toList()));
     AlgoliaRequest<Results> algoliaRequest = new AlgoliaRequest<>(
       HttpMethod.POST,
       true,
