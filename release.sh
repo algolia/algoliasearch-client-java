@@ -18,5 +18,5 @@ echo "----------------------"
 
 sleep 15 #sleep longer
 
-mvn nexus-staging:close -DstagingRepositoryId="$REP_ID"
-mvn nexus-staging:release -DstagingRepositoryId="$REP_ID"
+mvn nexus-staging:close -DstagingRepositoryId="$REP_ID" || mvn nexus-staging:close -DstagingRepositoryId="$REP_ID"
+mvn nexus-staging:release -DstagingRepositoryId="$REP_ID" || mvn nexus-staging:release -DstagingRepositoryId="$REP_ID"
