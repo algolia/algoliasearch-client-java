@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +28,8 @@ abstract public class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     "index4",
     "index5",
     "index6",
-    "index7"
+    "index7",
+    "index8"
   );
 
   @Before
@@ -135,6 +137,19 @@ abstract public class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
 
     assertThat(index.getObject("1")).isEmpty();
     assertThat(index.getObject("2")).isEmpty();
+  }
+
+  @Test
+  public void getObjectsWithAttributesToRetrieve() throws AlgoliaException {
+    Index<AlgoliaObject> index = client.initIndex("index8", AlgoliaObject.class);
+    index.saveObjects(Arrays.asList(
+      new AlgoliaObjectWithID("1", "algolia1", 5),
+      new AlgoliaObjectWithID("2", "algolia1", 5)
+    )).waitForCompletion();
+
+    List<AlgoliaObject> objects = index.getObjects(Collections.singletonList("1"), Collections.singletonList("age"));
+    assertThat(objects).hasSize(1);
+    assertThat(objects.get(0)).isEqualToComparingFieldByField(new AlgoliaObjectWithID("1", null, 5));
   }
 
 }

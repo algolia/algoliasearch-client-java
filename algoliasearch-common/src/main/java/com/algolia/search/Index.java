@@ -109,6 +109,18 @@ public class Index<T> extends AbstractIndex<T> {
   }
 
   /**
+   * Get several objects from this index
+   *
+   * @param objectIDs            the list of unique identifier of objects to retrieve
+   * @param attributesToRetrieve the list of attributes to retrieve for these objects
+   * @return the list of objects
+   * @throws AlgoliaException
+   */
+  public List<T> getObjects(@Nonnull List<String> objectIDs, @Nonnull List<String> attributesToRetrieve) throws AlgoliaException {
+    return client.getObjects(name, objectIDs, attributesToRetrieve, klass);
+  }
+
+  /**
    * Wait for the completion of a task
    *
    * @param task       task to wait for

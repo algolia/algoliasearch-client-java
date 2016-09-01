@@ -11,8 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +28,8 @@ abstract public class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
     "index4",
     "index5",
     "index6",
-    "index7"
+    "index7",
+    "index8"
   );
 
   @Before
@@ -132,6 +135,21 @@ abstract public class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
 
     assertThat(index.getObject("1").get()).isEmpty();
     assertThat(index.getObject("2").get()).isEmpty();
+  }
+
+  @Test
+  public void getObjectsWithAttributesToRetrieve() throws Exception {
+    AsyncIndex<AlgoliaObject> index = client.initIndex("index8", AlgoliaObject.class);
+
+    waitForCompletion(index.saveObjects(Arrays.asList(
+      new AlgoliaObjectWithID("1", "algolia1", 5),
+      new AlgoliaObjectWithID("2", "algolia1", 5)
+    )));
+
+    CompletableFuture<List<AlgoliaObject>> result = index.getObjects(Collections.singletonList("1"), Collections.singletonList("age"));
+
+    futureAssertThat(result).hasSize(1);
+    futureAssertThat(result).extracting("name").containsNull();
   }
 
 }
