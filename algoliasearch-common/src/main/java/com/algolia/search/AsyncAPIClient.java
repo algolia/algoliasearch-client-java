@@ -511,7 +511,7 @@ public class AsyncAPIClient {
     );
   }
 
-  CompletableFuture<AsyncTask> setSettings(String indexName, IndexSettings settings, Boolean forwardToSlaves) {
+  CompletableFuture<AsyncTask> setSettings(String indexName, IndexSettings settings, Boolean forwardToReplicas) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
@@ -520,7 +520,7 @@ public class AsyncAPIClient {
         AsyncTask.class
       )
         .setData(settings)
-        .setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
+        .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
     ).thenApply(s -> s.setIndex(indexName));
   }
 
@@ -633,14 +633,14 @@ public class AsyncAPIClient {
     ).thenApply(s -> s.setIndex(indexName));
   }
 
-  CompletableFuture<AsyncTask> saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToSlaves, Boolean replaceExistingSynonyms) {
+  CompletableFuture<AsyncTask> saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToReplicas, Boolean replaceExistingSynonyms) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
         AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString())).setData(content)
+      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString())).setData(content)
     ).thenApply(s -> s.setIndex(indexName));
   }
 
@@ -657,25 +657,25 @@ public class AsyncAPIClient {
       .thenApply(Optional::ofNullable);
   }
 
-  CompletableFuture<AsyncTask> deleteSynonym(String indexName, String synonymID, Boolean forwardToSlaves) {
+  CompletableFuture<AsyncTask> deleteSynonym(String indexName, String synonymID, Boolean forwardToReplicas) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
         AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
+      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
     ).thenApply(s -> s.setIndex(indexName));
   }
 
-  CompletableFuture<AsyncTask> clearSynonyms(String indexName, Boolean forwardToSlaves) {
+  CompletableFuture<AsyncTask> clearSynonyms(String indexName, Boolean forwardToReplicas) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", "clear"),
         AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
+      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
     ).thenApply(s -> s.setIndex(indexName));
   }
 
@@ -690,7 +690,7 @@ public class AsyncAPIClient {
     );
   }
 
-  CompletableFuture<AsyncTask> batchSynonyms(String indexName, List<AbstractSynonym> synonyms, Boolean forwardToSlaves, Boolean replaceExistingSynonyms) {
+  CompletableFuture<AsyncTask> batchSynonyms(String indexName, List<AbstractSynonym> synonyms, Boolean forwardToReplicas, Boolean replaceExistingSynonyms) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
@@ -698,7 +698,7 @@ public class AsyncAPIClient {
         Arrays.asList("1", "indexes", indexName, "synonyms", "batch"),
         AsyncTask.class
       )
-        .setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString()))
+        .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString()))
         .setData(synonyms)
     ).thenApply(s -> s.setIndex(indexName));
   }
