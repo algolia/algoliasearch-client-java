@@ -56,7 +56,7 @@ Indexing
 
 1. [Add objects](#add-objects---addobjects)
 1. [Update objects](#update-objects---saveobjects)
-1. [Partial update](#partial-update---partialupdateobjects)
+1. [Partial update objects](#partial-update-objects---partialupdateobjects)
 1. [Delete objects](#delete-objects---deleteobjects)
 
 Settings
@@ -717,33 +717,35 @@ CompletableFuture<List<Contact>> list = index.getObjects(Arrays.asList("myObj1",
 
 Each entry in an index has a unique identifier called `objectID`. There are two ways to add an entry to the index:
 
- 1. Using automatic `objectID` assignment. You will be able to access it in the answer.
- 2. Supplying your own `objectID`.
+ 1. Supplying your own `objectID`.
+ 2. Using automatic `objectID` assignment. You will be able to access it in the answer.
 
 You don't need to explicitly create an index, it will be automatically created the first time you add an object.
 Objects are schema less so you don't need any configuration to start indexing. If you wish to configure things, the settings section provides details about advanced settings.
 
-Example with automatic `objectID` assignment:
+Example with automatic `objectID` assignments:
 
 ```java
-//Sync version
-TaskIndexing task = index.addObject(new Contact()
-      .setFirstName("Jimmie")
-      .setLastName("Barninger"));
+//Sync & Async version
 
-String objectID = task.getObjectID("objectID"));
+index.addObjects(Arrays.asList(
+  new Contact().setFirstName("Jimmie").setLastName("Barninger"),
+  new Contact().setFirstName("Warren").setLastName("Speach")
+));
 ```
+
+Example with manual `objectID` assignments:
 
 ```java
-//Async version
-CompletableFuture<AsyncTaskIndexing> task = index.addObject(new Contact()
-      .setFirstName("Jimmie")
-      .setLastName("Barninger"));
+//Sync & Async version
 
-String objectID = task.get().getObjectID("objectID"));
+index.addObjects(Arrays.asList(
+  new Contact().setObjectID("1").setFirstName("Jimmie").setLastName("Barninger"),
+  new Contact().setObjectID("2").setFirstName("Warren").setLastName("Speach")
+));
 ```
 
-Example with manual `objectID` assignment:
+To add a single object, use the `[Add object](#add-object---addobject)` method:
 
 ```java
 //Sync version
@@ -765,7 +767,6 @@ CompletableFuture<AsyncTaskSingleIndex> task = index.addObject(new Contact()
 String objectID = task.get().getObjectID("objectID"));
 ```
 
-
 ### Update objects - `saveObjects`
 
 You have three options when updating an existing object:
@@ -774,7 +775,17 @@ You have three options when updating an existing object:
  2. Replace only some attributes.
  3. Apply an operation to some attributes.
 
-Example on how to replace all attributes of an existing object:
+Example on how to replace all attributes existing objects:
+
+```java
+//Sync & Async version
+index.saveObjects(Arrays.asList(
+  new Contact().setFirstName("Jimmie").setLastName("Barninger").setObjectID("SFO"),
+  new Contact().setFirstName("Warren").setLastName("Speach").setIbjectID("LA")
+));
+```
+
+To update a single object, you can use the `[Update object](#update-object---saveobject) method:
 
 ```java
 //Sync & async version
@@ -786,7 +797,8 @@ index.saveObject(new Contact()
       .setObjectID("myID"));
 ```
 
-### Partial update - `PartialUpdateObjects`
+
+### Partial update objects - `PartialUpdateObjects`
 
 You have many ways to update an object's attributes:
 
@@ -851,10 +863,30 @@ index.partialUpdateObject(new DecrementValueOperation("myID", "price", 42));
 Note: Here we are decrementing the value by `42`. To decrement just by one, put
 `value:1`.
 
+To partial update multiple objects using one API call, you can use the `[Partial update objects](#partial-update-objects---partialupdateobjects)` method:
+
+```java
+//Sync & async version
+
+List<JSONObject> array = Arrays.asList(
+	new Contact().setCity("San Francisco").setObjectID("MyID"),
+	new Contact().setCity("Paris").setObjectID("MyID2")
+);
+
+index.partialUpdateObjects(array);
+```
+
 
 ### Delete objects - `deleteObjects`
 
-You can delete an object using its `objectID`:
+You can delete objects using their `objectID`:
+
+```java
+//Sync & Async version
+index.deleteObjects(Arrays.asList("myID1", "myID2"));
+```
+
+To delete a single object, you can use the `[Delete object](#delete-object---deleteobject)` method:
 
 ```java
 //Sync & Async version
@@ -2494,53 +2526,6 @@ SearchSynonymResult results = index.searchSynonyms(new SynonymQuery("street").se
 ### Custom batch - `batch`
 
 You may want to perform multiple operations with one API call to reduce latency.
-We expose four methods to perform batch operations:
-
-* Add objects - `addObjects`: Add an array of objects using automatic `objectID` assignment.
-* Update objects - `saveObjects`: Add or update an array of objects that contains an `objectID` attribute.
-* Delete objects - `deleteObjects`: Delete an array of objectIDs.
-* Partial update - `PartialUpdateObjects`: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
-
-Example using automatic `objectID` assignment:
-
-```java
-//Sync & Async version
-
-index.addObjects(Arrays.asList(
-  new Contact().setFirstName("Jimmie").setLastName("Barninger"),
-  new Contact().setFirstName("Warren").setLastName("Speach")
-));
-```
-
-Example with user defined `objectID` (add or update):
-
-```java
-//Sync & Async version
-index.saveObjects(Arrays.asList(
-  new Contact().setFirstName("Jimmie").setLastName("Barninger").setObjectID("SFO"),
-  new Contact().setFirstName("Warren").setLastName("Speach").setIbjectID("LA")
-));
-```
-
-Example that deletes a set of records:
-
-```java
-//Sync & Async version
-index.deleteObjects(Arrays.asList("myID1", "myID2"));
-```
-
-Example that updates only the `firstname` attribute:
-
-```java
-//Sync & async version
-
-List<JSONObject> array = Arrays.asList(
-	new Contact().setCity("San Francisco").setObjectID("MyID"),
-	new Contact().setCity("Paris").setObjectID("MyID2")
-);
-
-index.partialUpdateObjects(array);
-```
 
 
 
