@@ -15,6 +15,7 @@ public class IndexSettings {
   private List<String> customRanking;
   private String separatorsToIndex;
   private List<String> slaves;
+  private List<String> replicas;
   private List<String> unretrievableAttributes;
   private Boolean allowCompressionOfIntegerArray;
 
@@ -339,6 +340,15 @@ public class IndexSettings {
 
   public IndexSettings setRemoveWordsIfNoResults(String removeWordsIfNoResults) {
     this.removeWordsIfNoResults = removeWordsIfNoResults;
+    return this;
+  }
+
+  public List<String> getReplicas() {
+    return replicas;
+  }
+
+  public IndexSettings setReplicas(List<String> replicas) {
+    this.replicas = replicas;
     return this;
   }
 }

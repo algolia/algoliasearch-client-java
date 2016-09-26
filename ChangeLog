@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.4.0 (TBD)
+-----------
+- Add replicas instead of slaves
+
 2.3.0 (2016-08-22)
 ------------------
 - Better support for custom object mappers
