@@ -520,7 +520,7 @@ public class APIClient {
     );
   }
 
-  Task setSettings(String indexName, IndexSettings settings, Boolean forwardToReplicas) throws AlgoliaException {
+  Task setSettings(String indexName, IndexSettings settings, Boolean forwardToSlaves) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
@@ -529,7 +529,7 @@ public class APIClient {
         Task.class
       )
         .setData(settings)
-        .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
+        .setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
     );
 
     return result.setAPIClient(this).setIndex(indexName);
@@ -650,14 +650,14 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  Task saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToReplicas, Boolean replaceExistingSynonyms) throws AlgoliaException {
+  Task saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToSlaves, Boolean replaceExistingSynonyms) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
         Task.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString())).setData(content)
+      ).setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString())).setData(content)
     );
 
 
@@ -677,27 +677,27 @@ public class APIClient {
     );
   }
 
-  Task deleteSynonym(String indexName, String synonymID, Boolean forwardToReplicas) throws AlgoliaException {
+  Task deleteSynonym(String indexName, String synonymID, Boolean forwardToSlaves) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
         Task.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
+      ).setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
     );
 
     return task.setAPIClient(this).setIndex(indexName);
   }
 
-  Task clearSynonyms(String indexName, Boolean forwardToReplicas) throws AlgoliaException {
+  Task clearSynonyms(String indexName, Boolean forwardToSlaves) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", "clear"),
         Task.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
+      ).setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString()))
     );
 
     return task.setAPIClient(this).setIndex(indexName);
@@ -713,7 +713,7 @@ public class APIClient {
     );
   }
 
-  Task batchSynonyms(String indexName, List<AbstractSynonym> synonyms, Boolean forwardToReplicas, Boolean replaceExistingSynonyms) throws AlgoliaException {
+  Task batchSynonyms(String indexName, List<AbstractSynonym> synonyms, Boolean forwardToSlaves, Boolean replaceExistingSynonyms) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
@@ -721,7 +721,7 @@ public class APIClient {
         Arrays.asList("1", "indexes", indexName, "synonyms", "batch"),
         Task.class
       )
-        .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString()))
+        .setParameters(ImmutableMap.of("forwardToSlaves", forwardToSlaves.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString()))
         .setData(synonyms)
     );
 

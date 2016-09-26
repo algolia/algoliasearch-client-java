@@ -233,12 +233,12 @@ public class Index<T> extends AbstractIndex<T> {
    * Set settings of this index
    *
    * @param settings        the settings to set
-   * @param forwardToReplicas should these updates be forwarded to the slaves
+   * @param forwardToSlaves should these updates be forwarded to the slaves
    * @return the related Task
    * @throws AlgoliaException
    */
-  public Task setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) throws AlgoliaException {
-    return client.setSettings(name, settings, forwardToReplicas);
+  public Task setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToSlaves) throws AlgoliaException {
+    return client.setSettings(name, settings, forwardToSlaves);
   }
 
   /**
@@ -409,12 +409,12 @@ public class Index<T> extends AbstractIndex<T> {
    *
    * @param synonymID       the id of the synonym
    * @param content         the synonym
-   * @param forwardToReplicas should this request be forwarded to slaves
+   * @param forwardToSlaves should this request be forwarded to slaves
    * @return the associated task
    * @throws AlgoliaException
    */
-  public Task saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas) throws AlgoliaException {
-    return saveSynonym(synonymID, content, forwardToReplicas, false);
+  public Task saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToSlaves) throws AlgoliaException {
+    return saveSynonym(synonymID, content, forwardToSlaves, false);
   }
 
   /**
@@ -422,13 +422,13 @@ public class Index<T> extends AbstractIndex<T> {
    *
    * @param synonymID               the id of the synonym
    * @param content                 the synonym
-   * @param forwardToReplicas         should this request be forwarded to slaves
+   * @param forwardToSlaves         should this request be forwarded to slaves
    * @param replaceExistingSynonyms should replace if this synonyms exists
    * @return the associated task
    * @throws AlgoliaException
    */
-  public Task saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas, boolean replaceExistingSynonyms) throws AlgoliaException {
-    return client.saveSynonym(name, synonymID, content, forwardToReplicas, replaceExistingSynonyms);
+  public Task saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToSlaves, boolean replaceExistingSynonyms) throws AlgoliaException {
+    return client.saveSynonym(name, synonymID, content, forwardToSlaves, replaceExistingSynonyms);
   }
 
   /**
@@ -457,12 +457,12 @@ public class Index<T> extends AbstractIndex<T> {
    * Deletes a synonym
    *
    * @param synonymID       the id of the synonym
-   * @param forwardToReplicas should this request be forwarded to slaves
+   * @param forwardToSlaves should this request be forwarded to slaves
    * @return the associated task
    * @throws AlgoliaException
    */
-  public Task deleteSynonym(@Nonnull String synonymID, boolean forwardToReplicas) throws AlgoliaException {
-    return client.deleteSynonym(name, synonymID, forwardToReplicas);
+  public Task deleteSynonym(@Nonnull String synonymID, boolean forwardToSlaves) throws AlgoliaException {
+    return client.deleteSynonym(name, synonymID, forwardToSlaves);
   }
 
   /**
@@ -481,8 +481,8 @@ public class Index<T> extends AbstractIndex<T> {
    * @return the associated task
    * @throws AlgoliaException
    */
-  public Task clearSynonyms(boolean forwardToReplicas) throws AlgoliaException {
-    return client.clearSynonyms(name, forwardToReplicas);
+  public Task clearSynonyms(boolean forwardToSlaves) throws AlgoliaException {
+    return client.clearSynonyms(name, forwardToSlaves);
   }
 
   /**
@@ -500,25 +500,25 @@ public class Index<T> extends AbstractIndex<T> {
    * Add or Replace a list of synonyms
    *
    * @param synonyms                List of synonyms
-   * @param forwardToReplicas         Forward the operation to the slave indices
+   * @param forwardToSlaves         Forward the operation to the slave indices
    * @param replaceExistingSynonyms Replace the existing synonyms with this batch
    * @return the associated task
    * @throws AlgoliaException
    */
-  public Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas, boolean replaceExistingSynonyms) throws AlgoliaException {
-    return client.batchSynonyms(name, synonyms, forwardToReplicas, replaceExistingSynonyms);
+  public Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToSlaves, boolean replaceExistingSynonyms) throws AlgoliaException {
+    return client.batchSynonyms(name, synonyms, forwardToSlaves, replaceExistingSynonyms);
   }
 
   /**
    * Add or Replace a list of synonyms, no replacement
    *
    * @param synonyms        List of synonyms
-   * @param forwardToReplicas Forward the operation to the slave indices
+   * @param forwardToSlaves Forward the operation to the slave indices
    * @return the associated task
    * @throws AlgoliaException
    */
-  public Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas) throws AlgoliaException {
-    return batchSynonyms(synonyms, forwardToReplicas, false);
+  public Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToSlaves) throws AlgoliaException {
+    return batchSynonyms(synonyms, forwardToSlaves, false);
   }
 
   /**
