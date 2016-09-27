@@ -400,6 +400,11 @@ public class Query {
     return this;
   }
 
+  public Query setDistinct(Integer distinct) {
+    this.distinct = distinct;
+    return this;
+  }
+
   public Query setFacets(String facets) {
     this.facets = facets;
     return this;
