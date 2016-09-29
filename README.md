@@ -2421,7 +2421,11 @@ String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Quer
 
 For more protection against API key leaking and reuse you can restrict the key to be valid only from specific IPv4 networks
 
+```java
+//Sync & Async version
 
+String publicKey = client.generateSecuredApiKey("YourSearchOnlyApiKey", new Query().setRestrictSources("192.168.1.0/24"));
+```
 
 
 
