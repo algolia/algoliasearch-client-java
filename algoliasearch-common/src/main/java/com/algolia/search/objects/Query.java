@@ -78,6 +78,7 @@ public class Query {
   private String userToken;
   private Integer validUntil;
   private List<String> restrictIndices;
+  private String restrictSources;
 
   /* BROWSE */
   private String cursor;
@@ -160,6 +161,7 @@ public class Query {
     builder = add(builder, "userToken", userToken);
     builder = add(builder, "validUntil", validUntil);
     builder = add(builder, "restrictIndices", restrictIndices);
+    builder = add(builder, "restrictSources", restrictSources);
 
     /* BROWSE */
     builder = add(builder, "cursor", cursor);
@@ -495,6 +497,15 @@ public class Query {
 
   public Query setRestrictIndices(List<String> restrictIndices) {
     this.restrictIndices = restrictIndices;
+    return this;
+  }
+
+  public String getRestrictSources() {
+    return restrictSources;
+  }
+
+  public Query setRestrictSources(String restrictSources) {
+    this.restrictSources = restrictSources;
     return this;
   }
 
