@@ -7,7 +7,12 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IndexSettings {
 
+  /**
+   * Deprecated: Use searchableAttributes
+   */
+  @Deprecated
   private List<String> attributesToIndex;
+  private List<String> searchableAttributes;
   private List<String> numericAttributesToIndex;
   private List<String> attributesForFaceting;
   private String attributeForDistinct;
@@ -46,6 +51,10 @@ public class IndexSettings {
   private Boolean removeStopWords;
   private String snippetEllipsisText;
 
+  /**
+   * Deprecated: Use getSearchableAttributes
+   */
+  @Deprecated
   public List<String> getAttributesToIndex() {
     return attributesToIndex;
   }
@@ -174,6 +183,10 @@ public class IndexSettings {
     return snippetEllipsisText;
   }
 
+  /**
+   * Deprecated: Use setSearchableAttributes
+   */
+  @Deprecated
   public IndexSettings setAttributesToIndex(List<String> attributesToIndex) {
     this.attributesToIndex = attributesToIndex;
     return this;
@@ -349,6 +362,15 @@ public class IndexSettings {
 
   public IndexSettings setReplicas(List<String> replicas) {
     this.replicas = replicas;
+    return this;
+  }
+
+  public List<String> getSearchableAttributes() {
+    return searchableAttributes;
+  }
+
+  public IndexSettings setSearchableAttributes(List<String> searchableAttributes) {
+    this.searchableAttributes = searchableAttributes;
     return this;
   }
 }
