@@ -23,6 +23,8 @@ public class ApiKey {
 
   private String description;
 
+  private String restrictSources;
+
   @SuppressWarnings("unused")
   public Integer getValidity() {
     return validity;
@@ -105,6 +107,15 @@ public class ApiKey {
 
   public ApiKey setDescription(String description) {
     this.description = description;
+    return this;
+  }
+
+  public String getRestrictSources() {
+    return restrictSources;
+  }
+
+  public ApiKey setRestrictSources(String restrictSources) {
+    this.restrictSources = restrictSources;
     return this;
   }
 }

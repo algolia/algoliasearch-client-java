@@ -6,6 +6,7 @@ Changelog
 - Add replicas instead of slaves
 - Deprecated attributesToIndex
 - Add searchableAttributes to replace attributesToIndex
+- Add restrictSources to ApiKeys
 
 2.3.0 (2016-08-22)
 ------------------
