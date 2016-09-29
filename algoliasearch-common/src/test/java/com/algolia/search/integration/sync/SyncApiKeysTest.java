@@ -32,6 +32,34 @@ abstract public class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
     client.batch(clean).waitForCompletion();
   }
 
+  private void waitForKeyPresent(Index<AlgoliaObject> index, String description) throws AlgoliaException, InterruptedException {
+    for (int i = 0; i < 100; i++) {
+      Thread.sleep(1000);
+      List<ApiKey> apiKeys = index == null ? client.listKeys() : index.listKeys();
+      boolean found = apiKeys.stream().map(ApiKey::getDescription).anyMatch(k -> k.equals(description));
+      if (found) {
+        return;
+      }
+    }
+
+    //will fail
+    assertThat(client.listKeys()).extracting("description").contains(description);
+  }
+
+  private void waitForKeyNotPresent(Index<AlgoliaObject> index, String description) throws AlgoliaException, InterruptedException {
+    for (int i = 0; i < 100; i++) {
+      Thread.sleep(1000);
+      List<ApiKey> apiKeys = index == null ? client.listKeys() : index.listKeys();
+      boolean found = apiKeys.stream().map(ApiKey::getDescription).anyMatch(k -> k.equals(description));
+      if (!found) {
+        return;
+      }
+    }
+
+    //will fail
+    assertThat(client.listKeys()).extracting("description").doesNotContain(description);
+  }
+
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void manageKeys() throws AlgoliaException, InterruptedException {
@@ -45,24 +73,18 @@ abstract public class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
     String keyName = client.addKey(apiKey).getKey();
     assertThat(keyName).isNotNull();
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    assertThat(client.listKeys()).extracting("description").contains(apiKey.getDescription());
+    waitForKeyPresent(null, apiKey.getDescription());
 
     apiKey = apiKey.setDescription("toto2" + System.currentTimeMillis());
     client.updateKey(keyName, apiKey);
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    assertThat(client.listKeys()).extracting("description").contains(apiKey.getDescription());
+    waitForKeyPresent(null, apiKey.getDescription());
 
     assertThat(client.getKey(keyName).get().getDescription()).isEqualTo(apiKey.getDescription());
 
     client.deleteKey(keyName);
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    assertThat(client.listKeys()).extracting("description").doesNotContain(apiKey.getDescription());
+    waitForKeyNotPresent(null, apiKey.getDescription());
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -78,24 +100,18 @@ abstract public class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
     String keyName = index.addKey(apiKey).getKey();
     assertThat(keyName).isNotNull();
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    assertThat(index.listKeys()).extracting("description").contains(apiKey.getDescription());
+    waitForKeyPresent(index, apiKey.getDescription());
 
     apiKey = apiKey.setDescription("toto2" + System.currentTimeMillis());
     index.updateKey(keyName, apiKey);
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    assertThat(index.listKeys()).extracting("description").contains(apiKey.getDescription());
+    waitForKeyPresent(index, apiKey.getDescription());
 
     assertThat(index.getKey(keyName).get().getDescription()).isEqualTo(apiKey.getDescription());
 
     index.deleteKey(keyName);
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    assertThat(index.listKeys()).extracting("description").doesNotContain(apiKey.getDescription());
+    waitForKeyNotPresent(index, apiKey.getDescription());
   }
 
 }

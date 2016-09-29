@@ -13,8 +13,10 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
@@ -31,6 +33,34 @@ abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(client.batch(clean));
   }
 
+  private void waitForKeyPresent(AsyncIndex<AlgoliaObject> index, String description) throws Exception {
+    for (int i = 0; i < 100; i++) {
+      Thread.sleep(1000);
+      CompletableFuture<List<ApiKey>> apiKeys = index == null ? client.listKeys() : index.listKeys();
+      boolean found = apiKeys.get(WAIT_TIME_IN_SECONDS, SECONDS).stream().map(ApiKey::getDescription).anyMatch(k -> k.equals(description));
+      if (found) {
+        return;
+      }
+    }
+
+    //will fail
+    futureAssertThat(client.listKeys()).extracting("description").contains(description);
+  }
+
+  private void waitForKeyNotPresent(AsyncIndex<AlgoliaObject> index, String description) throws Exception {
+    for (int i = 0; i < 100; i++) {
+      Thread.sleep(1000);
+      CompletableFuture<List<ApiKey>> apiKeys = index == null ? client.listKeys() : index.listKeys();
+      boolean found = apiKeys.get(WAIT_TIME_IN_SECONDS, SECONDS).stream().map(ApiKey::getDescription).anyMatch(k -> k.equals(description));
+      if (!found) {
+        return;
+      }
+    }
+
+    //will fail
+    futureAssertThat(client.listKeys()).extracting("description").doesNotContain(description);
+  }
+
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void manageKeys() throws Exception {
@@ -44,24 +74,18 @@ abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
     String keyName = client.addKey(apiKey).get().getKey();
     assertThat(keyName).isNotNull();
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    futureAssertThat(client.listKeys()).extracting("description").contains(apiKey.getDescription());
+    waitForKeyPresent(null, apiKey.getDescription());
 
     apiKey = apiKey.setDescription("toto2" + System.currentTimeMillis());
     client.updateKey(keyName, apiKey).get();
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    futureAssertThat(client.listKeys()).extracting("description").contains(apiKey.getDescription());
+    waitForKeyPresent(null, apiKey.getDescription());
 
     assertThat(client.getKey(keyName).get().get().getDescription()).isEqualTo(apiKey.getDescription());
 
     client.deleteKey(keyName).get();
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    futureAssertThat(client.listKeys()).extracting("description").doesNotContain(apiKey.getDescription());
+    waitForKeyNotPresent(null, apiKey.getDescription());
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -77,24 +101,18 @@ abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
     String keyName = index.addKey(apiKey).get().getKey();
     assertThat(keyName).isNotNull();
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    futureAssertThat(index.listKeys()).extracting("description").contains(apiKey.getDescription());
+    waitForKeyPresent(index, apiKey.getDescription());
 
     apiKey = apiKey.setDescription("toto2" + System.currentTimeMillis());
     index.updateKey(keyName, apiKey).get();
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    futureAssertThat(index.listKeys()).extracting("description").contains(apiKey.getDescription());
+    waitForKeyPresent(index, apiKey.getDescription());
 
     assertThat(index.getKey(keyName).get().get().getDescription()).isEqualTo(apiKey.getDescription());
 
     index.deleteKey(keyName).get();
 
-    Thread.sleep(5000); //wait for the key to propagate
-
-    futureAssertThat(index.listKeys()).extracting("description").doesNotContain(apiKey.getDescription());
+    waitForKeyNotPresent(index, apiKey.getDescription());
   }
 
 }
