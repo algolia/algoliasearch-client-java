@@ -38,7 +38,7 @@ abstract public class SyncSettingsTest extends SyncAlgoliaIntegrationTest {
     index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
 
     IndexSettings settings = index.getSettings();
-    assertThat(settings.getAttributesToIndex()).isNull();
+    assertThat(settings.getSearchableAttributes()).isNull();
 
     settings.setAttributesForFaceting(Collections.singletonList("name"));
 

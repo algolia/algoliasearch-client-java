@@ -37,7 +37,7 @@ abstract public class AsyncSettingsTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.addObject(new AlgoliaObject("name", 1)));
 
     IndexSettings settings = index.getSettings().get();
-    assertThat(settings.getAttributesToIndex()).isNull();
+    assertThat(settings.getSearchableAttributes()).isNull();
 
     settings.setAttributesForFaceting(Collections.singletonList("name"));
 
