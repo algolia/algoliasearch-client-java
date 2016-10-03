@@ -1,12 +1,13 @@
 Changelog
 =========
 
-2.4.0 (TBD)
+2.4.0 (2016-10-03)
 -----------
-- Add replicas instead of slaves
+- Rename master/slaves to primary/replicas
 - Deprecated attributesToIndex
 - Add searchableAttributes to replace attributesToIndex
 - Add restrictSources to ApiKeys
+- Allow integers in the Distinct field
 
 2.3.0 (2016-08-22)
 ------------------
