@@ -1,9 +1,10 @@
 package com.algolia.search.integration.sync;
 
-import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.Index;
+import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.IndexQuery;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 abstract public class SyncSearchTest extends SyncAlgoliaIntegrationTest {
 
@@ -70,4 +72,11 @@ abstract public class SyncSearchTest extends SyncAlgoliaIntegrationTest {
     assertThat(search.getResults()).hasSize(2);
   }
 
+  @Test
+  public void searchOnNonExistingIndex() throws AlgoliaException {
+    Index<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
+    assertThatExceptionOfType(AlgoliaIndexNotFoundException.class).isThrownBy(
+      () -> index.search(new Query(("")))
+    ).withMessage("index3 does not exist");
+  }
 }

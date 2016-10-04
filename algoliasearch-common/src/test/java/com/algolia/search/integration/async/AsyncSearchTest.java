@@ -3,6 +3,8 @@ package com.algolia.search.integration.async;
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
+import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.IndexQuery;
@@ -15,6 +17,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,6 +67,17 @@ abstract public class AsyncSearchTest extends AsyncAlgoliaIntegrationTest {
     )).get();
 
     assertThat(search.getResults()).hasSize(2);
+  }
+
+  @Test
+  public void searchOnNonExistingIndex() throws AlgoliaException, ExecutionException, InterruptedException {
+    AsyncIndex<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
+    CompletableFuture<SearchResult<AlgoliaObject>> search = index.search(new Query(("")));
+    while(!search.isDone()) { Thread.sleep(1000); }
+    assertThat(search)
+      .hasFailedWithThrowableThat()
+      .isExactlyInstanceOf(AlgoliaIndexNotFoundException.class)
+      .hasMessage("index3 does not exist");
   }
 
 }

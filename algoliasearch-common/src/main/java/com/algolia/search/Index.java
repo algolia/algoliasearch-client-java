@@ -320,6 +320,7 @@ public class Index<T> extends AbstractIndex<T> {
 
   /**
    * Search in the index
+   * throws a {@link com.algolia.search.exceptions.AlgoliaIndexNotFoundException} if the index does not exists
    *
    * @param query the query
    * @return the result of the search

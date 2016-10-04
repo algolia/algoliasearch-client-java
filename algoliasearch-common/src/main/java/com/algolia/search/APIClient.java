@@ -1,6 +1,7 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.http.AlgoliaHttpClient;
 import com.algolia.search.http.AlgoliaRequest;
 import com.algolia.search.http.HttpMethod;
@@ -602,7 +603,11 @@ public class APIClient {
       klass
     );
 
-    return httpClient.requestWithRetry(algoliaRequest.setData(new Search(query)));
+    SearchResult<T> result = httpClient.requestWithRetry(algoliaRequest.setData(new Search(query)));
+    if(result == null) { //Special case when the index does not exists
+      throw new AlgoliaIndexNotFoundException(indexName + " does not exist");
+    }
+    return result;
   }
 
   TaskSingleIndex batch(String indexName, List<BatchOperation> operations) throws AlgoliaException {

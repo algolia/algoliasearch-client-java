@@ -1,6 +1,7 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.http.AlgoliaRequest;
 import com.algolia.search.http.AsyncAlgoliaHttpClient;
 import com.algolia.search.http.HttpMethod;
@@ -591,7 +592,17 @@ public class AsyncAPIClient {
       klass
     );
 
-    return httpClient.requestWithRetry(algoliaRequest.setData(new Search(query)));
+    return httpClient
+      .requestWithRetry(algoliaRequest.setData(new Search(query)))
+      .thenCompose(result -> {
+        CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
+        if(result == null) { //Special case when the index does not exists
+          r.completeExceptionally(new AlgoliaIndexNotFoundException(indexName + " does not exist"));
+        } else {
+          r.complete(result);
+        }
+        return r;
+      });
   }
 
   CompletableFuture<AsyncTaskSingleIndex> batch(String indexName, List<BatchOperation> operations) {

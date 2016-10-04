@@ -322,7 +322,7 @@ public class AsyncIndex<T> extends AbstractIndex {
    * Search in the index
    *
    * @param query the query
-   * @return the result of the search
+   * @return the result of the search, or a failed Future if the index does not exists
    * @throws AlgoliaException
    */
   public CompletableFuture<SearchResult<T>> search(@Nonnull Query query) throws AlgoliaException {
