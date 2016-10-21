@@ -74,7 +74,7 @@ Manage Indices
 
 Api Keys
 
-1. [Generate key](#generate-key---listindices)
+1. [Generate key](#generate-key---generatesecuredapikey)
 
 
 Synonyms
@@ -497,7 +497,7 @@ The server response will look like:
 
 - `query` (string): An echo of the query text. See the [`query`](#query) search parameter.
 
-- `queryAfterRemoval` (string, optional): *Note: Only returned when [`removeWordsIfNoResults`](#removewordsifnoresults) is set.* A markup text indicating which parts of the original query have been removed in order to retrieve a non-empty result set. The removed parts are surrounded by `<em>` tags.
+- `queryAfterRemoval` (string, optional): *Note: Only returned when [`removeWordsIfNoResults`](#removewordsifnoresults) is set to `lastWords` or `firstWords`.* A markup text indicating which parts of the original query have been removed in order to retrieve a non-empty result set. The removed parts are surrounded by `<em>` tags.
 
 - `params` (string, URL-encoded): An echo of all search parameters.
 
@@ -988,10 +988,10 @@ To add a custom setting for an index, simply extend the class `IndexSettings` an
 
 <!--PARAMETERS_LINK-->
 
-Here is the list of parameters you can use with the set settings method (`indexing` [scope](#scope))
+Here is the list of parameters you can use with the set settings method (`settings` [scope](#scope)).
 
 
-Parameters that can be overridden at search time also have the `search` [scope](#scope)
+Parameters that can be overridden at search time also have the `search` [scope](#scope).
 
 **Attributes**
 
@@ -2296,7 +2296,7 @@ To address those use-cases we have two differents type of keys:
 
 When you need to restrict the scope of the *Search Key*, we recommend to use *Secured API Key*.
 You can generate them on the fly (without any call to the API)
-from the *Search Only API Key* or any search *User Key* using the [Generate key](#generate-key---listindices) method
+from the *Search Only API Key* or any search *User Key* using the [Generate key](#generate-key---generatesecuredapikey) method
 
 - **User API Keys**
 
@@ -2310,7 +2310,7 @@ We have several methods to manage them:
 - [List api keys](#list-api-keys---listapikeys)
 - [Get key permissions](#get-key-permissions---getuserkeyacl)
 
-### Generate key - `listIndices`
+### Generate key - `generateSecuredApiKey`
 
 When you need to restrict the scope of the *Search Key*, we recommend to use *Secured API Key*.
 You can generate a *Secured API Key* from the *Search Only API Key* or any search *User API Key*
