@@ -11,10 +11,7 @@ import com.algolia.search.objects.SynonymQuery;
 import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.objects.tasks.sync.TaskIndexing;
 import com.algolia.search.objects.tasks.sync.TaskSingleIndex;
-import com.algolia.search.responses.CreateUpdateKey;
-import com.algolia.search.responses.DeleteKey;
-import com.algolia.search.responses.SearchResult;
-import com.algolia.search.responses.SearchSynonymResult;
+import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
@@ -232,7 +229,7 @@ public class Index<T> extends AbstractIndex<T> {
   /**
    * Set settings of this index
    *
-   * @param settings        the settings to set
+   * @param settings          the settings to set
    * @param forwardToReplicas should these updates be forwarded to the slaves
    * @return the related Task
    * @throws AlgoliaException
@@ -331,6 +328,33 @@ public class Index<T> extends AbstractIndex<T> {
   }
 
   /**
+   * Search in a facet
+   * throws a {@link com.algolia.search.exceptions.AlgoliaIndexNotFoundException} if the index does not exists
+   *
+   * @param facetName  The name of the facet to search in
+   * @param facetQuery The search query for this facet
+   * @param query      the query (not required)
+   * @return the result of the search
+   * @throws AlgoliaException
+   */
+  public SearchFacetResult searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
+    return client.searchFacet(name, facetName, facetQuery, query);
+  }
+
+  /**
+   * Search in a facet
+   * throws a {@link com.algolia.search.exceptions.AlgoliaIndexNotFoundException} if the index does not exists
+   *
+   * @param facetName  The name of the facet to search in
+   * @param facetQuery The search query for this facet
+   * @return the result of the search
+   * @throws AlgoliaException
+   */
+  public SearchFacetResult searchFacet(@Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
+    return this.searchFacet(facetName, facetQuery, null);
+  }
+
+  /**
    * Custom batch
    * <p>
    * All operations must have index name set to <code>null</code>
@@ -408,8 +432,8 @@ public class Index<T> extends AbstractIndex<T> {
   /**
    * Saves/updates a synonym without replacing
    *
-   * @param synonymID       the id of the synonym
-   * @param content         the synonym
+   * @param synonymID         the id of the synonym
+   * @param content           the synonym
    * @param forwardToReplicas should this request be forwarded to slaves
    * @return the associated task
    * @throws AlgoliaException
@@ -423,7 +447,7 @@ public class Index<T> extends AbstractIndex<T> {
    *
    * @param synonymID               the id of the synonym
    * @param content                 the synonym
-   * @param forwardToReplicas         should this request be forwarded to slaves
+   * @param forwardToReplicas       should this request be forwarded to slaves
    * @param replaceExistingSynonyms should replace if this synonyms exists
    * @return the associated task
    * @throws AlgoliaException
@@ -457,7 +481,7 @@ public class Index<T> extends AbstractIndex<T> {
   /**
    * Deletes a synonym
    *
-   * @param synonymID       the id of the synonym
+   * @param synonymID         the id of the synonym
    * @param forwardToReplicas should this request be forwarded to slaves
    * @return the associated task
    * @throws AlgoliaException
@@ -501,7 +525,7 @@ public class Index<T> extends AbstractIndex<T> {
    * Add or Replace a list of synonyms
    *
    * @param synonyms                List of synonyms
-   * @param forwardToReplicas         Forward the operation to the slave indices
+   * @param forwardToReplicas       Forward the operation to the slave indices
    * @param replaceExistingSynonyms Replace the existing synonyms with this batch
    * @return the associated task
    * @throws AlgoliaException
@@ -513,7 +537,7 @@ public class Index<T> extends AbstractIndex<T> {
   /**
    * Add or Replace a list of synonyms, no replacement
    *
-   * @param synonyms        List of synonyms
+   * @param synonyms          List of synonyms
    * @param forwardToReplicas Forward the operation to the slave indices
    * @return the associated task
    * @throws AlgoliaException

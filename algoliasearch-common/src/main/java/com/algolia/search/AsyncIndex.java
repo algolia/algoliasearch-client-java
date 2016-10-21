@@ -11,10 +11,7 @@ import com.algolia.search.objects.SynonymQuery;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
-import com.algolia.search.responses.CreateUpdateKey;
-import com.algolia.search.responses.DeleteKey;
-import com.algolia.search.responses.SearchResult;
-import com.algolia.search.responses.SearchSynonymResult;
+import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
@@ -327,6 +324,31 @@ public class AsyncIndex<T> extends AbstractIndex {
    */
   public CompletableFuture<SearchResult<T>> search(@Nonnull Query query) throws AlgoliaException {
     return client.search(name, query, klass);
+  }
+
+  /**
+   * Search in a facet
+   *
+   * @param facetName  The name of the facet to search in
+   * @param facetQuery The search query for this facet
+   * @param query      the query (not required)
+   * @return the result of the search
+   * @throws AlgoliaException
+   */
+  public CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
+    return client.searchFacet(name, facetName, facetQuery, query);
+  }
+
+  /**
+   * Search in a facet
+   *
+   * @param facetName  The name of the facet to search in
+   * @param facetQuery The search query for this facet
+   * @return the result of the search
+   * @throws AlgoliaException
+   */
+  public CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
+    return this.searchFacet(facetName, facetQuery, null);
   }
 
   /**

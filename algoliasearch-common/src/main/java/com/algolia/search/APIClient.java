@@ -780,6 +780,20 @@ public class APIClient {
     return httpClient.requestWithRetry(algoliaRequest);
   }
 
+  SearchFacetResult searchFacet(String indexName, String facetName, String facetQuery, Query query) throws AlgoliaException {
+    query = query == null ? new Query() : query;
+    query = query.addCustomParameter("facetQuery", facetQuery);
+    AlgoliaRequest<SearchFacetResult> algoliaRequest = new AlgoliaRequest<>(
+      HttpMethod.POST,
+      true,
+      Arrays.asList("1", "indexes", indexName, "facets", facetName, "query"),
+      SearchFacetResult.class
+    )
+      .setData(new Search(query));
+
+    return httpClient.requestWithRetry(algoliaRequest);
+  }
+
   /**
    * Used internally for deleteByQuery
    */
