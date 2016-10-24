@@ -721,4 +721,17 @@ public class AsyncAPIClient {
     ).thenApply(s -> s.setIndex(indexName));
   }
 
+  CompletableFuture<SearchFacetResult> searchFacet(String indexName, String facetName, String facetQuery, Query query) {
+    query = query == null ? new Query() : query;
+    query = query.addCustomParameter("facetQuery", facetQuery);
+
+    return httpClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.POST,
+        false,
+        Arrays.asList("1", "indexes", indexName, "facets", facetName, "query"),
+        SearchFacetResult.class
+      ).setData(new Search(query))
+    );
+  }
 }

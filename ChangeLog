@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.5.0 (2016-??-??)
+------------------
+- Add searchFacet
+
 2.4.1 (2016-10-04)
 ------------------
 - Fix search on non existing index

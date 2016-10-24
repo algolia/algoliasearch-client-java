@@ -1,6 +1,7 @@
 package com.algolia.search.integration.async;
 
 import com.algolia.search.AlgoliaObject;
+import com.algolia.search.AlgoliaObjectForFaceting;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
 import com.algolia.search.exceptions.AlgoliaException;
@@ -8,14 +9,17 @@ import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.IndexQuery;
+import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.Query;
 import com.algolia.search.responses.MultiQueriesResult;
+import com.algolia.search.responses.SearchFacetResult;
 import com.algolia.search.responses.SearchResult;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -27,7 +31,9 @@ abstract public class AsyncSearchTest extends AsyncAlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
-    "index2"
+    "index2",
+    //index3 is used for non existing index
+    "index4"
   );
 
   @Before
@@ -73,11 +79,35 @@ abstract public class AsyncSearchTest extends AsyncAlgoliaIntegrationTest {
   public void searchOnNonExistingIndex() throws AlgoliaException, ExecutionException, InterruptedException {
     AsyncIndex<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
     CompletableFuture<SearchResult<AlgoliaObject>> search = index.search(new Query(("")));
-    while(!search.isDone()) { Thread.sleep(1000); }
+    while (!search.isDone()) {
+      Thread.sleep(1000);
+    }
     assertThat(search)
       .hasFailedWithThrowableThat()
       .isExactlyInstanceOf(AlgoliaIndexNotFoundException.class)
       .hasMessage("index3 does not exist");
+  }
+
+  @Test
+  public void searchInFacets() throws Exception {
+    AsyncIndex<AlgoliaObjectForFaceting> index = client.initIndex("index4", AlgoliaObjectForFaceting.class);
+    waitForCompletion(
+      index
+        .setSettings(new IndexSettings().setAttributesForFaceting(Collections.singletonList("searchable(series)")))
+    );
+
+    waitForCompletion(
+      index
+        .addObjects(Arrays.asList(
+          new AlgoliaObjectForFaceting("snoopy", 12, "Peanuts"),
+          new AlgoliaObjectForFaceting("woodstock", 12, "Peanuts"),
+          new AlgoliaObjectForFaceting("Calvin", 12, "Calvin & Hobbes")
+        ))
+    );
+
+    SearchFacetResult result = index.searchFacet("series", "Peanuts").get();
+    assertThat(result.getFacetHits())
+      .hasSize(1);
   }
 
 }

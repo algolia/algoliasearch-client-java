@@ -1,6 +1,7 @@
 package com.algolia.search.integration.sync;
 
 import com.algolia.search.AlgoliaObject;
+import com.algolia.search.AlgoliaObjectForFaceting;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
@@ -8,14 +9,17 @@ import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.IndexQuery;
+import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.Query;
 import com.algolia.search.responses.MultiQueriesResult;
+import com.algolia.search.responses.SearchFacetResult;
 import com.algolia.search.responses.SearchResult;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +30,9 @@ abstract public class SyncSearchTest extends SyncAlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList(
     "index1",
-    "index2"
+    "index2",
+    //index3 is used for non existing index
+    "index4"
   );
 
   @Before
@@ -78,5 +84,24 @@ abstract public class SyncSearchTest extends SyncAlgoliaIntegrationTest {
     assertThatExceptionOfType(AlgoliaIndexNotFoundException.class).isThrownBy(
       () -> index.search(new Query(("")))
     ).withMessage("index3 does not exist");
+  }
+
+  @Test
+  public void searchInFacets() throws AlgoliaException {
+    Index<AlgoliaObjectForFaceting> index = client.initIndex("index4", AlgoliaObjectForFaceting.class);
+    index
+      .setSettings(new IndexSettings().setAttributesForFaceting(Collections.singletonList("searchable(series)")))
+      .waitForCompletion();
+
+    index
+      .addObjects(Arrays.asList(
+        new AlgoliaObjectForFaceting("snoopy", 12, "Peanuts"),
+        new AlgoliaObjectForFaceting("woodstock", 12, "Peanuts"),
+        new AlgoliaObjectForFaceting("Calvin", 12, "Calvin & Hobbes")
+      ))
+      .waitForCompletion();
+
+    SearchFacetResult result = index.searchFacet("series", "Peanuts");
+    assertThat(result.getFacetHits()).hasSize(1);
   }
 }
