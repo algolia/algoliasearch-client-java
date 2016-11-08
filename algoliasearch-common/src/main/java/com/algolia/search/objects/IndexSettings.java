@@ -1,6 +1,9 @@
 package com.algolia.search.objects;
 
+import com.algolia.search.Index;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -46,9 +49,9 @@ public class IndexSettings {
   private String removeWordsIfNoResults;
   private Boolean replaceSynonymsInHighlight;
   private Integer maxValuesPerFacet;
-  private Integer distinct;
+  private Distinct distinct;
   private String typoTolerance;
-  private Boolean removeStopWords;
+  private RemoveStopWords removeStopWords;
   private String snippetEllipsisText;
 
   /**
@@ -167,7 +170,7 @@ public class IndexSettings {
     return maxValuesPerFacet;
   }
 
-  public Integer getDistinct() {
+  public Distinct getDistinct() {
     return distinct;
   }
 
@@ -175,7 +178,7 @@ public class IndexSettings {
     return typoTolerance;
   }
 
-  public Boolean getRemoveStopWords() {
+  public RemoveStopWords getRemoveStopWords() {
     return removeStopWords;
   }
 
@@ -327,7 +330,18 @@ public class IndexSettings {
     return this;
   }
 
+  @JsonIgnore
   public IndexSettings setDistinct(Integer distinct) {
+    return this.setDistinct(Distinct.of(distinct));
+  }
+
+  @JsonIgnore
+  public IndexSettings setDistinct(Boolean distinct) {
+    return this.setDistinct(Distinct.of(distinct));
+  }
+
+  @JsonProperty
+  public IndexSettings setDistinct(Distinct distinct) {
     this.distinct = distinct;
     return this;
   }
@@ -337,7 +351,18 @@ public class IndexSettings {
     return this;
   }
 
+  @JsonIgnore
   public IndexSettings setRemoveStopWords(Boolean removeStopWords) {
+    return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
+  }
+
+  @JsonIgnore
+  public IndexSettings setRemoveStopWords(List<String> removeStopWords) {
+    return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
+  }
+
+  @JsonProperty
+  public IndexSettings setRemoveStopWords(RemoveStopWords removeStopWords) {
     this.removeStopWords = removeStopWords;
     return this;
   }
