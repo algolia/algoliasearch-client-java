@@ -4,6 +4,8 @@ Changelog
 2.5.0 (2016-??-??)
 ------------------
 - Add searchFacet
+- Enable RemoveStopWords for boolean & List<String>
+- Enable Distinct for boolean and integer
 
 2.4.1 (2016-10-04)
 ------------------

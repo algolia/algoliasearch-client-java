@@ -8,7 +8,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Query {
@@ -31,7 +30,7 @@ public class Query {
   private Integer minProximity;
   private RemoveWordsType removeWordsIfNoResult;
   private String disableTypoToleranceOnAttributes;
-  private Object removeStopWords;
+  private RemoveStopWords removeStopWords;
   private String exactOnSingleWordQuery;
   private String alternativesAsExact;
 
@@ -323,12 +322,12 @@ public class Query {
   }
 
   public Query setRemoveStopWords(Boolean removeStopWords) {
-    this.removeStopWords = removeStopWords;
+    this.removeStopWords = RemoveStopWords.of(removeStopWords);
     return this;
   }
 
-  public Query setRemoveStopWords(List<String> isoCode) {
-    this.removeStopWords = isoCode.stream().collect(Collectors.joining(","));
+  public Query setRemoveStopWords(List<String> isoCodes) {
+    this.removeStopWords = RemoveStopWords.of(isoCodes);
     return this;
   }
 

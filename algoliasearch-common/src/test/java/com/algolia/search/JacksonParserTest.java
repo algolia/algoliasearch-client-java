@@ -1,9 +1,13 @@
 package com.algolia.search;
 
 import com.algolia.search.inputs.synonym.*;
+import com.algolia.search.objects.Distinct;
+import com.algolia.search.objects.IndexSettings;
+import com.algolia.search.objects.RemoveStopWords;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,6 +32,56 @@ public class JacksonParserTest {
 
     synonym = DEFAULT_OBJECT_MAPPER.readValue("{\"type\":\"synonym\",\"objectID\":\"synonymID\",\"synonyms\":[\"1\", \"2\"]}", AbstractSynonym.class);
     assertThat(synonym).isInstanceOf(Synonym.class);
+  }
+
+  @Test
+  public void serializeDistinct() throws IOException {
+    IndexSettings settings;
+
+    settings = new IndexSettings().setDistinct(true);
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"distinct\":true}");
+
+    settings = new IndexSettings().setDistinct(1);
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"distinct\":1}");
+
+    settings = new IndexSettings().setDistinct(Distinct.of(12));
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"distinct\":12}");
+  }
+
+  @Test
+  public void deserializeDistinct() throws IOException {
+    Distinct distinct;
+
+    distinct = DEFAULT_OBJECT_MAPPER.readValue("{\"distinct\":true}", IndexSettings.class).getDistinct();
+    assertThat(distinct).isEqualTo(Distinct.of(true));
+
+    distinct = DEFAULT_OBJECT_MAPPER.readValue("{\"distinct\":1}", IndexSettings.class).getDistinct();
+    assertThat(distinct).isEqualTo(Distinct.of(1));
+  }
+
+  @Test
+  public void serializeRemoveStopWords() throws IOException {
+    IndexSettings settings;
+
+    settings = new IndexSettings().setRemoveStopWords(true);
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"removeStopWords\":true}");
+
+    settings = new IndexSettings().setRemoveStopWords(Arrays.asList("a", "b"));
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"removeStopWords\":\"a,b\"}");
+
+    settings = new IndexSettings().setRemoveStopWords(RemoveStopWords.of(false));
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"removeStopWords\":false}");
+  }
+
+  @Test
+  public void deserializeRemoveStopWords() throws IOException {
+    RemoveStopWords removeStopWords;
+
+    removeStopWords = DEFAULT_OBJECT_MAPPER.readValue("{\"removeStopWords\":true}", IndexSettings.class).getRemoveStopWords();
+    assertThat(removeStopWords).isEqualTo(RemoveStopWords.of(true));
+
+    removeStopWords = DEFAULT_OBJECT_MAPPER.readValue("{\"removeStopWords\":\"a,b\"}", IndexSettings.class).getRemoveStopWords();
+    assertThat(removeStopWords).isEqualTo(RemoveStopWords.of(Arrays.asList("a", "b")));
   }
 
 }
