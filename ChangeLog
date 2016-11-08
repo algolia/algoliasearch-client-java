@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.5.0 (2016-??-??)
+2.5.0 (2016-11-08)
 ------------------
 - Add searchFacet
 - Enable RemoveStopWords for boolean & List<String>
