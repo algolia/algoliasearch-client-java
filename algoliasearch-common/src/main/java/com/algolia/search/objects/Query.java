@@ -19,7 +19,7 @@ public class Query {
   private Integer minWordSizeForApprox1;
   private Integer minWordSizeForApprox2;
   private Boolean allowTyposOnNumericTokens;
-  private Boolean ignorePlural;
+  private IgnorePlurals ignorePlural;
   private String restrictSearchableAttributes;
   private Boolean advancedSyntax;
   private Boolean analytics;
@@ -266,8 +266,13 @@ public class Query {
     return this;
   }
 
-  public Query setIgnorePlural(Boolean ignorePlural) {
-    this.ignorePlural = ignorePlural;
+  public Query setIgnorePlural(Boolean ignorePlurals) {
+    this.ignorePlural = IgnorePlurals.of(ignorePlurals);
+    return this;
+  }
+
+  public Query setIgnorePlural(List<String> isoCodes) {
+    this.ignorePlural = IgnorePlurals.of(isoCodes);
     return this;
   }
 
