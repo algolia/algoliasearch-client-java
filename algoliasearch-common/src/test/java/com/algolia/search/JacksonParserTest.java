@@ -2,6 +2,7 @@ package com.algolia.search;
 
 import com.algolia.search.inputs.synonym.*;
 import com.algolia.search.objects.Distinct;
+import com.algolia.search.objects.IgnorePlurals;
 import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.RemoveStopWords;
 import org.junit.Test;
@@ -82,6 +83,34 @@ public class JacksonParserTest {
 
     removeStopWords = DEFAULT_OBJECT_MAPPER.readValue("{\"removeStopWords\":\"a,b\"}", IndexSettings.class).getRemoveStopWords();
     assertThat(removeStopWords).isEqualTo(RemoveStopWords.of(Arrays.asList("a", "b")));
+  }
+
+  @Test
+  public void serializeIgnorePlurals() throws IOException {
+    IndexSettings settings;
+
+    settings = new IndexSettings().setIgnorePlurals(true);
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"ignorePlurals\":true}");
+
+    settings = new IndexSettings().setIgnorePlurals(IgnorePlurals.of(Arrays.asList("en")));
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"ignorePlurals\":\"en\"}");
+
+    settings = new IndexSettings().setIgnorePlurals(Arrays.asList("en", "fr"));
+    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"ignorePlurals\":\"en,fr\"}");
+  }
+
+  @Test
+  public void deserializeIgnorePlurals() throws IOException {
+    IgnorePlurals ignorePlurals;
+
+    ignorePlurals = DEFAULT_OBJECT_MAPPER.readValue("{\"ignorePlurals\":true}", IndexSettings.class).getIgnorePlurals();
+    assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(true));
+
+    ignorePlurals = DEFAULT_OBJECT_MAPPER.readValue("{\"ignorePlurals\":\"en\"}", IndexSettings.class).getIgnorePlurals();
+    assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Arrays.asList("en")));
+
+    ignorePlurals = DEFAULT_OBJECT_MAPPER.readValue("{\"ignorePlurals\":\"en,fr\"}", IndexSettings.class).getIgnorePlurals();
+    assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Arrays.asList("en", "fr")));
   }
 
 }

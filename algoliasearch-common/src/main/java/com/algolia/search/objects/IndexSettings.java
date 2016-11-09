@@ -44,7 +44,7 @@ public class IndexSettings {
   private String highlightPostTag;
   private List<String> optionalWords;
   private Boolean allowTyposOnNumericTokens;
-  private Boolean ignorePlurals;
+  private IgnorePlurals ignorePlurals;
   private Boolean advancedSyntax;
   private String removeWordsIfNoResults;
   private Boolean replaceSynonymsInHighlight;
@@ -154,7 +154,7 @@ public class IndexSettings {
     return allowTyposOnNumericTokens;
   }
 
-  public Boolean getIgnorePlurals() {
+  public IgnorePlurals getIgnorePlurals() {
     return ignorePlurals;
   }
 
@@ -310,7 +310,18 @@ public class IndexSettings {
     return this;
   }
 
+  @JsonIgnore
   public IndexSettings setIgnorePlurals(Boolean ignorePlurals) {
+    return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
+  }
+
+  @JsonIgnore
+  public IndexSettings setIgnorePlurals(List<String> ignorePlurals) {
+    return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
+  }
+
+  @JsonProperty
+  public IndexSettings setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
     return this;
   }
