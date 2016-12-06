@@ -21,7 +21,8 @@ public interface Defaults {
       .enable(OBJECT_MAPPER_DEFAULT_FEATURE)
       .disable(OBJECT_MAPPER_DEFAULT_DESERIALIZATION_FEATURE);
 
-  int READ_TIMEOUT_MS = 2000;
-  int CONNECT_TIMEOUT_MS = 2000;
+  int READ_TIMEOUT_MS = 2 * 1000; //2 seconds
+  int CONNECT_TIMEOUT_MS = 2 * 1000; //2 seconds
+  int HOST_DOWN_TIMEOUT_MS = 5 * 60 * 1000; //5 minutes
 
 }

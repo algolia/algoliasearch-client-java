@@ -1,7 +1,7 @@
-package com.algolia.search;
+package com.algolia.search.http;
 
+import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.http.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +10,8 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,10 +25,13 @@ public class AlgoliaHttpClientTest {
 
   private final String applicationId = "APP_ID";
   private MockedAlgoliaHttpClient mockClient;
+  private Instant now;
+  private final int hostTimeout = 1000;
 
   @Before
   public void before() {
     mockClient = spy(new MockedAlgoliaHttpClient());
+    now = Instant.EPOCH;
   }
 
   @Test
@@ -175,9 +180,91 @@ public class AlgoliaHttpClientTest {
     );
   }
 
+  @Test
+  public void oneCallOneExceptionOne200PutHostDownOnQuery() throws IOException, AlgoliaException {
+    when(makeMockRequest())
+      .thenThrow(new IOException())
+      .thenReturn(response(200));
+
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.GET,
+        true,
+        Arrays.asList("1", "indexes"),
+        Result.class
+      )
+    );
+
+    assertThat(mockClient.hostStatuses.get(applicationId + "-dsn." + ALGOLIA_NET))
+      .isEqualToComparingFieldByField(new HostStatus(hostTimeout, false, now));
+  }
+
+  @Test
+  public void oneCallOneExceptionOne200PutHostDownOnBuild() throws IOException, AlgoliaException {
+    when(makeMockRequest())
+      .thenThrow(new IOException())
+      .thenReturn(response(200));
+
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.GET,
+        false,
+        Arrays.asList("1", "indexes"),
+        Result.class
+      )
+    );
+
+    assertThat(mockClient.hostStatuses.get(applicationId + "." + ALGOLIA_NET))
+      .isEqualToComparingFieldByField(new HostStatus(hostTimeout, false, now));
+  }
+
+  @Test
+  public void oneCallOneExceptionOne200PutHostDownOnQueryThenRetryAfterTimeout() throws IOException, AlgoliaException {
+    when(makeMockRequest())
+      .thenThrow(new IOException())
+      .thenReturn(response(200));
+
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.GET,
+        true,
+        Arrays.asList("1", "indexes"),
+        Result.class
+      )
+    );
+
+    assertThat(mockClient.hostStatuses.get(applicationId + "-dsn." + ALGOLIA_NET))
+      .isEqualToComparingFieldByField(new HostStatus(hostTimeout, false, now));
+
+    //Fast forward in time
+    now = now.plusMillis(2000); //timeout is at 1000
+
+    when(makeMockRequest())
+      .thenReturn(response(200));
+
+    mockClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.GET,
+        true,
+        Arrays.asList("1", "indexes"),
+        Result.class
+      )
+    );
+
+    assertThat(mockClient.hostStatuses.get(applicationId + "-dsn." + ALGOLIA_NET))
+      .isEqualToComparingFieldByField(new HostStatus(hostTimeout, true, now));
+  }
+
   private AlgoliaHttpResponse makeMockRequest() throws IOException {
+    //`any` returns a `null` so `mockClient.request` throws an exception, because of the @Nonnull on the parameter
+    //We do it outside the call and use a default non-null `AlgoliaHttpRequest`
+    any(AlgoliaHttpRequest.class);
     return mockClient.request(
-      any(AlgoliaHttpRequest.class)
+      new AlgoliaHttpRequest(
+        "",
+        "",
+        new AlgoliaRequest<>(HttpMethod.GET, true, new ArrayList<>(), Object.class)
+      )
     );
   }
 
@@ -217,7 +304,17 @@ public class AlgoliaHttpClientTest {
 
     @Override
     public AlgoliaHttpResponse request(@Nonnull AlgoliaHttpRequest request) throws IOException {
-      return null;
+      return new AlgoliaHttpResponse() {
+        @Override
+        public int getStatusCode() {
+          return 0;
+        }
+
+        @Override
+        public Reader getBody() throws IOException {
+          return new StringReader("");
+        }
+      };
     }
 
     @Override
@@ -243,6 +340,16 @@ public class AlgoliaHttpClientTest {
         applicationId + "-2." + ALGOLIANET_COM,
         applicationId + "-3." + ALGOLIANET_COM
       );
+    }
+
+    @Override
+    public int getHostDownTimeout() {
+      return hostTimeout;
+    }
+
+    @Override
+    protected Instant now() {
+      return now;
     }
   }
 }

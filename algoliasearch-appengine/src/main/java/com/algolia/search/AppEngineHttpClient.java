@@ -29,12 +29,14 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
   private final FetchOptions defaultFetchOptions;
   private final Map<String, String> headers;
   private final URLFetchService fetchService;
+  private final int hostDownTimeout;
 
   AppEngineHttpClient(APIClientConfiguration configuration) {
     this.objectMapper = configuration.getObjectMapper();
     this.queryHosts = configuration.getQueryHosts();
     this.buildHosts = configuration.getBuildHosts();
     this.headers = configuration.getHeaders();
+    this.hostDownTimeout = configuration.getHostDownTimeout();
 
     this.fetchService = URLFetchServiceFactory.getURLFetchService();
     this.defaultFetchOptions = FetchOptions
@@ -127,5 +129,10 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
   @Override
   public List<String> getBuildHosts() {
     return buildHosts;
+  }
+
+  @Override
+  public int getHostDownTimeout() {
+    return hostDownTimeout;
   }
 }

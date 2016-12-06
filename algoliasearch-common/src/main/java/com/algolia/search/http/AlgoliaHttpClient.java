@@ -6,16 +6,26 @@ import com.algolia.search.exceptions.AlgoliaHttpException;
 import com.algolia.search.exceptions.AlgoliaHttpRetriesException;
 import com.algolia.search.exceptions.AlgoliaIOException;
 import com.algolia.search.responses.AlgoliaError;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.annotations.VisibleForTesting;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.io.Reader;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public abstract class AlgoliaHttpClient {
+
+  @VisibleForTesting
+  Map<String, HostStatus> hostStatuses = new ConcurrentHashMap<>();
+
+  protected Instant now() {
+    return Instant.now();
+  }
 
   protected abstract AlgoliaHttpResponse request(@Nonnull AlgoliaHttpRequest request) throws IOException;
 
@@ -25,8 +35,49 @@ public abstract class AlgoliaHttpClient {
 
   public abstract List<String> getBuildHosts();
 
+  public abstract int getHostDownTimeout();
+
+  private HostStatus emptyHostStatus() {
+    return new HostStatus(getHostDownTimeout(), true, now());
+  }
+
+  private HostStatus downHostStatus() {
+    return new HostStatus(getHostDownTimeout(), false, now());
+  }
+
+  private HostStatus upHostStatus() {
+    return new HostStatus(getHostDownTimeout(), true, now());
+  }
+
+  private HostStatus getStatus(String host) {
+    return hostStatuses.getOrDefault(host, emptyHostStatus());
+  }
+
+  private List<String> queryHostsThatAreUp() {
+    return hostsThatAreUp(getQueryHosts());
+  }
+
+  private List<String> buildHostsThatAreUp() {
+    return hostsThatAreUp(getBuildHosts());
+  }
+
+  private List<String> hostsThatAreUp(List<String> hosts) {
+    return hosts
+      .stream()
+      .filter(s -> getStatus(s).isUpOrCouldBeRetried(now()))
+      .collect(Collectors.toList());
+  }
+
+  private void markHostAsDown(String host) {
+    hostStatuses.put(host, downHostStatus());
+  }
+
+  private void markHostAsUpdatedAndUp(String host) {
+    hostStatuses.put(host, upHostStatus());
+  }
+
   public <T> T requestWithRetry(@Nonnull AlgoliaRequest<T> request) throws AlgoliaException {
-    List<String> hosts = request.isSearch() ? getQueryHosts() : getBuildHosts();
+    List<String> hosts = request.isSearch() ? queryHostsThatAreUp() : buildHostsThatAreUp();
 
     String content = null;
     if (request.hasData()) {
@@ -44,10 +95,13 @@ public abstract class AlgoliaHttpClient {
       try {
         response = request(new AlgoliaHttpRequest(host, content, request));
       } catch (IOException e) {
+        markHostAsDown(host);
         ioExceptionList.add(new AlgoliaIOException(host, e));
         continue;
       }
 
+      //No exception, mark the host as up & update time
+      markHostAsUpdatedAndUp(host);
       int code = response.getStatusCode() / 100;
       if (code == 2 || code == 4) { //not a server error, so no retry
         break;

@@ -28,6 +28,7 @@ public abstract class GenericAPIClientBuilder {
   protected Map<String, String> customHeaders = new HashMap<>();
   protected int connectTimeout = CONNECT_TIMEOUT_MS;
   protected int readTimeout = READ_TIMEOUT_MS;
+  protected int hostDownTimeout = HOST_DOWN_TIMEOUT_MS;
   protected ObjectMapper objectMapper = DEFAULT_OBJECT_MAPPER;
 
   /**
@@ -89,6 +90,19 @@ public abstract class GenericAPIClientBuilder {
     Preconditions.checkArgument(readTimeout >= 0, "readTimeout can not be < 0, but was %s", readTimeout);
 
     this.readTimeout = readTimeout;
+    return this;
+  }
+
+  /**
+   * Set the retry timeout to detect if a host is down
+   *
+   * @param hostDownTimeout the value in ms
+   * @return this
+   */
+  public GenericAPIClientBuilder setHostDownTimeout(int hostDownTimeout) {
+    Preconditions.checkArgument(hostDownTimeout >= 0, "hostDownTimeout can not be < 0, but was %s", hostDownTimeout);
+
+    this.hostDownTimeout = hostDownTimeout;
     return this;
   }
 

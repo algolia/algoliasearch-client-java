@@ -85,6 +85,18 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
   }
 
   /**
+   * Set the retry timeout to detect if a host is down
+   *
+   * @param hostDownTimeout the value in ms
+   * @return this
+   */
+  @Override
+  public GenericAPIClientBuilder setHostDownTimeout(int hostDownTimeout) {
+    super.setHostDownTimeout(hostDownTimeout);
+    return this;
+  }
+
+  /**
    * Set the Jackson ObjectMapper
    *
    * @param objectMapper the mapper
@@ -114,6 +126,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
         .setHeaders(generateHeaders())
         .setConnectTimeout(connectTimeout)
         .setReadTimeout(readTimeout)
+        .setHostDownTimeout(hostDownTimeout)
     );
   }
 
