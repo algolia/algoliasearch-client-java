@@ -1,5 +1,7 @@
 package com.algolia.search;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.annotation.Nonnull;
 
 public final class AppEngineAPIClientBuilder extends APIClientBuilder {
@@ -11,6 +13,42 @@ public final class AppEngineAPIClientBuilder extends APIClientBuilder {
   @Override
   protected APIClient build(@Nonnull APIClientConfiguration configuration) {
     return new APIClient(new AppEngineHttpClient(configuration), configuration);
+  }
+
+  @Override
+  public AppEngineAPIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
+    super.setUserAgent(customAgent, customAgentVersion);
+    return this;
+  }
+
+  @Override
+  public AppEngineAPIClientBuilder setExtraHeader(@Nonnull String key, String value) {
+    super.setExtraHeader(key, value);
+    return this;
+  }
+
+  @Override
+  public AppEngineAPIClientBuilder setConnectTimeout(int connectTimeout) {
+    super.setConnectTimeout(connectTimeout);
+    return this;
+  }
+
+  @Override
+  public AppEngineAPIClientBuilder setReadTimeout(int readTimeout) {
+    super.setReadTimeout(readTimeout);
+    return this;
+  }
+
+  @Override
+  public AppEngineAPIClientBuilder setHostDownTimeout(int hostDownTimeout) {
+    super.setHostDownTimeout(hostDownTimeout);
+    return this;
+  }
+
+  @Override
+  public AppEngineAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
+    super.setObjectMapper(objectMapper);
+    return this;
   }
 
 }

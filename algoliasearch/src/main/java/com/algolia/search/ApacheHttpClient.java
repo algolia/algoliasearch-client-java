@@ -30,6 +30,7 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
   private final ObjectMapper objectMapper;
   private final List<String> queryHosts;
   private final List<String> buildHosts;
+  private final int hostDownTimeout;
 
   public ApacheHttpClient(APIClientConfiguration configuration) {
     List<Header> httpHeaders = configuration.getHeaders().entrySet().stream().map(e -> new BasicHeader(e.getKey(), e.getValue())).collect(Collectors.toList());
@@ -49,6 +50,7 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
     this.objectMapper = configuration.getObjectMapper();
     this.queryHosts = configuration.getQueryHosts();
     this.buildHosts = configuration.getBuildHosts();
+    this.hostDownTimeout = configuration.getHostDownTimeout();
   }
 
   @Override
@@ -92,5 +94,10 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
   @Override
   public List<String> getBuildHosts() {
     return buildHosts;
+  }
+
+  @Override
+  public int getHostDownTimeout() {
+    return hostDownTimeout;
   }
 }

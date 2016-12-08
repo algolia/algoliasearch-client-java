@@ -15,6 +15,7 @@ public class APIClientConfiguration {
   protected Map<String, String> headers;
   protected int connectTimeout;
   protected int readTimeout;
+  protected int hostDownTimeout;
 
   public String getApplicationId() {
     return applicationId;
@@ -88,5 +89,12 @@ public class APIClientConfiguration {
     return this;
   }
 
+  public int getHostDownTimeout() {
+    return hostDownTimeout;
+  }
 
+  public APIClientConfiguration setHostDownTimeout(int hostDownTimeout) {
+    this.hostDownTimeout = hostDownTimeout;
+    return this;
+  }
 }

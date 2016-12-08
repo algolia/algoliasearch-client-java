@@ -23,6 +23,7 @@ public class ApacheAPIClientBuilderTest {
         .setApiKey("apiKey")
         .setConnectTimeout(100)
         .setReadTimeout(200)
+        .setHostDownTimeout(300000)
         .setBuildHosts(Arrays.asList(
           "appId.algolia.net",
           "appId-1.algolianet.com",

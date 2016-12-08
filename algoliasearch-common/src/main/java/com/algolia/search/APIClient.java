@@ -35,7 +35,7 @@ public class APIClient {
     this.configuration = configuration;
   }
 
-  /**
+  /*
    * All public method
    */
 

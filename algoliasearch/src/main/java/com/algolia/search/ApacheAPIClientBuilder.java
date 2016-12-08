@@ -35,6 +35,12 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
   }
 
   @Override
+  public ApacheAPIClientBuilder setHostDownTimeout(int hostDownTimeout) {
+    super.setHostDownTimeout(hostDownTimeout);
+    return this;
+  }
+
+  @Override
   public ApacheAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
     super.setObjectMapper(objectMapper);
     return this;
