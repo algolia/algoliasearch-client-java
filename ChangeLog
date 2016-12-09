@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.6.1 (2016-12-09)
+------------------
+- Fix hosts for batches
+
+2.6.0 (2016-12-09)
+------------------
+- Rename searchFacet in searchInFacetValues
+- Add new retry strategy
+
 2.5.0 (2016-11-08)
 ------------------
 - Add searchFacet
