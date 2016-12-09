@@ -101,7 +101,7 @@ abstract public class SyncSearchTest extends SyncAlgoliaIntegrationTest {
       ))
       .waitForCompletion();
 
-    SearchFacetResult result = index.searchFacet("series", "Peanuts");
+    SearchFacetResult result = index.searchInFacetValues("series", "Peanuts");
     assertThat(result.getFacetHits()).hasSize(1);
   }
 }

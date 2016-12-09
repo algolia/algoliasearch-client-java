@@ -780,7 +780,7 @@ public class APIClient {
     return httpClient.requestWithRetry(algoliaRequest);
   }
 
-  SearchFacetResult searchFacet(String indexName, String facetName, String facetQuery, Query query) throws AlgoliaException {
+  SearchFacetResult searchInFacetValues(String indexName, String facetName, String facetQuery, Query query) throws AlgoliaException {
     query = query == null ? new Query() : query;
     query = query.addCustomParameter("facetQuery", facetQuery);
     AlgoliaRequest<SearchFacetResult> algoliaRequest = new AlgoliaRequest<>(
