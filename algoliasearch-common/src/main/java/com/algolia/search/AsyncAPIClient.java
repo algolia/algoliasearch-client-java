@@ -41,8 +41,8 @@ public class AsyncAPIClient {
     this.executor = configuration.getExecutorService();
   }
 
-  /**
-   * All public method
+  /*
+    All public method
    */
 
   /**
@@ -294,7 +294,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
-        true,
+        false,
         Arrays.asList("1", "indexes", "*", "batch"),
         AsyncTasksMultipleIndex.class
       ).setData(new BatchOperations(operations))
@@ -596,7 +596,7 @@ public class AsyncAPIClient {
       .requestWithRetry(algoliaRequest.setData(new Search(query)))
       .thenCompose(result -> {
         CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
-        if(result == null) { //Special case when the index does not exists
+        if (result == null) { //Special case when the index does not exists
           r.completeExceptionally(new AlgoliaIndexNotFoundException(indexName + " does not exist"));
         } else {
           r.complete(result);
@@ -728,7 +728,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
-        false,
+        true,
         Arrays.asList("1", "indexes", indexName, "facets", facetName, "query"),
         SearchFacetResult.class
       ).setData(new Search(query))

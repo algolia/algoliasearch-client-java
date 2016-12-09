@@ -280,7 +280,7 @@ public class APIClient {
     TasksMultipleIndex request = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
-        true,
+        false,
         Arrays.asList("1", "indexes", "*", "batch"),
         TasksMultipleIndex.class
       ).setData(new BatchOperations(operations))
@@ -604,7 +604,7 @@ public class APIClient {
     );
 
     SearchResult<T> result = httpClient.requestWithRetry(algoliaRequest.setData(new Search(query)));
-    if(result == null) { //Special case when the index does not exists
+    if (result == null) { //Special case when the index does not exists
       throw new AlgoliaIndexNotFoundException(indexName + " does not exist");
     }
     return result;
