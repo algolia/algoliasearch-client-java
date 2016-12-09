@@ -1,6 +1,5 @@
 package com.algolia.search;
 
-import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
@@ -53,9 +52,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param object object to add
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTaskIndexing> addObject(@Nonnull T object) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskIndexing> addObject(@Nonnull T object) {
     return client.addObject(name, object);
   }
 
@@ -66,9 +64,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *                 (if this objectID already exist the old object will be overridden)
    * @param object   object to add
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTaskIndexing> addObject(@Nonnull String objectID, @Nonnull T object) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskIndexing> addObject(@Nonnull String objectID, @Nonnull T object) {
     return client.addObject(name, objectID, object);
   }
 
@@ -77,9 +74,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param objects objects to add
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTaskSingleIndex> addObjects(@Nonnull List<T> objects) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskSingleIndex> addObjects(@Nonnull List<T> objects) {
     return client.addObjects(name, objects);
   }
 
@@ -88,9 +84,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param objectID the unique identifier of the object to retrieve
    * @return The object
-   * @throws AlgoliaException
    */
-  public CompletableFuture<Optional<T>> getObject(@Nonnull String objectID) throws AlgoliaException {
+  public CompletableFuture<Optional<T>> getObject(@Nonnull String objectID) {
     return client.getObject(name, objectID, klass);
   }
 
@@ -99,9 +94,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param objectIDs the list of unique identifier of objects to retrieve
    * @return the list of objects
-   * @throws AlgoliaException
    */
-  public CompletableFuture<List<T>> getObjects(@Nonnull List<String> objectIDs) throws AlgoliaException {
+  public CompletableFuture<List<T>> getObjects(@Nonnull List<String> objectIDs) {
     return client.getObjects(name, objectIDs, klass);
   }
 
@@ -111,9 +105,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param objectIDs            the list of unique identifier of objects to retrieve
    * @param attributesToRetrieve the list of attributes to retrieve for these objects
    * @return the list of objects
-   * @throws AlgoliaException
    */
-  public CompletableFuture<List<T>> getObjects(@Nonnull List<String> objectIDs, @Nonnull List<String> attributesToRetrieve) throws AlgoliaException {
+  public CompletableFuture<List<T>> getObjects(@Nonnull List<String> objectIDs, @Nonnull List<String> attributesToRetrieve) {
     return client.getObjects(name, objectIDs, attributesToRetrieve, klass);
   }
 
@@ -122,9 +115,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param task       task to wait for
    * @param timeToWait the time to wait in milliseconds
-   * @throws AlgoliaException
    */
-  public void waitTask(@Nonnull AsyncTask task, long timeToWait) throws AlgoliaException {
+  public void waitTask(@Nonnull AsyncTask task, long timeToWait) {
     Preconditions.checkArgument(timeToWait >= 0, "timeToWait must be >= 0, was %s", timeToWait);
 
     client.waitTask(task, timeToWait);
@@ -134,9 +126,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * Wait for the completion of a task, for 100ms
    *
    * @param task task to wait for
-   * @throws AlgoliaException
    */
-  public void waitTask(@Nonnull AsyncTask task) throws AlgoliaException {
+  public void waitTask(@Nonnull AsyncTask task) {
     client.waitTask(task, 100);
   }
 
@@ -144,9 +135,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * Deletes the index
    *
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> delete() throws AlgoliaException {
+  public CompletableFuture<AsyncTask> delete() {
     return client.deleteIndex(name);
   }
 
@@ -154,9 +144,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * Delete the index content without removing settings and index specific API keys.
    *
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> clear() throws AlgoliaException {
+  public CompletableFuture<AsyncTask> clear() {
     return client.clearIndex(name);
   }
 
@@ -166,9 +155,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param objectID the unique identifier of the object to retrieve
    * @param object   the object to update
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> saveObject(@Nonnull String objectID, @Nonnull T object) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> saveObject(@Nonnull String objectID, @Nonnull T object) {
     return client.saveObject(name, objectID, object);
   }
 
@@ -177,9 +165,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param objects the list objects to update
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTaskSingleIndex> saveObjects(@Nonnull List<T> objects) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskSingleIndex> saveObjects(@Nonnull List<T> objects) {
     return client.saveObjects(name, objects);
   }
 
@@ -188,9 +175,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param objectID the unique identifier of the object to retrieve
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> deleteObject(@Nonnull String objectID) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> deleteObject(@Nonnull String objectID) {
     return client.deleteObject(name, objectID);
   }
 
@@ -199,9 +185,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param objectIDs the list of unique identifier of the object to retrieve
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTaskSingleIndex> deleteObjects(@Nonnull List<String> objectIDs) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskSingleIndex> deleteObjects(@Nonnull List<String> objectIDs) {
     return client.deleteObjects(name, objectIDs);
   }
 
@@ -209,9 +194,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * Get settings of this index
    *
    * @return the settings
-   * @throws AlgoliaException
    */
-  public CompletableFuture<IndexSettings> getSettings() throws AlgoliaException {
+  public CompletableFuture<IndexSettings> getSettings() {
     return client.getSettings(name);
   }
 
@@ -220,21 +204,19 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param settings the settings to set
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> setSettings(@Nonnull IndexSettings settings) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> setSettings(@Nonnull IndexSettings settings) {
     return setSettings(settings, false);
   }
 
   /**
    * Set settings of this index
    *
-   * @param settings        the settings to set
+   * @param settings          the settings to set
    * @param forwardToReplicas should these updates be forwarded to the slaves
    * @return the related AsyncTask
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
     return client.setSettings(name, settings, forwardToReplicas);
   }
 
@@ -242,9 +224,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * List keys of this index
    *
    * @return the list of keys
-   * @throws AlgoliaException
    */
-  public CompletableFuture<List<ApiKey>> listKeys() throws AlgoliaException {
+  public CompletableFuture<List<ApiKey>> listKeys() {
     return client.listKeys(name);
   }
 
@@ -253,9 +234,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param key the key name
    * @return the key
-   * @throws AlgoliaException
    */
-  public CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) throws AlgoliaException {
+  public CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
     return client.getKey(name, key);
   }
 
@@ -264,9 +244,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param key the key name
    * @return the deleted key
-   * @throws AlgoliaException
    */
-  public CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) throws AlgoliaException {
+  public CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
     return client.deleteKey(name, key);
   }
 
@@ -275,9 +254,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param key the key
    * @return the created key
-   * @throws AlgoliaException
    */
-  public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) throws AlgoliaException {
+  public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
     return client.addKey(name, key);
   }
 
@@ -287,9 +265,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param keyName the key name
    * @param key     the key to update
    * @return the updated key
-   * @throws AlgoliaException
    */
-  public CompletableFuture<CreateUpdateKey> updateKey(@Nonnull String keyName, @Nonnull ApiKey key) throws AlgoliaException {
+  public CompletableFuture<CreateUpdateKey> updateKey(@Nonnull String keyName, @Nonnull ApiKey key) {
     return client.updateKey(name, keyName, key);
   }
 
@@ -298,9 +275,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination will be overriten if it already exist)
    * @return The task associated
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> moveTo(@Nonnull String dstIndexName) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> moveTo(@Nonnull String dstIndexName) {
     return client.moveIndex(name, dstIndexName);
   }
 
@@ -309,9 +285,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination will be overridden if it already exist)
    * @return The task associated
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> copyTo(@Nonnull String dstIndexName) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> copyTo(@Nonnull String dstIndexName) {
     return client.copyIndex(name, dstIndexName);
   }
 
@@ -320,9 +295,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param query the query
    * @return the result of the search, or a failed Future if the index does not exists
-   * @throws AlgoliaException
    */
-  public CompletableFuture<SearchResult<T>> search(@Nonnull Query query) throws AlgoliaException {
+  public CompletableFuture<SearchResult<T>> search(@Nonnull Query query) {
     return client.search(name, query, klass);
   }
 
@@ -333,9 +307,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param facetQuery The search query for this facet
    * @param query      the query (not required)
    * @return the result of the search
-   * @throws AlgoliaException
    */
-  public CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
+  public CompletableFuture<SearchFacetResult> searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
     return client.searchFacet(name, facetName, facetQuery, query);
   }
 
@@ -345,10 +318,19 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param facetName  The name of the facet to search in
    * @param facetQuery The search query for this facet
    * @return the result of the search
-   * @throws AlgoliaException
    */
-  public CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
-    return this.searchFacet(facetName, facetQuery, null);
+  public CompletableFuture<SearchFacetResult> searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery) {
+    return this.searchInFacetValues(facetName, facetQuery, null);
+  }
+
+  @Deprecated
+  public CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
+    return this.searchInFacetValues(facetName, facetQuery, query);
+  }
+
+  @Deprecated
+  public CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery) {
+    return this.searchInFacetValues(facetName, facetQuery);
   }
 
   /**
@@ -358,10 +340,9 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param operations the list of operations to perform on this index
    * @return the associated task
-   * @throws AlgoliaException
    * @see BatchOperation & subclasses
    */
-  public CompletableFuture<AsyncTaskSingleIndex> batch(@Nonnull List<BatchOperation> operations) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskSingleIndex> batch(@Nonnull List<BatchOperation> operations) {
     return client.batch(name, operations);
   }
 
@@ -371,10 +352,9 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param objectID the ID of object to update
    * @param object   the object to update
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
-  public CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull String objectID, @Nonnull Object object) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull String objectID, @Nonnull Object object) {
     return client.partialUpdateObject(name, objectID, object);
   }
 
@@ -383,9 +363,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param objects the list of objects to update (with an objectID)
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(@Nonnull List<Object> objects) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(@Nonnull List<Object> objects) {
     return client.partialUpdateObjects(name, objects);
   }
 
@@ -394,10 +373,9 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param operation the operation to perform on this object
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
-  public CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull PartialUpdateOperation operation) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull PartialUpdateOperation operation) {
     return partialUpdateObject(operation, true);
   }
 
@@ -407,10 +385,9 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param operation         the operation to perform on this object
    * @param createIfNotExists should the object be created or not
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
-  public CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull PartialUpdateOperation operation, boolean createIfNotExists) throws AlgoliaException {
+  public CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull PartialUpdateOperation operation, boolean createIfNotExists) {
     return client.partialUpdateObject(name, operation, createIfNotExists);
   }
 
@@ -420,22 +397,20 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param synonymID the id of the synonym
    * @param content   the synonym
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content) {
     return saveSynonym(synonymID, content, false);
   }
 
   /**
    * Saves/updates a synonym without replacing
    *
-   * @param synonymID       the id of the synonym
-   * @param content         the synonym
+   * @param synonymID         the id of the synonym
+   * @param content           the synonym
    * @param forwardToReplicas should this request be forwarded to slaves
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas) {
     return saveSynonym(synonymID, content, forwardToReplicas, false);
   }
 
@@ -444,12 +419,11 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param synonymID               the id of the synonym
    * @param content                 the synonym
-   * @param forwardToReplicas         should this request be forwarded to slaves
+   * @param forwardToReplicas       should this request be forwarded to slaves
    * @param replaceExistingSynonyms should replace if this synonyms exists
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas, boolean replaceExistingSynonyms) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas, boolean replaceExistingSynonyms) {
     return client.saveSynonym(name, synonymID, content, forwardToReplicas, replaceExistingSynonyms);
   }
 
@@ -458,9 +432,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param synonymID the id of the synonym
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<Optional<AbstractSynonym>> getSynonym(@Nonnull String synonymID) throws AlgoliaException {
+  public CompletableFuture<Optional<AbstractSynonym>> getSynonym(@Nonnull String synonymID) {
     return client.getSynonym(name, synonymID);
   }
 
@@ -469,21 +442,19 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param synonymID the id of the synonym
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> deleteSynonym(@Nonnull String synonymID) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> deleteSynonym(@Nonnull String synonymID) {
     return deleteSynonym(synonymID, false);
   }
 
   /**
    * Deletes a synonym
    *
-   * @param synonymID       the id of the synonym
+   * @param synonymID         the id of the synonym
    * @param forwardToReplicas should this request be forwarded to slaves
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> deleteSynonym(@Nonnull String synonymID, boolean forwardToReplicas) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> deleteSynonym(@Nonnull String synonymID, boolean forwardToReplicas) {
     return client.deleteSynonym(name, synonymID, forwardToReplicas);
   }
 
@@ -491,9 +462,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * Clear all synonyms and NOT forwarding it to the slaves
    *
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> clearSynonyms() throws AlgoliaException {
+  public CompletableFuture<AsyncTask> clearSynonyms() {
     return clearSynonyms(false);
   }
 
@@ -501,9 +471,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * Clears all synonyms
    *
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> clearSynonyms(boolean forwardToReplicas) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> clearSynonyms(boolean forwardToReplicas) {
     return client.clearSynonyms(name, forwardToReplicas);
   }
 
@@ -512,9 +481,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param query the query
    * @return the results of the query
-   * @throws AlgoliaException
    */
-  public CompletableFuture<SearchSynonymResult> searchSynonyms(@Nonnull SynonymQuery query) throws AlgoliaException {
+  public CompletableFuture<SearchSynonymResult> searchSynonyms(@Nonnull SynonymQuery query) {
     return client.searchSynonyms(name, query);
   }
 
@@ -522,24 +490,22 @@ public class AsyncIndex<T> extends AbstractIndex {
    * Add or Replace a list of synonyms
    *
    * @param synonyms                List of synonyms
-   * @param forwardToReplicas         Forward the operation to the slave indices
+   * @param forwardToReplicas       Forward the operation to the slave indices
    * @param replaceExistingSynonyms Replace the existing synonyms with this batch
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas, boolean replaceExistingSynonyms) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas, boolean replaceExistingSynonyms) {
     return client.batchSynonyms(name, synonyms, forwardToReplicas, replaceExistingSynonyms);
   }
 
   /**
    * Add or Replace a list of synonyms, no replacement
    *
-   * @param synonyms        List of synonyms
+   * @param synonyms          List of synonyms
    * @param forwardToReplicas Forward the operation to the slave indices
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas) {
     return batchSynonyms(synonyms, forwardToReplicas, false);
   }
 
@@ -548,9 +514,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    *
    * @param synonyms List of synonyms
    * @return the associated task
-   * @throws AlgoliaException
    */
-  public CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms) throws AlgoliaException {
+  public CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms) {
     return batchSynonyms(synonyms, false, false);
   }
 

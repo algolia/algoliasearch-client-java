@@ -337,8 +337,8 @@ public class Index<T> extends AbstractIndex<T> {
    * @return the result of the search
    * @throws AlgoliaException
    */
-  public SearchFacetResult searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
-    return client.searchFacet(name, facetName, facetQuery, query);
+  public SearchFacetResult searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
+    return client.searchInFacetValues(name, facetName, facetQuery, query);
   }
 
   /**
@@ -350,8 +350,18 @@ public class Index<T> extends AbstractIndex<T> {
    * @return the result of the search
    * @throws AlgoliaException
    */
+  public SearchFacetResult searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
+    return this.searchInFacetValues(facetName, facetQuery, null);
+  }
+
+  @Deprecated
+  public SearchFacetResult searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
+    return this.searchInFacetValues(facetName, facetQuery, query);
+  }
+
+  @Deprecated
   public SearchFacetResult searchFacet(@Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
-    return this.searchFacet(facetName, facetQuery, null);
+    return this.searchInFacetValues(facetName, facetQuery);
   }
 
   /**
