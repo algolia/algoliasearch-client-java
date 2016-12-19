@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.7.0 (201X-XX-XX)
+-----------------
+- Add responseFields
+
 2.6.1 (2016-12-09)
 ------------------
 - Fix hosts for batches
