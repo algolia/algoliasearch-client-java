@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Query {
 
@@ -52,6 +53,8 @@ public class Query {
 
   /* CATEGORY SEARCH PARAMETER */
   private String tagFilters;
+
+  private List<String> responseFields;
 
   /* DISTINCT PARAMETER */
   private Integer distinct;
@@ -138,6 +141,8 @@ public class Query {
 
     /* DISTINCT PARAMETER */
     builder = add(builder, "distinct", distinct);
+
+    builder = add(builder, "responseFields", responseFields);
 
     /* FACETING PARAMETERS */
     builder = add(builder, "facets", facets);
@@ -510,6 +515,15 @@ public class Query {
 
   public Query setRestrictSources(String restrictSources) {
     this.restrictSources = restrictSources;
+    return this;
+  }
+
+  public List<String> getResponseFields() {
+    return responseFields;
+  }
+
+  public Query setResponseFields(List<String> responseFields) {
+    this.responseFields = responseFields;
     return this;
   }
 
