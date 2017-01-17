@@ -17,8 +17,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOf
 
 public class ApacheHttpClientTest {
 
-  protected static String APPLICATION_ID = System.getenv("APPLICATION_ID");
-  protected static String API_KEY = System.getenv("API_KEY");
+  private static String APPLICATION_ID = System.getenv("APPLICATION_ID");
+  private static String API_KEY = System.getenv("API_KEY");
   private APIClientConfiguration defaultConfig;
 
   @Before
@@ -110,6 +110,12 @@ public class ApacheHttpClientTest {
       2 * 1000,
       client::listIndices
     );
+  }
+
+  @Test
+  public void shouldHandleSNI() throws Exception {
+    APIClient client = build(APPLICATION_ID + "-1.algolianet.com");
+    assertThat(client.listKeys()).isNotEmpty();
   }
 
 
