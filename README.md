@@ -447,6 +447,14 @@ The server response will look like:
 
         - `filters` (integer): *This field is reserved for advanced usage.* It will be zero in most cases.
 
+        - `matchedGeoLocation` (object): Geo location that matched the query. *Note: Only returned for a geo search.*
+
+            - `lat` (float): Latitude of the matched location.
+
+            - `lng` (float): Longitude of the matched location.
+
+            - `distance` (integer): Distance between the matched location and the search location (in meters). **Caution:** Contrary to `geoDistance`, this value is *not* divided by the geo precision.
+
     - `_distinctSeqID` (integer): *Note: Only returned when [distinct](#distinct) is non-zero.* When two consecutive results have the same value for the attribute used for "distinct", this field is used to distinguish between them.
 
 - `nbHits` (integer): Number of hits that the search query matched.
@@ -910,7 +918,7 @@ index.partialUpdateObject(new DecrementValueOperation("myID", "price", 42));
 Note: Here we are decrementing the value by `42`. To decrement just by one, put
 `value:1`.
 
-To partial update multiple objects using one API call, you can use the `[Partial update objects](#partial-update-objects)` method:
+To partial update multiple objects using one API call, you can use the following method:
 
 ```java
 //Sync & async version
@@ -932,7 +940,7 @@ You can delete objects using their `objectID`:
 index.deleteObjects(Arrays.asList("myID1", "myID2"));
 ```
 
-To delete a single object, you can use the `[Delete objects](#delete-objects)` method:
+To delete a single object, you can use the following method:
 
 ```java
 //Sync & Async version
@@ -1107,8 +1115,6 @@ Parameters that can be overridden at search time also have the `search` [scope](
 # Parameters
 
 
-
-<section id="api-client-parameters-overview">
 
 ## Overview
 
@@ -1826,11 +1832,11 @@ Geo search requires that you provide at least one geo location in each record at
 }
 ```
 
-When performing a geo search (either via <%= parameter_link('aroundLatLng') -%> or <%= parameter_link('aroundLatLngViaIP') -%>),
+When performing a geo search (either via [aroundLatitudeLongitude](#aroundlatitudelongitude) or [AroundLatitudeLongitudeViaIP](#aroundlatitudelongitudeviaip)),
 the maximum distance is automatically guessed based on the density of the searched area.
-You may explicitly specify a maximum distance, however, via <%= parameter_link('aroundRadius') -%>.
+You may explicitly specify a maximum distance, however, via [aroundRadius](#aroundradius).
 
-The precision for the ranking is set via <%= parameter_link('aroundPrecision') -%>.
+The precision for the ranking is set via [aroundPrecision](#aroundprecision).
 
 #### aroundLatitudeLongitude
 
@@ -2544,27 +2550,23 @@ AsyncIndex myNewIndex = client.initIndex("MyNewIndex");
 myNewIndex.moveTo("MyIndex");
 ```
 
-**Note**:
+**Note:** The moveTo method overrides the destination index, and deletes the temporary one.
+  In other words, there is no need to call the `clear` or `delete` methods to clean the temporary index.
+It also overrides all the settings of the destination index (except the [replicas](#replicas) parameter that need to not be part of the temporary index settings).
 
-The moveTo method will overwrite the destination index, and delete the temporary index.
-
-**Warning**
-
-The moveTo operation will override all settings of the destination,
-There is one exception for the [replicas](#replicas) parameter which is not impacted.
-
-For example, if you want to fully update your index `MyIndex` every night, we recommend the following process:
+**Recommended steps**
+If you want to fully update your index `MyIndex` every night, we recommend the following process:
 
  1. Get settings and synonyms from the old index using [Get settings](#get-settings)
   and [Get synonym](#get-synonym).
  1. Apply settings and synonyms to the temporary index `MyTmpIndex`, (this will create the `MyTmpIndex` index)
-  using [Set settings](#set-settings) and [Batch synonyms](#batch-synonyms)
-  (make sure to remove the [replicas](#replicas) parameter from the settings if it exists).
- 1. Import your records into a new index using [Add Objects](#add-objects).
+  using [Set settings](#set-settings) and [Batch synonyms](#batch-synonyms) ([!] Make sure to remove the [replicas](#replicas) parameter from the settings if it exists.
+ 1. Import your records into a new index using [Add Objects](#add-objects)).
  1. Atomically replace the index `MyIndex` with the content and settings of the index `MyTmpIndex`
  using the [Move index](#move-index) method.
  This will automatically override the old index without any downtime on the search.
- 1. You'll end up with only one index called `MyIndex`, that contains the records and settings pushed to `MyTmpIndex`
+ 
+ You'll end up with only one index called `MyIndex`, that contains the records and settings pushed to `MyTmpIndex`
  and the replica-indices that were initially attached to `MyIndex` will be in sync with the new data.
 
 
