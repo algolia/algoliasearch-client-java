@@ -1,7 +1,12 @@
 Changelog
 =========
 
-2.7.0 (2017-XX-XX)
+2.8.0 (2017-02-06)
+-----------------
+- Add facetingAfterDistinct
+- Add maxFacetHits
+
+2.7.0 (2016-12-20)
 -----------------
 - Add responseFields
 - Deprecate IndexSettings.(get|set)Slaves
