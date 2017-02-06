@@ -58,6 +58,7 @@ public class Query {
 
   /* DISTINCT PARAMETER */
   private Integer distinct;
+  private Boolean facetingAfterDistinct;
 
   /* FACETING PARAMETERS */
   private String facets;
@@ -141,6 +142,7 @@ public class Query {
 
     /* DISTINCT PARAMETER */
     builder = add(builder, "distinct", distinct);
+    builder = add(builder, "facetingAfterDistinct", facetingAfterDistinct);
 
     builder = add(builder, "responseFields", responseFields);
 
@@ -225,7 +227,7 @@ public class Query {
     boolean firstOne = true;
     for (Map.Entry<String, String> entry : toQueryParam().entrySet()) {
       try {
-        if(!firstOne) {
+        if (!firstOne) {
           builder = builder.append("&");
         }
 
@@ -524,6 +526,15 @@ public class Query {
 
   public Query setResponseFields(List<String> responseFields) {
     this.responseFields = responseFields;
+    return this;
+  }
+
+  public Boolean getFacetingAfterDistinct() {
+    return facetingAfterDistinct;
+  }
+
+  public Query setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
+    this.facetingAfterDistinct = facetingAfterDistinct;
     return this;
   }
 
