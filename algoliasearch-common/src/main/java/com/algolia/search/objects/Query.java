@@ -86,6 +86,9 @@ public class Query {
   /* BROWSE */
   private String cursor;
 
+  /* FACET */
+  private Integer maxFacetHits;
+
   /* CUSTOM */
   private Map<String, String> customParameters = new HashMap<>();
 
@@ -171,6 +174,9 @@ public class Query {
 
     /* BROWSE */
     builder = add(builder, "cursor", cursor);
+
+    /* FACET */
+    builder = add(builder, "maxFacetHits", maxFacetHits);
 
     /* CUSTOM */
     for (Map.Entry<String, String> entry : customParameters.entrySet()) {
@@ -535,6 +541,15 @@ public class Query {
 
   public Query setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
     this.facetingAfterDistinct = facetingAfterDistinct;
+    return this;
+  }
+
+  public Integer getMaxFacetHits() {
+    return maxFacetHits;
+  }
+
+  public Query setMaxFacetHits(Integer maxFacetHits) {
+    this.maxFacetHits = maxFacetHits;
     return this;
   }
 
