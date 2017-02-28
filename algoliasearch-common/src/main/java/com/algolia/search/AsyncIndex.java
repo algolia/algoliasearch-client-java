@@ -221,12 +221,28 @@ public class AsyncIndex<T> extends AbstractIndex {
   }
 
   /**
+   * Deprecated: use listApiKeys
+   */
+  @Deprecated
+  public CompletableFuture<List<ApiKey>> listKeys() {
+    return listApiKeys();
+  }
+
+  /**
    * List keys of this index
    *
    * @return the list of keys
    */
-  public CompletableFuture<List<ApiKey>> listKeys() {
+  public CompletableFuture<List<ApiKey>> listApiKeys() {
     return client.listKeys(name);
+  }
+
+  /**
+   * Deprecated: use getApiKey
+   */
+  @Deprecated
+  public CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
+    return getApiKey(key);
   }
 
   /**
@@ -235,8 +251,16 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param key the key name
    * @return the key
    */
-  public CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
+  public CompletableFuture<Optional<ApiKey>> getApiKey(@Nonnull String key) {
     return client.getKey(name, key);
+  }
+
+  /**
+   * Deprecated: use deleteApiKey
+   */
+  @Deprecated
+  public CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
+    return deleteApiKey(key);
   }
 
   /**
@@ -245,8 +269,16 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param key the key name
    * @return the deleted key
    */
-  public CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
+  public CompletableFuture<DeleteKey> deleteApiKey(@Nonnull String key) {
     return client.deleteKey(name, key);
+  }
+
+  /**
+   * Deprecated: use addApiKey
+   */
+  @Deprecated
+  public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
+    return addApiKey(key);
   }
 
   /**
@@ -255,8 +287,16 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param key the key
    * @return the created key
    */
-  public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
+  public CompletableFuture<CreateUpdateKey> addApiKey(@Nonnull ApiKey key) {
     return client.addKey(name, key);
+  }
+
+  /**
+   * Deprecated: use updateApiKey
+   */
+  @Deprecated
+  public CompletableFuture<CreateUpdateKey> updateKey(@Nonnull String keyName, @Nonnull ApiKey key) {
+    return updateApiKey(keyName, key);
   }
 
   /**
@@ -266,7 +306,7 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param key     the key to update
    * @return the updated key
    */
-  public CompletableFuture<CreateUpdateKey> updateKey(@Nonnull String keyName, @Nonnull ApiKey key) {
+  public CompletableFuture<CreateUpdateKey> updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key) {
     return client.updateKey(name, keyName, key);
   }
 

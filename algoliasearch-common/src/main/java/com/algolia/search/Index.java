@@ -239,13 +239,29 @@ public class Index<T> extends AbstractIndex<T> {
   }
 
   /**
+   * Deprecated: use listApiKeys
+   */
+  @Deprecated
+  public List<ApiKey> listKeys() throws AlgoliaException {
+    return listApiKeys();
+  }
+
+  /**
    * List keys of this index
    *
    * @return the list of keys
    * @throws AlgoliaException
    */
-  public List<ApiKey> listKeys() throws AlgoliaException {
+  public List<ApiKey> listApiKeys() throws AlgoliaException {
     return client.listKeys(name);
+  }
+
+  /**
+   * Deprecated: use getApiKey
+   */
+  @Deprecated
+  public Optional<ApiKey> getKey(@Nonnull String key) throws AlgoliaException {
+    return getApiKey(key);
   }
 
   /**
@@ -255,8 +271,16 @@ public class Index<T> extends AbstractIndex<T> {
    * @return the key
    * @throws AlgoliaException
    */
-  public Optional<ApiKey> getKey(@Nonnull String key) throws AlgoliaException {
+  public Optional<ApiKey> getApiKey(@Nonnull String key) throws AlgoliaException {
     return client.getKey(name, key);
+  }
+
+  /**
+   * Deprecated: use deleteApiKey
+   */
+  @Deprecated
+  public DeleteKey deleteKey(@Nonnull String key) throws AlgoliaException {
+    return deleteApiKey(key);
   }
 
   /**
@@ -266,8 +290,16 @@ public class Index<T> extends AbstractIndex<T> {
    * @return the deleted key
    * @throws AlgoliaException
    */
-  public DeleteKey deleteKey(@Nonnull String key) throws AlgoliaException {
+  public DeleteKey deleteApiKey(@Nonnull String key) throws AlgoliaException {
     return client.deleteKey(name, key);
+  }
+
+  /**
+   * Deprecated: use addApiKey
+   */
+  @Deprecated
+  public CreateUpdateKey addKey(@Nonnull ApiKey key) throws AlgoliaException {
+    return addApiKey(key);
   }
 
   /**
@@ -277,7 +309,7 @@ public class Index<T> extends AbstractIndex<T> {
    * @return the created key
    * @throws AlgoliaException
    */
-  public CreateUpdateKey addKey(@Nonnull ApiKey key) throws AlgoliaException {
+  public CreateUpdateKey addApiKey(@Nonnull ApiKey key) throws AlgoliaException {
     return client.addKey(name, key);
   }
 

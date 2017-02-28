@@ -127,11 +127,19 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Deprecated: use listApiKeys
+   */
+  @Deprecated
+  public CompletableFuture<List<ApiKey>> listKeys() {
+    return listApiKeys();
+  }
+
+  /**
    * List all existing user keys with their associated ACLs
    *
    * @return A List of Keys
    */
-  public CompletableFuture<List<ApiKey>> listKeys() {
+  public CompletableFuture<List<ApiKey>> listApiKeys() {
     CompletableFuture<ApiKeys> result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
@@ -145,12 +153,20 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Deprecated: use getApiKey
+   */
+  @Deprecated
+  public CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
+    return getApiKey(key);
+  }
+
+  /**
    * Get an Key from it's name
    *
    * @param key name of the key
    * @return the key
    */
-  public CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
+  public CompletableFuture<Optional<ApiKey>> getApiKey(@Nonnull String key) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
@@ -162,11 +178,19 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Deprecated: use deleteApiKey
+   */
+  @Deprecated
+  public CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
+    return deleteApiKey(key);
+  }
+
+  /**
    * Delete an existing key
    *
    * @param key name of the key
    */
-  public CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
+  public CompletableFuture<DeleteKey> deleteApiKey(@Nonnull String key) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
@@ -178,12 +202,20 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Deprecated: Use addApiKey
+   */
+  @Deprecated
+  public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
+    return addApiKey(key);
+  }
+
+  /**
    * Create a new key
    *
    * @param key the key with the ACLs
    * @return the metadata of the key (such as it's name)
    */
-  public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
+  public CompletableFuture<CreateUpdateKey> addApiKey(@Nonnull ApiKey key) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
@@ -195,13 +227,21 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Deprecated: use updateApiKey
+   */
+  @Deprecated
+  public CompletableFuture<CreateUpdateKey> updateKey(@Nonnull String keyName, @Nonnull ApiKey key) {
+    return updateApiKey(keyName, key);
+  }
+
+  /**
    * Update a key
    *
    * @param keyName name of the key to update
    * @param key     the key with the ACLs
    * @return the metadata of the key (such as it's name)
    */
-  public CompletableFuture<CreateUpdateKey> updateKey(@Nonnull String keyName, @Nonnull ApiKey key) {
+  public CompletableFuture<CreateUpdateKey> updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
