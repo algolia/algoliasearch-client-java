@@ -36,7 +36,7 @@ abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
   private void waitForKeyPresent(AsyncIndex<AlgoliaObject> index, String description) throws Exception {
     for (int i = 0; i < 100; i++) {
       Thread.sleep(1000);
-      CompletableFuture<List<ApiKey>> apiKeys = index == null ? client.listKeys() : index.listKeys();
+      CompletableFuture<List<ApiKey>> apiKeys = index == null ? client.listApiKeys() : index.listApiKeys();
       boolean found = apiKeys.get(WAIT_TIME_IN_SECONDS, SECONDS).stream().map(ApiKey::getDescription).anyMatch(k -> k.equals(description));
       if (found) {
         return;
@@ -44,13 +44,13 @@ abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
     }
 
     //will fail
-    futureAssertThat(client.listKeys()).extracting("description").contains(description);
+    futureAssertThat(client.listApiKeys()).extracting("description").contains(description);
   }
 
   private void waitForKeyNotPresent(AsyncIndex<AlgoliaObject> index, String description) throws Exception {
     for (int i = 0; i < 100; i++) {
       Thread.sleep(1000);
-      CompletableFuture<List<ApiKey>> apiKeys = index == null ? client.listKeys() : index.listKeys();
+      CompletableFuture<List<ApiKey>> apiKeys = index == null ? client.listApiKeys() : index.listApiKeys();
       boolean found = apiKeys.get(WAIT_TIME_IN_SECONDS, SECONDS).stream().map(ApiKey::getDescription).anyMatch(k -> k.equals(description));
       if (!found) {
         return;
@@ -58,7 +58,7 @@ abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
     }
 
     //will fail
-    futureAssertThat(client.listKeys()).extracting("description").doesNotContain(description);
+    futureAssertThat(client.listApiKeys()).extracting("description").doesNotContain(description);
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -71,19 +71,19 @@ abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
       .setDescription("toto" + System.currentTimeMillis())
       .setIndexes(Collections.singletonList("index1"));
 
-    String keyName = client.addKey(apiKey).get().getKey();
+    String keyName = client.addApiKey(apiKey).get().getKey();
     assertThat(keyName).isNotNull();
 
     waitForKeyPresent(null, apiKey.getDescription());
 
     apiKey = apiKey.setDescription("toto2" + System.currentTimeMillis());
-    client.updateKey(keyName, apiKey).get();
+    client.updateApiKey(keyName, apiKey).get();
 
     waitForKeyPresent(null, apiKey.getDescription());
 
-    assertThat(client.getKey(keyName).get().get().getDescription()).isEqualTo(apiKey.getDescription());
+    assertThat(client.getApiKey(keyName).get().get().getDescription()).isEqualTo(apiKey.getDescription());
 
-    client.deleteKey(keyName).get();
+    client.deleteApiKey(keyName).get();
 
     waitForKeyNotPresent(null, apiKey.getDescription());
   }
@@ -98,19 +98,19 @@ abstract public class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
     ApiKey apiKey = new ApiKey()
       .setDescription("toto" + System.currentTimeMillis());
 
-    String keyName = index.addKey(apiKey).get().getKey();
+    String keyName = index.addApiKey(apiKey).get().getKey();
     assertThat(keyName).isNotNull();
 
     waitForKeyPresent(index, apiKey.getDescription());
 
     apiKey = apiKey.setDescription("toto2" + System.currentTimeMillis());
-    index.updateKey(keyName, apiKey).get();
+    index.updateApiKey(keyName, apiKey).get();
 
     waitForKeyPresent(index, apiKey.getDescription());
 
-    assertThat(index.getKey(keyName).get().get().getDescription()).isEqualTo(apiKey.getDescription());
+    assertThat(index.getApiKey(keyName).get().get().getDescription()).isEqualTo(apiKey.getDescription());
 
-    index.deleteKey(keyName).get();
+    index.deleteApiKey(keyName).get();
 
     waitForKeyNotPresent(index, apiKey.getDescription());
   }

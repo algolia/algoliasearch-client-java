@@ -123,13 +123,22 @@ public class APIClient {
     return result.getLogs();
   }
 
+
+  /**
+   * Deprecated: use listApiKeys
+   */
+  @Deprecated
+  public List<ApiKey> listKeys() throws AlgoliaException {
+    return listApiKeys();
+  }
+
   /**
    * List all existing user keys with their associated ACLs
    *
    * @return A List of Keys
    * @throws AlgoliaException
    */
-  public List<ApiKey> listKeys() throws AlgoliaException {
+  public List<ApiKey> listApiKeys() throws AlgoliaException {
     ApiKeys result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
@@ -143,13 +152,21 @@ public class APIClient {
   }
 
   /**
-   * Get an Key from it's name
+   * Deprecated: use getApiKey
+   */
+  @Deprecated
+  public Optional<ApiKey> getKey(@Nonnull String key) throws AlgoliaException {
+    return getApiKey(key);
+  }
+
+  /**
+   * Get a Key from it's name
    *
    * @param key name of the key
    * @return the key
    * @throws AlgoliaException
    */
-  public Optional<ApiKey> getKey(@Nonnull String key) throws AlgoliaException {
+  public Optional<ApiKey> getApiKey(@Nonnull String key) throws AlgoliaException {
     return Optional.ofNullable(httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
@@ -161,12 +178,20 @@ public class APIClient {
   }
 
   /**
+   * Deprecated: use deleteApiKey
+   */
+  @Deprecated
+  public DeleteKey deleteKey(@Nonnull String key) throws AlgoliaException {
+    return deleteApiKey(key);
+  }
+
+  /**
    * Delete an existing key
    *
    * @param key name of the key
    * @throws AlgoliaException
    */
-  public DeleteKey deleteKey(@Nonnull String key) throws AlgoliaException {
+  public DeleteKey deleteApiKey(@Nonnull String key) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
@@ -178,13 +203,21 @@ public class APIClient {
   }
 
   /**
+   * Deprecated: use addApiKey
+   */
+  @Deprecated
+  public CreateUpdateKey addKey(@Nonnull ApiKey key) throws AlgoliaException {
+    return addApiKey(key);
+  }
+
+  /**
    * Create a new key
    *
    * @param key the key with the ACLs
    * @return the metadata of the key (such as it's name)
    * @throws AlgoliaException
    */
-  public CreateUpdateKey addKey(@Nonnull ApiKey key) throws AlgoliaException {
+  public CreateUpdateKey addApiKey(@Nonnull ApiKey key) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
@@ -195,6 +228,14 @@ public class APIClient {
   }
 
   /**
+   * Deprecated: use updateApiKey
+   */
+  @Deprecated
+  public CreateUpdateKey updateKey(@Nonnull String keyName, @Nonnull ApiKey key) throws AlgoliaException {
+    return updateApiKey(keyName, key);
+  }
+
+  /**
    * Update a key
    *
    * @param keyName name of the key to update
@@ -202,7 +243,7 @@ public class APIClient {
    * @return the metadata of the key (such as it's name)
    * @throws AlgoliaException
    */
-  public CreateUpdateKey updateKey(@Nonnull String keyName, @Nonnull ApiKey key) throws AlgoliaException {
+  public CreateUpdateKey updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
