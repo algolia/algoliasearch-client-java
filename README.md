@@ -31,7 +31,7 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 1. **[Philosophy](#philosophy)**
 
     * [Builder](#builder)
-    * [JSON &amp; Jackson2](#json--jackson2)
+    * [JSON &amp; <a href="http://wiki.fasterxml.com/JacksonRelease20">Jackson2</a>](#json--a-href=http:wikifasterxmlcomjacksonrelease20jackson2a)
     * [Async &amp; Future](#async--future)
 
 1. **[Getting Help](#getting-help)**
@@ -182,7 +182,7 @@ Settings can be customized to tune the search behavior. For example, you can add
 ```java
 //Sync & Async version
 
-index.setSettings(new IndexSettings().setCustomRanking(Arrays.asList("desc(followers)")));
+index.setSettings(new IndexSettings().setCustomRanking(Collections.singletonList("desc(followers)")));
 ```
 
 You can also configure the list of attributes you want to index by order of importance (first = most important):
@@ -243,9 +243,9 @@ function searchCallback(err, content) {
 The v2 of the api client, uses a builder to create the APIClient object. If you are on a regular JVM (not android, not Google App Engine), use the `ApacheAPIClientBuilder`, if you are on Google App Engine use the `AppEngineAPIClientBuilder`. If you fancy `Future`, use the `AsyncHttpAPIClientBuilder`.
 As for Android, please use the [Android API Client](https://github.com/algolia/algoliasearch-client-android)
 
-### JSON & Jackson2
+### JSON & [Jackson2](http://wiki.fasterxml.com/JacksonRelease20)
 
-All the serialization/deserialization is done with Jackson2. You can add your custom ObjectMapper with the method `setObjectMapper` of the builder.
+All the serialization/deserialization is done with [Jackson2](http://wiki.fasterxml.com/JacksonRelease20). You can add your custom ObjectMapper with the method `setObjectMapper` of the builder.
 Changing it might result in unexpected result. You can find the one used in the interface `com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER`.
 
 ### Async & Future
