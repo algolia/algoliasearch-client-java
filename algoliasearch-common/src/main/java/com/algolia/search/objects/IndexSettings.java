@@ -5,53 +5,91 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IndexSettings {
 
+  /* advanced */
+  private String attributeForDistinct;
+  private Distinct distinct;
+  private Boolean replaceSynonymsInHighlight;
+  private Map<String, List<String>> placeholders;
+  private Integer minProximity;
+  private List<String> responseFields;
+  private Integer maxFacetHits;
+
+  /* attributes */
   /**
    * Deprecated: Use searchableAttributes
    */
   @Deprecated
   private List<String> attributesToIndex;
   private List<String> searchableAttributes;
-  private List<String> numericAttributesToIndex;
   private List<String> attributesForFaceting;
-  private String attributeForDistinct;
-  private List<String> ranking;
-  private List<String> customRanking;
-  private String separatorsToIndex;
-  private List<String> slaves;
-  private List<String> replicas;
   private List<String> unretrievableAttributes;
-  private Boolean allowCompressionOfIntegerArray;
-
-  /* QUERY EXPANSION */
-  private List<String> disableTypoToleranceOnWords;
-  private List<String> disableTypoToleranceOnAttributes;
-
-  /* DEFAULT QUERY PARAMETERS (CAN BE OVERRIDDEN AT QUERY-TIME) */
-  private Integer minWordSizefor1Typo;
-  private Integer minWordSizefor2Typos;
-  private Integer hitsPerPage;
   private List<String> attributesToRetrieve;
+
+  /* filtering-faceting */
+  private Integer maxValuesPerFacet;
+
+  /* geo-search */
+  // nothing on Index Settings
+
+  /* highlighting-snippeting */
   private List<String> attributesToHighlight;
   private List<String> attributesToSnippet;
-  private String queryType;
-  private Integer minProximity;
   private String highlightPreTag;
   private String highlightPostTag;
+  private String snippetEllipsisText;
+  private Boolean restrictHighlightAndSnippetArrays;
+
+  /* pagination */
+  private Integer hitsPerPage;
+  private Integer paginationLimitedTo;
+
+  /* performance */
+  /**
+   * Deprecated: Use numericAttributesForFiltering
+   */
+  @Deprecated
+  private List<String> numericAttributesToIndex;
+  private List<String> numericAttributesForFiltering;
+  private Boolean allowCompressionOfIntegerArray;
+
+  /* query strategy */
+  private String queryType;
+  private String removeWordsIfNoResults;
+  private Boolean advancedSyntax;
   private List<String> optionalWords;
+  private RemoveStopWords removeStopWords;
+  private List<String> disablePrefixOnAttributes;
+  private List<String> disableExactOnAttributes;
+  private String exactOnSingleWordQuery;
+  private List<String> alternativesAsExact;
+
+  /* ranking */
+  private List<String> ranking;
+  private List<String> customRanking;
+  /**
+   * Deprecated: Use replicas
+   */
+  @Deprecated
+  private List<String> slaves;
+  private List<String> replicas;
+
+  /* search */
+  // nothing on Index Settings
+
+  /* typos */
+  private Integer minWordSizefor1Typo;
+  private Integer minWordSizefor2Typos;
+  private TypoTolerance typoTolerance;
   private Boolean allowTyposOnNumericTokens;
   private IgnorePlurals ignorePlurals;
-  private Boolean advancedSyntax;
-  private String removeWordsIfNoResults;
-  private Boolean replaceSynonymsInHighlight;
-  private Integer maxValuesPerFacet;
-  private Distinct distinct;
-  private String typoTolerance;
-  private RemoveStopWords removeStopWords;
-  private String snippetEllipsisText;
+  private List<String> disableTypoToleranceOnAttributes;
+  private List<String> disableTypoToleranceOnWords;
+  private String separatorsToIndex;
 
   /**
    * Deprecated: Use getSearchableAttributes
@@ -70,10 +108,18 @@ public class IndexSettings {
     return this;
   }
 
+  /**
+   * Deprecated: Use getNumericAttributesForFiltering
+   */
+  @Deprecated
   public List<String> getNumericAttributesToIndex() {
     return numericAttributesToIndex;
   }
 
+  /**
+   * Deprecated: Use setNumericAttributesForFiltering
+   */
+  @Deprecated
   public IndexSettings setNumericAttributesToIndex(List<String> numericAttributesToIndex) {
     this.numericAttributesToIndex = numericAttributesToIndex;
     return this;
@@ -283,6 +329,16 @@ public class IndexSettings {
     return ignorePlurals;
   }
 
+  @JsonIgnore
+  public IndexSettings setIgnorePlurals(Boolean ignorePlurals) {
+    return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
+  }
+
+  @JsonIgnore
+  public IndexSettings setIgnorePlurals(List<String> ignorePlurals) {
+    return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
+  }
+
   @JsonProperty
   public IndexSettings setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
@@ -320,23 +376,43 @@ public class IndexSettings {
     return distinct;
   }
 
+  @JsonIgnore
+  public IndexSettings setDistinct(Integer distinct) {
+    return this.setDistinct(Distinct.of(distinct));
+  }
+
+  @JsonIgnore
+  public IndexSettings setDistinct(Boolean distinct) {
+    return this.setDistinct(Distinct.of(distinct));
+  }
+
   @JsonProperty
   public IndexSettings setDistinct(Distinct distinct) {
     this.distinct = distinct;
     return this;
   }
 
-  public String getTypoTolerance() {
+  public TypoTolerance getTypoTolerance() {
     return typoTolerance;
   }
 
-  public IndexSettings setTypoTolerance(String typoTolerance) {
+  public IndexSettings setTypoTolerance(TypoTolerance typoTolerance) {
     this.typoTolerance = typoTolerance;
     return this;
   }
 
   public RemoveStopWords getRemoveStopWords() {
     return removeStopWords;
+  }
+
+  @JsonIgnore
+  public IndexSettings setRemoveStopWords(Boolean removeStopWords) {
+    return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
+  }
+
+  @JsonIgnore
+  public IndexSettings setRemoveStopWords(List<String> removeStopWords) {
+    return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
   }
 
   @JsonProperty
@@ -352,36 +428,6 @@ public class IndexSettings {
   public IndexSettings setSnippetEllipsisText(String snippetEllipsisText) {
     this.snippetEllipsisText = snippetEllipsisText;
     return this;
-  }
-
-  @JsonIgnore
-  public IndexSettings setIgnorePlurals(Boolean ignorePlurals) {
-    return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
-  }
-
-  @JsonIgnore
-  public IndexSettings setIgnorePlurals(List<String> ignorePlurals) {
-    return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
-  }
-
-  @JsonIgnore
-  public IndexSettings setDistinct(Integer distinct) {
-    return this.setDistinct(Distinct.of(distinct));
-  }
-
-  @JsonIgnore
-  public IndexSettings setDistinct(Boolean distinct) {
-    return this.setDistinct(Distinct.of(distinct));
-  }
-
-  @JsonIgnore
-  public IndexSettings setRemoveStopWords(Boolean removeStopWords) {
-    return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
-  }
-
-  @JsonIgnore
-  public IndexSettings setRemoveStopWords(List<String> removeStopWords) {
-    return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
   }
 
   public String getRemoveWordsIfNoResults() {
@@ -408,6 +454,96 @@ public class IndexSettings {
 
   public IndexSettings setSearchableAttributes(List<String> searchableAttributes) {
     this.searchableAttributes = searchableAttributes;
+    return this;
+  }
+
+  public Map<String, List<String>> getPlaceholders() {
+    return placeholders;
+  }
+
+  public IndexSettings setPlaceholders(Map<String, List<String>> placeholders) {
+    this.placeholders = placeholders;
+    return this;
+  }
+
+  public List<String> getResponseFields() {
+    return responseFields;
+  }
+
+  public IndexSettings setResponseFields(List<String> responseFields) {
+    this.responseFields = responseFields;
+    return this;
+  }
+
+  public Integer getMaxFacetHits() {
+    return maxFacetHits;
+  }
+
+  public IndexSettings setMaxFacetHits(Integer maxFacetHits) {
+    this.maxFacetHits = maxFacetHits;
+    return this;
+  }
+
+  public Boolean getRestrictHighlightAndSnippetArrays() {
+    return restrictHighlightAndSnippetArrays;
+  }
+
+  public IndexSettings setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
+    this.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays;
+    return this;
+  }
+
+  public Integer getPaginationLimitedTo() {
+    return paginationLimitedTo;
+  }
+
+  public IndexSettings setPaginationLimitedTo(Integer paginationLimitedTo) {
+    this.paginationLimitedTo = paginationLimitedTo;
+    return this;
+  }
+
+  public List<String> getNumericAttributesForFiltering() {
+    return numericAttributesForFiltering;
+  }
+
+  public IndexSettings setNumericAttributesForFiltering(List<String> numericAttributesForFiltering) {
+    this.numericAttributesForFiltering = numericAttributesForFiltering;
+    return this;
+  }
+
+  public List<String> getDisablePrefixOnAttributes() {
+    return disablePrefixOnAttributes;
+  }
+
+  public IndexSettings setDisablePrefixOnAttributes(List<String> disablePrefixOnAttributes) {
+    this.disablePrefixOnAttributes = disablePrefixOnAttributes;
+    return this;
+  }
+
+  public List<String> getDisableExactOnAttributes() {
+    return disableExactOnAttributes;
+  }
+
+  public IndexSettings setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
+    this.disableExactOnAttributes = disableExactOnAttributes;
+    return this;
+  }
+
+  public String getExactOnSingleWordQuery() {
+    return exactOnSingleWordQuery;
+  }
+
+  public IndexSettings setExactOnSingleWordQuery(String exactOnSingleWordQuery) {
+    this.exactOnSingleWordQuery = exactOnSingleWordQuery;
+    return this;
+  }
+
+  public List<String> getAlternativesAsExact() {
+    return alternativesAsExact;
+  }
+
+  public IndexSettings setAlternativesAsExact(List<String> alternativesAsExact) {
+    this.alternativesAsExact = alternativesAsExact;
     return this;
   }
 }
