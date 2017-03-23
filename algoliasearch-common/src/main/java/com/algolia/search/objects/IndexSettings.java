@@ -84,7 +84,7 @@ public class IndexSettings {
   /* typos */
   private Integer minWordSizefor1Typo;
   private Integer minWordSizefor2Typos;
-  private String typoTolerance;
+  private TypoTolerance typoTolerance;
   private Boolean allowTyposOnNumericTokens;
   private IgnorePlurals ignorePlurals;
   private List<String> disableTypoToleranceOnAttributes;
@@ -392,11 +392,11 @@ public class IndexSettings {
     return this;
   }
 
-  public String getTypoTolerance() {
+  public TypoTolerance getTypoTolerance() {
     return typoTolerance;
   }
 
-  public IndexSettings setTypoTolerance(String typoTolerance) {
+  public IndexSettings setTypoTolerance(TypoTolerance typoTolerance) {
     this.typoTolerance = typoTolerance;
     return this;
   }
