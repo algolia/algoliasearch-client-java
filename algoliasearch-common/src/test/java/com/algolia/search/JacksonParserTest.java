@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,14 +40,11 @@ public class JacksonParserTest {
   public void serializeDistinct() throws IOException {
     IndexSettings settings;
 
-    settings = new IndexSettings().setDistinct(true);
+    settings = new IndexSettings().setDistinct(Distinct.of(true));
     assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"distinct\":true}");
 
-    settings = new IndexSettings().setDistinct(1);
+    settings = new IndexSettings().setDistinct(Distinct.of(1));
     assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"distinct\":1}");
-
-    settings = new IndexSettings().setDistinct(Distinct.of(12));
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"distinct\":12}");
   }
 
   @Test
@@ -92,7 +90,7 @@ public class JacksonParserTest {
     settings = new IndexSettings().setIgnorePlurals(true);
     assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"ignorePlurals\":true}");
 
-    settings = new IndexSettings().setIgnorePlurals(IgnorePlurals.of(Arrays.asList("en")));
+    settings = new IndexSettings().setIgnorePlurals(IgnorePlurals.of(Collections.singletonList("en")));
     assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"ignorePlurals\":\"en\"}");
 
     settings = new IndexSettings().setIgnorePlurals(Arrays.asList("en", "fr"));
@@ -107,7 +105,7 @@ public class JacksonParserTest {
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(true));
 
     ignorePlurals = DEFAULT_OBJECT_MAPPER.readValue("{\"ignorePlurals\":\"en\"}", IndexSettings.class).getIgnorePlurals();
-    assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Arrays.asList("en")));
+    assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Collections.singletonList("en")));
 
     ignorePlurals = DEFAULT_OBJECT_MAPPER.readValue("{\"ignorePlurals\":\"en,fr\"}", IndexSettings.class).getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Arrays.asList("en", "fr")));
