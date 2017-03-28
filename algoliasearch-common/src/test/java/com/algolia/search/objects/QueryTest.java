@@ -2,6 +2,8 @@ package com.algolia.search.objects;
 
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class QueryTest {
@@ -39,7 +41,7 @@ public class QueryTest {
 
   @Test
   public void queryWithMultipleParams() {
-    Query query = new Query("é®„").setTagFilters("(attribute)");
-    assertThat(query.toParam()).isEqualTo("query=%C3%A9%C2%AE%E2%80%9E&tagFilters=%28attribute%29");
+    Query query = new Query("é®„").setTagFilters(Collections.singletonList("(attribute)"));
+    assertThat(query.toParam()).isEqualTo("tagFilters=%28attribute%29&query=%C3%A9%C2%AE%E2%80%9E");
   }
 }

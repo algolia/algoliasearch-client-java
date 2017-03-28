@@ -376,16 +376,6 @@ public class IndexSettings {
     return distinct;
   }
 
-  @JsonIgnore
-  public IndexSettings setDistinct(Integer distinct) {
-    return this.setDistinct(Distinct.of(distinct));
-  }
-
-  @JsonIgnore
-  public IndexSettings setDistinct(Boolean distinct) {
-    return this.setDistinct(Distinct.of(distinct));
-  }
-
   @JsonProperty
   public IndexSettings setDistinct(Distinct distinct) {
     this.distinct = distinct;

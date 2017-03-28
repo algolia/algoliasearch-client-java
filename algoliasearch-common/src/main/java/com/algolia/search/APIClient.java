@@ -780,7 +780,7 @@ public class APIClient {
       .setAttributesToHighlight(Collections.emptyList())
       .setAttributesToSnippet(Collections.emptyList())
       .setHitsPerPage(1000) //Magic number
-      .setDistinct(false);
+      .setDistinct(Distinct.of(false));
 
     List<String> objectToDelete = new ArrayList<>(batchSize);
     for (ObjectID o : new IndexIterable<>(this, indexName, query, ObjectID.class)) {
