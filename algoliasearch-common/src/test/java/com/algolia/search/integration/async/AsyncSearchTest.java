@@ -105,7 +105,7 @@ abstract public class AsyncSearchTest extends AsyncAlgoliaIntegrationTest {
         ))
     );
 
-    SearchFacetResult result = index.searchInFacetValues("series", "Peanuts").get();
+    SearchFacetResult result = index.searchForFacetValues("series", "Peanuts").get();
     assertThat(result.getFacetHits())
       .hasSize(1);
   }

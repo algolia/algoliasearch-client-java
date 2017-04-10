@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.9.0
+-----
+- Rename searchInFacetValues in searchForFacetValues
+
 2.8.0 (2017-02-06)
 -----------------
 - Add facetingAfterDistinct
