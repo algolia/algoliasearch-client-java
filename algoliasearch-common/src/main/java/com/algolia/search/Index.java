@@ -369,8 +369,8 @@ public class Index<T> extends AbstractIndex<T> {
    * @return the result of the search
    * @throws AlgoliaException
    */
-  public SearchFacetResult searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
-    return client.searchInFacetValues(name, facetName, facetQuery, query);
+  public SearchFacetResult searchForFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
+    return client.searchForFacetValues(name, facetName, facetQuery, query);
   }
 
   /**
@@ -382,18 +382,28 @@ public class Index<T> extends AbstractIndex<T> {
    * @return the result of the search
    * @throws AlgoliaException
    */
+  public SearchFacetResult searchForFacetValues(@Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
+    return this.searchForFacetValues(facetName, facetQuery, null);
+  }
+
+  @Deprecated
+  public SearchFacetResult searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
+    return this.searchForFacetValues(facetName, facetQuery, query);
+  }
+
+  @Deprecated
   public SearchFacetResult searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
-    return this.searchInFacetValues(facetName, facetQuery, null);
+    return this.searchForFacetValues(facetName, facetQuery, null);
   }
 
   @Deprecated
   public SearchFacetResult searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
-    return this.searchInFacetValues(facetName, facetQuery, query);
+    return this.searchForFacetValues(facetName, facetQuery, query);
   }
 
   @Deprecated
   public SearchFacetResult searchFacet(@Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
-    return this.searchInFacetValues(facetName, facetQuery);
+    return this.searchForFacetValues(facetName, facetQuery);
   }
 
   /**

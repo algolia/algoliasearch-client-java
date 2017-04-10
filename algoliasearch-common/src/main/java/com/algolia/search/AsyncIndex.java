@@ -348,8 +348,8 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param query      the query (not required)
    * @return the result of the search
    */
-  public CompletableFuture<SearchFacetResult> searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
-    return client.searchFacet(name, facetName, facetQuery, query);
+  public CompletableFuture<SearchFacetResult> searchForFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
+    return client.searchForFacetValues(name, facetName, facetQuery, query);
   }
 
   /**
@@ -359,18 +359,28 @@ public class AsyncIndex<T> extends AbstractIndex {
    * @param facetQuery The search query for this facet
    * @return the result of the search
    */
+  public CompletableFuture<SearchFacetResult> searchForFacetValues(@Nonnull String facetName, @Nonnull String facetQuery) {
+    return this.searchForFacetValues(facetName, facetQuery, null);
+  }
+
+  @Deprecated
+  public CompletableFuture<SearchFacetResult> searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
+    return this.searchForFacetValues(facetName, facetQuery, query);
+  }
+
+  @Deprecated
   public CompletableFuture<SearchFacetResult> searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery) {
-    return this.searchInFacetValues(facetName, facetQuery, null);
+    return this.searchForFacetValues(facetName, facetQuery, null);
   }
 
   @Deprecated
   public CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
-    return this.searchInFacetValues(facetName, facetQuery, query);
+    return this.searchForFacetValues(facetName, facetQuery, query);
   }
 
   @Deprecated
   public CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery) {
-    return this.searchInFacetValues(facetName, facetQuery);
+    return this.searchForFacetValues(facetName, facetQuery);
   }
 
   /**
