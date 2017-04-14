@@ -25,6 +25,7 @@ public class Query {
   private Integer minProximity;
   private List<String> responseFields;
   private Integer maxFacetHits;
+  private Boolean percentileComputation;
 
   /* attributes */
   private List<String> attributesToRetrieve;
@@ -121,6 +122,7 @@ public class Query {
     builder = add(builder, "minProximity", minProximity);
     builder = add(builder, "responseFields", responseFields);
     builder = add(builder, "maxFacetHits", maxFacetHits);
+    builder = add(builder, "percentileComputation", percentileComputation);
 
     /* attributes */
     builder = add(builder, "attributesToRetrieve", attributesToRetrieve);
@@ -550,6 +552,11 @@ public class Query {
 
   public Query setCursor(String cursor) {
     this.cursor = cursor;
+    return this;
+  }
+
+  public Query setPercentileComputation(Boolean percentileComputation) {
+    this.percentileComputation = percentileComputation;
     return this;
   }
 

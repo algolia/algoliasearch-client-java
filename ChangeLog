@@ -1,8 +1,12 @@
 Changelog
 =========
 
-2.9.0
------
+2.10.0 (2017-XX-XX)
+-------------------
+- Add percentileComputation
+
+2.9.0 (2017-04-12)
+------------------
 - Rename searchInFacetValues in searchForFacetValues
 - Rename Key to ApiKey
 - Add missing index settings & query parameters, see: #288 #290 #292 #293 #295 #294 #296 #297 #318 #298 #317 #316 #315 #314 #313 #312 #311 #310 #309 #308 #307 #306 #305 #304 #303 #302 #301 #300 #299 #291
