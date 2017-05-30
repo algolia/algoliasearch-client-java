@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -37,7 +38,7 @@ public class ApacheHttpClientTest {
       .setApplicationId(APPLICATION_ID)
       .setApiKey(API_KEY)
       .setBuildHosts(Collections.singletonList(APPLICATION_ID + ".algolia.net"))
-      .setBuildHosts(Collections.singletonList(APPLICATION_ID + "-dsn.algolia.net"))
+      .setQueryHosts(Collections.singletonList(APPLICATION_ID + "-dsn.algolia.net"))
       .setConnectTimeout(1000)
       .setReadTimeout(2000)
       .setHeaders(ImmutableMap.of(
@@ -48,7 +49,7 @@ public class ApacheHttpClientTest {
   }
 
   private APIClient build(String... hosts) {
-    APIClientConfiguration configuration = defaultConfig.setQueryHosts(Arrays.asList(hosts));
+    APIClientConfiguration configuration = defaultConfig.setQueryHosts(Arrays.asList(hosts)).setBuildHosts(Arrays.asList(hosts));
     ApacheHttpClient apache = new ApacheHttpClient(configuration);
     return new APIClient(apache, configuration);
   }
@@ -117,6 +118,5 @@ public class ApacheHttpClientTest {
     APIClient client = build(APPLICATION_ID + "-1.algolianet.com");
     assertThat(client.listKeys()).isNotEmpty();
   }
-
 
 }
