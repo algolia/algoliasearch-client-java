@@ -1,22 +1,9 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.net.HttpHeaders;
-import com.google.common.net.MediaType;
 
 import javax.annotation.Nonnull;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.*;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import static com.algolia.search.Defaults.*;
+import java.util.List;
 
 /**
  * Base class to create APIClient
@@ -42,7 +29,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    * @return this
    */
   @Override
-  public GenericAPIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
+  public APIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
     super.setUserAgent(customAgent, customAgentVersion);
     return this;
   }
@@ -55,7 +42,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    * @return this
    */
   @Override
-  public GenericAPIClientBuilder setExtraHeader(@Nonnull String key, String value) {
+  public APIClientBuilder setExtraHeader(@Nonnull String key, String value) {
     super.setExtraHeader(key, value);
     return this;
   }
@@ -67,7 +54,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    * @return this
    */
   @Override
-  public GenericAPIClientBuilder setConnectTimeout(int connectTimeout) {
+  public APIClientBuilder setConnectTimeout(int connectTimeout) {
     super.setConnectTimeout(connectTimeout);
     return this;
   }
@@ -79,7 +66,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    * @return this
    */
   @Override
-  public GenericAPIClientBuilder setReadTimeout(int readTimeout) {
+  public APIClientBuilder setReadTimeout(int readTimeout) {
     super.setReadTimeout(readTimeout);
     return this;
   }
@@ -91,7 +78,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    * @return this
    */
   @Override
-  public GenericAPIClientBuilder setHostDownTimeout(int hostDownTimeout) {
+  public APIClientBuilder setHostDownTimeout(int hostDownTimeout) {
     super.setHostDownTimeout(hostDownTimeout);
     return this;
   }
@@ -103,8 +90,20 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    * @return this
    */
   @Override
-  public GenericAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
+  public APIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
     super.setObjectMapper(objectMapper);
+    return this;
+  }
+
+  @Override
+  public APIClientBuilder setQueryHosts(List<String> queryHosts) {
+    super.setQueryHosts(queryHosts);
+    return this;
+  }
+
+  @Override
+  public APIClientBuilder setBuildHosts(List<String> buildHosts) {
+    super.setBuildHosts(buildHosts);
     return this;
   }
 
