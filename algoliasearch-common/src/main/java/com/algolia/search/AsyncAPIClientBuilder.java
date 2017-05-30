@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -81,6 +82,18 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
   @Override
   public AsyncAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
     super.setObjectMapper(objectMapper);
+    return this;
+  }
+
+  @Override
+  public AsyncAPIClientBuilder setQueryHosts(List<String> queryHosts) {
+    super.setQueryHosts(queryHosts);
+    return this;
+  }
+
+  @Override
+  public AsyncAPIClientBuilder setBuildHosts(List<String> buildHosts) {
+    super.setBuildHosts(buildHosts);
     return this;
   }
 

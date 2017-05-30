@@ -25,6 +25,8 @@ public abstract class GenericAPIClientBuilder {
   protected final String apiKey;
   protected String customAgent;
   protected String customAgentVersion;
+  protected List<String> queryHosts = generateQueryHosts();
+  protected List<String> buildHosts = generateBuildHosts();
   protected Map<String, String> customHeaders = new HashMap<>();
   protected int connectTimeout = CONNECT_TIMEOUT_MS;
   protected int readTimeout = READ_TIMEOUT_MS;
@@ -119,6 +121,28 @@ public abstract class GenericAPIClientBuilder {
       .copy()
       .enable(Defaults.OBJECT_MAPPER_DEFAULT_FEATURE)
       .disable(Defaults.OBJECT_MAPPER_DEFAULT_DESERIALIZATION_FEATURE);
+    return this;
+  }
+
+  /**
+   * Set the hosts for search & queries
+   *
+   * @param queryHosts the list of hosts for search
+   * @return this
+   */
+  public GenericAPIClientBuilder setQueryHosts(List<String> queryHosts) {
+    this.queryHosts = queryHosts;
+    return this;
+  }
+
+  /**
+   * Set the hosts for indexing & building
+   *
+   * @param buildHosts the list of hosts for indexing/building
+   * @return this
+   */
+  public GenericAPIClientBuilder setBuildHosts(List<String> buildHosts) {
+    this.buildHosts = buildHosts;
     return this;
   }
 

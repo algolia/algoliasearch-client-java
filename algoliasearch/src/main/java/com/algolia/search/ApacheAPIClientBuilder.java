@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public final class ApacheAPIClientBuilder extends APIClientBuilder {
 
@@ -43,6 +44,18 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
   @Override
   public ApacheAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
     super.setObjectMapper(objectMapper);
+    return this;
+  }
+
+  @Override
+  public ApacheAPIClientBuilder setQueryHosts(List<String> queryHosts) {
+    super.setQueryHosts(queryHosts);
+    return this;
+  }
+
+  @Override
+  public ApacheAPIClientBuilder setBuildHosts(List<String> buildHosts) {
+    super.setBuildHosts(buildHosts);
     return this;
   }
 
