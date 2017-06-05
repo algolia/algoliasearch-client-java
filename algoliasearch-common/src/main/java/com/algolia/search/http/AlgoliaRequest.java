@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.collect.Maps;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
@@ -19,14 +20,23 @@ public class AlgoliaRequest<T> {
   private Class<T> collectionClass;
   private Class<?> elementClass;
 
-  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, Class<T> resultClass) {
+  public AlgoliaRequest(@Nonnull HttpMethod method, boolean isSearch, @Nonnull List<String> path, @Nonnull Class<T> resultClass) {
     this.method = method;
     this.isSearch = isSearch;
     this.path = path;
     this.resultClass = resultClass;
   }
 
-  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, Class<T> collectionClass, Class<?> elementClass) {
+  public AlgoliaRequest(@Nonnull HttpMethod method, boolean isSearch, @Nonnull List<String> path, @Nonnull Map<String, String> parameters, @Nonnull Class<T> collectionClass, @Nonnull Class<?> elementClass) {
+    this.method = method;
+    this.isSearch = isSearch;
+    this.path = path;
+    this.parameters = parameters;
+    this.collectionClass = collectionClass;
+    this.elementClass = elementClass;
+  }
+
+  public AlgoliaRequest(@Nonnull HttpMethod method, boolean isSearch, @Nonnull List<String> path, @Nonnull Class<T> collectionClass, @Nonnull Class<?> elementClass) {
     this.method = method;
     this.isSearch = isSearch;
     this.path = path;
@@ -41,7 +51,6 @@ public class AlgoliaRequest<T> {
       return factory.constructParametricType(collectionClass, elementClass);
     }
   }
-
 
   HttpMethod getMethod() {
     return method;
