@@ -1,13 +1,13 @@
 package com.algolia.search;
 
-abstract public class AbstractIndex<T> {
+public interface AbstractIndex<T> {
 
-  abstract public String getName();
+  String getName();
 
-  abstract public Class<T> getKlass();
+  Class<T> getKlass();
 
   @SuppressWarnings("unused")
-  public static class Attributes {
+  class Attributes {
     private String name;
     private String createdAt;
     private String updatedAt;

@@ -305,7 +305,7 @@ public class AsyncAPIClient {
         break;
       }
 
-      if (Objects.equals("published", result.getStatus())) {
+      if (java.util.Objects.equals("published", result.getStatus())) {
         return;
       }
       try {
@@ -647,7 +647,7 @@ public class AsyncAPIClient {
 
   CompletableFuture<AsyncTaskSingleIndex> batch(String indexName, List<BatchOperation> operations) {
     //Special case for single index batches, indexName of operations should be null
-    boolean onSameIndex = operations.stream().allMatch(o -> Objects.equals(null, o.getIndexName()));
+    boolean onSameIndex = operations.stream().allMatch(o -> java.util.Objects.equals(null, o.getIndexName()));
     if (!onSameIndex) {
       Utils.completeExceptionally(new AlgoliaException("All operations are not on the same index"));
     }
