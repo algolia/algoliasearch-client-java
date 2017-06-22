@@ -1,7 +1,6 @@
 package com.algolia.search.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.*;
 import com.google.common.collect.ImmutableMap;
 
 import java.io.UnsupportedEncodingException;
@@ -10,97 +9,98 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Query {
 
   /* advanced */
-  private Distinct distinct;
-  private Boolean getRankingInfo;
-  private List<String> numericFilters;
-  private List<String> tagFilters;
-  private Boolean analytics;
-  private String analyticsTags;
-  private Boolean synonyms;
-  private Boolean replaceSynonymsInHighlight;
-  private Integer minProximity;
-  private List<String> responseFields;
-  private Integer maxFacetHits;
-  private Boolean percentileComputation;
+  protected Distinct distinct;
+  protected Boolean getRankingInfo;
+  protected List<String> numericFilters;
+  protected List<String> tagFilters;
+  protected Boolean analytics;
+  protected String analyticsTags;
+  protected Boolean synonyms;
+  protected Boolean replaceSynonymsInHighlight;
+  protected Integer minProximity;
+  protected List<String> responseFields;
+  protected Integer maxFacetHits;
+  protected Boolean percentileComputation;
 
   /* attributes */
-  private List<String> attributesToRetrieve;
-  private List<String> restrictSearchableAttributes;
+  protected List<String> attributesToRetrieve;
+  protected List<String> restrictSearchableAttributes;
 
   /* filtering-faceting */
-  private String filters;
-  private String facets;
-  private Integer maxValuesPerFacet;
-  private List<String> facetFilters;
-  private Boolean facetingAfterDistinct;
+  protected String filters;
+  protected String facets;
+  protected Integer maxValuesPerFacet;
+  protected List<String> facetFilters;
+  protected Boolean facetingAfterDistinct;
 
   /* geo-search */
-  private String aroundLatLng;
-  private Boolean aroundLatLngViaIP;
-  private Object aroundRadius;
-  private Integer aroundPrecision;
-  private Integer minimumAroundRadius;
-  private List<String> insideBoundingBox;
-  private List<String> insidePolygon;
+  protected String aroundLatLng;
+  protected Boolean aroundLatLngViaIP;
+  protected Object aroundRadius;
+  protected Integer aroundPrecision;
+  protected Integer minimumAroundRadius;
+  protected List<String> insideBoundingBox;
+  protected List<String> insidePolygon;
 
   /* highlighting-snippeting */
-  private List<String> attributesToHighlight;
-  private List<String> attributesToSnippet;
-  private String highlightPreTag;
-  private String highlightPostTag;
-  private String snippetEllipsisText;
-  private Boolean restrictHighlightAndSnippetArrays;
+  protected List<String> attributesToHighlight;
+  protected List<String> attributesToSnippet;
+  protected String highlightPreTag;
+  protected String highlightPostTag;
+  protected String snippetEllipsisText;
+  protected Boolean restrictHighlightAndSnippetArrays;
 
   /* pagination */
-  private Integer page;
-  private Integer hitsPerPage;
-  private Integer offset;
-  private Integer length;
+  protected Integer page;
+  protected Integer hitsPerPage;
+  protected Integer offset;
+  protected Integer length;
 
   /* performance */
   //Nothing in Query
 
   /* query strategy */
-  private String queryType;
-  private RemoveWordsType removeWordsIfNoResults;
-  private Boolean advancedSyntax;
-  private List<String> optionalWords;
-  private RemoveStopWords removeStopWords;
-  private List<String> disableExactOnAttributes;
-  private String exactOnSingleWordQuery;
-  private List<String> alternativesAsExact;
+  protected String queryType;
+  protected RemoveWordsType removeWordsIfNoResults;
+  protected Boolean advancedSyntax;
+  protected List<String> optionalWords;
+  protected RemoveStopWords removeStopWords;
+  protected List<String> disableExactOnAttributes;
+  protected String exactOnSingleWordQuery;
+  protected List<String> alternativesAsExact;
 
   /* ranking */
   //Nothing in Query
 
   /* search */
-  private String query;
+  @JsonProperty("query")
+  protected String query;
 
   /* typos */
-  private Integer minWordSizefor1Typo;
-  private Integer minWordSizefor2Typos;
-  private TypoTolerance typoTolerance;
-  private Boolean allowTyposOnNumericTokens;
-  private IgnorePlurals ignorePlurals;
-  private List<String> disableTypoToleranceOnAttributes;
+  protected Integer minWordSizefor1Typo;
+  protected Integer minWordSizefor2Typos;
+  protected TypoTolerance typoTolerance;
+  protected Boolean allowTyposOnNumericTokens;
+  protected IgnorePlurals ignorePlurals;
+  protected List<String> disableTypoToleranceOnAttributes;
 
   /* SECURED API KEYS */
-  private String userToken;
-  private Integer validUntil;
-  private List<String> restrictIndices;
-  private String restrictSources;
+  protected String userToken;
+  protected Integer validUntil;
+  protected List<String> restrictIndices;
+  protected String restrictSources;
 
   /* BROWSE */
-  private String cursor;
+  protected String cursor;
 
   /* CUSTOM */
-  private Map<String, String> customParameters = new HashMap<>();
+  protected Map<String, String> customParameters = new HashMap<>();
 
   public Query() {
   }
@@ -109,7 +109,7 @@ public class Query {
     this.query = query;
   }
 
-  public Map<String, String> toQueryParam() {
+  private Map<String, String> toQueryParam() {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 
     /* advanced */
@@ -288,9 +288,17 @@ public class Query {
     return this;
   }
 
+  public Distinct getDistinct() {
+    return distinct;
+  }
+
   public Query setDistinct(Distinct distinct) {
     this.distinct = distinct;
     return this;
+  }
+
+  public Boolean getGetRankingInfo() {
+    return getRankingInfo;
   }
 
   public Query setGetRankingInfo(Boolean getRankingInfo) {
@@ -298,9 +306,17 @@ public class Query {
     return this;
   }
 
+  public List<String> getNumericFilters() {
+    return numericFilters;
+  }
+
   public Query setNumericFilters(List<String> numericFilters) {
     this.numericFilters = numericFilters;
     return this;
+  }
+
+  public List<String> getTagFilters() {
+    return tagFilters;
   }
 
   public Query setTagFilters(List<String> tagFilters) {
@@ -308,9 +324,17 @@ public class Query {
     return this;
   }
 
+  public Boolean getAnalytics() {
+    return analytics;
+  }
+
   public Query setAnalytics(Boolean analytics) {
     this.analytics = analytics;
     return this;
+  }
+
+  public String getAnalyticsTags() {
+    return analyticsTags;
   }
 
   public Query setAnalyticsTags(String analyticsTags) {
@@ -318,9 +342,17 @@ public class Query {
     return this;
   }
 
+  public Boolean getSynonyms() {
+    return synonyms;
+  }
+
   public Query setSynonyms(Boolean synonyms) {
     this.synonyms = synonyms;
     return this;
+  }
+
+  public Boolean getReplaceSynonymsInHighlight() {
+    return replaceSynonymsInHighlight;
   }
 
   public Query setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
@@ -328,9 +360,17 @@ public class Query {
     return this;
   }
 
+  public Integer getMinProximity() {
+    return minProximity;
+  }
+
   public Query setMinProximity(Integer minProximity) {
     this.minProximity = minProximity;
     return this;
+  }
+
+  public List<String> getResponseFields() {
+    return responseFields;
   }
 
   public Query setResponseFields(List<String> responseFields) {
@@ -338,9 +378,26 @@ public class Query {
     return this;
   }
 
+  public Integer getMaxFacetHits() {
+    return maxFacetHits;
+  }
+
   public Query setMaxFacetHits(Integer maxFacetHits) {
     this.maxFacetHits = maxFacetHits;
     return this;
+  }
+
+  public Boolean getPercentileComputation() {
+    return percentileComputation;
+  }
+
+  public Query setPercentileComputation(Boolean percentileComputation) {
+    this.percentileComputation = percentileComputation;
+    return this;
+  }
+
+  public List<String> getAttributesToRetrieve() {
+    return attributesToRetrieve;
   }
 
   public Query setAttributesToRetrieve(List<String> attributesToRetrieve) {
@@ -348,9 +405,17 @@ public class Query {
     return this;
   }
 
+  public List<String> getRestrictSearchableAttributes() {
+    return restrictSearchableAttributes;
+  }
+
   public Query setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
     this.restrictSearchableAttributes = restrictSearchableAttributes;
     return this;
+  }
+
+  public String getFilters() {
+    return filters;
   }
 
   public Query setFilters(String filters) {
@@ -358,9 +423,17 @@ public class Query {
     return this;
   }
 
+  public String getFacets() {
+    return facets;
+  }
+
   public Query setFacets(String facets) {
     this.facets = facets;
     return this;
+  }
+
+  public Integer getMaxValuesPerFacet() {
+    return maxValuesPerFacet;
   }
 
   public Query setMaxValuesPerFacet(Integer maxValuesPerFacet) {
@@ -368,9 +441,17 @@ public class Query {
     return this;
   }
 
+  public List<String> getFacetFilters() {
+    return facetFilters;
+  }
+
   public Query setFacetFilters(List<String> facetFilters) {
     this.facetFilters = facetFilters;
     return this;
+  }
+
+  public Boolean getFacetingAfterDistinct() {
+    return facetingAfterDistinct;
   }
 
   public Query setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
@@ -378,9 +459,17 @@ public class Query {
     return this;
   }
 
+  public String getAroundLatLng() {
+    return aroundLatLng;
+  }
+
   public Query setAroundLatLng(String aroundLatLng) {
     this.aroundLatLng = aroundLatLng;
     return this;
+  }
+
+  public Boolean getAroundLatLngViaIP() {
+    return aroundLatLngViaIP;
   }
 
   public Query setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
@@ -388,9 +477,17 @@ public class Query {
     return this;
   }
 
+  public Object getAroundRadius() {
+    return aroundRadius;
+  }
+
   public Query setAroundRadius(Object aroundRadius) {
     this.aroundRadius = aroundRadius;
     return this;
+  }
+
+  public Integer getAroundPrecision() {
+    return aroundPrecision;
   }
 
   public Query setAroundPrecision(Integer aroundPrecision) {
@@ -398,9 +495,17 @@ public class Query {
     return this;
   }
 
+  public Integer getMinimumAroundRadius() {
+    return minimumAroundRadius;
+  }
+
   public Query setMinimumAroundRadius(Integer minimumAroundRadius) {
     this.minimumAroundRadius = minimumAroundRadius;
     return this;
+  }
+
+  public List<String> getInsideBoundingBox() {
+    return insideBoundingBox;
   }
 
   public Query setInsideBoundingBox(List<String> insideBoundingBox) {
@@ -408,9 +513,17 @@ public class Query {
     return this;
   }
 
+  public List<String> getInsidePolygon() {
+    return insidePolygon;
+  }
+
   public Query setInsidePolygon(List<String> insidePolygon) {
     this.insidePolygon = insidePolygon;
     return this;
+  }
+
+  public List<String> getAttributesToHighlight() {
+    return attributesToHighlight;
   }
 
   public Query setAttributesToHighlight(List<String> attributesToHighlight) {
@@ -418,9 +531,17 @@ public class Query {
     return this;
   }
 
+  public List<String> getAttributesToSnippet() {
+    return attributesToSnippet;
+  }
+
   public Query setAttributesToSnippet(List<String> attributesToSnippet) {
     this.attributesToSnippet = attributesToSnippet;
     return this;
+  }
+
+  public String getHighlightPreTag() {
+    return highlightPreTag;
   }
 
   public Query setHighlightPreTag(String highlightPreTag) {
@@ -428,9 +549,17 @@ public class Query {
     return this;
   }
 
+  public String getHighlightPostTag() {
+    return highlightPostTag;
+  }
+
   public Query setHighlightPostTag(String highlightPostTag) {
     this.highlightPostTag = highlightPostTag;
     return this;
+  }
+
+  public String getSnippetEllipsisText() {
+    return snippetEllipsisText;
   }
 
   public Query setSnippetEllipsisText(String snippetEllipsisText) {
@@ -438,9 +567,17 @@ public class Query {
     return this;
   }
 
+  public Boolean getRestrictHighlightAndSnippetArrays() {
+    return restrictHighlightAndSnippetArrays;
+  }
+
   public Query setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
     this.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays;
     return this;
+  }
+
+  public Integer getPage() {
+    return page;
   }
 
   public Query setPage(Integer page) {
@@ -448,9 +585,17 @@ public class Query {
     return this;
   }
 
+  public Integer getHitsPerPage() {
+    return hitsPerPage;
+  }
+
   public Query setHitsPerPage(Integer hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
+  }
+
+  public Integer getOffset() {
+    return offset;
   }
 
   public Query setOffset(Integer offset) {
@@ -458,9 +603,17 @@ public class Query {
     return this;
   }
 
+  public Integer getLength() {
+    return length;
+  }
+
   public Query setLength(Integer length) {
     this.length = length;
     return this;
+  }
+
+  public String getQueryType() {
+    return queryType;
   }
 
   public Query setQueryType(String queryType) {
@@ -468,9 +621,17 @@ public class Query {
     return this;
   }
 
+  public RemoveWordsType getRemoveWordsIfNoResults() {
+    return removeWordsIfNoResults;
+  }
+
   public Query setRemoveWordsIfNoResults(RemoveWordsType removeWordsIfNoResults) {
     this.removeWordsIfNoResults = removeWordsIfNoResults;
     return this;
+  }
+
+  public Boolean getAdvancedSyntax() {
+    return advancedSyntax;
   }
 
   public Query setAdvancedSyntax(Boolean advancedSyntax) {
@@ -478,9 +639,17 @@ public class Query {
     return this;
   }
 
+  public List<String> getOptionalWords() {
+    return optionalWords;
+  }
+
   public Query setOptionalWords(List<String> optionalWords) {
     this.optionalWords = optionalWords;
     return this;
+  }
+
+  public RemoveStopWords getRemoveStopWords() {
+    return removeStopWords;
   }
 
   public Query setRemoveStopWords(RemoveStopWords removeStopWords) {
@@ -488,14 +657,26 @@ public class Query {
     return this;
   }
 
+  public List<String> getDisableExactOnAttributes() {
+    return disableExactOnAttributes;
+  }
+
   public Query setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
     this.disableExactOnAttributes = disableExactOnAttributes;
     return this;
   }
 
+  public String getExactOnSingleWordQuery() {
+    return exactOnSingleWordQuery;
+  }
+
   public Query setExactOnSingleWordQuery(String exactOnSingleWordQuery) {
     this.exactOnSingleWordQuery = exactOnSingleWordQuery;
     return this;
+  }
+
+  public List<String> getAlternativesAsExact() {
+    return alternativesAsExact;
   }
 
   public Query setAlternativesAsExact(List<String> alternativesAsExact) {
@@ -508,9 +689,17 @@ public class Query {
     return this;
   }
 
+  public Integer getMinWordSizefor1Typo() {
+    return minWordSizefor1Typo;
+  }
+
   public Query setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
     this.minWordSizefor1Typo = minWordSizefor1Typo;
     return this;
+  }
+
+  public Integer getMinWordSizefor2Typos() {
+    return minWordSizefor2Typos;
   }
 
   public Query setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
@@ -518,9 +707,17 @@ public class Query {
     return this;
   }
 
+  public TypoTolerance getTypoTolerance() {
+    return typoTolerance;
+  }
+
   public Query setTypoTolerance(TypoTolerance typoTolerance) {
     this.typoTolerance = typoTolerance;
     return this;
+  }
+
+  public Boolean getAllowTyposOnNumericTokens() {
+    return allowTyposOnNumericTokens;
   }
 
   public Query setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
@@ -528,9 +725,17 @@ public class Query {
     return this;
   }
 
+  public IgnorePlurals getIgnorePlurals() {
+    return ignorePlurals;
+  }
+
   public Query setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
     return this;
+  }
+
+  public List<String> getDisableTypoToleranceOnAttributes() {
+    return disableTypoToleranceOnAttributes;
   }
 
   public Query setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
@@ -538,9 +743,17 @@ public class Query {
     return this;
   }
 
+  public String getUserToken() {
+    return userToken;
+  }
+
   public Query setUserToken(String userToken) {
     this.userToken = userToken;
     return this;
+  }
+
+  public Integer getValidUntil() {
+    return validUntil;
   }
 
   public Query setValidUntil(Integer validUntil) {
@@ -548,9 +761,17 @@ public class Query {
     return this;
   }
 
+  public List<String> getRestrictIndices() {
+    return restrictIndices;
+  }
+
   public Query setRestrictIndices(List<String> restrictIndices) {
     this.restrictIndices = restrictIndices;
     return this;
+  }
+
+  public String getRestrictSources() {
+    return restrictSources;
   }
 
   public Query setRestrictSources(String restrictSources) {
@@ -558,13 +779,23 @@ public class Query {
     return this;
   }
 
+  public String getCursor() {
+    return cursor;
+  }
+
   public Query setCursor(String cursor) {
     this.cursor = cursor;
     return this;
   }
 
-  public Query setPercentileComputation(Boolean percentileComputation) {
-    this.percentileComputation = percentileComputation;
+  @JsonAnyGetter
+  public Map<String, String> getCustomParameters() {
+    return customParameters;
+  }
+
+  @JsonAnySetter
+  public Query setCustomParameters(Map<String, String> customParameters) {
+    this.customParameters = customParameters;
     return this;
   }
 
@@ -639,4 +870,5 @@ public class Query {
       return name;
     }
   }
+
 }

@@ -76,7 +76,7 @@ public class AlgoliaRequest<T> {
   Map<String, String> getParameters() {
     return ImmutableMap.<String, String>builder()
       .putAll(parameters)
-      .putAll(options.generateQueryParams())
+      .putAll(options.generateExtraQueryParams())
       .build();
   }
 
@@ -86,6 +86,6 @@ public class AlgoliaRequest<T> {
   }
 
   Map<String, String> getHeaders() {
-    return options.generateHeaders();
+    return options.generateExtraHeaders();
   }
 }
