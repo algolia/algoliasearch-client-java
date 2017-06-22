@@ -291,7 +291,7 @@ public class APIClient {
           TaskStatus.class)
       );
 
-      if (Objects.equals("published", status.getStatus())) {
+      if (java.util.Objects.equals("published", status.getStatus())) {
         return;
       }
       try {
@@ -653,7 +653,7 @@ public class APIClient {
 
   TaskSingleIndex batch(String indexName, List<BatchOperation> operations) throws AlgoliaException {
     //Special case for single index batches, indexName of operations should be null
-    boolean onSameIndex = operations.stream().allMatch(o -> Objects.equals(null, o.getIndexName()));
+    boolean onSameIndex = operations.stream().allMatch(o -> java.util.Objects.equals(null, o.getIndexName()));
     if (!onSameIndex) {
       throw new AlgoliaException("All operations are not on the same index");
     }
