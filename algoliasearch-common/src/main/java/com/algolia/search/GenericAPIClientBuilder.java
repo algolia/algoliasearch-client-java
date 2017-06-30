@@ -147,7 +147,7 @@ public abstract class GenericAPIClientBuilder {
   }
 
   private String getApiClientVersion() {
-    try (InputStream versionStream = getClass().getResourceAsStream("/version.properties")) {
+    try (InputStream versionStream = getClass().getResourceAsStream("version.properties")) {
       BufferedReader versionReader = new BufferedReader(new InputStreamReader(versionStream));
       return versionReader.readLine();
     } catch (IOException ignored) {
