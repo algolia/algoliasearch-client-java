@@ -55,9 +55,6 @@ public class ApacheAPIClientBuilderTest {
       .containsEntry("X-Algolia-Application-Id", "appId")
       .containsEntry("header", "value");
 
-    assertThat(apiClient.configuration.getHeaders().get("User-Agent"))
-      .startsWith("Algolia for Java (2.0.0); JVM (1.8.");
-
     assertThat(apiClient.configuration.getBuildHosts())
       .containsOnly(
         "appId.algolia.net",
