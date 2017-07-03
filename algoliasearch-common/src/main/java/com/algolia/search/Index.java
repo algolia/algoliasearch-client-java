@@ -347,6 +347,19 @@ interface Key<T> extends BaseSyncIndex<T> {
 interface SearchForFacet<T> extends BaseSyncIndex<T> {
 
   /**
+   * Search in the index with a X-Forwarded-For IP
+   * throws a {@link com.algolia.search.exceptions.AlgoliaIndexNotFoundException} if the index does not exists
+   *
+   * @param query         the query
+   * @param xForwardedFor the IP for this query
+   * @return the result of the search
+   * @throws AlgoliaException
+   */
+  public SearchResult<T> search(@Nonnull Query query, @Nonnull String xForwardedFor) throws AlgoliaException {
+    return client.search(name, query, xForwardedFor, klass);
+  }
+
+  /**
    * Search in a facet
    * throws a {@link com.algolia.search.exceptions.AlgoliaIndexNotFoundException} if the index does not exists
    *

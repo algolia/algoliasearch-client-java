@@ -17,8 +17,11 @@ import com.algolia.search.objects.tasks.sync.*;
 import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.google.common.net.HttpHeaders;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -636,10 +639,21 @@ public class APIClient {
 
   @SuppressWarnings("unchecked")
   <T> SearchResult<T> search(String indexName, Query query, Class<T> klass) throws AlgoliaException {
+    return this.search(indexName, query, null, klass);
+  }
+
+  @SuppressWarnings("unchecked")
+  <T> SearchResult<T> search(String indexName, Query query, @Nullable String xForwardedFor, Class<T> klass) throws AlgoliaException {
+    Map<String, String> headers =
+      xForwardedFor == null ?
+        Maps.newHashMap() :
+        ImmutableMap.of(HttpHeaders.X_FORWARDED_FOR, xForwardedFor);
+
     AlgoliaRequest<SearchResult> algoliaRequest = new AlgoliaRequest<>(
       HttpMethod.POST,
       true,
       Arrays.asList("1", "indexes", indexName, "query"),
+      headers,
       SearchResult.class,
       klass
     );
