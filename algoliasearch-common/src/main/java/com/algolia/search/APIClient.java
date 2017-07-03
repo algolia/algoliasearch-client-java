@@ -22,6 +22,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({"SameParameterValue", "WeakerAccess"})
 public class APIClient {
 
   /**
@@ -46,8 +47,19 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public List<Index.Attributes> listIndices() throws AlgoliaException {
+    return listIndices(RequestOptions.empty);
+  }
+
+  /**
+   * List all existing indexes
+   *
+   * @param requestOptions Options to pass to this request
+   * @return A List of the indices and their metadata
+   * @throws AlgoliaException
+   */
+  public List<Index.Attributes> listIndices(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     Indices result = httpClient.requestWithRetry(
-      new AlgoliaRequest<>(HttpMethod.GET, true, Arrays.asList("1", "indexes"), Indices.class)
+      new AlgoliaRequest<>(HttpMethod.GET, true, Arrays.asList("1", "indexes"), requestOptions, Indices.class)
     );
 
     return result.getItems();
@@ -82,11 +94,23 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public List<Log> getLogs() throws AlgoliaException {
+    return getLogs(RequestOptions.empty);
+  }
+
+  /**
+   * Return 10 last log entries.
+   *
+   * @param requestOptions Options to pass to this request
+   * @return A List<Log>
+   * @throws AlgoliaException
+   */
+  public List<Log> getLogs(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     Logs result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
         false,
         Arrays.asList("1", "logs"),
+        requestOptions,
         Logs.class
       )
     );
@@ -104,6 +128,20 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public List<Log> getLogs(@Nonnull Integer offset, @Nonnull Integer length, @Nonnull LogType logType) throws AlgoliaException {
+    return this.getLogs(offset, length, logType, RequestOptions.empty);
+  }
+
+  /**
+   * Return last logs entries
+   *
+   * @param offset         Specify the first entry to retrieve (0-based, 0 is the most recent log entry)
+   * @param length         Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000
+   * @param logType        Specify the type of log to retrieve
+   * @param requestOptions Options to pass to this request
+   * @return The List of Logs
+   * @throws AlgoliaException
+   */
+  public List<Log> getLogs(@Nonnull Integer offset, @Nonnull Integer length, @Nonnull LogType logType, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     Preconditions.checkArgument(offset >= 0, "offset must be >= 0, was %s", offset);
     Preconditions.checkArgument(length >= 0, "length must be >= 0, was %s", length);
     Map<String, String> parameters = new HashMap<>();
@@ -116,6 +154,7 @@ public class APIClient {
         HttpMethod.GET,
         false,
         Arrays.asList("1", "logs"),
+        requestOptions,
         Logs.class
       ).setParameters(parameters)
     );
@@ -139,11 +178,23 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public List<ApiKey> listApiKeys() throws AlgoliaException {
+    return this.listApiKeys(RequestOptions.empty);
+  }
+
+  /**
+   * List all existing user keys with their associated ACLs
+   *
+   * @param requestOptions Options to pass to this request
+   * @return A List of Keys
+   * @throws AlgoliaException
+   */
+  public List<ApiKey> listApiKeys(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     ApiKeys result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
         false,
         Arrays.asList("1", "keys"),
+        requestOptions,
         ApiKeys.class
       )
     );
@@ -167,11 +218,24 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public Optional<ApiKey> getApiKey(@Nonnull String key) throws AlgoliaException {
+    return this.getApiKey(key, RequestOptions.empty);
+  }
+
+  /**
+   * Get a Key from it's name
+   *
+   * @param key            name of the key
+   * @param requestOptions Options to pass to this request
+   * @return the key
+   * @throws AlgoliaException
+   */
+  public Optional<ApiKey> getApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return Optional.ofNullable(httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
         false,
         Arrays.asList("1", "keys", key),
+        requestOptions,
         ApiKey.class
       )
     ));
@@ -192,11 +256,23 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public DeleteKey deleteApiKey(@Nonnull String key) throws AlgoliaException {
+    return deleteApiKey(key, RequestOptions.empty);
+  }
+
+  /**
+   * Delete an existing key
+   *
+   * @param key            name of the key
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaException
+   */
+  public DeleteKey deleteApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
         false,
         Arrays.asList("1", "keys", key),
+        requestOptions,
         DeleteKey.class
       )
     );
@@ -218,11 +294,24 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public CreateUpdateKey addApiKey(@Nonnull ApiKey key) throws AlgoliaException {
+    return addApiKey(key, RequestOptions.empty);
+  }
+
+  /**
+   * Create a new key
+   *
+   * @param key            the key with the ACLs
+   * @param requestOptions Options to pass to this request
+   * @return the metadata of the key (such as it's name)
+   * @throws AlgoliaException
+   */
+  public CreateUpdateKey addApiKey(@Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "keys"),
+        requestOptions,
         CreateUpdateKey.class).setData(key)
     );
   }
@@ -244,11 +333,25 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public CreateUpdateKey updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key) throws AlgoliaException {
+    return updateApiKey(keyName, key, RequestOptions.empty);
+  }
+
+  /**
+   * Update a key
+   *
+   * @param keyName        name of the key to update
+   * @param key            the key with the ACLs
+   * @param requestOptions Options to pass to this request
+   * @return the metadata of the key (such as it's name)
+   * @throws AlgoliaException
+   */
+  public CreateUpdateKey updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
         false,
         Arrays.asList("1", "keys", keyName),
+        requestOptions,
         CreateUpdateKey.class).setData(key)
     );
   }
@@ -281,6 +384,10 @@ public class APIClient {
   }
 
   public <T> void waitTask(@Nonnull GenericTask<T> task, long timeToWait) throws AlgoliaException {
+    waitTask(task, timeToWait, RequestOptions.empty);
+  }
+
+  public <T> void waitTask(@Nonnull GenericTask<T> task, long timeToWait, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     Preconditions.checkArgument(timeToWait >= 0, "timeToWait must be >= 0, was %s", timeToWait);
     while (true) {
       TaskStatus status = httpClient.requestWithRetry(
@@ -288,6 +395,7 @@ public class APIClient {
           HttpMethod.GET,
           false,
           Arrays.asList("1", "indexes", task.getIndexName(), "task", task.getTaskIDToWaitFor().toString()),
+          requestOptions,
           TaskStatus.class)
       );
 
@@ -313,6 +421,20 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public TasksMultipleIndex batch(@Nonnull List<BatchOperation> operations) throws AlgoliaException {
+    return batch(operations, RequestOptions.empty);
+  }
+
+  /**
+   * Custom batch
+   * <p>
+   * All operations must have a valid index name (not null)
+   *
+   * @param operations     the list of operations to perform
+   * @param requestOptions Options to pass to this request
+   * @return the associated task
+   * @throws AlgoliaException
+   */
+  public TasksMultipleIndex batch(@Nonnull List<BatchOperation> operations, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     boolean atLeastOneHaveIndexNameNull = operations.stream().anyMatch(o -> o.getIndexName() == null);
     if (atLeastOneHaveIndexNameNull) {
       throw new AlgoliaException("All batch operations must have an index name set");
@@ -323,6 +445,7 @@ public class APIClient {
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", "*", "batch"),
+        requestOptions,
         TasksMultipleIndex.class
       ).setData(new BatchOperations(operations))
     );
@@ -338,24 +461,38 @@ public class APIClient {
    * @throws AlgoliaException
    */
   public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries) throws AlgoliaException {
-    return multipleQueries(queries, MultiQueriesStrategy.NONE);
+    return multipleQueries(queries, RequestOptions.empty);
+  }
+
+  /**
+   * Performs multiple searches on multiple indices with the strategy <code>MultiQueriesStrategy.NONE</code>
+   *
+   * @param queries        the queries
+   * @param requestOptions Options to pass to this request
+   * @return the result of the queries
+   * @throws AlgoliaException
+   */
+  public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
+    return multipleQueries(queries, MultiQueriesStrategy.NONE, requestOptions);
   }
 
   /**
    * Performs multiple searches on multiple indices
    *
-   * @param queries  the queries
-   * @param strategy the strategy to apply to this multiple queries
+   * @param queries        the queries
+   * @param strategy       the strategy to apply to this multiple queries
+   * @param requestOptions Options to pass to this request
    * @return the result of the queries
    * @throws AlgoliaException
    */
   @SuppressWarnings("WeakerAccess")
-  public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy) throws AlgoliaException {
+  public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         true,
         Arrays.asList("1", "indexes", "*", "queries"),
+        requestOptions,
         MultiQueriesResult.class
       )
         .setData(new MultipleQueriesRequests(queries))
@@ -367,12 +504,13 @@ public class APIClient {
    * Package protected method for the Index class
    **/
 
-  Task moveIndex(String srcIndexName, String dstIndexName) throws AlgoliaException {
+  Task moveIndex(String srcIndexName, String dstIndexName, RequestOptions requestOptions) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", srcIndexName, "operation"),
+        requestOptions,
         Task.class
       ).setData(new OperationOnIndex("move", dstIndexName))
     );
@@ -380,12 +518,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(srcIndexName);
   }
 
-  Task copyIndex(String srcIndexName, String dstIndexName) throws AlgoliaException {
+  Task copyIndex(String srcIndexName, String dstIndexName, RequestOptions requestOptions) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", srcIndexName, "operation"),
+        requestOptions,
         Task.class
       ).setData(new OperationOnIndex("copy", dstIndexName))
     );
@@ -393,12 +532,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(srcIndexName);
   }
 
-  Task deleteIndex(String indexName) throws AlgoliaException {
+  Task deleteIndex(String indexName, RequestOptions requestOptions) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
         false,
         Arrays.asList("1", "indexes", indexName),
+        requestOptions,
         Task.class
       )
     );
@@ -406,12 +546,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  <T> TaskIndexing addObject(String indexName, T object) throws AlgoliaException {
+  <T> TaskIndexing addObject(String indexName, T object, RequestOptions requestOptions) throws AlgoliaException {
     TaskIndexing result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName),
+        requestOptions,
         TaskIndexing.class
       ).setData(object)
     );
@@ -419,12 +560,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  <T> TaskIndexing addObject(String indexName, String objectID, T object) throws AlgoliaException {
+  <T> TaskIndexing addObject(String indexName, String objectID, T object, RequestOptions requestOptions) throws AlgoliaException {
     TaskIndexing result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
         false,
         Arrays.asList("1", "indexes", indexName, objectID),
+        requestOptions,
         TaskIndexing.class
       ).setData(object)
     );
@@ -432,32 +574,35 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  <T> Optional<T> getObject(String indexName, String objectID, Class<T> klass) throws AlgoliaException {
+  <T> Optional<T> getObject(String indexName, String objectID, Class<T> klass, RequestOptions requestOptions) throws AlgoliaException {
     return Optional.ofNullable(httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
         true,
         Arrays.asList("1", "indexes", indexName, objectID),
+        requestOptions,
         klass
       )
     ));
   }
 
-  <T> TaskSingleIndex addObjects(String indexName, List<T> objects) throws AlgoliaException {
+  <T> TaskSingleIndex addObjects(String indexName, List<T> objects, RequestOptions requestOptions) throws AlgoliaException {
     return batchSingleIndex(
       indexName,
-      objects.stream().map(BatchAddObjectOperation::new).collect(Collectors.toList())
+      objects.stream().map(BatchAddObjectOperation::new).collect(Collectors.toList()),
+      requestOptions
     )
       .setAPIClient(this)
       .setIndex(indexName);
   }
 
-  private TaskSingleIndex batchSingleIndex(String indexName, List<BatchOperation> operations) throws AlgoliaException {
+  private TaskSingleIndex batchSingleIndex(String indexName, List<BatchOperation> operations, RequestOptions requestOptions) throws AlgoliaException {
     TaskSingleIndex result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "batch"),
+        requestOptions,
         TaskSingleIndex.class
       ).setData(new Batch(operations))
     );
@@ -465,12 +610,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  <T> Task saveObject(String indexName, String objectID, T object) throws AlgoliaException {
+  <T> Task saveObject(String indexName, String objectID, T object, RequestOptions requestOptions) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
         false,
         Arrays.asList("1", "indexes", indexName, objectID),
+        requestOptions,
         Task.class
       ).setData(object)
     );
@@ -478,21 +624,23 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  <T> TaskSingleIndex saveObjects(String indexName, List<T> objects) throws AlgoliaException {
+  <T> TaskSingleIndex saveObjects(String indexName, List<T> objects, RequestOptions requestOptions) throws AlgoliaException {
     return batchSingleIndex(
       indexName,
-      objects.stream().map(BatchUpdateObjectOperation::new).collect(Collectors.toList())
+      objects.stream().map(BatchUpdateObjectOperation::new).collect(Collectors.toList()),
+      requestOptions
     )
       .setAPIClient(this)
       .setIndex(indexName);
   }
 
-  Task deleteObject(String indexName, String objectID) throws AlgoliaException {
+  Task deleteObject(String indexName, String objectID, RequestOptions requestOptions) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
         false,
         Arrays.asList("1", "indexes", indexName, objectID),
+        requestOptions,
         Task.class
       )
     );
@@ -500,21 +648,23 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  TaskSingleIndex deleteObjects(String indexName, List<String> objectIDs) throws AlgoliaException {
+  TaskSingleIndex deleteObjects(String indexName, List<String> objectIDs, RequestOptions requestOptions) throws AlgoliaException {
     return batchSingleIndex(
       indexName,
-      objectIDs.stream().map(BatchDeleteObjectOperation::new).collect(Collectors.toList())
+      objectIDs.stream().map(BatchDeleteObjectOperation::new).collect(Collectors.toList()),
+      requestOptions
     )
       .setAPIClient(this)
       .setIndex(indexName);
   }
 
-  Task clearIndex(String indexName) throws AlgoliaException {
+  Task clearIndex(String indexName, RequestOptions requestOptions) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "clear"),
+        requestOptions,
         Task.class
       )
     );
@@ -523,12 +673,13 @@ public class APIClient {
   }
 
   @SuppressWarnings("unchecked")
-  <T> List<T> getObjects(String indexName, List<String> objectIDs, Class<T> klass) throws AlgoliaException {
+  <T> List<T> getObjects(String indexName, List<String> objectIDs, Class<T> klass, RequestOptions requestOptions) throws AlgoliaException {
     Requests requests = new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o)).collect(Collectors.toList()));
     AlgoliaRequest<Results> algoliaRequest = new AlgoliaRequest<>(
       HttpMethod.POST,
       true,
       Arrays.asList("1", "indexes", "*", "objects"),
+      requestOptions,
       Results.class,
       klass
     );
@@ -537,13 +688,14 @@ public class APIClient {
   }
 
   @SuppressWarnings("unchecked")
-  <T> List<T> getObjects(String indexName, List<String> objectIDs, List<String> attributesToRetrieve, Class<T> klass) throws AlgoliaException {
+  <T> List<T> getObjects(String indexName, List<String> objectIDs, List<String> attributesToRetrieve, Class<T> klass, RequestOptions requestOptions) throws AlgoliaException {
     final String encodedAttributesToRetrieve = String.join(",", attributesToRetrieve);
     Requests requests = new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o).setAttributesToRetrieve(encodedAttributesToRetrieve)).collect(Collectors.toList()));
     AlgoliaRequest<Results> algoliaRequest = new AlgoliaRequest<>(
       HttpMethod.POST,
       true,
       Arrays.asList("1", "indexes", "*", "objects"),
+      requestOptions,
       Results.class,
       klass
     );
@@ -551,23 +703,25 @@ public class APIClient {
     return httpClient.requestWithRetry(algoliaRequest.setData(requests)).getResults();
   }
 
-  IndexSettings getSettings(String indexName) throws AlgoliaException {
+  IndexSettings getSettings(String indexName, RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
         true,
         Arrays.asList("1", "indexes", indexName, "settings"),
+        requestOptions,
         IndexSettings.class
       ).setParameters(ImmutableMap.of("getVersion", "2"))
     );
   }
 
-  Task setSettings(String indexName, IndexSettings settings, Boolean forwardToReplicas) throws AlgoliaException {
+  Task setSettings(String indexName, IndexSettings settings, Boolean forwardToReplicas, RequestOptions requestOptions) throws AlgoliaException {
     Task result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
         false,
         Arrays.asList("1", "indexes", indexName, "settings"),
+        requestOptions,
         Task.class
       )
         .setData(settings)
@@ -577,12 +731,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  List<ApiKey> listKeys(String indexName) throws AlgoliaException {
+  List<ApiKey> listKeys(String indexName, RequestOptions requestOptions) throws AlgoliaException {
     ApiKeys result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
         false,
         Arrays.asList("1", "indexes", indexName, "keys"),
+        requestOptions,
         ApiKeys.class
       )
     );
@@ -590,56 +745,61 @@ public class APIClient {
     return result.getKeys();
   }
 
-  Optional<ApiKey> getKey(String indexName, String key) throws AlgoliaException {
+  Optional<ApiKey> getKey(String indexName, String key, RequestOptions requestOptions) throws AlgoliaException {
     return Optional.ofNullable(httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.GET,
         false,
         Arrays.asList("1", "indexes", indexName, "keys", key),
+        requestOptions,
         ApiKey.class
       )
     ));
   }
 
-  DeleteKey deleteKey(String indexName, String key) throws AlgoliaException {
+  DeleteKey deleteKey(String indexName, String key, RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
         false,
         Arrays.asList("1", "indexes", indexName, "keys", key),
+        requestOptions,
         DeleteKey.class
       )
     );
   }
 
-  CreateUpdateKey addKey(String indexName, ApiKey key) throws AlgoliaException {
+  CreateUpdateKey addKey(String indexName, ApiKey key, RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "keys"),
+        requestOptions,
         CreateUpdateKey.class
       ).setData(key)
     );
   }
 
-  CreateUpdateKey updateKey(String indexName, String keyName, ApiKey key) throws AlgoliaException {
+  CreateUpdateKey updateKey(String indexName, String keyName, ApiKey key, RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
         false,
         Arrays.asList("1", "indexes", indexName, "keys", keyName),
+        requestOptions,
         CreateUpdateKey.class
       ).setData(key)
     );
   }
 
   @SuppressWarnings("unchecked")
-  <T> SearchResult<T> search(String indexName, Query query, Class<T> klass) throws AlgoliaException {
+  <T> SearchResult<T> search(String indexName, Query query, Class<T> klass, RequestOptions requestOptions) throws AlgoliaException {
     AlgoliaRequest<SearchResult> algoliaRequest = new AlgoliaRequest<>(
       HttpMethod.POST,
       true,
       Arrays.asList("1", "indexes", indexName, "query"),
+      requestOptions,
       SearchResult.class,
       klass
     );
@@ -651,7 +811,7 @@ public class APIClient {
     return result;
   }
 
-  TaskSingleIndex batch(String indexName, List<BatchOperation> operations) throws AlgoliaException {
+  TaskSingleIndex batch(String indexName, List<BatchOperation> operations, RequestOptions requestOptions) throws AlgoliaException {
     //Special case for single index batches, indexName of operations should be null
     boolean onSameIndex = operations.stream().allMatch(o -> java.util.Objects.equals(null, o.getIndexName()));
     if (!onSameIndex) {
@@ -663,6 +823,7 @@ public class APIClient {
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "batch"),
+        requestOptions,
         TaskSingleIndex.class
       ).setData(new BatchOperations(operations))
     );
@@ -670,12 +831,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  TaskSingleIndex partialUpdateObject(String indexName, PartialUpdateOperation operation, Boolean createIfNotExists) throws AlgoliaException {
+  TaskSingleIndex partialUpdateObject(String indexName, PartialUpdateOperation operation, Boolean createIfNotExists, RequestOptions requestOptions) throws AlgoliaException {
     TaskSingleIndex result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, operation.getObjectID(), "partial"),
+        requestOptions,
         TaskSingleIndex.class
       ).setParameters(ImmutableMap.of("createIfNotExists", createIfNotExists.toString())).setData(operation.toSerialize())
     );
@@ -683,12 +845,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  TaskSingleIndex partialUpdateObject(String indexName, String objectID, Object object) throws AlgoliaException {
+  TaskSingleIndex partialUpdateObject(String indexName, String objectID, Object object, RequestOptions requestOptions) throws AlgoliaException {
     TaskSingleIndex result = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, objectID, "partial"),
+        requestOptions,
         TaskSingleIndex.class
       ).setData(object)
     );
@@ -696,12 +859,13 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(indexName);
   }
 
-  Task saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToReplicas, Boolean replaceExistingSynonyms) throws AlgoliaException {
+  Task saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToReplicas, Boolean replaceExistingSynonyms, RequestOptions requestOptions) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.PUT,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
+        requestOptions,
         Task.class
       ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString())).setData(content)
     );
@@ -710,25 +874,27 @@ public class APIClient {
     return task.setAPIClient(this).setIndex(indexName);
   }
 
-  Optional<AbstractSynonym> getSynonym(String indexName, String synonymID) throws AlgoliaException {
+  Optional<AbstractSynonym> getSynonym(String indexName, String synonymID, RequestOptions requestOptions) throws AlgoliaException {
     return Optional.ofNullable(
       httpClient.requestWithRetry(
         new AlgoliaRequest<>(
           HttpMethod.GET,
           false,
           Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
+          requestOptions,
           AbstractSynonym.class
         )
       )
     );
   }
 
-  Task deleteSynonym(String indexName, String synonymID, Boolean forwardToReplicas) throws AlgoliaException {
+  Task deleteSynonym(String indexName, String synonymID, Boolean forwardToReplicas, RequestOptions requestOptions) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.DELETE,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
+        requestOptions,
         Task.class
       ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
     );
@@ -736,12 +902,13 @@ public class APIClient {
     return task.setAPIClient(this).setIndex(indexName);
   }
 
-  Task clearSynonyms(String indexName, Boolean forwardToReplicas) throws AlgoliaException {
+  Task clearSynonyms(String indexName, Boolean forwardToReplicas, RequestOptions requestOptions) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", "clear"),
+        requestOptions,
         Task.class
       ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
     );
@@ -749,22 +916,24 @@ public class APIClient {
     return task.setAPIClient(this).setIndex(indexName);
   }
 
-  SearchSynonymResult searchSynonyms(String indexName, SynonymQuery query) throws AlgoliaException {
+  SearchSynonymResult searchSynonyms(String indexName, SynonymQuery query, RequestOptions requestOptions) throws AlgoliaException {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", "search"),
+        requestOptions,
         SearchSynonymResult.class).setData(query)
     );
   }
 
-  Task batchSynonyms(String indexName, List<AbstractSynonym> synonyms, Boolean forwardToReplicas, Boolean replaceExistingSynonyms) throws AlgoliaException {
+  Task batchSynonyms(String indexName, List<AbstractSynonym> synonyms, Boolean forwardToReplicas, Boolean replaceExistingSynonyms, RequestOptions requestOptions) throws AlgoliaException {
     Task task = httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
         false,
         Arrays.asList("1", "indexes", indexName, "synonyms", "batch"),
+        requestOptions,
         Task.class
       )
         .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString()))
@@ -774,7 +943,7 @@ public class APIClient {
     return task.setAPIClient(this).setIndex(indexName);
   }
 
-  void deleteByQuery(String indexName, Query query, int batchSize) throws AlgoliaException {
+  void deleteByQuery(String indexName, Query query, int batchSize, RequestOptions requestOptions) throws AlgoliaException {
     query = query
       .setAttributesToRetrieve(Collections.singletonList("objectID"))
       .setAttributesToHighlight(Collections.emptyList())
@@ -783,36 +952,38 @@ public class APIClient {
       .setDistinct(Distinct.of(false));
 
     List<String> objectToDelete = new ArrayList<>(batchSize);
-    for (ObjectID o : new IndexIterable<>(this, indexName, query, ObjectID.class)) {
+    for (ObjectID o : new IndexIterable<>(this, indexName, query, requestOptions, ObjectID.class)) {
       objectToDelete.add(o.getObjectID());
 
       while (objectToDelete.size() >= batchSize) {
         List<String> subList = objectToDelete.subList(0, batchSize);
-        deleteObjects(indexName, subList).waitForCompletion();
+        deleteObjects(indexName, subList, requestOptions).waitForCompletion();
         subList.clear();
       }
     }
 
     if (!objectToDelete.isEmpty()) {
-      deleteObjects(indexName, objectToDelete).waitForCompletion();
+      deleteObjects(indexName, objectToDelete, requestOptions).waitForCompletion();
     }
   }
 
-  TaskSingleIndex partialUpdateObjects(String indexName, List<Object> objects) throws AlgoliaException {
+  TaskSingleIndex partialUpdateObjects(String indexName, List<Object> objects, RequestOptions requestOptions) throws AlgoliaException {
     TaskSingleIndex task = batch(
       indexName,
-      objects.stream().map(BatchPartialUpdateObjectOperation::new).collect(Collectors.toList())
+      objects.stream().map(BatchPartialUpdateObjectOperation::new).collect(Collectors.toList()),
+      requestOptions
     );
 
     return task.setAPIClient(this).setIndex(indexName);
   }
 
   @SuppressWarnings("unchecked")
-  <T> BrowseResult<T> browse(String indexName, Query query, String cursor, Class<T> klass) throws AlgoliaException {
+  <T> BrowseResult<T> browse(String indexName, Query query, String cursor, Class<T> klass, RequestOptions requestOptions) throws AlgoliaException {
     AlgoliaRequest<BrowseResult> algoliaRequest = new AlgoliaRequest<>(
       HttpMethod.GET,
       true,
       Arrays.asList("1", "indexes", indexName, "browse"),
+      requestOptions,
       BrowseResult.class,
       klass
     )
@@ -821,13 +992,14 @@ public class APIClient {
     return httpClient.requestWithRetry(algoliaRequest);
   }
 
-  SearchFacetResult searchForFacetValues(String indexName, String facetName, String facetQuery, Query query) throws AlgoliaException {
+  SearchFacetResult searchForFacetValues(String indexName, String facetName, String facetQuery, Query query, RequestOptions requestOptions) throws AlgoliaException {
     query = query == null ? new Query() : query;
     query = query.addCustomParameter("facetQuery", facetQuery);
     AlgoliaRequest<SearchFacetResult> algoliaRequest = new AlgoliaRequest<>(
       HttpMethod.POST,
       true,
       Arrays.asList("1", "indexes", indexName, "facets", facetName, "query"),
+      requestOptions,
       SearchFacetResult.class
     )
       .setData(new Search(query));

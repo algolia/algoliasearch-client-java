@@ -1,7 +1,9 @@
 package com.algolia.search.http;
 
+import com.algolia.search.objects.RequestOptions;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.util.List;
@@ -12,6 +14,7 @@ public class AlgoliaRequest<T> {
   private final HttpMethod method;
   private final boolean isSearch;
   private final List<String> path;
+  private final RequestOptions options;
 
   private Map<String, String> parameters = Maps.newHashMap();
   private Object data = null;
@@ -19,17 +22,19 @@ public class AlgoliaRequest<T> {
   private Class<T> collectionClass;
   private Class<?> elementClass;
 
-  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, Class<T> resultClass) {
+  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, RequestOptions options, Class<T> resultClass) {
     this.method = method;
     this.isSearch = isSearch;
     this.path = path;
+    this.options = options;
     this.resultClass = resultClass;
   }
 
-  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, Class<T> collectionClass, Class<?> elementClass) {
+  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, RequestOptions options, Class<T> collectionClass, Class<?> elementClass) {
     this.method = method;
     this.isSearch = isSearch;
     this.path = path;
+    this.options = options;
     this.collectionClass = collectionClass;
     this.elementClass = elementClass;
   }
@@ -69,11 +74,18 @@ public class AlgoliaRequest<T> {
   }
 
   Map<String, String> getParameters() {
-    return parameters;
+    return ImmutableMap.<String, String>builder()
+      .putAll(parameters)
+      .putAll(options.generateQueryParams())
+      .build();
   }
 
   public AlgoliaRequest<T> setParameters(Map<String, String> parameters) {
     this.parameters = parameters;
     return this;
+  }
+
+  Map<String, String> getHeaders() {
+    return options.generateHeaders();
   }
 }

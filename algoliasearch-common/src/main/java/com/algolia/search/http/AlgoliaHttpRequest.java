@@ -1,5 +1,6 @@
 package com.algolia.search.http;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ public class AlgoliaHttpRequest {
 
   private final String host;
   private final String content;
-  private final AlgoliaRequest request;
+  private final AlgoliaRequest<?> request;
 
   public AlgoliaHttpRequest(String host, String content, AlgoliaRequest<?> request) {
     this.host = host;
@@ -29,6 +30,10 @@ public class AlgoliaHttpRequest {
 
   public Map<String, String> getParameters() {
     return request.getParameters();
+  }
+
+  public Map<String, String> getHeaders() {
+    return request.getHeaders();
   }
 
   public String getContent() {

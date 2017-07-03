@@ -2,6 +2,7 @@ package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.Query;
+import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.responses.BrowseResult;
 
 import java.util.Iterator;
@@ -11,17 +12,19 @@ public class IndexIterator<T> implements Iterator<T> {
   private final APIClient apiClient;
   private final String indexName;
   private final Query query;
+  private final RequestOptions options;
   private final Class<T> klass;
 
   private String currentCursor = null;
   private boolean isFirstRequest = true;
   private Iterator<T> currentIterator = null;
 
-  IndexIterator(APIClient apiClient, String indexName, Query query, String cursor, Class<T> klass) {
+  IndexIterator(APIClient apiClient, String indexName, Query query, String cursor, RequestOptions options, Class<T> klass) {
     this.apiClient = apiClient;
     this.indexName = indexName;
     this.query = query;
     this.currentCursor = cursor;
+    this.options = options;
     this.klass = klass;
   }
 
@@ -31,7 +34,7 @@ public class IndexIterator<T> implements Iterator<T> {
       executeQueryAndSetInnerState();
       isFirstRequest = false;
     }
-    if(currentCursor != null && !currentIterator.hasNext()) {
+    if (currentCursor != null && !currentIterator.hasNext()) {
       executeQueryAndSetInnerState();
     }
     return currentIterator != null && currentIterator.hasNext();
@@ -54,7 +57,7 @@ public class IndexIterator<T> implements Iterator<T> {
 
   private BrowseResult<T> doQuery(String cursor) {
     try {
-      BrowseResult<T> browseResult = apiClient.browse(indexName, query, cursor, klass);
+      BrowseResult<T> browseResult = apiClient.browse(indexName, query, cursor, klass, options);
       if (browseResult == null) { //Non existing index
         return BrowseResult.empty();
       }

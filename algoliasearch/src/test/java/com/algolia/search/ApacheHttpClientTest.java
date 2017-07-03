@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -89,19 +88,16 @@ public class ApacheHttpClientTest {
 
   @Test
   public void shouldHandleConnectionResetException() throws Exception {
-    Thread runnable = new Thread() {
-      @Override
-      public void run() {
-        try {
-          ServerSocket serverSocket = new ServerSocket(8080);
-          Socket socket = serverSocket.accept();
-          socket.setSoLinger(true, 0);
-          socket.close();
-        } catch (IOException ignored) {
-          ignored.printStackTrace();
-        }
+    Thread runnable = new Thread(() -> {
+      try {
+        ServerSocket serverSocket = new ServerSocket(8080);
+        Socket socket = serverSocket.accept();
+        socket.setSoLinger(true, 0);
+        socket.close();
+      } catch (IOException ignored) {
+        ignored.printStackTrace();
       }
-    };
+    });
 
     runnable.start();
 
@@ -116,7 +112,7 @@ public class ApacheHttpClientTest {
   @Test
   public void shouldHandleSNI() throws Exception {
     APIClient client = build(APPLICATION_ID + "-1.algolianet.com");
-    assertThat(client.listKeys()).isNotEmpty();
+    assertThat(client.listApiKeys()).isNotEmpty();
   }
 
 }
