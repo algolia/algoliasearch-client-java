@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.google.common.net.HttpHeaders;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
@@ -37,6 +38,19 @@ public class APIClientBuilderTest {
         assertThat(configuration.getBuildHosts().get(1)).matches("^appid-\\d.algolianet.com$");
         assertThat(configuration.getBuildHosts().get(2)).matches("^appid-\\d.algolianet.com$");
         assertThat(configuration.getBuildHosts().get(3)).matches("^appid-\\d.algolianet.com$");
+        return null;
+      }
+    };
+
+    builder.build();
+  }
+
+  @Test
+  public void getUserAgent() {
+    APIClientBuilder builder = new APIClientBuilder("appid", "apikey") {
+      @Override
+      protected APIClient build(@Nonnull APIClientConfiguration configuration) {
+        assertThat(configuration.getHeaders().get(HttpHeaders.USER_AGENT)).matches("Algolia for Java \\([^)]+\\); JVM \\([^)]+\\)");
         return null;
       }
     };
