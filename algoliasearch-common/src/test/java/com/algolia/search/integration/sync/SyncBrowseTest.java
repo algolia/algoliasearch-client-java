@@ -8,10 +8,12 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.Query;
+import com.google.common.collect.Lists;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +47,9 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     index.addObjects(objects).waitForCompletion();
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
+    ArrayList<AlgoliaObject> array = Lists.newArrayList(iterator);
+
+    assertThat(array).hasSize(10);
 
     for (AlgoliaObject object : iterator) {
       assertThat(object.getName()).startsWith("name");
