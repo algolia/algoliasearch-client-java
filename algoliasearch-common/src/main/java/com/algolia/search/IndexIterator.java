@@ -31,6 +31,9 @@ public class IndexIterator<T> implements Iterator<T> {
       executeQueryAndSetInnerState();
       isFirstRequest = false;
     }
+    if(currentCursor != null && !currentIterator.hasNext()) {
+      executeQueryAndSetInnerState();
+    }
     return currentIterator != null && currentIterator.hasNext();
   }
 
