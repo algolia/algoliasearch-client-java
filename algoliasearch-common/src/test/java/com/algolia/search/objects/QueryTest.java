@@ -44,4 +44,31 @@ public class QueryTest {
     Query query = new Query("é®„").setTagFilters(Collections.singletonList("(attribute)"));
     assertThat(query.toParam()).isEqualTo("tagFilters=%28attribute%29&query=%C3%A9%C2%AE%E2%80%9E");
   }
+
+  @Test
+  public void queryWithDistinct() {
+    Query query = new Query("").setDistinct(Distinct.of(0));
+    assertThat(query.toParam()).isEqualTo("distinct=0&query=");
+  }
+
+  @Test
+  public void queryWithAroundRadius() {
+    Query query = new Query("").setAroundRadiusAll();
+    assertThat(query.toParam()).isEqualTo("aroundRadius=all&query=");
+
+    query = new Query("").setAroundRadius(1);
+    assertThat(query.toParam()).isEqualTo("aroundRadius=1&query=");
+  }
+
+  @Test
+  public void queryWithRemoveStopWords() {
+    Query query = new Query("").setRemoveStopWords(RemoveStopWords.of(true));
+    assertThat(query.toParam()).isEqualTo("removeStopWords=true&query=");
+  }
+
+  @Test
+  public void queryWithIgnorePlurals() {
+    Query query = new Query("").setIgnorePlurals(IgnorePlurals.of(true));
+    assertThat(query.toParam()).isEqualTo("query=&ignorePlurals=true");
+  }
 }

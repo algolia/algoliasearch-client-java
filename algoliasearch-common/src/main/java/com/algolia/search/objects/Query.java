@@ -111,7 +111,9 @@ public class Query {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 
     /* advanced */
-    builder = add(builder, "distinct", distinct);
+    if (distinct != null) {
+      builder = add(builder, "distinct", distinct.getInsideValue());
+    }
     builder = add(builder, "getRankingInfo", getRankingInfo);
     builder = add(builder, "numericFilters", numericFilters);
     builder = add(builder, "tagFilters", tagFilters);
@@ -166,7 +168,9 @@ public class Query {
     builder = add(builder, "removeWordsIfNoResults", removeWordsIfNoResults);
     builder = add(builder, "advancedSyntax", advancedSyntax);
     builder = add(builder, "optionalWords", optionalWords);
-    builder = add(builder, "removeStopWords", removeStopWords);
+    if (removeStopWords != null) {
+      builder = add(builder, "removeStopWords", removeStopWords.getInsideValue());
+    }
     builder = add(builder, "disableExactOnAttributes", disableExactOnAttributes);
     builder = add(builder, "exactOnSingleWordQuery", exactOnSingleWordQuery);
     builder = add(builder, "alternativesAsExact", alternativesAsExact);
@@ -182,7 +186,9 @@ public class Query {
     builder = add(builder, "minWordSizefor2Typos", minWordSizefor2Typos);
     builder = add(builder, "typoTolerance", typoTolerance);
     builder = add(builder, "allowTyposOnNumericTokens", allowTyposOnNumericTokens);
-    builder = add(builder, "ignorePlurals", ignorePlurals);
+    if (ignorePlurals != null) {
+      builder = add(builder, "ignorePlurals", ignorePlurals.getInsideValue());
+    }
     builder = add(builder, "disableTypoToleranceOnAttributes", disableTypoToleranceOnAttributes);
 
     /* SECURED API KEYS */
