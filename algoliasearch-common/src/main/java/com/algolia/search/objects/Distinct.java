@@ -97,9 +97,11 @@ class DistinctJsonSerializer extends JsonSerializer<Distinct> {
   @Override
   public void serialize(Distinct value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
     if(value instanceof DistinctAsBoolean) {
-      gen.writeBoolean((Boolean) value.getInsideValue());
+      DistinctAsBoolean d = (DistinctAsBoolean) value;
+      gen.writeBoolean(d.getInsideValue());
     } else if (value instanceof DistinctAsInteger) {
-      gen.writeNumber((Integer) value.getInsideValue());
+      DistinctAsInteger d = (DistinctAsInteger) value;
+      gen.writeNumber(d.getInsideValue());
     }
   }
 }
