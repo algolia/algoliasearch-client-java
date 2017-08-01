@@ -1,5 +1,6 @@
 package com.algolia.search.objects;
 
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -70,5 +71,11 @@ public class QueryTest {
   public void queryWithIgnorePlurals() {
     Query query = new Query("").setIgnorePlurals(IgnorePlurals.of(true));
     assertThat(query.toParam()).isEqualTo("query=&ignorePlurals=true");
+  }
+
+  @Test
+  public void queryWithEmptyList() {
+    Query query = new Query("").setAttributesToHighlight(Lists.emptyList());
+    assertThat(query.toParam()).isEqualTo("attributesToHighlight=&query=");
   }
 }
