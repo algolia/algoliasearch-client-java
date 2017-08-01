@@ -244,7 +244,7 @@ public class Query {
   }
 
   private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, List<String> attributes) {
-    if (attributes == null || attributes.isEmpty()) {
+    if (attributes == null) {
       return builder;
     }
     return builder.put(name, String.join(",", attributes));
