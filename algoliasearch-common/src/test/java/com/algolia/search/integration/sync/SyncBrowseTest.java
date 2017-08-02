@@ -1,13 +1,14 @@
 package com.algolia.search.integration.sync;
 
-import com.algolia.search.AlgoliaObject;
-import com.algolia.search.Index;
-import com.algolia.search.IndexIterable;
-import com.algolia.search.SyncAlgoliaIntegrationTest;
+import com.algolia.search.*;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.Query;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Lists;
 import org.junit.After;
 import org.junit.Before;
@@ -15,11 +16,13 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
 
@@ -29,7 +32,8 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     "index3",
     "index4",
     "index5",
-    "index6"
+    "index6",
+    "index7"
   );
 
   @Before
@@ -96,6 +100,24 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
   }
 
   @Test
+  public void browseEmptyWithException() throws AlgoliaException {
+    Index<AlgoliaObject> index = client.initIndex("index7", AlgoliaObject.class);
+
+    index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
+
+    ObjectMapper objectMapper =
+      new ObjectMapper()
+        .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
+
+    APIClient clientWithSpecificObjectMapper = createInstance(APPLICATION_ID, API_KEY, objectMapper);
+
+    Index<BadClass> indexWithWrongClass = clientWithSpecificObjectMapper.initIndex("index7", BadClass.class);
+
+    Iterator<BadClass> iterator = indexWithWrongClass.browse(new Query("").setHitsPerPage(1)).iterator();
+    assertThatThrownBy(iterator::next).isInstanceOf(RuntimeException.class);
+  }
+
+  @Test
   public void deleteByQuery() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
 
@@ -117,5 +139,18 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     index.deleteByQuery(new Query(""), 2);
 
     assertThat(index.search(new Query("")).getHits()).isEmpty();
+  }
+
+  static class BadClass {
+    private String notName;
+
+    public String getNotName() {
+      return notName;
+    }
+
+    public BadClass setNotName(String notName) {
+      this.notName = notName;
+      return this;
+    }
   }
 }

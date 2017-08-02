@@ -63,7 +63,8 @@ public class IndexIterator<T> implements Iterator<T> {
       }
       return browseResult;
     } catch (AlgoliaException e) {
-      return BrowseResult.empty();
+      //If there is a jackson exception we have to throw a runtime because Iterator doesn't have exceptions
+      throw new RuntimeException(e);
     }
   }
 

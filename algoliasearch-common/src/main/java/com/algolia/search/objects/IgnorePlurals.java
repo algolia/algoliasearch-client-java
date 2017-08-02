@@ -1,6 +1,7 @@
 package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @JsonDeserialize(using = IgnorePluralsDeserializer.class)
 @JsonSerialize(using = IgnorePluralsSerializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class IgnorePlurals {
 
   public static IgnorePlurals of(Boolean bool) {

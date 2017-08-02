@@ -1,11 +1,13 @@
 package com.algolia.search.objects;
 
 import com.algolia.search.AbstractIndex;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.annotation.Nonnull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class IndexQuery {
 
   private final Query query;

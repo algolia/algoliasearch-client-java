@@ -1,6 +1,7 @@
 package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 @JsonDeserialize(using = TypoToleranceJsonDeserializer.class)
 @JsonSerialize(using = TypoToleranceJsonSerializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class TypoTolerance {
 
   public static TypoTolerance of(String string) {

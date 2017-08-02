@@ -3,6 +3,7 @@ package com.algolia.search.integration;
 import com.algolia.search.APIClient;
 import com.algolia.search.AppEngineAPIClientBuilder;
 import com.algolia.search.integration.sync.SyncApiKeysTest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalURLFetchServiceTestConfig;
 import org.junit.AfterClass;
@@ -26,5 +27,10 @@ public class AppEngineApiKeysTest extends SyncApiKeysTest {
   @Override
   public APIClient createInstance(String appId, String apiKey) {
     return new AppEngineAPIClientBuilder(appId, apiKey).build();
+  }
+
+  @Override
+  public APIClient createInstance(String appId, String apiKey, ObjectMapper objectMapper) {
+    return new AppEngineAPIClientBuilder(appId, apiKey).setObjectMapper(objectMapper).build();
   }
 }
