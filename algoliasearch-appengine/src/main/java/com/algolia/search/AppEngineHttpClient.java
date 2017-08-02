@@ -55,8 +55,6 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
   }
 
   private AlgoliaHttpResponse from(final HTTPResponse httpResponse) {
-
-
     return new AlgoliaHttpResponse() {
       @Override
       public int getStatusCode() {
@@ -92,6 +90,10 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
       defaultFetchOptions);
 
     for (Map.Entry<String, String> entry : headers.entrySet()) {
+      httpRequest.addHeader(new HTTPHeader(entry.getKey(), entry.getValue()));
+    }
+
+    for (Map.Entry<String, String> entry : request.getHeaders().entrySet()) {
       httpRequest.addHeader(new HTTPHeader(entry.getKey(), entry.getValue()));
     }
 

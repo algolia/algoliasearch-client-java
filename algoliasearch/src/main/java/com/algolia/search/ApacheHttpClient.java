@@ -63,6 +63,10 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
       builder = builder.addParameter(entry.getKey(), entry.getValue());
     }
 
+    for (Map.Entry<String, String> entry : request.getHeaders().entrySet()) {
+      builder = builder.addHeader(entry.getKey(), entry.getValue());
+    }
+
     if (request.getContent() != null) {
       builder = builder.setEntity(new StringEntity(request.getContent(), ContentType.APPLICATION_JSON));
     }

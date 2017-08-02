@@ -2,6 +2,7 @@ package com.algolia.search.http;
 
 import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.objects.RequestOptions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,9 +25,9 @@ import static org.mockito.Mockito.*;
 public class AlgoliaHttpClientTest {
 
   private final String applicationId = "APP_ID";
+  private final int hostTimeout = 1000;
   private MockedAlgoliaHttpClient mockClient;
   private Instant now;
-  private final int hostTimeout = 1000;
 
   @Before
   public void before() {
@@ -43,6 +44,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         true,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -57,6 +59,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         false,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -74,6 +77,7 @@ public class AlgoliaHttpClientTest {
           HttpMethod.GET,
           false,
           Arrays.asList("1", "indexes"),
+          RequestOptions.empty,
           Result.class
         )
       )).hasMessage("Bad build request");
@@ -89,6 +93,7 @@ public class AlgoliaHttpClientTest {
           HttpMethod.GET,
           false,
           Arrays.asList("1", "indexes"),
+          RequestOptions.empty,
           Result.class
         )
       )
@@ -105,6 +110,7 @@ public class AlgoliaHttpClientTest {
           HttpMethod.GET,
           false,
           Arrays.asList("1", "indexes"),
+          RequestOptions.empty,
           Result.class
         )
       )).hasMessage("Error");
@@ -121,6 +127,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         false,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -138,6 +145,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         false,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -157,6 +165,7 @@ public class AlgoliaHttpClientTest {
           HttpMethod.GET,
           false,
           Arrays.asList("1", "indexes"),
+          RequestOptions.empty,
           Result.class
         )
       )).hasMessage("All retries failed, exceptions: [Failed to query host [APP_ID.algolia.net]: null,Failed to query host [APP_ID-1.algolianet.com]: null,Failed to query host [APP_ID-2.algolianet.com]: null,Failed to query host [APP_ID-3.algolianet.com]: null]");
@@ -175,6 +184,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         false,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -191,6 +201,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         true,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -210,6 +221,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         false,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -229,6 +241,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         true,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -247,6 +260,7 @@ public class AlgoliaHttpClientTest {
         HttpMethod.GET,
         true,
         Arrays.asList("1", "indexes"),
+        RequestOptions.empty,
         Result.class
       )
     );
@@ -263,7 +277,7 @@ public class AlgoliaHttpClientTest {
       new AlgoliaHttpRequest(
         "",
         "",
-        new AlgoliaRequest<>(HttpMethod.GET, true, new ArrayList<>(), Object.class)
+        new AlgoliaRequest<>(HttpMethod.GET, true, new ArrayList<>(), RequestOptions.empty, Object.class)
       )
     );
   }

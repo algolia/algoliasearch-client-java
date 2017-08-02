@@ -1,7 +1,9 @@
 package com.algolia.search;
 
 import com.algolia.search.objects.Query;
+import com.algolia.search.objects.RequestOptions;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -10,12 +12,12 @@ public class IndexIterable<T> implements Iterable<T> {
 
   private final IndexIterator<T> iterator;
 
-  IndexIterable(APIClient apiClient, String indexName, Query query, Class<T> klass) {
-    this(apiClient, indexName, query, null, klass);
+  IndexIterable(@Nonnull APIClient apiClient, @Nonnull String indexName, @Nonnull Query query, @Nonnull RequestOptions requestOptions, @Nonnull Class<T> klass) {
+    this(apiClient, indexName, query, requestOptions, null, klass);
   }
 
-  IndexIterable(APIClient apiClient, String indexName, Query query, String cursor, Class<T> klass) {
-    this.iterator = new IndexIterator<>(apiClient, indexName, query, cursor, klass);
+  IndexIterable(@Nonnull APIClient apiClient, @Nonnull String indexName, @Nonnull Query query, @Nonnull RequestOptions requestOptions, String cursor, @Nonnull Class<T> klass) {
+    this.iterator = new IndexIterator<>(apiClient, indexName, query, cursor, requestOptions, klass);
   }
 
   @Override
