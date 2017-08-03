@@ -1,12 +1,13 @@
 package com.algolia.search;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 
 public abstract class SyncAlgoliaIntegrationTest {
 
   public APIClient client;
-  private String APPLICATION_ID = System.getenv("APPLICATION_ID");
-  private String API_KEY = System.getenv("API_KEY");
+  protected String APPLICATION_ID = System.getenv("APPLICATION_ID");
+  protected String API_KEY = System.getenv("API_KEY");
 
   @Before
   public void checkEnvVariables() throws Exception {
@@ -20,5 +21,7 @@ public abstract class SyncAlgoliaIntegrationTest {
   }
 
   public abstract APIClient createInstance(String appId, String apiKey);
+
+  public abstract APIClient createInstance(String appId, String apiKey, ObjectMapper objectMapper);
 
 }

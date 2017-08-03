@@ -117,10 +117,7 @@ public abstract class GenericAPIClientBuilder {
    * @return this
    */
   public GenericAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
-    this.objectMapper = objectMapper
-      .copy()
-      .enable(Defaults.OBJECT_MAPPER_DEFAULT_FEATURE)
-      .disable(Defaults.OBJECT_MAPPER_DEFAULT_DESERIALIZATION_FEATURE);
+    this.objectMapper = objectMapper.copy();
     return this;
   }
 

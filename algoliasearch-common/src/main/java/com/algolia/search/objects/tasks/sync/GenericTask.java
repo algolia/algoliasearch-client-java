@@ -4,9 +4,11 @@ import com.algolia.search.APIClient;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.tasks.AbstractTask;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class GenericTask<T> extends AbstractTask<T> {
 
   @JsonIgnore

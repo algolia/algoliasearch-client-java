@@ -1,5 +1,6 @@
 package com.algolia.search.objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ImmutableMap;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Query {
 
   /* advanced */
