@@ -23,21 +23,28 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 1. **[Install](#install)**
 
 
-1. **[Quick Start](#quick-start)**
-
-    * [Initialize the client](#initialize-the-client)
-    * [Push data](#push-data)
-    * [Search](#search)
-    * [Configure](#configure)
-    * [Frontend search](#frontend-search)
-
 1. **[Philosophy](#philosophy)**
 
     * [Builder](#builder)
-    * [JSON &amp; <a href="http://wiki.fasterxml.com/JacksonRelease20">Jackson2</a>](#json--a-href=http:wikifasterxmlcomjacksonrelease20jackson2a)
+    * [JSON &amp; `Jackson2`](#json--jackson2)
     * [Async &amp; Future](#async--future)
 
-1. **[Getting Help](#getting-help)**
+1. **[Quick Start](#quick-start)**
+
+    * [Initialize the client](#initialize-the-client)
+
+1. **[Push data](#push-data)**
+
+
+1. **[Configure](#configure)**
+
+
+1. **[Search](#search)**
+
+
+1. **[Search UI](#search-ui)**
+
+    * [index.html](#indexhtml)
 
 
 
@@ -47,14 +54,15 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 
 
 
+
 ## Supported platforms
 
 This API client only suports Java 1.8+.
-If you need support for older version, please use this [package](https://github.com/algolia/algoliasearch-client-java).
+If you need support for an older version, please use this [package](https://github.com/algolia/algoliasearch-client-java).
 
 ## Install
 
-If you're using Maven, add the following dependency to your `pom.xml` file:
+If you're using `Maven`, add the following dependency to your `pom.xml` file:
 
 ```xml
 <dependency>
@@ -64,7 +72,7 @@ If you're using Maven, add the following dependency to your `pom.xml` file:
 </dependency>
 ```
 
-For the Async version use this:
+For the asynchronous version use:
 
 ```xml
 <dependency>
@@ -74,7 +82,7 @@ For the Async version use this:
 </dependency>
 ```
 
-On Google AppEngine use this:
+On `Google AppEngine` use this:
 
 ```xml
 <dependency>
@@ -84,32 +92,51 @@ On Google AppEngine use this:
 </dependency>
 ```
 
+## Philosophy
+
+### Builder
+
+The `v2` of the api client uses a builder to create the `APIClient` object:
+* on `Google App Engine` use the `AppEngineAPIClientBuilder`
+  * if you fancy `Future`, use the `AsyncHttpAPIClientBuilder`
+* on `Android`, use the [`Android` API Client](https://github.com/algolia/algoliasearch-client-android)
+* on a regular `JVM`, use the `ApacheAPIClientBuilder`
+
+### JSON & `Jackson2`
+
+All the serialization/deserialization is done with [`Jackson2`](https://github.com/FasterXML/jackson-core/wiki). You can add your custom `ObjectMapper` with the method `setObjectMapper` of the builder.
+Changing it might produce unexpected results. You can find the one used in the interface `com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER`.
+
+### Async & Future
+
+All methods of the `AsyncAPIClient` are exactly the same as the `APIClient` but returns `CompletableFuture<?>`. All other classes are prefixes with `Async`. You can also pass an optional `ExecutorService` to the `build` of the `AsyncHttpAPIClientBuilder`.
+
 ## Quick Start
 
 In 30 seconds, this quick start tutorial will show you how to index and search objects.
 
 ### Initialize the client
 
-You first need to initialize the client. For that you need your **Application ID** and **API Key**.
-You can find both of them on [your Algolia account](https://www.algolia.com/api-keys).
+To begin, you will need to initialize the client. In order to do this you will need your **Application ID** and **API Key**.
+You can find both on [your Algolia account](https://www.algolia.com/api-keys).
 
 ```java
 APIClient client = new ApacheAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
 ```
 
-For the Async version
+For the asynchronous version:
 
 ```java
 AsyncAPIClient client = new AsyncHttpAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
 ```
 
-For Google AppEngine
+For `Google AppEngine`:
 
 ```java
 APIClient client = new AppEngineAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
 ```
 
-### Push data
+## Push data
 
 Without any prior configuration, you can start indexing contacts in the ```contacts``` index using the following code:
 
@@ -153,9 +180,32 @@ index.addObject(new JSONObject()
       .setCompany("Norwalk Crmc"));
 ```
 
-### Search
+## Configure
 
-You can now search for contacts using firstname, lastname, company, etc. (even with typos):
+Settings can be customized to fine tune the search behavior. For example, you can add a custom sort by number of followers to further enhance the built-in relevance:
+
+```java
+//Sync & Async version
+
+index.setSettings(new IndexSettings().setCustomRanking(Collections.singletonList("desc(followers)")));
+```
+
+You can also configure the list of attributes you want to index by order of importance (most important first).
+
+**Note:** The Algolia engine is designed to suggest results as you type, which means you'll generally search by prefix.
+In this case, the order of attributes is very important to decide which hit is the best:
+
+```java
+//Sync & Async version
+
+index.setSettings(new IndexSettings().setSearchableAttributes(
+	Arrays.asList("lastname", "firstname", "company")
+);
+```
+
+## Search
+
+You can now search for contacts using `firstname`, `lastname`, `company`, etc. (even with typos):
 
 ```java
 //Sync version
@@ -183,82 +233,75 @@ System.out.println(index.search(new Query("california paint")).get());
 System.out.println(index.search(new Query("jimmie paint")).get());
 ```
 
-### Configure
+## Search UI
 
-Settings can be customized to tune the search behavior. For example, you can add a custom sort by number of followers to the already great built-in relevance:
+**Warning:** If you are building a web application, you may be more interested in using one of our
+[frontend search UI librairies](https://www.algolia.com/doc/guides/search-ui/search-libraries/)
 
-```java
-//Sync & Async version
+The following example shows how to build a front-end search quickly using
+[InstanSearch.js](https://community.algolia.com/instantsearch.js/)
 
-index.setSettings(new IndexSettings().setCustomRanking(Collections.singletonList("desc(followers)")));
-```
-
-You can also configure the list of attributes you want to index by order of importance (first = most important):
-
-**Note:** Since the engine is designed to suggest results as you type, you'll generally search by prefix.
-In this case the order of attributes is very important to decide which hit is the best:
-
-```java
-//Sync & Async version
-
-index.setSettings(new IndexSettings().setSearchableAttributes(
-	Arrays.asList("lastname", "firstname", "company")
-);
-```
-
-### Frontend search
-
-**Note:** If you are building a web application, you may be more interested in using our [JavaScript client](https://github.com/algolia/algoliasearch-client-javascript) to perform queries.
-
-It brings two benefits:
-  * Your users get a better response time by not going through your servers
-  * It will offload unnecessary tasks from your servers
+### index.html
 
 ```html
-<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-<script>
-var client = algoliasearch('ApplicationID', 'apiKey');
-var index = client.initIndex('indexName');
+<!doctype html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
+</head>
+<body>
+  <header>
+    <div>
+       <input id="search-input" placeholder="Search for products">
+       <!-- We use a specific placeholder in the input to guides users in their search. -->
+    
+  </header>
+  <main>
+      
+      
+  </main>
 
-// perform query "jim"
-index.search('jim', searchCallback);
+  <script type="text/html" id="hit-template">
+    
+      <p class="hit-name">{{{_highlightResult.firstname.value}}} {{{_highlightResult.lastname.value}}}</p>
+    
+  </script>
 
-// the last optional argument can be used to add search parameters
-index.search(
-  'jim', {
-    hitsPerPage: 5,
-    facets: '*',
-    maxValuesPerFacet: 10
-  },
-  searchCallback
-);
-
-function searchCallback(err, content) {
-  if (err) {
-    console.error(err);
-    return;
-  }
-
-  console.log(content);
-}
-</script>
+  <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+  <script src="app.js"></script>
+</body>
 ```
 
-## Philosophy
+### app.js
 
-### Builder
+```js
+var search = instantsearch({
+  // Replace with your own values
+  appId: 'YourApplicationID',
+  apiKey: 'YourSearchOnlyAPIKey', // search only API key, no ADMIN key
+  indexName: 'contacts',
+  urlSync: true
+});
 
-The v2 of the api client, uses a builder to create the APIClient object. If you are on a regular JVM (not android, not Google App Engine), use the `ApacheAPIClientBuilder`, if you are on Google App Engine use the `AppEngineAPIClientBuilder`. If you fancy `Future`, use the `AsyncHttpAPIClientBuilder`.
-As for Android, please use the [Android API Client](https://github.com/algolia/algoliasearch-client-android)
+search.addWidget(
+  instantsearch.widgets.searchBox({
+    container: '#search-input'
+  })
+);
 
-### JSON & [Jackson2](http://wiki.fasterxml.com/JacksonRelease20)
+search.addWidget(
+  instantsearch.widgets.hits({
+    container: '#hits',
+    hitsPerPage: 10,
+    templates: {
+      item: document.getElementById('hit-template').innerHTML,
+      empty: "We didn't find any results for the search <em>\"{{query}}\"</em>"
+    }
+  })
+);
 
-All the serialization/deserialization is done with [Jackson2](http://wiki.fasterxml.com/JacksonRelease20). You can add your custom ObjectMapper with the method `setObjectMapper` of the builder.
-Changing it might result in unexpected result. You can find the one used in the interface `com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER`.
-
-### Async & Future
-
-All methods of the `AsyncAPIClient` are exactly the same as the `APIClient` but returns `CompletableFuture<?>`. All other classes are prefixes with `Async`. You can also pass a optional `ExecutorService` to the `build` of the `AsyncHttpAPIClientBuilder`.
+search.start();
+```
 
 ## Getting Help
 
