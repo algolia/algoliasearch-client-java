@@ -69,6 +69,8 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
 
     if (request.getContent() != null) {
       builder = builder.setEntity(new StringEntity(request.getContent(), ContentType.APPLICATION_JSON));
+    } else {
+      builder = builder.setEntity(new StringEntity("", ContentType.APPLICATION_JSON));
     }
     final HttpResponse response = internal.execute(builder.build());
 

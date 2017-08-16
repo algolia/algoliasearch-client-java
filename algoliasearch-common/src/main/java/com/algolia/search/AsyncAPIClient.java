@@ -11,6 +11,7 @@ import com.algolia.search.inputs.batch.BatchDeleteObjectOperation;
 import com.algolia.search.inputs.batch.BatchPartialUpdateObjectOperation;
 import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
+import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.async.*;
@@ -292,8 +293,8 @@ public class AsyncAPIClient {
   /**
    * Create a new key
    *
-   * @param key the key with the ACLs
-   *            @param requestOptions    Options to pass to this request
+   * @param key            the key with the ACLs
+   * @param requestOptions Options to pass to this request
    * @return the metadata of the key (such as it's name)
    */
   public CompletableFuture<CreateUpdateKey> addApiKey(@Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
@@ -330,9 +331,9 @@ public class AsyncAPIClient {
   /**
    * Update a key
    *
-   * @param keyName name of the key to update
-   * @param key     the key with the ACLs
-   *                @param requestOptions    Options to pass to this request
+   * @param keyName        name of the key to update
+   * @param key            the key with the ACLs
+   * @param requestOptions Options to pass to this request
    * @return the metadata of the key (such as it's name)
    */
   public CompletableFuture<CreateUpdateKey> updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
@@ -387,9 +388,9 @@ public class AsyncAPIClient {
    * Wait for the completion of this task
    * /!\ WARNING /!\ This method is blocking
    *
-   * @param task       the task to wait
-   * @param timeToWait the time to wait in milliseconds
-   *                   @param requestOptions    Options to pass to this request
+   * @param task           the task to wait
+   * @param timeToWait     the time to wait in milliseconds
+   * @param requestOptions Options to pass to this request
    */
   public <T> void waitTask(@Nonnull AsyncGenericTask<T> task, long timeToWait, @Nonnull RequestOptions requestOptions) {
     Preconditions.checkArgument(timeToWait >= 0, "timeToWait must be >= 0, was %s", timeToWait);
@@ -442,8 +443,8 @@ public class AsyncAPIClient {
    * <p>
    * All operations must have a valid index name (not null)
    *
-   * @param operations the list of operations to perform
-   *                   @param requestOptions    Options to pass to this request
+   * @param operations     the list of operations to perform
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
   public CompletableFuture<AsyncTasksMultipleIndex> batch(@Nonnull List<BatchOperation> operations, @Nonnull RequestOptions requestOptions) {
@@ -477,8 +478,8 @@ public class AsyncAPIClient {
   /**
    * Performs multiple searches on multiple indices with the strategy <code>MultiQueriesStrategy.NONE</code>
    *
-   * @param queries the queries
-   *                @param requestOptions    Options to pass to this request
+   * @param queries        the queries
+   * @param requestOptions Options to pass to this request
    * @return the result of the queries
    */
   @SuppressWarnings("unused")
@@ -501,9 +502,9 @@ public class AsyncAPIClient {
   /**
    * Performs multiple searches on multiple indices
    *
-   * @param queries  the queries
-   * @param strategy the strategy to apply to this multiple queries
-   *                 @param requestOptions    Options to pass to this request
+   * @param queries        the queries
+   * @param strategy       the strategy to apply to this multiple queries
+   * @param requestOptions Options to pass to this request
    * @return the result of the queries
    */
   @SuppressWarnings("WeakerAccess")
@@ -525,7 +526,7 @@ public class AsyncAPIClient {
    * Package protected method for the Index class
    **/
 
-  CompletableFuture<AsyncTask> moveIndex(String srcIndexName, String dstIndexName,  RequestOptions requestOptions) {
+  CompletableFuture<AsyncTask> moveIndex(String srcIndexName, String dstIndexName, RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
@@ -537,7 +538,7 @@ public class AsyncAPIClient {
     ).thenApply(s -> s.setIndex(srcIndexName));
   }
 
-  CompletableFuture<AsyncTask> copyIndex(String srcIndexName, String dstIndexName,  RequestOptions requestOptions) {
+  CompletableFuture<AsyncTask> copyIndex(String srcIndexName, String dstIndexName, RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
       new AlgoliaRequest<>(
         HttpMethod.POST,
@@ -804,7 +805,7 @@ public class AsyncAPIClient {
     );
 
     return httpClient
-      .requestWithRetry(algoliaRequest.setData(new Search(query)))
+      .requestWithRetry(algoliaRequest.setData(query))
       .thenCompose(result -> {
         CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
         if (result == null) { //Special case when the index does not exists
@@ -953,7 +954,84 @@ public class AsyncAPIClient {
         Arrays.asList("1", "indexes", indexName, "facets", facetName, "query"),
         requestOptions,
         SearchFacetResult.class
-      ).setData(new Search(query))
+      ).setData(query)
     );
   }
+
+  CompletableFuture<AsyncTask> saveRule(String indexName, String queryRuleID, Rule queryRule, Boolean forwardToReplicas, RequestOptions requestOptions) {
+    return httpClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.PUT,
+        false,
+        Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
+        requestOptions,
+        AsyncTask.class
+      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString())).setData(queryRule)
+    ).thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<Optional<Rule>> getRule(String indexName, String queryRuleID, RequestOptions requestOptions) {
+    return httpClient
+      .requestWithRetry(
+        new AlgoliaRequest<>(
+          HttpMethod.GET,
+          false,
+          Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
+          requestOptions,
+          Rule.class
+        )
+      )
+      .thenApply(Optional::ofNullable);
+  }
+
+  CompletableFuture<AsyncTask> deleteRule(String indexName, String queryRuleID, Boolean forwardToReplicas, RequestOptions requestOptions) {
+    return httpClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.DELETE,
+        false,
+        Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
+        requestOptions,
+        AsyncTask.class
+      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
+    ).thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<AsyncTask> clearRules(String indexName, Boolean forwardToReplicas, RequestOptions requestOptions) {
+    return httpClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.POST,
+        false,
+        Arrays.asList("1", "indexes", indexName, "rules", "clear"),
+        requestOptions,
+        AsyncTask.class
+      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
+    ).thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<SearchRuleResult> searchRules(String indexName, RuleQuery query, RequestOptions requestOptions) {
+    return httpClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.POST,
+        false,
+        Arrays.asList("1", "indexes", indexName, "rules", "search"),
+        requestOptions,
+        SearchRuleResult.class
+      ).setData(query)
+    );
+  }
+
+  CompletableFuture<AsyncTask> batchRules(String indexName, List<Rule> rules, Boolean forwardToReplicas, Boolean clearExistingRules, RequestOptions requestOptions) {
+    return httpClient.requestWithRetry(
+      new AlgoliaRequest<>(
+        HttpMethod.POST,
+        false,
+        Arrays.asList("1", "indexes", indexName, "rules", "batch"),
+        requestOptions,
+        AsyncTask.class
+      )
+        .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "clearExistingRules", clearExistingRules.toString()))
+        .setData(rules)
+    ).thenApply(s -> s.setIndex(indexName));
+  }
+
 }

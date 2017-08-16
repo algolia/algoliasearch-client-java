@@ -51,6 +51,7 @@ public class Utils {
   }
 
   public static <T> T parseAs(ObjectMapper mapper, Reader content, JavaType type) throws IOException {
+
     return mapper.readValue(content, type);
   }
 

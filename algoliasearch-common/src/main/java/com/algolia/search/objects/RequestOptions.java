@@ -21,24 +21,24 @@ public class RequestOptions {
     return this;
   }
 
-  public RequestOptions setCustomHeader(@Nonnull String key, @Nonnull String value) {
+  public RequestOptions addExtraHeader(@Nonnull String key, @Nonnull String value) {
     headers.put(key, value);
     return this;
   }
 
-  public RequestOptions setCustomQueryParameters(@Nonnull String key, @Nonnull String value) {
+  public RequestOptions addExtraQueryParameters(@Nonnull String key, @Nonnull String value) {
     queryParams.put(key, value);
     return this;
   }
 
-  public Map<String, String> generateHeaders() {
-    if(forwardedFor != null) {
+  public Map<String, String> generateExtraHeaders() {
+    if (forwardedFor != null) {
       headers.put("X-Forwarded-For", forwardedFor);
     }
     return headers;
   }
 
-  public Map<String, String> generateQueryParams() {
+  public Map<String, String> generateExtraQueryParams() {
     return queryParams;
   }
 
