@@ -32,4 +32,13 @@ public class TaskIndexing extends Task {
     super.setIndex(indexName);
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "TaskIndexing{" +
+      "objectID='" + objectID + '\'' +
+      ", indexName='" + indexName + '\'' +
+      ", taskID=" + taskID +
+      '}';
+  }
 }

@@ -63,6 +63,12 @@ class DistinctAsInteger extends Distinct {
     return insideValue;
   }
 
+  @Override
+  public String toString() {
+    return "Distinct{" +
+      "integer=" + insideValue +
+      '}';
+  }
 }
 
 @JsonDeserialize(as = DistinctAsBoolean.class)
@@ -78,6 +84,13 @@ class DistinctAsBoolean extends Distinct {
   @JsonIgnore
   public Boolean getInsideValue() {
     return insideValue;
+  }
+
+  @Override
+  public String toString() {
+    return "Distinct{" +
+      "boolean=" + insideValue +
+      '}';
   }
 }
 

@@ -39,7 +39,7 @@ abstract public class SyncRulesTest extends SyncAlgoliaIntegrationTest {
       .setAnchoring("is");
     Consequence ruleConsequence = new Consequence()
       .setUserData(ImmutableMap.of("a", "b"))
-      .setParams(new ConsequenceParams().setFacets("a=1").addCustomParameter("a", "b"));
+      .setParams(new ConsequenceParams().setFacets("a=1"));
 
     return new Rule()
       .setObjectID(objectID)

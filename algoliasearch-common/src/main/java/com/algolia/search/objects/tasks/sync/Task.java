@@ -43,4 +43,13 @@ public class Task extends GenericTask<Long> {
     super.setIndex(indexName);
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Task{" +
+      "apiClient=" + apiClient +
+      ", indexName='" + indexName + '\'' +
+      ", taskID=" + taskID +
+      '}';
+  }
 }

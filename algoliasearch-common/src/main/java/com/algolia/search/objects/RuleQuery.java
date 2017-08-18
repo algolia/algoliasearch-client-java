@@ -76,4 +76,14 @@ public class RuleQuery {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "RuleQuery{" +
+      "query='" + query + '\'' +
+      ", anchoring='" + anchoring + '\'' +
+      ", context='" + context + '\'' +
+      ", page=" + page +
+      ", hitsPerPage=" + hitsPerPage +
+      '}';
+  }
 }

@@ -61,6 +61,13 @@ class IgnorePluralsBoolean extends IgnorePlurals {
   Object getInsideValue() {
     return insideValue;
   }
+
+  @Override
+  public String toString() {
+    return "IgnorePlurals{" +
+      "boolean=" + insideValue +
+      '}';
+  }
 }
 
 class IgnorePluralsListString extends IgnorePlurals {
@@ -74,6 +81,13 @@ class IgnorePluralsListString extends IgnorePlurals {
   @Override
   Object getInsideValue() {
     return insideValue;
+  }
+
+  @Override
+  public String toString() {
+    return "IgnorePlurals{" +
+      "list=" + insideValue +
+      '}';
   }
 }
 

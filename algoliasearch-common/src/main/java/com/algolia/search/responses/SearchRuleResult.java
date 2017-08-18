@@ -46,4 +46,14 @@ public class SearchRuleResult {
     this.hits = hits;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "SearchRuleResult{" +
+      "nbHits=" + nbHits +
+      ", page=" + page +
+      ", nbPages=" + nbPages +
+      ", hits=" + hits +
+      '}';
+  }
 }

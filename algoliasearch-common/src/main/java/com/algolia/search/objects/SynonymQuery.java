@@ -53,4 +53,14 @@ public class SynonymQuery {
     this.hitsPerPage = hitsPerPage;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "SynonymQuery{" +
+      "query='" + query + '\'' +
+      ", types=" + types +
+      ", page=" + page +
+      ", hitsPerPage=" + hitsPerPage +
+      '}';
+  }
 }

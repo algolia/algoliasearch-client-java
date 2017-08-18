@@ -14,4 +14,11 @@ public class SearchFacetResult {
     this.facetHits = facetHits;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "SearchFacetResult{" +
+      "facetHits=" + facetHits +
+      '}';
+  }
 }

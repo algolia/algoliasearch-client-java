@@ -42,4 +42,12 @@ public class RequestOptions {
     return queryParams;
   }
 
+  @Override
+  public String toString() {
+    return "RequestOptions{" +
+      "headers=" + headers +
+      ", queryParams=" + queryParams +
+      ", forwardedFor='" + forwardedFor + '\'' +
+      '}';
+  }
 }

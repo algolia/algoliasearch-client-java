@@ -6,10 +6,10 @@ import java.util.List;
 public class BrowseResult<T> {
 
   private String cursor;
-  private List<T> hits;
   private Integer processingTimeMS;
   private String query;
   private String params;
+  private List<T> hits;
 
   public String getCursor() {
     return cursor;
@@ -58,5 +58,16 @@ public class BrowseResult<T> {
 
   public static <T> BrowseResult<T> empty() {
     return new BrowseResult<T>().setCursor(null).setHits(Collections.emptyList());
+  }
+
+  @Override
+  public String toString() {
+    return "BrowseResult{" +
+      "cursor='" + cursor + '\'' +
+      ", processingTimeMS=" + processingTimeMS +
+      ", query='" + query + '\'' +
+      ", params='" + params + '\'' +
+      ", hits=" + hits +
+      '}';
   }
 }

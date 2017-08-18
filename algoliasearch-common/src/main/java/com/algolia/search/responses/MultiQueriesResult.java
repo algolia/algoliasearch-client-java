@@ -14,4 +14,11 @@ public class MultiQueriesResult {
   public List<SearchResult<?>> getResults() {
     return results;
   }
+
+  @Override
+  public String toString() {
+    return "MultiQueriesResult{" +
+      "results=" + results +
+      '}';
+  }
 }

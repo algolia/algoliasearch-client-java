@@ -119,7 +119,7 @@ public abstract class AlgoliaHttpClient {
 
         switch (code) {
           case 400:
-            throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Bad build request");
+             throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Bad build request");
           case 403:
             throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Invalid Application-ID or API-Key");
           case 404:

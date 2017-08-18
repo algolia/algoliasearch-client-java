@@ -30,4 +30,12 @@ public class IndexQuery {
   public String getIndexName() {
     return indexName;
   }
+
+  @Override
+  public String toString() {
+    return "IndexQuery{" +
+      "query=" + query +
+      ", indexName='" + indexName + '\'' +
+      '}';
+  }
 }

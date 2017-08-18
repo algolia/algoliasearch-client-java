@@ -108,4 +108,19 @@ public class Log {
     this.sha1 = sha1;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Log{" +
+      "timestamp='" + timestamp + '\'' +
+      ", method='" + method + '\'' +
+      ", answerCode='" + answerCode + '\'' +
+      ", queryBody='" + queryBody + '\'' +
+      ", answer='" + answer + '\'' +
+      ", url='" + url + '\'' +
+      ", ip='" + ip + '\'' +
+      ", queryHeaders='" + queryHeaders + '\'' +
+      ", sha1='" + sha1 + '\'' +
+      '}';
+  }
 }

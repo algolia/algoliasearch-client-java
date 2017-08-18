@@ -1366,4 +1366,11 @@ public class AsyncIndex<T> implements
     return client.batch(name, operations, requestOptions);
   }
 
+  @Override
+  public String toString() {
+    return "AsyncIndex{" +
+      "name='" + name + '\'' +
+      ", klass=" + klass +
+      '}';
+  }
 }

@@ -13,4 +13,11 @@ public class AlgoliaError {
     this.message = message;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "AlgoliaError{" +
+      "message='" + message + '\'' +
+      '}';
+  }
 }
