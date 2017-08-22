@@ -1,9 +1,33 @@
 Changelog
 =========
 
-2.10.0 (2017-XX-XX)
+2.12.0 (2017-08-22)
+-------------------
+- Add request options to search/read methods
+- Add query rules
+- Add meaningful toString methods
+- Add maxConnTotal configuration
+
+2.11.3 (2017-08-01)
+-------------------
+- Fix query and empty lists (attributesToHighlight)
+
+2.11.2 (2017-07-21)
+-------------------
+- Fix query toParam for distinct, removeStopWords, ignorePlurals
+
+2.11.1 (2017-07-07)
+-------------------
+- Fix browse
+
+2.11.0 (2017-07-03)
+-------------------
+- Fix path to version.properties
+
+2.10.0 (2017-05-30)
 -------------------
 - Add percentileComputation
+- Add setQueryHosts & setBuildHosts on builders
 
 2.9.0 (2017-04-12)
 ------------------
