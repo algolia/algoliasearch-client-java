@@ -45,7 +45,9 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
       .disableAutomaticRetries()
       .setDefaultHeaders(httpHeaders)
       .setDnsResolver(new TimeoutableHostNameResolver(configuration.getConnectTimeout()))
-      .setDefaultRequestConfig(requestConfig).build();
+      .setDefaultRequestConfig(requestConfig)
+      .setMaxConnTotal(configuration.getMaxConnTotal())
+      .build();
 
     this.objectMapper = configuration.getObjectMapper();
     this.queryHosts = configuration.getQueryHosts();

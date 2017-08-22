@@ -16,6 +16,7 @@ public class APIClientConfiguration {
   protected int connectTimeout;
   protected int readTimeout;
   protected int hostDownTimeout;
+  protected int maxConnTotal;
 
   public String getApplicationId() {
     return applicationId;
@@ -97,4 +98,14 @@ public class APIClientConfiguration {
     this.hostDownTimeout = hostDownTimeout;
     return this;
   }
+
+  public int getMaxConnTotal() {
+    return maxConnTotal;
+  }
+
+  public APIClientConfiguration setMaxConnTotal(int maxConnTotal) {
+    this.maxConnTotal = maxConnTotal;
+    return this;
+  }
+
 }
