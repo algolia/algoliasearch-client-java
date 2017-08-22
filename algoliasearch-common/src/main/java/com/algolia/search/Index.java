@@ -1624,4 +1624,11 @@ public class Index<T> implements
     }
   }
 
+  @Override
+  public String toString() {
+    return "Index{" +
+      "name='" + name + '\'' +
+      ", klass=" + klass +
+      '}';
+  }
 }

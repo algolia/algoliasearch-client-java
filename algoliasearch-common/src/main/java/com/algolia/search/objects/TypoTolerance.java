@@ -62,6 +62,12 @@ class TypoToleranceAsString extends TypoTolerance {
     return insideValue;
   }
 
+  @Override
+  public String toString() {
+    return "TypoTolerance{" +
+      "string='" + insideValue + '\'' +
+      '}';
+  }
 }
 
 @JsonDeserialize(as = TypoToleranceAsBoolean.class)
@@ -77,6 +83,13 @@ class TypoToleranceAsBoolean extends TypoTolerance {
   @JsonIgnore
   public Boolean getInsideValue() {
     return insideValue;
+  }
+
+  @Override
+  public String toString() {
+    return "TypoTolerance{" +
+      "boolean=" + insideValue +
+      '}';
   }
 }
 

@@ -32,4 +32,13 @@ public class FacetHit {
     this.count = count;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "FacetHit{" +
+      "value='" + value + '\'' +
+      ", highlighted='" + highlighted + '\'' +
+      ", count=" + count +
+      '}';
+  }
 }

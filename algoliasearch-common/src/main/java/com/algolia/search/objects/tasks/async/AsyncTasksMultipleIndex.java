@@ -55,4 +55,14 @@ public class AsyncTasksMultipleIndex extends AsyncGenericTask<Map<String, Long>>
     super.setIndex(name);
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "AsyncTasksMultipleIndex{" +
+      "objectIDs=" + objectIDs +
+      ", createdAt='" + createdAt + '\'' +
+      ", indexName='" + indexName + '\'' +
+      ", taskID=" + taskID +
+      '}';
+  }
 }

@@ -61,6 +61,13 @@ class RemoveStopWordsBoolean extends RemoveStopWords {
   Object getInsideValue() {
     return insideValue;
   }
+
+  @Override
+  public String toString() {
+    return "RemoveStopWords{" +
+      "boolean=" + insideValue +
+      '}';
+  }
 }
 
 class RemoveStopWordsListString extends RemoveStopWords {
@@ -74,6 +81,13 @@ class RemoveStopWordsListString extends RemoveStopWords {
   @Override
   Object getInsideValue() {
     return insideValue;
+  }
+
+  @Override
+  public String toString() {
+    return "RemoveStopWords{" +
+      "list=" + insideValue +
+      '}';
   }
 }
 

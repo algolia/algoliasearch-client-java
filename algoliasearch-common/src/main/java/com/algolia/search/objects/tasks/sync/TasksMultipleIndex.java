@@ -57,4 +57,14 @@ public class TasksMultipleIndex extends GenericTask<Map<String, Long>> {
   public Long getTaskIDToWaitFor() {
     return getTaskID().values().stream().max(Comparator.comparingLong(Long::longValue)).get();
   }
+
+  @Override
+  public String toString() {
+    return "TasksMultipleIndex{" +
+      "objectIDs=" + objectIDs +
+      ", createdAt='" + createdAt + '\'' +
+      ", indexName='" + indexName + '\'' +
+      ", taskID=" + taskID +
+      '}';
+  }
 }

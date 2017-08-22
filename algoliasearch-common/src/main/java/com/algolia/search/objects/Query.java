@@ -871,4 +871,66 @@ public class Query {
     }
   }
 
+  @Override
+  public String toString() {
+    return "Query{" +
+      "distinct=" + distinct +
+      ", getRankingInfo=" + getRankingInfo +
+      ", numericFilters=" + numericFilters +
+      ", tagFilters=" + tagFilters +
+      ", analytics=" + analytics +
+      ", analyticsTags='" + analyticsTags + '\'' +
+      ", synonyms=" + synonyms +
+      ", replaceSynonymsInHighlight=" + replaceSynonymsInHighlight +
+      ", minProximity=" + minProximity +
+      ", responseFields=" + responseFields +
+      ", maxFacetHits=" + maxFacetHits +
+      ", percentileComputation=" + percentileComputation +
+      ", attributesToRetrieve=" + attributesToRetrieve +
+      ", restrictSearchableAttributes=" + restrictSearchableAttributes +
+      ", filters='" + filters + '\'' +
+      ", facets='" + facets + '\'' +
+      ", maxValuesPerFacet=" + maxValuesPerFacet +
+      ", facetFilters=" + facetFilters +
+      ", facetingAfterDistinct=" + facetingAfterDistinct +
+      ", aroundLatLng='" + aroundLatLng + '\'' +
+      ", aroundLatLngViaIP=" + aroundLatLngViaIP +
+      ", aroundRadius=" + aroundRadius +
+      ", aroundPrecision=" + aroundPrecision +
+      ", minimumAroundRadius=" + minimumAroundRadius +
+      ", insideBoundingBox=" + insideBoundingBox +
+      ", insidePolygon=" + insidePolygon +
+      ", attributesToHighlight=" + attributesToHighlight +
+      ", attributesToSnippet=" + attributesToSnippet +
+      ", highlightPreTag='" + highlightPreTag + '\'' +
+      ", highlightPostTag='" + highlightPostTag + '\'' +
+      ", snippetEllipsisText='" + snippetEllipsisText + '\'' +
+      ", restrictHighlightAndSnippetArrays=" + restrictHighlightAndSnippetArrays +
+      ", page=" + page +
+      ", hitsPerPage=" + hitsPerPage +
+      ", offset=" + offset +
+      ", length=" + length +
+      ", queryType='" + queryType + '\'' +
+      ", removeWordsIfNoResults=" + removeWordsIfNoResults +
+      ", advancedSyntax=" + advancedSyntax +
+      ", optionalWords=" + optionalWords +
+      ", removeStopWords=" + removeStopWords +
+      ", disableExactOnAttributes=" + disableExactOnAttributes +
+      ", exactOnSingleWordQuery='" + exactOnSingleWordQuery + '\'' +
+      ", alternativesAsExact=" + alternativesAsExact +
+      ", query='" + query + '\'' +
+      ", minWordSizefor1Typo=" + minWordSizefor1Typo +
+      ", minWordSizefor2Typos=" + minWordSizefor2Typos +
+      ", typoTolerance=" + typoTolerance +
+      ", allowTyposOnNumericTokens=" + allowTyposOnNumericTokens +
+      ", ignorePlurals=" + ignorePlurals +
+      ", disableTypoToleranceOnAttributes=" + disableTypoToleranceOnAttributes +
+      ", userToken='" + userToken + '\'' +
+      ", validUntil=" + validUntil +
+      ", restrictIndices=" + restrictIndices +
+      ", restrictSources='" + restrictSources + '\'' +
+      ", cursor='" + cursor + '\'' +
+      ", customParameters=" + customParameters +
+      '}';
+  }
 }

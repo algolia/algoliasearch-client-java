@@ -548,4 +548,55 @@ public class IndexSettings {
     this.alternativesAsExact = alternativesAsExact;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "IndexSettings{" +
+      "attributeForDistinct='" + attributeForDistinct + '\'' +
+      ", distinct=" + distinct +
+      ", replaceSynonymsInHighlight=" + replaceSynonymsInHighlight +
+      ", placeholders=" + placeholders +
+      ", minProximity=" + minProximity +
+      ", responseFields=" + responseFields +
+      ", maxFacetHits=" + maxFacetHits +
+      ", attributesToIndex=" + attributesToIndex +
+      ", searchableAttributes=" + searchableAttributes +
+      ", attributesForFaceting=" + attributesForFaceting +
+      ", unretrievableAttributes=" + unretrievableAttributes +
+      ", attributesToRetrieve=" + attributesToRetrieve +
+      ", maxValuesPerFacet=" + maxValuesPerFacet +
+      ", attributesToHighlight=" + attributesToHighlight +
+      ", attributesToSnippet=" + attributesToSnippet +
+      ", highlightPreTag='" + highlightPreTag + '\'' +
+      ", highlightPostTag='" + highlightPostTag + '\'' +
+      ", snippetEllipsisText='" + snippetEllipsisText + '\'' +
+      ", restrictHighlightAndSnippetArrays=" + restrictHighlightAndSnippetArrays +
+      ", hitsPerPage=" + hitsPerPage +
+      ", paginationLimitedTo=" + paginationLimitedTo +
+      ", numericAttributesToIndex=" + numericAttributesToIndex +
+      ", numericAttributesForFiltering=" + numericAttributesForFiltering +
+      ", allowCompressionOfIntegerArray=" + allowCompressionOfIntegerArray +
+      ", queryType='" + queryType + '\'' +
+      ", removeWordsIfNoResults='" + removeWordsIfNoResults + '\'' +
+      ", advancedSyntax=" + advancedSyntax +
+      ", optionalWords=" + optionalWords +
+      ", removeStopWords=" + removeStopWords +
+      ", disablePrefixOnAttributes=" + disablePrefixOnAttributes +
+      ", disableExactOnAttributes=" + disableExactOnAttributes +
+      ", exactOnSingleWordQuery='" + exactOnSingleWordQuery + '\'' +
+      ", alternativesAsExact=" + alternativesAsExact +
+      ", ranking=" + ranking +
+      ", customRanking=" + customRanking +
+      ", slaves=" + slaves +
+      ", replicas=" + replicas +
+      ", minWordSizefor1Typo=" + minWordSizefor1Typo +
+      ", minWordSizefor2Typos=" + minWordSizefor2Typos +
+      ", typoTolerance=" + typoTolerance +
+      ", allowTyposOnNumericTokens=" + allowTyposOnNumericTokens +
+      ", ignorePlurals=" + ignorePlurals +
+      ", disableTypoToleranceOnAttributes=" + disableTypoToleranceOnAttributes +
+      ", disableTypoToleranceOnWords=" + disableTypoToleranceOnWords +
+      ", separatorsToIndex='" + separatorsToIndex + '\'' +
+      '}';
+  }
 }

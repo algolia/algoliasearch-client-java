@@ -18,4 +18,11 @@ public class Logs {
     this.logs = logs;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Logs{" +
+      "logs=" + logs +
+      '}';
+  }
 }

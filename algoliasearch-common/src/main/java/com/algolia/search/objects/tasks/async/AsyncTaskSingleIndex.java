@@ -27,4 +27,13 @@ public class AsyncTaskSingleIndex extends AsyncTask {
     super.setIndex(indexName);
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "AsyncTaskSingleIndex{" +
+      "objectIDs=" + objectIDs +
+      ", indexName='" + indexName + '\'' +
+      ", taskID=" + taskID +
+      '}';
+  }
 }

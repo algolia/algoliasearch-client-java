@@ -27,4 +27,12 @@ public class CreateUpdateKey {
     this.createdAt = createdAt;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "CreateUpdateKey{" +
+      "key='" + key + '\'' +
+      ", createdAt='" + createdAt + '\'' +
+      '}';
+  }
 }

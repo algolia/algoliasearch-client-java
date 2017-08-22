@@ -14,4 +14,11 @@ public class DeleteKey {
     this.deletedAt = deletedAt;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "DeleteKey{" +
+      "deletedAt='" + deletedAt + '\'' +
+      '}';
+  }
 }

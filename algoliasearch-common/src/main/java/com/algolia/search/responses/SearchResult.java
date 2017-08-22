@@ -133,4 +133,20 @@ public class SearchResult<T> {
     this.params = params;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "SearchResult{" +
+      "page=" + page +
+      ", nbHits=" + nbHits +
+      ", nbPages=" + nbPages +
+      ", hitsPerPage=" + hitsPerPage +
+      ", processingTimeMS=" + processingTimeMS +
+      ", facets=" + facets +
+      ", exhaustiveFacetsCount=" + exhaustiveFacetsCount +
+      ", query='" + query + '\'' +
+      ", params='" + params + '\'' +
+      ", hits=" + hits +
+      '}';
+  }
 }

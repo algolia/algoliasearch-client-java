@@ -18,5 +18,12 @@ public class Indices {
     this.items = items;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Indices{" +
+      "items=" + items +
+      '}';
+  }
 }
 

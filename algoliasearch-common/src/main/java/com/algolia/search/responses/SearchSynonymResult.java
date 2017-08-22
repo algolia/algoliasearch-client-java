@@ -6,8 +6,8 @@ import java.util.List;
 
 public class SearchSynonymResult {
 
-  private List<AbstractSynonym> hits;
   private int nbHits;
+  private List<AbstractSynonym> hits;
 
   public List<AbstractSynonym> getHits() {
     return hits;
@@ -25,5 +25,13 @@ public class SearchSynonymResult {
   public SearchSynonymResult setNbHits(int nbHits) {
     this.nbHits = nbHits;
     return this;
+  }
+
+  @Override
+  public String toString() {
+    return "SearchSynonymResult{" +
+      "nbHits=" + nbHits +
+      ", hits=" + hits +
+      '}';
   }
 }

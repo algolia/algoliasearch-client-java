@@ -16,4 +16,11 @@ public class Results<T> {
     this.results = results;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Results{" +
+      "results=" + results +
+      '}';
+  }
 }

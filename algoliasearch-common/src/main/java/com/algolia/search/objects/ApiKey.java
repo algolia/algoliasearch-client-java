@@ -15,17 +15,17 @@ public class ApiKey {
 
   private Integer maxHitsPerQuery;
 
-  private List<String> acl;
-
-  private List<String> indexes;
-
-  private List<String> referers;
-
   private String queryParameters;
 
   private String description;
 
   private String restrictSources;
+
+  private List<String> acl;
+
+  private List<String> indexes;
+
+  private List<String> referers;
 
   @SuppressWarnings("unused")
   public Integer getValidity() {
@@ -119,5 +119,20 @@ public class ApiKey {
   public ApiKey setRestrictSources(String restrictSources) {
     this.restrictSources = restrictSources;
     return this;
+  }
+
+  @Override
+  public String toString() {
+    return "ApiKey{" +
+      "validity=" + validity +
+      ", maxQueriesPerIPPerHour=" + maxQueriesPerIPPerHour +
+      ", maxHitsPerQuery=" + maxHitsPerQuery +
+      ", queryParameters='" + queryParameters + '\'' +
+      ", description='" + description + '\'' +
+      ", restrictSources='" + restrictSources + '\'' +
+      ", acl=" + acl +
+      ", indexes=" + indexes +
+      ", referers=" + referers +
+      '}';
   }
 }

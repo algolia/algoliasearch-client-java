@@ -34,4 +34,13 @@ public class TaskSingleIndex extends Task {
     super.setIndex(indexName);
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "TaskSingleIndex{" +
+      "objectIDs=" + objectIDs +
+      ", indexName='" + indexName + '\'' +
+      ", taskID=" + taskID +
+      '}';
+  }
 }

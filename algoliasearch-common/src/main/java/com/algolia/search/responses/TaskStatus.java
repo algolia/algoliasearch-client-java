@@ -26,4 +26,12 @@ public class TaskStatus {
     this.pendingTask = pendingTask;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "TaskStatus{" +
+      "status='" + status + '\'' +
+      ", pendingTask=" + pendingTask +
+      '}';
+  }
 }
