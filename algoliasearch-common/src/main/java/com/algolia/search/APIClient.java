@@ -968,6 +968,20 @@ public class APIClient {
     }
   }
 
+  Task deleteBy(String indexName, Query query, RequestOptions requestOptions) throws AlgoliaException {
+    query = query == null ? new Query() : query;
+    AlgoliaRequest<Task> algoliaRequest = new AlgoliaRequest<>(
+      HttpMethod.POST,
+      false,
+      Arrays.asList("1", "indexes", indexName, "deleteByQuery"),
+      requestOptions,
+      Task.class
+    )
+      .setData(query);
+
+    return httpClient.requestWithRetry(algoliaRequest);
+  }
+
   TaskSingleIndex partialUpdateObjects(String indexName, List<Object> objects, RequestOptions requestOptions) throws AlgoliaException {
     TaskSingleIndex task = batch(
       indexName,
