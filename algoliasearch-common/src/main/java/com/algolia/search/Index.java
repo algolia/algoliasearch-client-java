@@ -1433,7 +1433,7 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
 
   /**
    * Delete records matching a query, with a batch size of 1000, internally uses browse
-   * Deprecated, use deleteBy
+   * @deprecated, use deleteBy
    *
    * @param query The query
    * @throws AlgoliaException
@@ -1455,7 +1455,7 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
 
   /**
    * Delete records matching a query, with a batch size of 1000, internally uses browse
-   * Deprecated, use deleteBy
+   * @deprecated, use deleteBy
    *
    * @param query          The query
    * @param requestOptions Options to pass to this request
@@ -1468,7 +1468,6 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
 
   /**
    * Delete records matching a query
-   * Deprecated, use deleteBy
    *
    * @param query          The query
    * @param requestOptions Options to pass to this request
@@ -1480,7 +1479,7 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
 
   /**
    * Delete records matching a query, internally uses browse
-   * Deprecated use deleteBy
+   * @deprecated use deleteBy
    *
    * @param query     The query
    * @param batchSize the size of the batches
@@ -1493,7 +1492,7 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
 
   /**
    * Delete records matching a query, internally uses browse
-   * Deprecated use deleteBy
+   * @deprecated use deleteBy
    *
    * @param query          The query
    * @param batchSize      the size of the batches

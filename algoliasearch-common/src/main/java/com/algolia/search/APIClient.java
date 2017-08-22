@@ -979,7 +979,7 @@ public class APIClient {
     )
       .setData(query);
 
-    return httpClient.requestWithRetry(algoliaRequest);
+    return httpClient.requestWithRetry(algoliaRequest).setIndex(indexName).setAPIClient(this);
   }
 
   TaskSingleIndex partialUpdateObjects(String indexName, List<Object> objects, RequestOptions requestOptions) throws AlgoliaException {

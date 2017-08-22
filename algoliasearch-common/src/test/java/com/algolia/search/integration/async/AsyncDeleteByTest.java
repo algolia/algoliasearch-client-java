@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -38,11 +39,11 @@ abstract public class AsyncDeleteByTest extends AsyncAlgoliaIntegrationTest {
     List<AlgoliaObject> objects = IntStream.rangeClosed(1, 10).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
     waitForCompletion(index.addObjects(objects));
 
-    waitForCompletion(index.deleteBy(new Query("")));
+    waitForCompletion(index.deleteBy(new Query().setTagFilters(Collections.singletonList("a"))));
 
     SearchResult<AlgoliaObject> search = index.search(new Query("")).get();
 
-    assertThat(search.getHits()).isEmpty();
+    assertThat(search.getHits()).hasSize(10);
   }
 
 }
