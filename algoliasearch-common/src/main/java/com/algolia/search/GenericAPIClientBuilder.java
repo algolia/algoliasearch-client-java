@@ -32,6 +32,7 @@ public abstract class GenericAPIClientBuilder {
   protected int readTimeout = READ_TIMEOUT_MS;
   protected int hostDownTimeout = HOST_DOWN_TIMEOUT_MS;
   protected ObjectMapper objectMapper = DEFAULT_OBJECT_MAPPER;
+  protected int maxConnTotal = 10;
 
   /**
    * Initialize this builder with the applicationId and apiKey
@@ -140,6 +141,17 @@ public abstract class GenericAPIClientBuilder {
    */
   public GenericAPIClientBuilder setBuildHosts(List<String> buildHosts) {
     this.buildHosts = buildHosts;
+    return this;
+  }
+
+  /**
+   * Set the maximum of connection, only available for {@link ApacheAPIClientBuilder} and {@link AsyncAPIClientBuilder}
+   *
+   * @param maxConnTotal the max number of connections
+   * @return this
+   */
+  public GenericAPIClientBuilder setMaxConnTotal(int maxConnTotal) {
+    this.maxConnTotal = maxConnTotal;
     return this;
   }
 

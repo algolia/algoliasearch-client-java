@@ -21,6 +21,7 @@ public class ApacheAPIClientBuilderTest {
     assertThat(apiClient.configuration).isEqualToIgnoringGivenFields(new APIClientConfiguration()
         .setApplicationId("appId")
         .setApiKey("apiKey")
+        .setMaxConnTotal(10)
         .setConnectTimeout(100)
         .setReadTimeout(200)
         .setHostDownTimeout(300000)

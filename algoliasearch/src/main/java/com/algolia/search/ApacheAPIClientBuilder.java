@@ -60,8 +60,13 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
   }
 
   @Override
+  public ApacheAPIClientBuilder setMaxConnTotal(int maxConnTotal) {
+    super.setMaxConnTotal(maxConnTotal);
+    return this;
+  }
+
+  @Override
   protected APIClient build(@Nonnull APIClientConfiguration configuration) {
     return new APIClient(new ApacheHttpClient(configuration), configuration);
   }
-
 }

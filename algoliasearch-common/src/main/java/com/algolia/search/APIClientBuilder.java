@@ -107,6 +107,12 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
     return this;
   }
 
+  @Override
+  public APIClientBuilder setMaxConnTotal(int maxConnTotal) {
+    super.setMaxConnTotal(maxConnTotal);
+    return this;
+  }
+
   protected abstract APIClient build(@Nonnull APIClientConfiguration configuration);
 
   /**
@@ -126,6 +132,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
         .setConnectTimeout(connectTimeout)
         .setReadTimeout(readTimeout)
         .setHostDownTimeout(hostDownTimeout)
+        .setMaxConnTotal(maxConnTotal)
     );
   }
 
