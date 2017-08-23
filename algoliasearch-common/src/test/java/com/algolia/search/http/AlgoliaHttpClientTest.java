@@ -362,6 +362,10 @@ public class AlgoliaHttpClientTest {
     }
 
     @Override
+    public void close() throws AlgoliaException {
+    }
+
+    @Override
     protected Instant now() {
       return now;
     }

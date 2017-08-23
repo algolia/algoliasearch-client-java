@@ -135,4 +135,6 @@ public abstract class AlgoliaHttpClient {
     }
   }
 
+  public abstract void close() throws AlgoliaException;
+
 }

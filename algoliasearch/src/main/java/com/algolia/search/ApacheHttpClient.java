@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.http.AlgoliaHttpClient;
 import com.algolia.search.http.AlgoliaHttpRequest;
 import com.algolia.search.http.AlgoliaHttpResponse;
@@ -107,5 +108,14 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
   @Override
   public int getHostDownTimeout() {
     return hostDownTimeout;
+  }
+
+  @Override
+  public void close() throws AlgoliaException {
+    try {
+      internal.close();
+    } catch (IOException e) {
+      throw new AlgoliaException("Can not close internal apache http client", e);
+    }
   }
 }
