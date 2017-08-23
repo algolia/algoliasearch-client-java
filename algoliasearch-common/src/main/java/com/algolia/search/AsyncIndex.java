@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
@@ -8,6 +9,7 @@ import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
+import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 
@@ -1276,6 +1278,30 @@ interface AsyncRules<T> extends BaseAsyncIndex<T> {
 
 }
 
+interface AsyncDeleteByQuery<T> extends BaseAsyncIndex<T> {
+
+  /**
+   * Delete records matching a query
+   *
+   * @param query The query
+   */
+  default CompletableFuture<AsyncTask> deleteBy(@Nonnull Query query) {
+    return deleteBy(query, RequestOptions.empty);
+  }
+
+  /**
+   * Delete records matching a query
+   * Deprecated, use deleteBy
+   *
+   * @param query          The query
+   * @param requestOptions Options to pass to this request
+   */
+  default CompletableFuture<AsyncTask> deleteBy(@Nonnull Query query, @Nonnull RequestOptions requestOptions) {
+    return getApiClient().deleteBy(getName(), query, requestOptions);
+  }
+
+}
+
 @SuppressWarnings("WeakerAccess")
 public class AsyncIndex<T> implements
   AsyncIndexCRUD<T>,
@@ -1286,7 +1312,8 @@ public class AsyncIndex<T> implements
   AsyncSearchForFacet<T>,
   AsyncPartialUpdate<T>,
   AsyncSynonyms<T>,
-  AsyncRules<T> {
+  AsyncRules<T>,
+  AsyncDeleteByQuery<T> {
 
   /**
    * Index name

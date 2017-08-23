@@ -1433,44 +1433,73 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
 
   /**
    * Delete records matching a query, with a batch size of 1000, internally uses browse
+   * @deprecated, use deleteBy
    *
    * @param query The query
    * @throws AlgoliaException
    */
+  @Deprecated
   default void deleteByQuery(@Nonnull Query query) throws AlgoliaException {
     deleteByQuery(query, RequestOptions.empty);
   }
 
   /**
+   * Delete records matching a query
+   *
+   * @param query The query
+   * @throws AlgoliaException
+   */
+  default Task deleteBy(@Nonnull Query query) throws AlgoliaException {
+    return deleteBy(query, RequestOptions.empty);
+  }
+
+  /**
    * Delete records matching a query, with a batch size of 1000, internally uses browse
+   * @deprecated, use deleteBy
    *
    * @param query          The query
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaException
    */
+  @Deprecated
   default void deleteByQuery(@Nonnull Query query, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     getApiClient().deleteByQuery(getName(), query, 1000, requestOptions);
   }
 
   /**
+   * Delete records matching a query
+   *
+   * @param query          The query
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaException
+   */
+  default Task deleteBy(@Nonnull Query query, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
+    return getApiClient().deleteBy(getName(), query, requestOptions);
+  }
+
+  /**
    * Delete records matching a query, internally uses browse
+   * @deprecated use deleteBy
    *
    * @param query     The query
    * @param batchSize the size of the batches
    * @throws AlgoliaException
    */
+  @Deprecated
   default void deleteByQuery(@Nonnull Query query, int batchSize) throws AlgoliaException {
     deleteByQuery(query, batchSize, RequestOptions.empty);
   }
 
   /**
    * Delete records matching a query, internally uses browse
+   * @deprecated use deleteBy
    *
    * @param query          The query
    * @param batchSize      the size of the batches
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaException
    */
+  @Deprecated
   default void deleteByQuery(@Nonnull Query query, int batchSize, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     getApiClient().deleteByQuery(getName(), query, batchSize, requestOptions);
   }
@@ -1575,6 +1604,14 @@ public class Index<T> implements
     return client.batch(name, operations, requestOptions);
   }
 
+  @Override
+  public String toString() {
+    return "Index{" +
+      "name='" + name + '\'' +
+      ", klass=" + klass +
+      '}';
+  }
+
   @SuppressWarnings("unused")
   public static class Attributes {
     private String name;
@@ -1622,13 +1659,5 @@ public class Index<T> implements
     public Boolean getPendingTask() {
       return pendingTask;
     }
-  }
-
-  @Override
-  public String toString() {
-    return "Index{" +
-      "name='" + name + '\'' +
-      ", klass=" + klass +
-      '}';
   }
 }

@@ -5,10 +5,8 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.Query;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Lists;
 import org.junit.After;
 import org.junit.Before;
@@ -31,9 +29,7 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     "index2",
     "index3",
     "index4",
-    "index5",
-    "index6",
-    "index7"
+    "index5"
   );
 
   @Before
@@ -63,7 +59,7 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void browseWithQuery() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
+    Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
 
     List<AlgoliaObject> objects = IntStream.rangeClosed(1, 5).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
     objects.addAll(IntStream.rangeClosed(1, 5).mapToObj(i -> new AlgoliaObject("other" + i, i)).collect(Collectors.toList()));
@@ -80,7 +76,7 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void browseNonExistingIndex() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index5", AlgoliaObject.class);
+    Index<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
 
@@ -89,7 +85,7 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void browseEmptyIndex() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index6", AlgoliaObject.class);
+    Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
 
     //Add object then clear => index is empty
     index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
@@ -101,7 +97,7 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void browseEmptyWithException() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index7", AlgoliaObject.class);
+    Index<AlgoliaObject> index = client.initIndex("index5", AlgoliaObject.class);
 
     index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
 
@@ -115,30 +111,6 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
 
     Iterator<BadClass> iterator = indexWithWrongClass.browse(new Query("").setHitsPerPage(1)).iterator();
     assertThatThrownBy(iterator::next).isInstanceOf(RuntimeException.class);
-  }
-
-  @Test
-  public void deleteByQuery() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
-
-    List<AlgoliaObject> objects = IntStream.rangeClosed(1, 10).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
-    index.addObjects(objects).waitForCompletion();
-
-    index.deleteByQuery(new Query(""));
-
-    assertThat(index.search(new Query("")).getHits()).isEmpty();
-  }
-
-  @Test
-  public void deleteByQueryBatchSize2() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
-
-    List<AlgoliaObject> objects = IntStream.rangeClosed(1, 10).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
-    index.addObjects(objects).waitForCompletion();
-
-    index.deleteByQuery(new Query(""), 2);
-
-    assertThat(index.search(new Query("")).getHits()).isEmpty();
   }
 
   static class BadClass {
