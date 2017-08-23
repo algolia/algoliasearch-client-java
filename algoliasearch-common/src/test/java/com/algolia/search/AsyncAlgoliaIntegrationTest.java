@@ -2,6 +2,7 @@ package com.algolia.search;
 
 import com.algolia.search.objects.tasks.async.AsyncGenericTask;
 import org.assertj.core.api.AbstractListAssert;
+import org.assertj.core.api.ListAssert;
 import org.junit.Before;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public abstract class AsyncAlgoliaIntegrationTest {
 
   public abstract AsyncAPIClient createInstance(String appId, String apiKey);
 
-  protected <T> AbstractListAssert<?, ? extends List<? extends T>, T> futureAssertThat(CompletableFuture<List<T>> future) throws Exception {
+  protected <T> ListAssert<T> futureAssertThat(CompletableFuture<List<T>> future) throws Exception {
     return assertThat(future.get(WAIT_TIME_IN_SECONDS, SECONDS));
   }
 
