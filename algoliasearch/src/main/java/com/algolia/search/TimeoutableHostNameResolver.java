@@ -6,6 +6,7 @@ import org.apache.http.conn.DnsResolver;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 class TimeoutableHostNameResolver implements DnsResolver {
@@ -19,17 +20,16 @@ class TimeoutableHostNameResolver implements DnsResolver {
 
   TimeoutableHostNameResolver(long timeout) {
     this.timeout = timeout;
-    this.timeLimiter = new SimpleTimeLimiter();
+    this.timeLimiter = SimpleTimeLimiter.create(Executors.newCachedThreadPool());
   }
 
   @Override
   public InetAddress[] resolve(String hostname) throws UnknownHostException {
     try {
-      return timeLimiter.callWithTimeout(
+      return timeLimiter.callUninterruptiblyWithTimeout(
         () -> new InetAddress[]{InetAddress.getByName(hostname)},
         timeout,
-        TimeUnit.MILLISECONDS,
-        true
+        TimeUnit.MILLISECONDS
       );
     } catch (Exception e) {
       throw new UnknownHostException(hostname);

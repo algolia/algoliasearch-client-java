@@ -12,14 +12,17 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <google-http-client.version>1.22.0</google-http-client.version>
-    <apache-http-client.version>4.5.2</apache-http-client.version>
-    <guava.version>19.0</guava.version>
-    <jackson.version>2.7.4</jackson.version>
-    <jsr305.version>3.0.1</jsr305.version>
+    <apache-http-client.version>4.5.3</apache-http-client.version>
+    <guava.version>22.0</guava.version>
+    <jackson.version>2.9.0</jackson.version>
+    <jsr305.version>3.0.2</jsr305.version>
     <url-builder.version>1.1.0</url-builder.version>
-    <appengine-api.version>1.9.38</appengine-api.version>
-    <future-converter.version>0.3.0</future-converter.version>
+    <appengine-api.version>1.9.54</appengine-api.version>
+    <future-converter.version>1.1.0</future-converter.version>
+
+    <junit.version>4.12</junit.version>
+    <assertj-core.version>3.8.0</assertj-core.version>
+    <mockito-all.version>2.0.2-beta</mockito-all.version>
   </properties>
 
   <licenses>
@@ -268,19 +271,19 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.12</version>
+        <version>${junit.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.4.1</version>
+        <version>${assertj-core.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
-        <version>2.0.2-beta</version>
+        <version>${mockito-all.version}</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
