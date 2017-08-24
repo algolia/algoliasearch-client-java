@@ -22,24 +22,6 @@
       <artifactId>appengine-api-1.0-sdk</artifactId>
       <scope>provided</scope>
     </dependency>
-
-    <!--Test-->
-    <dependency>
-      <groupId>com.algolia</groupId>
-      <artifactId>algoliasearch-common</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.appengine</groupId>
-      <artifactId>appengine-api-stubs</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.appengine</groupId>
-      <artifactId>appengine-testing</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
 </project>

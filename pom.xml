@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.algolia</groupId>
   <artifactId>algoliasearch-parent</artifactId>
@@ -58,6 +59,7 @@
     <module>algoliasearch-appengine</module>
     <module>algoliasearch-async</module>
     <module>algoliasearch</module>
+    <module>algoliasearch-tests</module>
   </modules>
 
   <build>
@@ -79,26 +81,8 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.2.0</version>
-      </plugin>
-      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.19.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.6.201602180812</version>
-        <executions>
-          <execution>
-            <id>prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -113,6 +97,29 @@
             <configuration>
               <additionalparam>-Xdoclint:none</additionalparam>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--Coverage-->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.9</version>
+        <executions>
+          <execution>
+            <id>jacoco-initialize</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-site</id>
+            <phase>package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -169,21 +176,6 @@
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-    </dependency>
   </dependencies>
 
   <dependencyManagement>
@@ -200,6 +192,7 @@
         <groupId>com.google.appengine</groupId>
         <artifactId>appengine-api-1.0-sdk</artifactId>
         <version>${appengine-api.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>com.google.appengine</groupId>
@@ -243,14 +236,25 @@
         <version>${jackson.version}</version>
       </dependency>
 
+      <!--Algolia-->
       <dependency>
         <groupId>com.algolia</groupId>
-        <artifactId>algoliasearch-common</artifactId>
+        <artifactId>algoliasearch</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>com.algolia</groupId>
-        <artifactId>algoliasearch</artifactId>
+        <artifactId>algoliasearch-appengine</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.algolia</groupId>
+        <artifactId>algoliasearch-async</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.algolia</groupId>
+        <artifactId>algoliasearch-common</artifactId>
         <version>${project.version}</version>
       </dependency>
 
