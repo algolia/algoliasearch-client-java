@@ -37,6 +37,14 @@ public class APIClient {
     this.configuration = configuration;
   }
 
+  /**
+   * Close the internal HTTP client
+   * @throws AlgoliaException
+   */
+  public void close() throws AlgoliaException {
+    this.httpClient.close();
+  }
+
   /*
    * All public method
    */

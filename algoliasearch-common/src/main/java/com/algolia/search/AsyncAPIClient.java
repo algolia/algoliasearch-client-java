@@ -43,6 +43,14 @@ public class AsyncAPIClient {
     this.executor = configuration.getExecutorService();
   }
 
+  /**
+   * Close the internal HTTP client
+   * @throws AlgoliaException
+   */
+  public void close() throws AlgoliaException {
+    this.httpClient.close();
+  }
+
   /*
     All public method
    */
