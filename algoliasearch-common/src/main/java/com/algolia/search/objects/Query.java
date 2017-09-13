@@ -65,6 +65,10 @@ public class Query {
   /* performance */
   //Nothing in Query
 
+  /* query rules */
+  protected Boolean enableRules;
+  protected List<String> ruleContexts;
+
   /* query strategy */
   protected String queryType;
   protected RemoveWordsType removeWordsIfNoResults;
@@ -164,6 +168,10 @@ public class Query {
 
     /* performance */
     //Nothing in Query
+
+    /* query rules */
+    builder = add(builder, "enableRules", enableRules);
+    builder = add(builder, "ruleContexts", ruleContexts);
 
     /* query strategy */
     builder = add(builder, "queryType", queryType);
@@ -684,11 +692,6 @@ public class Query {
     return this;
   }
 
-  public Query setQuery(String query) {
-    this.query = query;
-    return this;
-  }
-
   public Integer getMinWordSizefor1Typo() {
     return minWordSizefor1Typo;
   }
@@ -788,6 +791,29 @@ public class Query {
     return this;
   }
 
+  public Boolean getEnableRules() {
+    return enableRules;
+  }
+
+  public Query setEnableRules(Boolean enableRules) {
+    this.enableRules = enableRules;
+    return this;
+  }
+
+  public List<String> getRuleContexts() {
+    return ruleContexts;
+  }
+
+  public Query setRuleContexts(List<String> ruleContexts) {
+    this.ruleContexts = ruleContexts;
+    return this;
+  }
+
+  public Query setQuery(String query) {
+    this.query = query;
+    return this;
+  }
+
   @JsonAnyGetter
   public Map<String, String> getCustomParameters() {
     return customParameters;
@@ -798,6 +824,72 @@ public class Query {
     this.customParameters = customParameters;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Query{" +
+      "distinct=" + distinct +
+      ", getRankingInfo=" + getRankingInfo +
+      ", numericFilters=" + numericFilters +
+      ", tagFilters=" + tagFilters +
+      ", analytics=" + analytics +
+      ", analyticsTags='" + analyticsTags + '\'' +
+      ", synonyms=" + synonyms +
+      ", replaceSynonymsInHighlight=" + replaceSynonymsInHighlight +
+      ", minProximity=" + minProximity +
+      ", responseFields=" + responseFields +
+      ", maxFacetHits=" + maxFacetHits +
+      ", percentileComputation=" + percentileComputation +
+      ", attributesToRetrieve=" + attributesToRetrieve +
+      ", restrictSearchableAttributes=" + restrictSearchableAttributes +
+      ", filters='" + filters + '\'' +
+      ", facets='" + facets + '\'' +
+      ", maxValuesPerFacet=" + maxValuesPerFacet +
+      ", facetFilters=" + facetFilters +
+      ", facetingAfterDistinct=" + facetingAfterDistinct +
+      ", aroundLatLng='" + aroundLatLng + '\'' +
+      ", aroundLatLngViaIP=" + aroundLatLngViaIP +
+      ", aroundRadius=" + aroundRadius +
+      ", aroundPrecision=" + aroundPrecision +
+      ", minimumAroundRadius=" + minimumAroundRadius +
+      ", insideBoundingBox=" + insideBoundingBox +
+      ", insidePolygon=" + insidePolygon +
+      ", attributesToHighlight=" + attributesToHighlight +
+      ", attributesToSnippet=" + attributesToSnippet +
+      ", highlightPreTag='" + highlightPreTag + '\'' +
+      ", highlightPostTag='" + highlightPostTag + '\'' +
+      ", snippetEllipsisText='" + snippetEllipsisText + '\'' +
+      ", restrictHighlightAndSnippetArrays=" + restrictHighlightAndSnippetArrays +
+      ", page=" + page +
+      ", hitsPerPage=" + hitsPerPage +
+      ", offset=" + offset +
+      ", length=" + length +
+      ", enableRules" + enableRules +
+      ", ruleContexts" + ruleContexts +
+      ", queryType='" + queryType + '\'' +
+      ", removeWordsIfNoResults=" + removeWordsIfNoResults +
+      ", advancedSyntax=" + advancedSyntax +
+      ", optionalWords=" + optionalWords +
+      ", removeStopWords=" + removeStopWords +
+      ", disableExactOnAttributes=" + disableExactOnAttributes +
+      ", exactOnSingleWordQuery='" + exactOnSingleWordQuery + '\'' +
+      ", alternativesAsExact=" + alternativesAsExact +
+      ", query='" + query + '\'' +
+      ", minWordSizefor1Typo=" + minWordSizefor1Typo +
+      ", minWordSizefor2Typos=" + minWordSizefor2Typos +
+      ", typoTolerance=" + typoTolerance +
+      ", allowTyposOnNumericTokens=" + allowTyposOnNumericTokens +
+      ", ignorePlurals=" + ignorePlurals +
+      ", disableTypoToleranceOnAttributes=" + disableTypoToleranceOnAttributes +
+      ", userToken='" + userToken + '\'' +
+      ", validUntil=" + validUntil +
+      ", restrictIndices=" + restrictIndices +
+      ", restrictSources='" + restrictSources + '\'' +
+      ", cursor='" + cursor + '\'' +
+      ", customParameters=" + customParameters +
+      '}';
+  }
+
 
   public enum QueryType {
     // all query words are interpreted as prefixes.
@@ -818,7 +910,6 @@ public class Query {
       return name;
     }
   }
-
 
   public enum RemoveWordsType {
     // when a query does not return any result, the final word will be
@@ -869,68 +960,5 @@ public class Query {
     public String toString() {
       return name;
     }
-  }
-
-  @Override
-  public String toString() {
-    return "Query{" +
-      "distinct=" + distinct +
-      ", getRankingInfo=" + getRankingInfo +
-      ", numericFilters=" + numericFilters +
-      ", tagFilters=" + tagFilters +
-      ", analytics=" + analytics +
-      ", analyticsTags='" + analyticsTags + '\'' +
-      ", synonyms=" + synonyms +
-      ", replaceSynonymsInHighlight=" + replaceSynonymsInHighlight +
-      ", minProximity=" + minProximity +
-      ", responseFields=" + responseFields +
-      ", maxFacetHits=" + maxFacetHits +
-      ", percentileComputation=" + percentileComputation +
-      ", attributesToRetrieve=" + attributesToRetrieve +
-      ", restrictSearchableAttributes=" + restrictSearchableAttributes +
-      ", filters='" + filters + '\'' +
-      ", facets='" + facets + '\'' +
-      ", maxValuesPerFacet=" + maxValuesPerFacet +
-      ", facetFilters=" + facetFilters +
-      ", facetingAfterDistinct=" + facetingAfterDistinct +
-      ", aroundLatLng='" + aroundLatLng + '\'' +
-      ", aroundLatLngViaIP=" + aroundLatLngViaIP +
-      ", aroundRadius=" + aroundRadius +
-      ", aroundPrecision=" + aroundPrecision +
-      ", minimumAroundRadius=" + minimumAroundRadius +
-      ", insideBoundingBox=" + insideBoundingBox +
-      ", insidePolygon=" + insidePolygon +
-      ", attributesToHighlight=" + attributesToHighlight +
-      ", attributesToSnippet=" + attributesToSnippet +
-      ", highlightPreTag='" + highlightPreTag + '\'' +
-      ", highlightPostTag='" + highlightPostTag + '\'' +
-      ", snippetEllipsisText='" + snippetEllipsisText + '\'' +
-      ", restrictHighlightAndSnippetArrays=" + restrictHighlightAndSnippetArrays +
-      ", page=" + page +
-      ", hitsPerPage=" + hitsPerPage +
-      ", offset=" + offset +
-      ", length=" + length +
-      ", queryType='" + queryType + '\'' +
-      ", removeWordsIfNoResults=" + removeWordsIfNoResults +
-      ", advancedSyntax=" + advancedSyntax +
-      ", optionalWords=" + optionalWords +
-      ", removeStopWords=" + removeStopWords +
-      ", disableExactOnAttributes=" + disableExactOnAttributes +
-      ", exactOnSingleWordQuery='" + exactOnSingleWordQuery + '\'' +
-      ", alternativesAsExact=" + alternativesAsExact +
-      ", query='" + query + '\'' +
-      ", minWordSizefor1Typo=" + minWordSizefor1Typo +
-      ", minWordSizefor2Typos=" + minWordSizefor2Typos +
-      ", typoTolerance=" + typoTolerance +
-      ", allowTyposOnNumericTokens=" + allowTyposOnNumericTokens +
-      ", ignorePlurals=" + ignorePlurals +
-      ", disableTypoToleranceOnAttributes=" + disableTypoToleranceOnAttributes +
-      ", userToken='" + userToken + '\'' +
-      ", validUntil=" + validUntil +
-      ", restrictIndices=" + restrictIndices +
-      ", restrictSources='" + restrictSources + '\'' +
-      ", cursor='" + cursor + '\'' +
-      ", customParameters=" + customParameters +
-      '}';
   }
 }
