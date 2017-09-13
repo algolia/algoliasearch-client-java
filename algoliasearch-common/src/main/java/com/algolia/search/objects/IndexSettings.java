@@ -59,6 +59,9 @@ public class IndexSettings {
   private List<String> numericAttributesForFiltering;
   private Boolean allowCompressionOfIntegerArray;
 
+  /* query rules */
+  private Boolean enableRules;
+
   /* query strategy */
   private String queryType;
   private String removeWordsIfNoResults;
@@ -549,6 +552,15 @@ public class IndexSettings {
     return this;
   }
 
+  public Boolean getEnableRules() {
+    return enableRules;
+  }
+
+  public IndexSettings setEnableRules(Boolean enableRules) {
+    this.enableRules = enableRules;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "IndexSettings{" +
@@ -576,6 +588,7 @@ public class IndexSettings {
       ", numericAttributesToIndex=" + numericAttributesToIndex +
       ", numericAttributesForFiltering=" + numericAttributesForFiltering +
       ", allowCompressionOfIntegerArray=" + allowCompressionOfIntegerArray +
+      ", enableRules=" + enableRules +
       ", queryType='" + queryType + '\'' +
       ", removeWordsIfNoResults='" + removeWordsIfNoResults + '\'' +
       ", advancedSyntax=" + advancedSyntax +
