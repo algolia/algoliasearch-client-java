@@ -58,13 +58,17 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
   private AlgoliaHttpResponse from(final HTTPResponse httpResponse) {
     return new AlgoliaHttpResponse() {
       @Override
+      public void close() throws IOException {
+      }
+
+      @Override
       public int getStatusCode() {
         return httpResponse.getResponseCode();
       }
 
       @Override
       public Reader getBody() throws IOException {
-        if(hasGzip(httpResponse.getHeaders())) {
+        if (hasGzip(httpResponse.getHeaders())) {
           return new InputStreamReader(
             new GZIPInputStream(new ByteArrayInputStream(httpResponse.getContent())),
             UTF8
@@ -77,7 +81,7 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
 
   private boolean hasGzip(List<HTTPHeader> headers) {
     for (HTTPHeader header : headers) {
-      if(header.getName().equalsIgnoreCase("Content-Encoding") && header.getValue().toLowerCase().contains("gzip")) {
+      if (header.getName().equalsIgnoreCase("Content-Encoding") && header.getValue().toLowerCase().contains("gzip")) {
         return true;
       }
     }

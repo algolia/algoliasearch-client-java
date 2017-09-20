@@ -8,7 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -75,9 +77,14 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
     } else {
       builder = builder.setEntity(new StringEntity("", ContentType.APPLICATION_JSON));
     }
-    final HttpResponse response = internal.execute(builder.build());
+    final CloseableHttpResponse response = internal.execute(builder.build());
 
     return new AlgoliaHttpResponse() {
+      @Override
+      public void close() throws IOException {
+        response.close();
+      }
+
       @Override
       public int getStatusCode() {
         return response.getStatusLine().getStatusCode();

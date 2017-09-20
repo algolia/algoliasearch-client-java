@@ -285,6 +285,10 @@ public class AlgoliaHttpClientTest {
   private AlgoliaHttpResponse response(int status) {
     return new AlgoliaHttpResponse() {
       @Override
+      public void close() throws IOException {
+      }
+
+      @Override
       public int getStatusCode() {
         return status;
       }
@@ -319,6 +323,10 @@ public class AlgoliaHttpClientTest {
     @Override
     public AlgoliaHttpResponse request(@Nonnull AlgoliaHttpRequest request) throws IOException {
       return new AlgoliaHttpResponse() {
+        @Override
+        public void close() throws IOException {
+        }
+
         @Override
         public int getStatusCode() {
           return 0;
