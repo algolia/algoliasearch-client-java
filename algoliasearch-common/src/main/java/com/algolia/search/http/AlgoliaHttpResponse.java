@@ -1,10 +1,10 @@
 package com.algolia.search.http;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.Type;
 
-public interface AlgoliaHttpResponse {
+public interface AlgoliaHttpResponse extends Closeable {
 
   int getStatusCode();
 

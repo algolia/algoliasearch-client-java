@@ -119,7 +119,7 @@ public abstract class AlgoliaHttpClient {
 
         switch (code) {
           case 400:
-             throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Bad build request");
+            throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Bad build request");
           case 403:
             throw new AlgoliaHttpException(code, message.length() > 0 ? message : "Invalid Application-ID or API-Key");
           case 404:
@@ -132,6 +132,12 @@ public abstract class AlgoliaHttpClient {
       return Utils.parseAs(getObjectMapper(), response.getBody(), request.getJavaType(getObjectMapper().getTypeFactory()));
     } catch (IOException e) {
       throw new AlgoliaException("Error while deserialization the response", e);
+    } finally {
+      try {
+        response.close();
+      } catch (IOException e) {
+        throw new AlgoliaException("Can not close underlying response", e);
+      }
     }
   }
 
