@@ -7,8 +7,6 @@ import com.algolia.search.http.AlgoliaHttpResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.appengine.api.urlfetch.*;
 import com.palominolabs.http.url.UrlBuilder;
-
-import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +18,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+import javax.annotation.Nonnull;
 
 class AppEngineHttpClient extends AlgoliaHttpClient {
 
@@ -40,11 +39,11 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
     this.hostDownTimeout = configuration.getHostDownTimeout();
 
     this.fetchService = URLFetchServiceFactory.getURLFetchService();
-    this.defaultFetchOptions = FetchOptions
-      .Builder
-      .withDeadline(configuration.getConnectTimeout() + configuration.getReadTimeout())
-      .followRedirects()
-      .validateCertificate();
+    this.defaultFetchOptions =
+        FetchOptions.Builder.withDeadline(
+                configuration.getConnectTimeout() + configuration.getReadTimeout())
+            .followRedirects()
+            .validateCertificate();
   }
 
   @Override
@@ -58,8 +57,7 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
   private AlgoliaHttpResponse from(final HTTPResponse httpResponse) {
     return new AlgoliaHttpResponse() {
       @Override
-      public void close() throws IOException {
-      }
+      public void close() throws IOException {}
 
       @Override
       public int getStatusCode() {
@@ -70,9 +68,7 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
       public Reader getBody() throws IOException {
         if (hasGzip(httpResponse.getHeaders())) {
           return new InputStreamReader(
-            new GZIPInputStream(new ByteArrayInputStream(httpResponse.getContent())),
-            UTF8
-          );
+              new GZIPInputStream(new ByteArrayInputStream(httpResponse.getContent())), UTF8);
         }
         return new InputStreamReader(new ByteArrayInputStream(httpResponse.getContent()), UTF8);
       }
@@ -81,18 +77,19 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
 
   private boolean hasGzip(List<HTTPHeader> headers) {
     for (HTTPHeader header : headers) {
-      if (header.getName().equalsIgnoreCase("Content-Encoding") && header.getValue().toLowerCase().contains("gzip")) {
+      if (header.getName().equalsIgnoreCase("Content-Encoding")
+          && header.getValue().toLowerCase().contains("gzip")) {
         return true;
       }
     }
     return false;
   }
 
-  protected HTTPRequest build(AlgoliaHttpRequest request) throws MalformedURLException, CharacterCodingException {
-    HTTPRequest httpRequest = new HTTPRequest(
-      toUrl(request),
-      HTTPMethod.valueOf(request.getMethod().name),
-      defaultFetchOptions);
+  protected HTTPRequest build(AlgoliaHttpRequest request)
+      throws MalformedURLException, CharacterCodingException {
+    HTTPRequest httpRequest =
+        new HTTPRequest(
+            toUrl(request), HTTPMethod.valueOf(request.getMethod().name), defaultFetchOptions);
 
     for (Map.Entry<String, String> entry : headers.entrySet()) {
       httpRequest.addHeader(new HTTPHeader(entry.getKey(), entry.getValue()));
@@ -109,7 +106,8 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
     return httpRequest;
   }
 
-  private URL toUrl(AlgoliaHttpRequest request) throws CharacterCodingException, MalformedURLException {
+  private URL toUrl(AlgoliaHttpRequest request)
+      throws CharacterCodingException, MalformedURLException {
     UrlBuilder urlBuilder = UrlBuilder.forHost("https", request.getHost());
 
     for (String p : request.getPath()) {
@@ -145,6 +143,6 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
 
   @Override
   public void close() throws AlgoliaException {
-    //nothing to do here
+    // nothing to do here
   }
 }

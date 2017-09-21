@@ -1,20 +1,19 @@
 package com.algolia.search;
 
+import static com.algolia.search.Defaults.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
-
-import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-
-import static com.algolia.search.Defaults.*;
+import javax.annotation.Nonnull;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class GenericAPIClientBuilder {
@@ -38,7 +37,7 @@ public abstract class GenericAPIClientBuilder {
    * Initialize this builder with the applicationId and apiKey
    *
    * @param applicationId APP_ID can be found on https://www.algolia.com/api-keys
-   * @param apiKey        Algolia API_KEY can also be found on https://www.algolia.com/api-keys
+   * @param apiKey Algolia API_KEY can also be found on https://www.algolia.com/api-keys
    */
   public GenericAPIClientBuilder(@Nonnull String applicationId, @Nonnull String apiKey) {
     this.applicationId = applicationId;
@@ -48,11 +47,12 @@ public abstract class GenericAPIClientBuilder {
   /**
    * Customize the user agent
    *
-   * @param customAgent        key to add to the user agent
+   * @param customAgent key to add to the user agent
    * @param customAgentVersion value of this key to add to the user agent
    * @return this
    */
-  public GenericAPIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
+  public GenericAPIClientBuilder setUserAgent(
+      @Nonnull String customAgent, @Nonnull String customAgentVersion) {
     this.customAgent = customAgent;
     this.customAgentVersion = customAgentVersion;
     return this;
@@ -61,7 +61,7 @@ public abstract class GenericAPIClientBuilder {
   /**
    * Set extra headers to the requests
    *
-   * @param key   name of the header
+   * @param key name of the header
    * @param value value of the header
    * @return this
    */
@@ -77,7 +77,8 @@ public abstract class GenericAPIClientBuilder {
    * @return this
    */
   public GenericAPIClientBuilder setConnectTimeout(int connectTimeout) {
-    Preconditions.checkArgument(connectTimeout >= 0, "connectTimeout can not be < 0, but was %s", connectTimeout);
+    Preconditions.checkArgument(
+        connectTimeout >= 0, "connectTimeout can not be < 0, but was %s", connectTimeout);
 
     this.connectTimeout = connectTimeout;
     return this;
@@ -90,7 +91,8 @@ public abstract class GenericAPIClientBuilder {
    * @return this
    */
   public GenericAPIClientBuilder setReadTimeout(int readTimeout) {
-    Preconditions.checkArgument(readTimeout >= 0, "readTimeout can not be < 0, but was %s", readTimeout);
+    Preconditions.checkArgument(
+        readTimeout >= 0, "readTimeout can not be < 0, but was %s", readTimeout);
 
     this.readTimeout = readTimeout;
     return this;
@@ -103,16 +105,16 @@ public abstract class GenericAPIClientBuilder {
    * @return this
    */
   public GenericAPIClientBuilder setHostDownTimeout(int hostDownTimeout) {
-    Preconditions.checkArgument(hostDownTimeout >= 0, "hostDownTimeout can not be < 0, but was %s", hostDownTimeout);
+    Preconditions.checkArgument(
+        hostDownTimeout >= 0, "hostDownTimeout can not be < 0, but was %s", hostDownTimeout);
 
     this.hostDownTimeout = hostDownTimeout;
     return this;
   }
 
   /**
-   * Set the Jackson ObjectMapper, it overrides the default one and add 2 features:
-   * * Enables: AUTO_CLOSE_JSON_CONTENT
-   * * Disables: FAIL_ON_UNKNOWN_PROPERTIES
+   * Set the Jackson ObjectMapper, it overrides the default one and add 2 features: * Enables:
+   * AUTO_CLOSE_JSON_CONTENT * Disables: FAIL_ON_UNKNOWN_PROPERTIES
    *
    * @param objectMapper the mapper
    * @return this
@@ -145,7 +147,8 @@ public abstract class GenericAPIClientBuilder {
   }
 
   /**
-   * Set the maximum of connection, only available for {@link ApacheAPIClientBuilder} and {@link AsyncAPIClientBuilder}
+   * Set the maximum of connection, only available for {@link ApacheAPIClientBuilder} and {@link
+   * AsyncAPIClientBuilder}
    *
    * @param maxConnTotal the max number of connections
    * @return this
@@ -165,11 +168,11 @@ public abstract class GenericAPIClientBuilder {
   }
 
   protected List<String> generateBuildHosts() {
-    List<String> hosts = Lists.newArrayList(
-      applicationId + "-1." + ALGOLIANET_COM,
-      applicationId + "-2." + ALGOLIANET_COM,
-      applicationId + "-3." + ALGOLIANET_COM
-    );
+    List<String> hosts =
+        Lists.newArrayList(
+            applicationId + "-1." + ALGOLIANET_COM,
+            applicationId + "-2." + ALGOLIANET_COM,
+            applicationId + "-3." + ALGOLIANET_COM);
     Collections.shuffle(hosts, random);
     hosts.add(0, applicationId + "." + ALGOLIA_NET);
 
@@ -177,11 +180,11 @@ public abstract class GenericAPIClientBuilder {
   }
 
   protected List<String> generateQueryHosts() {
-    List<String> hosts = Lists.newArrayList(
-      applicationId + "-1." + ALGOLIANET_COM,
-      applicationId + "-2." + ALGOLIANET_COM,
-      applicationId + "-3." + ALGOLIANET_COM
-    );
+    List<String> hosts =
+        Lists.newArrayList(
+            applicationId + "-1." + ALGOLIANET_COM,
+            applicationId + "-2." + ALGOLIANET_COM,
+            applicationId + "-3." + ALGOLIANET_COM);
     Collections.shuffle(hosts, random);
     hosts.add(0, applicationId + "-dsn." + ALGOLIA_NET);
 
@@ -189,20 +192,21 @@ public abstract class GenericAPIClientBuilder {
   }
 
   protected Map<String, String> generateHeaders() {
-    String userAgent = String.format("Algolia for Java (%s); JVM (%s)", getApiClientVersion(), System.getProperty("java.version"));
+    String userAgent =
+        String.format(
+            "Algolia for Java (%s); JVM (%s)",
+            getApiClientVersion(), System.getProperty("java.version"));
     if (customAgent != null) {
       userAgent += "; " + customAgent + " (" + customAgentVersion + ")";
     }
 
-    return ImmutableMap
-      .<String, String>builder()
-      .put(HttpHeaders.ACCEPT_ENCODING, "gzip")
-      .put(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.type())
-      .put(HttpHeaders.USER_AGENT, userAgent)
-      .put("X-Algolia-Application-Id", applicationId)
-      .put("X-Algolia-API-Key", apiKey)
-      .putAll(customHeaders)
-      .build();
+    return ImmutableMap.<String, String>builder()
+        .put(HttpHeaders.ACCEPT_ENCODING, "gzip")
+        .put(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.type())
+        .put(HttpHeaders.USER_AGENT, userAgent)
+        .put("X-Algolia-Application-Id", applicationId)
+        .put("X-Algolia-API-Key", apiKey)
+        .putAll(customHeaders)
+        .build();
   }
-
 }

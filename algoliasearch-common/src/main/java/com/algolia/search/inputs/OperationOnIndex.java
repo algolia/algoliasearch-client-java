@@ -20,5 +20,4 @@ public class OperationOnIndex {
   public String getDestination() {
     return destination;
   }
-
 }

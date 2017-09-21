@@ -20,9 +20,7 @@ public class RuleQuery {
     return query;
   }
 
-  /**
-   * Set the full text query
-   */
+  /** Set the full text query */
   public RuleQuery setQuery(String query) {
     this.query = query;
     return this;
@@ -32,9 +30,7 @@ public class RuleQuery {
     return anchoring;
   }
 
-  /**
-   * Set the anchoring, restricts the search to rules with a specific anchoring type
-   */
+  /** Set the anchoring, restricts the search to rules with a specific anchoring type */
   public RuleQuery setAnchoring(String anchoring) {
     this.anchoring = anchoring;
     return this;
@@ -44,9 +40,7 @@ public class RuleQuery {
     return context;
   }
 
-  /**
-   * Set the context, restricts the search to rules with a specific context (exact match)
-   */
+  /** Set the context, restricts the search to rules with a specific context (exact match) */
   public RuleQuery setContext(String context) {
     this.context = context;
     return this;
@@ -56,9 +50,7 @@ public class RuleQuery {
     return page;
   }
 
-  /**
-   * Set the page to retrieve (zero base). Defaults to 0.
-   */
+  /** Set the page to retrieve (zero base). Defaults to 0. */
   public RuleQuery setPage(Integer page) {
     this.page = page;
     return this;
@@ -68,9 +60,7 @@ public class RuleQuery {
     return hitsPerPage;
   }
 
-  /**
-   * Set the number of hits per page. Defaults to 10.
-   */
+  /** Set the number of hits per page. Defaults to 10. */
   public RuleQuery setHitsPerPage(Integer hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
@@ -78,12 +68,20 @@ public class RuleQuery {
 
   @Override
   public String toString() {
-    return "RuleQuery{" +
-      "query='" + query + '\'' +
-      ", anchoring='" + anchoring + '\'' +
-      ", context='" + context + '\'' +
-      ", page=" + page +
-      ", hitsPerPage=" + hitsPerPage +
-      '}';
+    return "RuleQuery{"
+        + "query='"
+        + query
+        + '\''
+        + ", anchoring='"
+        + anchoring
+        + '\''
+        + ", context='"
+        + context
+        + '\''
+        + ", page="
+        + page
+        + ", hitsPerPage="
+        + hitsPerPage
+        + '}';
   }
 }

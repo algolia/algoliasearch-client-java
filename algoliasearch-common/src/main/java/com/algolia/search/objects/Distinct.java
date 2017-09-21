@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.io.IOException;
 
 @JsonDeserialize(using = DistinctJsonDeserializer.class)
@@ -38,8 +37,9 @@ public abstract class Distinct {
 
     Distinct that = (Distinct) o;
 
-    return getInsideValue() != null ? getInsideValue().equals(that.getInsideValue()) : that.getInsideValue() == null;
-
+    return getInsideValue() != null
+        ? getInsideValue().equals(that.getInsideValue())
+        : that.getInsideValue() == null;
   }
 
   @Override
@@ -65,9 +65,7 @@ class DistinctAsInteger extends Distinct {
 
   @Override
   public String toString() {
-    return "Distinct{" +
-      "integer=" + insideValue +
-      '}';
+    return "Distinct{" + "integer=" + insideValue + '}';
   }
 }
 
@@ -88,18 +86,17 @@ class DistinctAsBoolean extends Distinct {
 
   @Override
   public String toString() {
-    return "Distinct{" +
-      "boolean=" + insideValue +
-      '}';
+    return "Distinct{" + "boolean=" + insideValue + '}';
   }
 }
 
 class DistinctJsonDeserializer extends JsonDeserializer<Distinct> {
 
   @Override
-  public Distinct deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public Distinct deserialize(JsonParser p, DeserializationContext ctxt)
+      throws IOException, JsonProcessingException {
     JsonToken currentToken = p.getCurrentToken();
-    if(currentToken.equals(JsonToken.VALUE_NUMBER_INT)) {
+    if (currentToken.equals(JsonToken.VALUE_NUMBER_INT)) {
       return Distinct.of(p.getIntValue());
     }
 
@@ -110,8 +107,9 @@ class DistinctJsonDeserializer extends JsonDeserializer<Distinct> {
 class DistinctJsonSerializer extends JsonSerializer<Distinct> {
 
   @Override
-  public void serialize(Distinct value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
-    if(value instanceof DistinctAsBoolean) {
+  public void serialize(Distinct value, JsonGenerator gen, SerializerProvider serializers)
+      throws IOException, JsonProcessingException {
+    if (value instanceof DistinctAsBoolean) {
       DistinctAsBoolean d = (DistinctAsBoolean) value;
       gen.writeBoolean(d.getInsideValue());
     } else if (value instanceof DistinctAsInteger) {

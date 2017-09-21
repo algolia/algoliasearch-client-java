@@ -62,12 +62,20 @@ public class BrowseResult<T> {
 
   @Override
   public String toString() {
-    return "BrowseResult{" +
-      "cursor='" + cursor + '\'' +
-      ", processingTimeMS=" + processingTimeMS +
-      ", query='" + query + '\'' +
-      ", params='" + params + '\'' +
-      ", hits=" + hits +
-      '}';
+    return "BrowseResult{"
+        + "cursor='"
+        + cursor
+        + '\''
+        + ", processingTimeMS="
+        + processingTimeMS
+        + ", query='"
+        + query
+        + '\''
+        + ", params='"
+        + params
+        + '\''
+        + ", hits="
+        + hits
+        + '}';
   }
 }

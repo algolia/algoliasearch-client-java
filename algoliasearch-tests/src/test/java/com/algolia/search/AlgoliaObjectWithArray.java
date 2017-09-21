@@ -6,8 +6,7 @@ public class AlgoliaObjectWithArray extends AlgoliaObject {
 
   private List<String> tags;
 
-  public AlgoliaObjectWithArray() {
-  }
+  public AlgoliaObjectWithArray() {}
 
   public List<String> getTags() {
     return tags;

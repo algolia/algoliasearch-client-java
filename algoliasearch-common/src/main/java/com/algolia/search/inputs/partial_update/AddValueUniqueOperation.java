@@ -2,7 +2,6 @@ package com.algolia.search.inputs.partial_update;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -18,12 +17,15 @@ public class AddValueUniqueOperation implements PartialUpdateOperation {
    * @param attributeToAddIn the name of the attribute to add the value
    * @param valueToAddIfDoesntExists the value to append
    */
-  public AddValueUniqueOperation(String objectID, String attributeToAddIn, String valueToAddIfDoesntExists) {
+  public AddValueUniqueOperation(
+      String objectID, String attributeToAddIn, String valueToAddIfDoesntExists) {
     this.objectID = objectID;
-    this.map = ImmutableMap.of(
-      "objectID", objectID,
-      attributeToAddIn, new TagOperation(valueToAddIfDoesntExists, "AddUnique")
-    );
+    this.map =
+        ImmutableMap.of(
+            "objectID",
+            objectID,
+            attributeToAddIn,
+            new TagOperation(valueToAddIfDoesntExists, "AddUnique"));
   }
 
   @Override
@@ -35,5 +37,4 @@ public class AddValueUniqueOperation implements PartialUpdateOperation {
   public Map<String, ?> toSerialize() {
     return map;
   }
-
 }

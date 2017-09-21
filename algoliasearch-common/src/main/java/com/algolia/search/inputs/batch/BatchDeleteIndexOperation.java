@@ -9,23 +9,17 @@ public class BatchDeleteIndexOperation implements BatchOperation {
 
   private final String indexName;
 
-  /**
-   *
-   */
+  /** */
   public BatchDeleteIndexOperation() {
     this((String) null);
   }
 
-  /**
-   * @param indexName
-   */
+  /** @param indexName */
   public BatchDeleteIndexOperation(String indexName) {
     this.indexName = indexName;
   }
 
-  /**
-   * @param index
-   */
+  /** @param index */
   public BatchDeleteIndexOperation(AbstractIndex<?> index) {
     this(index.getName());
   }

@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 public class AppEngineBatchTest extends SyncBatchTest {
 
   private static final LocalServiceTestHelper helper =
-    new LocalServiceTestHelper(new LocalURLFetchServiceTestConfig());
+      new LocalServiceTestHelper(new LocalURLFetchServiceTestConfig());
 
   @BeforeClass
   public static void before() {
@@ -33,5 +33,4 @@ public class AppEngineBatchTest extends SyncBatchTest {
   public APIClient createInstance(String appId, String apiKey, ObjectMapper objectMapper) {
     return new AppEngineAPIClientBuilder(appId, apiKey).setObjectMapper(objectMapper).build();
   }
-
 }

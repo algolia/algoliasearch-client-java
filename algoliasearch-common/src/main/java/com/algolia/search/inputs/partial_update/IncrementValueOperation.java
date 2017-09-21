@@ -2,7 +2,6 @@ package com.algolia.search.inputs.partial_update;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -20,10 +19,9 @@ public class IncrementValueOperation implements PartialUpdateOperation {
    */
   public IncrementValueOperation(String objectID, String attributeName, int increment) {
     this.objectID = objectID;
-    this.map = ImmutableMap.of(
-      "objectID", objectID,
-      attributeName, new NumericOperation(increment, "Increment")
-    );
+    this.map =
+        ImmutableMap.of(
+            "objectID", objectID, attributeName, new NumericOperation(increment, "Increment"));
   }
 
   @Override
@@ -35,5 +33,4 @@ public class IncrementValueOperation implements PartialUpdateOperation {
   public Map<String, ?> toSerialize() {
     return map;
   }
-
 }

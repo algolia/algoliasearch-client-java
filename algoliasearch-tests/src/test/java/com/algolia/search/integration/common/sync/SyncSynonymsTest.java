@@ -1,7 +1,9 @@
 package com.algolia.search.integration.common.sync;
 
-import com.algolia.search.SyncAlgoliaIntegrationTest;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.Index;
+import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
@@ -9,30 +11,23 @@ import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.SynonymQuery;
 import com.algolia.search.responses.SearchSynonymResult;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
-abstract public class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList(
-    "index1",
-    "index2",
-    "index3",
-    "index4"
-  );
+  private static List<String> indicesNames = Arrays.asList("index1", "index2", "index3", "index4");
 
   @Before
   @After
   public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
+    List<BatchOperation> clean =
+        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }
 
@@ -47,15 +42,18 @@ abstract public class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
     Optional<AbstractSynonym> synonym1 = index.getSynonym("synonym1");
     assertThat(synonym1.get())
-      .isInstanceOf(Synonym.class)
-      .isEqualToComparingFieldByField(new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
+        .isInstanceOf(Synonym.class)
+        .isEqualToComparingFieldByField(
+            new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
   }
 
   @Test
   public void deleteSynonym() throws AlgoliaException {
     Index<?> index = client.initIndex("index2");
 
-    index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))).waitForCompletion();
+    index
+        .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")))
+        .waitForCompletion();
     index.deleteSynonym("synonym1").waitForCompletion();
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
@@ -66,7 +64,9 @@ abstract public class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
   public void clearSynonym() throws AlgoliaException {
     Index<?> index = client.initIndex("index3");
 
-    index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))).waitForCompletion();
+    index
+        .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")))
+        .waitForCompletion();
     index.clearSynonyms().waitForCompletion();
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
@@ -88,5 +88,4 @@ abstract public class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
     assertThat(searchResult.getHits()).hasSize(2);
   }
-
 }

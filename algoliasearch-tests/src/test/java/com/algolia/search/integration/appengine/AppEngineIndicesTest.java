@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 public class AppEngineIndicesTest extends SyncIndicesTest {
 
   private static final LocalServiceTestHelper helper =
-    new LocalServiceTestHelper(new LocalURLFetchServiceTestConfig());
+      new LocalServiceTestHelper(new LocalURLFetchServiceTestConfig());
 
   @BeforeClass
   public static void before() {

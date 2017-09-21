@@ -1,7 +1,6 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.Index;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +20,6 @@ public class Indices {
 
   @Override
   public String toString() {
-    return "Indices{" +
-      "items=" + items +
-      '}';
+    return "Indices{" + "items=" + items + '}';
   }
 }
-

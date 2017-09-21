@@ -10,5 +10,4 @@ public class AsyncApacheSearchTest extends AsyncSearchTest {
   public AsyncAPIClient createInstance(String appId, String apiKey) {
     return new AsyncHttpAPIClientBuilder(appId, apiKey).build();
   }
-
 }

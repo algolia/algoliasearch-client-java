@@ -17,8 +17,6 @@ public class DeleteKey {
 
   @Override
   public String toString() {
-    return "DeleteKey{" +
-      "deletedAt='" + deletedAt + '\'' +
-      '}';
+    return "DeleteKey{" + "deletedAt='" + deletedAt + '\'' + '}';
   }
 }

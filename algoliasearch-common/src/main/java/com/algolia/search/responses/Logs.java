@@ -1,7 +1,6 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.objects.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +20,6 @@ public class Logs {
 
   @Override
   public String toString() {
-    return "Logs{" +
-      "logs=" + logs +
-      '}';
+    return "Logs{" + "logs=" + logs + '}';
   }
 }

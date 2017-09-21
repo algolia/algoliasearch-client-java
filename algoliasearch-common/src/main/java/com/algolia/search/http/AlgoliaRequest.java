@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +21,12 @@ public class AlgoliaRequest<T> {
   private Class<T> collectionClass;
   private Class<?> elementClass;
 
-  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, RequestOptions options, Class<T> resultClass) {
+  public AlgoliaRequest(
+      HttpMethod method,
+      boolean isSearch,
+      List<String> path,
+      RequestOptions options,
+      Class<T> resultClass) {
     this.method = method;
     this.isSearch = isSearch;
     this.path = path;
@@ -30,7 +34,13 @@ public class AlgoliaRequest<T> {
     this.resultClass = resultClass;
   }
 
-  public AlgoliaRequest(HttpMethod method, boolean isSearch, List<String> path, RequestOptions options, Class<T> collectionClass, Class<?> elementClass) {
+  public AlgoliaRequest(
+      HttpMethod method,
+      boolean isSearch,
+      List<String> path,
+      RequestOptions options,
+      Class<T> collectionClass,
+      Class<?> elementClass) {
     this.method = method;
     this.isSearch = isSearch;
     this.path = path;
@@ -46,7 +56,6 @@ public class AlgoliaRequest<T> {
       return factory.constructParametricType(collectionClass, elementClass);
     }
   }
-
 
   HttpMethod getMethod() {
     return method;
@@ -75,9 +84,9 @@ public class AlgoliaRequest<T> {
 
   Map<String, String> getParameters() {
     return ImmutableMap.<String, String>builder()
-      .putAll(parameters)
-      .putAll(options.generateExtraQueryParams())
-      .build();
+        .putAll(parameters)
+        .putAll(options.generateExtraQueryParams())
+        .build();
   }
 
   public AlgoliaRequest<T> setParameters(Map<String, String> parameters) {

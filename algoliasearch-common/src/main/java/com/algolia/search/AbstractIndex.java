@@ -54,5 +54,4 @@ public interface AbstractIndex<T> {
       return pendingTask;
     }
   }
-
 }

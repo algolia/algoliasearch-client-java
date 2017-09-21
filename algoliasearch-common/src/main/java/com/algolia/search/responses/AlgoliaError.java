@@ -16,8 +16,6 @@ public class AlgoliaError {
 
   @Override
   public String toString() {
-    return "AlgoliaError{" +
-      "message='" + message + '\'' +
-      '}';
+    return "AlgoliaError{" + "message='" + message + '\'' + '}';
   }
 }

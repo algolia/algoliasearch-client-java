@@ -1,15 +1,12 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javax.annotation.Nonnull;
 
-/**
- * Base class to create AsyncAPIClient
- */
+/** Base class to create AsyncAPIClient */
 @SuppressWarnings("WeakerAccess")
 public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
 
@@ -17,7 +14,7 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
    * Initialize this builder with the applicationId and apiKey
    *
    * @param applicationId APP_ID can be found on https://www.algolia.com/api-keys
-   * @param apiKey        Algolia API_KEY can also be found on https://www.algolia.com/api-keys
+   * @param apiKey Algolia API_KEY can also be found on https://www.algolia.com/api-keys
    */
   public AsyncAPIClientBuilder(@Nonnull String applicationId, @Nonnull String apiKey) {
     super(applicationId, apiKey);
@@ -26,12 +23,13 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
   /**
    * Customize the user agent
    *
-   * @param customAgent        key to add to the user agent
+   * @param customAgent key to add to the user agent
    * @param customAgentVersion value of this key to add to the user agent
    * @return this
    */
   @Override
-  public AsyncAPIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
+  public AsyncAPIClientBuilder setUserAgent(
+      @Nonnull String customAgent, @Nonnull String customAgentVersion) {
     super.setUserAgent(customAgent, customAgentVersion);
     return this;
   }
@@ -39,7 +37,7 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
   /**
    * Set extra headers to the requests
    *
-   * @param key   name of the header
+   * @param key name of the header
    * @param value value of the header
    * @return this
    */
@@ -116,17 +114,15 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
    */
   public AsyncAPIClient build(ExecutorService executor) {
     return build(
-      new AsyncAPIClientConfiguration()
-        .setExecutor(executor)
-        .setApplicationId(applicationId)
-        .setApiKey(apiKey)
-        .setObjectMapper(objectMapper)
-        .setBuildHosts(generateBuildHosts())
-        .setQueryHosts(generateQueryHosts())
-        .setHeaders(generateHeaders())
-        .setConnectTimeout(connectTimeout)
-        .setReadTimeout(readTimeout)
-    );
+        new AsyncAPIClientConfiguration()
+            .setExecutor(executor)
+            .setApplicationId(applicationId)
+            .setApiKey(apiKey)
+            .setObjectMapper(objectMapper)
+            .setBuildHosts(generateBuildHosts())
+            .setQueryHosts(generateQueryHosts())
+            .setHeaders(generateHeaders())
+            .setConnectTimeout(connectTimeout)
+            .setReadTimeout(readTimeout));
   }
-
 }

@@ -4,10 +4,6 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.Query;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.annotation.Nonnull;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
@@ -15,6 +11,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
+import javax.annotation.Nonnull;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Utils {
 
@@ -36,21 +35,27 @@ public class Utils {
     return sb.toString();
   }
 
-  static String generateSecuredApiKey(@Nonnull String privateApiKey, @Nonnull Query query, String userToken) throws AlgoliaException {
+  static String generateSecuredApiKey(
+      @Nonnull String privateApiKey, @Nonnull Query query, String userToken)
+      throws AlgoliaException {
     if (userToken != null && userToken.length() > 0) {
       query.setUserToken(userToken);
     }
     String queryStr = query.toParam();
     String key = hmac(privateApiKey, queryStr);
 
-    return new String(Base64.getEncoder().encode(String.format("%s%s", key, queryStr).getBytes(Charset.forName("UTF8"))));
+    return new String(
+        Base64.getEncoder()
+            .encode(String.format("%s%s", key, queryStr).getBytes(Charset.forName("UTF8"))));
   }
 
-  public static <T> T parseAs(ObjectMapper mapper, Reader content, Class<T> klass) throws IOException {
+  public static <T> T parseAs(ObjectMapper mapper, Reader content, Class<T> klass)
+      throws IOException {
     return mapper.readValue(content, mapper.getTypeFactory().constructType(klass));
   }
 
-  public static <T> T parseAs(ObjectMapper mapper, Reader content, JavaType type) throws IOException {
+  public static <T> T parseAs(ObjectMapper mapper, Reader content, JavaType type)
+      throws IOException {
 
     return mapper.readValue(content, type);
   }
@@ -60,5 +65,4 @@ public class Utils {
     future.completeExceptionally(t);
     return future;
   }
-
 }

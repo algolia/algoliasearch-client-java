@@ -8,8 +8,7 @@ public class Condition {
   private String anchoring;
   private String context;
 
-  public Condition() {
-  }
+  public Condition() {}
 
   public String getPattern() {
     return pattern;

@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +39,9 @@ public abstract class RemoveStopWords {
 
     RemoveStopWords that = (RemoveStopWords) o;
 
-    return getInsideValue() != null ? getInsideValue().equals(that.getInsideValue()) : that.getInsideValue() == null;
+    return getInsideValue() != null
+        ? getInsideValue().equals(that.getInsideValue())
+        : that.getInsideValue() == null;
   }
 
   @Override
@@ -64,9 +65,7 @@ class RemoveStopWordsBoolean extends RemoveStopWords {
 
   @Override
   public String toString() {
-    return "RemoveStopWords{" +
-      "boolean=" + insideValue +
-      '}';
+    return "RemoveStopWords{" + "boolean=" + insideValue + '}';
   }
 }
 
@@ -85,16 +84,15 @@ class RemoveStopWordsListString extends RemoveStopWords {
 
   @Override
   public String toString() {
-    return "RemoveStopWords{" +
-      "list=" + insideValue +
-      '}';
+    return "RemoveStopWords{" + "list=" + insideValue + '}';
   }
 }
 
 class RemoveStopWordsDeserializer extends JsonDeserializer<RemoveStopWords> {
 
   @Override
-  public RemoveStopWords deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public RemoveStopWords deserialize(JsonParser p, DeserializationContext ctxt)
+      throws IOException, JsonProcessingException {
     JsonToken currentToken = p.getCurrentToken();
     if (currentToken.equals(JsonToken.VALUE_STRING)) {
       return RemoveStopWords.of(Arrays.asList(p.getValueAsString().split(",")));
@@ -108,7 +106,8 @@ class RemoveStopWordsSerializer extends JsonSerializer<RemoveStopWords> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public void serialize(RemoveStopWords value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
+  public void serialize(RemoveStopWords value, JsonGenerator gen, SerializerProvider serializers)
+      throws IOException, JsonProcessingException {
     if (value instanceof RemoveStopWordsBoolean) {
       gen.writeBoolean((Boolean) value.getInsideValue());
     } else if (value instanceof RemoveStopWordsListString) {

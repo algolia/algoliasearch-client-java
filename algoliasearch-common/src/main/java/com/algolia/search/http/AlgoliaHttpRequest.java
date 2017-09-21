@@ -1,6 +1,5 @@
 package com.algolia.search.http;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

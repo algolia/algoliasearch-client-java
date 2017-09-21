@@ -7,5 +7,4 @@ interface SynonymType {
   String ONE_WAY_SYNONYM = "oneWaySynonym";
   String PLACEHOLDER = "placeholder";
   String SYNONYM = "synonym";
-
 }

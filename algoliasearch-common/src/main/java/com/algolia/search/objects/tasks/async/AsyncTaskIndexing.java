@@ -28,10 +28,15 @@ public class AsyncTaskIndexing extends AsyncTask {
 
   @Override
   public String toString() {
-    return "AsyncTaskIndexing{" +
-      "objectID='" + objectID + '\'' +
-      ", indexName='" + indexName + '\'' +
-      ", taskID=" + taskID +
-      '}';
+    return "AsyncTaskIndexing{"
+        + "objectID='"
+        + objectID
+        + '\''
+        + ", indexName='"
+        + indexName
+        + '\''
+        + ", taskID="
+        + taskID
+        + '}';
   }
 }

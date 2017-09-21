@@ -11,8 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class GenericTask<T> extends AbstractTask<T> {
 
-  @JsonIgnore
-  APIClient apiClient;
+  @JsonIgnore APIClient apiClient;
 
   public GenericTask<T> setAPIClient(APIClient apiClient) {
     this.apiClient = apiClient;

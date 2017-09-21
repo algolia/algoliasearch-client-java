@@ -19,8 +19,6 @@ public class Results<T> {
 
   @Override
   public String toString() {
-    return "Results{" +
-      "results=" + results +
-      '}';
+    return "Results{" + "results=" + results + '}';
   }
 }

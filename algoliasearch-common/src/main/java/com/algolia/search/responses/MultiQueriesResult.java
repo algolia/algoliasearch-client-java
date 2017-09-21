@@ -17,8 +17,6 @@ public class MultiQueriesResult {
 
   @Override
   public String toString() {
-    return "MultiQueriesResult{" +
-      "results=" + results +
-      '}';
+    return "MultiQueriesResult{" + "results=" + results + '}';
   }
 }

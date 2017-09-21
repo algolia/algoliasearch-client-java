@@ -3,7 +3,6 @@ package com.algolia.search.objects.tasks.sync;
 import com.algolia.search.APIClient;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -37,10 +36,14 @@ public class TaskSingleIndex extends Task {
 
   @Override
   public String toString() {
-    return "TaskSingleIndex{" +
-      "objectIDs=" + objectIDs +
-      ", indexName='" + indexName + '\'' +
-      ", taskID=" + taskID +
-      '}';
+    return "TaskSingleIndex{"
+        + "objectIDs="
+        + objectIDs
+        + ", indexName='"
+        + indexName
+        + '\''
+        + ", taskID="
+        + taskID
+        + '}';
   }
 }

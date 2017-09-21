@@ -1,7 +1,6 @@
 package com.algolia.search.inputs.query_rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -9,8 +8,7 @@ public class ConsequenceQueryObject extends ConsequenceQuery {
 
   private List<String> remove;
 
-  public ConsequenceQueryObject() {
-  }
+  public ConsequenceQueryObject() {}
 
   public List<String> getRemove() {
     return remove;

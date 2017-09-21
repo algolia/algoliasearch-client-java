@@ -2,7 +2,6 @@ package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.*;
 import com.google.common.collect.ImmutableMap;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -63,7 +62,7 @@ public class Query {
   protected Integer length;
 
   /* performance */
-  //Nothing in Query
+  // Nothing in Query
 
   /* query rules */
   protected Boolean enableRules;
@@ -80,7 +79,7 @@ public class Query {
   protected List<String> alternativesAsExact;
 
   /* ranking */
-  //Nothing in Query
+  // Nothing in Query
 
   /* search */
   @JsonProperty("query")
@@ -106,8 +105,7 @@ public class Query {
   /* CUSTOM */
   protected Map<String, String> customParameters = new HashMap<>();
 
-  public Query() {
-  }
+  public Query() {}
 
   public Query(String query) {
     this.query = query;
@@ -167,7 +165,7 @@ public class Query {
     builder = add(builder, "length", length);
 
     /* performance */
-    //Nothing in Query
+    // Nothing in Query
 
     /* query rules */
     builder = add(builder, "enableRules", enableRules);
@@ -186,7 +184,7 @@ public class Query {
     builder = add(builder, "alternativesAsExact", alternativesAsExact);
 
     /* ranking */
-    //Nothing in Query
+    // Nothing in Query
 
     /* search */
     builder = add(builder, "query", query);
@@ -218,42 +216,48 @@ public class Query {
     return builder.build();
   }
 
-  private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, Object value) {
+  private ImmutableMap.Builder<String, String> add(
+      ImmutableMap.Builder<String, String> builder, String name, Object value) {
     if (value == null) {
       return builder;
     }
     return builder.put(name, value.toString());
   }
 
-  private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, Enum<?> value) {
+  private ImmutableMap.Builder<String, String> add(
+      ImmutableMap.Builder<String, String> builder, String name, Enum<?> value) {
     if (value == null) {
       return builder;
     }
     return builder.put(name, value.toString());
   }
 
-  private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, String value) {
+  private ImmutableMap.Builder<String, String> add(
+      ImmutableMap.Builder<String, String> builder, String name, String value) {
     if (value == null) {
       return builder;
     }
     return builder.put(name, value);
   }
 
-  private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, Boolean value) {
+  private ImmutableMap.Builder<String, String> add(
+      ImmutableMap.Builder<String, String> builder, String name, Boolean value) {
     if (value == null) {
       return builder;
     }
     return builder.put(name, value.toString());
   }
 
-  private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, Integer value) {
+  private ImmutableMap.Builder<String, String> add(
+      ImmutableMap.Builder<String, String> builder, String name, Integer value) {
     if (value == null) {
       return builder;
     }
     return builder.put(name, value.toString());
   }
 
-  private ImmutableMap.Builder<String, String> add(ImmutableMap.Builder<String, String> builder, String name, List<String> attributes) {
+  private ImmutableMap.Builder<String, String> add(
+      ImmutableMap.Builder<String, String> builder, String name, List<String> attributes) {
     if (attributes == null) {
       return builder;
     }
@@ -269,10 +273,11 @@ public class Query {
           builder = builder.append("&");
         }
 
-        builder = builder
-          .append(entry.getKey())
-          .append("=")
-          .append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        builder =
+            builder
+                .append(entry.getKey())
+                .append("=")
+                .append(URLEncoder.encode(entry.getValue(), "UTF-8"));
       } catch (UnsupportedEncodingException ignore) {
       }
       firstOne = false;
@@ -827,69 +832,140 @@ public class Query {
 
   @Override
   public String toString() {
-    return "Query{" +
-      "distinct=" + distinct +
-      ", getRankingInfo=" + getRankingInfo +
-      ", numericFilters=" + numericFilters +
-      ", tagFilters=" + tagFilters +
-      ", analytics=" + analytics +
-      ", analyticsTags='" + analyticsTags + '\'' +
-      ", synonyms=" + synonyms +
-      ", replaceSynonymsInHighlight=" + replaceSynonymsInHighlight +
-      ", minProximity=" + minProximity +
-      ", responseFields=" + responseFields +
-      ", maxFacetHits=" + maxFacetHits +
-      ", percentileComputation=" + percentileComputation +
-      ", attributesToRetrieve=" + attributesToRetrieve +
-      ", restrictSearchableAttributes=" + restrictSearchableAttributes +
-      ", filters='" + filters + '\'' +
-      ", facets='" + facets + '\'' +
-      ", maxValuesPerFacet=" + maxValuesPerFacet +
-      ", facetFilters=" + facetFilters +
-      ", facetingAfterDistinct=" + facetingAfterDistinct +
-      ", aroundLatLng='" + aroundLatLng + '\'' +
-      ", aroundLatLngViaIP=" + aroundLatLngViaIP +
-      ", aroundRadius=" + aroundRadius +
-      ", aroundPrecision=" + aroundPrecision +
-      ", minimumAroundRadius=" + minimumAroundRadius +
-      ", insideBoundingBox=" + insideBoundingBox +
-      ", insidePolygon=" + insidePolygon +
-      ", attributesToHighlight=" + attributesToHighlight +
-      ", attributesToSnippet=" + attributesToSnippet +
-      ", highlightPreTag='" + highlightPreTag + '\'' +
-      ", highlightPostTag='" + highlightPostTag + '\'' +
-      ", snippetEllipsisText='" + snippetEllipsisText + '\'' +
-      ", restrictHighlightAndSnippetArrays=" + restrictHighlightAndSnippetArrays +
-      ", page=" + page +
-      ", hitsPerPage=" + hitsPerPage +
-      ", offset=" + offset +
-      ", length=" + length +
-      ", enableRules" + enableRules +
-      ", ruleContexts" + ruleContexts +
-      ", queryType='" + queryType + '\'' +
-      ", removeWordsIfNoResults=" + removeWordsIfNoResults +
-      ", advancedSyntax=" + advancedSyntax +
-      ", optionalWords=" + optionalWords +
-      ", removeStopWords=" + removeStopWords +
-      ", disableExactOnAttributes=" + disableExactOnAttributes +
-      ", exactOnSingleWordQuery='" + exactOnSingleWordQuery + '\'' +
-      ", alternativesAsExact=" + alternativesAsExact +
-      ", query='" + query + '\'' +
-      ", minWordSizefor1Typo=" + minWordSizefor1Typo +
-      ", minWordSizefor2Typos=" + minWordSizefor2Typos +
-      ", typoTolerance=" + typoTolerance +
-      ", allowTyposOnNumericTokens=" + allowTyposOnNumericTokens +
-      ", ignorePlurals=" + ignorePlurals +
-      ", disableTypoToleranceOnAttributes=" + disableTypoToleranceOnAttributes +
-      ", userToken='" + userToken + '\'' +
-      ", validUntil=" + validUntil +
-      ", restrictIndices=" + restrictIndices +
-      ", restrictSources='" + restrictSources + '\'' +
-      ", cursor='" + cursor + '\'' +
-      ", customParameters=" + customParameters +
-      '}';
+    return "Query{"
+        + "distinct="
+        + distinct
+        + ", getRankingInfo="
+        + getRankingInfo
+        + ", numericFilters="
+        + numericFilters
+        + ", tagFilters="
+        + tagFilters
+        + ", analytics="
+        + analytics
+        + ", analyticsTags='"
+        + analyticsTags
+        + '\''
+        + ", synonyms="
+        + synonyms
+        + ", replaceSynonymsInHighlight="
+        + replaceSynonymsInHighlight
+        + ", minProximity="
+        + minProximity
+        + ", responseFields="
+        + responseFields
+        + ", maxFacetHits="
+        + maxFacetHits
+        + ", percentileComputation="
+        + percentileComputation
+        + ", attributesToRetrieve="
+        + attributesToRetrieve
+        + ", restrictSearchableAttributes="
+        + restrictSearchableAttributes
+        + ", filters='"
+        + filters
+        + '\''
+        + ", facets='"
+        + facets
+        + '\''
+        + ", maxValuesPerFacet="
+        + maxValuesPerFacet
+        + ", facetFilters="
+        + facetFilters
+        + ", facetingAfterDistinct="
+        + facetingAfterDistinct
+        + ", aroundLatLng='"
+        + aroundLatLng
+        + '\''
+        + ", aroundLatLngViaIP="
+        + aroundLatLngViaIP
+        + ", aroundRadius="
+        + aroundRadius
+        + ", aroundPrecision="
+        + aroundPrecision
+        + ", minimumAroundRadius="
+        + minimumAroundRadius
+        + ", insideBoundingBox="
+        + insideBoundingBox
+        + ", insidePolygon="
+        + insidePolygon
+        + ", attributesToHighlight="
+        + attributesToHighlight
+        + ", attributesToSnippet="
+        + attributesToSnippet
+        + ", highlightPreTag='"
+        + highlightPreTag
+        + '\''
+        + ", highlightPostTag='"
+        + highlightPostTag
+        + '\''
+        + ", snippetEllipsisText='"
+        + snippetEllipsisText
+        + '\''
+        + ", restrictHighlightAndSnippetArrays="
+        + restrictHighlightAndSnippetArrays
+        + ", page="
+        + page
+        + ", hitsPerPage="
+        + hitsPerPage
+        + ", offset="
+        + offset
+        + ", length="
+        + length
+        + ", enableRules"
+        + enableRules
+        + ", ruleContexts"
+        + ruleContexts
+        + ", queryType='"
+        + queryType
+        + '\''
+        + ", removeWordsIfNoResults="
+        + removeWordsIfNoResults
+        + ", advancedSyntax="
+        + advancedSyntax
+        + ", optionalWords="
+        + optionalWords
+        + ", removeStopWords="
+        + removeStopWords
+        + ", disableExactOnAttributes="
+        + disableExactOnAttributes
+        + ", exactOnSingleWordQuery='"
+        + exactOnSingleWordQuery
+        + '\''
+        + ", alternativesAsExact="
+        + alternativesAsExact
+        + ", query='"
+        + query
+        + '\''
+        + ", minWordSizefor1Typo="
+        + minWordSizefor1Typo
+        + ", minWordSizefor2Typos="
+        + minWordSizefor2Typos
+        + ", typoTolerance="
+        + typoTolerance
+        + ", allowTyposOnNumericTokens="
+        + allowTyposOnNumericTokens
+        + ", ignorePlurals="
+        + ignorePlurals
+        + ", disableTypoToleranceOnAttributes="
+        + disableTypoToleranceOnAttributes
+        + ", userToken='"
+        + userToken
+        + '\''
+        + ", validUntil="
+        + validUntil
+        + ", restrictIndices="
+        + restrictIndices
+        + ", restrictSources='"
+        + restrictSources
+        + '\''
+        + ", cursor='"
+        + cursor
+        + '\''
+        + ", customParameters="
+        + customParameters
+        + '}';
   }
-
 
   public enum QueryType {
     // all query words are interpreted as prefixes.

@@ -27,9 +27,7 @@ public class BatchAddObjectOperation<T> implements BatchOperation {
     this(index.getName(), body);
   }
 
-  /**
-   * @param body
-   */
+  /** @param body */
   public BatchAddObjectOperation(T body) {
     this((String) null, body);
   }

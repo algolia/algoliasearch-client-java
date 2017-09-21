@@ -16,5 +16,4 @@ public class ApacheObjectsTest extends SyncObjectsTest {
   public APIClient createInstance(String appId, String apiKey, ObjectMapper objectMapper) {
     return new ApacheAPIClientBuilder(appId, apiKey).setObjectMapper(objectMapper).build();
   }
-
 }

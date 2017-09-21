@@ -1,8 +1,8 @@
 package com.algolia.search.objects;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
 
 public class RequestOptions {
 
@@ -44,10 +44,14 @@ public class RequestOptions {
 
   @Override
   public String toString() {
-    return "RequestOptions{" +
-      "headers=" + headers +
-      ", queryParams=" + queryParams +
-      ", forwardedFor='" + forwardedFor + '\'' +
-      '}';
+    return "RequestOptions{"
+        + "headers="
+        + headers
+        + ", queryParams="
+        + queryParams
+        + ", forwardedFor='"
+        + forwardedFor
+        + '\''
+        + '}';
   }
 }

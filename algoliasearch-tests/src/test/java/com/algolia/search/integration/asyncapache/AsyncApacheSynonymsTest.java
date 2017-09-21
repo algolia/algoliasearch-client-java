@@ -10,5 +10,4 @@ public class AsyncApacheSynonymsTest extends AsyncSynonymsTest {
   public AsyncAPIClient createInstance(String appId, String apiKey) {
     return new AsyncHttpAPIClientBuilder(appId, apiKey).build();
   }
-
 }

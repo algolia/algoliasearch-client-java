@@ -2,7 +2,6 @@ package com.algolia.search.objects.tasks.async;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -58,11 +57,17 @@ public class AsyncTasksMultipleIndex extends AsyncGenericTask<Map<String, Long>>
 
   @Override
   public String toString() {
-    return "AsyncTasksMultipleIndex{" +
-      "objectIDs=" + objectIDs +
-      ", createdAt='" + createdAt + '\'' +
-      ", indexName='" + indexName + '\'' +
-      ", taskID=" + taskID +
-      '}';
+    return "AsyncTasksMultipleIndex{"
+        + "objectIDs="
+        + objectIDs
+        + ", createdAt='"
+        + createdAt
+        + '\''
+        + ", indexName='"
+        + indexName
+        + '\''
+        + ", taskID="
+        + taskID
+        + '}';
   }
 }

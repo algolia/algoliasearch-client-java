@@ -1,6 +1,5 @@
 package com.algolia.search;
 
-import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
@@ -9,19 +8,16 @@ import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
-import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import javax.annotation.Nonnull;
 
 interface BaseAsyncIndex<T> extends AbstractIndex<T> {
 
   AsyncAPIClient getApiClient();
-
 }
 
 interface AsyncIndexCRUD<T> extends BaseAsyncIndex<T> {
@@ -29,7 +25,8 @@ interface AsyncIndexCRUD<T> extends BaseAsyncIndex<T> {
   /**
    * Moves an existing index
    *
-   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination will be overriten if it already exist)
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overriten if it already exist)
    * @return The task associated
    */
   default CompletableFuture<AsyncTask> moveTo(@Nonnull String dstIndexName) {
@@ -39,18 +36,21 @@ interface AsyncIndexCRUD<T> extends BaseAsyncIndex<T> {
   /**
    * Moves an existing index
    *
-   * @param dstIndexName   the new index name that will contains a copy of srcIndexName (destination will be overriten if it already exist)
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overriten if it already exist)
    * @param requestOptions Options to pass to this request
    * @return The task associated
    */
-  default CompletableFuture<AsyncTask> moveTo(@Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> moveTo(
+      @Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions) {
     return getApiClient().moveIndex(getName(), dstIndexName, requestOptions);
   }
 
   /**
    * Copy an existing index
    *
-   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination will be overridden if it already exist)
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overridden if it already exist)
    * @return The task associated
    */
   default CompletableFuture<AsyncTask> copyTo(@Nonnull String dstIndexName) {
@@ -60,11 +60,13 @@ interface AsyncIndexCRUD<T> extends BaseAsyncIndex<T> {
   /**
    * Copy an existing index
    *
-   * @param dstIndexName   the new index name that will contains a copy of srcIndexName (destination will be overridden if it already exist)
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overridden if it already exist)
    * @param requestOptions Options to pass to this request
    * @return The task associated
    */
-  default CompletableFuture<AsyncTask> copyTo(@Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> copyTo(
+      @Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions) {
     return getApiClient().copyIndex(getName(), dstIndexName, requestOptions);
   }
 
@@ -105,7 +107,6 @@ interface AsyncIndexCRUD<T> extends BaseAsyncIndex<T> {
   default CompletableFuture<AsyncTask> clear(@Nonnull RequestOptions requestOptions) {
     return getApiClient().clearIndex(getName(), requestOptions);
   }
-
 }
 
 interface AsyncTasks<T> extends BaseAsyncIndex<T> {
@@ -113,7 +114,7 @@ interface AsyncTasks<T> extends BaseAsyncIndex<T> {
   /**
    * Wait for the completion of a task
    *
-   * @param task       task to wait for
+   * @param task task to wait for
    * @param timeToWait the time to wait in milliseconds
    */
   default void waitTask(@Nonnull AsyncTask task, long timeToWait) {
@@ -123,11 +124,12 @@ interface AsyncTasks<T> extends BaseAsyncIndex<T> {
   /**
    * Wait for the completion of a task
    *
-   * @param task           task to wait for
-   * @param timeToWait     the time to wait in milliseconds
+   * @param task task to wait for
+   * @param timeToWait the time to wait in milliseconds
    * @param requestOptions Options to pass to this request
    */
-  default void waitTask(@Nonnull AsyncTask task, long timeToWait, @Nonnull RequestOptions requestOptions) {
+  default void waitTask(
+      @Nonnull AsyncTask task, long timeToWait, @Nonnull RequestOptions requestOptions) {
     Preconditions.checkArgument(timeToWait >= 0, "timeToWait must be >= 0, was %s", timeToWait);
     getApiClient().waitTask(task, timeToWait, requestOptions);
   }
@@ -144,13 +146,12 @@ interface AsyncTasks<T> extends BaseAsyncIndex<T> {
   /**
    * Wait for the completion of a task, for 100ms
    *
-   * @param task           task to wait for
+   * @param task task to wait for
    * @param requestOptions Options to pass to this request
    */
   default void waitTask(@Nonnull AsyncTask task, @Nonnull RequestOptions requestOptions) {
     getApiClient().waitTask(task, 100, requestOptions);
   }
-
 }
 
 interface AsyncObjects<T> extends BaseAsyncIndex<T> {
@@ -168,36 +169,39 @@ interface AsyncObjects<T> extends BaseAsyncIndex<T> {
   /**
    * Add an object in this index
    *
-   * @param object         object to add
+   * @param object object to add
    * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTaskIndexing> addObject(@Nonnull T object, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTaskIndexing> addObject(
+      @Nonnull T object, @Nonnull RequestOptions requestOptions) {
     return getApiClient().addObject(getName(), object, requestOptions);
   }
 
   /**
    * Add an object in this index with a unique identifier
    *
-   * @param objectID the objectID associated to this object
-   *                 (if this objectID already exist the old object will be overridden)
-   * @param object   object to add
+   * @param objectID the objectID associated to this object (if this objectID already exist the old
+   *     object will be overridden)
+   * @param object object to add
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTaskIndexing> addObject(@Nonnull String objectID, @Nonnull T object) {
+  default CompletableFuture<AsyncTaskIndexing> addObject(
+      @Nonnull String objectID, @Nonnull T object) {
     return addObject(objectID, object, RequestOptions.empty);
   }
 
   /**
    * Add an object in this index with a unique identifier
    *
-   * @param objectID       the objectID associated to this object
-   *                       (if this objectID already exist the old object will be overridden)
-   * @param object         object to add
+   * @param objectID the objectID associated to this object (if this objectID already exist the old
+   *     object will be overridden)
+   * @param object object to add
    * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTaskIndexing> addObject(@Nonnull String objectID, @Nonnull T object, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTaskIndexing> addObject(
+      @Nonnull String objectID, @Nonnull T object, @Nonnull RequestOptions requestOptions) {
     return getApiClient().addObject(getName(), objectID, object, requestOptions);
   }
 
@@ -214,11 +218,12 @@ interface AsyncObjects<T> extends BaseAsyncIndex<T> {
   /**
    * Add several objects
    *
-   * @param objects        objects to add
+   * @param objects objects to add
    * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTaskSingleIndex> addObjects(@Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTaskSingleIndex> addObjects(
+      @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) {
     return getApiClient().addObjects(getName(), objects, requestOptions);
   }
 
@@ -235,11 +240,12 @@ interface AsyncObjects<T> extends BaseAsyncIndex<T> {
   /**
    * Get an object from this index
    *
-   * @param objectID       the unique identifier of the object to retrieve
+   * @param objectID the unique identifier of the object to retrieve
    * @param requestOptions Options to pass to this request
    * @return The object
    */
-  default CompletableFuture<Optional<T>> getObject(@Nonnull String objectID, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<Optional<T>> getObject(
+      @Nonnull String objectID, @Nonnull RequestOptions requestOptions) {
     return getApiClient().getObject(getName(), objectID, getKlass(), requestOptions);
   }
 
@@ -256,42 +262,48 @@ interface AsyncObjects<T> extends BaseAsyncIndex<T> {
   /**
    * Get several objects from this index
    *
-   * @param objectIDs      the list of unique identifier of objects to retrieve
+   * @param objectIDs the list of unique identifier of objects to retrieve
    * @param requestOptions Options to pass to this request
    * @return the list of objects
    */
-  default CompletableFuture<List<T>> getObjects(@Nonnull List<String> objectIDs, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<List<T>> getObjects(
+      @Nonnull List<String> objectIDs, @Nonnull RequestOptions requestOptions) {
     return getApiClient().getObjects(getName(), objectIDs, getKlass(), requestOptions);
   }
 
   /**
    * Get several objects from this index
    *
-   * @param objectIDs            the list of unique identifier of objects to retrieve
+   * @param objectIDs the list of unique identifier of objects to retrieve
    * @param attributesToRetrieve the list of attributes to retrieve for these objects
    * @return the list of objects
    */
-  default CompletableFuture<List<T>> getObjects(@Nonnull List<String> objectIDs, @Nonnull List<String> attributesToRetrieve) {
+  default CompletableFuture<List<T>> getObjects(
+      @Nonnull List<String> objectIDs, @Nonnull List<String> attributesToRetrieve) {
     return getObjects(objectIDs, attributesToRetrieve, RequestOptions.empty);
   }
 
   /**
    * Get several objects from this index
    *
-   * @param objectIDs            the list of unique identifier of objects to retrieve
+   * @param objectIDs the list of unique identifier of objects to retrieve
    * @param attributesToRetrieve the list of attributes to retrieve for these objects
-   * @param requestOptions       Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the list of objects
    */
-  default CompletableFuture<List<T>> getObjects(@Nonnull List<String> objectIDs, @Nonnull List<String> attributesToRetrieve, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().getObjects(getName(), objectIDs, attributesToRetrieve, getKlass(), requestOptions);
+  default CompletableFuture<List<T>> getObjects(
+      @Nonnull List<String> objectIDs,
+      @Nonnull List<String> attributesToRetrieve,
+      @Nonnull RequestOptions requestOptions) {
+    return getApiClient()
+        .getObjects(getName(), objectIDs, attributesToRetrieve, getKlass(), requestOptions);
   }
 
   /**
    * Override the content of object
    *
    * @param objectID the unique identifier of the object to retrieve
-   * @param object   the object to update
+   * @param object the object to update
    * @return the related AsyncTask
    */
   default CompletableFuture<AsyncTask> saveObject(@Nonnull String objectID, @Nonnull T object) {
@@ -301,12 +313,13 @@ interface AsyncObjects<T> extends BaseAsyncIndex<T> {
   /**
    * Override the content of object
    *
-   * @param objectID       the unique identifier of the object to retrieve
-   * @param object         the object to update
+   * @param objectID the unique identifier of the object to retrieve
+   * @param object the object to update
    * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTask> saveObject(@Nonnull String objectID, @Nonnull T object, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> saveObject(
+      @Nonnull String objectID, @Nonnull T object, @Nonnull RequestOptions requestOptions) {
     return getApiClient().saveObject(getName(), objectID, object, requestOptions);
   }
 
@@ -323,11 +336,12 @@ interface AsyncObjects<T> extends BaseAsyncIndex<T> {
   /**
    * Override the content the list of objects
    *
-   * @param objects        the list objects to update
+   * @param objects the list objects to update
    * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTaskSingleIndex> saveObjects(@Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTaskSingleIndex> saveObjects(
+      @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) {
     return getApiClient().saveObjects(getName(), objects, requestOptions);
   }
 
@@ -344,11 +358,12 @@ interface AsyncObjects<T> extends BaseAsyncIndex<T> {
   /**
    * Delete an object from the index
    *
-   * @param objectID       the unique identifier of the object to retrieve
+   * @param objectID the unique identifier of the object to retrieve
    * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTask> deleteObject(@Nonnull String objectID, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> deleteObject(
+      @Nonnull String objectID, @Nonnull RequestOptions requestOptions) {
     return getApiClient().deleteObject(getName(), objectID, requestOptions);
   }
 
@@ -365,14 +380,14 @@ interface AsyncObjects<T> extends BaseAsyncIndex<T> {
   /**
    * Delete objects from the index
    *
-   * @param objectIDs      the list of unique identifier of the object to retrieve
+   * @param objectIDs the list of unique identifier of the object to retrieve
    * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTaskSingleIndex> deleteObjects(@Nonnull List<String> objectIDs, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTaskSingleIndex> deleteObjects(
+      @Nonnull List<String> objectIDs, @Nonnull RequestOptions requestOptions) {
     return getApiClient().deleteObjects(getName(), objectIDs, requestOptions);
   }
-
 }
 
 interface AsyncSettings<T> extends BaseAsyncIndex<T> {
@@ -409,44 +424,46 @@ interface AsyncSettings<T> extends BaseAsyncIndex<T> {
   /**
    * Set settings of this index, and do not forward to slaves
    *
-   * @param settings       the settings to set
+   * @param settings the settings to set
    * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTask> setSettings(@Nonnull IndexSettings settings, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> setSettings(
+      @Nonnull IndexSettings settings, @Nonnull RequestOptions requestOptions) {
     return setSettings(settings, false, requestOptions);
   }
 
   /**
    * Set settings of this index
    *
-   * @param settings          the settings to set
+   * @param settings the settings to set
    * @param forwardToReplicas should these updates be forwarded to the replicas
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTask> setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
+  default CompletableFuture<AsyncTask> setSettings(
+      @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
     return setSettings(settings, forwardToReplicas, RequestOptions.empty);
   }
 
   /**
    * Set settings of this index
    *
-   * @param settings          the settings to set
+   * @param settings the settings to set
    * @param forwardToReplicas should these updates be forwarded to the slaves
-   * @param requestOptions    Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the related AsyncTask
    */
-  default CompletableFuture<AsyncTask> setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> setSettings(
+      @Nonnull IndexSettings settings,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
     return getApiClient().setSettings(getName(), settings, forwardToReplicas, requestOptions);
   }
-
 }
 
 interface AsyncKey<T> extends BaseAsyncIndex<T> {
 
-  /**
-   * Deprecated: use listApiKeys
-   */
+  /** Deprecated: use listApiKeys */
   @Deprecated
   default CompletableFuture<List<ApiKey>> listKeys() {
     return listApiKeys();
@@ -471,9 +488,7 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
     return getApiClient().listKeys(getName(), requestOptions);
   }
 
-  /**
-   * Deprecated: use getApiKey
-   */
+  /** Deprecated: use getApiKey */
   @Deprecated
   default CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
     return getApiKey(key);
@@ -492,17 +507,16 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
   /**
    * Get a key by name from this index
    *
-   * @param key            the key name
+   * @param key the key name
    * @param requestOptions Options to pass to this request
    * @return the key
    */
-  default CompletableFuture<Optional<ApiKey>> getApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<Optional<ApiKey>> getApiKey(
+      @Nonnull String key, @Nonnull RequestOptions requestOptions) {
     return getApiClient().getKey(getName(), key, requestOptions);
   }
 
-  /**
-   * Deprecated: use deleteApiKey
-   */
+  /** Deprecated: use deleteApiKey */
   @Deprecated
   default CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
     return deleteApiKey(key);
@@ -521,17 +535,16 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
   /**
    * Delete a key by name from this index
    *
-   * @param key            the key name
+   * @param key the key name
    * @param requestOptions Options to pass to this request
    * @return the deleted key
    */
-  default CompletableFuture<DeleteKey> deleteApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<DeleteKey> deleteApiKey(
+      @Nonnull String key, @Nonnull RequestOptions requestOptions) {
     return getApiClient().deleteKey(getName(), key, requestOptions);
   }
 
-  /**
-   * Deprecated: use addApiKey
-   */
+  /** Deprecated: use addApiKey */
   @Deprecated
   default CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
     return addApiKey(key);
@@ -550,19 +563,19 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
   /**
    * Add a key to this index
    *
-   * @param key            the key
+   * @param key the key
    * @param requestOptions Options to pass to this request
    * @return the created key
    */
-  default CompletableFuture<CreateUpdateKey> addApiKey(@Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<CreateUpdateKey> addApiKey(
+      @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
     return getApiClient().addKey(getName(), key, requestOptions);
   }
 
-  /**
-   * Deprecated: use updateApiKey
-   */
+  /** Deprecated: use updateApiKey */
   @Deprecated
-  default CompletableFuture<CreateUpdateKey> updateKey(@Nonnull String keyName, @Nonnull ApiKey key) {
+  default CompletableFuture<CreateUpdateKey> updateKey(
+      @Nonnull String keyName, @Nonnull ApiKey key) {
     return updateApiKey(keyName, key);
   }
 
@@ -570,25 +583,26 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
    * Update a key by name from this index
    *
    * @param keyName the key name
-   * @param key     the key to update
+   * @param key the key to update
    * @return the updated key
    */
-  default CompletableFuture<CreateUpdateKey> updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key) {
+  default CompletableFuture<CreateUpdateKey> updateApiKey(
+      @Nonnull String keyName, @Nonnull ApiKey key) {
     return updateApiKey(keyName, key, RequestOptions.empty);
   }
 
   /**
    * Update a key by name from this index
    *
-   * @param keyName        the key name
-   * @param key            the key to update
+   * @param keyName the key name
+   * @param key the key to update
    * @param requestOptions Options to pass to this request
    * @return the updated key
    */
-  default CompletableFuture<CreateUpdateKey> updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<CreateUpdateKey> updateApiKey(
+      @Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
     return getApiClient().updateKey(getName(), keyName, key, requestOptions);
   }
-
 }
 
 interface AsyncSearchForFacet<T> extends BaseAsyncIndex<T> {
@@ -596,71 +610,84 @@ interface AsyncSearchForFacet<T> extends BaseAsyncIndex<T> {
   /**
    * Search in a facet
    *
-   * @param facetName  The name of the facet to search in
+   * @param facetName The name of the facet to search in
    * @param facetQuery The search query for this facet
-   * @param query      the query (not required)
+   * @param query the query (not required)
    * @return the result of the search
    */
-  default CompletableFuture<SearchFacetResult> searchForFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
+  default CompletableFuture<SearchFacetResult> searchForFacetValues(
+      @Nonnull String facetName, @Nonnull String facetQuery, Query query) {
     return searchForFacetValues(facetName, facetQuery, query, RequestOptions.empty);
   }
 
   /**
    * Search in a facet
    *
-   * @param facetName      The name of the facet to search in
-   * @param facetQuery     The search query for this facet
-   * @param query          the query (not required)
+   * @param facetName The name of the facet to search in
+   * @param facetQuery The search query for this facet
+   * @param query the query (not required)
    * @param requestOptions Options to pass to this request
    * @return the result of the search
    */
-  default CompletableFuture<SearchFacetResult> searchForFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().searchForFacetValues(getName(), facetName, facetQuery, query, requestOptions);
+  default CompletableFuture<SearchFacetResult> searchForFacetValues(
+      @Nonnull String facetName,
+      @Nonnull String facetQuery,
+      Query query,
+      @Nonnull RequestOptions requestOptions) {
+    return getApiClient()
+        .searchForFacetValues(getName(), facetName, facetQuery, query, requestOptions);
   }
 
   /**
    * Search in a facet
    *
-   * @param facetName  The name of the facet to search in
+   * @param facetName The name of the facet to search in
    * @param facetQuery The search query for this facet
    * @return the result of the search
    */
-  default CompletableFuture<SearchFacetResult> searchForFacetValues(@Nonnull String facetName, @Nonnull String facetQuery) {
+  default CompletableFuture<SearchFacetResult> searchForFacetValues(
+      @Nonnull String facetName, @Nonnull String facetQuery) {
     return this.searchForFacetValues(facetName, facetQuery, null, RequestOptions.empty);
   }
 
   /**
    * Search in a facet
    *
-   * @param facetName      The name of the facet to search in
-   * @param facetQuery     The search query for this facet
+   * @param facetName The name of the facet to search in
+   * @param facetQuery The search query for this facet
    * @param requestOptions Options to pass to this request
    * @return the result of the search
    */
-  default CompletableFuture<SearchFacetResult> searchForFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<SearchFacetResult> searchForFacetValues(
+      @Nonnull String facetName,
+      @Nonnull String facetQuery,
+      @Nonnull RequestOptions requestOptions) {
     return this.searchForFacetValues(facetName, facetQuery, null, requestOptions);
   }
 
   @Deprecated
-  default CompletableFuture<SearchFacetResult> searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
+  default CompletableFuture<SearchFacetResult> searchInFacetValues(
+      @Nonnull String facetName, @Nonnull String facetQuery, Query query) {
     return this.searchForFacetValues(facetName, facetQuery, query);
   }
 
   @Deprecated
-  default CompletableFuture<SearchFacetResult> searchInFacetValues(@Nonnull String facetName, @Nonnull String facetQuery) {
+  default CompletableFuture<SearchFacetResult> searchInFacetValues(
+      @Nonnull String facetName, @Nonnull String facetQuery) {
     return this.searchForFacetValues(facetName, facetQuery, null, RequestOptions.empty);
   }
 
   @Deprecated
-  default CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery, Query query) {
+  default CompletableFuture<SearchFacetResult> searchFacet(
+      @Nonnull String facetName, @Nonnull String facetQuery, Query query) {
     return this.searchForFacetValues(facetName, facetQuery, query);
   }
 
   @Deprecated
-  default CompletableFuture<SearchFacetResult> searchFacet(@Nonnull String facetName, @Nonnull String facetQuery) {
+  default CompletableFuture<SearchFacetResult> searchFacet(
+      @Nonnull String facetName, @Nonnull String facetQuery) {
     return this.searchForFacetValues(facetName, facetQuery);
   }
-
 }
 
 interface AsyncPartialUpdate<T> extends BaseAsyncIndex<T> {
@@ -669,24 +696,26 @@ interface AsyncPartialUpdate<T> extends BaseAsyncIndex<T> {
    * Partially update an object
    *
    * @param objectID the ID of object to update
-   * @param object   the object to update
+   * @param object the object to update
    * @return the associated task
    * @see PartialUpdateOperation & subclasses
    */
-  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull String objectID, @Nonnull Object object) {
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
+      @Nonnull String objectID, @Nonnull Object object) {
     return partialUpdateObject(objectID, object, RequestOptions.empty);
   }
 
   /**
    * Partially update an object
    *
-   * @param objectID       the ID of object to update
-   * @param object         the object to update
+   * @param objectID the ID of object to update
+   * @param object the object to update
    * @param requestOptions Options to pass to this request
    * @return the associated task
    * @see PartialUpdateOperation & subclasses
    */
-  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull String objectID, @Nonnull Object object, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
+      @Nonnull String objectID, @Nonnull Object object, @Nonnull RequestOptions requestOptions) {
     return getApiClient().partialUpdateObject(getName(), objectID, object, requestOptions);
   }
 
@@ -696,18 +725,20 @@ interface AsyncPartialUpdate<T> extends BaseAsyncIndex<T> {
    * @param objects the list of objects to update (with an objectID)
    * @return the associated task
    */
-  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(@Nonnull List<Object> objects) {
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
+      @Nonnull List<Object> objects) {
     return partialUpdateObjects(objects, RequestOptions.empty);
   }
 
   /**
    * Partially update a objects
    *
-   * @param objects        the list of objects to update (with an objectID)
+   * @param objects the list of objects to update (with an objectID)
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(@Nonnull List<Object> objects, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
+      @Nonnull List<Object> objects, @Nonnull RequestOptions requestOptions) {
     return getApiClient().partialUpdateObjects(getName(), objects, requestOptions);
   }
 
@@ -718,47 +749,53 @@ interface AsyncPartialUpdate<T> extends BaseAsyncIndex<T> {
    * @return the associated task
    * @see PartialUpdateOperation & subclasses
    */
-  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull PartialUpdateOperation operation) {
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
+      @Nonnull PartialUpdateOperation operation) {
     return partialUpdateObject(operation, true);
   }
 
   /**
    * Partially update an object, create the object if it does not exist
    *
-   * @param operation      the operation to perform on this object
+   * @param operation the operation to perform on this object
    * @param requestOptions Options to pass to this request
    * @return the associated task
    * @see PartialUpdateOperation & subclasses
    */
-  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull PartialUpdateOperation operation, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
+      @Nonnull PartialUpdateOperation operation, @Nonnull RequestOptions requestOptions) {
     return partialUpdateObject(operation, true, requestOptions);
   }
 
   /**
    * Partially update an object
    *
-   * @param operation         the operation to perform on this object
+   * @param operation the operation to perform on this object
    * @param createIfNotExists should the object be created or not
    * @return the associated task
    * @see PartialUpdateOperation & subclasses
    */
-  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull PartialUpdateOperation operation, boolean createIfNotExists) {
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
+      @Nonnull PartialUpdateOperation operation, boolean createIfNotExists) {
     return partialUpdateObject(operation, createIfNotExists, RequestOptions.empty);
   }
 
   /**
    * Partially update an object
    *
-   * @param operation         the operation to perform on this object
+   * @param operation the operation to perform on this object
    * @param createIfNotExists should the object be created or not
-   * @param requestOptions    Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    * @see PartialUpdateOperation & subclasses
    */
-  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(@Nonnull PartialUpdateOperation operation, boolean createIfNotExists, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().partialUpdateObject(getName(), operation, createIfNotExists, requestOptions);
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
+      @Nonnull PartialUpdateOperation operation,
+      boolean createIfNotExists,
+      @Nonnull RequestOptions requestOptions) {
+    return getApiClient()
+        .partialUpdateObject(getName(), operation, createIfNotExists, requestOptions);
   }
-
 }
 
 interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
@@ -767,75 +804,101 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
    * Saves/updates a synonym without replacing it and NOT forwarding it to the replicas
    *
    * @param synonymID the id of the synonym
-   * @param content   the synonym
+   * @param content the synonym
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content) {
+  default CompletableFuture<AsyncTask> saveSynonym(
+      @Nonnull String synonymID, @Nonnull AbstractSynonym content) {
     return saveSynonym(synonymID, content, false);
   }
 
   /**
    * Saves/updates a synonym without replacing it and NOT forwarding it to the slaves
    *
-   * @param synonymID      the id of the synonym
-   * @param content        the synonym
+   * @param synonymID the id of the synonym
+   * @param content the synonym
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> saveSynonym(
+      @Nonnull String synonymID,
+      @Nonnull AbstractSynonym content,
+      @Nonnull RequestOptions requestOptions) {
     return saveSynonym(synonymID, content, false, requestOptions);
   }
 
   /**
    * Saves/updates a synonym without replacing
    *
-   * @param synonymID         the id of the synonym
-   * @param content           the synonym
+   * @param synonymID the id of the synonym
+   * @param content the synonym
    * @param forwardToReplicas should this request be forwarded to replicas
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas) {
+  default CompletableFuture<AsyncTask> saveSynonym(
+      @Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas) {
     return saveSynonym(synonymID, content, forwardToReplicas, false);
   }
 
   /**
    * Saves/updates a synonym without replacing
    *
-   * @param synonymID         the id of the synonym
-   * @param content           the synonym
+   * @param synonymID the id of the synonym
+   * @param content the synonym
    * @param forwardToReplicas should this request be forwarded to slaves
-   * @param requestOptions    Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> saveSynonym(
+      @Nonnull String synonymID,
+      @Nonnull AbstractSynonym content,
+      boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
     return saveSynonym(synonymID, content, forwardToReplicas, false, requestOptions);
   }
 
   /**
    * Saves/updates a synonym
    *
-   * @param synonymID               the id of the synonym
-   * @param content                 the synonym
-   * @param forwardToReplicas       should this request be forwarded to replicas
+   * @param synonymID the id of the synonym
+   * @param content the synonym
+   * @param forwardToReplicas should this request be forwarded to replicas
    * @param replaceExistingSynonyms should replace if this synonyms exists
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas, boolean replaceExistingSynonyms) {
-    return saveSynonym(synonymID, content, forwardToReplicas, replaceExistingSynonyms, RequestOptions.empty);
+  default CompletableFuture<AsyncTask> saveSynonym(
+      @Nonnull String synonymID,
+      @Nonnull AbstractSynonym content,
+      boolean forwardToReplicas,
+      boolean replaceExistingSynonyms) {
+    return saveSynonym(
+        synonymID, content, forwardToReplicas, replaceExistingSynonyms, RequestOptions.empty);
   }
 
   /**
    * Saves/updates a synonym
    *
-   * @param synonymID               the id of the synonym
-   * @param content                 the synonym
-   * @param forwardToReplicas       should this request be forwarded to slaves
+   * @param synonymID the id of the synonym
+   * @param content the synonym
+   * @param forwardToReplicas should this request be forwarded to slaves
    * @param replaceExistingSynonyms should replace if this synonyms exists
-   * @param requestOptions          Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas, boolean replaceExistingSynonyms, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().saveSynonym(getName(), synonymID, content, forwardToReplicas, replaceExistingSynonyms, requestOptions);
+  default CompletableFuture<AsyncTask> saveSynonym(
+      @Nonnull String synonymID,
+      @Nonnull AbstractSynonym content,
+      boolean forwardToReplicas,
+      boolean replaceExistingSynonyms,
+      @Nonnull RequestOptions requestOptions) {
+    return getApiClient()
+        .saveSynonym(
+            getName(),
+            synonymID,
+            content,
+            forwardToReplicas,
+            replaceExistingSynonyms,
+            requestOptions);
   }
 
   /**
@@ -851,11 +914,12 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
   /**
    * Get a synonym by ID
    *
-   * @param synonymID      the id of the synonym
+   * @param synonymID the id of the synonym
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<Optional<AbstractSynonym>> getSynonym(@Nonnull String synonymID, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<Optional<AbstractSynonym>> getSynonym(
+      @Nonnull String synonymID, @Nonnull RequestOptions requestOptions) {
     return getApiClient().getSynonym(getName(), synonymID, requestOptions);
   }
 
@@ -872,34 +936,39 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
   /**
    * Deletes a synonym by ID and NOT forwarding it to the slaves
    *
-   * @param synonymID      the id of the synonym
+   * @param synonymID the id of the synonym
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> deleteSynonym(@Nonnull String synonymID, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> deleteSynonym(
+      @Nonnull String synonymID, @Nonnull RequestOptions requestOptions) {
     return deleteSynonym(synonymID, false, requestOptions);
   }
 
   /**
    * Deletes a synonym
    *
-   * @param synonymID         the id of the synonym
+   * @param synonymID the id of the synonym
    * @param forwardToReplicas should this request be forwarded to replicas
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> deleteSynonym(@Nonnull String synonymID, boolean forwardToReplicas) {
+  default CompletableFuture<AsyncTask> deleteSynonym(
+      @Nonnull String synonymID, boolean forwardToReplicas) {
     return deleteSynonym(synonymID, forwardToReplicas, RequestOptions.empty);
   }
 
   /**
    * Deletes a synonym
    *
-   * @param synonymID         the id of the synonym
+   * @param synonymID the id of the synonym
    * @param forwardToReplicas should this request be forwarded to slaves
-   * @param requestOptions    Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> deleteSynonym(@Nonnull String synonymID, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> deleteSynonym(
+      @Nonnull String synonymID,
+      boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
     return getApiClient().deleteSynonym(getName(), synonymID, forwardToReplicas, requestOptions);
   }
 
@@ -937,7 +1006,8 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> clearSynonyms(boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> clearSynonyms(
+      boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
     return getApiClient().clearSynonyms(getName(), forwardToReplicas, requestOptions);
   }
 
@@ -954,59 +1024,74 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
   /**
    * Search for synonyms
    *
-   * @param query          the query
+   * @param query the query
    * @param requestOptions Options to pass to this request
    * @return the results of the query
    */
-  default CompletableFuture<SearchSynonymResult> searchSynonyms(@Nonnull SynonymQuery query, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<SearchSynonymResult> searchSynonyms(
+      @Nonnull SynonymQuery query, @Nonnull RequestOptions requestOptions) {
     return getApiClient().searchSynonyms(getName(), query, requestOptions);
   }
 
   /**
    * Add or Replace a list of synonyms
    *
-   * @param synonyms                List of synonyms
-   * @param forwardToReplicas       Forward the operation to the slave indices
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward the operation to the slave indices
    * @param replaceExistingSynonyms Replace the existing synonyms with this batch
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas, boolean replaceExistingSynonyms) {
-    return batchSynonyms(synonyms, forwardToReplicas, replaceExistingSynonyms, RequestOptions.empty);
+  default CompletableFuture<AsyncTask> batchSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms,
+      boolean forwardToReplicas,
+      boolean replaceExistingSynonyms) {
+    return batchSynonyms(
+        synonyms, forwardToReplicas, replaceExistingSynonyms, RequestOptions.empty);
   }
 
   /**
    * Add or Replace a list of synonyms
    *
-   * @param synonyms                List of synonyms
-   * @param forwardToReplicas       Forward the operation to the slave indices
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward the operation to the slave indices
    * @param replaceExistingSynonyms Replace the existing synonyms with this batch
-   * @param requestOptions          Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas, boolean replaceExistingSynonyms, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().batchSynonyms(getName(), synonyms, forwardToReplicas, replaceExistingSynonyms, requestOptions);
+  default CompletableFuture<AsyncTask> batchSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms,
+      boolean forwardToReplicas,
+      boolean replaceExistingSynonyms,
+      @Nonnull RequestOptions requestOptions) {
+    return getApiClient()
+        .batchSynonyms(
+            getName(), synonyms, forwardToReplicas, replaceExistingSynonyms, requestOptions);
   }
 
   /**
    * Add or Replace a list of synonyms, no replacement
    *
-   * @param synonyms          List of synonyms
+   * @param synonyms List of synonyms
    * @param forwardToReplicas Forward the operation to the slave indices
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas) {
+  default CompletableFuture<AsyncTask> batchSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas) {
     return batchSynonyms(synonyms, forwardToReplicas, false);
   }
 
   /**
    * Add or Replace a list of synonyms, no replacement
    *
-   * @param synonyms          List of synonyms
+   * @param synonyms List of synonyms
    * @param forwardToReplicas Forward the operation to the slave indices
-   * @param requestOptions    Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> batchSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms,
+      boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
     return batchSynonyms(synonyms, forwardToReplicas, false, requestOptions);
   }
 
@@ -1023,14 +1108,14 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
   /**
    * Add or Replace a list of synonyms, no forward to slaves, and no replacement
    *
-   * @param synonyms       List of synonyms
+   * @param synonyms List of synonyms
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> batchSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms, @Nonnull RequestOptions requestOptions) {
     return batchSynonyms(synonyms, false, false, requestOptions);
   }
-
 }
 
 interface AsyncRules<T> extends BaseAsyncIndex<T> {
@@ -1039,7 +1124,7 @@ interface AsyncRules<T> extends BaseAsyncIndex<T> {
    * Saves/updates a rule without replacing it and NOT forwarding it to the replicas
    *
    * @param ruleID the id of the query rule
-   * @param rule   the query rule
+   * @param rule the query rule
    * @return the associated task
    */
   default CompletableFuture<AsyncTask> saveRule(@Nonnull String ruleID, @Nonnull Rule rule) {
@@ -1049,37 +1134,43 @@ interface AsyncRules<T> extends BaseAsyncIndex<T> {
   /**
    * Saves/updates a rule without replacing it and NOT forwarding it to the replicas
    *
-   * @param ruleID         the id of the query rule
-   * @param rule           the query rule
+   * @param ruleID the id of the query rule
+   * @param rule the query rule
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveRule(@Nonnull String ruleID, @Nonnull Rule rule, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> saveRule(
+      @Nonnull String ruleID, @Nonnull Rule rule, @Nonnull RequestOptions requestOptions) {
     return saveRule(ruleID, rule, false, requestOptions);
   }
 
   /**
    * Saves/updates a rule
    *
-   * @param ruleID            the id of the query rule
-   * @param rule              the query rule
+   * @param ruleID the id of the query rule
+   * @param rule the query rule
    * @param forwardToReplicas should this request be forwarded to replicas
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveRule(@Nonnull String ruleID, @Nonnull Rule rule, boolean forwardToReplicas) {
+  default CompletableFuture<AsyncTask> saveRule(
+      @Nonnull String ruleID, @Nonnull Rule rule, boolean forwardToReplicas) {
     return saveRule(ruleID, rule, forwardToReplicas, RequestOptions.empty);
   }
 
   /**
    * Saves/updates a rule
    *
-   * @param ruleID            the id of the query rule
-   * @param rule              the query rule
+   * @param ruleID the id of the query rule
+   * @param rule the query rule
    * @param forwardToReplicas should this request be forwarded to replicas
-   * @param requestOptions    Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> saveRule(@Nonnull String ruleID, @Nonnull Rule rule, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> saveRule(
+      @Nonnull String ruleID,
+      @Nonnull Rule rule,
+      boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
     return getApiClient().saveRule(getName(), ruleID, rule, forwardToReplicas, requestOptions);
   }
 
@@ -1096,11 +1187,12 @@ interface AsyncRules<T> extends BaseAsyncIndex<T> {
   /**
    * Get a rule by ID
    *
-   * @param ruleID         the id of the rule
+   * @param ruleID the id of the rule
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<Optional<Rule>> getRule(@Nonnull String ruleID, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<Optional<Rule>> getRule(
+      @Nonnull String ruleID, @Nonnull RequestOptions requestOptions) {
     return getApiClient().getRule(getName(), ruleID, requestOptions);
   }
 
@@ -1117,34 +1209,37 @@ interface AsyncRules<T> extends BaseAsyncIndex<T> {
   /**
    * Deletes a rule by ID and NOT forwarding it to the replicas
    *
-   * @param ruleID         the id of the query rule
+   * @param ruleID the id of the query rule
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> deleteRule(@Nonnull String ruleID, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> deleteRule(
+      @Nonnull String ruleID, @Nonnull RequestOptions requestOptions) {
     return deleteRule(ruleID, false, requestOptions);
   }
 
   /**
    * Deletes a rule
    *
-   * @param ruleID            the id of the rule
+   * @param ruleID the id of the rule
    * @param forwardToReplicas should this request be forwarded to replicas
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> deleteRule(@Nonnull String ruleID, boolean forwardToReplicas) {
+  default CompletableFuture<AsyncTask> deleteRule(
+      @Nonnull String ruleID, boolean forwardToReplicas) {
     return deleteRule(ruleID, forwardToReplicas, RequestOptions.empty);
   }
 
   /**
    * Deletes a rule
    *
-   * @param ruleID            the id of the rule
+   * @param ruleID the id of the rule
    * @param forwardToReplicas should this request be forwarded to replicas
-   * @param requestOptions    Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> deleteRule(@Nonnull String ruleID, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> deleteRule(
+      @Nonnull String ruleID, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
     return getApiClient().deleteRule(getName(), ruleID, forwardToReplicas, requestOptions);
   }
 
@@ -1182,7 +1277,8 @@ interface AsyncRules<T> extends BaseAsyncIndex<T> {
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> clearRules(boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> clearRules(
+      boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
     return getApiClient().clearRules(getName(), forwardToReplicas, requestOptions);
   }
 
@@ -1200,58 +1296,69 @@ interface AsyncRules<T> extends BaseAsyncIndex<T> {
    * Search for Rules
    *
    * @param requestOptions Options to pass to this request
-   * @param query          the query
+   * @param query the query
    * @return the results of the query
    */
-  default CompletableFuture<SearchRuleResult> searchRules(@Nonnull RuleQuery query, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<SearchRuleResult> searchRules(
+      @Nonnull RuleQuery query, @Nonnull RequestOptions requestOptions) {
     return getApiClient().searchRules(getName(), query, requestOptions);
   }
 
   /**
    * Add or replace a list of Rules
    *
-   * @param rules              List of Rules
-   * @param forwardToReplicas  Forward the operation to the replicas indices
+   * @param rules List of Rules
+   * @param forwardToReplicas Forward the operation to the replicas indices
    * @param clearExistingRules Replace the existing Rules with this batch
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchRules(@Nonnull List<Rule> rules, boolean forwardToReplicas, boolean clearExistingRules) {
+  default CompletableFuture<AsyncTask> batchRules(
+      @Nonnull List<Rule> rules, boolean forwardToReplicas, boolean clearExistingRules) {
     return batchRules(rules, forwardToReplicas, clearExistingRules, RequestOptions.empty);
   }
 
   /**
    * Add or replace a list of Rules
    *
-   * @param rules              List of Rules
-   * @param forwardToReplicas  Forward the operation to the replicas indices
+   * @param rules List of Rules
+   * @param forwardToReplicas Forward the operation to the replicas indices
    * @param clearExistingRules Replace the existing Rules with this batch
-   * @param requestOptions     Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchRules(@Nonnull List<Rule> rules, boolean forwardToReplicas, boolean clearExistingRules, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().batchRules(getName(), rules, forwardToReplicas, clearExistingRules, requestOptions);
+  default CompletableFuture<AsyncTask> batchRules(
+      @Nonnull List<Rule> rules,
+      boolean forwardToReplicas,
+      boolean clearExistingRules,
+      @Nonnull RequestOptions requestOptions) {
+    return getApiClient()
+        .batchRules(getName(), rules, forwardToReplicas, clearExistingRules, requestOptions);
   }
 
   /**
    * Add or Replace a list of Rules, no replacement
    *
-   * @param rules             List of Rules
+   * @param rules List of Rules
    * @param forwardToReplicas Forward the operation to the slave indices
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchRules(@Nonnull List<Rule> rules, boolean forwardToReplicas) {
+  default CompletableFuture<AsyncTask> batchRules(
+      @Nonnull List<Rule> rules, boolean forwardToReplicas) {
     return batchRules(rules, forwardToReplicas, false);
   }
 
   /**
    * Add or Replace a list of Rules, no replacement
    *
-   * @param rules             List of Rules
+   * @param rules List of Rules
    * @param forwardToReplicas Forward the operation to the slave indices
-   * @param requestOptions    Options to pass to this request
+   * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchRules(@Nonnull List<Rule> rules, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> batchRules(
+      @Nonnull List<Rule> rules,
+      boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
     return batchRules(rules, forwardToReplicas, false, requestOptions);
   }
 
@@ -1268,14 +1375,14 @@ interface AsyncRules<T> extends BaseAsyncIndex<T> {
   /**
    * Add or Replace a list of Rules, no forward to replicas, and no replacement
    *
-   * @param rules          List of Rules
+   * @param rules List of Rules
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> batchRules(@Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> batchRules(
+      @Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
     return batchRules(rules, false, false, requestOptions);
   }
-
 }
 
 interface AsyncDeleteByQuery<T> extends BaseAsyncIndex<T> {
@@ -1290,39 +1397,34 @@ interface AsyncDeleteByQuery<T> extends BaseAsyncIndex<T> {
   }
 
   /**
-   * Delete records matching a query
-   * Deprecated, use deleteBy
+   * Delete records matching a query Deprecated, use deleteBy
    *
-   * @param query          The query
+   * @param query The query
    * @param requestOptions Options to pass to this request
    */
-  default CompletableFuture<AsyncTask> deleteBy(@Nonnull Query query, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> deleteBy(
+      @Nonnull Query query, @Nonnull RequestOptions requestOptions) {
     return getApiClient().deleteBy(getName(), query, requestOptions);
   }
-
 }
 
 @SuppressWarnings("WeakerAccess")
-public class AsyncIndex<T> implements
-  AsyncIndexCRUD<T>,
-  AsyncTasks<T>,
-  AsyncObjects<T>,
-  AsyncSettings<T>,
-  AsyncKey<T>,
-  AsyncSearchForFacet<T>,
-  AsyncPartialUpdate<T>,
-  AsyncSynonyms<T>,
-  AsyncRules<T>,
-  AsyncDeleteByQuery<T> {
+public class AsyncIndex<T>
+    implements AsyncIndexCRUD<T>,
+        AsyncTasks<T>,
+        AsyncObjects<T>,
+        AsyncSettings<T>,
+        AsyncKey<T>,
+        AsyncSearchForFacet<T>,
+        AsyncPartialUpdate<T>,
+        AsyncSynonyms<T>,
+        AsyncRules<T>,
+        AsyncDeleteByQuery<T> {
 
-  /**
-   * Index name
-   */
+  /** Index name */
   private final String name;
 
-  /**
-   * The type of the objects in this Index
-   */
+  /** The type of the objects in this Index */
   private final Class<T> klass;
 
   private final AsyncAPIClient client;
@@ -1358,18 +1460,19 @@ public class AsyncIndex<T> implements
   /**
    * Search in the index
    *
-   * @param query          the query
+   * @param query the query
    * @param requestOptions Options to pass to this request
    * @return the result of the search, or a failed Future if the index does not exists
    */
-  public CompletableFuture<SearchResult<T>> search(@Nonnull Query query, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<SearchResult<T>> search(
+      @Nonnull Query query, @Nonnull RequestOptions requestOptions) {
     return client.search(name, query, klass, requestOptions);
   }
 
   /**
    * Custom batch
-   * <p>
-   * All operations must have index name set to <code>null</code>
+   *
+   * <p>All operations must have index name set to <code>null</code>
    *
    * @param operations the list of operations to perform on this index
    * @return the associated task
@@ -1381,23 +1484,21 @@ public class AsyncIndex<T> implements
 
   /**
    * Custom batch
-   * <p>
-   * All operations must have index name set to <code>null</code>
    *
-   * @param operations     the list of operations to perform on this index
+   * <p>All operations must have index name set to <code>null</code>
+   *
+   * @param operations the list of operations to perform on this index
    * @param requestOptions Options to pass to this request
    * @return the associated task
    * @see BatchOperation & subclasses
    */
-  public CompletableFuture<AsyncTaskSingleIndex> batch(@Nonnull List<BatchOperation> operations, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<AsyncTaskSingleIndex> batch(
+      @Nonnull List<BatchOperation> operations, @Nonnull RequestOptions requestOptions) {
     return client.batch(name, operations, requestOptions);
   }
 
   @Override
   public String toString() {
-    return "AsyncIndex{" +
-      "name='" + name + '\'' +
-      ", klass=" + klass +
-      '}';
+    return "AsyncIndex{" + "name='" + name + '\'' + ", klass=" + klass + '}';
   }
 }

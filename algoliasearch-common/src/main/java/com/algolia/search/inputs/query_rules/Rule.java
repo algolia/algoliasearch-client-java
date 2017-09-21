@@ -10,9 +10,8 @@ public class Rule {
   private Consequence consequence;
   private String description;
 
-  //For serialization
-  public Rule() {
-  }
+  // For serialization
+  public Rule() {}
 
   public String getObjectID() {
     return objectID;
@@ -49,5 +48,4 @@ public class Rule {
     this.description = description;
     return this;
   }
-
 }

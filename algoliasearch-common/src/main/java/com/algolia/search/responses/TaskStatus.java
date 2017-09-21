@@ -29,9 +29,6 @@ public class TaskStatus {
 
   @Override
   public String toString() {
-    return "TaskStatus{" +
-      "status='" + status + '\'' +
-      ", pendingTask=" + pendingTask +
-      '}';
+    return "TaskStatus{" + "status='" + status + '\'' + ", pendingTask=" + pendingTask + '}';
   }
 }

@@ -1,15 +1,13 @@
 package com.algolia.search;
 
-import com.algolia.search.objects.tasks.async.AsyncGenericTask;
-import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.api.ListAssert;
-import org.junit.Before;
-
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import com.algolia.search.objects.tasks.async.AsyncGenericTask;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import org.assertj.core.api.ListAssert;
+import org.junit.Before;
 
 public abstract class AsyncAlgoliaIntegrationTest {
 
@@ -35,8 +33,8 @@ public abstract class AsyncAlgoliaIntegrationTest {
     return assertThat(future.get(WAIT_TIME_IN_SECONDS, SECONDS));
   }
 
-  public <T> void waitForCompletion(CompletableFuture<? extends AsyncGenericTask<T>> future) throws Exception {
+  public <T> void waitForCompletion(CompletableFuture<? extends AsyncGenericTask<T>> future)
+      throws Exception {
     client.waitTask(future.get(WAIT_TIME_IN_SECONDS, SECONDS), WAIT_TIME_IN_SECONDS);
   }
-
 }
