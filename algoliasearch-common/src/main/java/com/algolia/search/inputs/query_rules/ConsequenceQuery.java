@@ -7,20 +7,19 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.io.IOException;
 
 @SuppressWarnings("WeakerAccess")
 @JsonDeserialize(using = ConsequenceQueryDeserializer.class)
 @JsonSerialize(using = ConsequenceQuerySerializer.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class ConsequenceQuery {
-}
+public abstract class ConsequenceQuery {}
 
 class ConsequenceQueryDeserializer extends JsonDeserializer<ConsequenceQuery> {
 
   @Override
-  public ConsequenceQuery deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+  public ConsequenceQuery deserialize(JsonParser p, DeserializationContext ctxt)
+      throws IOException {
     JsonToken currentToken = p.getCurrentToken();
     if (currentToken.equals(JsonToken.VALUE_STRING)) {
       return new ConsequenceQueryString(p.getValueAsString());
@@ -35,7 +34,8 @@ class ConsequenceQueryDeserializer extends JsonDeserializer<ConsequenceQuery> {
 class ConsequenceQuerySerializer extends JsonSerializer<ConsequenceQuery> {
 
   @Override
-  public void serialize(ConsequenceQuery value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+  public void serialize(ConsequenceQuery value, JsonGenerator gen, SerializerProvider serializers)
+      throws IOException {
     if (value instanceof ConsequenceQueryString) {
       gen.writeString(((ConsequenceQueryString) value).getQuery());
     } else {

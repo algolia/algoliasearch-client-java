@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +39,9 @@ public abstract class IgnorePlurals {
 
     IgnorePlurals that = (IgnorePlurals) o;
 
-    return getInsideValue() != null ? getInsideValue().equals(that.getInsideValue()) : that.getInsideValue() == null;
+    return getInsideValue() != null
+        ? getInsideValue().equals(that.getInsideValue())
+        : that.getInsideValue() == null;
   }
 
   @Override
@@ -64,9 +65,7 @@ class IgnorePluralsBoolean extends IgnorePlurals {
 
   @Override
   public String toString() {
-    return "IgnorePlurals{" +
-      "boolean=" + insideValue +
-      '}';
+    return "IgnorePlurals{" + "boolean=" + insideValue + '}';
   }
 }
 
@@ -85,16 +84,15 @@ class IgnorePluralsListString extends IgnorePlurals {
 
   @Override
   public String toString() {
-    return "IgnorePlurals{" +
-      "list=" + insideValue +
-      '}';
+    return "IgnorePlurals{" + "list=" + insideValue + '}';
   }
 }
 
 class IgnorePluralsDeserializer extends JsonDeserializer<IgnorePlurals> {
 
   @Override
-  public IgnorePlurals deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public IgnorePlurals deserialize(JsonParser p, DeserializationContext ctxt)
+      throws IOException, JsonProcessingException {
     JsonToken currentToken = p.getCurrentToken();
     if (currentToken.equals(JsonToken.VALUE_STRING)) {
       return IgnorePlurals.of(Arrays.asList(p.getValueAsString().split(",")));
@@ -108,7 +106,8 @@ class IgnorePluralsSerializer extends JsonSerializer<IgnorePlurals> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public void serialize(IgnorePlurals value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
+  public void serialize(IgnorePlurals value, JsonGenerator gen, SerializerProvider serializers)
+      throws IOException, JsonProcessingException {
     if (value instanceof IgnorePluralsBoolean) {
       gen.writeBoolean((Boolean) value.getInsideValue());
     } else if (value instanceof IgnorePluralsListString) {

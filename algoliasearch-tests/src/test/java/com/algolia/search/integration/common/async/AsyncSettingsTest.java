@@ -1,32 +1,30 @@
 package com.algolia.search.integration.common.async;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.IndexSettings;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+public abstract class AsyncSettingsTest extends AsyncAlgoliaIntegrationTest {
 
-abstract public class AsyncSettingsTest extends AsyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList(
-    "index1"
-  );
+  private static List<String> indicesNames = Arrays.asList("index1");
 
   @Before
   @After
   public void cleanUp() throws Exception {
-    List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
+    List<BatchOperation> clean =
+        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     waitForCompletion(client.batch(clean));
   }
 
@@ -46,5 +44,4 @@ abstract public class AsyncSettingsTest extends AsyncAlgoliaIntegrationTest {
     settings = index.getSettings().get();
     assertThat(settings.getAttributesForFaceting()).containsOnly("name");
   }
-
 }

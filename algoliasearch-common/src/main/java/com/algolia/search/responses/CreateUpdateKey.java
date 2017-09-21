@@ -5,9 +5,7 @@ public class CreateUpdateKey {
   private String key;
   private String createdAt;
 
-  /**
-   * Name of this key
-   */
+  /** Name of this key */
   public String getKey() {
     return key;
   }
@@ -30,9 +28,6 @@ public class CreateUpdateKey {
 
   @Override
   public String toString() {
-    return "CreateUpdateKey{" +
-      "key='" + key + '\'' +
-      ", createdAt='" + createdAt + '\'' +
-      '}';
+    return "CreateUpdateKey{" + "key='" + key + '\'' + ", createdAt='" + createdAt + '\'' + '}';
   }
 }

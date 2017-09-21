@@ -3,7 +3,11 @@ package com.algolia.search.inputs.synonym;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
+@JsonTypeInfo(
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.EXISTING_PROPERTY,
+  property = "type"
+)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = AltCorrection1.class, name = SynonymType.ALT_CORRECTION_1),
   @JsonSubTypes.Type(value = AltCorrection2.class, name = SynonymType.ALT_CORRECTION_2),
@@ -16,5 +20,4 @@ public interface AbstractSynonym {
   String getObjectID();
 
   String getType();
-
 }

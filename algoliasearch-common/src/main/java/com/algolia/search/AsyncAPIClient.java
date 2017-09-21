@@ -18,22 +18,20 @@ import com.algolia.search.objects.tasks.async.*;
 import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 
 @SuppressWarnings("WeakerAccess")
 public class AsyncAPIClient {
 
-  /**
-   * Constructor & protected stuff
-   */
+  /** Constructor & protected stuff */
   protected final AsyncAlgoliaHttpClient httpClient;
+
   protected final AsyncAPIClientConfiguration configuration;
   protected final Executor executor;
 
@@ -45,6 +43,7 @@ public class AsyncAPIClient {
 
   /**
    * Close the internal HTTP client
+   *
    * @throws AlgoliaException
    */
   public void close() throws AlgoliaException {
@@ -52,8 +51,8 @@ public class AsyncAPIClient {
   }
 
   /*
-    All public method
-   */
+   All public method
+  */
 
   /**
    * List all existing indexes
@@ -70,10 +69,16 @@ public class AsyncAPIClient {
    * @param requestOptions Options to pass to this request
    * @return A List of the indices and their metadata
    */
-  public CompletableFuture<List<Index.Attributes>> listIndices(@Nonnull RequestOptions requestOptions) {
-    CompletableFuture<Indices> result = httpClient.requestWithRetry(
-      new AlgoliaRequest<>(HttpMethod.GET, true, Arrays.asList("1", "indexes"), requestOptions, Indices.class)
-    );
+  public CompletableFuture<List<Index.Attributes>> listIndices(
+      @Nonnull RequestOptions requestOptions) {
+    CompletableFuture<Indices> result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                true,
+                Arrays.asList("1", "indexes"),
+                requestOptions,
+                Indices.class));
 
     return result.thenApply(Indices::getItems);
   }
@@ -81,9 +86,9 @@ public class AsyncAPIClient {
   /**
    * Get the index object initialized (no server call needed for initialization)
    *
-   * @param name  name of the index
+   * @param name name of the index
    * @param klass class of the object in this index
-   * @param <T>   the type of the objects in this index
+   * @param <T> the type of the objects in this index
    * @return The initialized index
    */
   public <T> AsyncIndex<T> initIndex(@Nonnull String name, @Nonnull Class<T> klass) {
@@ -116,15 +121,10 @@ public class AsyncAPIClient {
    * @return A List<Log>
    */
   public CompletableFuture<List<Log>> getLogs(@Nonnull RequestOptions requestOptions) {
-    CompletableFuture<Logs> result = httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "logs"),
-        requestOptions,
-        Logs.class
-      )
-    );
+    CompletableFuture<Logs> result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET, false, Arrays.asList("1", "logs"), requestOptions, Logs.class));
 
     return result.thenApply(Logs::getLogs);
   }
@@ -132,25 +132,32 @@ public class AsyncAPIClient {
   /**
    * Return last logs entries
    *
-   * @param offset  Specify the first entry to retrieve (0-based, 0 is the most recent log entry)
-   * @param length  Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000
+   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry)
+   * @param length Specify the maximum number of entries to retrieve starting at offset. Maximum
+   *     allowed value: 1000
    * @param logType Specify the type of log to retrieve
    * @return The List of Logs
    */
-  public CompletableFuture<List<Log>> getLogs(@Nonnull Integer offset, @Nonnull Integer length, @Nonnull LogType logType) {
+  public CompletableFuture<List<Log>> getLogs(
+      @Nonnull Integer offset, @Nonnull Integer length, @Nonnull LogType logType) {
     return getLogs(offset, length, logType, RequestOptions.empty);
   }
 
   /**
    * Return last logs entries
    *
-   * @param offset         Specify the first entry to retrieve (0-based, 0 is the most recent log entry)
-   * @param length         Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000
-   * @param logType        Specify the type of log to retrieve
+   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry)
+   * @param length Specify the maximum number of entries to retrieve starting at offset. Maximum
+   *     allowed value: 1000
+   * @param logType Specify the type of log to retrieve
    * @param requestOptions Options to pass to this request
    * @return The List of Logs
    */
-  public CompletableFuture<List<Log>> getLogs(@Nonnull Integer offset, @Nonnull Integer length, @Nonnull LogType logType, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<List<Log>> getLogs(
+      @Nonnull Integer offset,
+      @Nonnull Integer length,
+      @Nonnull LogType logType,
+      @Nonnull RequestOptions requestOptions) {
     Preconditions.checkArgument(offset >= 0, "offset must be >= 0, was %s", offset);
     Preconditions.checkArgument(length >= 0, "length must be >= 0, was %s", length);
     Map<String, String> parameters = new HashMap<>();
@@ -158,22 +165,16 @@ public class AsyncAPIClient {
     parameters.put("length", length.toString());
     parameters.put("type", logType.getName());
 
-    CompletableFuture<Logs> result = httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "logs"),
-        requestOptions,
-        Logs.class
-      ).setParameters(parameters)
-    );
+    CompletableFuture<Logs> result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.GET, false, Arrays.asList("1", "logs"), requestOptions, Logs.class)
+                .setParameters(parameters));
 
     return result.thenApply(Logs::getLogs);
   }
 
-  /**
-   * Deprecated: use listApiKeys
-   */
+  /** Deprecated: use listApiKeys */
   @Deprecated
   public CompletableFuture<List<ApiKey>> listKeys() {
     return listApiKeys();
@@ -195,22 +196,15 @@ public class AsyncAPIClient {
    * @return A List of Keys
    */
   public CompletableFuture<List<ApiKey>> listApiKeys(@Nonnull RequestOptions requestOptions) {
-    CompletableFuture<ApiKeys> result = httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "keys"),
-        requestOptions,
-        ApiKeys.class
-      )
-    );
+    CompletableFuture<ApiKeys> result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET, false, Arrays.asList("1", "keys"), requestOptions, ApiKeys.class));
 
     return result.thenApply(ApiKeys::getKeys);
   }
 
-  /**
-   * Deprecated: use getApiKey
-   */
+  /** Deprecated: use getApiKey */
   @Deprecated
   public CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
     return getApiKey(key);
@@ -229,25 +223,24 @@ public class AsyncAPIClient {
   /**
    * Get an Key from it's name
    *
-   * @param key            name of the key
+   * @param key name of the key
    * @param requestOptions Options to pass to this request
    * @return the key
    */
-  public CompletableFuture<Optional<ApiKey>> getApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "keys", key),
-        requestOptions,
-        ApiKey.class
-      )
-    ).thenApply(Optional::ofNullable);
+  public CompletableFuture<Optional<ApiKey>> getApiKey(
+      @Nonnull String key, @Nonnull RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                false,
+                Arrays.asList("1", "keys", key),
+                requestOptions,
+                ApiKey.class))
+        .thenApply(Optional::ofNullable);
   }
 
-  /**
-   * Deprecated: use deleteApiKey
-   */
+  /** Deprecated: use deleteApiKey */
   @Deprecated
   public CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
     return deleteApiKey(key);
@@ -265,24 +258,21 @@ public class AsyncAPIClient {
   /**
    * Delete an existing key
    *
-   * @param key            name of the key
+   * @param key name of the key
    * @param requestOptions Options to pass to this request
    */
-  public CompletableFuture<DeleteKey> deleteApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<DeleteKey> deleteApiKey(
+      @Nonnull String key, @Nonnull RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.DELETE,
-        false,
-        Arrays.asList("1", "keys", key),
-        requestOptions,
-        DeleteKey.class
-      )
-    );
+        new AlgoliaRequest<>(
+            HttpMethod.DELETE,
+            false,
+            Arrays.asList("1", "keys", key),
+            requestOptions,
+            DeleteKey.class));
   }
 
-  /**
-   * Deprecated: Use addApiKey
-   */
+  /** Deprecated: Use addApiKey */
   @Deprecated
   public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
     return addApiKey(key);
@@ -301,27 +291,26 @@ public class AsyncAPIClient {
   /**
    * Create a new key
    *
-   * @param key            the key with the ACLs
+   * @param key the key with the ACLs
    * @param requestOptions Options to pass to this request
    * @return the metadata of the key (such as it's name)
    */
-  public CompletableFuture<CreateUpdateKey> addApiKey(@Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<CreateUpdateKey> addApiKey(
+      @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "keys"),
-        requestOptions,
-        CreateUpdateKey.class
-      ).setData(key)
-    );
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                false,
+                Arrays.asList("1", "keys"),
+                requestOptions,
+                CreateUpdateKey.class)
+            .setData(key));
   }
 
-  /**
-   * Deprecated: use updateApiKey
-   */
+  /** Deprecated: use updateApiKey */
   @Deprecated
-  public CompletableFuture<CreateUpdateKey> updateKey(@Nonnull String keyName, @Nonnull ApiKey key) {
+  public CompletableFuture<CreateUpdateKey> updateKey(
+      @Nonnull String keyName, @Nonnull ApiKey key) {
     return updateApiKey(keyName, key);
   }
 
@@ -329,63 +318,66 @@ public class AsyncAPIClient {
    * Update a key
    *
    * @param keyName name of the key to update
-   * @param key     the key with the ACLs
+   * @param key the key with the ACLs
    * @return the metadata of the key (such as it's name)
    */
-  public CompletableFuture<CreateUpdateKey> updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key) {
+  public CompletableFuture<CreateUpdateKey> updateApiKey(
+      @Nonnull String keyName, @Nonnull ApiKey key) {
     return updateApiKey(keyName, key, RequestOptions.empty);
   }
 
   /**
    * Update a key
    *
-   * @param keyName        name of the key to update
-   * @param key            the key with the ACLs
+   * @param keyName name of the key to update
+   * @param key the key with the ACLs
    * @param requestOptions Options to pass to this request
    * @return the metadata of the key (such as it's name)
    */
-  public CompletableFuture<CreateUpdateKey> updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<CreateUpdateKey> updateApiKey(
+      @Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.PUT,
-        false,
-        Arrays.asList("1", "keys", keyName),
-        requestOptions,
-        CreateUpdateKey.class
-      ).setData(key)
-    );
+        new AlgoliaRequest<>(
+                HttpMethod.PUT,
+                false,
+                Arrays.asList("1", "keys", keyName),
+                requestOptions,
+                CreateUpdateKey.class)
+            .setData(key));
   }
 
   /**
-   * Generate a secured and public API Key from a query and an
-   * optional user token identifying the current user
+   * Generate a secured and public API Key from a query and an optional user token identifying the
+   * current user
    *
    * @param privateApiKey your private API Key
-   * @param query         contains the parameter applied to the query (used as security)
+   * @param query contains the parameter applied to the query (used as security)
    */
   @SuppressWarnings("unused")
-  public String generateSecuredApiKey(@Nonnull String privateApiKey, @Nonnull Query query) throws AlgoliaException {
+  public String generateSecuredApiKey(@Nonnull String privateApiKey, @Nonnull Query query)
+      throws AlgoliaException {
     return generateSecuredApiKey(privateApiKey, query, null);
   }
 
   /**
-   * Generate a secured and public API Key from a query and an
-   * optional user token identifying the current user
+   * Generate a secured and public API Key from a query and an optional user token identifying the
+   * current user
    *
    * @param privateApiKey your private API Key
-   * @param query         contains the parameter applied to the query (used as security)
-   * @param userToken     an optional token identifying the current user
+   * @param query contains the parameter applied to the query (used as security)
+   * @param userToken an optional token identifying the current user
    */
   @SuppressWarnings("WeakerAccess")
-  public String generateSecuredApiKey(@Nonnull String privateApiKey, @Nonnull Query query, String userToken) throws AlgoliaException {
+  public String generateSecuredApiKey(
+      @Nonnull String privateApiKey, @Nonnull Query query, String userToken)
+      throws AlgoliaException {
     return Utils.generateSecuredApiKey(privateApiKey, query, userToken);
   }
 
   /**
-   * Wait for the completion of this task
-   * /!\ WARNING /!\ This method is blocking
+   * Wait for the completion of this task /!\ WARNING /!\ This method is blocking
    *
-   * @param task       the task to wait
+   * @param task the task to wait
    * @param timeToWait the time to wait in milliseconds
    */
   public <T> void waitTask(@Nonnull AsyncGenericTask<T> task, long timeToWait) {
@@ -393,32 +385,37 @@ public class AsyncAPIClient {
   }
 
   /**
-   * Wait for the completion of this task
-   * /!\ WARNING /!\ This method is blocking
+   * Wait for the completion of this task /!\ WARNING /!\ This method is blocking
    *
-   * @param task           the task to wait
-   * @param timeToWait     the time to wait in milliseconds
+   * @param task the task to wait
+   * @param timeToWait the time to wait in milliseconds
    * @param requestOptions Options to pass to this request
    */
-  public <T> void waitTask(@Nonnull AsyncGenericTask<T> task, long timeToWait, @Nonnull RequestOptions requestOptions) {
+  public <T> void waitTask(
+      @Nonnull AsyncGenericTask<T> task, long timeToWait, @Nonnull RequestOptions requestOptions) {
     Preconditions.checkArgument(timeToWait >= 0, "timeToWait must be >= 0, was %s", timeToWait);
     while (true) {
-      CompletableFuture<TaskStatus> status = httpClient.requestWithRetry(
-        new AlgoliaRequest<>(
-          HttpMethod.GET,
-          false,
-          Arrays.asList("1", "indexes", task.getIndexName(), "task", task.getTaskIDToWaitFor().toString()),
-          requestOptions,
-          TaskStatus.class
-        )
-      );
+      CompletableFuture<TaskStatus> status =
+          httpClient.requestWithRetry(
+              new AlgoliaRequest<>(
+                  HttpMethod.GET,
+                  false,
+                  Arrays.asList(
+                      "1",
+                      "indexes",
+                      task.getIndexName(),
+                      "task",
+                      task.getTaskIDToWaitFor().toString()),
+                  requestOptions,
+                  TaskStatus.class));
 
       TaskStatus result;
       try {
         result = status.get();
       } catch (CancellationException | InterruptedException | ExecutionException e) {
-        //If the future was cancelled or the thread was interrupted or future completed exceptionally
-        //We stop
+        // If the future was cancelled or the thread was interrupted or future completed
+        // exceptionally
+        // We stop
         break;
       }
 
@@ -430,50 +427,57 @@ public class AsyncAPIClient {
       } catch (InterruptedException ignored) {
       }
       timeToWait *= 2;
-      timeToWait = timeToWait > Defaults.MAX_TIME_MS_TO_WAIT ? Defaults.MAX_TIME_MS_TO_WAIT : timeToWait;
+      timeToWait =
+          timeToWait > Defaults.MAX_TIME_MS_TO_WAIT ? Defaults.MAX_TIME_MS_TO_WAIT : timeToWait;
     }
   }
 
   /**
    * Custom batch
-   * <p>
-   * All operations must have a valid index name (not null)
+   *
+   * <p>All operations must have a valid index name (not null)
    *
    * @param operations the list of operations to perform
    * @return the associated task
    */
-  public CompletableFuture<AsyncTasksMultipleIndex> batch(@Nonnull List<BatchOperation> operations) {
+  public CompletableFuture<AsyncTasksMultipleIndex> batch(
+      @Nonnull List<BatchOperation> operations) {
     return batch(operations, RequestOptions.empty);
   }
 
   /**
    * Custom batch
-   * <p>
-   * All operations must have a valid index name (not null)
    *
-   * @param operations     the list of operations to perform
+   * <p>All operations must have a valid index name (not null)
+   *
+   * @param operations the list of operations to perform
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */
-  public CompletableFuture<AsyncTasksMultipleIndex> batch(@Nonnull List<BatchOperation> operations, @Nonnull RequestOptions requestOptions) {
-    boolean atLeastOneHaveIndexNameNull = operations.stream().anyMatch(o -> o.getIndexName() == null);
+  public CompletableFuture<AsyncTasksMultipleIndex> batch(
+      @Nonnull List<BatchOperation> operations, @Nonnull RequestOptions requestOptions) {
+    boolean atLeastOneHaveIndexNameNull =
+        operations.stream().anyMatch(o -> o.getIndexName() == null);
     if (atLeastOneHaveIndexNameNull) {
-      return Utils.completeExceptionally(new AlgoliaException("All batch operations must have an index name set"));
+      return Utils.completeExceptionally(
+          new AlgoliaException("All batch operations must have an index name set"));
     }
 
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", "*", "batch"),
-        requestOptions,
-        AsyncTasksMultipleIndex.class
-      ).setData(new BatchOperations(operations))
-    ).thenApply(AsyncTasksMultipleIndex::computeIndex);
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", "*", "batch"),
+                    requestOptions,
+                    AsyncTasksMultipleIndex.class)
+                .setData(new BatchOperations(operations)))
+        .thenApply(AsyncTasksMultipleIndex::computeIndex);
   }
 
   /**
-   * Performs multiple searches on multiple indices with the strategy <code>MultiQueriesStrategy.NONE</code>
+   * Performs multiple searches on multiple indices with the strategy <code>
+   * MultiQueriesStrategy.NONE</code>
    *
    * @param queries the queries
    * @return the result of the queries
@@ -484,575 +488,691 @@ public class AsyncAPIClient {
   }
 
   /**
-   * Performs multiple searches on multiple indices with the strategy <code>MultiQueriesStrategy.NONE</code>
+   * Performs multiple searches on multiple indices with the strategy <code>
+   * MultiQueriesStrategy.NONE</code>
    *
-   * @param queries        the queries
+   * @param queries the queries
    * @param requestOptions Options to pass to this request
    * @return the result of the queries
    */
   @SuppressWarnings("unused")
-  public CompletableFuture<MultiQueriesResult> multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<MultiQueriesResult> multipleQueries(
+      @Nonnull List<IndexQuery> queries, @Nonnull RequestOptions requestOptions) {
     return multipleQueries(queries, MultiQueriesStrategy.NONE, requestOptions);
   }
 
   /**
    * Performs multiple searches on multiple indices
    *
-   * @param queries  the queries
+   * @param queries the queries
    * @param strategy the strategy to apply to this multiple queries
    * @return the result of the queries
    */
   @SuppressWarnings("WeakerAccess")
-  public CompletableFuture<MultiQueriesResult> multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy) {
+  public CompletableFuture<MultiQueriesResult> multipleQueries(
+      @Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy) {
     return multipleQueries(queries, strategy, RequestOptions.empty);
   }
 
   /**
    * Performs multiple searches on multiple indices
    *
-   * @param queries        the queries
-   * @param strategy       the strategy to apply to this multiple queries
+   * @param queries the queries
+   * @param strategy the strategy to apply to this multiple queries
    * @param requestOptions Options to pass to this request
    * @return the result of the queries
    */
   @SuppressWarnings("WeakerAccess")
-  public CompletableFuture<MultiQueriesResult> multipleQueries(@Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<MultiQueriesResult> multipleQueries(
+      @Nonnull List<IndexQuery> queries,
+      @Nonnull MultiQueriesStrategy strategy,
+      @Nonnull RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        true,
-        Arrays.asList("1", "indexes", "*", "queries"),
-        requestOptions,
-        MultiQueriesResult.class
-      )
-        .setData(new MultipleQueriesRequests(queries))
-        .setParameters(ImmutableMap.of("strategy", strategy.getName()))
-    );
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                true,
+                Arrays.asList("1", "indexes", "*", "queries"),
+                requestOptions,
+                MultiQueriesResult.class)
+            .setData(new MultipleQueriesRequests(queries))
+            .setParameters(ImmutableMap.of("strategy", strategy.getName())));
   }
 
-  /**
-   * Package protected method for the Index class
-   **/
-
-  CompletableFuture<AsyncTask> moveIndex(String srcIndexName, String dstIndexName, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", srcIndexName, "operation"),
-        requestOptions,
-        AsyncTask.class
-      ).setData(new OperationOnIndex("move", dstIndexName))
-    ).thenApply(s -> s.setIndex(srcIndexName));
+  /** Package protected method for the Index class */
+  CompletableFuture<AsyncTask> moveIndex(
+      String srcIndexName, String dstIndexName, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setData(new OperationOnIndex("move", dstIndexName)))
+        .thenApply(s -> s.setIndex(srcIndexName));
   }
 
-  CompletableFuture<AsyncTask> copyIndex(String srcIndexName, String dstIndexName, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", srcIndexName, "operation"),
-        requestOptions,
-        AsyncTask.class
-      ).setData(new OperationOnIndex("copy", dstIndexName))
-    ).thenApply(s -> s.setIndex(srcIndexName));
+  CompletableFuture<AsyncTask> copyIndex(
+      String srcIndexName, String dstIndexName, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setData(new OperationOnIndex("copy", dstIndexName)))
+        .thenApply(s -> s.setIndex(srcIndexName));
   }
 
   CompletableFuture<AsyncTask> deleteIndex(String indexName, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.DELETE,
-        false,
-        Arrays.asList("1", "indexes", indexName),
-        requestOptions,
-        AsyncTask.class
-      )
-    ).thenApply(s -> s.setIndex(indexName));
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.DELETE,
+                false,
+                Arrays.asList("1", "indexes", indexName),
+                requestOptions,
+                AsyncTask.class))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  <T> CompletableFuture<AsyncTaskIndexing> addObject(String indexName, T object, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName),
-        requestOptions,
-        AsyncTaskIndexing.class
-      ).setData(object)
-    ).thenApply(s -> s.setIndex(indexName));
+  <T> CompletableFuture<AsyncTaskIndexing> addObject(
+      String indexName, T object, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName),
+                    requestOptions,
+                    AsyncTaskIndexing.class)
+                .setData(object))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  <T> CompletableFuture<AsyncTaskIndexing> addObject(String indexName, String objectID, T object, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.PUT,
-        false,
-        Arrays.asList("1", "indexes", indexName, objectID),
-        requestOptions,
-        AsyncTaskIndexing.class
-      ).setData(object)
-    ).thenApply(s -> s.setIndex(indexName));
+  <T> CompletableFuture<AsyncTaskIndexing> addObject(
+      String indexName, String objectID, T object, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.PUT,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, objectID),
+                    requestOptions,
+                    AsyncTaskIndexing.class)
+                .setData(object))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  <T> CompletableFuture<Optional<T>> getObject(String indexName, String objectID, Class<T> klass, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        true,
-        Arrays.asList("1", "indexes", indexName, objectID),
-        requestOptions,
-        klass
-      )
-    ).thenApply(Optional::ofNullable);
+  <T> CompletableFuture<Optional<T>> getObject(
+      String indexName, String objectID, Class<T> klass, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                true,
+                Arrays.asList("1", "indexes", indexName, objectID),
+                requestOptions,
+                klass))
+        .thenApply(Optional::ofNullable);
   }
 
-  <T> CompletableFuture<AsyncTaskSingleIndex> addObjects(String indexName, List<T> objects, RequestOptions requestOptions) {
+  <T> CompletableFuture<AsyncTaskSingleIndex> addObjects(
+      String indexName, List<T> objects, RequestOptions requestOptions) {
     return batchSingleIndex(
-      indexName,
-      objects.stream().map(BatchAddObjectOperation::new).collect(Collectors.toList()),
-      requestOptions
-    ).thenApply(s -> s.setIndex(indexName));
+            indexName,
+            objects.stream().map(BatchAddObjectOperation::new).collect(Collectors.toList()),
+            requestOptions)
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  private CompletableFuture<AsyncTaskSingleIndex> batchSingleIndex(String indexName, List<BatchOperation> operations, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "batch"),
-        requestOptions,
-        AsyncTaskSingleIndex.class
-      ).setData(new Batch(operations))
-    ).thenApply(s -> s.setIndex(indexName));
+  private CompletableFuture<AsyncTaskSingleIndex> batchSingleIndex(
+      String indexName, List<BatchOperation> operations, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "batch"),
+                    requestOptions,
+                    AsyncTaskSingleIndex.class)
+                .setData(new Batch(operations)))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  <T> CompletableFuture<AsyncTask> saveObject(String indexName, String objectID, T object, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.PUT,
-        false,
-        Arrays.asList("1", "indexes", indexName, objectID),
-        requestOptions,
-        AsyncTask.class
-      ).setData(object)
-    ).thenApply(s -> s.setIndex(indexName));
+  <T> CompletableFuture<AsyncTask> saveObject(
+      String indexName, String objectID, T object, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.PUT,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, objectID),
+                    requestOptions,
+                    AsyncTask.class)
+                .setData(object))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  <T> CompletableFuture<AsyncTaskSingleIndex> saveObjects(String indexName, List<T> objects, RequestOptions requestOptions) {
+  <T> CompletableFuture<AsyncTaskSingleIndex> saveObjects(
+      String indexName, List<T> objects, RequestOptions requestOptions) {
     return batchSingleIndex(
-      indexName,
-      objects.stream().map(BatchUpdateObjectOperation::new).collect(Collectors.toList()),
-      requestOptions
-    ).thenApply(s -> s.setIndex(indexName));
+            indexName,
+            objects.stream().map(BatchUpdateObjectOperation::new).collect(Collectors.toList()),
+            requestOptions)
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  CompletableFuture<AsyncTask> deleteObject(String indexName, String objectID, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.DELETE,
-        false,
-        Arrays.asList("1", "indexes", indexName, objectID),
-        requestOptions,
-        AsyncTask.class
-      )
-    ).thenApply(s -> s.setIndex(indexName));
+  CompletableFuture<AsyncTask> deleteObject(
+      String indexName, String objectID, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.DELETE,
+                false,
+                Arrays.asList("1", "indexes", indexName, objectID),
+                requestOptions,
+                AsyncTask.class))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  CompletableFuture<AsyncTaskSingleIndex> deleteObjects(String indexName, List<String> objectIDs, RequestOptions requestOptions) {
+  CompletableFuture<AsyncTaskSingleIndex> deleteObjects(
+      String indexName, List<String> objectIDs, RequestOptions requestOptions) {
     return batchSingleIndex(
-      indexName,
-      objectIDs.stream().map(BatchDeleteObjectOperation::new).collect(Collectors.toList()),
-      requestOptions
-    ).thenApply(s -> s.setIndex(indexName));
+            indexName,
+            objectIDs.stream().map(BatchDeleteObjectOperation::new).collect(Collectors.toList()),
+            requestOptions)
+        .thenApply(s -> s.setIndex(indexName));
   }
 
   CompletableFuture<AsyncTask> clearIndex(String indexName, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "clear"),
-        requestOptions,
-        AsyncTask.class
-      )
-    ).thenApply(s -> s.setIndex(indexName));
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.POST,
+                false,
+                Arrays.asList("1", "indexes", indexName, "clear"),
+                requestOptions,
+                AsyncTask.class))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
   @SuppressWarnings("unchecked")
-  <T> CompletableFuture<List<T>> getObjects(String indexName, List<String> objectIDs, Class<T> klass, RequestOptions requestOptions) {
-    Requests requests = new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o)).collect(Collectors.toList()));
-    AlgoliaRequest<Results> algoliaRequest = new AlgoliaRequest<>(
-      HttpMethod.POST,
-      true,
-      Arrays.asList("1", "indexes", "*", "objects"),
-      requestOptions,
-      Results.class,
-      klass
-    );
+  <T> CompletableFuture<List<T>> getObjects(
+      String indexName, List<String> objectIDs, Class<T> klass, RequestOptions requestOptions) {
+    Requests requests =
+        new Requests(
+            objectIDs
+                .stream()
+                .map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o))
+                .collect(Collectors.toList()));
+    AlgoliaRequest<Results> algoliaRequest =
+        new AlgoliaRequest<>(
+            HttpMethod.POST,
+            true,
+            Arrays.asList("1", "indexes", "*", "objects"),
+            requestOptions,
+            Results.class,
+            klass);
 
     return httpClient
-      .requestWithRetry(algoliaRequest.setData(requests))
-      .thenApply(Results::getResults);
+        .requestWithRetry(algoliaRequest.setData(requests))
+        .thenApply(Results::getResults);
   }
 
   @SuppressWarnings("unchecked")
-  <T> CompletableFuture<List<T>> getObjects(String indexName, List<String> objectIDs, List<String> attributesToRetrieve, Class<T> klass, RequestOptions requestOptions) {
+  <T> CompletableFuture<List<T>> getObjects(
+      String indexName,
+      List<String> objectIDs,
+      List<String> attributesToRetrieve,
+      Class<T> klass,
+      RequestOptions requestOptions) {
     String encodedAttributesToRetrieve = String.join(",", attributesToRetrieve);
-    Requests requests = new Requests(objectIDs.stream().map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o).setAttributesToRetrieve(encodedAttributesToRetrieve)).collect(Collectors.toList()));
-    AlgoliaRequest<Results> algoliaRequest = new AlgoliaRequest<>(
-      HttpMethod.POST,
-      true,
-      Arrays.asList("1", "indexes", "*", "objects"),
-      requestOptions,
-      Results.class,
-      klass
-    );
+    Requests requests =
+        new Requests(
+            objectIDs
+                .stream()
+                .map(
+                    o ->
+                        new Requests.Request()
+                            .setIndexName(indexName)
+                            .setObjectID(o)
+                            .setAttributesToRetrieve(encodedAttributesToRetrieve))
+                .collect(Collectors.toList()));
+    AlgoliaRequest<Results> algoliaRequest =
+        new AlgoliaRequest<>(
+            HttpMethod.POST,
+            true,
+            Arrays.asList("1", "indexes", "*", "objects"),
+            requestOptions,
+            Results.class,
+            klass);
 
     return httpClient
-      .requestWithRetry(algoliaRequest.setData(requests))
-      .thenApply(Results::getResults);
+        .requestWithRetry(algoliaRequest.setData(requests))
+        .thenApply(Results::getResults);
   }
 
   CompletableFuture<IndexSettings> getSettings(String indexName, RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        true,
-        Arrays.asList("1", "indexes", indexName, "settings"),
-        requestOptions,
-        IndexSettings.class
-      ).setParameters(ImmutableMap.of("getVersion", "2"))
-    );
+        new AlgoliaRequest<>(
+                HttpMethod.GET,
+                true,
+                Arrays.asList("1", "indexes", indexName, "settings"),
+                requestOptions,
+                IndexSettings.class)
+            .setParameters(ImmutableMap.of("getVersion", "2")));
   }
 
-  CompletableFuture<AsyncTask> setSettings(String indexName, IndexSettings settings, Boolean forwardToReplicas, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.PUT,
-        false,
-        Arrays.asList("1", "indexes", indexName, "settings"),
-        requestOptions,
-        AsyncTask.class
-      )
-        .setData(settings)
-        .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
-    ).thenApply(s -> s.setIndex(indexName));
+  CompletableFuture<AsyncTask> setSettings(
+      String indexName,
+      IndexSettings settings,
+      Boolean forwardToReplicas,
+      RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.PUT,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "settings"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setData(settings)
+                .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString())))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
   CompletableFuture<List<ApiKey>> listKeys(String indexName, RequestOptions requestOptions) {
-    CompletableFuture<ApiKeys> result = httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "indexes", indexName, "keys"),
-        requestOptions,
-        ApiKeys.class
-      )
-    );
+    CompletableFuture<ApiKeys> result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                false,
+                Arrays.asList("1", "indexes", indexName, "keys"),
+                requestOptions,
+                ApiKeys.class));
 
     return result.thenApply(ApiKeys::getKeys);
   }
 
-  CompletableFuture<Optional<ApiKey>> getKey(String indexName, String key, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.GET,
-        false,
-        Arrays.asList("1", "indexes", indexName, "keys", key),
-        requestOptions,
-        ApiKey.class
-      )
-    ).thenApply(Optional::ofNullable);
+  CompletableFuture<Optional<ApiKey>> getKey(
+      String indexName, String key, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                false,
+                Arrays.asList("1", "indexes", indexName, "keys", key),
+                requestOptions,
+                ApiKey.class))
+        .thenApply(Optional::ofNullable);
   }
 
-  CompletableFuture<DeleteKey> deleteKey(String indexName, String key, RequestOptions requestOptions) {
+  CompletableFuture<DeleteKey> deleteKey(
+      String indexName, String key, RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.DELETE,
-        false,
-        Arrays.asList("1", "indexes", indexName, "keys", key),
-        requestOptions,
-        DeleteKey.class
-      )
-    );
+        new AlgoliaRequest<>(
+            HttpMethod.DELETE,
+            false,
+            Arrays.asList("1", "indexes", indexName, "keys", key),
+            requestOptions,
+            DeleteKey.class));
   }
 
-  CompletableFuture<CreateUpdateKey> addKey(String indexName, ApiKey key, RequestOptions requestOptions) {
+  CompletableFuture<CreateUpdateKey> addKey(
+      String indexName, ApiKey key, RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "keys"),
-        requestOptions,
-        CreateUpdateKey.class
-      ).setData(key)
-    );
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                false,
+                Arrays.asList("1", "indexes", indexName, "keys"),
+                requestOptions,
+                CreateUpdateKey.class)
+            .setData(key));
   }
 
-  CompletableFuture<CreateUpdateKey> updateKey(String indexName, String keyName, ApiKey key, RequestOptions requestOptions) {
+  CompletableFuture<CreateUpdateKey> updateKey(
+      String indexName, String keyName, ApiKey key, RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.PUT,
-        false,
-        Arrays.asList("1", "indexes", indexName, "keys", keyName),
-        requestOptions,
-        CreateUpdateKey.class
-      ).setData(key)
-    );
+        new AlgoliaRequest<>(
+                HttpMethod.PUT,
+                false,
+                Arrays.asList("1", "indexes", indexName, "keys", keyName),
+                requestOptions,
+                CreateUpdateKey.class)
+            .setData(key));
   }
 
   @SuppressWarnings("unchecked")
-  <T> CompletableFuture<SearchResult<T>> search(String indexName, Query query, Class<T> klass, RequestOptions requestOptions) {
-    AlgoliaRequest<SearchResult<T>> algoliaRequest = new AlgoliaRequest(
-      HttpMethod.POST,
-      true,
-      Arrays.asList("1", "indexes", indexName, "query"),
-      requestOptions,
-      SearchResult.class,
-      klass
-    );
+  <T> CompletableFuture<SearchResult<T>> search(
+      String indexName, Query query, Class<T> klass, RequestOptions requestOptions) {
+    AlgoliaRequest<SearchResult<T>> algoliaRequest =
+        new AlgoliaRequest(
+            HttpMethod.POST,
+            true,
+            Arrays.asList("1", "indexes", indexName, "query"),
+            requestOptions,
+            SearchResult.class,
+            klass);
 
     return httpClient
-      .requestWithRetry(algoliaRequest.setData(query))
-      .thenCompose(result -> {
-        CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
-        if (result == null) { //Special case when the index does not exists
-          r.completeExceptionally(new AlgoliaIndexNotFoundException(indexName + " does not exist"));
-        } else {
-          r.complete(result);
-        }
-        return r;
-      });
+        .requestWithRetry(algoliaRequest.setData(query))
+        .thenCompose(
+            result -> {
+              CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
+              if (result == null) { // Special case when the index does not exists
+                r.completeExceptionally(
+                    new AlgoliaIndexNotFoundException(indexName + " does not exist"));
+              } else {
+                r.complete(result);
+              }
+              return r;
+            });
   }
 
-  CompletableFuture<AsyncTaskSingleIndex> batch(String indexName, List<BatchOperation> operations, RequestOptions requestOptions) {
-    //Special case for single index batches, indexName of operations should be null
-    boolean onSameIndex = operations.stream().allMatch(o -> java.util.Objects.equals(null, o.getIndexName()));
+  CompletableFuture<AsyncTaskSingleIndex> batch(
+      String indexName, List<BatchOperation> operations, RequestOptions requestOptions) {
+    // Special case for single index batches, indexName of operations should be null
+    boolean onSameIndex =
+        operations.stream().allMatch(o -> java.util.Objects.equals(null, o.getIndexName()));
     if (!onSameIndex) {
       Utils.completeExceptionally(new AlgoliaException("All operations are not on the same index"));
     }
 
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "batch"),
-        requestOptions,
-        AsyncTaskSingleIndex.class
-      ).setData(new BatchOperations(operations))
-    ).thenApply(s -> s.setIndex(indexName));
-  }
-
-  CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(String indexName, PartialUpdateOperation operation, Boolean createIfNotExists, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, operation.getObjectID(), "partial"),
-        requestOptions,
-        AsyncTaskSingleIndex.class
-      ).setParameters(ImmutableMap.of("createIfNotExists", createIfNotExists.toString())).setData(operation.toSerialize())
-    ).thenApply(s -> s.setIndex(indexName));
-  }
-
-  CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(String indexName, String objectID, Object object, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, objectID, "partial"),
-        requestOptions,
-        AsyncTaskSingleIndex.class
-      ).setData(object)
-    ).thenApply(s -> s.setIndex(indexName));
-  }
-
-  CompletableFuture<AsyncTask> saveSynonym(String indexName, String synonymID, AbstractSynonym content, Boolean forwardToReplicas, Boolean replaceExistingSynonyms, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.PUT,
-        false,
-        Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
-        requestOptions,
-        AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString())).setData(content)
-    ).thenApply(s -> s.setIndex(indexName));
-  }
-
-  CompletableFuture<Optional<AbstractSynonym>> getSynonym(String indexName, String synonymID, RequestOptions requestOptions) {
     return httpClient
-      .requestWithRetry(
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "batch"),
+                    requestOptions,
+                    AsyncTaskSingleIndex.class)
+                .setData(new BatchOperations(operations)))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
+      String indexName,
+      PartialUpdateOperation operation,
+      Boolean createIfNotExists,
+      RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, operation.getObjectID(), "partial"),
+                    requestOptions,
+                    AsyncTaskSingleIndex.class)
+                .setParameters(ImmutableMap.of("createIfNotExists", createIfNotExists.toString()))
+                .setData(operation.toSerialize()))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
+      String indexName, String objectID, Object object, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, objectID, "partial"),
+                    requestOptions,
+                    AsyncTaskSingleIndex.class)
+                .setData(object))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<AsyncTask> saveSynonym(
+      String indexName,
+      String synonymID,
+      AbstractSynonym content,
+      Boolean forwardToReplicas,
+      Boolean replaceExistingSynonyms,
+      RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.PUT,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
+                    requestOptions,
+                    AsyncTask.class)
+                .setParameters(
+                    ImmutableMap.of(
+                        "forwardToReplicas",
+                        forwardToReplicas.toString(),
+                        "replaceExistingSynonyms",
+                        replaceExistingSynonyms.toString()))
+                .setData(content))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<Optional<AbstractSynonym>> getSynonym(
+      String indexName, String synonymID, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                false,
+                Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
+                requestOptions,
+                AbstractSynonym.class))
+        .thenApply(Optional::ofNullable);
+  }
+
+  CompletableFuture<AsyncTask> deleteSynonym(
+      String indexName,
+      String synonymID,
+      Boolean forwardToReplicas,
+      RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.DELETE,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
+                    requestOptions,
+                    AsyncTask.class)
+                .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString())))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<AsyncTask> clearSynonyms(
+      String indexName, Boolean forwardToReplicas, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "synonyms", "clear"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString())))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<SearchSynonymResult> searchSynonyms(
+      String indexName, SynonymQuery query, RequestOptions requestOptions) {
+    return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
-          HttpMethod.GET,
-          false,
-          Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
-          requestOptions,
-          AbstractSynonym.class
-        )
-      )
-      .thenApply(Optional::ofNullable);
+                HttpMethod.POST,
+                false,
+                Arrays.asList("1", "indexes", indexName, "synonyms", "search"),
+                requestOptions,
+                SearchSynonymResult.class)
+            .setData(query));
   }
 
-  CompletableFuture<AsyncTask> deleteSynonym(String indexName, String synonymID, Boolean forwardToReplicas, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.DELETE,
-        false,
-        Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
-        requestOptions,
-        AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
-    ).thenApply(s -> s.setIndex(indexName));
+  CompletableFuture<AsyncTask> batchSynonyms(
+      String indexName,
+      List<AbstractSynonym> synonyms,
+      Boolean forwardToReplicas,
+      Boolean replaceExistingSynonyms,
+      RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "synonyms", "batch"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setParameters(
+                    ImmutableMap.of(
+                        "forwardToReplicas",
+                        forwardToReplicas.toString(),
+                        "replaceExistingSynonyms",
+                        replaceExistingSynonyms.toString()))
+                .setData(synonyms))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  CompletableFuture<AsyncTask> clearSynonyms(String indexName, Boolean forwardToReplicas, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "synonyms", "clear"),
-        requestOptions,
-        AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
-    ).thenApply(s -> s.setIndex(indexName));
-  }
-
-  CompletableFuture<SearchSynonymResult> searchSynonyms(String indexName, SynonymQuery query, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "synonyms", "search"),
-        requestOptions,
-        SearchSynonymResult.class
-      ).setData(query)
-    );
-  }
-
-  CompletableFuture<AsyncTask> batchSynonyms(String indexName, List<AbstractSynonym> synonyms, Boolean forwardToReplicas, Boolean replaceExistingSynonyms, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "synonyms", "batch"),
-        requestOptions,
-        AsyncTask.class
-      )
-        .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "replaceExistingSynonyms", replaceExistingSynonyms.toString()))
-        .setData(synonyms)
-    ).thenApply(s -> s.setIndex(indexName));
-  }
-
-  CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(String indexName, List<Object> objects, RequestOptions requestOptions) {
+  CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
+      String indexName, List<Object> objects, RequestOptions requestOptions) {
     return batch(
-      indexName,
-      objects.stream().map(BatchPartialUpdateObjectOperation::new).collect(Collectors.toList()),
-      requestOptions
-    ).thenApply(s -> s.setIndex(indexName));
+            indexName,
+            objects
+                .stream()
+                .map(BatchPartialUpdateObjectOperation::new)
+                .collect(Collectors.toList()),
+            requestOptions)
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  CompletableFuture<SearchFacetResult> searchForFacetValues(String indexName, String facetName, String facetQuery, Query query, RequestOptions requestOptions) {
+  CompletableFuture<SearchFacetResult> searchForFacetValues(
+      String indexName,
+      String facetName,
+      String facetQuery,
+      Query query,
+      RequestOptions requestOptions) {
     query = query == null ? new Query() : query;
     query = query.addCustomParameter("facetQuery", facetQuery);
 
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        true,
-        Arrays.asList("1", "indexes", indexName, "facets", facetName, "query"),
-        requestOptions,
-        SearchFacetResult.class
-      ).setData(query)
-    );
-  }
-
-  CompletableFuture<AsyncTask> saveRule(String indexName, String queryRuleID, Rule queryRule, Boolean forwardToReplicas, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.PUT,
-        false,
-        Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
-        requestOptions,
-        AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString())).setData(queryRule)
-    ).thenApply(s -> s.setIndex(indexName));
-  }
-
-  CompletableFuture<Optional<Rule>> getRule(String indexName, String queryRuleID, RequestOptions requestOptions) {
-    return httpClient
-      .requestWithRetry(
         new AlgoliaRequest<>(
-          HttpMethod.GET,
-          false,
-          Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
-          requestOptions,
-          Rule.class
-        )
-      )
-      .thenApply(Optional::ofNullable);
+                HttpMethod.POST,
+                true,
+                Arrays.asList("1", "indexes", indexName, "facets", facetName, "query"),
+                requestOptions,
+                SearchFacetResult.class)
+            .setData(query));
   }
 
-  CompletableFuture<AsyncTask> deleteRule(String indexName, String queryRuleID, Boolean forwardToReplicas, RequestOptions requestOptions) {
+  CompletableFuture<AsyncTask> saveRule(
+      String indexName,
+      String queryRuleID,
+      Rule queryRule,
+      Boolean forwardToReplicas,
+      RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.PUT,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
+                    requestOptions,
+                    AsyncTask.class)
+                .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
+                .setData(queryRule))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<Optional<Rule>> getRule(
+      String indexName, String queryRuleID, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                false,
+                Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
+                requestOptions,
+                Rule.class))
+        .thenApply(Optional::ofNullable);
+  }
+
+  CompletableFuture<AsyncTask> deleteRule(
+      String indexName,
+      String queryRuleID,
+      Boolean forwardToReplicas,
+      RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.DELETE,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
+                    requestOptions,
+                    AsyncTask.class)
+                .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString())))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<AsyncTask> clearRules(
+      String indexName, Boolean forwardToReplicas, RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "rules", "clear"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString())))
+        .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<SearchRuleResult> searchRules(
+      String indexName, RuleQuery query, RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.DELETE,
-        false,
-        Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
-        requestOptions,
-        AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
-    ).thenApply(s -> s.setIndex(indexName));
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                false,
+                Arrays.asList("1", "indexes", indexName, "rules", "search"),
+                requestOptions,
+                SearchRuleResult.class)
+            .setData(query));
   }
 
-  CompletableFuture<AsyncTask> clearRules(String indexName, Boolean forwardToReplicas, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "rules", "clear"),
-        requestOptions,
-        AsyncTask.class
-      ).setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
-    ).thenApply(s -> s.setIndex(indexName));
+  CompletableFuture<AsyncTask> batchRules(
+      String indexName,
+      List<Rule> rules,
+      Boolean forwardToReplicas,
+      Boolean clearExistingRules,
+      RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "rules", "batch"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setParameters(
+                    ImmutableMap.of(
+                        "forwardToReplicas",
+                        forwardToReplicas.toString(),
+                        "clearExistingRules",
+                        clearExistingRules.toString()))
+                .setData(rules))
+        .thenApply(s -> s.setIndex(indexName));
   }
 
-  CompletableFuture<SearchRuleResult> searchRules(String indexName, RuleQuery query, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "rules", "search"),
-        requestOptions,
-        SearchRuleResult.class
-      ).setData(query)
-    );
-  }
-
-  CompletableFuture<AsyncTask> batchRules(String indexName, List<Rule> rules, Boolean forwardToReplicas, Boolean clearExistingRules, RequestOptions requestOptions) {
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "rules", "batch"),
-        requestOptions,
-        AsyncTask.class
-      )
-        .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString(), "clearExistingRules", clearExistingRules.toString()))
-        .setData(rules)
-    ).thenApply(s -> s.setIndex(indexName));
-  }
-
-  CompletableFuture<AsyncTask> deleteBy(String indexName, Query query, RequestOptions requestOptions) {
+  CompletableFuture<AsyncTask> deleteBy(
+      String indexName, Query query, RequestOptions requestOptions) {
     query = query == null ? new Query() : query;
-    return httpClient.requestWithRetry(
-      new AlgoliaRequest<>(
-        HttpMethod.POST,
-        false,
-        Arrays.asList("1", "indexes", indexName, "deleteByQuery"),
-        requestOptions,
-        AsyncTask.class
-      )
-        .setData(query)
-    ).thenApply(s -> s.setIndex(indexName));
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", indexName, "deleteByQuery"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setData(query))
+        .thenApply(s -> s.setIndex(indexName));
   }
 }

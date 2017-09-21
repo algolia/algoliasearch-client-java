@@ -17,8 +17,6 @@ public class SearchFacetResult {
 
   @Override
   public String toString() {
-    return "SearchFacetResult{" +
-      "facetHits=" + facetHits +
-      '}';
+    return "SearchFacetResult{" + "facetHits=" + facetHits + '}';
   }
 }

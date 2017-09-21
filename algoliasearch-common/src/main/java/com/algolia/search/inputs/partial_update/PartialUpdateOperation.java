@@ -5,6 +5,6 @@ import java.util.Map;
 public interface PartialUpdateOperation {
 
   String getObjectID();
-  Map<String, ?> toSerialize();
 
+  Map<String, ?> toSerialize();
 }

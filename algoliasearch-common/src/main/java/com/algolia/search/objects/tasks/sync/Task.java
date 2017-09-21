@@ -46,10 +46,14 @@ public class Task extends GenericTask<Long> {
 
   @Override
   public String toString() {
-    return "Task{" +
-      "apiClient=" + apiClient +
-      ", indexName='" + indexName + '\'' +
-      ", taskID=" + taskID +
-      '}';
+    return "Task{"
+        + "apiClient="
+        + apiClient
+        + ", indexName='"
+        + indexName
+        + '\''
+        + ", taskID="
+        + taskID
+        + '}';
   }
 }

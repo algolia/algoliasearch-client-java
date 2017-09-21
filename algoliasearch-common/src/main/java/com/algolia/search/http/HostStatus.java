@@ -17,5 +17,4 @@ class HostStatus {
   boolean isUpOrCouldBeRetried(Instant now) {
     return isUp || Math.abs(now.toEpochMilli() - lastModifiedTimestamp) >= hostDownTimeout;
   }
-
 }

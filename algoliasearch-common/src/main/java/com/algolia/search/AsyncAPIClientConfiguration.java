@@ -1,7 +1,6 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;

@@ -7,8 +7,7 @@ public class ConsequencePromote {
   private String objectID;
   private Integer position;
 
-  public ConsequencePromote() {
-  }
+  public ConsequencePromote() {}
 
   public String getObjectID() {
     return objectID;

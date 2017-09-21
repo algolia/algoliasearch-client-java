@@ -1,13 +1,10 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.annotation.Nonnull;
 import java.util.List;
+import javax.annotation.Nonnull;
 
-/**
- * Base class to create APIClient
- */
+/** Base class to create APIClient */
 @SuppressWarnings("WeakerAccess")
 public abstract class APIClientBuilder extends GenericAPIClientBuilder {
 
@@ -15,7 +12,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    * Initialize this builder with the applicationId and apiKey
    *
    * @param applicationId APP_ID can be found on https://www.algolia.com/api-keys
-   * @param apiKey        Algolia API_KEY can also be found on https://www.algolia.com/api-keys
+   * @param apiKey Algolia API_KEY can also be found on https://www.algolia.com/api-keys
    */
   public APIClientBuilder(@Nonnull String applicationId, @Nonnull String apiKey) {
     super(applicationId, apiKey);
@@ -24,12 +21,13 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
   /**
    * Customize the user agent
    *
-   * @param customAgent        key to add to the user agent
+   * @param customAgent key to add to the user agent
    * @param customAgentVersion value of this key to add to the user agent
    * @return this
    */
   @Override
-  public APIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
+  public APIClientBuilder setUserAgent(
+      @Nonnull String customAgent, @Nonnull String customAgentVersion) {
     super.setUserAgent(customAgent, customAgentVersion);
     return this;
   }
@@ -37,7 +35,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
   /**
    * Set extra headers to the requests
    *
-   * @param key   name of the header
+   * @param key name of the header
    * @param value value of the header
    * @return this
    */
@@ -122,18 +120,16 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    */
   public APIClient build() {
     return build(
-      new APIClientConfiguration()
-        .setApplicationId(applicationId)
-        .setApiKey(apiKey)
-        .setObjectMapper(objectMapper)
-        .setBuildHosts(generateBuildHosts())
-        .setQueryHosts(generateQueryHosts())
-        .setHeaders(generateHeaders())
-        .setConnectTimeout(connectTimeout)
-        .setReadTimeout(readTimeout)
-        .setHostDownTimeout(hostDownTimeout)
-        .setMaxConnTotal(maxConnTotal)
-    );
+        new APIClientConfiguration()
+            .setApplicationId(applicationId)
+            .setApiKey(apiKey)
+            .setObjectMapper(objectMapper)
+            .setBuildHosts(generateBuildHosts())
+            .setQueryHosts(generateQueryHosts())
+            .setHeaders(generateHeaders())
+            .setConnectTimeout(connectTimeout)
+            .setReadTimeout(readTimeout)
+            .setHostDownTimeout(hostDownTimeout)
+            .setMaxConnTotal(maxConnTotal));
   }
-
 }

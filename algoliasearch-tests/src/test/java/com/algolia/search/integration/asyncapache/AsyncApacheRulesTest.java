@@ -10,5 +10,4 @@ public class AsyncApacheRulesTest extends AsyncRulesTest {
   public AsyncAPIClient createInstance(String appId, String apiKey) {
     return new AsyncHttpAPIClientBuilder(appId, apiKey).build();
   }
-
 }

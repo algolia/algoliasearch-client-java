@@ -19,9 +19,7 @@ public class BatchPartialUpdateObjectNoCreateOperation<T> implements BatchOperat
     this.indexName = indexName;
   }
 
-  /**
-   * @param body
-   */
+  /** @param body */
   public BatchPartialUpdateObjectNoCreateOperation(T body) {
     this((String) null, body);
   }
@@ -47,5 +45,4 @@ public class BatchPartialUpdateObjectNoCreateOperation<T> implements BatchOperat
   public String getIndexName() {
     return indexName;
   }
-
 }

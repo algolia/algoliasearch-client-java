@@ -4,7 +4,6 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.responses.BrowseResult;
-
 import java.util.Iterator;
 
 public class IndexIterator<T> implements Iterator<T> {
@@ -19,7 +18,13 @@ public class IndexIterator<T> implements Iterator<T> {
   private boolean isFirstRequest = true;
   private Iterator<T> currentIterator = null;
 
-  IndexIterator(APIClient apiClient, String indexName, Query query, String cursor, RequestOptions options, Class<T> klass) {
+  IndexIterator(
+      APIClient apiClient,
+      String indexName,
+      Query query,
+      String cursor,
+      RequestOptions options,
+      Class<T> klass) {
     this.apiClient = apiClient;
     this.indexName = indexName;
     this.query = query;
@@ -58,12 +63,13 @@ public class IndexIterator<T> implements Iterator<T> {
   private BrowseResult<T> doQuery(String cursor) {
     try {
       BrowseResult<T> browseResult = apiClient.browse(indexName, query, cursor, klass, options);
-      if (browseResult == null) { //Non existing index
+      if (browseResult == null) { // Non existing index
         return BrowseResult.empty();
       }
       return browseResult;
     } catch (AlgoliaException e) {
-      //If there is a jackson exception we have to throw a runtime because Iterator doesn't have exceptions
+      // If there is a jackson exception we have to throw a runtime because Iterator doesn't have
+      // exceptions
       throw new RuntimeException(e);
     }
   }

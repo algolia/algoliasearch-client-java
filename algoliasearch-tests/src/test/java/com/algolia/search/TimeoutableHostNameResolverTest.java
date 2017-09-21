@@ -1,11 +1,10 @@
 package com.algolia.search;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 public class TimeoutableHostNameResolverTest {
 
@@ -24,5 +23,4 @@ public class TimeoutableHostNameResolverTest {
   public void resolveTimeout() throws IOException {
     resolver.resolve("java-8-dsn.algolia.biz");
   }
-
 }

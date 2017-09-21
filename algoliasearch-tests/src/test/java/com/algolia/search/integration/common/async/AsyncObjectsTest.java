@@ -1,41 +1,33 @@
 package com.algolia.search.integration.common.async;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AlgoliaObjectWithID;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+public abstract class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
 
-abstract public class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList(
-    "index1",
-    "index2",
-    "index3",
-    "index4",
-    "index5",
-    "index6",
-    "index7",
-    "index8"
-  );
+  private static List<String> indicesNames =
+      Arrays.asList("index1", "index2", "index3", "index4", "index5", "index6", "index7", "index8");
 
   @Before
   @After
   public void cleanUp() throws Exception {
-    List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
+    List<BatchOperation> clean =
+        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     waitForCompletion(client.batch(clean));
   }
 
@@ -66,13 +58,14 @@ abstract public class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
   @Test
   public void addObjects() throws Exception {
     AsyncIndex<AlgoliaObjectWithID> index = client.initIndex("index3", AlgoliaObjectWithID.class);
-    List<AlgoliaObjectWithID> objectsWithID = Arrays.asList(
-      new AlgoliaObjectWithID("1", "algolia", 4),
-      new AlgoliaObjectWithID("2", "algolia", 4)
-    );
+    List<AlgoliaObjectWithID> objectsWithID =
+        Arrays.asList(
+            new AlgoliaObjectWithID("1", "algolia", 4), new AlgoliaObjectWithID("2", "algolia", 4));
     waitForCompletion(index.addObjects(objectsWithID));
 
-    futureAssertThat(index.getObjects(Arrays.asList("1", "2"))).extracting("objectID").containsOnly("1", "2");
+    futureAssertThat(index.getObjects(Arrays.asList("1", "2")))
+        .extracting("objectID")
+        .containsOnly("1", "2");
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -99,10 +92,11 @@ abstract public class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.addObject("1", obj1));
     waitForCompletion(index.addObject("2", obj2));
 
-    waitForCompletion(index.saveObjects(Arrays.asList(
-      new AlgoliaObjectWithID("1", "algolia1", 5),
-      new AlgoliaObjectWithID("2", "algolia1", 5)
-    )));
+    waitForCompletion(
+        index.saveObjects(
+            Arrays.asList(
+                new AlgoliaObjectWithID("1", "algolia1", 5),
+                new AlgoliaObjectWithID("2", "algolia1", 5))));
 
     Optional<AlgoliaObject> result = index.getObject("1").get();
     assertThat(result.get()).isEqualToComparingFieldByField(new AlgoliaObject("algolia1", 5));
@@ -141,15 +135,16 @@ abstract public class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
   public void getObjectsWithAttributesToRetrieve() throws Exception {
     AsyncIndex<AlgoliaObject> index = client.initIndex("index8", AlgoliaObject.class);
 
-    waitForCompletion(index.saveObjects(Arrays.asList(
-      new AlgoliaObjectWithID("1", "algolia1", 5),
-      new AlgoliaObjectWithID("2", "algolia1", 5)
-    )));
+    waitForCompletion(
+        index.saveObjects(
+            Arrays.asList(
+                new AlgoliaObjectWithID("1", "algolia1", 5),
+                new AlgoliaObjectWithID("2", "algolia1", 5))));
 
-    CompletableFuture<List<AlgoliaObject>> result = index.getObjects(Collections.singletonList("1"), Collections.singletonList("age"));
+    CompletableFuture<List<AlgoliaObject>> result =
+        index.getObjects(Collections.singletonList("1"), Collections.singletonList("age"));
 
     futureAssertThat(result).hasSize(1);
     futureAssertThat(result).extracting("name").containsNull();
   }
-
 }

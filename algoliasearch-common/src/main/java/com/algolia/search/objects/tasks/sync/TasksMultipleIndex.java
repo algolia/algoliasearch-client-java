@@ -3,7 +3,6 @@ package com.algolia.search.objects.tasks.sync;
 import com.algolia.search.APIClient;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -60,11 +59,17 @@ public class TasksMultipleIndex extends GenericTask<Map<String, Long>> {
 
   @Override
   public String toString() {
-    return "TasksMultipleIndex{" +
-      "objectIDs=" + objectIDs +
-      ", createdAt='" + createdAt + '\'' +
-      ", indexName='" + indexName + '\'' +
-      ", taskID=" + taskID +
-      '}';
+    return "TasksMultipleIndex{"
+        + "objectIDs="
+        + objectIDs
+        + ", createdAt='"
+        + createdAt
+        + '\''
+        + ", indexName='"
+        + indexName
+        + '\''
+        + ", taskID="
+        + taskID
+        + '}';
   }
 }

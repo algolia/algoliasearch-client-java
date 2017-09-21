@@ -19,5 +19,4 @@ public abstract class AsyncGenericTask<T> extends AbstractTask<T> {
     super.setIndex(indexName);
     return this;
   }
-
 }

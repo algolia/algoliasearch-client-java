@@ -1,7 +1,6 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.List;
 import java.util.Map;
 
@@ -107,5 +106,4 @@ public class APIClientConfiguration {
     this.maxConnTotal = maxConnTotal;
     return this;
   }
-
 }

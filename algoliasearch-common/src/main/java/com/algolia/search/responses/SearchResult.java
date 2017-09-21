@@ -136,17 +136,29 @@ public class SearchResult<T> {
 
   @Override
   public String toString() {
-    return "SearchResult{" +
-      "page=" + page +
-      ", nbHits=" + nbHits +
-      ", nbPages=" + nbPages +
-      ", hitsPerPage=" + hitsPerPage +
-      ", processingTimeMS=" + processingTimeMS +
-      ", facets=" + facets +
-      ", exhaustiveFacetsCount=" + exhaustiveFacetsCount +
-      ", query='" + query + '\'' +
-      ", params='" + params + '\'' +
-      ", hits=" + hits +
-      '}';
+    return "SearchResult{"
+        + "page="
+        + page
+        + ", nbHits="
+        + nbHits
+        + ", nbPages="
+        + nbPages
+        + ", hitsPerPage="
+        + hitsPerPage
+        + ", processingTimeMS="
+        + processingTimeMS
+        + ", facets="
+        + facets
+        + ", exhaustiveFacetsCount="
+        + exhaustiveFacetsCount
+        + ", query='"
+        + query
+        + '\''
+        + ", params='"
+        + params
+        + '\''
+        + ", hits="
+        + hits
+        + '}';
   }
 }

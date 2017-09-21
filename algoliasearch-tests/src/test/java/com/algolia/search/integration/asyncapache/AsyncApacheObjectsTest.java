@@ -10,5 +10,4 @@ public class AsyncApacheObjectsTest extends AsyncObjectsTest {
   public AsyncAPIClient createInstance(String appId, String apiKey) {
     return new AsyncHttpAPIClientBuilder(appId, apiKey).build();
   }
-
 }

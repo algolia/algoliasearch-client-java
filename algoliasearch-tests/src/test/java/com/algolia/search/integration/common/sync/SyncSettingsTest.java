@@ -1,33 +1,31 @@
 package com.algolia.search.integration.common.sync;
 
-import com.algolia.search.SyncAlgoliaIntegrationTest;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.Index;
+import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.IndexSettings;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+public abstract class SyncSettingsTest extends SyncAlgoliaIntegrationTest {
 
-abstract public class SyncSettingsTest extends SyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList(
-    "index1"
-  );
+  private static List<String> indicesNames = Arrays.asList("index1");
 
   @Before
   @After
   public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
+    List<BatchOperation> clean =
+        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }
 
@@ -47,5 +45,4 @@ abstract public class SyncSettingsTest extends SyncAlgoliaIntegrationTest {
     settings = index.getSettings();
     assertThat(settings.getAttributesForFaceting()).containsOnly("name");
   }
-
 }

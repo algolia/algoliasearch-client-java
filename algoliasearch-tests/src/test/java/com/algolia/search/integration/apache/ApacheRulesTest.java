@@ -16,5 +16,4 @@ public class ApacheRulesTest extends SyncRulesTest {
   public APIClient createInstance(String appId, String apiKey, ObjectMapper objectMapper) {
     return new ApacheAPIClientBuilder(appId, apiKey).setObjectMapper(objectMapper).build();
   }
-
 }

@@ -1,7 +1,6 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.inputs.query_rules.Rule;
-
 import java.util.List;
 
 public class SearchRuleResult {
@@ -49,11 +48,15 @@ public class SearchRuleResult {
 
   @Override
   public String toString() {
-    return "SearchRuleResult{" +
-      "nbHits=" + nbHits +
-      ", page=" + page +
-      ", nbPages=" + nbPages +
-      ", hits=" + hits +
-      '}';
+    return "SearchRuleResult{"
+        + "nbHits="
+        + nbHits
+        + ", page="
+        + page
+        + ", nbPages="
+        + nbPages
+        + ", hits="
+        + hits
+        + '}';
   }
 }

@@ -10,5 +10,4 @@ public class AsyncApacheDeleteByTest extends AsyncDeleteByTest {
   public AsyncAPIClient createInstance(String appId, String apiKey) {
     return new AsyncHttpAPIClientBuilder(appId, apiKey).build();
   }
-
 }

@@ -1,9 +1,8 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.annotation.Nonnull;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 public final class AppEngineAPIClientBuilder extends APIClientBuilder {
 
@@ -17,7 +16,8 @@ public final class AppEngineAPIClientBuilder extends APIClientBuilder {
   }
 
   @Override
-  public AppEngineAPIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
+  public AppEngineAPIClientBuilder setUserAgent(
+      @Nonnull String customAgent, @Nonnull String customAgentVersion) {
     super.setUserAgent(customAgent, customAgentVersion);
     return this;
   }

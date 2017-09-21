@@ -35,10 +35,15 @@ public class FacetHit {
 
   @Override
   public String toString() {
-    return "FacetHit{" +
-      "value='" + value + '\'' +
-      ", highlighted='" + highlighted + '\'' +
-      ", count=" + count +
-      '}';
+    return "FacetHit{"
+        + "value='"
+        + value
+        + '\''
+        + ", highlighted='"
+        + highlighted
+        + '\''
+        + ", count="
+        + count
+        + '}';
   }
 }

@@ -23,5 +23,4 @@ public abstract class SyncAlgoliaIntegrationTest {
   public abstract APIClient createInstance(String appId, String apiKey);
 
   public abstract APIClient createInstance(String appId, String apiKey, ObjectMapper objectMapper);
-
 }

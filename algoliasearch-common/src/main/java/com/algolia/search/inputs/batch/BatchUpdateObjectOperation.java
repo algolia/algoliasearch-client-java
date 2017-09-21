@@ -19,9 +19,7 @@ public class BatchUpdateObjectOperation<T> implements BatchOperation {
     this.indexName = indexName;
   }
 
-  /**
-   * @param body
-   */
+  /** @param body */
   public BatchUpdateObjectOperation(T body) {
     this((String) null, body);
   }

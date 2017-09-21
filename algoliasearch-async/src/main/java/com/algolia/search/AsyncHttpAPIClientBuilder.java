@@ -1,9 +1,8 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.annotation.Nonnull;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 public final class AsyncHttpAPIClientBuilder extends AsyncAPIClientBuilder {
 
@@ -17,7 +16,8 @@ public final class AsyncHttpAPIClientBuilder extends AsyncAPIClientBuilder {
   }
 
   @Override
-  public AsyncHttpAPIClientBuilder setUserAgent(@Nonnull String customAgent, @Nonnull String customAgentVersion) {
+  public AsyncHttpAPIClientBuilder setUserAgent(
+      @Nonnull String customAgent, @Nonnull String customAgentVersion) {
     super.setUserAgent(customAgent, customAgentVersion);
     return this;
   }

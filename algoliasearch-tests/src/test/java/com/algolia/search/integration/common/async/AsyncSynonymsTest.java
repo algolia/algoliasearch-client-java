@@ -1,5 +1,7 @@
 package com.algolia.search.integration.common.async;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
 import com.algolia.search.inputs.BatchOperation;
@@ -8,30 +10,23 @@ import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.SynonymQuery;
 import com.algolia.search.responses.SearchSynonymResult;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+public abstract class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
 
-abstract public class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList(
-    "index1",
-    "index2",
-    "index3",
-    "index4"
-  );
+  private static List<String> indicesNames = Arrays.asList("index1", "index2", "index3", "index4");
 
   @Before
   @After
   public void cleanUp() throws Exception {
-    List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
+    List<BatchOperation> clean =
+        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     waitForCompletion(client.batch(clean));
   }
 
@@ -46,15 +41,17 @@ abstract public class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
 
     Optional<AbstractSynonym> synonym1 = index.getSynonym("synonym1").get();
     assertThat(synonym1.get())
-      .isInstanceOf(Synonym.class)
-      .isEqualToComparingFieldByField(new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
+        .isInstanceOf(Synonym.class)
+        .isEqualToComparingFieldByField(
+            new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
   }
 
   @Test
   public void deleteSynonym() throws Exception {
     AsyncIndex<?> index = client.initIndex("index2");
 
-    waitForCompletion(index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))));
+    waitForCompletion(
+        index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))));
     waitForCompletion(index.deleteSynonym("synonym1"));
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery("")).get();
@@ -65,7 +62,8 @@ abstract public class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
   public void clearSynonym() throws Exception {
     AsyncIndex<?> index = client.initIndex("index3");
 
-    waitForCompletion(index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))));
+    waitForCompletion(
+        index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))));
     waitForCompletion(index.clearSynonyms());
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery("")).get();
@@ -87,5 +85,4 @@ abstract public class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery("")).get();
     assertThat(searchResult.getHits()).hasSize(2);
   }
-
 }

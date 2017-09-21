@@ -1,8 +1,6 @@
 package com.algolia.search.objects;
 
-
 public enum MultiQueriesStrategy {
-
   NONE("none"),
   STOP_IF_ENOUGH_MATCHES("stopIfEnoughMatches");
 

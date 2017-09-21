@@ -5,6 +5,10 @@ jdk:
 cache:
   maven: true
 
+#check coverage
+before_script:
+- "mvn com.coveo:fmt-maven-plugin:check"
+
 script:
 - "mvn clean test jacoco:report jacoco:report-aggregate -B && mvn -pl algoliasearch-tests coveralls:report -B"
 

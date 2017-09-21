@@ -2,7 +2,6 @@ package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -123,16 +122,28 @@ public class ApiKey {
 
   @Override
   public String toString() {
-    return "ApiKey{" +
-      "validity=" + validity +
-      ", maxQueriesPerIPPerHour=" + maxQueriesPerIPPerHour +
-      ", maxHitsPerQuery=" + maxHitsPerQuery +
-      ", queryParameters='" + queryParameters + '\'' +
-      ", description='" + description + '\'' +
-      ", restrictSources='" + restrictSources + '\'' +
-      ", acl=" + acl +
-      ", indexes=" + indexes +
-      ", referers=" + referers +
-      '}';
+    return "ApiKey{"
+        + "validity="
+        + validity
+        + ", maxQueriesPerIPPerHour="
+        + maxQueriesPerIPPerHour
+        + ", maxHitsPerQuery="
+        + maxHitsPerQuery
+        + ", queryParameters='"
+        + queryParameters
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + ", restrictSources='"
+        + restrictSources
+        + '\''
+        + ", acl="
+        + acl
+        + ", indexes="
+        + indexes
+        + ", referers="
+        + referers
+        + '}';
   }
 }

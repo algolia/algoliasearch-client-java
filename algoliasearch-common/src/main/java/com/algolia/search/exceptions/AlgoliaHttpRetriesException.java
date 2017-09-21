@@ -3,18 +3,20 @@ package com.algolia.search.exceptions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Algolia Exception if all retries failed
- */
+/** Algolia Exception if all retries failed */
 public class AlgoliaHttpRetriesException extends AlgoliaException {
 
-  /**
-   * List of exception if all retries failed
-   */
+  /** List of exception if all retries failed */
   private List<AlgoliaIOException> ioExceptionList;
 
   public AlgoliaHttpRetriesException(String message, List<AlgoliaIOException> ioExceptionList) {
-    super(message + ", exceptions: [" + String.join(",", ioExceptionList.stream().map(Throwable::getMessage).collect(Collectors.toList())) + "]");
+    super(
+        message
+            + ", exceptions: ["
+            + String.join(
+                ",",
+                ioExceptionList.stream().map(Throwable::getMessage).collect(Collectors.toList()))
+            + "]");
     this.ioExceptionList = ioExceptionList;
   }
 

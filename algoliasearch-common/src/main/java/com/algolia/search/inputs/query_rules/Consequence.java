@@ -1,7 +1,6 @@
 package com.algolia.search.inputs.query_rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +10,7 @@ public class Consequence {
   private List<ConsequencePromote> promote;
   private Map<String, Object> userData;
 
-  public Consequence() {
-  }
+  public Consequence() {}
 
   public ConsequenceParams getParams() {
     return params;

@@ -1,5 +1,7 @@
 package com.algolia.search.integration.common.async;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
 import com.algolia.search.inputs.BatchOperation;
@@ -10,44 +12,31 @@ import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.responses.SearchRuleResult;
 import com.google.common.collect.ImmutableMap;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 @SuppressWarnings("ConstantConditions")
-abstract public class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
+public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames = Arrays.asList(
-    "index1",
-    "index2",
-    "index3",
-    "index4"
-  );
+  private static List<String> indicesNames = Arrays.asList("index1", "index2", "index3", "index4");
 
   private Rule generateRule(String objectID) {
-    Condition condition = new Condition()
-      .setPattern("my pattern")
-      .setAnchoring("is");
-    Consequence consequence = new Consequence()
-      .setUserData(ImmutableMap.of("a", "b"));
+    Condition condition = new Condition().setPattern("my pattern").setAnchoring("is");
+    Consequence consequence = new Consequence().setUserData(ImmutableMap.of("a", "b"));
 
-    return new Rule()
-      .setObjectID(objectID)
-      .setCondition(condition)
-      .setConsequence(consequence);
+    return new Rule().setObjectID(objectID).setCondition(condition).setConsequence(consequence);
   }
 
   @Before
   @After
   public void cleanUp() throws Exception {
-    List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
+    List<BatchOperation> clean =
+        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     waitForCompletion(client.batch(clean));
   }
 
@@ -61,8 +50,8 @@ abstract public class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
 
     Optional<Rule> queryRule1 = index.getRule("queryRule1").get();
     assertThat(queryRule1.get())
-      .isInstanceOf(Rule.class)
-      .isEqualToComparingFieldByFieldRecursively(generateRule(ruleID));
+        .isInstanceOf(Rule.class)
+        .isEqualToComparingFieldByFieldRecursively(generateRule(ruleID));
   }
 
   @Test
@@ -101,6 +90,4 @@ abstract public class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
     SearchRuleResult searchResult = index.searchRules(new RuleQuery("")).get();
     assertThat(searchResult.getHits()).hasSize(2);
   }
-
-
 }

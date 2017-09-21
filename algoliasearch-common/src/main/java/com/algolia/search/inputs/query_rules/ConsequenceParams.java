@@ -6,7 +6,6 @@ import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RemoveStopWords;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -16,8 +15,7 @@ public class ConsequenceParams extends Query {
   private List<String> automaticFacetFilters;
   private List<String> automaticOptionalFacetFilters;
 
-  public ConsequenceParams() {
-  }
+  public ConsequenceParams() {}
 
   public ConsequenceQuery getQuery() {
     return query;
@@ -45,9 +43,10 @@ public class ConsequenceParams extends Query {
     return automaticOptionalFacetFilters;
   }
 
-  //Fields from Query
+  // Fields from Query
 
-  public ConsequenceParams setAutomaticOptionalFacetFilters(List<String> automaticOptionalFacetFilters) {
+  public ConsequenceParams setAutomaticOptionalFacetFilters(
+      List<String> automaticOptionalFacetFilters) {
     this.automaticOptionalFacetFilters = automaticOptionalFacetFilters;
     return this;
   }
@@ -55,7 +54,6 @@ public class ConsequenceParams extends Query {
   public ConsequenceParams setAroundRadius(Integer aroundRadius) {
     return (ConsequenceParams) super.setAroundRadius(aroundRadius);
   }
-
 
   public ConsequenceParams setAroundRadiusAll() {
     return (ConsequenceParams) super.setAroundRadiusAll();
@@ -169,7 +167,8 @@ public class ConsequenceParams extends Query {
     return restrictSearchableAttributes;
   }
 
-  public ConsequenceParams setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
+  public ConsequenceParams setRestrictSearchableAttributes(
+      List<String> restrictSearchableAttributes) {
     return (ConsequenceParams) super.setRestrictSearchableAttributes(restrictSearchableAttributes);
   }
 
@@ -309,8 +308,10 @@ public class ConsequenceParams extends Query {
     return restrictHighlightAndSnippetArrays;
   }
 
-  public ConsequenceParams setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
-    return (ConsequenceParams) super.setRestrictHighlightAndSnippetArrays(restrictHighlightAndSnippetArrays);
+  public ConsequenceParams setRestrictHighlightAndSnippetArrays(
+      Boolean restrictHighlightAndSnippetArrays) {
+    return (ConsequenceParams)
+        super.setRestrictHighlightAndSnippetArrays(restrictHighlightAndSnippetArrays);
   }
 
   public Integer getPage() {
@@ -453,13 +454,14 @@ public class ConsequenceParams extends Query {
     return disableTypoToleranceOnAttributes;
   }
 
-  public ConsequenceParams setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
-    return (ConsequenceParams) super.setDisableTypoToleranceOnAttributes(disableTypoToleranceOnAttributes);
+  public ConsequenceParams setDisableTypoToleranceOnAttributes(
+      List<String> disableTypoToleranceOnAttributes) {
+    return (ConsequenceParams)
+        super.setDisableTypoToleranceOnAttributes(disableTypoToleranceOnAttributes);
   }
 
   @JsonAnySetter
   public ConsequenceParams addCustomParameter(String key, String value) {
     return (ConsequenceParams) super.addCustomParameter(key, value);
   }
-
 }

@@ -20,9 +20,6 @@ public class AsyncTask extends AsyncGenericTask<Long> {
 
   @Override
   public String toString() {
-    return "AsyncTask{" +
-      "indexName='" + indexName + '\'' +
-      ", taskID=" + taskID +
-      '}';
+    return "AsyncTask{" + "indexName='" + indexName + '\'' + ", taskID=" + taskID + '}';
   }
 }

@@ -35,10 +35,15 @@ public class TaskIndexing extends Task {
 
   @Override
   public String toString() {
-    return "TaskIndexing{" +
-      "objectID='" + objectID + '\'' +
-      ", indexName='" + indexName + '\'' +
-      ", taskID=" + taskID +
-      '}';
+    return "TaskIndexing{"
+        + "objectID='"
+        + objectID
+        + '\''
+        + ", indexName='"
+        + indexName
+        + '\''
+        + ", taskID="
+        + taskID
+        + '}';
   }
 }

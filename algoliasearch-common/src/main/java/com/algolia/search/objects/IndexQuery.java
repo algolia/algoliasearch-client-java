@@ -3,7 +3,6 @@ package com.algolia.search.objects;
 import com.algolia.search.AbstractIndex;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.annotation.Nonnull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -33,9 +32,6 @@ public class IndexQuery {
 
   @Override
   public String toString() {
-    return "IndexQuery{" +
-      "query=" + query +
-      ", indexName='" + indexName + '\'' +
-      '}';
+    return "IndexQuery{" + "query=" + query + ", indexName='" + indexName + '\'' + '}';
   }
 }

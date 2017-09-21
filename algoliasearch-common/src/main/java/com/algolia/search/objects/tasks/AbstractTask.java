@@ -8,8 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractTask<T> {
 
-  @JsonIgnore
-  protected String indexName;
+  @JsonIgnore protected String indexName;
 
   protected T taskID;
 
@@ -22,7 +21,7 @@ public abstract class AbstractTask<T> {
     return this;
   }
 
-  abstract public Long getTaskIDToWaitFor();
+  public abstract Long getTaskIDToWaitFor();
 
   public AbstractTask<T> setIndex(String indexName) {
     this.indexName = indexName;

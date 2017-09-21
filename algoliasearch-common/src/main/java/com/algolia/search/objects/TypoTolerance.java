@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.io.IOException;
 
 @JsonDeserialize(using = TypoToleranceJsonDeserializer.class)
@@ -37,8 +36,9 @@ public abstract class TypoTolerance {
 
     TypoTolerance that = (TypoTolerance) o;
 
-    return getInsideValue() != null ? getInsideValue().equals(that.getInsideValue()) : that.getInsideValue() == null;
-
+    return getInsideValue() != null
+        ? getInsideValue().equals(that.getInsideValue())
+        : that.getInsideValue() == null;
   }
 
   @Override
@@ -64,9 +64,7 @@ class TypoToleranceAsString extends TypoTolerance {
 
   @Override
   public String toString() {
-    return "TypoTolerance{" +
-      "string='" + insideValue + '\'' +
-      '}';
+    return "TypoTolerance{" + "string='" + insideValue + '\'' + '}';
   }
 }
 
@@ -87,9 +85,7 @@ class TypoToleranceAsBoolean extends TypoTolerance {
 
   @Override
   public String toString() {
-    return "TypoTolerance{" +
-      "boolean=" + insideValue +
-      '}';
+    return "TypoTolerance{" + "boolean=" + insideValue + '}';
   }
 }
 
@@ -109,7 +105,8 @@ class TypoToleranceJsonDeserializer extends JsonDeserializer<TypoTolerance> {
 class TypoToleranceJsonSerializer extends JsonSerializer<TypoTolerance> {
 
   @Override
-  public void serialize(TypoTolerance value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+  public void serialize(TypoTolerance value, JsonGenerator gen, SerializerProvider serializers)
+      throws IOException {
     if (value instanceof TypoToleranceAsBoolean) {
       gen.writeBoolean((Boolean) value.getInsideValue());
     } else if (value instanceof TypoToleranceAsString) {
@@ -117,5 +114,3 @@ class TypoToleranceJsonSerializer extends JsonSerializer<TypoTolerance> {
     }
   }
 }
-
-

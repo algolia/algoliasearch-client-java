@@ -2,7 +2,6 @@ package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -56,11 +55,16 @@ public class SynonymQuery {
 
   @Override
   public String toString() {
-    return "SynonymQuery{" +
-      "query='" + query + '\'' +
-      ", types=" + types +
-      ", page=" + page +
-      ", hitsPerPage=" + hitsPerPage +
-      '}';
+    return "SynonymQuery{"
+        + "query='"
+        + query
+        + '\''
+        + ", types="
+        + types
+        + ", page="
+        + page
+        + ", hitsPerPage="
+        + hitsPerPage
+        + '}';
   }
 }

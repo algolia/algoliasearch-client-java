@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +21,9 @@ public class IndexSettings {
   private Integer maxFacetHits;
 
   /* attributes */
-  /**
-   * Deprecated: Use searchableAttributes
-   */
-  @Deprecated
-  private List<String> attributesToIndex;
+  /** Deprecated: Use searchableAttributes */
+  @Deprecated private List<String> attributesToIndex;
+
   private List<String> searchableAttributes;
   private List<String> attributesForFaceting;
   private List<String> unretrievableAttributes;
@@ -51,11 +48,9 @@ public class IndexSettings {
   private Integer paginationLimitedTo;
 
   /* performance */
-  /**
-   * Deprecated: Use numericAttributesForFiltering
-   */
-  @Deprecated
-  private List<String> numericAttributesToIndex;
+  /** Deprecated: Use numericAttributesForFiltering */
+  @Deprecated private List<String> numericAttributesToIndex;
+
   private List<String> numericAttributesForFiltering;
   private Boolean allowCompressionOfIntegerArray;
 
@@ -76,11 +71,9 @@ public class IndexSettings {
   /* ranking */
   private List<String> ranking;
   private List<String> customRanking;
-  /**
-   * Deprecated: Use replicas
-   */
-  @Deprecated
-  private List<String> slaves;
+  /** Deprecated: Use replicas */
+  @Deprecated private List<String> slaves;
+
   private List<String> replicas;
 
   /* search */
@@ -96,34 +89,26 @@ public class IndexSettings {
   private List<String> disableTypoToleranceOnWords;
   private String separatorsToIndex;
 
-  /**
-   * Deprecated: Use getSearchableAttributes
-   */
+  /** Deprecated: Use getSearchableAttributes */
   @Deprecated
   public List<String> getAttributesToIndex() {
     return attributesToIndex;
   }
 
-  /**
-   * Deprecated: Use setSearchableAttributes
-   */
+  /** Deprecated: Use setSearchableAttributes */
   @Deprecated
   public IndexSettings setAttributesToIndex(List<String> attributesToIndex) {
     this.attributesToIndex = attributesToIndex;
     return this;
   }
 
-  /**
-   * Deprecated: Use getNumericAttributesForFiltering
-   */
+  /** Deprecated: Use getNumericAttributesForFiltering */
   @Deprecated
   public List<String> getNumericAttributesToIndex() {
     return numericAttributesToIndex;
   }
 
-  /**
-   * Deprecated: Use setNumericAttributesForFiltering
-   */
+  /** Deprecated: Use setNumericAttributesForFiltering */
   @Deprecated
   public IndexSettings setNumericAttributesToIndex(List<String> numericAttributesToIndex) {
     this.numericAttributesToIndex = numericAttributesToIndex;
@@ -217,7 +202,8 @@ public class IndexSettings {
     return disableTypoToleranceOnAttributes;
   }
 
-  public IndexSettings setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
+  public IndexSettings setDisableTypoToleranceOnAttributes(
+      List<String> disableTypoToleranceOnAttributes) {
     this.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes;
     return this;
   }
@@ -493,7 +479,8 @@ public class IndexSettings {
     return restrictHighlightAndSnippetArrays;
   }
 
-  public IndexSettings setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
+  public IndexSettings setRestrictHighlightAndSnippetArrays(
+      Boolean restrictHighlightAndSnippetArrays) {
     this.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays;
     return this;
   }
@@ -511,7 +498,8 @@ public class IndexSettings {
     return numericAttributesForFiltering;
   }
 
-  public IndexSettings setNumericAttributesForFiltering(List<String> numericAttributesForFiltering) {
+  public IndexSettings setNumericAttributesForFiltering(
+      List<String> numericAttributesForFiltering) {
     this.numericAttributesForFiltering = numericAttributesForFiltering;
     return this;
   }
@@ -563,53 +551,107 @@ public class IndexSettings {
 
   @Override
   public String toString() {
-    return "IndexSettings{" +
-      "attributeForDistinct='" + attributeForDistinct + '\'' +
-      ", distinct=" + distinct +
-      ", replaceSynonymsInHighlight=" + replaceSynonymsInHighlight +
-      ", placeholders=" + placeholders +
-      ", minProximity=" + minProximity +
-      ", responseFields=" + responseFields +
-      ", maxFacetHits=" + maxFacetHits +
-      ", attributesToIndex=" + attributesToIndex +
-      ", searchableAttributes=" + searchableAttributes +
-      ", attributesForFaceting=" + attributesForFaceting +
-      ", unretrievableAttributes=" + unretrievableAttributes +
-      ", attributesToRetrieve=" + attributesToRetrieve +
-      ", maxValuesPerFacet=" + maxValuesPerFacet +
-      ", attributesToHighlight=" + attributesToHighlight +
-      ", attributesToSnippet=" + attributesToSnippet +
-      ", highlightPreTag='" + highlightPreTag + '\'' +
-      ", highlightPostTag='" + highlightPostTag + '\'' +
-      ", snippetEllipsisText='" + snippetEllipsisText + '\'' +
-      ", restrictHighlightAndSnippetArrays=" + restrictHighlightAndSnippetArrays +
-      ", hitsPerPage=" + hitsPerPage +
-      ", paginationLimitedTo=" + paginationLimitedTo +
-      ", numericAttributesToIndex=" + numericAttributesToIndex +
-      ", numericAttributesForFiltering=" + numericAttributesForFiltering +
-      ", allowCompressionOfIntegerArray=" + allowCompressionOfIntegerArray +
-      ", enableRules=" + enableRules +
-      ", queryType='" + queryType + '\'' +
-      ", removeWordsIfNoResults='" + removeWordsIfNoResults + '\'' +
-      ", advancedSyntax=" + advancedSyntax +
-      ", optionalWords=" + optionalWords +
-      ", removeStopWords=" + removeStopWords +
-      ", disablePrefixOnAttributes=" + disablePrefixOnAttributes +
-      ", disableExactOnAttributes=" + disableExactOnAttributes +
-      ", exactOnSingleWordQuery='" + exactOnSingleWordQuery + '\'' +
-      ", alternativesAsExact=" + alternativesAsExact +
-      ", ranking=" + ranking +
-      ", customRanking=" + customRanking +
-      ", slaves=" + slaves +
-      ", replicas=" + replicas +
-      ", minWordSizefor1Typo=" + minWordSizefor1Typo +
-      ", minWordSizefor2Typos=" + minWordSizefor2Typos +
-      ", typoTolerance=" + typoTolerance +
-      ", allowTyposOnNumericTokens=" + allowTyposOnNumericTokens +
-      ", ignorePlurals=" + ignorePlurals +
-      ", disableTypoToleranceOnAttributes=" + disableTypoToleranceOnAttributes +
-      ", disableTypoToleranceOnWords=" + disableTypoToleranceOnWords +
-      ", separatorsToIndex='" + separatorsToIndex + '\'' +
-      '}';
+    return "IndexSettings{"
+        + "attributeForDistinct='"
+        + attributeForDistinct
+        + '\''
+        + ", distinct="
+        + distinct
+        + ", replaceSynonymsInHighlight="
+        + replaceSynonymsInHighlight
+        + ", placeholders="
+        + placeholders
+        + ", minProximity="
+        + minProximity
+        + ", responseFields="
+        + responseFields
+        + ", maxFacetHits="
+        + maxFacetHits
+        + ", attributesToIndex="
+        + attributesToIndex
+        + ", searchableAttributes="
+        + searchableAttributes
+        + ", attributesForFaceting="
+        + attributesForFaceting
+        + ", unretrievableAttributes="
+        + unretrievableAttributes
+        + ", attributesToRetrieve="
+        + attributesToRetrieve
+        + ", maxValuesPerFacet="
+        + maxValuesPerFacet
+        + ", attributesToHighlight="
+        + attributesToHighlight
+        + ", attributesToSnippet="
+        + attributesToSnippet
+        + ", highlightPreTag='"
+        + highlightPreTag
+        + '\''
+        + ", highlightPostTag='"
+        + highlightPostTag
+        + '\''
+        + ", snippetEllipsisText='"
+        + snippetEllipsisText
+        + '\''
+        + ", restrictHighlightAndSnippetArrays="
+        + restrictHighlightAndSnippetArrays
+        + ", hitsPerPage="
+        + hitsPerPage
+        + ", paginationLimitedTo="
+        + paginationLimitedTo
+        + ", numericAttributesToIndex="
+        + numericAttributesToIndex
+        + ", numericAttributesForFiltering="
+        + numericAttributesForFiltering
+        + ", allowCompressionOfIntegerArray="
+        + allowCompressionOfIntegerArray
+        + ", enableRules="
+        + enableRules
+        + ", queryType='"
+        + queryType
+        + '\''
+        + ", removeWordsIfNoResults='"
+        + removeWordsIfNoResults
+        + '\''
+        + ", advancedSyntax="
+        + advancedSyntax
+        + ", optionalWords="
+        + optionalWords
+        + ", removeStopWords="
+        + removeStopWords
+        + ", disablePrefixOnAttributes="
+        + disablePrefixOnAttributes
+        + ", disableExactOnAttributes="
+        + disableExactOnAttributes
+        + ", exactOnSingleWordQuery='"
+        + exactOnSingleWordQuery
+        + '\''
+        + ", alternativesAsExact="
+        + alternativesAsExact
+        + ", ranking="
+        + ranking
+        + ", customRanking="
+        + customRanking
+        + ", slaves="
+        + slaves
+        + ", replicas="
+        + replicas
+        + ", minWordSizefor1Typo="
+        + minWordSizefor1Typo
+        + ", minWordSizefor2Typos="
+        + minWordSizefor2Typos
+        + ", typoTolerance="
+        + typoTolerance
+        + ", allowTyposOnNumericTokens="
+        + allowTyposOnNumericTokens
+        + ", ignorePlurals="
+        + ignorePlurals
+        + ", disableTypoToleranceOnAttributes="
+        + disableTypoToleranceOnAttributes
+        + ", disableTypoToleranceOnWords="
+        + disableTypoToleranceOnWords
+        + ", separatorsToIndex='"
+        + separatorsToIndex
+        + '\''
+        + '}';
   }
 }

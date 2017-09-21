@@ -2,7 +2,6 @@ package com.algolia.search.objects.tasks.async;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -30,10 +29,14 @@ public class AsyncTaskSingleIndex extends AsyncTask {
 
   @Override
   public String toString() {
-    return "AsyncTaskSingleIndex{" +
-      "objectIDs=" + objectIDs +
-      ", indexName='" + indexName + '\'' +
-      ", taskID=" + taskID +
-      '}';
+    return "AsyncTaskSingleIndex{"
+        + "objectIDs="
+        + objectIDs
+        + ", indexName='"
+        + indexName
+        + '\''
+        + ", taskID="
+        + taskID
+        + '}';
   }
 }

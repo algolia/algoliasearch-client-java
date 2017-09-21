@@ -1,5 +1,7 @@
 package com.algolia.search.integration.common.sync;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
@@ -12,45 +14,37 @@ import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.responses.SearchRuleResult;
 import com.google.common.collect.ImmutableMap;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
-abstract public class SyncRulesTest extends SyncAlgoliaIntegrationTest {
+public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames = Arrays.asList(
-    "index1",
-    "index2",
-    "index3",
-    "index4"
-  );
+  private static List<String> indicesNames = Arrays.asList("index1", "index2", "index3", "index4");
 
   private Rule generateRule(String objectID) {
-    Condition ruleCondition = new Condition()
-      .setPattern("my pattern")
-      .setAnchoring("is");
-    Consequence ruleConsequence = new Consequence()
-      .setUserData(ImmutableMap.of("a", "b"))
-      .setParams(new ConsequenceParams().setFacets("a=1"));
+    Condition ruleCondition = new Condition().setPattern("my pattern").setAnchoring("is");
+    Consequence ruleConsequence =
+        new Consequence()
+            .setUserData(ImmutableMap.of("a", "b"))
+            .setParams(new ConsequenceParams().setFacets("a=1"));
 
     return new Rule()
-      .setObjectID(objectID)
-      .setCondition(ruleCondition)
-      .setConsequence(ruleConsequence);
+        .setObjectID(objectID)
+        .setCondition(ruleCondition)
+        .setConsequence(ruleConsequence);
   }
 
   @Before
   @After
   public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
+    List<BatchOperation> clean =
+        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }
 
@@ -64,8 +58,8 @@ abstract public class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
     Optional<Rule> queryRule1 = index.getRule(ruleId);
     assertThat(queryRule1.get())
-      .isInstanceOf(Rule.class)
-      .isEqualToComparingFieldByFieldRecursively(generateRule(ruleId));
+        .isInstanceOf(Rule.class)
+        .isEqualToComparingFieldByFieldRecursively(generateRule(ruleId));
   }
 
   @Test
@@ -105,5 +99,4 @@ abstract public class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
     assertThat(searchResult.getHits()).hasSize(2);
   }
-
 }

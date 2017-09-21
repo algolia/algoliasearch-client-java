@@ -19,9 +19,7 @@ public class BatchDeleteObjectOperation implements BatchOperation {
     this.indexName = indexName;
   }
 
-  /**
-   * @param objectID
-   */
+  /** @param objectID */
   public BatchDeleteObjectOperation(String objectID) {
     this((String) null, objectID);
   }
@@ -48,5 +46,4 @@ public class BatchDeleteObjectOperation implements BatchOperation {
   public String getAction() {
     return "deleteObject";
   }
-
 }

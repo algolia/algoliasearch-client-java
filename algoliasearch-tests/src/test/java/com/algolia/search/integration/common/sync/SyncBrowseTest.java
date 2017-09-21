@@ -1,5 +1,8 @@
 package com.algolia.search.integration.common.sync;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.algolia.search.*;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
@@ -8,34 +11,26 @@ import com.algolia.search.objects.Query;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
 
-abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList(
-    "index1",
-    "index2",
-    "index3",
-    "index4",
-    "index5"
-  );
+  private static List<String> indicesNames =
+      Arrays.asList("index1", "index2", "index3", "index4", "index5");
 
   @Before
   @After
   public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean = indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
+    List<BatchOperation> clean =
+        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
     client.batch(clean).waitForCompletion();
   }
 
@@ -43,7 +38,10 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
   public void browse() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index1", AlgoliaObject.class);
 
-    List<AlgoliaObject> objects = IntStream.rangeClosed(1, 10).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
+    List<AlgoliaObject> objects =
+        IntStream.rangeClosed(1, 10)
+            .mapToObj(i -> new AlgoliaObject("name" + i, i))
+            .collect(Collectors.toList());
     index.addObjects(objects).waitForCompletion();
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
@@ -61,8 +59,14 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
   public void browseWithQuery() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
 
-    List<AlgoliaObject> objects = IntStream.rangeClosed(1, 5).mapToObj(i -> new AlgoliaObject("name" + i, i)).collect(Collectors.toList());
-    objects.addAll(IntStream.rangeClosed(1, 5).mapToObj(i -> new AlgoliaObject("other" + i, i)).collect(Collectors.toList()));
+    List<AlgoliaObject> objects =
+        IntStream.rangeClosed(1, 5)
+            .mapToObj(i -> new AlgoliaObject("name" + i, i))
+            .collect(Collectors.toList());
+    objects.addAll(
+        IntStream.rangeClosed(1, 5)
+            .mapToObj(i -> new AlgoliaObject("other" + i, i))
+            .collect(Collectors.toList()));
     index.addObjects(objects).waitForCompletion();
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("name").setHitsPerPage(5));
@@ -87,7 +91,7 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
   public void browseEmptyIndex() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
 
-    //Add object then clear => index is empty
+    // Add object then clear => index is empty
     index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
     index.clear().waitForCompletion();
 
@@ -102,14 +106,19 @@ abstract public class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
 
     ObjectMapper objectMapper =
-      new ObjectMapper()
-        .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
+        new ObjectMapper()
+            .enable(
+                DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+                DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
 
-    APIClient clientWithSpecificObjectMapper = createInstance(APPLICATION_ID, API_KEY, objectMapper);
+    APIClient clientWithSpecificObjectMapper =
+        createInstance(APPLICATION_ID, API_KEY, objectMapper);
 
-    Index<BadClass> indexWithWrongClass = clientWithSpecificObjectMapper.initIndex("index7", BadClass.class);
+    Index<BadClass> indexWithWrongClass =
+        clientWithSpecificObjectMapper.initIndex("index7", BadClass.class);
 
-    Iterator<BadClass> iterator = indexWithWrongClass.browse(new Query("").setHitsPerPage(1)).iterator();
+    Iterator<BadClass> iterator =
+        indexWithWrongClass.browse(new Query("").setHitsPerPage(1)).iterator();
     assertThatThrownBy(iterator::next).isInstanceOf(RuntimeException.class);
   }
 
