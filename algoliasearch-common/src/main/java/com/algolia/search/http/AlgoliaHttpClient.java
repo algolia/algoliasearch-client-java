@@ -16,8 +16,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AlgoliaHttpClient {
+
+  protected final Logger logger = LoggerFactory.getLogger("algoliasearch");
 
   @VisibleForTesting Map<String, HostStatus> hostStatuses = new ConcurrentHashMap<>();
 
@@ -68,10 +72,12 @@ public abstract class AlgoliaHttpClient {
   }
 
   private void markHostAsDown(String host) {
+    logger.debug("Marking {} as `down`", host);
     hostStatuses.put(host, downHostStatus());
   }
 
   private void markHostAsUpdatedAndUp(String host) {
+    logger.debug("Marking {} as `up`", host);
     hostStatuses.put(host, upHostStatus());
   }
 
@@ -91,9 +97,12 @@ public abstract class AlgoliaHttpClient {
 
     List<AlgoliaIOException> ioExceptionList = new ArrayList<>(4);
     for (String host : hosts) {
+      logger.debug("Trying {}", host);
+      logger.debug("Querying {}", request.toString(host));
       try {
         response = request(new AlgoliaHttpRequest(host, content, request));
       } catch (IOException e) {
+        logger.debug("Failing to query {}", host, e);
         markHostAsDown(host);
         ioExceptionList.add(new AlgoliaIOException(host, e));
         continue;
@@ -103,11 +112,13 @@ public abstract class AlgoliaHttpClient {
       markHostAsUpdatedAndUp(host);
       int code = response.getStatusCode() / 100;
       if (code == 2 || code == 4) { // not a server error, so no retry
+        logger.debug("Got HTTP code {}, no retry", response.getStatusCode());
         break;
       }
     }
 
     if (response == null) { // if every retry failed
+      logger.debug("All retries failed");
       throw new AlgoliaHttpRetriesException("All retries failed", ioExceptionList);
     }
 
@@ -116,6 +127,8 @@ public abstract class AlgoliaHttpClient {
       if (code / 100 == 4) {
         String message =
             Utils.parseAs(getObjectMapper(), response.getBody(), AlgoliaError.class).getMessage();
+
+        logger.debug("Got HTTP code {}", code);
 
         switch (code) {
           case 400:
@@ -137,11 +150,13 @@ public abstract class AlgoliaHttpClient {
           response.getBody(),
           request.getJavaType(getObjectMapper().getTypeFactory()));
     } catch (IOException e) {
+      logger.debug("Error while deserialization", e);
       throw new AlgoliaException("Error while deserialization the response", e);
     } finally {
       try {
         response.close();
       } catch (IOException e) {
+        logger.debug("Can not close underlying response", e);
         throw new AlgoliaException("Can not close underlying response", e);
       }
     }

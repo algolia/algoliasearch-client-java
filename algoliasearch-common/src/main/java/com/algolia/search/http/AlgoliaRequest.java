@@ -97,4 +97,27 @@ public class AlgoliaRequest<T> {
   Map<String, String> getHeaders() {
     return options.generateExtraHeaders();
   }
+
+  public String toString(String host) {
+    StringBuilder result = new StringBuilder();
+
+    result.append(getMethod().name);
+    result.append(" https://");
+    result.append(host);
+
+    for (String s : getPath()) {
+      result.append("/");
+      result.append(s);
+    }
+
+    if (!getParameters().entrySet().isEmpty()) {
+      result.append("?");
+    }
+
+    for (Map.Entry<String, String> e : getParameters().entrySet()) {
+      result.append(e.getKey()).append("=").append(e.getValue()).append("&");
+    }
+
+    return result.toString();
+  }
 }
