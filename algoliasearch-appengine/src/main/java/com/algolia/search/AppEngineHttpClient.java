@@ -32,6 +32,8 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
   private final int hostDownTimeout;
 
   AppEngineHttpClient(APIClientConfiguration configuration) {
+    logger.debug("Create AppEngineHttpClient with configuration {}", configuration);
+
     this.objectMapper = configuration.getObjectMapper();
     this.queryHosts = configuration.getQueryHosts();
     this.buildHosts = configuration.getBuildHosts();

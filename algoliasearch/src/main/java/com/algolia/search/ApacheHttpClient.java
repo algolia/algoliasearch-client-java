@@ -33,6 +33,8 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
   private final int hostDownTimeout;
 
   public ApacheHttpClient(APIClientConfiguration configuration) {
+    logger.debug("Create ApacheHttpClient with configuration {}", configuration);
+
     List<Header> httpHeaders =
         configuration
             .getHeaders()
@@ -123,10 +125,12 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
 
   @Override
   public void close() throws AlgoliaException {
+    logger.debug("Closing ApacheHttpClient");
     try {
       internal.close();
     } catch (IOException e) {
-      throw new AlgoliaException("Can not close internal apache http client", e);
+      logger.debug("Couldn't close ApacheHttpClient", e);
+      throw new AlgoliaException("Couldn't close ApacheHttpClient", e);
     }
   }
 }
