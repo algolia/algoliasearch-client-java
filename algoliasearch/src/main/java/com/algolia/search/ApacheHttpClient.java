@@ -46,6 +46,7 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
         RequestConfig.custom()
             .setConnectTimeout(configuration.getConnectTimeout())
             .setSocketTimeout(configuration.getReadTimeout())
+            .setConnectionRequestTimeout(configuration.getConnectTimeout())
             .build();
 
     this.internal =
