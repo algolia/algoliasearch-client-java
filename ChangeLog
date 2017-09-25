@@ -1,11 +1,17 @@
 Changelog
 =========
 
+2.13.1 (2017-09-25)
+-------------------
+- Add debug logger
+- Fix closing connections in ApacheHttpClient
+- Fix force ConnectionRequestTimeout
+
 2.13.0 (2017-09-14)
 -------------------
 - Add deleteBy
 - Deprecate deleteByQuery
-- Add query rules settings & query paramerters
+- Add query rules settings & query parameters
 
 2.12.0 (2017-08-22)
 -------------------
