@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.13.2 (2017-09-27)
+-------------------
+- Fix TypoTolerance serialization of IndexSettings
+
 2.13.1 (2017-09-25)
 -------------------
 - Add debug logger
