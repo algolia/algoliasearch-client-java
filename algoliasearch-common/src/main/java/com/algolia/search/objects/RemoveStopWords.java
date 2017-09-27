@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -91,14 +90,13 @@ class RemoveStopWordsListString extends RemoveStopWords {
 class RemoveStopWordsDeserializer extends JsonDeserializer<RemoveStopWords> {
 
   @Override
-  public RemoveStopWords deserialize(JsonParser p, DeserializationContext ctxt)
-      throws IOException, JsonProcessingException {
+  public RemoveStopWords deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
     JsonToken currentToken = p.getCurrentToken();
-    if (currentToken.equals(JsonToken.VALUE_STRING)) {
-      return RemoveStopWords.of(Arrays.asList(p.getValueAsString().split(",")));
+    if (currentToken.equals(JsonToken.VALUE_FALSE) || currentToken.equals(JsonToken.VALUE_TRUE)) {
+      return RemoveStopWords.of(p.getBooleanValue());
     }
 
-    return RemoveStopWords.of(p.getBooleanValue());
+    return RemoveStopWords.of(Arrays.asList(p.getValueAsString().split(",")));
   }
 }
 
@@ -107,7 +105,7 @@ class RemoveStopWordsSerializer extends JsonSerializer<RemoveStopWords> {
   @SuppressWarnings("unchecked")
   @Override
   public void serialize(RemoveStopWords value, JsonGenerator gen, SerializerProvider serializers)
-      throws IOException, JsonProcessingException {
+      throws IOException {
     if (value instanceof RemoveStopWordsBoolean) {
       gen.writeBoolean((Boolean) value.getInsideValue());
     } else if (value instanceof RemoveStopWordsListString) {
