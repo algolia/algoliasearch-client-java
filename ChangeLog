@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.13.3 (2017-10-09)
+-------------------
+- Fix retry strategy when all hosts are down
+
 2.13.2 (2017-09-27)
 -------------------
 - Fix TypoTolerance serialization of IndexSettings
