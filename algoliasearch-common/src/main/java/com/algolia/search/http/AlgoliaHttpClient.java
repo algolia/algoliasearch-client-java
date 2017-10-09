@@ -56,19 +56,26 @@ public abstract class AlgoliaHttpClient {
     return hostStatuses.getOrDefault(host, emptyHostStatus());
   }
 
-  private List<String> queryHostsThatAreUp() {
+  protected List<String> queryHostsThatAreUp() {
     return hostsThatAreUp(getQueryHosts());
   }
 
-  private List<String> buildHostsThatAreUp() {
+  protected List<String> buildHostsThatAreUp() {
     return hostsThatAreUp(getBuildHosts());
   }
 
   private List<String> hostsThatAreUp(List<String> hosts) {
-    return hosts
-        .stream()
-        .filter(s -> getStatus(s).isUpOrCouldBeRetried(now()))
-        .collect(Collectors.toList());
+    List<String> list =
+        hosts
+            .stream()
+            .filter(s -> getStatus(s).isUpOrCouldBeRetried(now()))
+            .collect(Collectors.toList());
+
+    if (list.isEmpty()) {
+      return hosts;
+    } else {
+      return list;
+    }
   }
 
   private void markHostAsDown(String host) {

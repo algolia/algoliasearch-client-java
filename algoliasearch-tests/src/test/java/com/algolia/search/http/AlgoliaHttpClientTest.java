@@ -243,6 +243,28 @@ public class AlgoliaHttpClientTest {
         .isEqualToComparingFieldByField(new HostStatus(hostTimeout, true, now));
   }
 
+  @Test
+  public void allHostDownShouldPutAllHostsUp() throws IOException, AlgoliaException {
+    when(makeMockRequest())
+        .thenThrow(new IOException())
+        .thenThrow(new IOException())
+        .thenThrow(new IOException())
+        .thenThrow(new IOException());
+
+    try {
+      mockClient.requestWithRetry(
+          new AlgoliaRequest<>(
+              HttpMethod.GET,
+              true,
+              Arrays.asList("1", "indexes"),
+              RequestOptions.empty,
+              Result.class));
+    } catch (Exception ignored) {
+    }
+
+    assertThat(mockClient.queryHostsThatAreUp()).containsAll(mockClient.getQueryHosts());
+  }
+
   private AlgoliaHttpResponse makeMockRequest() throws IOException {
     // `any` returns a `null` so `mockClient.request` throws an exception, because of the @Nonnull
     // on the parameter
