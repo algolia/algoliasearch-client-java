@@ -7,6 +7,7 @@ import com.algolia.search.*;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
+import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.objects.Query;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

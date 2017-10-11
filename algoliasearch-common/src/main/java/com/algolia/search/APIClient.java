@@ -13,6 +13,7 @@ import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
+import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.sync.*;
 import com.algolia.search.responses.*;
@@ -1092,7 +1093,7 @@ public class APIClient {
   }
 
   @SuppressWarnings("unchecked")
-  <T> BrowseResult<T> browse(
+  public <T> BrowseResult<T> browse(
       String indexName, Query query, String cursor, Class<T> klass, RequestOptions requestOptions)
       throws AlgoliaException {
     AlgoliaRequest<BrowseResult> algoliaRequest =

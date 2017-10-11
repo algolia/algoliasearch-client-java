@@ -1,6 +1,11 @@
 package com.algolia.search;
 
+import com.algolia.search.inputs.query_rules.Condition;
+import com.algolia.search.inputs.query_rules.Consequence;
+import com.algolia.search.inputs.query_rules.ConsequenceParams;
+import com.algolia.search.inputs.query_rules.Rule;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 
 public abstract class SyncAlgoliaIntegrationTest {
@@ -23,4 +28,17 @@ public abstract class SyncAlgoliaIntegrationTest {
   public abstract APIClient createInstance(String appId, String apiKey);
 
   public abstract APIClient createInstance(String appId, String apiKey, ObjectMapper objectMapper);
+
+  protected Rule generateRule(String objectID) {
+    Condition ruleCondition = new Condition().setPattern("my pattern").setAnchoring("is");
+    Consequence ruleConsequence =
+        new Consequence()
+            .setUserData(ImmutableMap.of("a", "b"))
+            .setParams(new ConsequenceParams().setFacets("a=1"));
+
+    return new Rule()
+        .setObjectID(objectID)
+        .setCondition(ruleCondition)
+        .setConsequence(ruleConsequence);
+  }
 }

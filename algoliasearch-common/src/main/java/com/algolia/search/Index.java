@@ -5,6 +5,7 @@ import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
+import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.objects.tasks.sync.TaskIndexing;

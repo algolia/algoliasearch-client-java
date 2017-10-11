@@ -1,6 +1,7 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.inputs.query_rules.Rule;
+import java.util.Collections;
 import java.util.List;
 
 public class SearchRuleResult {
@@ -58,5 +59,9 @@ public class SearchRuleResult {
         + ", hits="
         + hits
         + '}';
+  }
+
+  public static SearchRuleResult empty() {
+    return new SearchRuleResult().setHits(Collections.emptyList()).setNbHits(0);
   }
 }
