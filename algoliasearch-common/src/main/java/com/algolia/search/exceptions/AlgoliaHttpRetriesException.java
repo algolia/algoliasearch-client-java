@@ -1,9 +1,11 @@
 package com.algolia.search.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /** Algolia Exception if all retries failed */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AlgoliaHttpRetriesException extends AlgoliaException {
 
   /** List of exception if all retries failed */
