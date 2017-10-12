@@ -1,6 +1,7 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.inputs.synonym.AbstractSynonym;
+import java.util.Collections;
 import java.util.List;
 
 public class SearchSynonymResult {
@@ -29,5 +30,9 @@ public class SearchSynonymResult {
   @Override
   public String toString() {
     return "SearchSynonymResult{" + "nbHits=" + nbHits + ", hits=" + hits + '}';
+  }
+
+  public static SearchSynonymResult empty() {
+    return new SearchSynonymResult().setNbHits(0).setHits(Collections.emptyList());
   }
 }

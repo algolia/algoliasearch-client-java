@@ -105,7 +105,8 @@ public abstract class AlgoliaHttpClient {
     List<AlgoliaIOException> ioExceptionList = new ArrayList<>(4);
     for (String host : hosts) {
       logger.debug("Trying {}", host);
-      logger.debug("Querying {}", request.toString(host));
+      logger.debug("{}", request.toString(host));
+      logger.debug("{}", content);
       try {
         response = request(new AlgoliaHttpRequest(host, content, request));
       } catch (IOException e) {

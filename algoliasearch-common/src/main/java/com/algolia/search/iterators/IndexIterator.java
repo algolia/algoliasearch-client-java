@@ -1,5 +1,6 @@
-package com.algolia.search;
+package com.algolia.search.iterators;
 
+import com.algolia.search.APIClient;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RequestOptions;

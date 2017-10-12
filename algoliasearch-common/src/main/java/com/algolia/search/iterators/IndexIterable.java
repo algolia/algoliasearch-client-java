@@ -1,5 +1,6 @@
-package com.algolia.search;
+package com.algolia.search.iterators;
 
+import com.algolia.search.APIClient;
 import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RequestOptions;
 import java.util.Iterator;
@@ -11,7 +12,7 @@ public class IndexIterable<T> implements Iterable<T> {
 
   private final IndexIterator<T> iterator;
 
-  IndexIterable(
+  public IndexIterable(
       @Nonnull APIClient apiClient,
       @Nonnull String indexName,
       @Nonnull Query query,
@@ -20,7 +21,7 @@ public class IndexIterable<T> implements Iterable<T> {
     this(apiClient, indexName, query, requestOptions, null, klass);
   }
 
-  IndexIterable(
+  public IndexIterable(
       @Nonnull APIClient apiClient,
       @Nonnull String indexName,
       @Nonnull Query query,
