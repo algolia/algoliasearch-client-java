@@ -37,6 +37,7 @@ public class Query {
   protected Integer maxValuesPerFacet;
   protected List<String> facetFilters;
   protected Boolean facetingAfterDistinct;
+  protected String sortFacetValuesBy;
 
   /* geo-search */
   protected String aroundLatLng;
@@ -140,6 +141,7 @@ public class Query {
     builder = add(builder, "maxValuesPerFacet", maxValuesPerFacet);
     builder = add(builder, "facetFilters", facetFilters);
     builder = add(builder, "facetingAfterDistinct", facetingAfterDistinct);
+    builder = add(builder, "sortFacetValuesBy", sortFacetValuesBy);
 
     /* geo-search */
     builder = add(builder, "aroundLatLng", aroundLatLng);
@@ -819,6 +821,15 @@ public class Query {
     return this;
   }
 
+  public String getSortFacetValuesBy() {
+    return sortFacetValuesBy;
+  }
+
+  public Query setSortFacetValuesBy(String sortFacetValuesBy) {
+    this.sortFacetValuesBy = sortFacetValuesBy;
+    return this;
+  }
+
   @JsonAnyGetter
   public Map<String, String> getCustomParameters() {
     return customParameters;
@@ -874,6 +885,8 @@ public class Query {
         + facetFilters
         + ", facetingAfterDistinct="
         + facetingAfterDistinct
+        + ", sortFacetValuesBy"
+        + sortFacetValuesBy
         + ", aroundLatLng='"
         + aroundLatLng
         + '\''

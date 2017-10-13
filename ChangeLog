@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.14.0 (2017-XX-XX)
+-------------------
+- Add sortFacetValuesBy
+
 2.13.3 (2017-10-09)
 -------------------
 - Fix retry strategy when all hosts are down

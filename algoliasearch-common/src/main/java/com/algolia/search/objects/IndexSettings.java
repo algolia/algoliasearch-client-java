@@ -31,6 +31,7 @@ public class IndexSettings {
 
   /* filtering-faceting */
   private Integer maxValuesPerFacet;
+  private String sortFacetValuesBy;
 
   /* geo-search */
   // nothing on Index Settings
@@ -549,6 +550,15 @@ public class IndexSettings {
     return this;
   }
 
+  public String getSortFacetValuesBy() {
+    return sortFacetValuesBy;
+  }
+
+  public IndexSettings setSortFacetValuesBy(String sortFacetValuesBy) {
+    this.sortFacetValuesBy = sortFacetValuesBy;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "IndexSettings{"
@@ -579,6 +589,8 @@ public class IndexSettings {
         + attributesToRetrieve
         + ", maxValuesPerFacet="
         + maxValuesPerFacet
+        + ", sortFacetValuesBy="
+        + sortFacetValuesBy
         + ", attributesToHighlight="
         + attributesToHighlight
         + ", attributesToSnippet="
