@@ -1,6 +1,7 @@
 package com.algolia.search.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.MapEntry.entry;
 
 import com.algolia.search.Defaults;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,13 +23,13 @@ public class IndexSettingsTest {
   public void typoToleranceBoolean() throws IOException {
     IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of(true));
     IndexSettings result = serializeDeserialize(settings);
-    assertThat(settings).isEqualToComparingFieldByField(result);
-    assertThat(settings.getTypoTolerance()).isEqualTo(TypoTolerance.of(true));
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getTypoTolerance()).isEqualTo(TypoTolerance.of(true));
 
     settings = new IndexSettings().setTypoTolerance(TypoTolerance.of(false));
     result = serializeDeserialize(settings);
-    assertThat(settings).isEqualToComparingFieldByField(result);
-    assertThat(settings.getTypoTolerance()).isEqualTo(TypoTolerance.of(false));
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getTypoTolerance()).isEqualTo(TypoTolerance.of(false));
   }
 
   @Test
@@ -36,21 +37,21 @@ public class IndexSettingsTest {
     IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of("min"));
     IndexSettings result = serializeDeserialize(settings);
 
-    assertThat(settings).isEqualToComparingFieldByField(result);
-    assertThat(settings.getTypoTolerance()).isEqualTo(TypoTolerance.of("min"));
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getTypoTolerance()).isEqualTo(TypoTolerance.of("min"));
   }
 
   @Test
   public void removeStopWordsBoolean() throws IOException {
     IndexSettings settings = new IndexSettings().setRemoveStopWords(RemoveStopWords.of(true));
     IndexSettings result = serializeDeserialize(settings);
-    assertThat(settings).isEqualToComparingFieldByField(result);
-    assertThat(settings.getRemoveStopWords()).isEqualTo(RemoveStopWords.of(true));
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getRemoveStopWords()).isEqualTo(RemoveStopWords.of(true));
 
     settings = new IndexSettings().setRemoveStopWords(RemoveStopWords.of(false));
     result = serializeDeserialize(settings);
-    assertThat(settings).isEqualToComparingFieldByField(result);
-    assertThat(settings.getRemoveStopWords()).isEqualTo(RemoveStopWords.of(false));
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getRemoveStopWords()).isEqualTo(RemoveStopWords.of(false));
   }
 
   @Test
@@ -59,8 +60,16 @@ public class IndexSettingsTest {
         new IndexSettings().setRemoveStopWords(RemoveStopWords.of(Arrays.asList("a", "b")));
     IndexSettings result = serializeDeserialize(settings);
 
-    assertThat(settings).isEqualToComparingFieldByField(result);
-    assertThat(settings.getRemoveStopWords())
-        .isEqualTo(RemoveStopWords.of(Arrays.asList("a", "b")));
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getRemoveStopWords()).isEqualTo(RemoveStopWords.of(Arrays.asList("a", "b")));
+  }
+
+  @Test
+  public void customSettings() throws IOException {
+    IndexSettings settings = new IndexSettings().setCustomSetting("a", "b");
+    IndexSettings result = serializeDeserialize(settings);
+
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getCustomSettings()).containsExactly(entry("a", "b"));
   }
 }

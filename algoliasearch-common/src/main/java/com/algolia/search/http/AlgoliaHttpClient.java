@@ -8,7 +8,10 @@ import com.algolia.search.exceptions.AlgoliaIOException;
 import com.algolia.search.responses.AlgoliaError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.io.CharStreams;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +109,10 @@ public abstract class AlgoliaHttpClient {
     for (String host : hosts) {
       logger.debug("Trying {}", host);
       logger.debug("{}", request.toString(host));
-      logger.debug("{}", content);
+      if (logger.isDebugEnabled() && content != null) {
+        logger.debug("{}", content);
+      }
+
       try {
         response = request(new AlgoliaHttpRequest(host, content, request));
       } catch (IOException e) {
@@ -131,10 +137,17 @@ public abstract class AlgoliaHttpClient {
     }
 
     try {
+      Reader body = response.getBody();
+
+      if (logger.isDebugEnabled()) {
+        String bodyAsString = CharStreams.toString(body);
+        logger.debug("Answer: {}", bodyAsString);
+        body = new StringReader(bodyAsString);
+      }
+
       int code = response.getStatusCode();
       if (code / 100 == 4) {
-        String message =
-            Utils.parseAs(getObjectMapper(), response.getBody(), AlgoliaError.class).getMessage();
+        String message = Utils.parseAs(getObjectMapper(), body, AlgoliaError.class).getMessage();
 
         logger.debug("Got HTTP code {}", code);
 
@@ -154,9 +167,7 @@ public abstract class AlgoliaHttpClient {
       }
 
       return Utils.parseAs(
-          getObjectMapper(),
-          response.getBody(),
-          request.getJavaType(getObjectMapper().getTypeFactory()));
+          getObjectMapper(), body, request.getJavaType(getObjectMapper().getTypeFactory()));
     } catch (IOException e) {
       logger.debug("Error while deserialization", e);
       throw new AlgoliaException("Error while deserialization the response", e);

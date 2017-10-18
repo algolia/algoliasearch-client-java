@@ -104,7 +104,7 @@ public class Query {
   protected String cursor;
 
   /* CUSTOM */
-  protected Map<String, String> customParameters = new HashMap<>();
+  protected Map<String, Object> customParameters = new HashMap<>();
 
   public Query() {}
 
@@ -211,7 +211,7 @@ public class Query {
     builder = add(builder, "cursor", cursor);
 
     /* CUSTOM */
-    for (Map.Entry<String, String> entry : customParameters.entrySet()) {
+    for (Map.Entry<String, Object> entry : customParameters.entrySet()) {
       builder = add(builder, entry.getKey(), entry.getValue());
     }
 
@@ -293,11 +293,13 @@ public class Query {
     return this;
   }
 
+  @JsonIgnore
   public Query setAroundRadiusAll() {
     this.aroundRadius = "all";
     return this;
   }
 
+  @JsonAnySetter
   public Query addCustomParameter(String key, String value) {
     this.customParameters.put(key, value);
     return this;
@@ -496,6 +498,7 @@ public class Query {
     return aroundRadius;
   }
 
+  @JsonIgnore
   public Query setAroundRadius(Object aroundRadius) {
     this.aroundRadius = aroundRadius;
     return this;
@@ -831,12 +834,12 @@ public class Query {
   }
 
   @JsonAnyGetter
-  public Map<String, String> getCustomParameters() {
+  public Map<String, Object> getCustomParameters() {
     return customParameters;
   }
 
   @JsonAnySetter
-  public Query setCustomParameters(Map<String, String> customParameters) {
+  public Query setCustomParameters(Map<String, Object> customParameters) {
     this.customParameters = customParameters;
     return this;
   }

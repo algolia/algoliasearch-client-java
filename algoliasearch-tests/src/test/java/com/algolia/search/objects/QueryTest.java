@@ -1,7 +1,11 @@
 package com.algolia.search.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.MapEntry.entry;
 
+import com.algolia.search.Defaults;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.Collections;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -76,5 +80,22 @@ public class QueryTest {
   public void queryWithEmptyList() {
     Query query = new Query("").setAttributesToHighlight(Lists.emptyList());
     assertThat(query.toParam()).isEqualTo("attributesToHighlight=&query=");
+  }
+
+  private ObjectMapper objectMapper = Defaults.DEFAULT_OBJECT_MAPPER;
+
+  private Query serializeDeserialize(Query obj) throws IOException {
+    String serialized = objectMapper.writeValueAsString(obj);
+    return objectMapper.readValue(
+        serialized, objectMapper.getTypeFactory().constructType(Query.class));
+  }
+
+  @Test
+  public void customParameters() throws IOException {
+    Query query = new Query().addCustomParameter("a", "b");
+    Query result = serializeDeserialize(query);
+
+    assertThat(result).isEqualToComparingFieldByField(query);
+    assertThat(result.getCustomParameters()).containsExactly(entry("a", "b"));
   }
 }
