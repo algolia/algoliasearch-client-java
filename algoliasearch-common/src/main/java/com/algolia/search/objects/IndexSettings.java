@@ -1,12 +1,11 @@
 package com.algolia.search.objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IndexSettings {
@@ -89,6 +88,10 @@ public class IndexSettings {
   private List<String> disableTypoToleranceOnAttributes;
   private List<String> disableTypoToleranceOnWords;
   private String separatorsToIndex;
+
+  /* custom */
+  private Integer version;
+  private Map<String, Object> customSettings = new HashMap<>();
 
   /** Deprecated: Use getSearchableAttributes */
   @Deprecated
@@ -559,6 +562,28 @@ public class IndexSettings {
     return this;
   }
 
+  @JsonAnySetter
+  public IndexSettings setCustomSetting(String key, Object value) {
+    this.customSettings.put(key, value);
+    return this;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getCustomSettings() {
+    return customSettings;
+  }
+
+  @JsonAnySetter
+  public IndexSettings setCustomSettings(Map<String, Object> customSettings) {
+    this.customSettings = customSettings;
+    return this;
+  }
+
+  public IndexSettings setVersion(Integer version) {
+    this.version = version;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "IndexSettings{"
@@ -664,6 +689,8 @@ public class IndexSettings {
         + ", separatorsToIndex='"
         + separatorsToIndex
         + '\''
+        + ", customSettings="
+        + customSettings
         + '}';
   }
 }
