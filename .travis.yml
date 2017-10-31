@@ -1,6 +1,11 @@
 language: java
-jdk:
-- oraclejdk8
+
+matrix:
+  include:
+  - jdk: oraclejdk8
+    env: JAVA_VERSION=8
+  - jdk: oraclejdk9
+    env: JAVA_VERSION=9
 
 cache:
   maven: true
@@ -10,7 +15,9 @@ before_script:
 - "mvn com.coveo:fmt-maven-plugin:check"
 
 script:
-- "mvn clean test jacoco:report jacoco:report-aggregate -B && mvn -pl algoliasearch-tests coveralls:report -B"
+- if [[ "${JAVA_VERSION}" = "8" ]]; then mvn clean test jacoco:report jacoco:report-aggregate -B && mvn -pl algoliasearch-tests coveralls:report -B; fi
+#Disable coverage for java9
+- if [[ "${JAVA_VERSION}" = "9" ]]; then mvn clean test; fi
 
 #deploy snapshots
 after_success:
