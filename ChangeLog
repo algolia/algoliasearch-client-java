@@ -1,9 +1,18 @@
 Changelog
 =========
 
-2.14.0 (2017-XX-XX)
+2.15.0 (2017-11-14)
+-------------------
+- Remove old TypoTolerance enum
+- Add java9 support
+- Add wait for task with requests options
+
+2.14.0 (2017-10-19)
 -------------------
 - Add sortFacetValuesBy
+- Fix deserialization of AlgoliaException
+- Extract rules & synonyms
+- Add custom settings
 
 2.13.3 (2017-10-09)
 -------------------
