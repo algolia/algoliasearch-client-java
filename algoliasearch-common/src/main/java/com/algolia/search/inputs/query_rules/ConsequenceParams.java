@@ -1,9 +1,6 @@
 package com.algolia.search.inputs.query_rules;
 
-import com.algolia.search.objects.Distinct;
-import com.algolia.search.objects.IgnorePlurals;
-import com.algolia.search.objects.Query;
-import com.algolia.search.objects.RemoveStopWords;
+import com.algolia.search.objects.*;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
@@ -24,10 +21,6 @@ public class ConsequenceParams extends Query {
   public ConsequenceParams setQuery(ConsequenceQuery query) {
     this.query = query;
     return this;
-  }
-
-  public ConsequenceParams setQuery(String query) {
-    return this.setQuery(new ConsequenceQueryString(query));
   }
 
   public List<String> getAutomaticFacetFilters() {
@@ -430,7 +423,7 @@ public class ConsequenceParams extends Query {
     return typoTolerance;
   }
 
-  public ConsequenceParams setTypoTolerance(Query.TypoTolerance typoTolerance) {
+  public ConsequenceParams setTypoTolerance(TypoTolerance typoTolerance) {
     return (ConsequenceParams) super.setTypoTolerance(typoTolerance);
   }
 
