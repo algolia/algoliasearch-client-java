@@ -1031,26 +1031,4 @@ public class Query {
       return name;
     }
   }
-
-  public enum TypoTolerance {
-    // the typotolerance is enabled and all typos are retrieved. (Default behavior)
-    TYPO_TRUE("true"),
-    // the typotolerance is disabled.
-    TYPO_FALSE("false"),
-    // only keep results with the minimum number of typos.
-    TYPO_MIN("min"),
-    // the typotolerance with a distance=2 is disabled if the results contain hits without typo.
-    TYPO_STRICT("strict");
-
-    private final String name;
-
-    TypoTolerance(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String toString() {
-      return name;
-    }
-  }
 }
