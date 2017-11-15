@@ -116,7 +116,39 @@ interface IndexCRUD<T> extends BaseSyncIndex<T> {
    */
   default Task copyTo(@Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
-    return getApiClient().copyIndex(getName(), dstIndexName, requestOptions);
+    return getApiClient().copyIndex(getName(), dstIndexName, null, requestOptions);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overridden if it already exist)
+   * @param scopes the list of scopes to copy
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   * @throws AlgoliaException
+   */
+  default Task copyTo(
+      @Nonnull String dstIndexName,
+      @Nonnull List<CopyScope> scopes,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    return getApiClient().copyIndex(getName(), dstIndexName, scopes, requestOptions);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overridden if it already exist)
+   * @param scopes the list of scopes to copy
+   * @return The task associated
+   * @throws AlgoliaException
+   */
+  default Task copyTo(@Nonnull String dstIndexName, @Nonnull List<CopyScope> scopes)
+      throws AlgoliaException {
+    return copyTo(dstIndexName, scopes, RequestOptions.empty);
   }
 }
 
@@ -1578,9 +1610,9 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
   /**
    * Delete records matching a query, with a batch size of 1000, internally uses browse
    *
-   * @deprecated, use deleteBy
    * @param query The query
    * @throws AlgoliaException
+   * @deprecated, use deleteBy
    */
   @Deprecated
   default void deleteByQuery(@Nonnull Query query) throws AlgoliaException {
@@ -1600,10 +1632,10 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
   /**
    * Delete records matching a query, with a batch size of 1000, internally uses browse
    *
-   * @deprecated, use deleteBy
    * @param query The query
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaException
+   * @deprecated, use deleteBy
    */
   @Deprecated
   default void deleteByQuery(@Nonnull Query query, @Nonnull RequestOptions requestOptions)
@@ -1626,10 +1658,10 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
   /**
    * Delete records matching a query, internally uses browse
    *
-   * @deprecated use deleteBy
    * @param query The query
    * @param batchSize the size of the batches
    * @throws AlgoliaException
+   * @deprecated use deleteBy
    */
   @Deprecated
   default void deleteByQuery(@Nonnull Query query, int batchSize) throws AlgoliaException {
@@ -1639,11 +1671,11 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
   /**
    * Delete records matching a query, internally uses browse
    *
-   * @deprecated use deleteBy
    * @param query The query
    * @param batchSize the size of the batches
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaException
+   * @deprecated use deleteBy
    */
   @Deprecated
   default void deleteByQuery(
@@ -1722,6 +1754,8 @@ public class Index<T>
   /**
    * Custom batch
    *
+   * <p>
+   *
    * <p>All operations must have index name set to <code>null</code>
    *
    * @param operations the list of operations to perform on this index
@@ -1735,6 +1769,8 @@ public class Index<T>
 
   /**
    * Custom batch
+   *
+   * <p>
    *
    * <p>All operations must have index name set to <code>null</code>
    *

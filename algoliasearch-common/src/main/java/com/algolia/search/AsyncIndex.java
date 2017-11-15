@@ -67,7 +67,36 @@ interface AsyncIndexCRUD<T> extends BaseAsyncIndex<T> {
    */
   default CompletableFuture<AsyncTask> copyTo(
       @Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().copyIndex(getName(), dstIndexName, requestOptions);
+    return getApiClient().copyIndex(getName(), dstIndexName, null, requestOptions);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overridden if it already exist)
+   * @param scopes the list of scopes to copy
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  default CompletableFuture<AsyncTask> copyTo(
+      @Nonnull String dstIndexName,
+      @Nonnull List<CopyScope> scopes,
+      @Nonnull RequestOptions requestOptions) {
+    return getApiClient().copyIndex(getName(), dstIndexName, scopes, requestOptions);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overridden if it already exist)
+   * @param scopes the list of scopes to copy
+   * @return The task associated
+   */
+  default CompletableFuture<AsyncTask> copyTo(
+      @Nonnull String dstIndexName, @Nonnull List<CopyScope> scopes) {
+    return copyTo(dstIndexName, scopes, RequestOptions.empty);
   }
 
   /**
