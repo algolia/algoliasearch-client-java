@@ -541,7 +541,8 @@ public class APIClient {
     return result.setAPIClient(this).setIndex(srcIndexName);
   }
 
-  Task copyIndex(String srcIndexName, String dstIndexName, RequestOptions requestOptions)
+  Task copyIndex(
+      String srcIndexName, String dstIndexName, List<String> scopes, RequestOptions requestOptions)
       throws AlgoliaException {
     Task result =
         httpClient.requestWithRetry(
@@ -551,7 +552,7 @@ public class APIClient {
                     Arrays.asList("1", "indexes", srcIndexName, "operation"),
                     requestOptions,
                     Task.class)
-                .setData(new OperationOnIndex("copy", dstIndexName)));
+                .setData(new OperationOnIndex("copy", dstIndexName, scopes)));
 
     return result.setAPIClient(this).setIndex(srcIndexName);
   }

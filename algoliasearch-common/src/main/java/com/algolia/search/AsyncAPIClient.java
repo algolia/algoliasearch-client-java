@@ -554,7 +554,10 @@ public class AsyncAPIClient {
   }
 
   CompletableFuture<AsyncTask> copyIndex(
-      String srcIndexName, String dstIndexName, RequestOptions requestOptions) {
+      String srcIndexName,
+      String dstIndexName,
+      List<String> scopes,
+      RequestOptions requestOptions) {
     return httpClient
         .requestWithRetry(
             new AlgoliaRequest<>(
@@ -563,7 +566,7 @@ public class AsyncAPIClient {
                     Arrays.asList("1", "indexes", srcIndexName, "operation"),
                     requestOptions,
                     AsyncTask.class)
-                .setData(new OperationOnIndex("copy", dstIndexName)))
+                .setData(new OperationOnIndex("copy", dstIndexName, scopes)))
         .thenApply(s -> s.setIndex(srcIndexName));
   }
 
