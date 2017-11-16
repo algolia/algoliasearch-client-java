@@ -11,7 +11,7 @@ public class IncrementValueOperation implements PartialUpdateOperation {
   private final String objectID;
 
   /**
-   * Decrement a value
+   * Increment a value
    *
    * @param objectID the id of the object to update
    * @param attributeName the name of the attribute

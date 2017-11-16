@@ -11,11 +11,11 @@ public interface AbstractIndex<T> {
     private String name;
     private String createdAt;
     private String updatedAt;
-    private Integer entries;
-    private Integer dataSize;
-    private Integer fileSize;
-    private Integer lastBuildTimeS;
-    private Integer numberOfPendingTask;
+    private Long entries;
+    private Long dataSize;
+    private Long fileSize;
+    private Long lastBuildTimeS;
+    private Long numberOfPendingTask;
     private Boolean pendingTask;
 
     public String getName() {
@@ -30,23 +30,23 @@ public interface AbstractIndex<T> {
       return updatedAt;
     }
 
-    public Integer getEntries() {
+    public Long getEntries() {
       return entries;
     }
 
-    public Integer getDataSize() {
+    public Long getDataSize() {
       return dataSize;
     }
 
-    public Integer getFileSize() {
+    public Long getFileSize() {
       return fileSize;
     }
 
-    public Integer getLastBuildTimeS() {
+    public Long getLastBuildTimeS() {
       return lastBuildTimeS;
     }
 
-    public Integer getNumberOfPendingTask() {
+    public Long getNumberOfPendingTask() {
       return numberOfPendingTask;
     }
 

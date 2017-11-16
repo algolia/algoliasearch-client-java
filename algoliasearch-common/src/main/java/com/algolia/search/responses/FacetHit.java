@@ -1,10 +1,13 @@
 package com.algolia.search.responses;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+@SuppressWarnings("unused")
 public class FacetHit {
 
   private String value;
   private String highlighted;
-  private Integer count;
+  private Long count;
 
   public String getValue() {
     return value;
@@ -24,11 +27,16 @@ public class FacetHit {
     return this;
   }
 
-  public Integer getCount() {
+  public Long getCount() {
     return count;
   }
 
   public FacetHit setCount(Integer count) {
+    return this.setCount(count.longValue());
+  }
+
+  @JsonSetter
+  public FacetHit setCount(Long count) {
     this.count = count;
     return this;
   }

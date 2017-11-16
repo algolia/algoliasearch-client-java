@@ -1,7 +1,9 @@
 package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
+@SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RuleQuery {
 
@@ -9,8 +11,8 @@ public class RuleQuery {
   private String anchoring = null;
   private String context = null;
 
-  private Integer page = null;
-  private Integer hitsPerPage = null;
+  private Long page = null;
+  private Long hitsPerPage = null;
 
   public RuleQuery(String query) {
     this.query = query;
@@ -46,24 +48,36 @@ public class RuleQuery {
     return this;
   }
 
-  public Integer getPage() {
+  public Long getPage() {
     return page;
   }
 
   /** Set the page to retrieve (zero base). Defaults to 0. */
-  public RuleQuery setPage(Integer page) {
+  @JsonSetter
+  public RuleQuery setPage(Long page) {
     this.page = page;
     return this;
   }
 
-  public Integer getHitsPerPage() {
+  /** Set the page to retrieve (zero base). Defaults to 0. */
+  public RuleQuery setPage(Integer page) {
+    return this.setPage(page.longValue());
+  }
+
+  public Long getHitsPerPage() {
     return hitsPerPage;
   }
 
   /** Set the number of hits per page. Defaults to 10. */
-  public RuleQuery setHitsPerPage(Integer hitsPerPage) {
+  @JsonSetter
+  public RuleQuery setHitsPerPage(Long hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
+  }
+
+  /** Set the number of hits per page. Defaults to 10. */
+  public RuleQuery setHitsPerPage(Integer hitsPerPage) {
+    return this.setHitsPerPage(hitsPerPage.longValue());
   }
 
   @Override

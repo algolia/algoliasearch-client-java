@@ -2,16 +2,18 @@ package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SynonymQuery {
 
   private String query;
   private List<String> types;
-  private Integer page;
-  private Integer hitsPerPage;
+  private Long page;
+  private Long hitsPerPage;
 
   public SynonymQuery(String query) {
     this.query = query;
@@ -35,22 +37,32 @@ public class SynonymQuery {
     return this;
   }
 
-  public Integer getPage() {
+  public Long getPage() {
     return page;
   }
 
-  public SynonymQuery setPage(Integer page) {
+  @JsonSetter
+  public SynonymQuery setPage(Long page) {
     this.page = page;
     return this;
   }
 
-  public Integer getHitsPerPage() {
+  public SynonymQuery setPage(Integer page) {
+    return this.setPage(page.longValue());
+  }
+
+  public Long getHitsPerPage() {
     return hitsPerPage;
   }
 
-  public SynonymQuery setHitsPerPage(Integer hitsPerPage) {
+  @JsonSetter
+  public SynonymQuery setHitsPerPage(Long hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
+  }
+
+  public SynonymQuery setHitsPerPage(Integer hitsPerPage) {
+    return this.setHitsPerPage(hitsPerPage.longValue());
   }
 
   @Override

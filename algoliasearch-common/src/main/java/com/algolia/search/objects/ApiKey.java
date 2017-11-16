@@ -2,8 +2,10 @@ package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiKey {
@@ -12,7 +14,7 @@ public class ApiKey {
 
   private Integer maxQueriesPerIPPerHour;
 
-  private Integer maxHitsPerQuery;
+  private Long maxHitsPerQuery;
 
   private String queryParameters;
 
@@ -26,51 +28,47 @@ public class ApiKey {
 
   private List<String> referers;
 
-  @SuppressWarnings("unused")
   public Integer getValidity() {
     return validity;
   }
 
-  @SuppressWarnings("unused")
   public ApiKey setValidity(Integer validity) {
     this.validity = validity;
     return this;
   }
 
-  @SuppressWarnings("unused")
   public Integer getMaxQueriesPerIPPerHour() {
     return maxQueriesPerIPPerHour;
   }
 
-  @SuppressWarnings("unused")
   public ApiKey setMaxQueriesPerIPPerHour(Integer maxQueriesPerIPPerHour) {
     this.maxQueriesPerIPPerHour = maxQueriesPerIPPerHour;
     return this;
   }
 
-  @SuppressWarnings("unused")
-  public Integer getMaxHitsPerQuery() {
+  public Long getMaxHitsPerQuery() {
     return maxHitsPerQuery;
   }
 
-  @SuppressWarnings("unused")
   public ApiKey setMaxHitsPerQuery(Integer maxHitsPerQuery) {
+    return this.setMaxHitsPerQuery(maxHitsPerQuery.longValue());
+  }
+
+  @JsonSetter
+  public ApiKey setMaxHitsPerQuery(Long maxHitsPerQuery) {
     this.maxHitsPerQuery = maxHitsPerQuery;
     return this;
   }
 
-  @SuppressWarnings("unused")
   public List<String> getAcl() {
     return acl;
   }
 
-  @SuppressWarnings("unused")
   public ApiKey setAcl(List<String> acl) {
     this.acl = acl;
     return this;
   }
 
-  @SuppressWarnings("unused")
   public List<String> getIndexes() {
     return indexes;
   }
@@ -80,23 +78,19 @@ public class ApiKey {
     return this;
   }
 
-  @SuppressWarnings("unused")
   public List<String> getReferers() {
     return referers;
   }
 
-  @SuppressWarnings("unused")
   public ApiKey setReferers(List<String> referers) {
     this.referers = referers;
     return this;
   }
 
-  @SuppressWarnings("unused")
   public String getQueryParameters() {
     return queryParameters;
   }
 
-  @SuppressWarnings("unused")
   public ApiKey setQueryParameters(String queryParameters) {
     this.queryParameters = queryParameters;
     return this;
