@@ -24,7 +24,7 @@ public class Query {
   protected Boolean replaceSynonymsInHighlight;
   protected Integer minProximity;
   protected List<String> responseFields;
-  protected Integer maxFacetHits;
+  protected Long maxFacetHits;
   protected Boolean percentileComputation;
 
   /* attributes */
@@ -34,7 +34,7 @@ public class Query {
   /* filtering-faceting */
   protected String filters;
   protected String facets;
-  protected Integer maxValuesPerFacet;
+  protected Long maxValuesPerFacet;
   protected List<String> facetFilters;
   protected Boolean facetingAfterDistinct;
   protected String sortFacetValuesBy;
@@ -57,10 +57,10 @@ public class Query {
   protected Boolean restrictHighlightAndSnippetArrays;
 
   /* pagination */
-  protected Integer page;
-  protected Integer hitsPerPage;
-  protected Integer offset;
-  protected Integer length;
+  protected Long page;
+  protected Long hitsPerPage;
+  protected Long offset;
+  protected Long length;
 
   /* performance */
   // Nothing in Query
@@ -395,13 +395,18 @@ public class Query {
     return this;
   }
 
-  public Integer getMaxFacetHits() {
+  public Long getMaxFacetHits() {
     return maxFacetHits;
   }
 
-  public Query setMaxFacetHits(Integer maxFacetHits) {
+  @JsonSetter
+  public Query setMaxFacetHits(Long maxFacetHits) {
     this.maxFacetHits = maxFacetHits;
     return this;
+  }
+
+  public Query setMaxFacetHits(Integer maxFacetHits) {
+    return this.setMaxFacetHits(maxFacetHits.longValue());
   }
 
   public Boolean getPercentileComputation() {
@@ -449,13 +454,18 @@ public class Query {
     return this;
   }
 
-  public Integer getMaxValuesPerFacet() {
+  public Long getMaxValuesPerFacet() {
     return maxValuesPerFacet;
   }
 
-  public Query setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+  @JsonSetter
+  public Query setMaxValuesPerFacet(Long maxValuesPerFacet) {
     this.maxValuesPerFacet = maxValuesPerFacet;
     return this;
+  }
+
+  public Query setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+    return this.setMaxValuesPerFacet(maxValuesPerFacet.longValue());
   }
 
   public List<String> getFacetFilters() {
@@ -594,40 +604,60 @@ public class Query {
     return this;
   }
 
-  public Integer getPage() {
+  public Long getPage() {
     return page;
   }
 
-  public Query setPage(Integer page) {
+  @JsonSetter
+  public Query setPage(Long page) {
     this.page = page;
     return this;
   }
 
-  public Integer getHitsPerPage() {
+  public Query setPage(Integer page) {
+    return this.setPage(page.longValue());
+  }
+
+  public Long getHitsPerPage() {
     return hitsPerPage;
   }
 
-  public Query setHitsPerPage(Integer hitsPerPage) {
+  @JsonSetter
+  public Query setHitsPerPage(Long hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
   }
 
-  public Integer getOffset() {
+  public Query setHitsPerPage(Integer hitsPerPage) {
+    return this.setHitsPerPage(hitsPerPage.longValue());
+  }
+
+  public Long getOffset() {
     return offset;
   }
 
-  public Query setOffset(Integer offset) {
+  @JsonSetter
+  public Query setOffset(Long offset) {
     this.offset = offset;
     return this;
   }
 
-  public Integer getLength() {
+  public Query setOffset(Integer offset) {
+    return this.setOffset(offset.longValue());
+  }
+
+  public Long getLength() {
     return length;
   }
 
-  public Query setLength(Integer length) {
+  @JsonSetter
+  public Query setLength(Long length) {
     this.length = length;
     return this;
+  }
+
+  public Query setLength(Integer length) {
+    return this.setLength(length.longValue());
   }
 
   public String getQueryType() {

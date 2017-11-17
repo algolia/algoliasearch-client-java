@@ -1,21 +1,23 @@
 package com.algolia.search.responses;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class SearchResult<T> {
 
-  private Integer page;
+  private Long page;
 
-  private Integer nbHits;
+  private Long nbHits;
 
-  private Integer nbPages;
+  private Long nbPages;
 
-  private Integer hitsPerPage;
+  private Long hitsPerPage;
 
-  private Integer processingTimeMS;
+  private Long processingTimeMS;
 
-  private Map<String, Map<String, Integer>> facets;
+  private Map<String, Map<String, Long>> facets;
 
   private Boolean exhaustiveFacetsCount;
 
@@ -29,106 +31,112 @@ public class SearchResult<T> {
     return hits;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setHits(List<T> hits) {
     this.hits = hits;
     return this;
   }
 
-  @SuppressWarnings("unused")
-  public Integer getPage() {
+  public Long getPage() {
     return page;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setPage(Integer page) {
+    return this.setPage(page.longValue());
+  }
+
+  @JsonSetter
+  public SearchResult setPage(Long page) {
     this.page = page;
     return this;
   }
 
-  @SuppressWarnings("unused")
-  public Integer getNbHits() {
+  public Long getNbHits() {
     return nbHits;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setNbHits(Integer nbHits) {
+    return this.setNbHits(nbHits.longValue());
+  }
+
+  @JsonSetter
+  public SearchResult setNbHits(Long nbHits) {
     this.nbHits = nbHits;
     return this;
   }
 
-  @SuppressWarnings("unused")
-  public Integer getNbPages() {
+  public Long getNbPages() {
     return nbPages;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setNbPages(Integer nbPages) {
+    return this.setNbPages(nbPages.longValue());
+  }
+
+  @JsonSetter
+  public SearchResult setNbPages(Long nbPages) {
     this.nbPages = nbPages;
     return this;
   }
 
-  @SuppressWarnings("unused")
-  public Integer getHitsPerPage() {
+  public Long getHitsPerPage() {
     return hitsPerPage;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setHitsPerPage(Integer hitsPerPage) {
+    return this.setHitsPerPage(hitsPerPage.longValue());
+  }
+
+  @JsonSetter
+  public SearchResult setHitsPerPage(Long hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
   }
 
-  @SuppressWarnings("unused")
-  public Integer getProcessingTimeMS() {
+  public Long getProcessingTimeMS() {
     return processingTimeMS;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setProcessingTimeMS(Integer processingTimeMS) {
+    return this.setProcessingTimeMS(processingTimeMS.longValue());
+  }
+
+  @JsonSetter
+  public SearchResult setProcessingTimeMS(Long processingTimeMS) {
     this.processingTimeMS = processingTimeMS;
     return this;
   }
 
-  @SuppressWarnings("unused")
-  public Map<String, Map<String, Integer>> getFacets() {
+  public Map<String, Map<String, Long>> getFacets() {
     return facets;
   }
 
-  @SuppressWarnings("unused")
-  public SearchResult setFacets(Map<String, Map<String, Integer>> facets) {
+  public SearchResult setFacets(Map<String, Map<String, Long>> facets) {
     this.facets = facets;
     return this;
   }
 
-  @SuppressWarnings("unused")
   public Boolean getExhaustiveFacetsCount() {
     return exhaustiveFacetsCount;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setExhaustiveFacetsCount(Boolean exhaustiveFacetsCount) {
     this.exhaustiveFacetsCount = exhaustiveFacetsCount;
     return this;
   }
 
-  @SuppressWarnings("unused")
   public String getQuery() {
     return query;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setQuery(String query) {
     this.query = query;
     return this;
   }
 
-  @SuppressWarnings("unused")
   public String getParams() {
     return params;
   }
 
-  @SuppressWarnings("unused")
   public SearchResult setParams(String params) {
     this.params = params;
     return this;

@@ -1,15 +1,21 @@
 package com.algolia.search.responses;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class BrowseResult<T> {
 
   private String cursor;
-  private Integer processingTimeMS;
+  private Long processingTimeMS;
   private String query;
   private String params;
   private List<T> hits;
+
+  public static <T> BrowseResult<T> empty() {
+    return new BrowseResult<T>().setCursor(null).setHits(Collections.emptyList());
+  }
 
   public String getCursor() {
     return cursor;
@@ -29,13 +35,18 @@ public class BrowseResult<T> {
     return this;
   }
 
-  public Integer getProcessingTimeMS() {
+  public Long getProcessingTimeMS() {
     return processingTimeMS;
   }
 
-  public BrowseResult<T> setProcessingTimeMS(Integer processingTimeMS) {
+  @JsonSetter
+  public BrowseResult<T> setProcessingTimeMS(Long processingTimeMS) {
     this.processingTimeMS = processingTimeMS;
     return this;
+  }
+
+  public BrowseResult<T> setProcessingTimeMS(Integer processingTimeMS) {
+    return this.setProcessingTimeMS(processingTimeMS.longValue());
   }
 
   public String getQuery() {
@@ -54,10 +65,6 @@ public class BrowseResult<T> {
   public BrowseResult<T> setParams(String params) {
     this.params = params;
     return this;
-  }
-
-  public static <T> BrowseResult<T> empty() {
-    return new BrowseResult<T>().setCursor(null).setHits(Collections.emptyList());
   }
 
   @Override

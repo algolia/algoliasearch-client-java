@@ -3,6 +3,7 @@ package com.algolia.search.inputs.query_rules;
 import com.algolia.search.objects.*;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -42,10 +43,6 @@ public class ConsequenceParams extends Query {
       List<String> automaticOptionalFacetFilters) {
     this.automaticOptionalFacetFilters = automaticOptionalFacetFilters;
     return this;
-  }
-
-  public ConsequenceParams setAroundRadius(Integer aroundRadius) {
-    return (ConsequenceParams) super.setAroundRadius(aroundRadius);
   }
 
   public ConsequenceParams setAroundRadiusAll() {
@@ -132,11 +129,16 @@ public class ConsequenceParams extends Query {
     return (ConsequenceParams) super.setResponseFields(responseFields);
   }
 
-  public Integer getMaxFacetHits() {
+  public Long getMaxFacetHits() {
     return maxFacetHits;
   }
 
   public ConsequenceParams setMaxFacetHits(Integer maxFacetHits) {
+    return (ConsequenceParams) super.setMaxFacetHits(maxFacetHits);
+  }
+
+  @JsonSetter
+  public ConsequenceParams setMaxFacetHits(Long maxFacetHits) {
     return (ConsequenceParams) super.setMaxFacetHits(maxFacetHits);
   }
 
@@ -181,11 +183,16 @@ public class ConsequenceParams extends Query {
     return (ConsequenceParams) super.setFacets(facets);
   }
 
-  public Integer getMaxValuesPerFacet() {
+  public Long getMaxValuesPerFacet() {
     return maxValuesPerFacet;
   }
 
   public ConsequenceParams setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+    return (ConsequenceParams) super.setMaxValuesPerFacet(maxValuesPerFacet);
+  }
+
+  @JsonSetter
+  public ConsequenceParams setMaxValuesPerFacet(Long maxValuesPerFacet) {
     return (ConsequenceParams) super.setMaxValuesPerFacet(maxValuesPerFacet);
   }
 
@@ -223,6 +230,10 @@ public class ConsequenceParams extends Query {
 
   public Object getAroundRadius() {
     return aroundRadius;
+  }
+
+  public ConsequenceParams setAroundRadius(Integer aroundRadius) {
+    return (ConsequenceParams) super.setAroundRadius(aroundRadius);
   }
 
   public Integer getAroundPrecision() {
@@ -307,7 +318,7 @@ public class ConsequenceParams extends Query {
         super.setRestrictHighlightAndSnippetArrays(restrictHighlightAndSnippetArrays);
   }
 
-  public Integer getPage() {
+  public Long getPage() {
     return page;
   }
 
@@ -315,7 +326,11 @@ public class ConsequenceParams extends Query {
     return (ConsequenceParams) super.setPage(page);
   }
 
-  public Integer getHitsPerPage() {
+  public ConsequenceParams setPage(Long page) {
+    return (ConsequenceParams) super.setPage(page);
+  }
+
+  public Long getHitsPerPage() {
     return hitsPerPage;
   }
 
@@ -323,7 +338,12 @@ public class ConsequenceParams extends Query {
     return (ConsequenceParams) super.setHitsPerPage(hitsPerPage);
   }
 
-  public Integer getOffset() {
+  @JsonSetter
+  public ConsequenceParams setHitsPerPage(Long hitsPerPage) {
+    return (ConsequenceParams) super.setHitsPerPage(hitsPerPage);
+  }
+
+  public Long getOffset() {
     return offset;
   }
 
@@ -331,11 +351,20 @@ public class ConsequenceParams extends Query {
     return (ConsequenceParams) super.setOffset(offset);
   }
 
-  public Integer getLength() {
+  public ConsequenceParams setOffset(Long offset) {
+    return (ConsequenceParams) super.setOffset(offset);
+  }
+
+  public Long getLength() {
     return length;
   }
 
   public ConsequenceParams setLength(Integer length) {
+    return (ConsequenceParams) super.setLength(length);
+  }
+
+  @JsonSetter
+  public ConsequenceParams setLength(Long length) {
     return (ConsequenceParams) super.setLength(length);
   }
 
