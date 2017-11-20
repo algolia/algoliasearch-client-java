@@ -1800,7 +1800,7 @@ public class Index<T>
     private Long dataSize;
     private Long fileSize;
     private Long lastBuildTimeS;
-    private Long numberOfPendingTask;
+    private Long numberOfPendingTasks;
     private Boolean pendingTask;
 
     public String getName() {
@@ -1831,8 +1831,8 @@ public class Index<T>
       return lastBuildTimeS;
     }
 
-    public Long getNumberOfPendingTask() {
-      return numberOfPendingTask;
+    public Long getNumberOfPendingTasks() {
+      return numberOfPendingTasks;
     }
 
     public Boolean getPendingTask() {

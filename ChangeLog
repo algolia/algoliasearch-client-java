@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.15.2 (2017-11-20)
+-------------------
+- Fix numberOfPendingTasks typo
+
+2.15.1 (2017-11-15)
+-------------------
+- Add scope copy
+
 2.15.0 (2017-11-14)
 -------------------
 - Remove old TypoTolerance enum
