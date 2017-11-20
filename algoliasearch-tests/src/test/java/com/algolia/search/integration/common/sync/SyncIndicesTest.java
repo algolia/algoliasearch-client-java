@@ -37,7 +37,9 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObject> index = client.initIndex("index1", AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
-    assertThat(client.listIndices()).extracting("name").contains("index1");
+    List<Index.Attributes> listIndices = client.listIndices();
+    assertThat(listIndices).extracting("name").contains("index1");
+    assertThat(listIndices).extracting("numberOfPendingTasks").isNotNull();
   }
 
   @Test
