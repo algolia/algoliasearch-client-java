@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 
 import com.algolia.search.Defaults;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Collections;
@@ -82,19 +84,19 @@ public class QueryTest {
     assertThat(query.toParam()).isEqualTo("attributesToHighlight=&query=");
   }
 
-  private ObjectMapper objectMapper = Defaults.DEFAULT_OBJECT_MAPPER;
-
-  private Query serializeDeserialize(Query obj) throws IOException {
-    String serialized = objectMapper.writeValueAsString(obj);
-    return objectMapper.readValue(
-        serialized, objectMapper.getTypeFactory().constructType(Query.class));
-  }
+  private ObjectMapper objectMapper =
+      Defaults.DEFAULT_OBJECT_MAPPER.setVisibility(
+          PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
   @Test
   public void customParameters() throws IOException {
     Query query = new Query().addCustomParameter("a", "b");
-    Query result = serializeDeserialize(query);
+    String serialized = objectMapper.writeValueAsString(query);
+    assertThat(serialized).isEqualTo("{\"a\":\"b\"}");
 
+    Query result =
+        objectMapper.readValue(
+            serialized, objectMapper.getTypeFactory().constructType(Query.class));
     assertThat(result).isEqualToComparingFieldByField(query);
     assertThat(result.getCustomParameters()).containsExactly(entry("a", "b"));
   }

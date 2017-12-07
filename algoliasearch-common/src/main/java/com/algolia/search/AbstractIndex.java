@@ -5,5 +5,4 @@ public interface AbstractIndex<T> {
   String getName();
 
   Class<T> getKlass();
-
 }
