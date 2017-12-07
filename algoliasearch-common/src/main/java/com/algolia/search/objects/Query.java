@@ -104,7 +104,7 @@ public class Query {
   protected String cursor;
 
   /* CUSTOM */
-  protected Map<String, Object> customParameters = new HashMap<>();
+  @JsonIgnore protected Map<String, Object> customParameters = new HashMap<>();
 
   public Query() {}
 

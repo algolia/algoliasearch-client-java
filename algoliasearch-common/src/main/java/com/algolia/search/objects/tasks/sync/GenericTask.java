@@ -13,6 +13,7 @@ public abstract class GenericTask<T> extends AbstractTask<T> {
 
   @JsonIgnore APIClient apiClient;
 
+  @JsonIgnore
   public GenericTask<T> setAPIClient(APIClient apiClient) {
     this.apiClient = apiClient;
     return this;

@@ -3,6 +3,7 @@ package com.algolia.search.objects.tasks.sync;
 import com.algolia.search.APIClient;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.RequestOptions;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.annotation.Nonnull;
@@ -58,11 +59,13 @@ public class Task extends GenericTask<Long> {
   }
 
   @Override
+  @JsonIgnore
   public Long getTaskIDToWaitFor() {
     return getTaskID();
   }
 
   @Override
+  @JsonIgnore
   public Task setIndex(String indexName) {
     super.setIndex(indexName);
     return this;

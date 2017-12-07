@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.15.3 (2017-12-07)
+-------------------
+- Fix deserialization with specific object mapper
+
 2.15.2 (2017-11-20)
 -------------------
 - Fix numberOfPendingTasks typo
