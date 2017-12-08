@@ -1082,7 +1082,7 @@ public class APIClient {
   TaskSingleIndex partialUpdateObjects(
       String indexName, List<Object> objects, RequestOptions requestOptions)
       throws AlgoliaException {
-    return partialUpdateObjects(indexName, objects, requestOptions, false);
+    return partialUpdateObjects(indexName, objects, requestOptions, true);
   }
 
   TaskSingleIndex partialUpdateObjects(
