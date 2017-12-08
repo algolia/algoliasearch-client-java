@@ -9,6 +9,7 @@ import com.algolia.search.inputs.*;
 import com.algolia.search.inputs.batch.BatchAddObjectOperation;
 import com.algolia.search.inputs.batch.BatchDeleteObjectOperation;
 import com.algolia.search.inputs.batch.BatchPartialUpdateObjectOperation;
+import com.algolia.search.inputs.batch.BatchPartialUpdateObjectNoCreateOperation;
 import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
@@ -1036,14 +1037,19 @@ public class AsyncAPIClient {
 
   CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
       String indexName, List<Object> objects, RequestOptions requestOptions) {
+    return partialUpdateObjects(indexName, objects, requestOptions, false);
+  }
+
+  CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
+          String indexName, List<Object> objects, RequestOptions requestOptions, boolean createIfNotExists) {
     return batch(
             indexName,
             objects
-                .stream()
-                .map(BatchPartialUpdateObjectOperation::new)
-                .collect(Collectors.toList()),
+                    .stream()
+                    .map(createIfNotExists ? BatchPartialUpdateObjectOperation::new : BatchPartialUpdateObjectNoCreateOperation::new)
+                    .collect(Collectors.toList()),
             requestOptions)
-        .thenApply(s -> s.setIndex(indexName));
+            .thenApply(s -> s.setIndex(indexName));
   }
 
   CompletableFuture<SearchFacetResult> searchForFacetValues(
