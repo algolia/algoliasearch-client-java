@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.15.4 (2017-12-1)
+-------------------
+- Add partialUpdateObjects with createIfNotExists
+
 2.15.3 (2017-12-07)
 -------------------
 - Fix deserialization with specific object mapper

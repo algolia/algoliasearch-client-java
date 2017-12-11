@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
@@ -769,6 +770,24 @@ interface AsyncPartialUpdate<T> extends BaseAsyncIndex<T> {
   default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
       @Nonnull List<Object> objects, @Nonnull RequestOptions requestOptions) {
     return getApiClient().partialUpdateObjects(getName(), objects, requestOptions);
+  }
+
+  /**
+   * Partially update a objects
+   *
+   * @param objects the list of objects to update (with an objectID)
+   * @param createIfNotExists Value that indicates the object is created if the objectID doesn't
+   *     exists
+   * @param requestOptions Options to pass to this request
+   * @return the associated task
+   * @throws AlgoliaException
+   */
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
+      @Nonnull List<Object> objects,
+      boolean createIfNotExists,
+      @Nonnull RequestOptions requestOptions) {
+    return getApiClient()
+        .partialUpdateObjects(getName(), objects, requestOptions, createIfNotExists);
   }
 
   /**

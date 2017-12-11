@@ -843,7 +843,7 @@ interface PartialUpdate<T> extends BaseSyncIndex<T> {
   default TaskSingleIndex partialUpdateObjects(
       @Nonnull List<Object> objects, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
-    return partialUpdateObjects(objects, requestOptions, true);
+    return partialUpdateObjects(objects, true, requestOptions);
   }
 
   /**
@@ -851,14 +851,18 @@ interface PartialUpdate<T> extends BaseSyncIndex<T> {
    *
    * @param objects the list of objects to update (with an objectID)
    * @param requestOptions Options to pass to this request
-   * @param createIfNotExists Value that indicates the object is created if the objectID doesn't exists
+   * @param createIfNotExists Value that indicates the object is created if the objectID doesn't
+   *     exists
    * @return the associated task
    * @throws AlgoliaException
    */
   default TaskSingleIndex partialUpdateObjects(
-          @Nonnull List<Object> objects, @Nonnull RequestOptions requestOptions, boolean createIfNotExists)
-          throws AlgoliaException {
-    return getApiClient().partialUpdateObjects(getName(), objects, requestOptions, createIfNotExists);
+      @Nonnull List<Object> objects,
+      boolean createIfNotExists,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    return getApiClient()
+        .partialUpdateObjects(getName(), objects, requestOptions, createIfNotExists);
   }
 
   /**
