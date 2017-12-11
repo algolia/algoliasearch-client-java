@@ -8,8 +8,8 @@ import com.algolia.search.http.HttpMethod;
 import com.algolia.search.inputs.*;
 import com.algolia.search.inputs.batch.BatchAddObjectOperation;
 import com.algolia.search.inputs.batch.BatchDeleteObjectOperation;
-import com.algolia.search.inputs.batch.BatchPartialUpdateObjectOperation;
 import com.algolia.search.inputs.batch.BatchPartialUpdateObjectNoCreateOperation;
+import com.algolia.search.inputs.batch.BatchPartialUpdateObjectOperation;
 import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
@@ -1086,16 +1086,22 @@ public class APIClient {
   }
 
   TaskSingleIndex partialUpdateObjects(
-          String indexName, List<Object> objects, RequestOptions requestOptions, boolean createIfNotExists)
-          throws AlgoliaException {
+      String indexName,
+      List<Object> objects,
+      RequestOptions requestOptions,
+      boolean createIfNotExists)
+      throws AlgoliaException {
     TaskSingleIndex task =
-            batch(
-                    indexName,
-                    objects
-                            .stream()
-                            .map(createIfNotExists ? BatchPartialUpdateObjectOperation::new : BatchPartialUpdateObjectNoCreateOperation::new)
-                            .collect(Collectors.toList()),
-                    requestOptions);
+        batch(
+            indexName,
+            objects
+                .stream()
+                .map(
+                    createIfNotExists
+                        ? BatchPartialUpdateObjectOperation::new
+                        : BatchPartialUpdateObjectNoCreateOperation::new)
+                .collect(Collectors.toList()),
+            requestOptions);
 
     return task.setAPIClient(this).setIndex(indexName);
   }
