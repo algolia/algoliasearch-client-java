@@ -5,6 +5,16 @@ The **Algolia Search API Client for Java** lets you easily use the [Algolia Sear
 
 
 
+**WARNING:**
+The JVM has an infinite cache on successful DNS resolution. As our hostnames points to multiple IPs, the load could be not evenly spread among our machines, and you might also target a dead machine.
+
+You should change this TTL by setting the property `networkaddress.cache.ttl`. For example to set the cache to 60 seconds:
+```java
+java.security.Security.setProperty("networkaddress.cache.ttl", "60");
+```
+
+For debug purposes you can enable debug logging on the API client. It's using [slf4j](https://www.slf4j.org) so it should be compatibnle with most java logger.
+The logger is named `algoliasearch`.
 
 
 
@@ -17,21 +27,15 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 ## Table of Contents
 
 
+
 1. **[Supported platforms](#supported-platforms)**
 
 
 1. **[Install](#install)**
 
 
-1. **[Philosophy](#philosophy)**
-
-    * [Builder](#builder)
-    * [JSON &amp; `Jackson2`](#json--jackson2)
-    * [Async &amp; Future](#async--future)
-
 1. **[Quick Start](#quick-start)**
 
-    * [Initialize the client](#initialize-the-client)
 
 1. **[Push data](#push-data)**
 
@@ -44,8 +48,8 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 
 1. **[Search UI](#search-ui)**
 
-    * [index.html](#indexhtml)
 
+1. **[List of available methods](#list-of-available-methods)**
 
 
 
@@ -57,7 +61,7 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 
 ## Supported platforms
 
-This API client only suports Java 1.8+.
+This API client only supports Java 1.8 & Java 1.9
 If you need support for an older version, please use this [package](https://github.com/algolia/algoliasearch-client-java).
 
 ## Install
@@ -92,9 +96,7 @@ On `Google AppEngine` use this:
 </dependency>
 ```
 
-## Philosophy
-
-### Builder
+#### Builder
 
 The `v2` of the api client uses a builder to create the `APIClient` object:
 * on `Google App Engine` use the `AppEngineAPIClientBuilder`
@@ -102,12 +104,47 @@ The `v2` of the api client uses a builder to create the `APIClient` object:
 * on `Android`, use the [`Android` API Client](https://github.com/algolia/algoliasearch-client-android)
 * on a regular `JVM`, use the `ApacheAPIClientBuilder`
 
-### JSON & `Jackson2`
+#### POJO, JSON & `Jackson2`
+
+The Index (and AsyncIndex) classes are parametrized with a Java class. If you specify one it enables you to have type safe method results.
+This parametrized Java class is expected to follow the POJO convention:
+  * A constructor without parameters
+  * Getters & setters for every field you want to (de)serialize
+
+Example:
+
+```java
+public class Contact {
+
+  private String name;
+  private int age;
+
+  public Contact() {}
+
+  public String getName() {
+    return name;
+  }
+
+  public Contact setName(String name) {
+    this.name = name;
+    return this;
+  }
+
+  public int getAge() {
+    return age;
+  }
+
+  public Contact setAge(int age) {
+    this.age = age;
+    return this;
+  }
+}
+```
 
 All the serialization/deserialization is done with [`Jackson2`](https://github.com/FasterXML/jackson-core/wiki). You can add your custom `ObjectMapper` with the method `setObjectMapper` of the builder.
 Changing it might produce unexpected results. You can find the one used in the interface `com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER`.
 
-### Async & Future
+#### Async & Future
 
 All methods of the `AsyncAPIClient` are exactly the same as the `APIClient` but returns `CompletableFuture<?>`. All other classes are prefixes with `Async`. You can also pass an optional `ExecutorService` to the `build` of the `AsyncHttpAPIClientBuilder`.
 
@@ -122,18 +159,21 @@ You can find both on [your Algolia account](https://www.algolia.com/api-keys).
 
 ```java
 APIClient client = new ApacheAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
+Index<Contact> index = client.initIndex("your_index_name", Contact.class);
 ```
 
 For the asynchronous version:
 
 ```java
 AsyncAPIClient client = new AsyncHttpAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
+AsyncIndex<Contact> index = client.initIndex("your_index_name", Contact.class);
 ```
 
 For `Google AppEngine`:
 
 ```java
 APIClient client = new AppEngineAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
+Index<Contact> index = client.initIndex("your_index_name", Contact.class);
 ```
 
 ## Push data
@@ -236,10 +276,10 @@ System.out.println(index.search(new Query("jimmie paint")).get());
 ## Search UI
 
 **Warning:** If you are building a web application, you may be more interested in using one of our
-[frontend search UI librairies](https://www.algolia.com/doc/guides/search-ui/search-libraries/)
+[frontend search UI libraries](https://www.algolia.com/doc/guides/search-ui/search-libraries/)
 
 The following example shows how to build a front-end search quickly using
-[InstanSearch.js](https://community.algolia.com/instantsearch.js/)
+[InstantSearch.js](https://community.algolia.com/instantsearch.js/)
 
 ### index.html
 
@@ -247,7 +287,9 @@ The following example shows how to build a front-end search quickly using
 <!doctype html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3/dist/instantsearch.min.css">
+  <!-- Always use `2.x` versions in production rather than `2` to mitigate any side effects on your website,
+  Find the latest version on InstantSearch.js website: https://community.algolia.com/instantsearch.js/v2/guides/usage.html -->
 </head>
 <body>
   <header>
@@ -267,7 +309,7 @@ The following example shows how to build a front-end search quickly using
     
   </script>
 
-  <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3/dist/instantsearch.min.js"></script>
   <script src="app.js"></script>
 </body>
 ```
@@ -280,7 +322,10 @@ var search = instantsearch({
   appId: 'YourApplicationID',
   apiKey: 'YourSearchOnlyAPIKey', // search only API key, no ADMIN key
   indexName: 'contacts',
-  urlSync: true
+  urlSync: true,
+  searchParameters: {
+    hitsPerPage: 10
+  }
 });
 
 search.addWidget(
@@ -292,7 +337,6 @@ search.addWidget(
 search.addWidget(
   instantsearch.widgets.hits({
     container: '#hits',
-    hitsPerPage: 10,
     templates: {
       item: document.getElementById('hit-template').innerHTML,
       empty: "We didn't find any results for the search <em>\"{{query}}\"</em>"
@@ -303,10 +347,99 @@ search.addWidget(
 search.start();
 ```
 
+
+
+
+## List of available methods
+
+
+
+
+
+### Search
+
+  - [Search an index](https://algolia.com/doc/api-reference/api-methods/search/?language=java)
+  - [Search for facet values](https://algolia.com/doc/api-reference/api-methods/search-for-facet-values/?language=java)
+  - [Search multiple indexes](https://algolia.com/doc/api-reference/api-methods/multiple-queries/?language=java)
+  - [Browse an index](https://algolia.com/doc/api-reference/api-methods/browse/?language=java)
+
+
+
+### Indexing
+
+  - [Add objects](https://algolia.com/doc/api-reference/api-methods/add-objects/?language=java)
+  - [Update objects](https://algolia.com/doc/api-reference/api-methods/update-objects/?language=java)
+  - [Partial update objects](https://algolia.com/doc/api-reference/api-methods/partial-update-objects/?language=java)
+  - [Delete objects](https://algolia.com/doc/api-reference/api-methods/delete-objects/?language=java)
+  - [Delete by query](https://algolia.com/doc/api-reference/api-methods/delete-by-query/?language=java)
+  - [Get objects](https://algolia.com/doc/api-reference/api-methods/get-objects/?language=java)
+  - [Custom batch](https://algolia.com/doc/api-reference/api-methods/batch/?language=java)
+  - [Wait for operations](https://algolia.com/doc/api-reference/api-methods/wait-task/?language=java)
+
+
+
+### Settings
+
+  - [Get settings](https://algolia.com/doc/api-reference/api-methods/get-settings/?language=java)
+  - [Set settings](https://algolia.com/doc/api-reference/api-methods/set-settings/?language=java)
+
+
+
+### Manage indices
+
+  - [List indexes](https://algolia.com/doc/api-reference/api-methods/list-indices/?language=java)
+  - [Delete index](https://algolia.com/doc/api-reference/api-methods/delete-index/?language=java)
+  - [Copy index](https://algolia.com/doc/api-reference/api-methods/copy-index/?language=java)
+  - [Move index](https://algolia.com/doc/api-reference/api-methods/move-index/?language=java)
+  - [Clear index](https://algolia.com/doc/api-reference/api-methods/clear-index/?language=java)
+
+
+
+### API Keys
+
+  - [Create secured API Key](https://algolia.com/doc/api-reference/api-methods/generate-secured-api-key/?language=java)
+  - [Add API Key](https://algolia.com/doc/api-reference/api-methods/add-api-key/?language=java)
+  - [Update API Key](https://algolia.com/doc/api-reference/api-methods/update-api-key/?language=java)
+  - [Delete API Key](https://algolia.com/doc/api-reference/api-methods/delete-api-key/?language=java)
+  - [Get API Key permissions](https://algolia.com/doc/api-reference/api-methods/get-api-key/?language=java)
+  - [List API Keys](https://algolia.com/doc/api-reference/api-methods/list-api-keys/?language=java)
+
+
+
+### Synonyms
+
+  - [Save synonym](https://algolia.com/doc/api-reference/api-methods/save-synonym/?language=java)
+  - [Batch synonyms](https://algolia.com/doc/api-reference/api-methods/batch-synonyms/?language=java)
+  - [Delete synonym](https://algolia.com/doc/api-reference/api-methods/delete-synonym/?language=java)
+  - [Clear all synonyms](https://algolia.com/doc/api-reference/api-methods/clear-synonyms/?language=java)
+  - [Get synonym](https://algolia.com/doc/api-reference/api-methods/get-synonym/?language=java)
+  - [Search synonyms](https://algolia.com/doc/api-reference/api-methods/search-synonyms/?language=java)
+
+
+
+### Query rules
+
+  - [Save a single rule](https://algolia.com/doc/api-reference/api-methods/rules-save/?language=java)
+  - [Batch save multiple rules](https://algolia.com/doc/api-reference/api-methods/rules-save-batch/?language=java)
+  - [Read a rule](https://algolia.com/doc/api-reference/api-methods/rules-read/?language=java)
+  - [Delete a single rule](https://algolia.com/doc/api-reference/api-methods/rules-delete/?language=java)
+  - [Clear all rules](https://algolia.com/doc/api-reference/api-methods/rules-clear/?language=java)
+  - [Search for rules](https://algolia.com/doc/api-reference/api-methods/rules-search/?language=java)
+
+
+
+
+
+### Advanced
+
+  - [Get latest logs](https://algolia.com/doc/api-reference/api-methods/get-logs/?language=java)
+
+
+
+
 ## Getting Help
 
 - **Need help**? Ask a question to the [Algolia Community](https://discourse.algolia.com/) or on [Stack Overflow](http://stackoverflow.com/questions/tagged/algolia).
 - **Found a bug?** You can open a [GitHub issue](https://github.com/algolia/algoliasearch-client-java-2/issues).
-
 
 
