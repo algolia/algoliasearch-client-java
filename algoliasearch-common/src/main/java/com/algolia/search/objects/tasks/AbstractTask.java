@@ -3,10 +3,11 @@ package com.algolia.search.objects.tasks;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractTask<T> {
+public abstract class AbstractTask<T> implements Serializable {
 
   @JsonIgnore protected String indexName;
 

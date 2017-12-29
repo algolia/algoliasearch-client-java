@@ -1,10 +1,11 @@
 package com.algolia.search.objects;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
 
-public class RequestOptions {
+public class RequestOptions implements Serializable {
 
   public static final RequestOptions empty = new RequestOptions();
 

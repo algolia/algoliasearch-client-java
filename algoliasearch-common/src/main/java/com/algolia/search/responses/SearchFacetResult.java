@@ -1,8 +1,9 @@
 package com.algolia.search.responses;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SearchFacetResult {
+public class SearchFacetResult implements Serializable {
 
   private List<FacetHit> facetHits;
 

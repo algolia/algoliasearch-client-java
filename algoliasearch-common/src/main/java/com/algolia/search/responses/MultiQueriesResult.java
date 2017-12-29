@@ -1,8 +1,9 @@
 package com.algolia.search.responses;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MultiQueriesResult {
+public class MultiQueriesResult implements Serializable {
 
   private List<SearchResult<?>> results;
 

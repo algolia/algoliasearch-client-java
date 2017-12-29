@@ -1,9 +1,10 @@
 package com.algolia.search.inputs.partial_update;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class TagOperation {
+class TagOperation implements Serializable {
 
   private final String value;
   private final String _operation;

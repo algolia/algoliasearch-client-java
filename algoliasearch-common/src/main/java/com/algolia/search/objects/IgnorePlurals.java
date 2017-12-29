@@ -13,13 +13,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 @JsonDeserialize(using = IgnorePluralsDeserializer.class)
 @JsonSerialize(using = IgnorePluralsSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class IgnorePlurals {
+public abstract class IgnorePlurals implements Serializable {
 
   public static IgnorePlurals of(Boolean bool) {
     return new IgnorePluralsBoolean(bool);

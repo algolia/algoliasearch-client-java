@@ -2,6 +2,7 @@ package com.algolia.search.inputs.synonym;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.io.Serializable;
 
 @JsonTypeInfo(
   use = JsonTypeInfo.Id.NAME,
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   @JsonSubTypes.Type(value = Placeholder.class, name = SynonymType.PLACEHOLDER),
   @JsonSubTypes.Type(value = Synonym.class, name = SynonymType.SYNONYM),
 })
-public interface AbstractSynonym {
+public interface AbstractSynonym extends Serializable {
 
   String getObjectID();
 

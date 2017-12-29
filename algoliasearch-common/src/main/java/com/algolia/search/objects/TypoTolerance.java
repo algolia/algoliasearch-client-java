@@ -12,11 +12,12 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
+import java.io.Serializable;
 
 @JsonDeserialize(using = TypoToleranceJsonDeserializer.class)
 @JsonSerialize(using = TypoToleranceJsonSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class TypoTolerance {
+public abstract class TypoTolerance implements Serializable {
 
   public static TypoTolerance of(String string) {
     return new TypoToleranceAsString(string);

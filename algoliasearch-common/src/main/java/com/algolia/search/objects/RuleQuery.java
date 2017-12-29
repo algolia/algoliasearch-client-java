@@ -2,10 +2,11 @@ package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import java.io.Serializable;
 
 @SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RuleQuery {
+public class RuleQuery implements Serializable {
 
   private String query;
   private String anchoring = null;

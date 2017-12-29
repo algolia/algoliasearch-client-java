@@ -1,6 +1,8 @@
 package com.algolia.search.responses;
 
-public class CreateUpdateKey {
+import java.io.Serializable;
+
+public class CreateUpdateKey implements Serializable {
 
   private String key;
   private String createdAt;

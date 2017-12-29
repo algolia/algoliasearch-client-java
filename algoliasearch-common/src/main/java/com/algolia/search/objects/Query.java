@@ -2,6 +2,7 @@ package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.*;
 import com.google.common.collect.ImmutableMap;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.Map;
 @SuppressWarnings({"unused", "WeakerAccess"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Query {
+public class Query implements Serializable {
 
   /* advanced */
   protected Distinct distinct;

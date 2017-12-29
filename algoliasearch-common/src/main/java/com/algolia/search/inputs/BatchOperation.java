@@ -1,6 +1,8 @@
 package com.algolia.search.inputs;
 
-public interface BatchOperation {
+import java.io.Serializable;
+
+public interface BatchOperation extends Serializable {
 
   @SuppressWarnings("unused")
   String getAction();

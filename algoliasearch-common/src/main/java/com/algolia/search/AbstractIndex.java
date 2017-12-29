@@ -1,6 +1,8 @@
 package com.algolia.search;
 
-public interface AbstractIndex<T> {
+import java.io.Serializable;
+
+public interface AbstractIndex<T> extends Serializable {
 
   String getName();
 

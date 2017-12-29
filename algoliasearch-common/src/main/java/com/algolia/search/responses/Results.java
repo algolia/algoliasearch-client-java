@@ -1,9 +1,10 @@
 package com.algolia.search.responses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Results<T> {
+public class Results<T> implements Serializable {
 
   private List<T> results;
 

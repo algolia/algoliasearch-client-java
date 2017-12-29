@@ -1,10 +1,11 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.inputs.synonym.AbstractSynonym;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class SearchSynonymResult {
+public class SearchSynonymResult implements Serializable {
 
   private int nbHits;
   private List<AbstractSynonym> hits;

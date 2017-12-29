@@ -3,12 +3,13 @@ package com.algolia.search.objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import java.io.Serializable;
 import java.util.List;
 
 @SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ApiKey {
+public class ApiKey implements Serializable {
 
   private Integer validity;
 

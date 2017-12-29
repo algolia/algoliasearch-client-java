@@ -1,10 +1,11 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.inputs.query_rules.Rule;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class SearchRuleResult {
+public class SearchRuleResult implements Serializable {
 
   private List<Rule> hits;
   private int nbHits;
