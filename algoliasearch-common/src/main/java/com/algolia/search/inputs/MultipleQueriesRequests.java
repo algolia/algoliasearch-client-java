@@ -2,12 +2,13 @@ package com.algolia.search.inputs;
 
 import com.algolia.search.objects.IndexQuery;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MultipleQueriesRequests {
+public class MultipleQueriesRequests implements Serializable {
 
   private final List<QueryWithIndex> requests;
 

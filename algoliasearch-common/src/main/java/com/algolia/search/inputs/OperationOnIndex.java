@@ -1,10 +1,11 @@
 package com.algolia.search.inputs;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class OperationOnIndex {
+public class OperationOnIndex implements Serializable {
 
   private final String operation;
   private final String destination;

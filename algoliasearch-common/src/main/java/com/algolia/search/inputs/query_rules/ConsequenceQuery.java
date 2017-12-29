@@ -8,12 +8,13 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
+import java.io.Serializable;
 
 @SuppressWarnings("WeakerAccess")
 @JsonDeserialize(using = ConsequenceQueryDeserializer.class)
 @JsonSerialize(using = ConsequenceQuerySerializer.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class ConsequenceQuery {}
+public abstract class ConsequenceQuery implements Serializable {}
 
 class ConsequenceQueryDeserializer extends JsonDeserializer<ConsequenceQuery> {
 

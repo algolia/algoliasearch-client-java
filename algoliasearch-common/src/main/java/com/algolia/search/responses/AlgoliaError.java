@@ -1,6 +1,8 @@
 package com.algolia.search.responses;
 
-public class AlgoliaError {
+import java.io.Serializable;
+
+public class AlgoliaError implements Serializable {
 
   private String message;
 

@@ -1,9 +1,10 @@
 package com.algolia.search.inputs.query_rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Rule {
+public class Rule implements Serializable {
 
   private String objectID;
   private Condition condition;

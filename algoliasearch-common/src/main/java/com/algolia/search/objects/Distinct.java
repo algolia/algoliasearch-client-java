@@ -13,11 +13,12 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
+import java.io.Serializable;
 
 @JsonDeserialize(using = DistinctJsonDeserializer.class)
 @JsonSerialize(using = DistinctJsonSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Distinct {
+public abstract class Distinct implements Serializable {
 
   public static Distinct of(Integer integer) {
     return new DistinctAsInteger(integer);

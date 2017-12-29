@@ -1,11 +1,12 @@
 package com.algolia.search.inputs.query_rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Consequence {
+public class Consequence implements Serializable {
   private ConsequenceParams params;
   private List<ConsequencePromote> promote;
   private Map<String, Object> userData;

@@ -1,7 +1,11 @@
 Changelog
 =========
 
-2.15.4 (2017-12-1)
+2.15.5 (2017-12-29)
+-------------------
+- Add Serializable to multiple objects
+
+2.15.4 (2017-12-11)
 -------------------
 - Add partialUpdateObjects with createIfNotExists
 

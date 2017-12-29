@@ -1,10 +1,11 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.objects.Log;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Logs {
+public class Logs implements Serializable {
 
   private List<Log> logs;
 

@@ -1,9 +1,10 @@
 package com.algolia.search.responses;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import java.io.Serializable;
 
 @SuppressWarnings("unused")
-public class FacetHit {
+public class FacetHit implements Serializable {
 
   private String value;
   private String highlighted;

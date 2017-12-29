@@ -1,11 +1,12 @@
 package com.algolia.search.responses;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class BrowseResult<T> {
+public class BrowseResult<T> implements Serializable {
 
   private String cursor;
   private Long processingTimeMS;

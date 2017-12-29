@@ -1,6 +1,7 @@
 package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
 @SuppressWarnings({"unused", "WeakerAccess"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IndexSettings {
+public class IndexSettings implements Serializable {
 
   /* advanced */
   private String attributeForDistinct;

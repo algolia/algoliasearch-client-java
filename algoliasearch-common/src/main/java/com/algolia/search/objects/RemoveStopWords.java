@@ -12,13 +12,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 @JsonDeserialize(using = RemoveStopWordsDeserializer.class)
 @JsonSerialize(using = RemoveStopWordsSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class RemoveStopWords {
+public abstract class RemoveStopWords implements Serializable {
 
   public static RemoveStopWords of(Boolean bool) {
     return new RemoveStopWordsBoolean(bool);

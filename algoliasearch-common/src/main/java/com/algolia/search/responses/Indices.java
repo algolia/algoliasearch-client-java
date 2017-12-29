@@ -1,10 +1,11 @@
 package com.algolia.search.responses;
 
 import com.algolia.search.Index;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Indices {
+public class Indices implements Serializable {
 
   private List<Index.Attributes> items;
 

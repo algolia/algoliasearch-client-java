@@ -1,6 +1,8 @@
 package com.algolia.search.responses;
 
-public class DeleteKey {
+import java.io.Serializable;
+
+public class DeleteKey implements Serializable {
 
   private String deletedAt;
 

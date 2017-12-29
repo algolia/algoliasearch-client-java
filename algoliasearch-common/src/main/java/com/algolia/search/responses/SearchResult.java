@@ -1,11 +1,12 @@
 package com.algolia.search.responses;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unused")
-public class SearchResult<T> {
+public class SearchResult<T> implements Serializable {
 
   private Long page;
 
