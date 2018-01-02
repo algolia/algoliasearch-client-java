@@ -19,6 +19,12 @@ public class AsyncTask extends AsyncGenericTask<Long> {
   }
 
   @Override
+  public AsyncTask setTaskID(Long taskID) {
+    super.setTaskID(taskID);
+    return this;
+  }
+
+  @Override
   public String toString() {
     return "AsyncTask{" + "indexName='" + indexName + '\'' + ", taskID=" + taskID + '}';
   }

@@ -193,6 +193,17 @@ interface Tasks<T> extends BaseSyncIndex<T> {
   /**
    * Wait for the completion of a task, for 100ms
    *
+   * @param taskID ID of the task to wait for
+   * @throws AlgoliaException
+   */
+  default void waitTask(@Nonnull Long taskID) throws AlgoliaException {
+    Task task = new Task().setAPIClient(getApiClient()).setIndex(getName()).setTaskID(taskID);
+    waitTask(task);
+  }
+
+  /**
+   * Wait for the completion of a task, for 100ms
+   *
    * @param task task to wait for
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaException

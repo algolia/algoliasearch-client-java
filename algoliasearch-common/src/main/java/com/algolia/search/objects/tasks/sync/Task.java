@@ -12,8 +12,10 @@ import javax.annotation.Nonnull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Task extends GenericTask<Long> {
 
+  @Override
+  @JsonIgnore
   public Task setAPIClient(APIClient apiClient) {
-    this.apiClient = apiClient;
+    super.setAPIClient(apiClient);
     return this;
   }
 
@@ -68,6 +70,12 @@ public class Task extends GenericTask<Long> {
   @JsonIgnore
   public Task setIndex(String indexName) {
     super.setIndex(indexName);
+    return this;
+  }
+
+  @Override
+  public Task setTaskID(Long taskID) {
+    super.setTaskID(taskID);
     return this;
   }
 
