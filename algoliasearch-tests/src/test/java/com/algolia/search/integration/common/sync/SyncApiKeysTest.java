@@ -17,6 +17,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("ConstantConditions")
 public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
 
   private static List<String> indicesNames = Arrays.asList("index1", "index2");
@@ -34,8 +35,7 @@ public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
     for (int i = 0; i < 100; i++) {
       Thread.sleep(1000);
       List<ApiKey> apiKeys = index == null ? client.listApiKeys() : index.listApiKeys();
-      boolean found =
-          apiKeys.stream().map(ApiKey::getDescription).anyMatch(k -> k.equals(description));
+      boolean found = apiKeys.stream().map(ApiKey::getDescription).anyMatch(description::equals);
       if (found) {
         return;
       }
@@ -50,8 +50,7 @@ public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
     for (int i = 0; i < 100; i++) {
       Thread.sleep(1000);
       List<ApiKey> apiKeys = index == null ? client.listApiKeys() : index.listApiKeys();
-      boolean found =
-          apiKeys.stream().map(ApiKey::getDescription).anyMatch(k -> k.equals(description));
+      boolean found = apiKeys.stream().map(ApiKey::getDescription).anyMatch(description::equals);
       if (!found) {
         return;
       }
