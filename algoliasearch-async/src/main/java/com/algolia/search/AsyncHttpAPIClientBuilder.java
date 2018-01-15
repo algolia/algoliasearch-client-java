@@ -30,8 +30,9 @@ public final class AsyncHttpAPIClientBuilder extends AsyncAPIClientBuilder {
   }
 
   @Override
-  public GenericAPIClientBuilder addExtraHeader(@Nonnull String key, String value) {
-    return super.addExtraHeader(key, value);
+  public AsyncHttpAPIClientBuilder addExtraHeader(@Nonnull String key, String value) {
+    super.addExtraHeader(key, value);
+    return this;
   }
 
   @Override

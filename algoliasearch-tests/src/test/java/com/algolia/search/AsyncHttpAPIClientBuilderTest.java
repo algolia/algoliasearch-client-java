@@ -14,7 +14,7 @@ public class AsyncHttpAPIClientBuilderTest {
         new AsyncHttpAPIClientBuilder("appId", "apiKey")
             .setConnectTimeout(100)
             .setReadTimeout(200)
-            .setExtraHeader("header", "value")
+            .addExtraHeader("header", "value")
             .build();
 
     assertThat(apiClient.configuration)

@@ -4,6 +4,7 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RequestOptions;
+import com.algolia.search.responses.BrowseResult;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -16,7 +17,7 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    * @return the iterator on top of this index
    * @throws AlgoliaException
    */
-  default IndexIterable<T> browse(@Nonnull Query query) throws AlgoliaException {
+  default IndexIterable<T> browse(@Nonnull Query query) {
     return browse(query, RequestOptions.empty);
   }
 
@@ -28,8 +29,7 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    * @return the iterator on top of this index
    * @throws AlgoliaException
    */
-  default IndexIterable<T> browse(@Nonnull Query query, @Nonnull RequestOptions requestOptions)
-      throws AlgoliaException {
+  default IndexIterable<T> browse(@Nonnull Query query, @Nonnull RequestOptions requestOptions) {
     return new IndexIterable<>(getApiClient(), getName(), query, requestOptions, getKlass());
   }
 
@@ -38,10 +38,10 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    *
    * @param query The query to use to browse
    * @param cursor the cursor to start from
-   * @return the iterator on top of this index
+   * @return browse result
    * @throws AlgoliaException
    */
-  default IndexIterable<T> browseFrom(@Nonnull Query query, @Nullable String cursor)
+  default BrowseResult<T> browseFrom(@Nonnull Query query, @Nullable String cursor)
       throws AlgoliaException {
     return browseFrom(query, cursor, RequestOptions.empty);
   }
@@ -55,10 +55,9 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    * @return the iterator on top of this index
    * @throws AlgoliaException
    */
-  default IndexIterable<T> browseFrom(
+  default BrowseResult<T> browseFrom(
       @Nonnull Query query, @Nullable String cursor, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
-    return new IndexIterable<>(
-        getApiClient(), getName(), query, requestOptions, cursor, getKlass());
+    return getApiClient().browse(getName(), query, cursor, getKlass(), requestOptions);
   }
 }
