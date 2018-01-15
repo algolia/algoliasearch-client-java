@@ -308,7 +308,7 @@ public class AsyncAPIClient {
             .setData(key));
   }
 
-  /** Deprecated: use updateApiKey */
+  /** Deprecated: use ${@link #updateApiKey(String, ApiKey)} */
   @Deprecated
   public CompletableFuture<CreateUpdateKey> updateKey(
       @Nonnull String keyName, @Nonnull ApiKey key) {
@@ -838,7 +838,7 @@ public class AsyncAPIClient {
             .setData(key));
   }
 
-  CompletableFuture<CreateUpdateKey> updateKey(
+  CompletableFuture<CreateUpdateKey> updateApiKey(
       String indexName, String keyName, ApiKey key, RequestOptions requestOptions) {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(

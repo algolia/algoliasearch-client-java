@@ -106,7 +106,7 @@ public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
     waitForKeyPresent(index, apiKey.getDescription());
 
     apiKey = apiKey.setDescription("toto2" + System.currentTimeMillis());
-    index.updateKey(keyName, apiKey);
+    index.updateApiKey(keyName, apiKey);
 
     waitForKeyPresent(index, apiKey.getDescription());
 
