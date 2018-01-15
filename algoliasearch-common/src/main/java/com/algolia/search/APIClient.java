@@ -959,7 +959,6 @@ public class APIClient {
       String synonymID,
       AbstractSynonym content,
       Boolean forwardToReplicas,
-      Boolean replaceExistingSynonyms,
       RequestOptions requestOptions)
       throws AlgoliaException {
     Task task =
@@ -970,12 +969,7 @@ public class APIClient {
                     Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
                     requestOptions,
                     Task.class)
-                .setParameters(
-                    ImmutableMap.of(
-                        "forwardToReplicas",
-                        forwardToReplicas.toString(),
-                        "replaceExistingSynonyms",
-                        replaceExistingSynonyms.toString()))
+                .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
                 .setData(content));
 
     return task.setAPIClient(this).setIndex(indexName);

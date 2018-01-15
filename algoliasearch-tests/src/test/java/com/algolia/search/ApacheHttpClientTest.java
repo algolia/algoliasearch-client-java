@@ -68,14 +68,14 @@ public class ApacheHttpClientTest {
   public void shouldHandleTimeoutsInDns() throws Exception {
     APIClient client = build("java-dsn.algolia.biz", APPLICATION_ID + "-dsn.algolia.net");
 
-    assertThatItTookLessThan(3 * 1000, () -> assertThat(client.listIndices()).isNotNull());
+    assertThatItTookLessThan(3 * 1000, () -> assertThat(client.listIndexes()).isNotNull());
   }
 
   @Test
   public void shouldHandleConnectTimeout() throws Exception {
     APIClient client = build("notcp-xx-1.algolianet.com", APPLICATION_ID + "-dsn.algolia.net");
 
-    assertThatItTookLessThan(3 * 1000, () -> assertThat(client.listIndices()).isNotNull());
+    assertThatItTookLessThan(3 * 1000, () -> assertThat(client.listIndexes()).isNotNull());
   }
 
   @Test
@@ -84,7 +84,7 @@ public class ApacheHttpClientTest {
 
     assertThatItTookLessThan(
         3 * 1000,
-        () -> assertThatExceptionOfType(AlgoliaException.class).isThrownBy(client::listIndices));
+        () -> assertThatExceptionOfType(AlgoliaException.class).isThrownBy(client::listIndexes));
   }
 
   @Test

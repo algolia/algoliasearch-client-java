@@ -935,7 +935,6 @@ public class AsyncAPIClient {
       String synonymID,
       AbstractSynonym content,
       Boolean forwardToReplicas,
-      Boolean replaceExistingSynonyms,
       RequestOptions requestOptions) {
     return httpClient
         .requestWithRetry(
@@ -945,12 +944,7 @@ public class AsyncAPIClient {
                     Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
                     requestOptions,
                     AsyncTask.class)
-                .setParameters(
-                    ImmutableMap.of(
-                        "forwardToReplicas",
-                        forwardToReplicas.toString(),
-                        "replaceExistingSynonyms",
-                        replaceExistingSynonyms.toString()))
+                .setParameters(ImmutableMap.of("forwardToReplicas", forwardToReplicas.toString()))
                 .setData(content))
         .thenApply(s -> s.setIndex(indexName));
   }

@@ -868,7 +868,7 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
    */
   default CompletableFuture<AsyncTask> saveSynonym(
       @Nonnull String synonymID, @Nonnull AbstractSynonym content) {
-    return saveSynonym(synonymID, content, false);
+    return saveSynonym(synonymID, content, false, RequestOptions.empty);
   }
 
   /**
@@ -896,7 +896,7 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
    */
   default CompletableFuture<AsyncTask> saveSynonym(
       @Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas) {
-    return saveSynonym(synonymID, content, forwardToReplicas, false);
+    return saveSynonym(synonymID, content, forwardToReplicas, RequestOptions.empty);
   }
 
   /**
@@ -913,51 +913,8 @@ interface AsyncSynonyms<T> extends BaseAsyncIndex<T> {
       @Nonnull AbstractSynonym content,
       boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions) {
-    return saveSynonym(synonymID, content, forwardToReplicas, false, requestOptions);
-  }
-
-  /**
-   * Saves/updates a synonym
-   *
-   * @param synonymID the id of the synonym
-   * @param content the synonym
-   * @param forwardToReplicas should this request be forwarded to replicas
-   * @param replaceExistingSynonyms should replace if this synonyms exists
-   * @return the associated task
-   */
-  default CompletableFuture<AsyncTask> saveSynonym(
-      @Nonnull String synonymID,
-      @Nonnull AbstractSynonym content,
-      boolean forwardToReplicas,
-      boolean replaceExistingSynonyms) {
-    return saveSynonym(
-        synonymID, content, forwardToReplicas, replaceExistingSynonyms, RequestOptions.empty);
-  }
-
-  /**
-   * Saves/updates a synonym
-   *
-   * @param synonymID the id of the synonym
-   * @param content the synonym
-   * @param forwardToReplicas should this request be forwarded to slaves
-   * @param replaceExistingSynonyms should replace if this synonyms exists
-   * @param requestOptions Options to pass to this request
-   * @return the associated task
-   */
-  default CompletableFuture<AsyncTask> saveSynonym(
-      @Nonnull String synonymID,
-      @Nonnull AbstractSynonym content,
-      boolean forwardToReplicas,
-      boolean replaceExistingSynonyms,
-      @Nonnull RequestOptions requestOptions) {
     return getApiClient()
-        .saveSynonym(
-            getName(),
-            synonymID,
-            content,
-            forwardToReplicas,
-            replaceExistingSynonyms,
-            requestOptions);
+        .saveSynonym(getName(), synonymID, content, forwardToReplicas, requestOptions);
   }
 
   /**
