@@ -56,8 +56,8 @@ public class APIClient {
    * @return A List of the indices and their metadata
    * @throws AlgoliaException
    */
-  public List<Index.Attributes> listIndices() throws AlgoliaException {
-    return listIndices(RequestOptions.empty);
+  public List<Index.Attributes> listIndexes() throws AlgoliaException {
+    return listIndexes(RequestOptions.empty);
   }
 
   /**
@@ -67,7 +67,7 @@ public class APIClient {
    * @return A List of the indices and their metadata
    * @throws AlgoliaException
    */
-  public List<Index.Attributes> listIndices(@Nonnull RequestOptions requestOptions)
+  public List<Index.Attributes> listIndexes(@Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
     Indices result =
         httpClient.requestWithRetry(
@@ -79,6 +79,30 @@ public class APIClient {
                 Indices.class));
 
     return result.getItems();
+  }
+
+  /**
+   * See {@link #listIndexes()}
+   *
+   * @return A List of the indices and their metadata
+   * @throws AlgoliaException
+   */
+  @Deprecated
+  public List<Index.Attributes> listIndices() throws AlgoliaException {
+    return listIndexes(RequestOptions.empty);
+  }
+
+  /**
+   * See {@link #listIndexes(RequestOptions)}
+   *
+   * @param requestOptions Options to pass to this request
+   * @return A List of the indices and their metadata
+   * @throws AlgoliaException
+   */
+  @Deprecated
+  public List<Index.Attributes> listIndices(@Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    return listIndexes(requestOptions);
   }
 
   /**
