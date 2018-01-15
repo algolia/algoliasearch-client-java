@@ -12,7 +12,6 @@ import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.SynonymQuery;
 import com.algolia.search.responses.SearchSynonymResult;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,7 +58,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
     index.saveSynonym("synonym1", new Synonym(synonymList)).waitForCompletion();
 
     SearchSynonymResult searchResult =
-        index.searchSynonyms(new SynonymQuery("").setType(Collections.singletonList("synonym")));
+        index.searchSynonyms(new SynonymQuery("").setType("synonym"));
     assertThat(searchResult.getHits()).hasSize(1);
   }
 
