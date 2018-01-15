@@ -504,7 +504,7 @@ interface AsyncSettings<T> extends BaseAsyncIndex<T> {
 
 interface AsyncKey<T> extends BaseAsyncIndex<T> {
 
-  /** Deprecated: use listApiKeys */
+  /** Deprecated: use {@link #listApiKeys()} */
   @Deprecated
   default CompletableFuture<List<ApiKey>> listKeys() {
     return listApiKeys();
@@ -529,7 +529,7 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
     return getApiClient().listKeys(getName(), requestOptions);
   }
 
-  /** Deprecated: use getApiKey */
+  /** Deprecated: use {@link #getApiKey(String)} */
   @Deprecated
   default CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
     return getApiKey(key);
@@ -557,7 +557,7 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
     return getApiClient().getKey(getName(), key, requestOptions);
   }
 
-  /** Deprecated: use deleteApiKey */
+  /** Deprecated: use {@link #deleteApiKey(String)} */
   @Deprecated
   default CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
     return deleteApiKey(key);
@@ -585,7 +585,7 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
     return getApiClient().deleteKey(getName(), key, requestOptions);
   }
 
-  /** Deprecated: use addApiKey */
+  /** Deprecated: use {@link #addApiKey(ApiKey)} */
   @Deprecated
   default CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
     return addApiKey(key);
@@ -706,24 +706,28 @@ interface AsyncSearchForFacet<T> extends BaseAsyncIndex<T> {
     return this.searchForFacetValues(facetName, facetQuery, null, requestOptions);
   }
 
+  /** Deprecated: use {@link #searchForFacetValues(String, String, Query)} */
   @Deprecated
   default CompletableFuture<SearchFacetResult> searchInFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) {
     return this.searchForFacetValues(facetName, facetQuery, query);
   }
 
+  /** Deprecated: use {@link #searchForFacetValues(String, String)} */
   @Deprecated
   default CompletableFuture<SearchFacetResult> searchInFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery) {
     return this.searchForFacetValues(facetName, facetQuery, null, RequestOptions.empty);
   }
 
+  /** Deprecated: use {@link #searchForFacetValues(String, String, Query)} */
   @Deprecated
   default CompletableFuture<SearchFacetResult> searchFacet(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) {
     return this.searchForFacetValues(facetName, facetQuery, query);
   }
 
+  /** Deprecated: use {@link #searchForFacetValues(String, String)} */
   @Deprecated
   default CompletableFuture<SearchFacetResult> searchFacet(
       @Nonnull String facetName, @Nonnull String facetQuery) {
@@ -1488,6 +1492,8 @@ public class AsyncIndex<T>
   /**
    * Custom batch
    *
+   * <p>
+   *
    * <p>All operations must have index name set to <code>null</code>
    *
    * @param operations the list of operations to perform on this index
@@ -1500,6 +1506,8 @@ public class AsyncIndex<T>
 
   /**
    * Custom batch
+   *
+   * <p>
    *
    * <p>All operations must have index name set to <code>null</code>
    *

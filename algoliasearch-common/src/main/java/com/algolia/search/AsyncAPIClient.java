@@ -6,11 +6,7 @@ import com.algolia.search.http.AlgoliaRequest;
 import com.algolia.search.http.AsyncAlgoliaHttpClient;
 import com.algolia.search.http.HttpMethod;
 import com.algolia.search.inputs.*;
-import com.algolia.search.inputs.batch.BatchAddObjectOperation;
-import com.algolia.search.inputs.batch.BatchDeleteObjectOperation;
-import com.algolia.search.inputs.batch.BatchPartialUpdateObjectNoCreateOperation;
-import com.algolia.search.inputs.batch.BatchPartialUpdateObjectOperation;
-import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
+import com.algolia.search.inputs.batch.*;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
@@ -175,7 +171,7 @@ public class AsyncAPIClient {
     return result.thenApply(Logs::getLogs);
   }
 
-  /** Deprecated: use listApiKeys */
+  /** Deprecated: use {@link #listApiKeys()} */
   @Deprecated
   public CompletableFuture<List<ApiKey>> listKeys() {
     return listApiKeys();
@@ -205,7 +201,7 @@ public class AsyncAPIClient {
     return result.thenApply(ApiKeys::getKeys);
   }
 
-  /** Deprecated: use getApiKey */
+  /** Deprecated: use {@link #getApiKey(String)} */
   @Deprecated
   public CompletableFuture<Optional<ApiKey>> getKey(@Nonnull String key) {
     return getApiKey(key);
@@ -241,7 +237,7 @@ public class AsyncAPIClient {
         .thenApply(Optional::ofNullable);
   }
 
-  /** Deprecated: use deleteApiKey */
+  /** Deprecated: use {@link #deleteApiKey(String)} */
   @Deprecated
   public CompletableFuture<DeleteKey> deleteKey(@Nonnull String key) {
     return deleteApiKey(key);
@@ -273,7 +269,7 @@ public class AsyncAPIClient {
             DeleteKey.class));
   }
 
-  /** Deprecated: Use addApiKey */
+  /** Deprecated: use {@link #addApiKey(ApiKey)} */
   @Deprecated
   public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {
     return addApiKey(key);
@@ -308,7 +304,7 @@ public class AsyncAPIClient {
             .setData(key));
   }
 
-  /** Deprecated: use ${@link #updateApiKey(String, ApiKey)} */
+  /** Deprecated: use {@link #updateApiKey(String, ApiKey)} */
   @Deprecated
   public CompletableFuture<CreateUpdateKey> updateKey(
       @Nonnull String keyName, @Nonnull ApiKey key) {
@@ -436,6 +432,8 @@ public class AsyncAPIClient {
   /**
    * Custom batch
    *
+   * <p>
+   *
    * <p>All operations must have a valid index name (not null)
    *
    * @param operations the list of operations to perform
@@ -448,6 +446,8 @@ public class AsyncAPIClient {
 
   /**
    * Custom batch
+   *
+   * <p>
    *
    * <p>All operations must have a valid index name (not null)
    *
