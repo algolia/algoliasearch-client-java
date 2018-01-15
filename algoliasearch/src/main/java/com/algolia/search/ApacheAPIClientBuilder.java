@@ -18,9 +18,15 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
   }
 
   @Override
+  @Deprecated
   public ApacheAPIClientBuilder setExtraHeader(@Nonnull String key, String value) {
     super.setExtraHeader(key, value);
     return this;
+  }
+
+  @Override
+  public GenericAPIClientBuilder addExtraHeader(@Nonnull String key, String value) {
+    return super.addExtraHeader(key, value);
   }
 
   @Override

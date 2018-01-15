@@ -23,9 +23,15 @@ public final class AppEngineAPIClientBuilder extends APIClientBuilder {
   }
 
   @Override
+  @Deprecated
   public AppEngineAPIClientBuilder setExtraHeader(@Nonnull String key, String value) {
     super.setExtraHeader(key, value);
     return this;
+  }
+
+  @Override
+  public GenericAPIClientBuilder addExtraHeader(@Nonnull String key, String value) {
+    return super.addExtraHeader(key, value);
   }
 
   @Override
