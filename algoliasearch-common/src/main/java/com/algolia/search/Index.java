@@ -92,6 +92,22 @@ public class Index<T>
    *
    * <p>
    *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
    * <p>All operations must have index name set to <code>null</code>
    *
    * @param operations the list of operations to perform on this index
@@ -105,6 +121,22 @@ public class Index<T>
 
   /**
    * Custom batch
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
+   *
+   * <p>
    *
    * <p>
    *

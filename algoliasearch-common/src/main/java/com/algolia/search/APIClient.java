@@ -1175,16 +1175,10 @@ public class APIClient {
   }
 
   TaskSingleIndex partialUpdateObjects(
-      String indexName, List<Object> objects, RequestOptions requestOptions)
-      throws AlgoliaException {
-    return partialUpdateObjects(indexName, objects, requestOptions, true);
-  }
-
-  TaskSingleIndex partialUpdateObjects(
       String indexName,
       List<Object> objects,
-      RequestOptions requestOptions,
-      boolean createIfNotExists)
+      boolean createIfNotExists,
+      RequestOptions requestOptions)
       throws AlgoliaException {
     TaskSingleIndex task =
         batch(

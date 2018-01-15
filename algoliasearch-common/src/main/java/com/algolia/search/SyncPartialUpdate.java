@@ -81,7 +81,21 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
       @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
     return getApiClient()
-        .partialUpdateObjects(getName(), objects, requestOptions, createIfNotExists);
+        .partialUpdateObjects(getName(), objects, createIfNotExists, requestOptions);
+  }
+
+  /**
+   * Partially update a objects
+   *
+   * @param objects the list of objects to update (with an objectID)
+   * @param createIfNotExists Value that indicates the object is created if the objectID doesn't
+   *     exists
+   * @return the associated task
+   * @throws AlgoliaException
+   */
+  default TaskSingleIndex partialUpdateObjects(
+      @Nonnull List<Object> objects, boolean createIfNotExists) throws AlgoliaException {
+    return getApiClient().partialUpdateObjects(getName(), objects, true, RequestOptions.empty);
   }
 
   /**
