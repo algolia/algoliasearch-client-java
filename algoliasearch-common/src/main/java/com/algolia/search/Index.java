@@ -676,6 +676,13 @@ interface Key<T> extends BaseSyncIndex<T> {
     return getApiClient().addKey(getName(), key, requestOptions);
   }
 
+  /** Deprecated: use {@link #updateApiKey(String, ApiKey)} */
+  @Deprecated
+  default CreateUpdateKey updateKey(@Nonnull String keyName, @Nonnull ApiKey key)
+      throws AlgoliaException {
+    return updateApiKey(keyName, key, RequestOptions.empty);
+  }
+
   /**
    * Update a key by name from this index
    *
@@ -684,9 +691,17 @@ interface Key<T> extends BaseSyncIndex<T> {
    * @return the updated key
    * @throws AlgoliaException
    */
-  default CreateUpdateKey updateKey(@Nonnull String keyName, @Nonnull ApiKey key)
+  default CreateUpdateKey updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key)
       throws AlgoliaException {
-    return updateKey(keyName, key, RequestOptions.empty);
+    return updateApiKey(keyName, key, RequestOptions.empty);
+  }
+
+  /** Deprecated: use {@link #updateApiKey(String, ApiKey, RequestOptions)} */
+  @Deprecated
+  default CreateUpdateKey updateKey(
+      @Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    return getApiClient().updateApiKey(getName(), keyName, key, requestOptions);
   }
 
   /**
@@ -698,10 +713,10 @@ interface Key<T> extends BaseSyncIndex<T> {
    * @return the updated key
    * @throws AlgoliaException
    */
-  default CreateUpdateKey updateKey(
+  default CreateUpdateKey updateApiKey(
       @Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
-    return getApiClient().updateKey(getName(), keyName, key, requestOptions);
+    return getApiClient().updateApiKey(getName(), keyName, key, requestOptions);
   }
 }
 

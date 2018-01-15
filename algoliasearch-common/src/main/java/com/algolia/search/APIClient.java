@@ -342,7 +342,7 @@ public class APIClient {
             .setData(key));
   }
 
-  /** Deprecated: use updateApiKey */
+  /** Deprecated: use {@link #updateApiKey(String, ApiKey)} */
   @Deprecated
   public CreateUpdateKey updateKey(@Nonnull String keyName, @Nonnull ApiKey key)
       throws AlgoliaException {
@@ -862,7 +862,7 @@ public class APIClient {
             .setData(key));
   }
 
-  CreateUpdateKey updateKey(
+  CreateUpdateKey updateApiKey(
       String indexName, String keyName, ApiKey key, RequestOptions requestOptions)
       throws AlgoliaException {
     return httpClient.requestWithRetry(

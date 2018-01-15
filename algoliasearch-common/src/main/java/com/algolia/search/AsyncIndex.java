@@ -613,7 +613,7 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
     return getApiClient().addKey(getName(), key, requestOptions);
   }
 
-  /** Deprecated: use updateApiKey */
+  /** Deprecated: use {@link #updateApiKey(String, ApiKey)} */
   @Deprecated
   default CompletableFuture<CreateUpdateKey> updateKey(
       @Nonnull String keyName, @Nonnull ApiKey key) {
@@ -642,7 +642,7 @@ interface AsyncKey<T> extends BaseAsyncIndex<T> {
    */
   default CompletableFuture<CreateUpdateKey> updateApiKey(
       @Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().updateKey(getName(), keyName, key, requestOptions);
+    return getApiClient().updateApiKey(getName(), keyName, key, requestOptions);
   }
 }
 
