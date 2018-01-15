@@ -241,7 +241,7 @@ public class APIClient {
   }
 
   /**
-   * Get a Key from it's name
+   * Get a Key from its name
    *
    * @param key name of the key
    * @return the key
@@ -252,7 +252,7 @@ public class APIClient {
   }
 
   /**
-   * Get a Key from it's name
+   * Get a Key from its name
    *
    * @param key name of the key
    * @param requestOptions Options to pass to this request

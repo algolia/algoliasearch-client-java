@@ -21,7 +21,8 @@ import org.junit.Test;
 
 public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames = Arrays.asList("index1", "index2", "index3", "index4");
+  private static List<String> indicesNames =
+      Arrays.asList("index1", "index2", "index3", "index4", "index5");
 
   @Before
   @After
@@ -31,7 +32,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
     client.batch(clean).waitForCompletion();
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void saveAndGetSynonym() throws AlgoliaException {
     Index<?> index = client.initIndex("index1");
@@ -45,6 +46,20 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
         .isInstanceOf(Synonym.class)
         .isEqualToComparingFieldByField(
             new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
+  }
+
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @Test
+  public void searchWithType() throws AlgoliaException {
+    Index<?> index = client.initIndex("index5");
+
+    List<String> synonymList = Arrays.asList("San Francisco", "SF");
+
+    index.saveSynonym("synonym1", new Synonym(synonymList)).waitForCompletion();
+
+    SearchSynonymResult searchResult =
+        index.searchSynonyms(new SynonymQuery("").setType("synonym"));
+    assertThat(searchResult.getHits()).hasSize(1);
   }
 
   @Test
