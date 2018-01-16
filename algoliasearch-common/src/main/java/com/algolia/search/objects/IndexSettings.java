@@ -21,7 +21,7 @@ public class IndexSettings implements Serializable {
   private Integer maxFacetHits;
 
   /* attributes */
-  /** Deprecated: Use searchableAttributes */
+  /** Deprecated: use {@link #searchableAttributes} */
   @Deprecated private List<String> attributesToIndex;
 
   private List<String> searchableAttributes;
@@ -49,7 +49,7 @@ public class IndexSettings implements Serializable {
   private Long paginationLimitedTo;
 
   /* performance */
-  /** Deprecated: Use numericAttributesForFiltering */
+  /** Deprecated: use {@link #numericAttributesForFiltering} */
   @Deprecated private List<String> numericAttributesToIndex;
 
   private List<String> numericAttributesForFiltering;
@@ -72,7 +72,7 @@ public class IndexSettings implements Serializable {
   /* ranking */
   private List<String> ranking;
   private List<String> customRanking;
-  /** Deprecated: Use replicas */
+  /** Deprecated: use {@link #replicas} */
   @Deprecated private List<String> slaves;
 
   private List<String> replicas;
@@ -94,26 +94,26 @@ public class IndexSettings implements Serializable {
   private Integer version;
   private Map<String, Object> customSettings = new HashMap<>();
 
-  /** Deprecated: Use getSearchableAttributes */
+  /** Deprecated: use {@link #getSearchableAttributes()} */
   @Deprecated
   public List<String> getAttributesToIndex() {
     return attributesToIndex;
   }
 
-  /** Deprecated: Use setSearchableAttributes */
+  /** Deprecated: use {@link #setSearchableAttributes(List)} */
   @Deprecated
   public IndexSettings setAttributesToIndex(List<String> attributesToIndex) {
     this.attributesToIndex = attributesToIndex;
     return this;
   }
 
-  /** Deprecated: Use getNumericAttributesForFiltering */
+  /** Deprecated: use {@link #getNumericAttributesForFiltering()} */
   @Deprecated
   public List<String> getNumericAttributesToIndex() {
     return numericAttributesToIndex;
   }
 
-  /** Deprecated: Use setNumericAttributesForFiltering */
+  /** Deprecated: use {@link #setNumericAttributesForFiltering(List)} */
   @Deprecated
   public IndexSettings setNumericAttributesToIndex(List<String> numericAttributesToIndex) {
     this.numericAttributesToIndex = numericAttributesToIndex;
@@ -165,11 +165,13 @@ public class IndexSettings implements Serializable {
     return this;
   }
 
+  /** Deprecated: use {@link #getReplicas()} */
   @Deprecated
   public List<String> getSlaves() {
     return slaves;
   }
 
+  /** Deprecated: use {@link #setReplicas(List)} */
   @Deprecated
   public IndexSettings setSlaves(List<String> slaves) {
     this.slaves = slaves;
@@ -235,14 +237,14 @@ public class IndexSettings implements Serializable {
     return hitsPerPage;
   }
 
+  public IndexSettings setHitsPerPage(Integer hitsPerPage) {
+    return this.setHitsPerPage(hitsPerPage.longValue());
+  }
+
   @JsonSetter
   public IndexSettings setHitsPerPage(Long hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
-  }
-
-  public IndexSettings setHitsPerPage(Integer hitsPerPage) {
-    return this.setHitsPerPage(hitsPerPage.longValue());
   }
 
   public List<String> getAttributesToRetrieve() {
@@ -330,6 +332,11 @@ public class IndexSettings implements Serializable {
     return ignorePlurals;
   }
 
+  @JsonIgnore
+  public IndexSettings setIgnorePlurals(List<String> ignorePlurals) {
+    return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
+  }
+
   @JsonProperty
   public IndexSettings setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
@@ -338,11 +345,6 @@ public class IndexSettings implements Serializable {
 
   @JsonIgnore
   public IndexSettings setIgnorePlurals(Boolean ignorePlurals) {
-    return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
-  }
-
-  @JsonIgnore
-  public IndexSettings setIgnorePlurals(List<String> ignorePlurals) {
     return this.setIgnorePlurals(IgnorePlurals.of(ignorePlurals));
   }
 
@@ -368,18 +370,23 @@ public class IndexSettings implements Serializable {
     return maxValuesPerFacet;
   }
 
+  public IndexSettings setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+    return this.setMaxValuesPerFacet(maxValuesPerFacet.longValue());
+  }
+
   @JsonSetter
   public IndexSettings setMaxValuesPerFacet(Long maxValuesPerFacet) {
     this.maxValuesPerFacet = maxValuesPerFacet;
     return this;
   }
 
-  public IndexSettings setMaxValuesPerFacet(Integer maxValuesPerFacet) {
-    return this.setMaxValuesPerFacet(maxValuesPerFacet.longValue());
-  }
-
   public Distinct getDistinct() {
     return distinct;
+  }
+
+  @JsonIgnore
+  public IndexSettings setDistinct(Boolean distinct) {
+    return this.setDistinct(Distinct.of(distinct));
   }
 
   @JsonProperty
@@ -390,11 +397,6 @@ public class IndexSettings implements Serializable {
 
   @JsonIgnore
   public IndexSettings setDistinct(Integer distinct) {
-    return this.setDistinct(Distinct.of(distinct));
-  }
-
-  @JsonIgnore
-  public IndexSettings setDistinct(Boolean distinct) {
     return this.setDistinct(Distinct.of(distinct));
   }
 
@@ -411,6 +413,11 @@ public class IndexSettings implements Serializable {
     return removeStopWords;
   }
 
+  @JsonIgnore
+  public IndexSettings setRemoveStopWords(List<String> removeStopWords) {
+    return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
+  }
+
   @JsonProperty
   public IndexSettings setRemoveStopWords(RemoveStopWords removeStopWords) {
     this.removeStopWords = removeStopWords;
@@ -419,11 +426,6 @@ public class IndexSettings implements Serializable {
 
   @JsonIgnore
   public IndexSettings setRemoveStopWords(Boolean removeStopWords) {
-    return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
-  }
-
-  @JsonIgnore
-  public IndexSettings setRemoveStopWords(List<String> removeStopWords) {
     return this.setRemoveStopWords(RemoveStopWords.of(removeStopWords));
   }
 
@@ -504,14 +506,14 @@ public class IndexSettings implements Serializable {
     return paginationLimitedTo;
   }
 
+  public IndexSettings setPaginationLimitedTo(Integer paginationLimitedTo) {
+    return this.setPaginationLimitedTo(paginationLimitedTo.longValue());
+  }
+
   @JsonSetter
   public IndexSettings setPaginationLimitedTo(Long paginationLimitedTo) {
     this.paginationLimitedTo = paginationLimitedTo;
     return this;
-  }
-
-  public IndexSettings setPaginationLimitedTo(Integer paginationLimitedTo) {
-    return this.setPaginationLimitedTo(paginationLimitedTo.longValue());
   }
 
   public List<String> getNumericAttributesForFiltering() {

@@ -559,7 +559,7 @@ interface Settings<T> extends BaseSyncIndex<T> {
 @SuppressWarnings("UnusedReturnValue")
 interface Key<T> extends BaseSyncIndex<T> {
 
-  /** Deprecated: use listApiKeys */
+  /** Deprecated: use {@link #listApiKeys()} */
   @Deprecated
   default List<ApiKey> listKeys() throws AlgoliaException {
     return listApiKeys();
@@ -586,7 +586,7 @@ interface Key<T> extends BaseSyncIndex<T> {
     return getApiClient().listKeys(getName(), requestOptions);
   }
 
-  /** Deprecated: use getApiKey */
+  /** Deprecated: use {@link #getApiKey(String)} */
   @Deprecated
   default Optional<ApiKey> getKey(@Nonnull String key) throws AlgoliaException {
     return getApiKey(key);
@@ -616,7 +616,7 @@ interface Key<T> extends BaseSyncIndex<T> {
     return getApiClient().getKey(getName(), key, requestOptions);
   }
 
-  /** Deprecated: use deleteApiKey */
+  /** Deprecated: use {@link #deleteApiKey(String)} */
   @Deprecated
   default DeleteKey deleteKey(@Nonnull String key) throws AlgoliaException {
     return deleteApiKey(key);
@@ -646,7 +646,7 @@ interface Key<T> extends BaseSyncIndex<T> {
     return getApiClient().deleteKey(getName(), key, requestOptions);
   }
 
-  /** Deprecated: use addApiKey */
+  /** Deprecated: use {@link #addApiKey(ApiKey)} */
   @Deprecated
   default CreateUpdateKey addKey(@Nonnull ApiKey key) throws AlgoliaException {
     return addApiKey(key);
@@ -789,24 +789,28 @@ interface SearchForFacet<T> extends BaseSyncIndex<T> {
         .searchForFacetValues(getName(), facetName, facetQuery, null, requestOptions);
   }
 
+  /** Deprecated: use {@link #searchForFacetValues(String, String, Query)} */
   @Deprecated
   default SearchFacetResult searchInFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
     return this.searchForFacetValues(facetName, facetQuery, query, RequestOptions.empty);
   }
 
+  /** Deprecated: use {@link #searchForFacetValues(String, String)} */
   @Deprecated
   default SearchFacetResult searchInFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
     return this.searchForFacetValues(facetName, facetQuery, null, RequestOptions.empty);
   }
 
+  /** Deprecated: use {@link #searchForFacetValues(String, String, Query)} */
   @Deprecated
   default SearchFacetResult searchFacet(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
     return this.searchForFacetValues(facetName, facetQuery, query, RequestOptions.empty);
   }
 
+  /** Deprecated: use {@link #searchForFacetValues(String, String)} */
   @Deprecated
   default SearchFacetResult searchFacet(@Nonnull String facetName, @Nonnull String facetQuery)
       throws AlgoliaException {
@@ -1605,13 +1609,7 @@ interface Browse<T> extends BaseSyncIndex<T> {
 @SuppressWarnings("SameParameterValue")
 interface DeleteByQuery<T> extends BaseSyncIndex<T> {
 
-  /**
-   * Delete records matching a query, with a batch size of 1000, internally uses browse
-   *
-   * @param query The query
-   * @throws AlgoliaException
-   * @deprecated, use deleteBy
-   */
+  /** Deprecated: use {@link #deleteBy(Query)} */
   @Deprecated
   default void deleteByQuery(@Nonnull Query query) throws AlgoliaException {
     deleteByQuery(query, RequestOptions.empty);
@@ -1627,14 +1625,7 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
     return deleteBy(query, RequestOptions.empty);
   }
 
-  /**
-   * Delete records matching a query, with a batch size of 1000, internally uses browse
-   *
-   * @param query The query
-   * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
-   * @deprecated, use deleteBy
-   */
+  /** Deprecated: use {@link #deleteBy(Query, RequestOptions)} */
   @Deprecated
   default void deleteByQuery(@Nonnull Query query, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -1653,28 +1644,13 @@ interface DeleteByQuery<T> extends BaseSyncIndex<T> {
     return getApiClient().deleteBy(getName(), query, requestOptions);
   }
 
-  /**
-   * Delete records matching a query, internally uses browse
-   *
-   * @param query The query
-   * @param batchSize the size of the batches
-   * @throws AlgoliaException
-   * @deprecated use deleteBy
-   */
+  /** Deprecated: use {@link #deleteBy(Query)} */
   @Deprecated
   default void deleteByQuery(@Nonnull Query query, int batchSize) throws AlgoliaException {
     deleteByQuery(query, batchSize, RequestOptions.empty);
   }
 
-  /**
-   * Delete records matching a query, internally uses browse
-   *
-   * @param query The query
-   * @param batchSize the size of the batches
-   * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
-   * @deprecated use deleteBy
-   */
+  /** Deprecated: use {@link #deleteBy(Query, RequestOptions)} */
   @Deprecated
   default void deleteByQuery(
       @Nonnull Query query, int batchSize, @Nonnull RequestOptions requestOptions)
@@ -1754,6 +1730,10 @@ public class Index<T>
    *
    * <p>
    *
+   * <p>
+   *
+   * <p>
+   *
    * <p>All operations must have index name set to <code>null</code>
    *
    * @param operations the list of operations to perform on this index
@@ -1767,6 +1747,10 @@ public class Index<T>
 
   /**
    * Custom batch
+   *
+   * <p>
+   *
+   * <p>
    *
    * <p>
    *

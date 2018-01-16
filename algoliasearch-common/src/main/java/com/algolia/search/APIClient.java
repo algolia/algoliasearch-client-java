@@ -77,24 +77,13 @@ public class APIClient {
     return result.getItems();
   }
 
-  /**
-   * See {@link #listIndexes()}
-   *
-   * @return A List of the indices and their metadata
-   * @throws AlgoliaException
-   */
+  /** Deprecated: use {@link #listIndexes()} */
   @Deprecated
   public List<Index.Attributes> listIndices() throws AlgoliaException {
     return listIndexes(RequestOptions.empty);
   }
 
-  /**
-   * See {@link #listIndexes(RequestOptions)}
-   *
-   * @param requestOptions Options to pass to this request
-   * @return A List of the indices and their metadata
-   * @throws AlgoliaException
-   */
+  /** Deprecated: use {@link #listIndexes(RequestOptions)} */
   @Deprecated
   public List<Index.Attributes> listIndices(@Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -318,7 +307,7 @@ public class APIClient {
     return result.getLogs();
   }
 
-  /** Deprecated: use listApiKeys */
+  /** Deprecated: use {@link #listApiKeys()} */
   @Deprecated
   public List<ApiKey> listKeys() throws AlgoliaException {
     return listApiKeys();
@@ -350,7 +339,7 @@ public class APIClient {
     return result.getKeys();
   }
 
-  /** Deprecated: use getApiKey */
+  /** Deprecated: use {@link #getApiKey(String)} */
   @Deprecated
   public Optional<ApiKey> getKey(@Nonnull String key) throws AlgoliaException {
     return getApiKey(key);
@@ -387,7 +376,7 @@ public class APIClient {
                 ApiKey.class)));
   }
 
-  /** Deprecated: use deleteApiKey */
+  /** Deprecated: use {@link #deleteApiKey(String)} */
   @Deprecated
   public DeleteKey deleteKey(@Nonnull String key) throws AlgoliaException {
     return deleteApiKey(key);
@@ -421,7 +410,7 @@ public class APIClient {
             DeleteKey.class));
   }
 
-  /** Deprecated: use addApiKey */
+  /** Deprecated: use {@link #addApiKey(ApiKey)} */
   @Deprecated
   public CreateUpdateKey addKey(@Nonnull ApiKey key) throws AlgoliaException {
     return addApiKey(key);
