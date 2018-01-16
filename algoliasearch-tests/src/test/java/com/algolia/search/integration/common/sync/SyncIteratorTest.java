@@ -31,7 +31,7 @@ public abstract class SyncIteratorTest extends SyncAlgoliaIntegrationTest {
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   @Test

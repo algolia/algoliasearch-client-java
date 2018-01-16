@@ -28,7 +28,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   @Test
@@ -51,7 +51,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
     Index<?> index = client.initIndex("index2");
 
-    index.saveRule(queryRuleID, generateRule(queryRuleID)).waitForCompletion();
+    index.saveRule(queryRuleID, generateRule(queryRuleID));
     index.deleteRule(queryRuleID).waitForCompletion();
 
     SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
@@ -63,7 +63,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     String queryRuleID = "queryRule3";
     Index<?> index = client.initIndex("index3");
 
-    index.saveRule(queryRuleID, generateRule(queryRuleID)).waitForCompletion();
+    index.saveRule(queryRuleID, generateRule(queryRuleID));
     index.clearRules().waitForCompletion();
 
     SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));

@@ -30,13 +30,13 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   @Test
   public void batchOnOneIndex() throws AlgoliaException {
     Index<AlgoliaObjectWithID> index = client.initIndex("index1", AlgoliaObjectWithID.class);
-    index.addObject(new AlgoliaObjectWithID("1", "name", 10)).waitForCompletion();
+    index.addObject(new AlgoliaObjectWithID("1", "name", 10));
 
     List<BatchOperation> operations =
         Arrays.asList(
@@ -59,8 +59,7 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
             Arrays.asList(
                 new BatchAddObjectOperation<>(index2, new AlgoliaObjectWithID("1", "name", 2)),
                 new BatchAddObjectOperation<>(index3, new AlgoliaObjectWithID("1", "name", 2)),
-                new BatchAddObjectOperation<>(index4, new AlgoliaObjectWithID("1", "name", 2))))
-        .waitForCompletion();
+                new BatchAddObjectOperation<>(index4, new AlgoliaObjectWithID("1", "name", 2))));
 
     client
         .batch(
@@ -84,8 +83,7 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
     index5
         .addObjects(
             Arrays.asList(
-                new AlgoliaObjectWithID("1", "name", 1), new AlgoliaObjectWithID("2", "name", 2)))
-        .waitForCompletion();
+                new AlgoliaObjectWithID("1", "name", 1), new AlgoliaObjectWithID("2", "name", 2)));
 
     index5
         .partialUpdateObjects(

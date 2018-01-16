@@ -28,7 +28,7 @@ public abstract class SyncPartialUpdateObjectTest extends SyncAlgoliaIntegration
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -38,14 +38,11 @@ public abstract class SyncPartialUpdateObjectTest extends SyncAlgoliaIntegration
     TaskIndexing task =
         index.addObject(
             new AlgoliaObjectWithArray().setTags(Arrays.asList("tag1", "tag2")).setAge(1));
-    task.waitForCompletion();
 
     index
-        .partialUpdateObject(new AddValueOperation(task.getObjectID(), "tags", "tag3"))
-        .waitForCompletion();
+        .partialUpdateObject(new AddValueOperation(task.getObjectID(), "tags", "tag3"));
     index
-        .partialUpdateObject(new RemoveValueOperation(task.getObjectID(), "tags", "tag1"))
-        .waitForCompletion();
+        .partialUpdateObject(new RemoveValueOperation(task.getObjectID(), "tags", "tag1"));
     index
         .partialUpdateObject(new IncrementValueOperation(task.getObjectID(), "age", 1))
         .waitForCompletion();
@@ -62,7 +59,6 @@ public abstract class SyncPartialUpdateObjectTest extends SyncAlgoliaIntegration
     TaskIndexing task =
         index.addObject(
             new AlgoliaObjectWithArray().setTags(Arrays.asList("tag1", "tag2")).setAge(1));
-    task.waitForCompletion();
 
     index
         .partialUpdateObject(task.getObjectID(), new AlgoliaObjectOnlyAge().setAge(10))

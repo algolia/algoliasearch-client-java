@@ -32,7 +32,7 @@ public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   @Test
@@ -93,7 +93,7 @@ public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
 
     // Add object then clear => index is empty
-    index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
+    index.addObject(new AlgoliaObject("name", 1));
     index.clear().waitForCompletion();
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
