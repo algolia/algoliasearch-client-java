@@ -32,12 +32,12 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void getAllIndices() throws AlgoliaException {
-    assertThat(client.listIndices()).isNotNull();
+    assertThat(client.listIndexes()).isNotNull();
 
     Index<AlgoliaObject> index = client.initIndex("index1", AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
-    List<Index.Attributes> listIndices = client.listIndices();
+    List<Index.Attributes> listIndices = client.listIndexes();
     assertThat(listIndices).extracting("name").contains("index1");
     assertThat(listIndices).extracting("numberOfPendingTasks").isNotNull();
   }
@@ -47,10 +47,10 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
-    assertThat(client.listIndices()).extracting("name").contains("index2");
+    assertThat(client.listIndexes()).extracting("name").contains("index2");
 
     index.delete().waitForCompletion();
-    assertThat(client.listIndices()).extracting("name").doesNotContain("index2");
+    assertThat(client.listIndexes()).extracting("name").doesNotContain("index2");
   }
 
   @Test
@@ -58,10 +58,10 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
-    assertThat(client.listIndices()).extracting("name").contains("index3");
+    assertThat(client.listIndexes()).extracting("name").contains("index3");
 
     index.moveTo("index4").waitForCompletion();
-    assertThat(client.listIndices()).extracting("name").doesNotContain("index3").contains("index4");
+    assertThat(client.listIndexes()).extracting("name").doesNotContain("index3").contains("index4");
   }
 
   @Test
@@ -69,10 +69,10 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObject> index = client.initIndex("index5", AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
-    assertThat(client.listIndices()).extracting("name").contains("index5");
+    assertThat(client.listIndexes()).extracting("name").contains("index5");
 
     index.copyTo("index6").waitForCompletion();
-    assertThat(client.listIndices()).extracting("name").contains("index5", "index6");
+    assertThat(client.listIndexes()).extracting("name").contains("index5", "index6");
   }
 
   @Test

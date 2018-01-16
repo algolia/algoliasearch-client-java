@@ -967,7 +967,7 @@ interface Synonyms<T> extends BaseSyncIndex<T> {
    */
   default Task saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content)
       throws AlgoliaException {
-    return saveSynonym(synonymID, content, false);
+    return saveSynonym(synonymID, content, false, RequestOptions.empty);
   }
 
   /**
@@ -999,7 +999,7 @@ interface Synonyms<T> extends BaseSyncIndex<T> {
   default Task saveSynonym(
       @Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas)
       throws AlgoliaException {
-    return saveSynonym(synonymID, content, forwardToReplicas, false);
+    return saveSynonym(synonymID, content, forwardToReplicas, RequestOptions.empty);
   }
 
   /**
@@ -1018,55 +1018,8 @@ interface Synonyms<T> extends BaseSyncIndex<T> {
       boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
-    return saveSynonym(synonymID, content, forwardToReplicas, false, requestOptions);
-  }
-
-  /**
-   * Saves/updates a synonym
-   *
-   * @param synonymID the id of the synonym
-   * @param content the synonym
-   * @param forwardToReplicas should this request be forwarded to replicas
-   * @param replaceExistingSynonyms should replace if this synonyms exists
-   * @return the associated task
-   * @throws AlgoliaException
-   */
-  default Task saveSynonym(
-      @Nonnull String synonymID,
-      @Nonnull AbstractSynonym content,
-      boolean forwardToReplicas,
-      boolean replaceExistingSynonyms)
-      throws AlgoliaException {
-    return saveSynonym(
-        synonymID, content, forwardToReplicas, replaceExistingSynonyms, RequestOptions.empty);
-  }
-
-  /**
-   * Saves/updates a synonym
-   *
-   * @param synonymID the id of the synonym
-   * @param content the synonym
-   * @param forwardToReplicas should this request be forwarded to slaves
-   * @param replaceExistingSynonyms should replace if this synonyms exists
-   * @param requestOptions Options to pass to this request
-   * @return the associated task
-   * @throws AlgoliaException
-   */
-  default Task saveSynonym(
-      @Nonnull String synonymID,
-      @Nonnull AbstractSynonym content,
-      boolean forwardToReplicas,
-      boolean replaceExistingSynonyms,
-      @Nonnull RequestOptions requestOptions)
-      throws AlgoliaException {
     return getApiClient()
-        .saveSynonym(
-            getName(),
-            synonymID,
-            content,
-            forwardToReplicas,
-            replaceExistingSynonyms,
-            requestOptions);
+        .saveSynonym(getName(), synonymID, content, forwardToReplicas, requestOptions);
   }
 
   /**

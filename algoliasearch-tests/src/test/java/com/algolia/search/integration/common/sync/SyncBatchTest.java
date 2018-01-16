@@ -71,7 +71,7 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
         .waitForCompletion();
 
     assertThat(index2.search(new Query("")).getNbHits()).isEqualTo(0);
-    assertThat(client.listIndices()).extracting("name").doesNotContain("index3");
+    assertThat(client.listIndexes()).extracting("name").doesNotContain("index3");
     assertThat(index4.getObject("1").get())
         .isEqualToComparingFieldByField(new AlgoliaObjectWithID("1", "name2", 2));
   }
