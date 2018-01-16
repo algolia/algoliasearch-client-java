@@ -27,7 +27,7 @@ public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   private void waitForKeyPresent(Index<AlgoliaObject> index, String description)
@@ -66,8 +66,7 @@ public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
     // Fill index
     client
         .initIndex("index1", AlgoliaObject.class)
-        .addObject(new AlgoliaObject("1", 1))
-        .waitForCompletion();
+        .addObject(new AlgoliaObject("1", 1));
 
     ApiKey apiKey =
         new ApiKey()
@@ -96,7 +95,7 @@ public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
   public void manageKeysForIndex() throws AlgoliaException, InterruptedException {
     // Fill index
     Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
-    index.addObject(new AlgoliaObject("1", 1)).waitForCompletion();
+    index.addObject(new AlgoliaObject("1", 1));
 
     ApiKey apiKey = new ApiKey().setDescription("toto" + System.currentTimeMillis());
 

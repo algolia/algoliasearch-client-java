@@ -28,7 +28,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -74,7 +74,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
     AlgoliaObject object = new AlgoliaObject("algolia", 4);
 
-    index.addObject("1", object).waitForCompletion();
+    index.addObject("1", object);
 
     index.saveObject("1", new AlgoliaObject("algolia", 5)).waitForCompletion();
     Optional<AlgoliaObject> result = index.getObject("1");
@@ -89,8 +89,8 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     AlgoliaObject obj1 = new AlgoliaObject("algolia1", 4);
     AlgoliaObject obj2 = new AlgoliaObject("algolia2", 4);
 
-    index.addObject("1", obj1).waitForCompletion();
-    index.addObject("2", obj2).waitForCompletion();
+    index.addObject("1", obj1);
+    index.addObject("2", obj2);
 
     index
         .saveObjects(
@@ -110,7 +110,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
   public void deleteObject() throws AlgoliaException {
     Index<AlgoliaObject> index = client.initIndex("index6", AlgoliaObject.class);
     AlgoliaObject object = new AlgoliaObject("algolia", 4);
-    index.addObject("1", object).waitForCompletion();
+    index.addObject("1", object);
 
     index.deleteObject("1").waitForCompletion();
 
@@ -123,8 +123,8 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     AlgoliaObject obj1 = new AlgoliaObject("algolia1", 4);
     AlgoliaObject obj2 = new AlgoliaObject("algolia2", 4);
 
-    index.addObject("1", obj1).waitForCompletion();
-    index.addObject("2", obj2).waitForCompletion();
+    index.addObject("1", obj1);
+    index.addObject("2", obj2);
 
     index.deleteObjects(Arrays.asList("1", "2")).waitForCompletion();
 

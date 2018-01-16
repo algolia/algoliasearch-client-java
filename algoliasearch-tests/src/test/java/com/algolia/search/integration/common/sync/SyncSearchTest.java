@@ -39,7 +39,7 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   @Test
@@ -96,8 +96,7 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
     index
         .setSettings(
             new IndexSettings()
-                .setAttributesForFaceting(Collections.singletonList("searchable(series)")))
-        .waitForCompletion();
+                .setAttributesForFaceting(Collections.singletonList("searchable(series)")));
 
     index
         .addObjects(

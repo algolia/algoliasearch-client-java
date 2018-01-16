@@ -29,7 +29,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
   public void cleanUp() throws AlgoliaException {
     List<BatchOperation> clean =
         indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
+    client.batch(clean);
   }
 
   @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
@@ -67,8 +67,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
     Index<?> index = client.initIndex("index2");
 
     index
-        .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")))
-        .waitForCompletion();
+        .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")));
     index.deleteSynonym("synonym1").waitForCompletion();
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
@@ -80,8 +79,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
     Index<?> index = client.initIndex("index3");
 
     index
-        .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")))
-        .waitForCompletion();
+        .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")));
     index.clearSynonyms().waitForCompletion();
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
