@@ -7,34 +7,18 @@ import com.algolia.search.AlgoliaObjectWithID;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames =
-      Arrays.asList("index1", "index2", "index3", "index4", "index5", "index6", "index7", "index8");
-
-  @Before
-  @After
-  public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
-  }
-
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void getAnObject() throws AlgoliaException {
-    Index<AlgoliaObjectWithID> index = client.initIndex("index1", AlgoliaObjectWithID.class);
+    Index<AlgoliaObjectWithID> index = createIndex(AlgoliaObjectWithID.class);
     AlgoliaObjectWithID objectWithID = new AlgoliaObjectWithID("1", "algolia", 4);
     index.addObject(objectWithID).waitForCompletion();
 
@@ -43,10 +27,10 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     assertThat(objectWithID).isEqualToComparingFieldByField(result.get());
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void getAnObjectWithId() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     AlgoliaObject object = new AlgoliaObject("algolia", 4);
     index.addObject("2", object).waitForCompletion();
 
@@ -57,7 +41,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void addObjects() throws AlgoliaException {
-    Index<AlgoliaObjectWithID> index = client.initIndex("index3", AlgoliaObjectWithID.class);
+    Index<AlgoliaObjectWithID> index = createIndex(AlgoliaObjectWithID.class);
     List<AlgoliaObjectWithID> objectsWithID =
         Arrays.asList(
             new AlgoliaObjectWithID("1", "algolia", 4), new AlgoliaObjectWithID("2", "algolia", 4));
@@ -68,10 +52,10 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     assertThat(objects).extracting("objectID").containsOnly("1", "2");
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void saveObject() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     AlgoliaObject object = new AlgoliaObject("algolia", 4);
 
     index.addObject("1", object).waitForCompletion();
@@ -82,10 +66,10 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     assertThat(result.get()).isEqualToComparingFieldByField(new AlgoliaObject("algolia", 5));
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void saveObjects() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index5", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     AlgoliaObject obj1 = new AlgoliaObject("algolia1", 4);
     AlgoliaObject obj2 = new AlgoliaObject("algolia2", 4);
 
@@ -108,7 +92,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void deleteObject() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index6", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     AlgoliaObject object = new AlgoliaObject("algolia", 4);
     index.addObject("1", object).waitForCompletion();
 
@@ -119,7 +103,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void deleteObjects() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index7", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     AlgoliaObject obj1 = new AlgoliaObject("algolia1", 4);
     AlgoliaObject obj2 = new AlgoliaObject("algolia2", 4);
 
@@ -134,7 +118,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void getObjectsWithAttributesToRetrieve() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index8", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index
         .saveObjects(
             Arrays.asList(

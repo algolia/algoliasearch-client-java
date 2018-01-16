@@ -6,29 +6,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.ApiKey;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList("index1", "index2");
-
-  @Before
-  @After
-  public void cleanUp() throws Exception {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    waitForCompletion(client.batch(clean));
-  }
 
   private void waitForKeyPresent(AsyncIndex<AlgoliaObject> index, String description)
       throws Exception {
@@ -72,17 +56,17 @@ public abstract class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
     futureAssertThat(client.listApiKeys()).extracting("description").doesNotContain(description);
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void manageKeys() throws Exception {
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     // Fill index
-    waitForCompletion(
-        client.initIndex("index1", AlgoliaObject.class).addObject(new AlgoliaObject("1", 1)));
+    waitForCompletion(index.addObject(new AlgoliaObject("1", 1)));
 
     ApiKey apiKey =
         new ApiKey()
             .setDescription("toto" + System.currentTimeMillis())
-            .setIndexes(Collections.singletonList("index1"));
+            .setIndexes(Collections.singletonList(index.getName()));
 
     String keyName = client.addApiKey(apiKey).get().getKey();
     assertThat(keyName).isNotNull();
@@ -102,11 +86,11 @@ public abstract class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
     waitForKeyNotPresent(null, apiKey.getDescription());
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void manageKeysForIndex() throws Exception {
     // Fill index
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     waitForCompletion(index.addObject(new AlgoliaObject("1", 1)));
 
     ApiKey apiKey = new ApiKey().setDescription("toto" + System.currentTimeMillis());

@@ -6,78 +6,68 @@ import com.algolia.search.AlgoliaObject;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.Query;
 import com.algolia.search.responses.SearchResult;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames =
-      Arrays.asList("index1", "index2", "index3", "index4", "index5", "index6", "index7");
-
-  @Before
-  @After
-  public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
-  }
 
   @Test
   public void getAllIndices() throws AlgoliaException {
     assertThat(client.listIndexes()).isNotNull();
 
-    Index<AlgoliaObject> index = client.initIndex("index1", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
     List<Index.Attributes> listIndices = client.listIndexes();
-    assertThat(listIndices).extracting("name").contains("index1");
+    assertThat(listIndices).extracting("name").contains(index.getName());
     assertThat(listIndices).extracting("numberOfPendingTasks").isNotNull();
   }
 
   @Test
   public void deleteIndex() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
-    assertThat(client.listIndexes()).extracting("name").contains("index2");
+    assertThat(client.listIndexes()).extracting("name").contains(index.getName());
 
     index.delete().waitForCompletion();
-    assertThat(client.listIndexes()).extracting("name").doesNotContain("index2");
+    assertThat(client.listIndexes()).extracting("name").doesNotContain(index.getName());
   }
 
   @Test
   public void moveIndex() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
-    assertThat(client.listIndexes()).extracting("name").contains("index3");
+    assertThat(client.listIndexes()).extracting("name").contains(index.getName());
 
-    index.moveTo("index4").waitForCompletion();
-    assertThat(client.listIndexes()).extracting("name").doesNotContain("index3").contains("index4");
+    Index<AlgoliaObject> indexMoveTo = createIndex(AlgoliaObject.class);
+    index.moveTo(indexMoveTo.getName()).waitForCompletion();
+    assertThat(client.listIndexes())
+        .extracting("name")
+        .doesNotContain(index.getName())
+        .contains(indexMoveTo.getName());
   }
 
   @Test
   public void copyIndex() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index5", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
-    assertThat(client.listIndexes()).extracting("name").contains("index5");
+    assertThat(client.listIndexes()).extracting("name").contains(index.getName());
 
-    index.copyTo("index6").waitForCompletion();
-    assertThat(client.listIndexes()).extracting("name").contains("index5", "index6");
+    Index<AlgoliaObject> indexCopyTo = createIndex(AlgoliaObject.class);
+    index.copyTo(indexCopyTo.getName()).waitForCompletion();
+    assertThat(client.listIndexes())
+        .extracting("name")
+        .contains(index.getName(), indexCopyTo.getName());
   }
 
   @Test
   public void clearIndex() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index7", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
 
     index.clear().waitForCompletion();

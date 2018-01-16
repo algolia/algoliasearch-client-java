@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.SynonymQuery;
@@ -13,27 +11,15 @@ import com.algolia.search.responses.SearchSynonymResult;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("ConstantConditions")
 public abstract class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList("index1", "index2", "index3", "index4");
-
-  @Before
-  @After
-  public void cleanUp() throws Exception {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    waitForCompletion(client.batch(clean));
-  }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void saveAndGetSynonym() throws Exception {
-    AsyncIndex<?> index = client.initIndex("index1");
+    AsyncIndex<?> index = createIndex();
 
     List<String> synonymList = Arrays.asList("San Francisco", "SF");
 
@@ -48,7 +34,7 @@ public abstract class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
 
   @Test
   public void deleteSynonym() throws Exception {
-    AsyncIndex<?> index = client.initIndex("index2");
+    AsyncIndex<?> index = createIndex();
 
     waitForCompletion(
         index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))));
@@ -60,7 +46,7 @@ public abstract class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
 
   @Test
   public void clearSynonym() throws Exception {
-    AsyncIndex<?> index = client.initIndex("index3");
+    AsyncIndex<?> index = createIndex();
 
     waitForCompletion(
         index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))));
@@ -72,7 +58,7 @@ public abstract class AsyncSynonymsTest extends AsyncAlgoliaIntegrationTest {
 
   @Test
   public void batchSaveSynonyms() throws Exception {
-    AsyncIndex<?> index = client.initIndex("index4");
+    AsyncIndex<?> index = createIndex();
 
     List<String> a = Arrays.asList("San Francisco", "SF");
     List<String> b = Arrays.asList("Paris", "pas la province");

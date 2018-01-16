@@ -14,27 +14,13 @@ import com.algolia.search.objects.Query;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AsyncBatchTest extends AsyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames =
-      Arrays.asList("index1", "index2", "index3", "index4", "index5");
-
-  @Before
-  @After
-  public void cleanUp() throws Exception {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).get();
-  }
-
   @Test
   public void batchOnOneIndex() throws Exception {
-    AsyncIndex<AlgoliaObjectWithID> index = client.initIndex("index1", AlgoliaObjectWithID.class);
+    AsyncIndex<AlgoliaObjectWithID> index = createIndex(AlgoliaObjectWithID.class);
     waitForCompletion(index.addObject(new AlgoliaObjectWithID("1", "name", 10)));
 
     List<BatchOperation> operations =
@@ -47,12 +33,12 @@ public abstract class AsyncBatchTest extends AsyncAlgoliaIntegrationTest {
     assertThat(index.search(new Query("")).get().getNbHits()).isEqualTo(2);
   }
 
-  @SuppressWarnings({"OptionalGetWithoutIsPresent", "unchecked"})
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "unchecked", "ConstantConditions"})
   @Test
   public void batchOnMultipleIndices() throws Exception {
-    AsyncIndex<AlgoliaObjectWithID> index2 = client.initIndex("index2", AlgoliaObjectWithID.class);
-    AsyncIndex<AlgoliaObjectWithID> index3 = client.initIndex("index3", AlgoliaObjectWithID.class);
-    AsyncIndex<AlgoliaObjectWithID> index4 = client.initIndex("index4", AlgoliaObjectWithID.class);
+    AsyncIndex<AlgoliaObjectWithID> index2 = createIndex(AlgoliaObjectWithID.class);
+    AsyncIndex<AlgoliaObjectWithID> index3 = createIndex(AlgoliaObjectWithID.class);
+    AsyncIndex<AlgoliaObjectWithID> index4 = createIndex(AlgoliaObjectWithID.class);
 
     waitForCompletion(
         client.batch(
@@ -75,10 +61,10 @@ public abstract class AsyncBatchTest extends AsyncAlgoliaIntegrationTest {
         .isEqualToComparingFieldByField(new AlgoliaObjectWithID("1", "name2", 2));
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void batchPartialUpdateObjects() throws Exception {
-    AsyncIndex<AlgoliaObjectWithID> index5 = client.initIndex("index5", AlgoliaObjectWithID.class);
+    AsyncIndex<AlgoliaObjectWithID> index5 = createIndex(AlgoliaObjectWithID.class);
 
     waitForCompletion(
         index5.addObjects(

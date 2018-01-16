@@ -8,7 +8,8 @@ matrix:
     env: JAVA_VERSION=9
 
 cache:
-  maven: true
+  directories:
+  - $HOME/.m2
 
 #check coverage
 before_script:
