@@ -107,6 +107,114 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Moves an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   */
+  public CompletableFuture<AsyncTask> moveIndex(
+      @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
+    return moveIndex(srcIndexName, dstIndexName, RequestOptions.empty);
+  }
+
+  /**
+   * Moves an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  public CompletableFuture<AsyncTask> moveIndex(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setData(new OperationOnIndex("move", dstIndexName)))
+        .thenApply(s -> s.setIndex(srcIndexName));
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   */
+  public CompletableFuture<AsyncTask> copyIndex(
+      @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
+    return copyIndex(srcIndexName, dstIndexName, null, RequestOptions.empty);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  public CompletableFuture<AsyncTask> copyIndex(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions) {
+    return copyIndex(srcIndexName, dstIndexName, null, requestOptions);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param scopes the list of scopes to copy
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  public CompletableFuture<AsyncTask> copyIndex(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull List<String> scopes,
+      @Nonnull RequestOptions requestOptions) {
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
+                    requestOptions,
+                    AsyncTask.class)
+                .setData(new OperationOnIndex("copy", dstIndexName, scopes)))
+        .thenApply(s -> s.setIndex(srcIndexName));
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param scopes the list of scopes to copy
+   * @return The task associated
+   */
+  public CompletableFuture<AsyncTask> copyIndex(
+      @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scopes) {
+    return copyIndex(srcIndexName, dstIndexName, scopes, RequestOptions.empty);
+  }
+
+  /**
    * Return 10 last log entries.
    *
    * @return A List<Log>
@@ -540,37 +648,6 @@ public class AsyncAPIClient {
   }
 
   /** Package protected method for the Index class */
-  CompletableFuture<AsyncTask> moveIndex(
-      String srcIndexName, String dstIndexName, RequestOptions requestOptions) {
-    return httpClient
-        .requestWithRetry(
-            new AlgoliaRequest<>(
-                    HttpMethod.POST,
-                    false,
-                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
-                    requestOptions,
-                    AsyncTask.class)
-                .setData(new OperationOnIndex("move", dstIndexName)))
-        .thenApply(s -> s.setIndex(srcIndexName));
-  }
-
-  CompletableFuture<AsyncTask> copyIndex(
-      String srcIndexName,
-      String dstIndexName,
-      List<String> scopes,
-      RequestOptions requestOptions) {
-    return httpClient
-        .requestWithRetry(
-            new AlgoliaRequest<>(
-                    HttpMethod.POST,
-                    false,
-                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
-                    requestOptions,
-                    AsyncTask.class)
-                .setData(new OperationOnIndex("copy", dstIndexName, scopes)))
-        .thenApply(s -> s.setIndex(srcIndexName));
-  }
-
   CompletableFuture<AsyncTask> deleteIndex(String indexName, RequestOptions requestOptions) {
     return httpClient
         .requestWithRetry(

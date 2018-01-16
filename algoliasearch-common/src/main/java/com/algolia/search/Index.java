@@ -71,7 +71,7 @@ interface IndexCRUD<T> extends BaseSyncIndex<T> {
    * Moves an existing index
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
-   *     will be overriten if it already exist)
+   *     will be overwritten if it already exist)
    * @return The task associated
    * @throws AlgoliaException
    */
@@ -83,7 +83,7 @@ interface IndexCRUD<T> extends BaseSyncIndex<T> {
    * Moves an existing index
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
-   *     will be overriten if it already exist)
+   *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
    * @return The task associated
    * @throws AlgoliaException
@@ -97,7 +97,7 @@ interface IndexCRUD<T> extends BaseSyncIndex<T> {
    * Copy an existing index
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
-   *     will be overridden if it already exist)
+   *     will be overwritten if it already exist)
    * @return The task associated
    * @throws AlgoliaException
    */
@@ -109,7 +109,7 @@ interface IndexCRUD<T> extends BaseSyncIndex<T> {
    * Copy an existing index
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
-   *     will be overridden if it already exist)
+   *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
    * @return The task associated
    * @throws AlgoliaException
@@ -123,7 +123,7 @@ interface IndexCRUD<T> extends BaseSyncIndex<T> {
    * Copy an existing index
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
-   *     will be overridden if it already exist)
+   *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
    * @param requestOptions Options to pass to this request
    * @return The task associated
@@ -141,7 +141,7 @@ interface IndexCRUD<T> extends BaseSyncIndex<T> {
    * Copy an existing index
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
-   *     will be overridden if it already exist)
+   *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
    * @return The task associated
    * @throws AlgoliaException

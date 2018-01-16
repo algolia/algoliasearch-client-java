@@ -6,11 +6,7 @@ import com.algolia.search.http.AlgoliaHttpClient;
 import com.algolia.search.http.AlgoliaRequest;
 import com.algolia.search.http.HttpMethod;
 import com.algolia.search.inputs.*;
-import com.algolia.search.inputs.batch.BatchAddObjectOperation;
-import com.algolia.search.inputs.batch.BatchDeleteObjectOperation;
-import com.algolia.search.inputs.batch.BatchPartialUpdateObjectNoCreateOperation;
-import com.algolia.search.inputs.batch.BatchPartialUpdateObjectOperation;
-import com.algolia.search.inputs.batch.BatchUpdateObjectOperation;
+import com.algolia.search.inputs.batch.*;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
@@ -125,6 +121,126 @@ public class APIClient {
    */
   public Index<?> initIndex(@Nonnull String name) {
     return new Index<>(name, Object.class, this);
+  }
+
+  /**
+   * Moves an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   * @throws AlgoliaException
+   */
+  public Task moveIndex(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
+      throws AlgoliaException {
+    return moveIndex(srcIndexName, dstIndexName, RequestOptions.empty);
+  }
+
+  /**
+   * Moves an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   * @throws AlgoliaException
+   */
+  public Task moveIndex(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    Task result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
+                    requestOptions,
+                    Task.class)
+                .setData(new OperationOnIndex("move", dstIndexName)));
+
+    return result.setAPIClient(this).setIndex(srcIndexName);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   * @throws AlgoliaException
+   */
+  public Task copyIndex(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
+      throws AlgoliaException {
+    return copyIndex(srcIndexName, dstIndexName, RequestOptions.empty);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   * @throws AlgoliaException
+   */
+  public Task copyIndex(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    return copyIndex(srcIndexName, dstIndexName, null, requestOptions);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param scopes the list of scopes to copy
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   * @throws AlgoliaException
+   */
+  public Task copyIndex(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      List<String> scopes,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    Task result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    false,
+                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
+                    requestOptions,
+                    Task.class)
+                .setData(new OperationOnIndex("copy", dstIndexName, scopes)));
+
+    return result.setAPIClient(this).setIndex(srcIndexName);
+  }
+
+  /**
+   * Copy an existing index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param scopes the list of scopes to copy
+   * @return The task associated
+   * @throws AlgoliaException
+   */
+  public Task copyIndex(
+      @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scopes)
+      throws AlgoliaException {
+    return copyIndex(srcIndexName, dstIndexName, scopes, RequestOptions.empty);
   }
 
   /**
@@ -453,6 +569,8 @@ public class APIClient {
   /**
    * Custom batch
    *
+   * <p>
+   *
    * <p>All operations must have a valid index name (not null)
    *
    * @param operations the list of operations to perform
@@ -466,6 +584,8 @@ public class APIClient {
 
   /**
    * Custom batch
+   *
+   * <p>
    *
    * <p>All operations must have a valid index name (not null)
    *
@@ -548,38 +668,6 @@ public class APIClient {
                 MultiQueriesResult.class)
             .setData(new MultipleQueriesRequests(queries))
             .setParameters(ImmutableMap.of("strategy", strategy.getName())));
-  }
-
-  /** Package protected method for the Index class */
-  Task moveIndex(String srcIndexName, String dstIndexName, RequestOptions requestOptions)
-      throws AlgoliaException {
-    Task result =
-        httpClient.requestWithRetry(
-            new AlgoliaRequest<>(
-                    HttpMethod.POST,
-                    false,
-                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
-                    requestOptions,
-                    Task.class)
-                .setData(new OperationOnIndex("move", dstIndexName)));
-
-    return result.setAPIClient(this).setIndex(srcIndexName);
-  }
-
-  Task copyIndex(
-      String srcIndexName, String dstIndexName, List<String> scopes, RequestOptions requestOptions)
-      throws AlgoliaException {
-    Task result =
-        httpClient.requestWithRetry(
-            new AlgoliaRequest<>(
-                    HttpMethod.POST,
-                    false,
-                    Arrays.asList("1", "indexes", srcIndexName, "operation"),
-                    requestOptions,
-                    Task.class)
-                .setData(new OperationOnIndex("copy", dstIndexName, scopes)));
-
-    return result.setAPIClient(this).setIndex(srcIndexName);
   }
 
   Task deleteIndex(String indexName, RequestOptions requestOptions) throws AlgoliaException {
