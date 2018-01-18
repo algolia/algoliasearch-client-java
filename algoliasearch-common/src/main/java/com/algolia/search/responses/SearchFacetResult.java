@@ -6,6 +6,8 @@ import java.util.List;
 public class SearchFacetResult implements Serializable {
 
   private List<FacetHit> facetHits;
+  private Boolean exhaustiveFacetsCount;
+  private Long processingTimeMS;
 
   public List<FacetHit> getFacetHits() {
     return facetHits;
@@ -16,8 +18,33 @@ public class SearchFacetResult implements Serializable {
     return this;
   }
 
+  public Boolean getExhaustiveFacetsCount() {
+    return exhaustiveFacetsCount;
+  }
+
+  public SearchFacetResult setExhaustiveFacetsCount(Boolean exhaustiveFacetsCount) {
+    this.exhaustiveFacetsCount = exhaustiveFacetsCount;
+    return this;
+  }
+
+  public Long getProcessingTimeMS() {
+    return processingTimeMS;
+  }
+
+  public SearchFacetResult setProcessingTimeMS(Long processingTimeMS) {
+    this.processingTimeMS = processingTimeMS;
+    return this;
+  }
+
   @Override
   public String toString() {
-    return "SearchFacetResult{" + "facetHits=" + facetHits + '}';
+    return "SearchFacetResult{"
+        + "facetHits="
+        + facetHits
+        + ", exhaustiveFacetsCount="
+        + exhaustiveFacetsCount
+        + ", processingTimeMS="
+        + processingTimeMS
+        + '}';
   }
 }

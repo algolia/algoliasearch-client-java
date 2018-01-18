@@ -28,6 +28,10 @@ public class SearchResult<T> implements Serializable {
 
   private List<T> hits;
 
+  private String index;
+
+  private Boolean processed;
+
   public List<T> getHits() {
     return hits;
   }
@@ -41,22 +45,18 @@ public class SearchResult<T> implements Serializable {
     return page;
   }
 
-  public SearchResult setPage(Integer page) {
-    return this.setPage(page.longValue());
-  }
-
   @JsonSetter
   public SearchResult setPage(Long page) {
     this.page = page;
     return this;
   }
 
-  public Long getNbHits() {
-    return nbHits;
+  public SearchResult setPage(Integer page) {
+    return this.setPage(page.longValue());
   }
 
-  public SearchResult setNbHits(Integer nbHits) {
-    return this.setNbHits(nbHits.longValue());
+  public Long getNbHits() {
+    return nbHits;
   }
 
   @JsonSetter
@@ -65,12 +65,12 @@ public class SearchResult<T> implements Serializable {
     return this;
   }
 
-  public Long getNbPages() {
-    return nbPages;
+  public SearchResult setNbHits(Integer nbHits) {
+    return this.setNbHits(nbHits.longValue());
   }
 
-  public SearchResult setNbPages(Integer nbPages) {
-    return this.setNbPages(nbPages.longValue());
+  public Long getNbPages() {
+    return nbPages;
   }
 
   @JsonSetter
@@ -79,12 +79,12 @@ public class SearchResult<T> implements Serializable {
     return this;
   }
 
-  public Long getHitsPerPage() {
-    return hitsPerPage;
+  public SearchResult setNbPages(Integer nbPages) {
+    return this.setNbPages(nbPages.longValue());
   }
 
-  public SearchResult setHitsPerPage(Integer hitsPerPage) {
-    return this.setHitsPerPage(hitsPerPage.longValue());
+  public Long getHitsPerPage() {
+    return hitsPerPage;
   }
 
   @JsonSetter
@@ -93,18 +93,22 @@ public class SearchResult<T> implements Serializable {
     return this;
   }
 
-  public Long getProcessingTimeMS() {
-    return processingTimeMS;
+  public SearchResult setHitsPerPage(Integer hitsPerPage) {
+    return this.setHitsPerPage(hitsPerPage.longValue());
   }
 
-  public SearchResult setProcessingTimeMS(Integer processingTimeMS) {
-    return this.setProcessingTimeMS(processingTimeMS.longValue());
+  public Long getProcessingTimeMS() {
+    return processingTimeMS;
   }
 
   @JsonSetter
   public SearchResult setProcessingTimeMS(Long processingTimeMS) {
     this.processingTimeMS = processingTimeMS;
     return this;
+  }
+
+  public SearchResult setProcessingTimeMS(Integer processingTimeMS) {
+    return this.setProcessingTimeMS(processingTimeMS.longValue());
   }
 
   public Map<String, Map<String, Long>> getFacets() {
@@ -143,6 +147,24 @@ public class SearchResult<T> implements Serializable {
     return this;
   }
 
+  public String getIndex() {
+    return index;
+  }
+
+  public SearchResult<T> setIndex(String index) {
+    this.index = index;
+    return this;
+  }
+
+  public Boolean getProcessed() {
+    return processed;
+  }
+
+  public SearchResult<T> setProcessed(Boolean processed) {
+    this.processed = processed;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "SearchResult{"
@@ -168,6 +190,11 @@ public class SearchResult<T> implements Serializable {
         + '\''
         + ", hits="
         + hits
+        + ", index='"
+        + index
+        + '\''
+        + ", processed="
+        + processed
         + '}';
   }
 }
