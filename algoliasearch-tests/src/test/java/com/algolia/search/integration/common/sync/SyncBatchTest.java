@@ -15,27 +15,13 @@ import com.algolia.search.objects.Query;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames =
-      Arrays.asList("index1", "index2", "index3", "index4", "index5");
-
-  @Before
-  @After
-  public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
-  }
-
   @Test
   public void batchOnOneIndex() throws AlgoliaException {
-    Index<AlgoliaObjectWithID> index = client.initIndex("index1", AlgoliaObjectWithID.class);
+    Index<AlgoliaObjectWithID> index = createIndex(AlgoliaObjectWithID.class);
     index.addObject(new AlgoliaObjectWithID("1", "name", 10)).waitForCompletion();
 
     List<BatchOperation> operations =
@@ -47,12 +33,12 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
     assertThat(index.search(new Query("")).getNbHits()).isEqualTo(2);
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void batchOnMultipleIndices() throws AlgoliaException {
-    Index<AlgoliaObjectWithID> index2 = client.initIndex("index2", AlgoliaObjectWithID.class);
-    Index<AlgoliaObjectWithID> index3 = client.initIndex("index3", AlgoliaObjectWithID.class);
-    Index<AlgoliaObjectWithID> index4 = client.initIndex("index4", AlgoliaObjectWithID.class);
+    Index<AlgoliaObjectWithID> index2 = createIndex(AlgoliaObjectWithID.class);
+    Index<AlgoliaObjectWithID> index3 = createIndex(AlgoliaObjectWithID.class);
+    Index<AlgoliaObjectWithID> index4 = createIndex(AlgoliaObjectWithID.class);
 
     client
         .batch(
@@ -71,15 +57,15 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
         .waitForCompletion();
 
     assertThat(index2.search(new Query("")).getNbHits()).isEqualTo(0);
-    assertThat(client.listIndexes()).extracting("name").doesNotContain("index3");
+    assertThat(client.listIndexes()).extracting("name").doesNotContain(index3.getName());
     assertThat(index4.getObject("1").get())
         .isEqualToComparingFieldByField(new AlgoliaObjectWithID("1", "name2", 2));
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void batchPartialUpdateObjects() throws AlgoliaException {
-    Index<AlgoliaObjectWithID> index5 = client.initIndex("index5", AlgoliaObjectWithID.class);
+    Index<AlgoliaObjectWithID> index5 = createIndex(AlgoliaObjectWithID.class);
 
     index5
         .addObjects(

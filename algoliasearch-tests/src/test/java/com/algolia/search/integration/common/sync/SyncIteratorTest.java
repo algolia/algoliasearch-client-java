@@ -6,8 +6,6 @@ import com.algolia.search.AlgoliaObject;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.inputs.synonym.Synonym;
@@ -18,25 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class SyncIteratorTest extends SyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames = Arrays.asList("index1", "index2", "index3", "index4");
-
-  @Before
-  @After
-  public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
-  }
-
   @Test
   public void synonymIterator() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index1", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     List<AbstractSynonym> synonyms =
         IntStream.rangeClosed(1, 10)
@@ -56,8 +42,8 @@ public abstract class SyncIteratorTest extends SyncAlgoliaIntegrationTest {
   }
 
   @Test
-  public void synonymIteratorNonExistingIndex() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
+  public void synonymIteratorNonExistingIndex() {
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     Iterable<AbstractSynonym> iterator = new SynonymsIterable(index);
     assertThat(iterator).isEmpty();
@@ -65,7 +51,7 @@ public abstract class SyncIteratorTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void synonymIteratorEmptySynonyms() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
 
@@ -75,7 +61,7 @@ public abstract class SyncIteratorTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void ruleIterator() throws AlgoliaException {
-    Index<AlgoliaObject> index = client.initIndex("index4", AlgoliaObject.class);
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     List<Rule> rules =
         IntStream.rangeClosed(1, 10)

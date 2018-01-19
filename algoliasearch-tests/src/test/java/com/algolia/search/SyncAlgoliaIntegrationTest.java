@@ -1,18 +1,50 @@
 package com.algolia.search;
 
+import com.algolia.search.inputs.BatchOperation;
+import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.query_rules.Condition;
 import com.algolia.search.inputs.query_rules.Consequence;
 import com.algolia.search.inputs.query_rules.ConsequenceParams;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import org.junit.AfterClass;
 import org.junit.Before;
 
 public abstract class SyncAlgoliaIntegrationTest {
 
-  public APIClient client;
+  protected static APIClient client;
+  private static List<String> indexNameToDeleteAfterTheTests = new ArrayList<>();
   protected String APPLICATION_ID = System.getenv("APPLICATION_ID");
   protected String API_KEY = System.getenv("API_KEY");
+
+  @AfterClass
+  public static void after() {
+    //    delete all the indices used in this test
+    List<BatchOperation> clean =
+        indexNameToDeleteAfterTheTests
+            .stream()
+            .map(BatchDeleteIndexOperation::new)
+            .collect(Collectors.toList());
+    try {
+      client.batch(clean);
+    } catch (Exception ignored) {
+    }
+  }
+
+  protected static <T> Index<T> createIndex(Class<T> klass) {
+    String uniqueIndexName = "test-" + UUID.randomUUID().toString();
+    indexNameToDeleteAfterTheTests.add(uniqueIndexName);
+    return client.initIndex(uniqueIndexName, klass);
+  }
+
+  protected static Index<?> createIndex() {
+    return createIndex(Object.class);
+  }
 
   @Before
   public void checkEnvVariables() throws Exception {

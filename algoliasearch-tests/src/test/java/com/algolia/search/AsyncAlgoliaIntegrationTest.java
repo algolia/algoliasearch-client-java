@@ -3,18 +3,47 @@ package com.algolia.search;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.inputs.BatchOperation;
+import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.tasks.async.AsyncGenericTask;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 import org.assertj.core.api.ListAssert;
+import org.junit.AfterClass;
 import org.junit.Before;
 
 public abstract class AsyncAlgoliaIntegrationTest {
 
   protected static final long WAIT_TIME_IN_SECONDS = 10;
-  public AsyncAPIClient client;
+  protected static AsyncAPIClient client;
   private String APPLICATION_ID = System.getenv("APPLICATION_ID");
   private String API_KEY = System.getenv("API_KEY");
+
+  private static List<String> indexNameToDeleteAfterTheTests = new ArrayList<>();
+
+  @AfterClass
+  public static void cleanUpIndices() {
+    //    delete all the indices used in this test
+    List<BatchOperation> clean =
+        indexNameToDeleteAfterTheTests
+            .stream()
+            .map(BatchDeleteIndexOperation::new)
+            .collect(Collectors.toList());
+    client.batch(clean);
+  }
+
+  protected static <T> AsyncIndex<T> createIndex(Class<T> klass) {
+    String uniqueIndexName = "test-" + UUID.randomUUID().toString();
+    indexNameToDeleteAfterTheTests.add(uniqueIndexName);
+    return client.initIndex(uniqueIndexName, klass);
+  }
+
+  protected static AsyncIndex<Object> createIndex() {
+    return createIndex(Object.class);
+  }
 
   @Before
   public void checkEnvVariables() throws Exception {

@@ -5,79 +5,65 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.Query;
 import com.algolia.search.responses.SearchResult;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames =
-      Arrays.asList("index1", "index2", "index3", "index4", "index5", "index6", "index7");
-
-  @Before
-  @After
-  public void cleanUp() throws Exception {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    waitForCompletion(client.batch(clean));
-  }
 
   @Test
   public void getAllIndices() throws Exception {
     assertThat(client.listIndices()).isNotNull();
 
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index1", AlgoliaObject.class);
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
-    futureAssertThat(client.listIndices()).extracting("name").contains("index1");
+    futureAssertThat(client.listIndices()).extracting("name").contains(index.getName());
   }
 
   @Test
   public void deleteIndex() throws Exception {
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
-    futureAssertThat(client.listIndices()).extracting("name").contains("index2");
+    futureAssertThat(client.listIndices()).extracting("name").contains(index.getName());
 
     waitForCompletion(index.delete());
-    futureAssertThat(client.listIndices()).extracting("name").doesNotContain("index2");
+    futureAssertThat(client.listIndices()).extracting("name").doesNotContain(index.getName());
   }
 
   @Test
   public void moveIndex() throws Exception {
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
-    futureAssertThat(client.listIndices()).extracting("name").contains("index3");
+    futureAssertThat(client.listIndices()).extracting("name").contains(index.getName());
 
-    waitForCompletion(index.moveTo("index4"));
+    AsyncIndex<AlgoliaObject> indexMoveTo = createIndex(AlgoliaObject.class);
+    waitForCompletion(index.moveTo(indexMoveTo.getName()));
     futureAssertThat(client.listIndices())
         .extracting("name")
-        .doesNotContain("index3")
-        .contains("index4");
+        .doesNotContain(index.getName())
+        .contains(indexMoveTo.getName());
   }
 
   @Test
   public void copyIndex() throws Exception {
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index5", AlgoliaObject.class);
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
-    futureAssertThat(client.listIndices()).extracting("name").contains("index5");
+    futureAssertThat(client.listIndices()).extracting("name").contains(index.getName());
 
-    waitForCompletion(index.copyTo("index6"));
-    futureAssertThat(client.listIndices()).extracting("name").contains("index5", "index6");
+    AsyncIndex<AlgoliaObject> indexCopyTo = createIndex(AlgoliaObject.class);
+    waitForCompletion(index.copyTo(indexCopyTo.getName()));
+    futureAssertThat(client.listIndices())
+        .extracting("name")
+        .contains(index.getName(), indexCopyTo.getName());
   }
 
   @Test
   public void clearIndex() throws Exception {
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index7", AlgoliaObject.class);
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
     waitForCompletion(index.clear());

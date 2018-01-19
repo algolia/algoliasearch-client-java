@@ -5,36 +5,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.AlgoliaObjectWithArray;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.partial_update.AddValueOperation;
 import com.algolia.search.inputs.partial_update.IncrementValueOperation;
 import com.algolia.search.inputs.partial_update.RemoveValueOperation;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("ConstantConditions")
 public abstract class AsyncPartialUpdateObjectTest extends AsyncAlgoliaIntegrationTest {
-
-  private static List<String> indicesNames = Arrays.asList("index1", "index2");
-
-  @Before
-  @After
-  public void cleanUp() throws Exception {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    waitForCompletion(client.batch(clean));
-  }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void partialUpdates() throws Exception {
-    AsyncIndex<AlgoliaObjectWithArray> index =
-        client.initIndex("index1", AlgoliaObjectWithArray.class);
+    AsyncIndex<AlgoliaObjectWithArray> index = createIndex(AlgoliaObjectWithArray.class);
     AsyncTaskIndexing task =
         index
             .addObject(
@@ -57,8 +41,7 @@ public abstract class AsyncPartialUpdateObjectTest extends AsyncAlgoliaIntegrati
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void partialUpdateAttributes() throws Exception {
-    AsyncIndex<AlgoliaObjectWithArray> index =
-        client.initIndex("index2", AlgoliaObjectWithArray.class);
+    AsyncIndex<AlgoliaObjectWithArray> index = createIndex(AlgoliaObjectWithArray.class);
     AsyncTaskIndexing task =
         index
             .addObject(

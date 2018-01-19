@@ -2,6 +2,7 @@ package com.algolia.search.integration.appengine;
 
 import com.algolia.search.APIClient;
 import com.algolia.search.AppEngineAPIClientBuilder;
+import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.integration.common.sync.SyncRulesTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -21,6 +22,7 @@ public class AppEngineRulesTest extends SyncRulesTest {
 
   @AfterClass
   public static void after() {
+    SyncAlgoliaIntegrationTest.after();
     helper.tearDown();
   }
 

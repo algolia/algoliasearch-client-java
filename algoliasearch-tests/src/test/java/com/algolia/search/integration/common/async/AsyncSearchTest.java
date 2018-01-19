@@ -6,10 +6,7 @@ import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AlgoliaObjectForFaceting;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
-import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.objects.IndexQuery;
 import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.Query;
@@ -18,34 +15,14 @@ import com.algolia.search.responses.SearchFacetResult;
 import com.algolia.search.responses.SearchResult;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AsyncSearchTest extends AsyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames =
-      Arrays.asList(
-          "index1",
-          "index2",
-          // index3 is used for non existing index
-          "index4");
-
-  @Before
-  @After
-  public void cleanUp() throws Exception {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    waitForCompletion(client.batch(clean));
-  }
-
   @Test
   public void search() throws Exception {
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index1", AlgoliaObject.class);
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     waitForCompletion(
         index.addObjects(
@@ -63,7 +40,7 @@ public abstract class AsyncSearchTest extends AsyncAlgoliaIntegrationTest {
 
   @Test
   public void multiQuery() throws Exception {
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index2", AlgoliaObject.class);
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     waitForCompletion(
         index.addObjects(
@@ -83,9 +60,8 @@ public abstract class AsyncSearchTest extends AsyncAlgoliaIntegrationTest {
   }
 
   @Test
-  public void searchOnNonExistingIndex()
-      throws AlgoliaException, ExecutionException, InterruptedException {
-    AsyncIndex<AlgoliaObject> index = client.initIndex("index3", AlgoliaObject.class);
+  public void searchOnNonExistingIndex() throws InterruptedException {
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     CompletableFuture<SearchResult<AlgoliaObject>> search = index.search(new Query(("")));
     while (!search.isDone()) {
       Thread.sleep(1000);
@@ -93,13 +69,12 @@ public abstract class AsyncSearchTest extends AsyncAlgoliaIntegrationTest {
     assertThat(search)
         .hasFailedWithThrowableThat()
         .isExactlyInstanceOf(AlgoliaIndexNotFoundException.class)
-        .hasMessage("index3 does not exist");
+        .hasMessage(index.getName() + " does not exist");
   }
 
   @Test
   public void searchInFacets() throws Exception {
-    AsyncIndex<AlgoliaObjectForFaceting> index =
-        client.initIndex("index4", AlgoliaObjectForFaceting.class);
+    AsyncIndex<AlgoliaObjectForFaceting> index = createIndex(AlgoliaObjectForFaceting.class);
     waitForCompletion(
         index.setSettings(
             new IndexSettings()

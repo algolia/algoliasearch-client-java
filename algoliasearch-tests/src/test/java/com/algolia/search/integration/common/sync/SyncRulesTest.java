@@ -5,37 +5,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.responses.SearchRuleResult;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
 public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames = Arrays.asList("index1", "index2", "index3", "index4");
-
-  @Before
-  @After
-  public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
-  }
-
   @Test
   public void saveAndGetRule() throws AlgoliaException {
     String ruleId = "queryRule1";
 
-    Index<?> index = client.initIndex("index1");
+    Index<?> index = createIndex();
 
     index.saveRule(ruleId, generateRule(ruleId)).waitForCompletion();
 
@@ -49,7 +33,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
   public void deleteRule() throws AlgoliaException {
     String queryRuleID = "queryRule2";
 
-    Index<?> index = client.initIndex("index2");
+    Index<?> index = createIndex();
 
     index.saveRule(queryRuleID, generateRule(queryRuleID)).waitForCompletion();
     index.deleteRule(queryRuleID).waitForCompletion();
@@ -61,7 +45,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
   @Test
   public void clearRules() throws AlgoliaException {
     String queryRuleID = "queryRule3";
-    Index<?> index = client.initIndex("index3");
+    Index<?> index = createIndex();
 
     index.saveRule(queryRuleID, generateRule(queryRuleID)).waitForCompletion();
     index.clearRules().waitForCompletion();
@@ -75,7 +59,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     Rule queryRule1 = generateRule("queryRule4");
     Rule queryRule2 = generateRule("queryRule5");
 
-    Index<?> index = client.initIndex("index4");
+    Index<?> index = createIndex();
 
     index.batchRules(Arrays.asList(queryRule1, queryRule2)).waitForCompletion();
 

@@ -6,35 +6,19 @@ import com.algolia.search.AlgoliaObjectWithArray;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.partial_update.AddValueOperation;
 import com.algolia.search.inputs.partial_update.IncrementValueOperation;
 import com.algolia.search.inputs.partial_update.RemoveValueOperation;
 import com.algolia.search.objects.tasks.sync.TaskIndexing;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class SyncPartialUpdateObjectTest extends SyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames = Arrays.asList("index1", "index2");
-
-  @Before
-  @After
-  public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
-  }
-
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void partialUpdates() throws AlgoliaException {
-    Index<AlgoliaObjectWithArray> index = client.initIndex("index1", AlgoliaObjectWithArray.class);
+    Index<AlgoliaObjectWithArray> index = createIndex(AlgoliaObjectWithArray.class);
     TaskIndexing task =
         index.addObject(
             new AlgoliaObjectWithArray().setTags(Arrays.asList("tag1", "tag2")).setAge(1));
@@ -55,10 +39,10 @@ public abstract class SyncPartialUpdateObjectTest extends SyncAlgoliaIntegration
     assertThat(obj.getTags()).containsOnly("tag3", "tag2");
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void partialUpdateAttributes() throws AlgoliaException {
-    Index<AlgoliaObjectWithArray> index = client.initIndex("index2", AlgoliaObjectWithArray.class);
+    Index<AlgoliaObjectWithArray> index = createIndex(AlgoliaObjectWithArray.class);
     TaskIndexing task =
         index.addObject(
             new AlgoliaObjectWithArray().setTags(Arrays.asList("tag1", "tag2")).setAge(1));

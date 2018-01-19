@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.BatchOperation;
-import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.SynonymQuery;
@@ -14,28 +12,14 @@ import com.algolia.search.responses.SearchSynonymResult;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
-  private static List<String> indicesNames =
-      Arrays.asList("index1", "index2", "index3", "index4", "index5");
-
-  @Before
-  @After
-  public void cleanUp() throws AlgoliaException {
-    List<BatchOperation> clean =
-        indicesNames.stream().map(BatchDeleteIndexOperation::new).collect(Collectors.toList());
-    client.batch(clean).waitForCompletion();
-  }
-
   @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
   @Test
   public void saveAndGetSynonym() throws AlgoliaException {
-    Index<?> index = client.initIndex("index1");
+    Index<?> index = createIndex();
 
     List<String> synonymList = Arrays.asList("San Francisco", "SF");
 
@@ -51,7 +35,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   @Test
   public void searchWithType() throws AlgoliaException {
-    Index<?> index = client.initIndex("index5");
+    Index<?> index = createIndex();
 
     List<String> synonymList = Arrays.asList("San Francisco", "SF");
 
@@ -64,7 +48,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void deleteSynonym() throws AlgoliaException {
-    Index<?> index = client.initIndex("index2");
+    Index<?> index = createIndex();
 
     index
         .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")))
@@ -77,7 +61,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void clearSynonym() throws AlgoliaException {
-    Index<?> index = client.initIndex("index3");
+    Index<?> index = createIndex();
 
     index
         .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")))
@@ -90,7 +74,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void batchSaveSynonyms() throws AlgoliaException {
-    Index<?> index = client.initIndex("index4");
+    Index<?> index = createIndex();
 
     List<String> a = Arrays.asList("San Francisco", "SF");
     List<String> b = Arrays.asList("Paris", "pas la province");
