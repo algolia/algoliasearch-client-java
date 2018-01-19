@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.Test;
 
+@SuppressWarnings("ConstantConditions")
 public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
 
   @Test
