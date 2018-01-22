@@ -23,7 +23,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
     List<String> synonymList = Arrays.asList("San Francisco", "SF");
 
-    index.saveSynonym("synonym1", new Synonym(synonymList)).waitForCompletion();
+    waitForCompletion(index.saveSynonym("synonym1", new Synonym(synonymList)));
 
     Optional<AbstractSynonym> synonym1 = index.getSynonym("synonym1");
     assertThat(synonym1.get())
@@ -39,7 +39,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
     List<String> synonymList = Arrays.asList("San Francisco", "SF");
 
-    index.saveSynonym("synonym1", new Synonym(synonymList)).waitForCompletion();
+    waitForCompletion(index.saveSynonym("synonym1", new Synonym(synonymList)));
 
     SearchSynonymResult searchResult =
         index.searchSynonyms(new SynonymQuery("").setType("synonym"));
@@ -50,10 +50,9 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
   public void deleteSynonym() throws AlgoliaException {
     Index<?> index = createIndex();
 
-    index
-        .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")))
-        .waitForCompletion();
-    index.deleteSynonym("synonym1").waitForCompletion();
+    waitForCompletion(
+        index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))));
+    waitForCompletion(index.deleteSynonym("synonym1"));
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
     assertThat(searchResult.getHits()).hasSize(0);
@@ -63,10 +62,9 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
   public void clearSynonym() throws AlgoliaException {
     Index<?> index = createIndex();
 
-    index
-        .saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF")))
-        .waitForCompletion();
-    index.clearSynonyms().waitForCompletion();
+    waitForCompletion(
+        index.saveSynonym("synonym1", new Synonym(Arrays.asList("San Francisco", "SF"))));
+    waitForCompletion(index.clearSynonyms());
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
     assertThat(searchResult.getHits()).hasSize(0);
@@ -82,7 +80,7 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
     Synonym syn1 = new Synonym().setObjectID("syn1").setSynonyms(a);
     Synonym syn2 = new Synonym().setObjectID("syn2").setSynonyms(b);
 
-    index.batchSynonyms(Arrays.asList(syn1, syn2)).waitForCompletion();
+    waitForCompletion(index.batchSynonyms(Arrays.asList(syn1, syn2)));
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
     assertThat(searchResult.getHits()).hasSize(2);

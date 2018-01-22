@@ -29,4 +29,9 @@ public class AlgoliaObject {
     this.age = age;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "AlgoliaObject{" + "name='" + name + '\'' + ", age=" + age + '}';
+  }
 }

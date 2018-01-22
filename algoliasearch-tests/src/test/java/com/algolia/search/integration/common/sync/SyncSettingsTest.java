@@ -16,14 +16,14 @@ public abstract class SyncSettingsTest extends SyncAlgoliaIntegrationTest {
   public void manageSettings() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
-    index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("name", 1)));
 
     IndexSettings settings = index.getSettings();
     assertThat(settings.getSearchableAttributes()).isNull();
 
     settings = settings.setAttributesForFaceting(Collections.singletonList("name"));
 
-    index.setSettings(settings).waitForCompletion();
+    waitForCompletion(index.setSettings(settings));
 
     settings = index.getSettings();
     assertThat(settings.getAttributesForFaceting()).containsOnly("name");

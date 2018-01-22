@@ -28,7 +28,7 @@ public abstract class SyncIteratorTest extends SyncAlgoliaIntegrationTest {
         IntStream.rangeClosed(1, 10)
             .mapToObj(i -> new Synonym(Arrays.asList("a_" + i, "b_" + i)).setObjectID("id_" + i))
             .collect(Collectors.toList());
-    index.batchSynonyms(synonyms).waitForCompletion();
+    waitForCompletion(index.batchSynonyms(synonyms));
 
     Iterable<AbstractSynonym> iterable = new SynonymsIterable(index, 1);
     List<AbstractSynonym> array = Lists.newArrayList(iterable);
@@ -53,7 +53,7 @@ public abstract class SyncIteratorTest extends SyncAlgoliaIntegrationTest {
   public void synonymIteratorEmptySynonyms() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
-    index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("name", 1)));
 
     Iterable<AbstractSynonym> iterator = new SynonymsIterable(index);
     assertThat(iterator).isEmpty();
@@ -67,7 +67,7 @@ public abstract class SyncIteratorTest extends SyncAlgoliaIntegrationTest {
         IntStream.rangeClosed(1, 10)
             .mapToObj(i -> generateRule("id_" + i))
             .collect(Collectors.toList());
-    index.batchRules(rules).waitForCompletion();
+    waitForCompletion(index.batchRules(rules));
 
     Iterable<Rule> iterable = new RulesIterable(index, 1);
     List<Rule> array = Lists.newArrayList(iterable);

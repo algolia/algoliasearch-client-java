@@ -21,7 +21,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
     Index<?> index = createIndex();
 
-    index.saveRule(ruleId, generateRule(ruleId)).waitForCompletion();
+    waitForCompletion(index.saveRule(ruleId, generateRule(ruleId)));
 
     Optional<Rule> queryRule1 = index.getRule(ruleId);
     assertThat(queryRule1.get())
@@ -35,8 +35,8 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
     Index<?> index = createIndex();
 
-    index.saveRule(queryRuleID, generateRule(queryRuleID)).waitForCompletion();
-    index.deleteRule(queryRuleID).waitForCompletion();
+    waitForCompletion(index.saveRule(queryRuleID, generateRule(queryRuleID)));
+    waitForCompletion(index.deleteRule(queryRuleID));
 
     SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
     assertThat(searchResult.getHits()).hasSize(0);
@@ -47,8 +47,8 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     String queryRuleID = "queryRule3";
     Index<?> index = createIndex();
 
-    index.saveRule(queryRuleID, generateRule(queryRuleID)).waitForCompletion();
-    index.clearRules().waitForCompletion();
+    waitForCompletion(index.saveRule(queryRuleID, generateRule(queryRuleID)));
+    waitForCompletion(index.clearRules());
 
     SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
     assertThat(searchResult.getHits()).hasSize(0);
@@ -61,7 +61,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
     Index<?> index = createIndex();
 
-    index.batchRules(Arrays.asList(queryRule1, queryRule2)).waitForCompletion();
+    waitForCompletion(index.batchRules(Arrays.asList(queryRule1, queryRule2)));
 
     SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
     assertThat(searchResult.getHits()).hasSize(2);

@@ -22,17 +22,14 @@ public abstract class SyncPartialUpdateObjectTest extends SyncAlgoliaIntegration
     TaskIndexing task =
         index.addObject(
             new AlgoliaObjectWithArray().setTags(Arrays.asList("tag1", "tag2")).setAge(1));
-    task.waitForCompletion();
+    waitForCompletion(task);
 
-    index
-        .partialUpdateObject(new AddValueOperation(task.getObjectID(), "tags", "tag3"))
-        .waitForCompletion();
-    index
-        .partialUpdateObject(new RemoveValueOperation(task.getObjectID(), "tags", "tag1"))
-        .waitForCompletion();
-    index
-        .partialUpdateObject(new IncrementValueOperation(task.getObjectID(), "age", 1))
-        .waitForCompletion();
+    waitForCompletion(
+        index.partialUpdateObject(new AddValueOperation(task.getObjectID(), "tags", "tag3")));
+    waitForCompletion(
+        index.partialUpdateObject(new RemoveValueOperation(task.getObjectID(), "tags", "tag1")));
+    waitForCompletion(
+        index.partialUpdateObject(new IncrementValueOperation(task.getObjectID(), "age", 1)));
 
     AlgoliaObjectWithArray obj = index.getObject(task.getObjectID()).get();
     assertThat(obj.getAge()).isEqualTo(2);
@@ -46,11 +43,10 @@ public abstract class SyncPartialUpdateObjectTest extends SyncAlgoliaIntegration
     TaskIndexing task =
         index.addObject(
             new AlgoliaObjectWithArray().setTags(Arrays.asList("tag1", "tag2")).setAge(1));
-    task.waitForCompletion();
+    waitForCompletion(task);
 
-    index
-        .partialUpdateObject(task.getObjectID(), new AlgoliaObjectOnlyAge().setAge(10))
-        .waitForCompletion();
+    waitForCompletion(
+        index.partialUpdateObject(task.getObjectID(), new AlgoliaObjectOnlyAge().setAge(10)));
 
     AlgoliaObjectWithArray obj = index.getObject(task.getObjectID()).get();
     assertThat(obj.getTags()).containsOnly("tag1", "tag2");
@@ -69,6 +65,11 @@ public abstract class SyncPartialUpdateObjectTest extends SyncAlgoliaIntegration
     public AlgoliaObjectOnlyAge setAge(int age) {
       this.age = age;
       return this;
+    }
+
+    @Override
+    public String toString() {
+      return "AlgoliaObjectOnlyAge{" + "age=" + age + '}';
     }
   }
 }

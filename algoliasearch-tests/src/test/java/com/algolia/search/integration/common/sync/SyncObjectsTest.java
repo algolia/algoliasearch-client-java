@@ -20,7 +20,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
   public void getAnObject() throws AlgoliaException {
     Index<AlgoliaObjectWithID> index = createIndex(AlgoliaObjectWithID.class);
     AlgoliaObjectWithID objectWithID = new AlgoliaObjectWithID("1", "algolia", 4);
-    index.addObject(objectWithID).waitForCompletion();
+    waitForCompletion(index.addObject(objectWithID));
 
     Optional<AlgoliaObjectWithID> result = index.getObject("1");
 
@@ -32,7 +32,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
   public void getAnObjectWithId() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     AlgoliaObject object = new AlgoliaObject("algolia", 4);
-    index.addObject("2", object).waitForCompletion();
+    waitForCompletion(index.addObject("2", object));
 
     Optional<AlgoliaObject> result = index.getObject("2");
 
@@ -45,7 +45,7 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     List<AlgoliaObjectWithID> objectsWithID =
         Arrays.asList(
             new AlgoliaObjectWithID("1", "algolia", 4), new AlgoliaObjectWithID("2", "algolia", 4));
-    index.addObjects(objectsWithID).waitForCompletion();
+    waitForCompletion(index.addObjects(objectsWithID));
 
     List<AlgoliaObjectWithID> objects = index.getObjects(Arrays.asList("1", "2"));
 
@@ -58,9 +58,9 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     AlgoliaObject object = new AlgoliaObject("algolia", 4);
 
-    index.addObject("1", object).waitForCompletion();
+    waitForCompletion(index.addObject("1", object));
 
-    index.saveObject("1", new AlgoliaObject("algolia", 5)).waitForCompletion();
+    waitForCompletion(index.saveObject("1", new AlgoliaObject("algolia", 5)));
     Optional<AlgoliaObject> result = index.getObject("1");
 
     assertThat(result.get()).isEqualToComparingFieldByField(new AlgoliaObject("algolia", 5));
@@ -73,15 +73,14 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     AlgoliaObject obj1 = new AlgoliaObject("algolia1", 4);
     AlgoliaObject obj2 = new AlgoliaObject("algolia2", 4);
 
-    index.addObject("1", obj1).waitForCompletion();
-    index.addObject("2", obj2).waitForCompletion();
+    waitForCompletion(index.addObject("1", obj1));
+    waitForCompletion(index.addObject("2", obj2));
 
-    index
-        .saveObjects(
+    waitForCompletion(
+        index.saveObjects(
             Arrays.asList(
                 new AlgoliaObjectWithID("1", "algolia1", 5),
-                new AlgoliaObjectWithID("2", "algolia1", 5)))
-        .waitForCompletion();
+                new AlgoliaObjectWithID("2", "algolia1", 5))));
 
     Optional<AlgoliaObject> result = index.getObject("1");
     assertThat(result.get()).isEqualToComparingFieldByField(new AlgoliaObject("algolia1", 5));
@@ -94,9 +93,9 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
   public void deleteObject() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     AlgoliaObject object = new AlgoliaObject("algolia", 4);
-    index.addObject("1", object).waitForCompletion();
+    waitForCompletion(index.addObject("1", object));
 
-    index.deleteObject("1").waitForCompletion();
+    waitForCompletion(index.deleteObject("1"));
 
     assertThat(index.getObject("1")).isEmpty();
   }
@@ -107,10 +106,10 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     AlgoliaObject obj1 = new AlgoliaObject("algolia1", 4);
     AlgoliaObject obj2 = new AlgoliaObject("algolia2", 4);
 
-    index.addObject("1", obj1).waitForCompletion();
-    index.addObject("2", obj2).waitForCompletion();
+    waitForCompletion(index.addObject("1", obj1));
+    waitForCompletion(index.addObject("2", obj2));
 
-    index.deleteObjects(Arrays.asList("1", "2")).waitForCompletion();
+    waitForCompletion(index.deleteObjects(Arrays.asList("1", "2")));
 
     assertThat(index.getObject("1")).isEmpty();
     assertThat(index.getObject("2")).isEmpty();
@@ -119,12 +118,11 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
   @Test
   public void getObjectsWithAttributesToRetrieve() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
-    index
-        .saveObjects(
+    waitForCompletion(
+        index.saveObjects(
             Arrays.asList(
                 new AlgoliaObjectWithID("1", "algolia1", 5),
-                new AlgoliaObjectWithID("2", "algolia1", 5)))
-        .waitForCompletion();
+                new AlgoliaObjectWithID("2", "algolia1", 5))));
 
     List<AlgoliaObject> objects =
         index.getObjects(Collections.singletonList("1"), Collections.singletonList("age"));

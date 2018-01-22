@@ -11,13 +11,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.ListAssert;
 import org.junit.AfterClass;
 import org.junit.Before;
 
 public abstract class AsyncAlgoliaIntegrationTest {
 
-  protected static final long WAIT_TIME_IN_SECONDS = 10;
+  protected static final long WAIT_TIME_IN_SECONDS = 60 * 5; // 5 minutes
   protected static AsyncAPIClient client;
   private String APPLICATION_ID = System.getenv("APPLICATION_ID");
   private String API_KEY = System.getenv("API_KEY");
@@ -59,6 +60,11 @@ public abstract class AsyncAlgoliaIntegrationTest {
   public abstract AsyncAPIClient createInstance(String appId, String apiKey);
 
   protected <T> ListAssert<T> futureAssertThat(CompletableFuture<List<T>> future) throws Exception {
+    return assertThat(future.get(WAIT_TIME_IN_SECONDS, SECONDS));
+  }
+
+  protected <T> AbstractObjectAssert<?, T> futureObjectAssertThat(CompletableFuture<T> future)
+      throws Exception {
     return assertThat(future.get(WAIT_TIME_IN_SECONDS, SECONDS));
   }
 

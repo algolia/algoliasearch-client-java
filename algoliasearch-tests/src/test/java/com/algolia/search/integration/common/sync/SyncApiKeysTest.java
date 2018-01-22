@@ -50,7 +50,7 @@ public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
     // Fill index
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
-    index.addObject(new AlgoliaObject("1", 1)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("1", 1)));
 
     ApiKey apiKey =
         new ApiKey()
