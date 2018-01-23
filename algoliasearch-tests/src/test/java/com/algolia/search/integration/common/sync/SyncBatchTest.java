@@ -29,7 +29,7 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
             new BatchAddObjectOperation<>(new AlgoliaObjectWithID("2", "name2", 11)),
             new BatchUpdateObjectOperation<>(new AlgoliaObjectWithID("1", "name1", 10)));
 
-    index.batch(operations).waitForCompletion();
+    waitForCompletion(index.batch(operations));
     assertThat(index.search(new Query("")).getNbHits()).isEqualTo(2);
   }
 
@@ -40,21 +40,20 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObjectWithID> index3 = createIndex(AlgoliaObjectWithID.class);
     Index<AlgoliaObjectWithID> index4 = createIndex(AlgoliaObjectWithID.class);
 
-    client
-        .batch(
+    waitForCompletion(
+        client.batch(
             Arrays.asList(
                 new BatchAddObjectOperation<>(index2, new AlgoliaObjectWithID("1", "name", 2)),
                 new BatchAddObjectOperation<>(index3, new AlgoliaObjectWithID("1", "name", 2)),
-                new BatchAddObjectOperation<>(index4, new AlgoliaObjectWithID("1", "name", 2))))
-        .waitForCompletion();
+                new BatchAddObjectOperation<>(index4, new AlgoliaObjectWithID("1", "name", 2)))));
 
-    client
-        .batch(
+    waitForCompletion(
+        client.batch(
             Arrays.asList(
                 new BatchClearIndexOperation(index2),
                 new BatchDeleteIndexOperation(index3),
-                new BatchUpdateObjectOperation<>(index4, new AlgoliaObjectWithID("1", "name2", 2))))
-        .waitForCompletion();
+                new BatchUpdateObjectOperation<>(
+                    index4, new AlgoliaObjectWithID("1", "name2", 2)))));
 
     assertThat(index2.search(new Query("")).getNbHits()).isEqualTo(0);
     assertThat(client.listIndexes()).extracting("name").doesNotContain(index3.getName());
@@ -67,18 +66,16 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
   public void batchPartialUpdateObjects() throws AlgoliaException {
     Index<AlgoliaObjectWithID> index5 = createIndex(AlgoliaObjectWithID.class);
 
-    index5
-        .addObjects(
+    waitForCompletion(
+        index5.addObjects(
             Arrays.asList(
-                new AlgoliaObjectWithID("1", "name", 1), new AlgoliaObjectWithID("2", "name", 2)))
-        .waitForCompletion();
+                new AlgoliaObjectWithID("1", "name", 1), new AlgoliaObjectWithID("2", "name", 2))));
 
-    index5
-        .partialUpdateObjects(
+    waitForCompletion(
+        index5.partialUpdateObjects(
             Arrays.asList(
                 new AlgoliaObjectOnlyAgeAndId().setAge(10).setObjectID("1"),
-                new AlgoliaObjectOnlyAgeAndId().setAge(20).setObjectID("2")))
-        .waitForCompletion();
+                new AlgoliaObjectOnlyAgeAndId().setAge(20).setObjectID("2"))));
 
     Optional<AlgoliaObjectWithID> obj1 = index5.getObject("1");
     Optional<AlgoliaObjectWithID> obj2 = index5.getObject("2");
@@ -110,6 +107,11 @@ public abstract class SyncBatchTest extends SyncAlgoliaIntegrationTest {
     public AlgoliaObjectOnlyAgeAndId setObjectID(String objectID) {
       this.objectID = objectID;
       return this;
+    }
+
+    @Override
+    public String toString() {
+      return "AlgoliaObjectOnlyAgeAndId{" + "age=" + age + ", objectID='" + objectID + '\'' + '}';
     }
   }
 }

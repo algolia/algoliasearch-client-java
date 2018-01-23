@@ -1,11 +1,13 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.BatchOperation;
 import com.algolia.search.inputs.batch.BatchDeleteIndexOperation;
 import com.algolia.search.inputs.query_rules.Condition;
 import com.algolia.search.inputs.query_rules.Consequence;
 import com.algolia.search.inputs.query_rules.ConsequenceParams;
 import com.algolia.search.inputs.query_rules.Rule;
+import com.algolia.search.objects.tasks.sync.GenericTask;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public abstract class SyncAlgoliaIntegrationTest {
   private static List<String> indexNameToDeleteAfterTheTests = new ArrayList<>();
   protected String APPLICATION_ID = System.getenv("APPLICATION_ID");
   protected String API_KEY = System.getenv("API_KEY");
+  protected static final long WAIT_TIME_IN_SECONDS = 60 * 5; // 5 minutes
 
   @AfterClass
   public static void after() {
@@ -72,5 +75,9 @@ public abstract class SyncAlgoliaIntegrationTest {
         .setObjectID(objectID)
         .setCondition(ruleCondition)
         .setConsequence(ruleConsequence);
+  }
+
+  public <T> void waitForCompletion(GenericTask<T> task) throws AlgoliaException {
+    client.waitTask(task, WAIT_TIME_IN_SECONDS);
   }
 }

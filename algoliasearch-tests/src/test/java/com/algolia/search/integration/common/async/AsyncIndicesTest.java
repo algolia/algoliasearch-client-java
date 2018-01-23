@@ -13,8 +13,6 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
 
   @Test
   public void getAllIndices() throws Exception {
-    assertThat(client.listIndices()).isNotNull();
-
     AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 

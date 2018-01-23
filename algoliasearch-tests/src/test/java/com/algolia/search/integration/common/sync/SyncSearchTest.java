@@ -25,13 +25,12 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
   public void search() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
-    index
-        .addObjects(
+    waitForCompletion(
+        index.addObjects(
             Arrays.asList(
                 new AlgoliaObject("algolia1", 1),
                 new AlgoliaObject("algolia2", 1),
-                new AlgoliaObject("toto", 1)))
-        .waitForCompletion();
+                new AlgoliaObject("toto", 1))));
 
     SearchResult<AlgoliaObject> search = index.search(new Query("algolia"));
     assertThat(search.getHits())
@@ -44,13 +43,12 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
   public void multiQuery() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
-    index
-        .addObjects(
+    waitForCompletion(
+        index.addObjects(
             Arrays.asList(
                 new AlgoliaObject("algolia1", 1),
                 new AlgoliaObject("algolia2", 1),
-                new AlgoliaObject("toto", 1)))
-        .waitForCompletion();
+                new AlgoliaObject("toto", 1))));
 
     MultiQueriesResult search =
         client.multipleQueries(
@@ -71,19 +69,17 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
   @Test
   public void searchInFacets() throws AlgoliaException {
     Index<AlgoliaObjectForFaceting> index = createIndex(AlgoliaObjectForFaceting.class);
-    index
-        .setSettings(
+    waitForCompletion(
+        index.setSettings(
             new IndexSettings()
-                .setAttributesForFaceting(Collections.singletonList("searchable(series)")))
-        .waitForCompletion();
+                .setAttributesForFaceting(Collections.singletonList("searchable(series)"))));
 
-    index
-        .addObjects(
+    waitForCompletion(
+        index.addObjects(
             Arrays.asList(
                 new AlgoliaObjectForFaceting("snoopy", 12, "Peanuts"),
                 new AlgoliaObjectForFaceting("woodstock", 12, "Peanuts"),
-                new AlgoliaObjectForFaceting("Calvin", 12, "Calvin & Hobbes")))
-        .waitForCompletion();
+                new AlgoliaObjectForFaceting("Calvin", 12, "Calvin & Hobbes"))));
 
     SearchFacetResult result = index.searchForFacetValues("series", "Peanuts");
     assertThat(result.getFacetHits()).hasSize(1);

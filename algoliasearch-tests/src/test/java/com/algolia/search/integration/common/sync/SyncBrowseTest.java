@@ -30,7 +30,7 @@ public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
         IntStream.rangeClosed(1, 10)
             .mapToObj(i -> new AlgoliaObject("name" + i, i))
             .collect(Collectors.toList());
-    index.addObjects(objects).waitForCompletion();
+    waitForCompletion(index.addObjects(objects));
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
     ArrayList<AlgoliaObject> array = Lists.newArrayList(iterator);
@@ -55,7 +55,7 @@ public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
         IntStream.rangeClosed(1, 5)
             .mapToObj(i -> new AlgoliaObject("other" + i, i))
             .collect(Collectors.toList()));
-    index.addObjects(objects).waitForCompletion();
+    waitForCompletion(index.addObjects(objects));
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("name").setHitsPerPage(5));
 
@@ -80,8 +80,8 @@ public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     // Add object then clear => index is empty
-    index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
-    index.clear().waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("name", 1)));
+    waitForCompletion(index.clear());
 
     IndexIterable<AlgoliaObject> iterator = index.browse(new Query("").setHitsPerPage(1));
     assertThat(iterator).isEmpty();
@@ -91,7 +91,7 @@ public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
   public void browseEmptyWithException() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
-    index.addObject(new AlgoliaObject("name", 1)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("name", 1)));
 
     ObjectMapper objectMapper =
         new ObjectMapper()
@@ -120,6 +120,11 @@ public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
     public BadClass setNotName(String notName) {
       this.notName = notName;
       return this;
+    }
+
+    @Override
+    public String toString() {
+      return "BadClass{" + "notName='" + notName + '\'' + '}';
     }
   }
 }

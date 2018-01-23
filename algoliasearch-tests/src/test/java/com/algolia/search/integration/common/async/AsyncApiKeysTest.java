@@ -10,11 +10,12 @@ import com.algolia.search.objects.ApiKey;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import javax.annotation.Nonnull;
 import org.junit.Test;
 
 public abstract class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
 
-  private void waitForKeyPresent(AsyncIndex<AlgoliaObject> index, String description)
+  private void waitForKeyPresent(AsyncIndex<AlgoliaObject> index, @Nonnull String description)
       throws Exception {
     for (int i = 0; i < 100; i++) {
       Thread.sleep(1000);
@@ -25,7 +26,7 @@ public abstract class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
               .get(WAIT_TIME_IN_SECONDS, SECONDS)
               .stream()
               .map(ApiKey::getDescription)
-              .anyMatch(k -> k.equals(description));
+              .anyMatch(description::equals);
       if (found) {
         return;
       }

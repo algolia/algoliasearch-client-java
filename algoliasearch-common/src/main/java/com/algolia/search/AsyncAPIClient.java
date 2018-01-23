@@ -182,7 +182,7 @@ public class AsyncAPIClient {
   public CompletableFuture<AsyncTask> copyIndex(
       @Nonnull String srcIndexName,
       @Nonnull String dstIndexName,
-      @Nonnull List<String> scopes,
+      List<String> scopes,
       @Nonnull RequestOptions requestOptions) {
     return httpClient
         .requestWithRetry(

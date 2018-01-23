@@ -15,10 +15,8 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
 
   @Test
   public void getAllIndices() throws AlgoliaException {
-    assertThat(client.listIndexes()).isNotNull();
-
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
-    index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
     List<Index.Attributes> listIndices = client.listIndexes();
     assertThat(listIndices).extracting("name").contains(index.getName());
@@ -28,23 +26,23 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
   @Test
   public void deleteIndex() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
-    index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
     assertThat(client.listIndexes()).extracting("name").contains(index.getName());
 
-    index.delete().waitForCompletion();
+    waitForCompletion(index.delete());
     assertThat(client.listIndexes()).extracting("name").doesNotContain(index.getName());
   }
 
   @Test
   public void moveIndex() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
-    index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
     assertThat(client.listIndexes()).extracting("name").contains(index.getName());
 
     Index<AlgoliaObject> indexMoveTo = createIndex(AlgoliaObject.class);
-    index.moveTo(indexMoveTo.getName()).waitForCompletion();
+    waitForCompletion(index.moveTo(indexMoveTo.getName()));
     assertThat(client.listIndexes())
         .extracting("name")
         .doesNotContain(index.getName())
@@ -54,12 +52,12 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
   @Test
   public void copyIndex() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
-    index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
     assertThat(client.listIndexes()).extracting("name").contains(index.getName());
 
     Index<AlgoliaObject> indexCopyTo = createIndex(AlgoliaObject.class);
-    index.copyTo(indexCopyTo.getName()).waitForCompletion();
+    waitForCompletion(index.copyTo(indexCopyTo.getName()));
     assertThat(client.listIndexes())
         .extracting("name")
         .contains(index.getName(), indexCopyTo.getName());
@@ -68,9 +66,9 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
   @Test
   public void clearIndex() throws AlgoliaException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
-    index.addObject(new AlgoliaObject("algolia", 4)).waitForCompletion();
+    waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
 
-    index.clear().waitForCompletion();
+    waitForCompletion(index.clear());
 
     SearchResult<AlgoliaObject> results = index.search(new Query(""));
 
