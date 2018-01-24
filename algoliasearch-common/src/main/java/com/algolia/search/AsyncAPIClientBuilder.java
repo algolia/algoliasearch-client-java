@@ -34,17 +34,16 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
     return this;
   }
 
-  /**
-   * Set extra headers to the requests
-   *
-   * @param key name of the header
-   * @param value value of the header
-   * @return this
-   */
   @Override
+  @Deprecated
   public AsyncAPIClientBuilder setExtraHeader(@Nonnull String key, String value) {
     super.setExtraHeader(key, value);
     return this;
+  }
+
+  @Override
+  public GenericAPIClientBuilder addExtraHeader(@Nonnull String key, String value) {
+    return super.addExtraHeader(key, value);
   }
 
   /**

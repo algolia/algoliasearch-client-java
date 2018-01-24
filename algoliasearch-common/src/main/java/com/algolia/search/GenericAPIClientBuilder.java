@@ -58,14 +58,21 @@ public abstract class GenericAPIClientBuilder {
     return this;
   }
 
+  /** Deprecated: use {@link #addExtraHeader(String, String)} */
+  @Deprecated
+  public GenericAPIClientBuilder setExtraHeader(@Nonnull String key, String value) {
+    customHeaders.put(key, value);
+    return this;
+  }
+
   /**
-   * Set extra headers to the requests
+   * Add extra headers to the requests
    *
    * @param key name of the header
    * @param value value of the header
    * @return this
    */
-  public GenericAPIClientBuilder setExtraHeader(@Nonnull String key, String value) {
+  public GenericAPIClientBuilder addExtraHeader(@Nonnull String key, String value) {
     customHeaders.put(key, value);
     return this;
   }
