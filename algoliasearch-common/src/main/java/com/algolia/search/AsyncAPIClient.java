@@ -1107,15 +1107,10 @@ public class AsyncAPIClient {
   }
 
   CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
-      String indexName, List<Object> objects, RequestOptions requestOptions) {
-    return partialUpdateObjects(indexName, objects, requestOptions, true);
-  }
-
-  CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
       String indexName,
       List<Object> objects,
-      RequestOptions requestOptions,
-      boolean createIfNotExists) {
+      boolean createIfNotExists,
+      RequestOptions requestOptions) {
     return batch(
             indexName,
             objects

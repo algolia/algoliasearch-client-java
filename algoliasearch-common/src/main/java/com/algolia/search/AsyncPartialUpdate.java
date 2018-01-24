@@ -57,7 +57,7 @@ public interface AsyncPartialUpdate<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
       @Nonnull List<Object> objects, @Nonnull RequestOptions requestOptions) {
-    return getApiClient().partialUpdateObjects(getName(), objects, requestOptions);
+    return getApiClient().partialUpdateObjects(getName(), objects, true, requestOptions);
   }
 
   /**
@@ -75,7 +75,22 @@ public interface AsyncPartialUpdate<T> extends AsyncBaseIndex<T> {
       boolean createIfNotExists,
       @Nonnull RequestOptions requestOptions) {
     return getApiClient()
-        .partialUpdateObjects(getName(), objects, requestOptions, createIfNotExists);
+        .partialUpdateObjects(getName(), objects, createIfNotExists, requestOptions);
+  }
+
+  /**
+   * Partially update a objects
+   *
+   * @param objects the list of objects to update (with an objectID)
+   * @param createIfNotExists Value that indicates the object is created if the objectID doesn't
+   *     exists
+   * @return the associated task
+   * @throws AlgoliaException
+   */
+  default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
+      @Nonnull List<Object> objects, boolean createIfNotExists) {
+    return getApiClient()
+        .partialUpdateObjects(getName(), objects, createIfNotExists, RequestOptions.empty);
   }
 
   /**

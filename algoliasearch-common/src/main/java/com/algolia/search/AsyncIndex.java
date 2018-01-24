@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
-@SuppressWarnings("WeakerAccess")
 public class AsyncIndex<T>
     implements AsyncIndexCRUD<T>,
         AsyncTasks<T>,
