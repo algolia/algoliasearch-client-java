@@ -34,7 +34,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
 
   @Override
   public APIClientBuilder setExtraHeader(@Nonnull String key, String value) {
-    super.setExtraHeader(key, value);
+    super.addExtraHeader(key, value);
     return this;
   }
 
