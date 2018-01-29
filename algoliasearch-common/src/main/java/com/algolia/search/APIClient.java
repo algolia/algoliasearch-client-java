@@ -638,6 +638,20 @@ public class APIClient {
    *
    * @param queries the queries
    * @param strategy the strategy to apply to this multiple queries
+   * @return the result of the queries
+   * @throws AlgoliaException
+   */
+  public MultiQueriesResult multipleQueries(
+      @Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy)
+      throws AlgoliaException {
+    return multipleQueries(queries, strategy, RequestOptions.empty);
+  }
+
+  /**
+   * Performs multiple searches on multiple indices
+   *
+   * @param queries the queries
+   * @param strategy the strategy to apply to this multiple queries
    * @param requestOptions Options to pass to this request
    * @return the result of the queries
    * @throws AlgoliaException
