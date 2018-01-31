@@ -11,6 +11,7 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.objects.IndexQuery;
 import com.algolia.search.objects.IndexSettings;
+import com.algolia.search.objects.MultiQueriesStrategy;
 import com.algolia.search.objects.Query;
 import com.algolia.search.responses.MultiQueriesResult;
 import com.algolia.search.responses.SearchFacetResult;
@@ -55,7 +56,14 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
             Arrays.asList(
                 new IndexQuery(index, new Query("al")), new IndexQuery(index, new Query("1"))));
 
+    MultiQueriesResult searchWithStrategy =
+        client.multipleQueries(
+            Arrays.asList(
+                new IndexQuery(index, new Query("al")), new IndexQuery(index, new Query("1"))),
+            MultiQueriesStrategy.STOP_IF_ENOUGH_MATCHES);
+
     assertThat(search.getResults()).hasSize(2);
+    assertThat(searchWithStrategy.getResults()).hasSize(2);
   }
 
   @Test
