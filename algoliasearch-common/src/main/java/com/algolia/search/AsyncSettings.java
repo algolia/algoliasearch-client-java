@@ -31,7 +31,7 @@ public interface AsyncSettings<T> extends AsyncBaseIndex<T> {
    * Set settings of this index, and do not forward to replicas
    *
    * @param settings the settings to set
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> setSettings(@Nonnull IndexSettings settings) {
     return setSettings(settings, false);
@@ -42,7 +42,7 @@ public interface AsyncSettings<T> extends AsyncBaseIndex<T> {
    *
    * @param settings the settings to set
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> setSettings(
       @Nonnull IndexSettings settings, @Nonnull RequestOptions requestOptions) {
@@ -54,7 +54,7 @@ public interface AsyncSettings<T> extends AsyncBaseIndex<T> {
    *
    * @param settings the settings to set
    * @param forwardToReplicas should these updates be forwarded to the replicas
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> setSettings(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
@@ -67,7 +67,7 @@ public interface AsyncSettings<T> extends AsyncBaseIndex<T> {
    * @param settings the settings to set
    * @param forwardToReplicas should these updates be forwarded to the slaves
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> setSettings(
       @Nonnull IndexSettings settings,

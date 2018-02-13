@@ -16,7 +16,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * Add an object in this index
    *
    * @param object object to add
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskIndexing addObject(@Nonnull T object) throws AlgoliaException {
     return addObject(object, RequestOptions.empty);
@@ -27,7 +27,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    *
    * @param object object to add
    * @param requestOptions Options to pass to this request
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskIndexing addObject(@Nonnull T object, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -40,7 +40,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @param objectID the objectID associated to this object (if this objectID already exist the old
    *     object will be overridden)
    * @param object object to add
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskIndexing addObject(@Nonnull String objectID, @Nonnull T object)
       throws AlgoliaException {
@@ -54,7 +54,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    *     object will be overridden)
    * @param object object to add
    * @param requestOptions Options to pass to this request
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskIndexing addObject(
       @Nonnull String objectID, @Nonnull T object, @Nonnull RequestOptions requestOptions)
@@ -66,7 +66,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * Add several objects
    *
    * @param objects objects to add
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskSingleIndex addObjects(@Nonnull List<T> objects) throws AlgoliaException {
     return addObjects(objects, RequestOptions.empty);
@@ -77,7 +77,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    *
    * @param objects objects to add
    * @param requestOptions Options to pass to this request
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskSingleIndex addObjects(
       @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
@@ -164,7 +164,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    *
    * @param objectID the unique identifier of the object to retrieve
    * @param object the object to update
-   * @return the related Task
+   * @return the associated Task
    */
   default Task saveObject(@Nonnull String objectID, @Nonnull T object) throws AlgoliaException {
     return saveObject(objectID, object, RequestOptions.empty);
@@ -176,7 +176,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @param objectID the unique identifier of the object to retrieve
    * @param object the object to update
    * @param requestOptions Options to pass to this request
-   * @return the related Task
+   * @return the associated Task
    */
   default Task saveObject(
       @Nonnull String objectID, @Nonnull T object, @Nonnull RequestOptions requestOptions)
@@ -188,7 +188,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * Override the content the list of objects
    *
    * @param objects the list objects to update
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskSingleIndex saveObjects(@Nonnull List<T> objects) throws AlgoliaException {
     return saveObjects(objects, RequestOptions.empty);
@@ -199,7 +199,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    *
    * @param objects the list objects to update
    * @param requestOptions Options to pass to this request
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskSingleIndex saveObjects(
       @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
@@ -210,7 +210,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * Delete an object from the index
    *
    * @param objectID the unique identifier of the object to retrieve
-   * @return the related Task
+   * @return the associated Task
    */
   default Task deleteObject(@Nonnull String objectID) throws AlgoliaException {
     return deleteObject(objectID, RequestOptions.empty);
@@ -221,7 +221,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    *
    * @param objectID the unique identifier of the object to retrieve
    * @param requestOptions Options to pass to this request
-   * @return the related Task
+   * @return the associated Task
    */
   default Task deleteObject(@Nonnull String objectID, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -232,7 +232,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * Delete objects from the index
    *
    * @param objectIDs the list of unique identifier of the object to retrieve
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskSingleIndex deleteObjects(@Nonnull List<String> objectIDs) throws AlgoliaException {
     return deleteObjects(objectIDs, RequestOptions.empty);
@@ -243,7 +243,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    *
    * @param objectIDs the list of unique identifier of the object to retrieve
    * @param requestOptions Options to pass to this request
-   * @return the related Task
+   * @return the associated Task
    */
   default TaskSingleIndex deleteObjects(
       @Nonnull List<String> objectIDs, @Nonnull RequestOptions requestOptions)

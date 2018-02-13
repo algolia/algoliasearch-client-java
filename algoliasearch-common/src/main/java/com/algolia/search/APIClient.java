@@ -114,7 +114,7 @@ public class APIClient {
    * @param srcIndexName the index name that will be the source of the copy
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @return The task associated
+   * @return The associated task
    */
   public Task moveIndex(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
       throws AlgoliaException {
@@ -128,7 +128,7 @@ public class APIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
-   * @return The task associated
+   * @return The associated task
    */
   public Task moveIndex(
       @Nonnull String srcIndexName,
@@ -154,7 +154,7 @@ public class APIClient {
    * @param srcIndexName the index name that will be the source of the copy
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @return The task associated
+   * @return The associated task
    */
   public Task copyIndex(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
       throws AlgoliaException {
@@ -168,7 +168,7 @@ public class APIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
-   * @return The task associated
+   * @return The associated task
    */
   public Task copyIndex(
       @Nonnull String srcIndexName,
@@ -186,7 +186,7 @@ public class APIClient {
    *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
    * @param requestOptions Options to pass to this request
-   * @return The task associated
+   * @return The associated task
    */
   public Task copyIndex(
       @Nonnull String srcIndexName,
@@ -214,7 +214,7 @@ public class APIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
-   * @return The task associated
+   * @return The associated task
    */
   public Task copyIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scopes)
