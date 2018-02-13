@@ -519,10 +519,32 @@ public class APIClient {
     return Utils.generateSecuredApiKey(privateApiKey, query, userToken);
   }
 
+  /**
+   * Wait for the completion of this task
+   *
+   * @param task the task to wait
+   */
+  public <T> void waitTask(@Nonnull GenericTask<T> task) throws AlgoliaException {
+    waitTask(task, 100L, RequestOptions.empty);
+  }
+
+  /**
+   * Wait for the completion of this task
+   *
+   * @param task the task to wait
+   * @param timeToWait the time to wait in milliseconds
+   */
   public <T> void waitTask(@Nonnull GenericTask<T> task, long timeToWait) throws AlgoliaException {
     waitTask(task, timeToWait, RequestOptions.empty);
   }
 
+  /**
+   * Wait for the completion of this task
+   *
+   * @param task the task to wait
+   * @param timeToWait the time to wait in milliseconds
+   * @param requestOptions Options to pass to this request
+   */
   public <T> void waitTask(
       @Nonnull GenericTask<T> task, long timeToWait, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {

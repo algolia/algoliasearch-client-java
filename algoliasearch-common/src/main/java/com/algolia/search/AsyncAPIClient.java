@@ -483,6 +483,15 @@ public class AsyncAPIClient {
    * Wait for the completion of this task /!\ WARNING /!\ This method is blocking
    *
    * @param task the task to wait
+   */
+  public <T> void waitTask(@Nonnull AsyncGenericTask<T> task) {
+    waitTask(task, 100L, RequestOptions.empty);
+  }
+
+  /**
+   * Wait for the completion of this task /!\ WARNING /!\ This method is blocking
+   *
+   * @param task the task to wait
    * @param timeToWait the time to wait in milliseconds
    */
   public <T> void waitTask(@Nonnull AsyncGenericTask<T> task, long timeToWait) {
