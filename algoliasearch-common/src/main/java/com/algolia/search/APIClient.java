@@ -35,8 +35,6 @@ public class APIClient {
 
   /**
    * Close the internal HTTP client
-   *
-   * @throws AlgoliaException
    */
   public void close() throws AlgoliaException {
     this.httpClient.close();
@@ -50,7 +48,6 @@ public class APIClient {
    * List all existing indexes
    *
    * @return A List of the indices and their metadata
-   * @throws AlgoliaException
    */
   public List<Index.Attributes> listIndexes() throws AlgoliaException {
     return listIndexes(RequestOptions.empty);
@@ -61,7 +58,6 @@ public class APIClient {
    *
    * @param requestOptions Options to pass to this request
    * @return A List of the indices and their metadata
-   * @throws AlgoliaException
    */
   public List<Index.Attributes> listIndexes(@Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -118,8 +114,7 @@ public class APIClient {
    * @param srcIndexName the index name that will be the source of the copy
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   public Task moveIndex(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
       throws AlgoliaException {
@@ -133,8 +128,7 @@ public class APIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   public Task moveIndex(
       @Nonnull String srcIndexName,
@@ -160,8 +154,7 @@ public class APIClient {
    * @param srcIndexName the index name that will be the source of the copy
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   public Task copyIndex(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
       throws AlgoliaException {
@@ -175,8 +168,7 @@ public class APIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   public Task copyIndex(
       @Nonnull String srcIndexName,
@@ -194,8 +186,7 @@ public class APIClient {
    *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
    * @param requestOptions Options to pass to this request
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   public Task copyIndex(
       @Nonnull String srcIndexName,
@@ -223,8 +214,7 @@ public class APIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   public Task copyIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scopes)
@@ -267,7 +257,6 @@ public class APIClient {
    * Return 10 last log entries.
    *
    * @return A List<Log>
-   * @throws AlgoliaException
    */
   public List<Log> getLogs() throws AlgoliaException {
     return getLogs(RequestOptions.empty);
@@ -278,7 +267,6 @@ public class APIClient {
    *
    * @param requestOptions Options to pass to this request
    * @return A List<Log>
-   * @throws AlgoliaException
    */
   public List<Log> getLogs(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     Logs result =
@@ -297,7 +285,6 @@ public class APIClient {
    *     allowed value: 1000
    * @param logType Specify the type of log to retrieve
    * @return The List of Logs
-   * @throws AlgoliaException
    */
   public List<Log> getLogs(
       @Nonnull Integer offset, @Nonnull Integer length, @Nonnull LogType logType)
@@ -314,7 +301,6 @@ public class APIClient {
    * @param logType Specify the type of log to retrieve
    * @param requestOptions Options to pass to this request
    * @return The List of Logs
-   * @throws AlgoliaException
    */
   public List<Log> getLogs(
       @Nonnull Integer offset,
@@ -348,7 +334,6 @@ public class APIClient {
    * List all existing user keys with their associated ACLs
    *
    * @return A List of Keys
-   * @throws AlgoliaException
    */
   public List<ApiKey> listApiKeys() throws AlgoliaException {
     return this.listApiKeys(RequestOptions.empty);
@@ -359,7 +344,6 @@ public class APIClient {
    *
    * @param requestOptions Options to pass to this request
    * @return A List of Keys
-   * @throws AlgoliaException
    */
   public List<ApiKey> listApiKeys(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     ApiKeys result =
@@ -381,7 +365,6 @@ public class APIClient {
    *
    * @param key name of the key
    * @return the key
-   * @throws AlgoliaException
    */
   public Optional<ApiKey> getApiKey(@Nonnull String key) throws AlgoliaException {
     return this.getApiKey(key, RequestOptions.empty);
@@ -393,7 +376,6 @@ public class APIClient {
    * @param key name of the key
    * @param requestOptions Options to pass to this request
    * @return the key
-   * @throws AlgoliaException
    */
   public Optional<ApiKey> getApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -417,7 +399,6 @@ public class APIClient {
    * Delete an existing key
    *
    * @param key name of the key
-   * @throws AlgoliaException
    */
   public DeleteKey deleteApiKey(@Nonnull String key) throws AlgoliaException {
     return deleteApiKey(key, RequestOptions.empty);
@@ -428,7 +409,6 @@ public class APIClient {
    *
    * @param key name of the key
    * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
    */
   public DeleteKey deleteApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -452,7 +432,6 @@ public class APIClient {
    *
    * @param key the key with the ACLs
    * @return the metadata of the key (such as it's name)
-   * @throws AlgoliaException
    */
   public CreateUpdateKey addApiKey(@Nonnull ApiKey key) throws AlgoliaException {
     return addApiKey(key, RequestOptions.empty);
@@ -464,7 +443,6 @@ public class APIClient {
    * @param key the key with the ACLs
    * @param requestOptions Options to pass to this request
    * @return the metadata of the key (such as it's name)
-   * @throws AlgoliaException
    */
   public CreateUpdateKey addApiKey(@Nonnull ApiKey key, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -491,7 +469,6 @@ public class APIClient {
    * @param keyName name of the key to update
    * @param key the key with the ACLs
    * @return the metadata of the key (such as it's name)
-   * @throws AlgoliaException
    */
   public CreateUpdateKey updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key)
       throws AlgoliaException {
@@ -505,7 +482,6 @@ public class APIClient {
    * @param key the key with the ACLs
    * @param requestOptions Options to pass to this request
    * @return the metadata of the key (such as it's name)
-   * @throws AlgoliaException
    */
   public CreateUpdateKey updateApiKey(
       @Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions)
@@ -526,7 +502,6 @@ public class APIClient {
    *
    * @param privateApiKey your private API Key
    * @param query contains the parameter applied to the query (used as security)
-   * @throws AlgoliaException
    */
   @SuppressWarnings("unused")
   public String generateSecuredApiKey(@Nonnull String privateApiKey, @Nonnull Query query)
@@ -541,7 +516,6 @@ public class APIClient {
    * @param privateApiKey your private API Key
    * @param query contains the parameter applied to the query (used as security)
    * @param userToken an optional token identifying the current user
-   * @throws AlgoliaException
    */
   @SuppressWarnings("WeakerAccess")
   public String generateSecuredApiKey(
@@ -617,7 +591,6 @@ public class APIClient {
    *
    * @param operations the list of operations to perform
    * @return the associated task
-   * @throws AlgoliaException
    */
   public TasksMultipleIndex batch(@Nonnull List<BatchOperation> operations)
       throws AlgoliaException {
@@ -634,7 +607,6 @@ public class APIClient {
    * @param operations the list of operations to perform
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   public TasksMultipleIndex batch(
       @Nonnull List<BatchOperation> operations, @Nonnull RequestOptions requestOptions)
@@ -664,7 +636,6 @@ public class APIClient {
    *
    * @param queries the queries
    * @return the result of the queries
-   * @throws AlgoliaException
    */
   public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries)
       throws AlgoliaException {
@@ -678,7 +649,6 @@ public class APIClient {
    * @param queries the queries
    * @param requestOptions Options to pass to this request
    * @return the result of the queries
-   * @throws AlgoliaException
    */
   public MultiQueriesResult multipleQueries(
       @Nonnull List<IndexQuery> queries, @Nonnull RequestOptions requestOptions)
@@ -692,7 +662,6 @@ public class APIClient {
    * @param queries the queries
    * @param strategy the strategy to apply to this multiple queries
    * @return the result of the queries
-   * @throws AlgoliaException
    */
   public MultiQueriesResult multipleQueries(
       @Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy)
@@ -707,7 +676,6 @@ public class APIClient {
    * @param strategy the strategy to apply to this multiple queries
    * @param requestOptions Options to pass to this request
    * @return the result of the queries
-   * @throws AlgoliaException
    */
   @SuppressWarnings("WeakerAccess")
   public MultiQueriesResult multipleQueries(

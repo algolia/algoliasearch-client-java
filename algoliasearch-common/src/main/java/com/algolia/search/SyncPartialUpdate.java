@@ -15,7 +15,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    * @param objectID the ID of object to update
    * @param object the object to update
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
   default TaskSingleIndex partialUpdateObject(@Nonnull String objectID, @Nonnull Object object)
@@ -30,7 +29,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    * @param object the object to update
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
   default TaskSingleIndex partialUpdateObject(
@@ -44,7 +42,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    *
    * @param objects the list of objects to update (with an objectID)
    * @return the associated task
-   * @throws AlgoliaException
    */
   default TaskSingleIndex partialUpdateObjects(@Nonnull List<Object> objects)
       throws AlgoliaException {
@@ -57,7 +54,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    * @param objects the list of objects to update (with an objectID)
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default TaskSingleIndex partialUpdateObjects(
       @Nonnull List<Object> objects, @Nonnull RequestOptions requestOptions)
@@ -73,7 +69,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    * @param createIfNotExists Value that indicates the object is created if the objectID doesn't
    *     exists
    * @return the associated task
-   * @throws AlgoliaException
    */
   default TaskSingleIndex partialUpdateObjects(
       @Nonnull List<Object> objects,
@@ -91,7 +86,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    * @param createIfNotExists Value that indicates the object is created if the objectID doesn't
    *     exists
    * @return the associated task
-   * @throws AlgoliaException
    */
   default TaskSingleIndex partialUpdateObjects(
       @Nonnull List<Object> objects, boolean createIfNotExists) throws AlgoliaException {
@@ -103,7 +97,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    *
    * @param operation the operation to perform on this object
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
   default TaskSingleIndex partialUpdateObject(@Nonnull PartialUpdateOperation operation)
@@ -117,7 +110,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    * @param operation the operation to perform on this object
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
   default TaskSingleIndex partialUpdateObject(
@@ -132,7 +124,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    * @param operation the operation to perform on this object
    * @param createIfNotExists should the object be created or not
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
   default TaskSingleIndex partialUpdateObject(
@@ -148,7 +139,6 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    * @param createIfNotExists should the object be created or not
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    * @see PartialUpdateOperation & subclasses
    */
   default TaskSingleIndex partialUpdateObject(

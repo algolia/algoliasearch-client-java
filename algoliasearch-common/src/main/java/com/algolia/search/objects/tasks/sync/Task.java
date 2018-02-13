@@ -21,8 +21,6 @@ public class Task extends GenericTask<Long> {
 
   /**
    * Wait for the completion of this task
-   *
-   * @throws AlgoliaException
    */
   public void waitForCompletion() throws AlgoliaException {
     waitForCompletion(RequestOptions.empty);
@@ -32,7 +30,6 @@ public class Task extends GenericTask<Long> {
    * Wait for the completion of this task
    *
    * @param timeToWait the time to wait in milliseconds
-   * @throws AlgoliaException
    */
   public void waitForCompletion(long timeToWait) throws AlgoliaException {
     waitForCompletion(timeToWait, RequestOptions.empty);
@@ -42,7 +39,6 @@ public class Task extends GenericTask<Long> {
    * Wait for the completion of this task
    *
    * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
    */
   public void waitForCompletion(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     waitForCompletion(100, requestOptions);
@@ -53,7 +49,6 @@ public class Task extends GenericTask<Long> {
    *
    * @param timeToWait the time to wait in milliseconds
    * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
    */
   public void waitForCompletion(long timeToWait, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {

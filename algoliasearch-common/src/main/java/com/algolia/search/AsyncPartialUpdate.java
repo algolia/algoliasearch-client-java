@@ -68,7 +68,6 @@ public interface AsyncPartialUpdate<T> extends AsyncBaseIndex<T> {
    *     exists
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
       @Nonnull List<Object> objects,
@@ -85,7 +84,6 @@ public interface AsyncPartialUpdate<T> extends AsyncBaseIndex<T> {
    * @param createIfNotExists Value that indicates the object is created if the objectID doesn't
    *     exists
    * @return the associated task
-   * @throws AlgoliaException
    */
   default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
       @Nonnull List<Object> objects, boolean createIfNotExists) {

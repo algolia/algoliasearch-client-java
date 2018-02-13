@@ -12,8 +12,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
   /**
    * Deletes the index
    *
-   * @return the related Task
-   * @throws AlgoliaException
+   * @return the associated Task
    */
   default Task delete() throws AlgoliaException {
     return delete(RequestOptions.empty);
@@ -23,8 +22,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * Deletes the index
    *
    * @param requestOptions Options to pass to this request
-   * @return the related Task
-   * @throws AlgoliaException
+   * @return the associated Task
    */
   default Task delete(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return getApiClient().deleteIndex(getName(), requestOptions);
@@ -33,8 +31,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
   /**
    * Delete the index content without removing settings and index specific API keys.
    *
-   * @return the related Task
-   * @throws AlgoliaException
+   * @return the associated Task
    */
   default Task clear() throws AlgoliaException {
     return clear(RequestOptions.empty);
@@ -44,8 +41,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * Delete the index content without removing settings and index specific API keys.
    *
    * @param requestOptions Options to pass to this request
-   * @return the related Task
-   * @throws AlgoliaException
+   * @return the associated Task
    */
   default Task clear(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return getApiClient().clearIndex(getName(), requestOptions);
@@ -56,8 +52,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   default Task moveTo(@Nonnull String dstIndexName) throws AlgoliaException {
     return moveTo(dstIndexName, RequestOptions.empty);
@@ -69,8 +64,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   default Task moveTo(@Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -82,8 +76,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   default Task copyTo(@Nonnull String dstIndexName) throws AlgoliaException {
     return copyTo(dstIndexName, RequestOptions.empty);
@@ -95,8 +88,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   default Task copyTo(@Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -110,8 +102,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
    * @param requestOptions Options to pass to this request
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   default Task copyTo(
       @Nonnull String dstIndexName,
@@ -127,8 +118,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
-   * @return The task associated
-   * @throws AlgoliaException
+   * @return The associated task
    */
   default Task copyTo(@Nonnull String dstIndexName, @Nonnull List<String> scopes)
       throws AlgoliaException {

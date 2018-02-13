@@ -19,7 +19,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param synonymID the id of the synonym
    * @param content the synonym
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content)
       throws AlgoliaException {
@@ -33,7 +32,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param content the synonym
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task saveSynonym(
       @Nonnull String synonymID,
@@ -50,7 +48,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param content the synonym
    * @param forwardToReplicas should this request be forwarded to replicas
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task saveSynonym(
       @Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas)
@@ -66,7 +63,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas should this request be forwarded to slaves
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task saveSynonym(
       @Nonnull String synonymID,
@@ -83,7 +79,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    *
    * @param synonymID the id of the synonym
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Optional<AbstractSynonym> getSynonym(@Nonnull String synonymID) throws AlgoliaException {
     return getSynonym(synonymID, RequestOptions.empty);
@@ -95,7 +90,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param synonymID the id of the synonym
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Optional<AbstractSynonym> getSynonym(
       @Nonnull String synonymID, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
@@ -107,7 +101,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    *
    * @param synonymID the id of the synonym
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task deleteSynonym(@Nonnull String synonymID) throws AlgoliaException {
     return deleteSynonym(synonymID, false);
@@ -119,7 +112,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param synonymID the id of the synonym
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task deleteSynonym(@Nonnull String synonymID, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -132,7 +124,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param synonymID the id of the synonym
    * @param forwardToReplicas should this request be forwarded to replicas
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task deleteSynonym(@Nonnull String synonymID, boolean forwardToReplicas)
       throws AlgoliaException {
@@ -146,7 +137,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas should this request be forwarded to replicas
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task deleteSynonym(
       @Nonnull String synonymID, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions)
@@ -158,7 +148,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * Clear all synonyms and NOT forwarding it to the replicas
    *
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task clearSynonyms() throws AlgoliaException {
     return clearSynonyms(false);
@@ -169,7 +158,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    *
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task clearSynonyms(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return clearSynonyms(false, requestOptions);
@@ -180,7 +168,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    *
    * @param forwardToReplicas should this request be forwarded to replicas
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task clearSynonyms(boolean forwardToReplicas) throws AlgoliaException {
     return clearSynonyms(forwardToReplicas, RequestOptions.empty);
@@ -192,7 +179,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas should this request be forwarded to replicas
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task clearSynonyms(boolean forwardToReplicas, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -204,7 +190,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    *
    * @param query the query
    * @return the results of the query
-   * @throws AlgoliaException
    */
   default SearchSynonymResult searchSynonyms(@Nonnull SynonymQuery query) throws AlgoliaException {
     return searchSynonyms(query, RequestOptions.empty);
@@ -216,7 +201,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param query the query
    * @param requestOptions Options to pass to this request
    * @return the results of the query
-   * @throws AlgoliaException
    */
   default SearchSynonymResult searchSynonyms(
       @Nonnull SynonymQuery query, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
@@ -230,7 +214,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas Forward the operation to the slave indices
    * @param replaceExistingSynonyms Replace the existing synonyms with this batch
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchSynonyms(
       @Nonnull List<AbstractSynonym> synonyms,
@@ -249,7 +232,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param replaceExistingSynonyms Replace the existing synonyms with this batch
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchSynonyms(
       @Nonnull List<AbstractSynonym> synonyms,
@@ -268,7 +250,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param synonyms List of synonyms
    * @param forwardToReplicas Forward the operation to the slave indices
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas)
       throws AlgoliaException {
@@ -282,7 +263,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas Forward the operation to the slave indices
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchSynonyms(
       @Nonnull List<AbstractSynonym> synonyms,
@@ -297,7 +277,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    *
    * @param synonyms List of synonyms
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchSynonyms(@Nonnull List<AbstractSynonym> synonyms) throws AlgoliaException {
     return batchSynonyms(synonyms, false, false);
@@ -309,7 +288,6 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @param synonyms List of synonyms
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchSynonyms(
       @Nonnull List<AbstractSynonym> synonyms, @Nonnull RequestOptions requestOptions)

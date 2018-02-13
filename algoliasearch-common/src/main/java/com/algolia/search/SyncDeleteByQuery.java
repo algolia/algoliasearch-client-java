@@ -19,7 +19,6 @@ public interface SyncDeleteByQuery<T> extends SyncBaseIndex<T> {
    * Delete records matching a query
    *
    * @param query The query
-   * @throws AlgoliaException
    */
   default Task deleteBy(@Nonnull Query query) throws AlgoliaException {
     return deleteBy(query, RequestOptions.empty);
@@ -37,7 +36,6 @@ public interface SyncDeleteByQuery<T> extends SyncBaseIndex<T> {
    *
    * @param query The query
    * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
    */
   default Task deleteBy(@Nonnull Query query, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {

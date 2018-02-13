@@ -15,7 +15,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * Add an object in this index
    *
    * @param object object to add
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskIndexing> addObject(@Nonnull T object) {
     return addObject(object, RequestOptions.empty);
@@ -26,7 +26,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    *
    * @param object object to add
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskIndexing> addObject(
       @Nonnull T object, @Nonnull RequestOptions requestOptions) {
@@ -39,7 +39,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * @param objectID the objectID associated to this object (if this objectID already exist the old
    *     object will be overridden)
    * @param object object to add
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskIndexing> addObject(
       @Nonnull String objectID, @Nonnull T object) {
@@ -53,7 +53,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    *     object will be overridden)
    * @param object object to add
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskIndexing> addObject(
       @Nonnull String objectID, @Nonnull T object, @Nonnull RequestOptions requestOptions) {
@@ -64,7 +64,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * Add several objects
    *
    * @param objects objects to add
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskSingleIndex> addObjects(@Nonnull List<T> objects) {
     return addObjects(objects, RequestOptions.empty);
@@ -75,7 +75,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    *
    * @param objects objects to add
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskSingleIndex> addObjects(
       @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) {
@@ -159,7 +159,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    *
    * @param objectID the unique identifier of the object to retrieve
    * @param object the object to update
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> saveObject(@Nonnull String objectID, @Nonnull T object) {
     return saveObject(objectID, object, RequestOptions.empty);
@@ -171,7 +171,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * @param objectID the unique identifier of the object to retrieve
    * @param object the object to update
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> saveObject(
       @Nonnull String objectID, @Nonnull T object, @Nonnull RequestOptions requestOptions) {
@@ -182,7 +182,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * Override the content the list of objects
    *
    * @param objects the list objects to update
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskSingleIndex> saveObjects(@Nonnull List<T> objects) {
     return saveObjects(objects, RequestOptions.empty);
@@ -193,7 +193,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    *
    * @param objects the list objects to update
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskSingleIndex> saveObjects(
       @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) {
@@ -204,7 +204,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * Delete an object from the index
    *
    * @param objectID the unique identifier of the object to retrieve
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> deleteObject(@Nonnull String objectID) {
     return deleteObject(objectID, RequestOptions.empty);
@@ -215,7 +215,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    *
    * @param objectID the unique identifier of the object to retrieve
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> deleteObject(
       @Nonnull String objectID, @Nonnull RequestOptions requestOptions) {
@@ -226,7 +226,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * Delete objects from the index
    *
    * @param objectIDs the list of unique identifier of the object to retrieve
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskSingleIndex> deleteObjects(@Nonnull List<String> objectIDs) {
     return deleteObjects(objectIDs, RequestOptions.empty);
@@ -237,7 +237,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    *
    * @param objectIDs the list of unique identifier of the object to retrieve
    * @param requestOptions Options to pass to this request
-   * @return the related AsyncTask
+   * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTaskSingleIndex> deleteObjects(
       @Nonnull List<String> objectIDs, @Nonnull RequestOptions requestOptions) {

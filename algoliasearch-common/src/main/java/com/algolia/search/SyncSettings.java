@@ -12,7 +12,6 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    * Get settings of this index
    *
    * @return the settings
-   * @throws AlgoliaException
    */
   default IndexSettings getSettings() throws AlgoliaException {
     return getSettings(RequestOptions.empty);
@@ -23,7 +22,6 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    *
    * @param requestOptions Options to pass to this request
    * @return the settings
-   * @throws AlgoliaException
    */
   default IndexSettings getSettings(@Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -34,8 +32,7 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    * Set settings of this index, and do not forward to replicas
    *
    * @param settings the settings to set
-   * @return the related Task
-   * @throws AlgoliaException
+   * @return the associated Task
    */
   default Task setSettings(@Nonnull IndexSettings settings) throws AlgoliaException {
     return setSettings(settings, RequestOptions.empty);
@@ -46,8 +43,7 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    *
    * @param settings the settings to set
    * @param requestOptions Options to pass to this request
-   * @return the related Task
-   * @throws AlgoliaException
+   * @return the associated Task
    */
   default Task setSettings(@Nonnull IndexSettings settings, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -59,8 +55,7 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    *
    * @param settings the settings to set
    * @param forwardToReplicas should these updates be forwarded to the replicas
-   * @return the related Task
-   * @throws AlgoliaException
+   * @return the associated Task
    */
   default Task setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas)
       throws AlgoliaException {
@@ -73,8 +68,7 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    * @param settings the settings to set
    * @param forwardToReplicas should these updates be forwarded to the slaves
    * @param requestOptions Options to pass to this request
-   * @return the related Task
-   * @throws AlgoliaException
+   * @return the associated Task
    */
   default Task setSettings(
       @Nonnull IndexSettings settings,

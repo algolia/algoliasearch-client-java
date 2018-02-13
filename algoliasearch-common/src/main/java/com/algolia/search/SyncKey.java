@@ -22,7 +22,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    * List keys of this index
    *
    * @return the list of keys
-   * @throws AlgoliaException
    */
   default List<ApiKey> listApiKeys() throws AlgoliaException {
     return listApiKeys(RequestOptions.empty);
@@ -33,7 +32,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    *
    * @param requestOptions Options to pass to this request
    * @return the list of keys
-   * @throws AlgoliaException
    */
   default List<ApiKey> listApiKeys(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return getApiClient().listKeys(getName(), requestOptions);
@@ -50,7 +48,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    *
    * @param key the key name
    * @return the key
-   * @throws AlgoliaException
    */
   default Optional<ApiKey> getApiKey(@Nonnull String key) throws AlgoliaException {
     return getApiKey(key, RequestOptions.empty);
@@ -62,7 +59,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    * @param key the key name
    * @param requestOptions Options to pass to this request
    * @return the key
-   * @throws AlgoliaException
    */
   default Optional<ApiKey> getApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -80,7 +76,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    *
    * @param key the key name
    * @return the deleted key
-   * @throws AlgoliaException
    */
   default DeleteKey deleteApiKey(@Nonnull String key) throws AlgoliaException {
     return deleteApiKey(key, RequestOptions.empty);
@@ -92,7 +87,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    * @param key the key name
    * @param requestOptions Options to pass to this request
    * @return the deleted key
-   * @throws AlgoliaException
    */
   default DeleteKey deleteApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -110,7 +104,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    *
    * @param key the key
    * @return the created key
-   * @throws AlgoliaException
    */
   default CreateUpdateKey addApiKey(@Nonnull ApiKey key) throws AlgoliaException {
     return addApiKey(key, RequestOptions.empty);
@@ -122,7 +115,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    * @param key the key
    * @param requestOptions Options to pass to this request
    * @return the created key
-   * @throws AlgoliaException
    */
   default CreateUpdateKey addApiKey(@Nonnull ApiKey key, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -142,7 +134,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    * @param keyName the key name
    * @param key the key to update
    * @return the updated key
-   * @throws AlgoliaException
    */
   default CreateUpdateKey updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key)
       throws AlgoliaException {
@@ -164,7 +155,6 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
    * @param key the key to update
    * @param requestOptions Options to pass to this request
    * @return the updated key
-   * @throws AlgoliaException
    */
   default CreateUpdateKey updateApiKey(
       @Nonnull String keyName, @Nonnull ApiKey key, @Nonnull RequestOptions requestOptions)

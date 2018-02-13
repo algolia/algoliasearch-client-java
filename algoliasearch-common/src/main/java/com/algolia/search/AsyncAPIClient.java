@@ -40,8 +40,6 @@ public class AsyncAPIClient {
 
   /**
    * Close the internal HTTP client
-   *
-   * @throws AlgoliaException
    */
   public void close() throws AlgoliaException {
     this.httpClient.close();
@@ -108,7 +106,7 @@ public class AsyncAPIClient {
    * @param srcIndexName the index name that will be the source of the copy
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @return The task associated
+   * @return The associated task
    */
   public CompletableFuture<AsyncTask> moveIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
@@ -122,7 +120,7 @@ public class AsyncAPIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
-   * @return The task associated
+   * @return The associated task
    */
   public CompletableFuture<AsyncTask> moveIndex(
       @Nonnull String srcIndexName,
@@ -146,7 +144,7 @@ public class AsyncAPIClient {
    * @param srcIndexName the index name that will be the source of the copy
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @return The task associated
+   * @return The associated task
    */
   public CompletableFuture<AsyncTask> copyIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
@@ -160,7 +158,7 @@ public class AsyncAPIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
-   * @return The task associated
+   * @return The associated task
    */
   public CompletableFuture<AsyncTask> copyIndex(
       @Nonnull String srcIndexName,
@@ -177,7 +175,7 @@ public class AsyncAPIClient {
    *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
    * @param requestOptions Options to pass to this request
-   * @return The task associated
+   * @return The associated task
    */
   public CompletableFuture<AsyncTask> copyIndex(
       @Nonnull String srcIndexName,
@@ -203,7 +201,7 @@ public class AsyncAPIClient {
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param scopes the list of scopes to copy
-   * @return The task associated
+   * @return The associated task
    */
   public CompletableFuture<AsyncTask> copyIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scopes) {
