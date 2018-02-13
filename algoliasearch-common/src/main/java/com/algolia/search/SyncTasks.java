@@ -13,7 +13,6 @@ public interface SyncTasks<T> extends SyncBaseIndex<T> {
    *
    * @param task task to wait for
    * @param timeToWait the time to wait in milliseconds
-   * @throws AlgoliaException
    */
   default void waitTask(@Nonnull Task task, long timeToWait) throws AlgoliaException {
     waitTask(task, timeToWait, RequestOptions.empty);
@@ -25,7 +24,6 @@ public interface SyncTasks<T> extends SyncBaseIndex<T> {
    * @param task task to wait for
    * @param timeToWait the time to wait in milliseconds
    * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
    */
   default void waitTask(@Nonnull Task task, long timeToWait, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -38,7 +36,6 @@ public interface SyncTasks<T> extends SyncBaseIndex<T> {
    * Wait for the completion of a task, for 100ms
    *
    * @param task task to wait for
-   * @throws AlgoliaException
    */
   default void waitTask(@Nonnull Task task) throws AlgoliaException {
     getApiClient().waitTask(task, 100);
@@ -48,7 +45,6 @@ public interface SyncTasks<T> extends SyncBaseIndex<T> {
    * Wait for the completion of a task, for 100ms
    *
    * @param taskID ID of the task to wait for
-   * @throws AlgoliaException
    */
   default void waitTask(@Nonnull Long taskID) throws AlgoliaException {
     Task task = new Task().setAPIClient(getApiClient()).setIndex(getName()).setTaskID(taskID);
@@ -60,7 +56,6 @@ public interface SyncTasks<T> extends SyncBaseIndex<T> {
    *
    * @param taskID ID of the task to wait for
    * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
    */
   default void waitTask(@Nonnull Long taskID, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -73,7 +68,6 @@ public interface SyncTasks<T> extends SyncBaseIndex<T> {
    *
    * @param task task to wait for
    * @param requestOptions Options to pass to this request
-   * @throws AlgoliaException
    */
   default void waitTask(@Nonnull Task task, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {

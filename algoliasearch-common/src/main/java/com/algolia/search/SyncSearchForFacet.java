@@ -16,7 +16,6 @@ public interface SyncSearchForFacet<T> extends SyncBaseIndex<T> {
    * @param facetQuery The search query for this facet
    * @param query the query (not required)
    * @return the result of the search
-   * @throws AlgoliaException
    */
   default SearchFacetResult searchForFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
@@ -32,7 +31,6 @@ public interface SyncSearchForFacet<T> extends SyncBaseIndex<T> {
    * @param query the query (not required)
    * @param requestOptions Options to pass to this request
    * @return the result of the search
-   * @throws AlgoliaException
    */
   default SearchFacetResult searchForFacetValues(
       @Nonnull String facetName,
@@ -51,7 +49,6 @@ public interface SyncSearchForFacet<T> extends SyncBaseIndex<T> {
    * @param facetName The name of the facet to search in
    * @param facetQuery The search query for this facet
    * @return the result of the search
-   * @throws AlgoliaException
    */
   default SearchFacetResult searchForFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
@@ -66,7 +63,6 @@ public interface SyncSearchForFacet<T> extends SyncBaseIndex<T> {
    * @param facetQuery The search query for this facet
    * @param requestOptions Options to pass to this request
    * @return the result of the search
-   * @throws AlgoliaException
    */
   default SearchFacetResult searchForFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery, @Nonnull RequestOptions requestOptions)

@@ -18,7 +18,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param queryRuleID the id of the queryRule
    * @param content the queryRule
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task saveRule(@Nonnull String queryRuleID, @Nonnull Rule content)
       throws AlgoliaException {
@@ -32,7 +31,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param content the queryRule
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task saveRule(
       @Nonnull String queryRuleID, @Nonnull Rule content, @Nonnull RequestOptions requestOptions)
@@ -47,7 +45,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param content the queryRule
    * @param forwardToReplicas should this request be forwarded to replicas
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task saveRule(
       @Nonnull String queryRuleID, @Nonnull Rule content, boolean forwardToReplicas)
@@ -63,7 +60,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas should this request be forwarded to replicas
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task saveRule(
       @Nonnull String queryRuleID,
@@ -80,7 +76,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    *
    * @param ruleId the id of the query rule
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Optional<Rule> getRule(@Nonnull String ruleId) throws AlgoliaException {
     return getRule(ruleId, RequestOptions.empty);
@@ -92,7 +87,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param ruleId the id of the query rule
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Optional<Rule> getRule(@Nonnull String ruleId, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -104,7 +98,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    *
    * @param ruleId the id of the queryRule
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task deleteRule(@Nonnull String ruleId) throws AlgoliaException {
     return deleteRule(ruleId, false, RequestOptions.empty);
@@ -116,7 +109,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param ruleId the id of the queryRule
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task deleteRule(@Nonnull String ruleId, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -130,7 +122,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas should this request be forwarded to replicas
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task deleteRule(
       @Nonnull String ruleId, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions)
@@ -142,7 +133,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * Clear all query Rules and NOT forwarding it to the replicas
    *
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task clearRules() throws AlgoliaException {
     return clearRules(false);
@@ -153,7 +143,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    *
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task clearRules(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return clearRules(false, requestOptions);
@@ -163,7 +152,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * Clears all Rules
    *
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task clearRules(boolean forwardToReplicas) throws AlgoliaException {
     return clearRules(forwardToReplicas, RequestOptions.empty);
@@ -175,7 +163,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas should this request be forwarded to replicas
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task clearRules(boolean forwardToReplicas, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
@@ -187,7 +174,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    *
    * @param query the query
    * @return the results of the query
-   * @throws AlgoliaException
    */
   default SearchRuleResult searchRules(@Nonnull RuleQuery query) throws AlgoliaException {
     return searchRules(query, RequestOptions.empty);
@@ -199,7 +185,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param query the query
    * @param requestOptions Options to pass to this request
    * @return the results of the query
-   * @throws AlgoliaException
    */
   default SearchRuleResult searchRules(
       @Nonnull RuleQuery query, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
@@ -213,7 +198,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas Forward the operation to the slave indices
    * @param clearExistingRules Replace the existing query Rules with this batch
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchRules(
       @Nonnull List<Rule> rules, boolean forwardToReplicas, boolean clearExistingRules)
@@ -229,7 +213,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param clearExistingRules Replace the existing query Rules with this batch
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchRules(
       @Nonnull List<Rule> rules,
@@ -247,7 +230,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param rules List of Rules
    * @param forwardToReplicas Forward the operation to the slave indices
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchRules(@Nonnull List<Rule> rules, boolean forwardToReplicas)
       throws AlgoliaException {
@@ -261,7 +243,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param forwardToReplicas Forward the operation to the slave indices
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchRules(
       @Nonnull List<Rule> rules, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions)
@@ -274,7 +255,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    *
    * @param rules List of Rules
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchRules(@Nonnull List<Rule> rules) throws AlgoliaException {
     return batchRules(rules, false, false);
@@ -286,7 +266,6 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param rules List of Rules
    * @param requestOptions Options to pass to this request
    * @return the associated task
-   * @throws AlgoliaException
    */
   default Task batchRules(@Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {

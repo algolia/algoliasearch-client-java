@@ -27,8 +27,6 @@ public abstract class GenericTask<T> extends AbstractTask<T> {
 
   /**
    * Wait for the completion of this task
-   *
-   * @throws AlgoliaException
    */
   public void waitForCompletion() throws AlgoliaException {
     apiClient.waitTask(this, 100);
@@ -38,7 +36,6 @@ public abstract class GenericTask<T> extends AbstractTask<T> {
    * Wait for the completion of this task
    *
    * @param timeToWait the time to wait in milliseconds
-   * @throws AlgoliaException
    */
   public void waitForCompletion(long timeToWait) throws AlgoliaException {
     apiClient.waitTask(this, timeToWait);

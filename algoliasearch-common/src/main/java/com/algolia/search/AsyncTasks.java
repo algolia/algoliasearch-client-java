@@ -44,7 +44,6 @@ public interface AsyncTasks<T> extends AsyncBaseIndex<T> {
    * Wait for the completion of a task, for 100ms
    *
    * @param taskID ID of the task to wait for
-   * @throws AlgoliaException
    */
   default void waitTask(@Nonnull Long taskID) throws AlgoliaException {
     AsyncTask task = new AsyncTask().setIndex(getName()).setTaskID(taskID);

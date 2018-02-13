@@ -15,7 +15,6 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    *
    * @param query The query to use to browse
    * @return the iterator on top of this index
-   * @throws AlgoliaException
    */
   default IndexIterable<T> browse(@Nonnull Query query) {
     return browse(query, RequestOptions.empty);
@@ -27,7 +26,6 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    * @param query The query to use to browse
    * @param requestOptions Options to pass to this request
    * @return the iterator on top of this index
-   * @throws AlgoliaException
    */
   default IndexIterable<T> browse(@Nonnull Query query, @Nonnull RequestOptions requestOptions) {
     return new IndexIterable<>(getApiClient(), getName(), query, requestOptions, getKlass());
@@ -39,7 +37,6 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    * @param query The query to use to browse
    * @param cursor the cursor to start from
    * @return browse result
-   * @throws AlgoliaException
    */
   default BrowseResult<T> browseFrom(@Nonnull Query query, @Nullable String cursor)
       throws AlgoliaException {
@@ -53,7 +50,6 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    * @param cursor the cursor to start from
    * @param requestOptions Options to pass to this request
    * @return the iterator on top of this index
-   * @throws AlgoliaException
    */
   default BrowseResult<T> browseFrom(
       @Nonnull Query query, @Nullable String cursor, @Nonnull RequestOptions requestOptions)
