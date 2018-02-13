@@ -656,8 +656,24 @@ public class AsyncAPIClient {
             .setParameters(ImmutableMap.of("strategy", strategy.getName())));
   }
 
-  /** Package protected method for the Index class */
-  CompletableFuture<AsyncTask> deleteIndex(String indexName, RequestOptions requestOptions) {
+  /**
+   * Delete an existing index
+   *
+   * @param indexName The index name that will be deleted
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> deleteIndex(@Nonnull String indexName) {
+    return deleteIndex(indexName, RequestOptions.empty);
+  }
+
+  /**
+   * Delete an existing index
+   *
+   * @param indexName The index name that will be deleted
+   * @param requestOptions Options to pass to this request
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> deleteIndex(@Nonnull String indexName, @Nonnull RequestOptions requestOptions) {
     return httpClient
         .requestWithRetry(
             new AlgoliaRequest<>(
@@ -669,6 +685,7 @@ public class AsyncAPIClient {
         .thenApply(s -> s.setIndex(indexName));
   }
 
+  /** Package protected method for the Index class */
   <T> CompletableFuture<AsyncTaskIndexing> addObject(
       String indexName, T object, RequestOptions requestOptions) {
     return httpClient

@@ -233,6 +233,37 @@ public class APIClient {
   }
 
   /**
+   * Delete an existing index
+   *
+   * @param indexName The index name that will be deleted
+   * @return The associated task
+   */
+  public Task deleteIndex(@Nonnull String indexName) throws AlgoliaException {
+    return deleteIndex(indexName, RequestOptions.empty);
+  }
+
+  /**
+   * Delete an existing index
+   *
+   * @param indexName The index name that will be deleted
+   * @param requestOptions Options to pass to this request
+   * @return The associated task
+   */
+  public Task deleteIndex(@Nonnull String indexName, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
+    Task result =
+            httpClient.requestWithRetry(
+                    new AlgoliaRequest<>(
+                            HttpMethod.DELETE,
+                            false,
+                            Arrays.asList("1", "indexes", indexName),
+                            requestOptions,
+                            Task.class));
+
+    return result.setAPIClient(this).setIndex(indexName);
+  }
+
+
+  /**
    * Return 10 last log entries.
    *
    * @return A List<Log>
@@ -693,19 +724,6 @@ public class APIClient {
                 MultiQueriesResult.class)
             .setData(new MultipleQueriesRequests(queries))
             .setParameters(ImmutableMap.of("strategy", strategy.getName())));
-  }
-
-  Task deleteIndex(String indexName, RequestOptions requestOptions) throws AlgoliaException {
-    Task result =
-        httpClient.requestWithRetry(
-            new AlgoliaRequest<>(
-                HttpMethod.DELETE,
-                false,
-                Arrays.asList("1", "indexes", indexName),
-                requestOptions,
-                Task.class));
-
-    return result.setAPIClient(this).setIndex(indexName);
   }
 
   <T> TaskIndexing addObject(String indexName, T object, RequestOptions requestOptions)
