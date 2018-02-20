@@ -9,16 +9,16 @@ public class OperationOnIndex implements Serializable {
 
   private final String operation;
   private final String destination;
-  private final List<String> scopes;
+  private final List<String> scope;
 
   public OperationOnIndex(String operation, String destination) {
     this(operation, destination, null);
   }
 
-  public OperationOnIndex(String operation, String destination, List<String> scopes) {
+  public OperationOnIndex(String operation, String destination, List<String> scope) {
     this.operation = operation;
     this.destination = destination;
-    this.scopes = scopes;
+    this.scope = scope;
   }
 
   public String getOperation() {
@@ -29,7 +29,7 @@ public class OperationOnIndex implements Serializable {
     return destination;
   }
 
-  public List<String> getScopes() {
-    return scopes;
+  public List<String> getScope() {
+    return scope;
   }
 }

@@ -184,14 +184,14 @@ public class APIClient {
    * @param srcIndexName the index name that will be the source of the copy
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @param scopes the list of scopes to copy
+   * @param scope the list of scope to copy
    * @param requestOptions Options to pass to this request
    * @return The associated task
    */
   public Task copyIndex(
       @Nonnull String srcIndexName,
       @Nonnull String dstIndexName,
-      List<String> scopes,
+      List<String> scope,
       @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
     Task result =
@@ -202,7 +202,7 @@ public class APIClient {
                     Arrays.asList("1", "indexes", srcIndexName, "operation"),
                     requestOptions,
                     Task.class)
-                .setData(new OperationOnIndex("copy", dstIndexName, scopes)));
+                .setData(new OperationOnIndex("copy", dstIndexName, scope)));
 
     return result.setAPIClient(this).setIndex(srcIndexName);
   }
@@ -213,13 +213,13 @@ public class APIClient {
    * @param srcIndexName the index name that will be the source of the copy
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @param scopes the list of scopes to copy
-   * @return The associated task
+   * @param scope the list of scope to copy
+   * @return The task associated
    */
   public Task copyIndex(
-      @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scopes)
+      @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scope)
       throws AlgoliaException {
-    return copyIndex(srcIndexName, dstIndexName, scopes, RequestOptions.empty);
+    return copyIndex(srcIndexName, dstIndexName, scope, RequestOptions.empty);
   }
 
   /**

@@ -100,16 +100,16 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @param scopes the list of scopes to copy
+   * @param scope the list of scope to copy
    * @param requestOptions Options to pass to this request
    * @return The associated task
    */
   default Task copyTo(
       @Nonnull String dstIndexName,
-      @Nonnull List<String> scopes,
+      @Nonnull List<String> scope,
       @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
-    return getApiClient().copyIndex(getName(), dstIndexName, scopes, requestOptions);
+    return getApiClient().copyIndex(getName(), dstIndexName, scope, requestOptions);
   }
 
   /**
@@ -117,11 +117,11 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    *
    * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
-   * @param scopes the list of scopes to copy
-   * @return The associated task
+   * @param scope the list of scope to copy
+   * @return The task associated
    */
-  default Task copyTo(@Nonnull String dstIndexName, @Nonnull List<String> scopes)
+  default Task copyTo(@Nonnull String dstIndexName, @Nonnull List<String> scope)
       throws AlgoliaException {
-    return copyTo(dstIndexName, scopes, RequestOptions.empty);
+    return copyTo(dstIndexName, scope, RequestOptions.empty);
   }
 }

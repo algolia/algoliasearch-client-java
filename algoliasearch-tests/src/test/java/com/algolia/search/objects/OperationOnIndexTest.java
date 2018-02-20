@@ -26,6 +26,6 @@ public class OperationOnIndexTest {
         new OperationOnIndex("op", "dest", Collections.singletonList("rules"));
     String json = objectMapper.writeValueAsString(operation);
     assertThat(json)
-        .isEqualTo("{\"operation\":\"op\",\"destination\":\"dest\",\"scopes\":[\"rules\"]}");
+        .isEqualTo("{\"operation\":\"op\",\"destination\":\"dest\",\"scope\":[\"rules\"]}");
   }
 }
