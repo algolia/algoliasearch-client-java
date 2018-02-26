@@ -33,9 +33,7 @@ public class APIClient {
     this.configuration = configuration;
   }
 
-  /**
-   * Close the internal HTTP client
-   */
+  /** Close the internal HTTP client */
   public void close() throws AlgoliaException {
     this.httpClient.close();
   }
@@ -239,19 +237,19 @@ public class APIClient {
    * @param requestOptions Options to pass to this request
    * @return The associated task
    */
-  public Task deleteIndex(@Nonnull String indexName, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
+  public Task deleteIndex(@Nonnull String indexName, @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
     Task result =
-            httpClient.requestWithRetry(
-                    new AlgoliaRequest<>(
-                            HttpMethod.DELETE,
-                            false,
-                            Arrays.asList("1", "indexes", indexName),
-                            requestOptions,
-                            Task.class));
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.DELETE,
+                false,
+                Arrays.asList("1", "indexes", indexName),
+                requestOptions,
+                Task.class));
 
     return result.setAPIClient(this).setIndex(indexName);
   }
-
 
   /**
    * Return 10 last log entries.

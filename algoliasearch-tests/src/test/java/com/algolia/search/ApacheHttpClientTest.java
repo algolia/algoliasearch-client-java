@@ -50,7 +50,8 @@ public class ApacheHttpClientTest {
   private APIClient build(String... hosts) {
     APIClientConfiguration configuration =
         defaultConfig.setQueryHosts(Arrays.asList(hosts)).setBuildHosts(Arrays.asList(hosts));
-    ApacheHttpClient apache = new ApacheHttpClient(configuration);
+    ApacheHttpClient apache =
+        new ApacheHttpClient(configuration, new ApacheHttpClientConfiguration());
     return new APIClient(apache, configuration);
   }
 
@@ -106,7 +107,7 @@ public class ApacheHttpClientTest {
 
     APIClient client = build("localhost:8080", APPLICATION_ID + "-1.algolianet.com");
 
-    assertThatItTookLessThan(2 * 1000, client::listIndices);
+    assertThatItTookLessThan(2 * 1000, client::listIndexes);
   }
 
   @Test

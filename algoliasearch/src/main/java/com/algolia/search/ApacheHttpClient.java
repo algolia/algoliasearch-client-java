@@ -32,29 +32,39 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
   private final List<String> buildHosts;
   private final int hostDownTimeout;
 
-  public ApacheHttpClient(APIClientConfiguration configuration) {
+  public ApacheHttpClient(
+      APIClientConfiguration configuration, ApacheHttpClientConfiguration httpClientConfiguration) {
     logger.debug("Create ApacheHttpClient with configuration {}", configuration);
 
-    List<Header> httpHeaders =
+    final List<Header> httpHeaders =
         configuration
             .getHeaders()
             .entrySet()
             .stream()
             .map(e -> new BasicHeader(e.getKey(), e.getValue()))
             .collect(Collectors.toList());
-    RequestConfig requestConfig =
+
+    RequestConfig.Builder requestConfigBuilder =
         RequestConfig.custom()
             .setConnectTimeout(configuration.getConnectTimeout())
             .setSocketTimeout(configuration.getReadTimeout())
-            .setConnectionRequestTimeout(configuration.getConnectTimeout())
-            .build();
+            .setConnectionRequestTimeout(configuration.getConnectTimeout());
+
+    if (httpClientConfiguration.getProxy() != null) {
+      requestConfigBuilder = requestConfigBuilder.setProxy(httpClientConfiguration.getProxy());
+    }
+    if (httpClientConfiguration.getProxyPreferredAuthSchemes() != null) {
+      requestConfigBuilder =
+          requestConfigBuilder.setProxyPreferredAuthSchemes(
+              httpClientConfiguration.getProxyPreferredAuthSchemes());
+    }
 
     this.internal =
         HttpClients.custom()
             .disableAutomaticRetries()
             .setDefaultHeaders(httpHeaders)
             .setDnsResolver(new TimeoutableHostNameResolver(configuration.getConnectTimeout()))
-            .setDefaultRequestConfig(requestConfig)
+            .setDefaultRequestConfig(requestConfigBuilder.build())
             .setMaxConnTotal(configuration.getMaxConnTotal())
             .build();
 

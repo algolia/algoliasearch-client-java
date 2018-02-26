@@ -19,9 +19,7 @@ public class Task extends GenericTask<Long> {
     return this;
   }
 
-  /**
-   * Wait for the completion of this task
-   */
+  /** Wait for the completion of this task */
   public void waitForCompletion() throws AlgoliaException {
     waitForCompletion(RequestOptions.empty);
   }

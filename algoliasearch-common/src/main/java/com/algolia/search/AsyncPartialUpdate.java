@@ -1,6 +1,5 @@
 package com.algolia.search;
 
-import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
