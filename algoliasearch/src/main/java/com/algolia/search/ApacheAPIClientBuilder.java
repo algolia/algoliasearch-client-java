@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.annotation.Nonnull;
 import org.apache.http.HttpHost;
+import org.apache.http.client.CredentialsProvider;
 
 public final class ApacheAPIClientBuilder extends APIClientBuilder {
 
@@ -101,6 +102,20 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
   public ApacheAPIClientBuilder setProxyPreferredAuthSchemes(
       Collection<String> proxyPreferredAuthSchemes) {
     httpClientConfiguration.setProxyPreferredAuthSchemes(proxyPreferredAuthSchemes);
+    return this;
+  }
+
+  /**
+   * Set the CredentialsProvider for the underlying Apache HTTP Client
+   *
+   * <p>See https://hc.apache.org/httpcomponents-client-ga/examples.html for examples
+   *
+   * @param defaultCredentialsProvider
+   * @return this
+   */
+  public ApacheAPIClientBuilder setDefaultCredentialsProvider(
+      CredentialsProvider defaultCredentialsProvider) {
+    httpClientConfiguration.setDefaultCredentialsProvider(defaultCredentialsProvider);
     return this;
   }
 

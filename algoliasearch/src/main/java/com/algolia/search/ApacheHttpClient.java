@@ -20,6 +20,7 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 
@@ -59,15 +60,21 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
               httpClientConfiguration.getProxyPreferredAuthSchemes());
     }
 
-    this.internal =
+    HttpClientBuilder httpClientBuilder =
         HttpClients.custom()
             .disableAutomaticRetries()
             .setDefaultHeaders(httpHeaders)
             .setDnsResolver(new TimeoutableHostNameResolver(configuration.getConnectTimeout()))
             .setDefaultRequestConfig(requestConfigBuilder.build())
-            .setMaxConnTotal(configuration.getMaxConnTotal())
-            .build();
+            .setMaxConnTotal(configuration.getMaxConnTotal());
 
+    if (httpClientConfiguration.getDefaultCredentialsProvider() != null) {
+      httpClientBuilder =
+          httpClientBuilder.setDefaultCredentialsProvider(
+              httpClientConfiguration.getDefaultCredentialsProvider());
+    }
+
+    this.internal = httpClientBuilder.build();
     this.objectMapper = configuration.getObjectMapper();
     this.queryHosts = configuration.getQueryHosts();
     this.buildHosts = configuration.getBuildHosts();
