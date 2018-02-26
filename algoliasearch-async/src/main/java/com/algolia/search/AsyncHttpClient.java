@@ -16,7 +16,7 @@ class AsyncHttpClient extends AsyncAlgoliaHttpClient {
 
   AsyncHttpClient(AsyncAPIClientConfiguration configuration) {
     this.service = MoreExecutors.listeningDecorator(configuration.getExecutorService());
-    this.internal = new ApacheHttpClient(configuration);
+    this.internal = new ApacheHttpClient(configuration, new ApacheHttpClientConfiguration());
   }
 
   @Override

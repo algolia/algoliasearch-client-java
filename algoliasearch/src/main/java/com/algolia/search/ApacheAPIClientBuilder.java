@@ -1,8 +1,10 @@
 package com.algolia.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collection;
 import java.util.List;
 import javax.annotation.Nonnull;
+import org.apache.http.HttpHost;
 
 public final class ApacheAPIClientBuilder extends APIClientBuilder {
 
@@ -25,8 +27,9 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
   }
 
   @Override
-  public GenericAPIClientBuilder addExtraHeader(@Nonnull String key, String value) {
-    return super.addExtraHeader(key, value);
+  public ApacheAPIClientBuilder addExtraHeader(@Nonnull String key, String value) {
+    super.addExtraHeader(key, value);
+    return this;
   }
 
   @Override
@@ -71,8 +74,39 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
     return this;
   }
 
+  private ApacheHttpClientConfiguration httpClientConfiguration =
+      new ApacheHttpClientConfiguration();
+
+  /**
+   * Set the proxy for the underlying Apache HTTP Client
+   *
+   * <p>See https://hc.apache.org/httpcomponents-client-ga/examples.html for examples
+   *
+   * @param proxy
+   * @return this
+   */
+  public ApacheAPIClientBuilder setProxy(HttpHost proxy) {
+    httpClientConfiguration.setProxy(proxy);
+    return this;
+  }
+
+  /**
+   * Set the proxyPreferredAuthSchemes for the underlying Apache HTTP Client
+   *
+   * <p>See https://hc.apache.org/httpcomponents-client-ga/examples.html for examples
+   *
+   * @param proxyPreferredAuthSchemes
+   * @return this
+   */
+  public ApacheAPIClientBuilder setProxyPreferredAuthSchemes(
+      Collection<String> proxyPreferredAuthSchemes) {
+    httpClientConfiguration.setProxyPreferredAuthSchemes(proxyPreferredAuthSchemes);
+    return this;
+  }
+
   @Override
   protected APIClient build(@Nonnull APIClientConfiguration configuration) {
-    return new APIClient(new ApacheHttpClient(configuration), configuration);
+    return new APIClient(
+        new ApacheHttpClient(configuration, httpClientConfiguration), configuration);
   }
 }

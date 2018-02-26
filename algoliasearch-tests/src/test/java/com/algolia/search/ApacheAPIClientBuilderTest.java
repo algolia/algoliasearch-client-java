@@ -2,19 +2,20 @@ package com.algolia.search;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.util.Arrays;
+import org.apache.http.HttpHost;
 import org.junit.Test;
 
 public class ApacheAPIClientBuilderTest {
 
   @Test
-  public void buildAPIClient() throws IOException {
+  public void buildAPIClient() {
     APIClient apiClient =
         new ApacheAPIClientBuilder("appId", "apiKey")
             .setConnectTimeout(100)
             .setReadTimeout(200)
-            .setExtraHeader("header", "value")
+            .addExtraHeader("header", "value")
+            .setProxy(new HttpHost("toto.com"))
             .build();
 
     assertThat(apiClient.configuration)

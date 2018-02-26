@@ -38,9 +38,7 @@ public class AsyncAPIClient {
     this.executor = configuration.getExecutorService();
   }
 
-  /**
-   * Close the internal HTTP client
-   */
+  /** Close the internal HTTP client */
   public void close() throws AlgoliaException {
     this.httpClient.close();
   }
@@ -671,7 +669,8 @@ public class AsyncAPIClient {
    * @param requestOptions Options to pass to this request
    * @return The associated task
    */
-  public CompletableFuture<AsyncTask> deleteIndex(@Nonnull String indexName, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<AsyncTask> deleteIndex(
+      @Nonnull String indexName, @Nonnull RequestOptions requestOptions) {
     return httpClient
         .requestWithRetry(
             new AlgoliaRequest<>(
