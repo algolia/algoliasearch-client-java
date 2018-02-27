@@ -13,17 +13,18 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <slf4j.version>1.7.25</slf4j.version>
-    <apache-http-client.version>4.5.3</apache-http-client.version>
-    <guava.version>22.0</guava.version>
-    <jackson.version>2.9.0</jackson.version>
+    <apache-http-client.version>4.5.5</apache-http-client.version>
+    <guava.version>24.0-jre</guava.version>
+    <jackson.version>2.9.4</jackson.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <url-builder.version>1.1.0</url-builder.version>
-    <appengine-api.version>1.9.54</appengine-api.version>
+    <url-builder.version>2.0.9</url-builder.version>
+    <appengine-api.version>1.9.62</appengine-api.version>
     <future-converter.version>1.1.0</future-converter.version>
 
     <junit.version>4.12</junit.version>
-    <assertj-core.version>3.8.0</assertj-core.version>
+    <assertj-core.version>3.9.1</assertj-core.version>
     <mockito-all.version>2.0.2-beta</mockito-all.version>
+    <logback.version>1.2.3</logback.version>
   </properties>
 
   <licenses>
@@ -232,8 +233,8 @@
       </dependency>
 
       <dependency>
-        <groupId>com.palominolabs.http</groupId>
-        <artifactId>url-builder</artifactId>
+        <groupId>io.mikael</groupId>
+        <artifactId>urlbuilder</artifactId>
         <version>${url-builder.version}</version>
       </dependency>
 
@@ -313,6 +314,12 @@
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
         <version>${mockito-all.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
