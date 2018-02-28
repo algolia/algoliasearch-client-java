@@ -27,8 +27,8 @@
       <artifactId>guava</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.palominolabs.http</groupId>
-      <artifactId>url-builder</artifactId>
+      <groupId>io.mikael</groupId>
+      <artifactId>urlbuilder</artifactId>
     </dependency>
   </dependencies>
 

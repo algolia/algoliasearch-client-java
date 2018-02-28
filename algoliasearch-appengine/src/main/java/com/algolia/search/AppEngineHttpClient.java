@@ -6,14 +6,13 @@ import com.algolia.search.http.AlgoliaHttpRequest;
 import com.algolia.search.http.AlgoliaHttpResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.appengine.api.urlfetch.*;
-import com.palominolabs.http.url.UrlBuilder;
+import com.google.common.base.Joiner;
+import io.mikael.urlbuilder.UrlBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -87,8 +86,7 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
     return false;
   }
 
-  protected HTTPRequest build(AlgoliaHttpRequest request)
-      throws MalformedURLException, CharacterCodingException {
+  protected HTTPRequest build(AlgoliaHttpRequest request) {
     HTTPRequest httpRequest =
         new HTTPRequest(
             toUrl(request), HTTPMethod.valueOf(request.getMethod().name), defaultFetchOptions);
@@ -108,19 +106,18 @@ class AppEngineHttpClient extends AlgoliaHttpClient {
     return httpRequest;
   }
 
-  private URL toUrl(AlgoliaHttpRequest request)
-      throws CharacterCodingException, MalformedURLException {
-    UrlBuilder urlBuilder = UrlBuilder.forHost("https", request.getHost());
+  private static final Joiner slashJoiner = Joiner.on("/");
 
-    for (String p : request.getPath()) {
-      urlBuilder = urlBuilder.pathSegment(p);
-    }
+  private URL toUrl(AlgoliaHttpRequest request) {
+    UrlBuilder urlBuilder = UrlBuilder.empty().withScheme("https").withHost(request.getHost());
+
+    urlBuilder = urlBuilder.withPath(slashJoiner.join(request.getPath()));
 
     for (Map.Entry<String, String> entry : request.getParameters().entrySet()) {
-      urlBuilder = urlBuilder.queryParam(entry.getKey(), entry.getValue());
+      urlBuilder = urlBuilder.addParameter(entry.getKey(), entry.getValue());
     }
 
-    return new URL(urlBuilder.toUrlString());
+    return urlBuilder.toUrl();
   }
 
   @Override
