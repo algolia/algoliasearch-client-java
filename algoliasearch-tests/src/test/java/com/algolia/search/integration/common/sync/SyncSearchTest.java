@@ -13,11 +13,13 @@ import com.algolia.search.objects.IndexQuery;
 import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.MultiQueriesStrategy;
 import com.algolia.search.objects.Query;
+import com.algolia.search.responses.FacetStats;
 import com.algolia.search.responses.MultiQueriesResult;
 import com.algolia.search.responses.SearchFacetResult;
 import com.algolia.search.responses.SearchResult;
+import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Map;
 import org.junit.Test;
 
 public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
@@ -75,21 +77,26 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
   }
 
   @Test
-  public void searchInFacets() throws AlgoliaException {
+  public void searchAndFacets() throws AlgoliaException {
     Index<AlgoliaObjectForFaceting> index = createIndex(AlgoliaObjectForFaceting.class);
     waitForCompletion(
         index.setSettings(
             new IndexSettings()
-                .setAttributesForFaceting(Collections.singletonList("searchable(series)"))));
+                .setAttributesForFaceting(Arrays.asList("searchable(series)", "age"))));
 
     waitForCompletion(
         index.addObjects(
             Arrays.asList(
-                new AlgoliaObjectForFaceting("snoopy", 12, "Peanuts"),
-                new AlgoliaObjectForFaceting("woodstock", 12, "Peanuts"),
-                new AlgoliaObjectForFaceting("Calvin", 12, "Calvin & Hobbes"))));
+                new AlgoliaObjectForFaceting("snoopy", 10, "Peanuts"),
+                new AlgoliaObjectForFaceting("woodstock", 20, "Peanuts"),
+                new AlgoliaObjectForFaceting("Calvin", 30, "Calvin & Hobbes"))));
 
     SearchFacetResult result = index.searchForFacetValues("series", "Peanuts");
     assertThat(result.getFacetHits()).hasSize(1);
+
+    SearchResult<AlgoliaObjectForFaceting> search = index.search(new Query("").setFacets("age"));
+    Map<String, FacetStats> expected =
+        ImmutableMap.of("age", new FacetStats().setMax(30f).setMin(10f).setSum(60f).setAvg(20f));
+    assertThat(search.getFacets_stats()).isEqualToComparingFieldByFieldRecursively(expected);
   }
 }
