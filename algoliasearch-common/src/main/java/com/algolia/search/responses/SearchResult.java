@@ -20,7 +20,7 @@ public class SearchResult<T> implements Serializable {
 
   private Map<String, Map<String, Long>> facets;
 
-  private Map<String, Float> facets_stats;
+  private Map<String, Map<String, Float>> facets_stats;
 
   private Boolean exhaustiveFacetsCount;
 
@@ -167,11 +167,11 @@ public class SearchResult<T> implements Serializable {
     return this;
   }
 
-  public Map<String, Float> getFacets_stats() {
+  public Map<String, Map<String, Float>> getFacets_stats() {
     return facets_stats;
   }
 
-  public SearchResult<T> setFacets_stats(Map<String, Float> facets_stats) {
+  public SearchResult<T> setFacets_stats(Map<String, Map<String, Float>> facets_stats) {
     this.facets_stats = facets_stats;
     return this;
   }
