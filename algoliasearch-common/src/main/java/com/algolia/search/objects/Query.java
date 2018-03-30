@@ -43,7 +43,7 @@ public class Query implements Serializable {
   /* geo-search */
   protected String aroundLatLng;
   protected Boolean aroundLatLngViaIP;
-  protected Object aroundRadius;
+  protected AroundRadius aroundRadius;
   protected Integer aroundPrecision;
   protected Integer minimumAroundRadius;
   protected List<String> insideBoundingBox;
@@ -228,6 +228,14 @@ public class Query implements Serializable {
   }
 
   private ImmutableMap.Builder<String, String> add(
+      ImmutableMap.Builder<String, String> builder, String name, CompoundType value) {
+    if (value == null) {
+      return builder;
+    }
+    return builder.put(name, value.getInsideValue().toString());
+  }
+
+  private ImmutableMap.Builder<String, String> add(
       ImmutableMap.Builder<String, String> builder, String name, Enum<?> value) {
     if (value == null) {
       return builder;
@@ -289,14 +297,8 @@ public class Query implements Serializable {
     return builder.toString();
   }
 
-  public Query setAroundRadius(Integer aroundRadius) {
+  public Query setAroundRadius(AroundRadius aroundRadius) {
     this.aroundRadius = aroundRadius;
-    return this;
-  }
-
-  @JsonIgnore
-  public Query setAroundRadiusAll() {
-    this.aroundRadius = "all";
     return this;
   }
 
@@ -505,14 +507,8 @@ public class Query implements Serializable {
     return this;
   }
 
-  public Object getAroundRadius() {
+  public AroundRadius getAroundRadius() {
     return aroundRadius;
-  }
-
-  @JsonIgnore
-  public Query setAroundRadius(Object aroundRadius) {
-    this.aroundRadius = aroundRadius;
-    return this;
   }
 
   public Integer getAroundPrecision() {

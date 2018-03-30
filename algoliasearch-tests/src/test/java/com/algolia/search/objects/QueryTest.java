@@ -6,6 +6,7 @@ import static org.assertj.core.data.MapEntry.entry;
 import com.algolia.search.Defaults;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Collections;
@@ -58,12 +59,16 @@ public class QueryTest {
   }
 
   @Test
-  public void queryWithAroundRadius() {
-    Query query = new Query("").setAroundRadiusAll();
+  public void queryWithAroundRadius() throws JsonProcessingException {
+    Query query = new Query("").setAroundRadius(AroundRadius.of("all"));
+    String serialized = objectMapper.writeValueAsString(query);
     assertThat(query.toParam()).isEqualTo("aroundRadius=all&query=");
+    assertThat(serialized).isEqualTo("{\"aroundRadius\":\"all\",\"query\":\"\"}");
 
-    query = new Query("").setAroundRadius(1);
+    query = new Query("").setAroundRadius(AroundRadius.of(1));
+    serialized = objectMapper.writeValueAsString(query);
     assertThat(query.toParam()).isEqualTo("aroundRadius=1&query=");
+    assertThat(serialized).isEqualTo("{\"aroundRadius\":1,\"query\":\"\"}");
   }
 
   @Test

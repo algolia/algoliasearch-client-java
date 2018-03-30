@@ -19,7 +19,7 @@ import java.util.List;
 @JsonDeserialize(using = RemoveStopWordsDeserializer.class)
 @JsonSerialize(using = RemoveStopWordsSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class RemoveStopWords implements Serializable {
+public abstract class RemoveStopWords implements Serializable, CompoundType {
 
   public static RemoveStopWords of(Boolean bool) {
     return new RemoveStopWordsBoolean(bool);
@@ -30,7 +30,7 @@ public abstract class RemoveStopWords implements Serializable {
   }
 
   @JsonIgnore
-  abstract Object getInsideValue();
+  public abstract Object getInsideValue();
 
   @Override
   public boolean equals(Object o) {
@@ -59,7 +59,7 @@ class RemoveStopWordsBoolean extends RemoveStopWords {
   }
 
   @Override
-  Object getInsideValue() {
+  public Object getInsideValue() {
     return insideValue;
   }
 
@@ -78,7 +78,7 @@ class RemoveStopWordsListString extends RemoveStopWords {
   }
 
   @Override
-  Object getInsideValue() {
+  public Object getInsideValue() {
     return insideValue;
   }
 
