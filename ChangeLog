@@ -1,6 +1,67 @@
 Changelog
 =========
 
+2.17.0 (2018-04-03)
+-------------------
+- Add maxConnPerRoute
+
+2.16.6 (2018-04-03)
+-------------------
+- Fix AroundRadius serialization (#476)
+
+2.16.6 (2018-03-08)
+-------------------
+- Nothing
+
+2.16.5 (2018-03-07)
+-------------------
+- Fix facet_stats type (#469)
+
+2.16.4 (2018-03-06)
+-------------------
+- Nothing
+
+2.16.3 (2018-03-05)
+-------------------
+- Add facet stats (#467)
+
+2.16.2 (2018-02-28)
+-------------------
+- Nothing
+
+2.16.1 (2018-02-27)
+-------------------
+- Add CredentialsProvider parameter (#463)
+
+2.16.0 (2018-02-26)
+-------------------
+- Add a way to put a proxy for the underlying http client
+
+2.15.7 (2018-02-20)
+-------------------
+- Add multipleQueries(List<IndexQuery> queries, String strategy)
+- Add asyncClient.waitTask(task) (#457)
+- Add deleteIndex method (without RequestOptions version)
+- Fix scope in copy index (#460)
+
+2.15.6 (2018-01-24)
+-------------------
+- Add waitTask with taskID (#417)
+- Rename listIndices to listIndexes (#440)
+- Rename types to type (#438)
+- Rename `client.updateKey` => `client.updateApiKey` (#442)
+- Remove `replaceExistingSynonyms` from `saveSynonym` (#441)
+- Add copy/move Index (#444)
+- Add waitTask method for taskID with requestOptions (#437)
+- Fix visibility for compatibility with Clojure (#453)
+- Rename `builder.setExtraHeader` => `builder.addExtraHeader` (#445)
+- `partialUpdateObjects` with `createIfNotExists` (#447)
+- Fix browse from (#448)
+
+2.15.5 (2017-12-29)
+-------------------
+- Add Serializable to multiple objects
+
 2.15.5 (2017-12-29)
 -------------------
 - Add Serializable to multiple objects

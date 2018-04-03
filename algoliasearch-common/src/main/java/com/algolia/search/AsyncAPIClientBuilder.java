@@ -94,6 +94,24 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
     return this;
   }
 
+  @Override
+  public GenericAPIClientBuilder setHostDownTimeout(int hostDownTimeout) {
+    super.setHostDownTimeout(hostDownTimeout);
+    return this;
+  }
+
+  @Override
+  public GenericAPIClientBuilder setMaxConnTotal(int maxConnTotal) {
+    super.setMaxConnTotal(maxConnTotal);
+    return this;
+  }
+
+  @Override
+  public GenericAPIClientBuilder setMaxConnPerRoute(int maxConnPerRoute) {
+    super.setMaxConnPerRoute(maxConnPerRoute);
+    return this;
+  }
+
   protected abstract AsyncAPIClient build(@Nonnull AsyncAPIClientConfiguration configuration);
 
   /**
@@ -113,15 +131,18 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
    */
   public AsyncAPIClient build(ExecutorService executor) {
     return build(
-        new AsyncAPIClientConfiguration()
-            .setExecutor(executor)
-            .setApplicationId(applicationId)
-            .setApiKey(apiKey)
-            .setObjectMapper(objectMapper)
-            .setBuildHosts(generateBuildHosts())
-            .setQueryHosts(generateQueryHosts())
-            .setHeaders(generateHeaders())
-            .setConnectTimeout(connectTimeout)
-            .setReadTimeout(readTimeout));
+        new AsyncAPIClientConfiguration(
+            applicationId,
+            apiKey,
+            objectMapper,
+            generateBuildHosts(),
+            generateQueryHosts(),
+            generateHeaders(),
+            connectTimeout,
+            readTimeout,
+            hostDownTimeout,
+            maxConnTotal,
+            maxConnPerRoute,
+            executor));
   }
 }

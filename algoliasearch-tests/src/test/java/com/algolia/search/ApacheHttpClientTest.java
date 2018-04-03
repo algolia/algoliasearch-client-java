@@ -33,23 +33,38 @@ public class ApacheHttpClientTest {
   @Before
   public void before() {
     defaultConfig =
-        new APIClientConfiguration()
-            .setApplicationId(APPLICATION_ID)
-            .setApiKey(API_KEY)
-            .setBuildHosts(Collections.singletonList(APPLICATION_ID + ".algolia.net"))
-            .setQueryHosts(Collections.singletonList(APPLICATION_ID + "-dsn.algolia.net"))
-            .setConnectTimeout(1000)
-            .setReadTimeout(2000)
-            .setHeaders(
-                ImmutableMap.of(
-                    "X-Algolia-Application-Id", APPLICATION_ID,
-                    "X-Algolia-API-Key", API_KEY))
-            .setObjectMapper(Defaults.DEFAULT_OBJECT_MAPPER);
+        new APIClientConfiguration(
+            APPLICATION_ID,
+            API_KEY,
+            Defaults.DEFAULT_OBJECT_MAPPER,
+            Collections.singletonList(APPLICATION_ID + ".algolia.net"),
+            Collections.singletonList(APPLICATION_ID + "-dsn.algolia.net"),
+            ImmutableMap.of(
+                "X-Algolia-Application-Id", APPLICATION_ID,
+                "X-Algolia-API-Key", API_KEY),
+            1000,
+            2000,
+            1000,
+            10,
+            5);
   }
 
   private APIClient build(String... hosts) {
     APIClientConfiguration configuration =
-        defaultConfig.setQueryHosts(Arrays.asList(hosts)).setBuildHosts(Arrays.asList(hosts));
+        new APIClientConfiguration(
+            APPLICATION_ID,
+            API_KEY,
+            Defaults.DEFAULT_OBJECT_MAPPER,
+            Arrays.asList(hosts),
+            Arrays.asList(hosts),
+            ImmutableMap.of(
+                "X-Algolia-Application-Id", APPLICATION_ID,
+                "X-Algolia-API-Key", API_KEY),
+            1000,
+            2000,
+            1000,
+            10,
+            5);
     ApacheHttpClient apache =
         new ApacheHttpClient(configuration, new ApacheHttpClientConfiguration());
     return new APIClient(apache, configuration);
@@ -60,9 +75,9 @@ public class ApacheHttpClientTest {
     callable.call();
     Long end = System.currentTimeMillis();
     assertThat(end - start < duration)
-        .isTrue()
         .overridingErrorMessage(
-            "should have taken less than " + duration + "ms, but took " + (end - start) + "ms.");
+            "should have taken less than " + duration + "ms, but took " + (end - start) + "ms.")
+        .isTrue();
   }
 
   @Test
@@ -99,7 +114,6 @@ public class ApacheHttpClientTest {
                 socket.setSoLinger(true, 0);
                 socket.close();
               } catch (IOException ignored) {
-                ignored.printStackTrace();
               }
             });
 

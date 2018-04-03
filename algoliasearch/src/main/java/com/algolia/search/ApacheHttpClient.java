@@ -66,7 +66,8 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
             .setDefaultHeaders(httpHeaders)
             .setDnsResolver(new TimeoutableHostNameResolver(configuration.getConnectTimeout()))
             .setDefaultRequestConfig(requestConfigBuilder.build())
-            .setMaxConnTotal(configuration.getMaxConnTotal());
+            .setMaxConnTotal(configuration.getMaxConnTotal())
+            .setMaxConnPerRoute(configuration.getMaxConnPerRoute());
 
     if (httpClientConfiguration.getDefaultCredentialsProvider() != null) {
       httpClientBuilder =

@@ -32,6 +32,7 @@ public abstract class GenericAPIClientBuilder {
   protected int hostDownTimeout = HOST_DOWN_TIMEOUT_MS;
   protected ObjectMapper objectMapper = DEFAULT_OBJECT_MAPPER;
   protected int maxConnTotal = 10;
+  protected int maxConnPerRoute = maxConnTotal / 2;
 
   /**
    * Initialize this builder with the applicationId and apiKey
@@ -162,6 +163,18 @@ public abstract class GenericAPIClientBuilder {
    */
   public GenericAPIClientBuilder setMaxConnTotal(int maxConnTotal) {
     this.maxConnTotal = maxConnTotal;
+    return this;
+  }
+
+  /**
+   * Set the maximum of connection per route, only available for {@link ApacheAPIClientBuilder} and
+   * {@link AsyncAPIClientBuilder}
+   *
+   * @param maxConnPerRoute the max number of connections per route
+   * @return this
+   */
+  public GenericAPIClientBuilder setMaxConnPerRoute(int maxConnPerRoute) {
+    this.maxConnPerRoute = maxConnPerRoute;
     return this;
   }
 
