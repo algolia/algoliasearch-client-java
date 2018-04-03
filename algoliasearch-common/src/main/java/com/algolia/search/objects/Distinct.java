@@ -18,7 +18,7 @@ import java.io.Serializable;
 @JsonDeserialize(using = DistinctJsonDeserializer.class)
 @JsonSerialize(using = DistinctJsonSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Distinct implements Serializable {
+public abstract class Distinct implements Serializable, CompoundType {
 
   public static Distinct of(Integer integer) {
     return new DistinctAsInteger(integer);
@@ -29,7 +29,7 @@ public abstract class Distinct implements Serializable {
   }
 
   @JsonIgnore
-  abstract Object getInsideValue();
+  public abstract Object getInsideValue();
 
   @Override
   public boolean equals(Object o) {

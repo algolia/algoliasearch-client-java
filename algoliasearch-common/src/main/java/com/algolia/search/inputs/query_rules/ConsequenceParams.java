@@ -45,10 +45,6 @@ public class ConsequenceParams extends Query {
     return this;
   }
 
-  public ConsequenceParams setAroundRadiusAll() {
-    return (ConsequenceParams) super.setAroundRadiusAll();
-  }
-
   public Distinct getDistinct() {
     return distinct;
   }
@@ -228,11 +224,11 @@ public class ConsequenceParams extends Query {
     return (ConsequenceParams) super.setAroundLatLngViaIP(aroundLatLngViaIP);
   }
 
-  public Object getAroundRadius() {
+  public AroundRadius getAroundRadius() {
     return aroundRadius;
   }
 
-  public ConsequenceParams setAroundRadius(Integer aroundRadius) {
+  public ConsequenceParams setAroundRadius(AroundRadius aroundRadius) {
     return (ConsequenceParams) super.setAroundRadius(aroundRadius);
   }
 

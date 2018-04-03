@@ -20,7 +20,7 @@ import java.util.List;
 @JsonDeserialize(using = IgnorePluralsDeserializer.class)
 @JsonSerialize(using = IgnorePluralsSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class IgnorePlurals implements Serializable {
+public abstract class IgnorePlurals implements Serializable, CompoundType {
 
   public static IgnorePlurals of(Boolean bool) {
     return new IgnorePluralsBoolean(bool);
@@ -31,7 +31,7 @@ public abstract class IgnorePlurals implements Serializable {
   }
 
   @JsonIgnore
-  abstract Object getInsideValue();
+  public abstract Object getInsideValue();
 
   @Override
   public boolean equals(Object o) {
@@ -60,7 +60,7 @@ class IgnorePluralsBoolean extends IgnorePlurals {
   }
 
   @Override
-  Object getInsideValue() {
+  public Object getInsideValue() {
     return insideValue;
   }
 
@@ -79,7 +79,7 @@ class IgnorePluralsListString extends IgnorePlurals {
   }
 
   @Override
-  Object getInsideValue() {
+  public Object getInsideValue() {
     return insideValue;
   }
 
