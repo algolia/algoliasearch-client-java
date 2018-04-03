@@ -75,6 +75,12 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
     return this;
   }
 
+  @Override
+  public GenericAPIClientBuilder setMaxConnPerRoute(int maxConnPerRoute) {
+    super.setMaxConnPerRoute(maxConnPerRoute);
+    return this;
+  }
+
   private ApacheHttpClientConfiguration httpClientConfiguration =
       new ApacheHttpClientConfiguration();
 

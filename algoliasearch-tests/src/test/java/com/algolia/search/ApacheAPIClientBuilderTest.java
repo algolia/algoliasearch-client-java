@@ -2,6 +2,7 @@ package com.algolia.search;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
 import org.apache.http.HttpHost;
 import org.junit.Test;
@@ -20,26 +21,26 @@ public class ApacheAPIClientBuilderTest {
 
     assertThat(apiClient.configuration)
         .isEqualToIgnoringGivenFields(
-            new APIClientConfiguration()
-                .setApplicationId("appId")
-                .setApiKey("apiKey")
-                .setMaxConnTotal(10)
-                .setConnectTimeout(100)
-                .setReadTimeout(200)
-                .setHostDownTimeout(300000)
-                .setBuildHosts(
-                    Arrays.asList(
-                        "appId.algolia.net",
-                        "appId-1.algolianet.com",
-                        "appId-2.algolianet.com",
-                        "appId-3.algolianet.com"))
-                .setQueryHosts(
-                    Arrays.asList(
-                        "appId-dsn.algolia.net",
-                        "appId-1.algolianet.com",
-                        "appId-2.algolianet.com",
-                        "appId-3.algolianet.com"))
-                .setObjectMapper(Defaults.DEFAULT_OBJECT_MAPPER),
+            new APIClientConfiguration(
+                "appId",
+                "apiKey",
+                Defaults.DEFAULT_OBJECT_MAPPER,
+                Arrays.asList(
+                    "appId.algolia.net",
+                    "appId-1.algolianet.com",
+                    "appId-2.algolianet.com",
+                    "appId-3.algolianet.com"),
+                Arrays.asList(
+                    "appId-dsn.algolia.net",
+                    "appId-1.algolianet.com",
+                    "appId-2.algolianet.com",
+                    "appId-3.algolianet.com"),
+                ImmutableMap.of(),
+                100,
+                200,
+                300000,
+                10,
+                5),
             "headers",
             "buildHosts",
             "queryHosts");

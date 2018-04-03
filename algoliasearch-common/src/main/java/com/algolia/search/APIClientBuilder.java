@@ -109,6 +109,12 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
     return this;
   }
 
+  @Override
+  public GenericAPIClientBuilder setMaxConnPerRoute(int maxConnPerRoute) {
+    super.setMaxConnPerRoute(maxConnPerRoute);
+    return this;
+  }
+
   protected abstract APIClient build(@Nonnull APIClientConfiguration configuration);
 
   /**
@@ -118,16 +124,17 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
    */
   public APIClient build() {
     return build(
-        new APIClientConfiguration()
-            .setApplicationId(applicationId)
-            .setApiKey(apiKey)
-            .setObjectMapper(objectMapper)
-            .setBuildHosts(generateBuildHosts())
-            .setQueryHosts(generateQueryHosts())
-            .setHeaders(generateHeaders())
-            .setConnectTimeout(connectTimeout)
-            .setReadTimeout(readTimeout)
-            .setHostDownTimeout(hostDownTimeout)
-            .setMaxConnTotal(maxConnTotal));
+        new APIClientConfiguration(
+            applicationId,
+            apiKey,
+            objectMapper,
+            generateBuildHosts(),
+            generateQueryHosts(),
+            generateHeaders(),
+            connectTimeout,
+            readTimeout,
+            hostDownTimeout,
+            maxConnTotal,
+            maxConnPerRoute));
   }
 }
