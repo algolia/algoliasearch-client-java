@@ -1,6 +1,7 @@
 package com.algolia.search.integration.common.async;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
@@ -8,6 +9,7 @@ import com.algolia.search.inputs.query_rules.Condition;
 import com.algolia.search.inputs.query_rules.Consequence;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.objects.RuleQuery;
+import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.responses.SearchRuleResult;
 import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
@@ -37,6 +39,15 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
         .isInstanceOf(Rule.class)
         .isEqualToComparingFieldByFieldRecursively(generateRule(ruleID));
   }
+
+  @Test
+  public void trySaveRuleWithEmptyObjectID() throws Exception {
+    AsyncIndex<?> index = createIndex();
+
+    assertThatThrownBy(
+        () -> index.saveRule("", generateRule("")).get()
+    ).hasMessageContaining("Cannot save rule with empty queryRuleID");
+}
 
   @Test
   public void deleteQueryRule() throws Exception {

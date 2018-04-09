@@ -1260,6 +1260,10 @@ public class APIClient {
       Boolean forwardToReplicas,
       RequestOptions requestOptions)
       throws AlgoliaException {
+    if (ruleId.isEmpty()) {
+        throw new AlgoliaException("Cannot save rule with empty queryRuleID");
+    }
+
     Task task =
         httpClient.requestWithRetry(
             new AlgoliaRequest<>(

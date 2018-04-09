@@ -1,12 +1,14 @@
 package com.algolia.search.integration.common.sync;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.objects.RuleQuery;
+import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.responses.SearchRuleResult;
 import java.util.Arrays;
 import java.util.Optional;
@@ -27,6 +29,15 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     assertThat(queryRule1.get())
         .isInstanceOf(Rule.class)
         .isEqualToComparingFieldByFieldRecursively(generateRule(ruleId));
+  }
+
+  @Test
+  public void trySaveRuleWithEmptyObjectID() throws Exception {
+    Index<?> index = createIndex();
+
+    assertThatThrownBy(
+        () -> index.saveRule("", generateRule(""))
+    ).hasMessageContaining("Cannot save rule with empty queryRuleID");
   }
 
   @Test
