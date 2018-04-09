@@ -1172,6 +1172,11 @@ public class AsyncAPIClient {
       Rule queryRule,
       Boolean forwardToReplicas,
       RequestOptions requestOptions) {
+    if (queryRuleID.isEmpty()) {
+      CompletableFuture f = new CompletableFuture<>();
+      f.completeExceptionally(new AlgoliaException("Cannot save rule with empty queryRuleID"));
+      return f;
+    }
     return httpClient
         .requestWithRetry(
             new AlgoliaRequest<>(

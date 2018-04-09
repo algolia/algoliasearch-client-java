@@ -67,6 +67,9 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
       boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
+    if (queryRuleID.isEmpty()) {
+      throw new AlgoliaException("Cannot save rule with empty queryRuleID");
+    }
     return getApiClient()
         .saveRule(getName(), queryRuleID, content, forwardToReplicas, requestOptions);
   }
