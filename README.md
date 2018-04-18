@@ -355,30 +355,105 @@ search.start();
 
 
 
+### Search
+
+- [Search an index](https://algolia.com/doc/api-reference/api-methods/search/?language=java)
+- [Search for facet values](https://algolia.com/doc/api-reference/api-methods/search-for-facet-values/?language=java)
+- [Search multiple indexes](https://algolia.com/doc/api-reference/api-methods/multiple-queries/?language=java)
+- [Browse an index](https://algolia.com/doc/api-reference/api-methods/browse/?language=java)
 
 
 
 
+### Indexing
+
+- [Add objects](https://algolia.com/doc/api-reference/api-methods/add-objects/?language=java)
+- [Update objects](https://algolia.com/doc/api-reference/api-methods/update-objects/?language=java)
+- [Partial update objects](https://algolia.com/doc/api-reference/api-methods/partial-update-objects/?language=java)
+- [Delete objects](https://algolia.com/doc/api-reference/api-methods/delete-objects/?language=java)
+- [Delete by](https://algolia.com/doc/api-reference/api-methods/delete-by/?language=java)
+- [Get objects](https://algolia.com/doc/api-reference/api-methods/get-objects/?language=java)
+- [Custom batch](https://algolia.com/doc/api-reference/api-methods/batch/?language=java)
 
 
 
 
+### Settings
+
+- [Get settings](https://algolia.com/doc/api-reference/api-methods/get-settings/?language=java)
+- [Set settings](https://algolia.com/doc/api-reference/api-methods/set-settings/?language=java)
 
 
 
 
+### Manage indices
+
+- [List indexes](https://algolia.com/doc/api-reference/api-methods/list-indices/?language=java)
+- [Delete index](https://algolia.com/doc/api-reference/api-methods/delete-index/?language=java)
+- [Copy index](https://algolia.com/doc/api-reference/api-methods/copy-index/?language=java)
+- [Move index](https://algolia.com/doc/api-reference/api-methods/move-index/?language=java)
+- [Clear index](https://algolia.com/doc/api-reference/api-methods/clear-index/?language=java)
 
 
 
 
+### API Keys
+
+- [Create secured API Key](https://algolia.com/doc/api-reference/api-methods/generate-secured-api-key/?language=java)
+- [Add API Key](https://algolia.com/doc/api-reference/api-methods/add-api-key/?language=java)
+- [Update API Key](https://algolia.com/doc/api-reference/api-methods/update-api-key/?language=java)
+- [Delete API Key](https://algolia.com/doc/api-reference/api-methods/delete-api-key/?language=java)
+- [Get API Key permissions](https://algolia.com/doc/api-reference/api-methods/get-api-key/?language=java)
+- [List API Keys](https://algolia.com/doc/api-reference/api-methods/list-api-keys/?language=java)
 
 
 
 
+### Synonyms
+
+- [Save synonym](https://algolia.com/doc/api-reference/api-methods/save-synonym/?language=java)
+- [Batch synonyms](https://algolia.com/doc/api-reference/api-methods/batch-synonyms/?language=java)
+- [Delete synonym](https://algolia.com/doc/api-reference/api-methods/delete-synonym/?language=java)
+- [Clear all synonyms](https://algolia.com/doc/api-reference/api-methods/clear-synonyms/?language=java)
+- [Get synonym](https://algolia.com/doc/api-reference/api-methods/get-synonym/?language=java)
+- [Search synonyms](https://algolia.com/doc/api-reference/api-methods/search-synonyms/?language=java)
+- [Export Synonyms](https://algolia.com/doc/api-reference/api-methods/export-synonyms/?language=java)
 
 
 
 
+### Query rules
+
+- [Save a single rule](https://algolia.com/doc/api-reference/api-methods/rules-save/?language=java)
+- [Batch save multiple rules](https://algolia.com/doc/api-reference/api-methods/rules-save-batch/?language=java)
+- [Get a rule](https://algolia.com/doc/api-reference/api-methods/rules-get/?language=java)
+- [Delete a single rule](https://algolia.com/doc/api-reference/api-methods/rules-delete/?language=java)
+- [Clear all rules](https://algolia.com/doc/api-reference/api-methods/rules-clear/?language=java)
+- [Search for rules](https://algolia.com/doc/api-reference/api-methods/rules-search/?language=java)
+- [Export rules](https://algolia.com/doc/api-reference/api-methods/rules-export/?language=java)
+
+
+
+
+### MultiClusters
+
+- [Assign or Move userID](https://algolia.com/doc/api-reference/api-methods/assign-user-id/?language=java)
+- [Get top userID](https://algolia.com/doc/api-reference/api-methods/get-top-user-id/?language=java)
+- [Get userID](https://algolia.com/doc/api-reference/api-methods/get-user-id/?language=java)
+- [List clusters](https://algolia.com/doc/api-reference/api-methods/list-clusters/?language=java)
+- [List userIDs](https://algolia.com/doc/api-reference/api-methods/list-user-id/?language=java)
+- [Remove userID](https://algolia.com/doc/api-reference/api-methods/remove-user-id/?language=java)
+- [Search userID](https://algolia.com/doc/api-reference/api-methods/search-user-id/?language=java)
+
+
+
+
+### Advanced
+
+- [Get logs](https://algolia.com/doc/api-reference/api-methods/get-logs/?language=java)
+- [Configuring timeouts](https://algolia.com/doc/api-reference/api-methods/configuring-timeouts/?language=java)
+- [Set extra header](https://algolia.com/doc/api-reference/api-methods/set-extra-header/?language=java)
+- [Wait for operations](https://algolia.com/doc/api-reference/api-methods/wait-task/?language=java)
 
 
 
