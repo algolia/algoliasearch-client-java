@@ -13,13 +13,12 @@ cache:
 
 #check coverage
 before_script:
-- "mvn com.coveo:fmt-maven-plugin:check"
+  - "mvn com.coveo:fmt-maven-plugin:check"
+  - wget https://alg.li/algolia-keys && chmod +x algolia-keys
 
 script:
-- if [[ "${JAVA_VERSION}" = "8" ]]; then mvn clean test jacoco:report jacoco:report-aggregate -B && mvn -pl algoliasearch-tests coveralls:report -B; fi
-#Disable coverage for java9
-- if [[ "${JAVA_VERSION}" = "9" ]]; then mvn clean test; fi
+  - ./.run-travis.sh
 
 #deploy snapshots
 after_success:
-- "mvn clean deploy -DskipTests --settings settings-for-travis.xml"
+  - "mvn clean deploy -DskipTests --settings settings-for-travis.xml"
