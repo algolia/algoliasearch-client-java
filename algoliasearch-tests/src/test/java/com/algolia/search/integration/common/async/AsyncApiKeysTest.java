@@ -2,6 +2,7 @@ package com.algolia.search.integration.common.async;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
@@ -11,9 +12,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
+import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
+
+  /**
+   * If the tests are run on Travis from a pull request of a contributor we need to bypass key
+   * management tests since they require the Admin API key
+   */
+  @Before
+  public void skipIfIsCommunity() {
+    String isCommunity = System.getenv("IS_COMMUNITY");
+    if (isCommunity != null && !isCommunity.isEmpty()) {
+      assumeTrue(false);
+    }
+  }
 
   private void waitForKeyPresent(AsyncIndex<AlgoliaObject> index, @Nonnull String description)
       throws Exception {
