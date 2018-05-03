@@ -20,8 +20,8 @@ public abstract class AsyncAlgoliaIntegrationTest {
 
   protected static final long WAIT_TIME_IN_SECONDS = 60 * 5; // 5 minutes
   protected static AsyncAPIClient client;
-  private String APPLICATION_ID = System.getenv("APPLICATION_ID");
-  private String API_KEY = System.getenv("API_KEY");
+  private String APPLICATION_ID = System.getenv("ALGOLIA_APPLICATION_ID");
+  private String API_KEY = System.getenv("ALGOLIA_API_KEY");
 
   private static List<String> indexNameToDeleteAfterTheTests = new ArrayList<>();
 
