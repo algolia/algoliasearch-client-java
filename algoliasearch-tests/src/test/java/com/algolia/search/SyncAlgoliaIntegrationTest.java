@@ -21,8 +21,8 @@ public abstract class SyncAlgoliaIntegrationTest {
 
   protected static APIClient client;
   private static List<String> indexNameToDeleteAfterTheTests = new ArrayList<>();
-  protected String APPLICATION_ID = System.getenv("APPLICATION_ID");
-  protected String API_KEY = System.getenv("API_KEY");
+  protected String APPLICATION_ID = System.getenv("ALGOLIA_APPLICATION_ID");
+  protected String API_KEY = System.getenv("ALGOLIA_API_KEY");
   protected static final long WAIT_TIME_IN_SECONDS = 60 * 5; // 5 minutes
 
   @AfterClass
