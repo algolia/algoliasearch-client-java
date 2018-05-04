@@ -61,6 +61,7 @@ public abstract class SyncAlgoliaIntegrationTest {
     if (API_KEY == null || API_KEY.isEmpty()) {
       throw new Exception("API_KEY is not defined or empty");
     }
+
     client = createInstance(APPLICATION_ID, API_KEY);
   }
 

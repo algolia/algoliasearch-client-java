@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaEncodingException;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.http.AlgoliaRequest;
@@ -17,6 +18,8 @@ import com.algolia.search.objects.tasks.async.*;
 import com.algolia.search.responses.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -1356,5 +1359,119 @@ public class AsyncAPIClient {
                 ImmutableMap.of(
                     "offset", Integer.toString(offset),
                     "limit", Integer.toString(limit))));
+  }
+
+  public CompletableFuture<List<Cluster>> listClusters() {
+    return this.listClusters(RequestOptions.empty);
+  }
+
+  public CompletableFuture<List<Cluster>> listClusters(@Nonnull RequestOptions requestOptions) {
+    CompletableFuture<Clusters> result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "clusters"),
+                requestOptions,
+                Clusters.class));
+
+    return result.thenApply(Clusters::getClusters);
+  }
+
+  public CompletableFuture<UserIDs> listUserIDs() {
+    return this.listUserIDs(0, 20, new RequestOptions());
+  }
+
+  public CompletableFuture<UserIDs> listUserIDs(Integer page, Integer hitsPerPage) {
+    return this.listUserIDs(page, hitsPerPage, RequestOptions.empty);
+  }
+
+  public CompletableFuture<UserIDs> listUserIDs(
+      @Nonnull Integer page, @Nonnull Integer hitsPerPage, @Nonnull RequestOptions requestOptions) {
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+                HttpMethod.GET,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "clusters", "mapping"),
+                requestOptions,
+                UserIDs.class)
+            .setParameters(
+                ImmutableMap.of("page", page.toString(), "hitsPerPage", hitsPerPage.toString())));
+  }
+
+  public CompletableFuture<Map<String, List<UserID>>> getTopUserID() {
+    return this.getTopUserID(RequestOptions.empty);
+  }
+
+  public CompletableFuture<Map<String, List<UserID>>> getTopUserID(RequestOptions requestOptions) {
+    CompletableFuture<TopUserResult> result =
+        httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                HttpMethod.GET,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "clusters", "mapping", "top"),
+                requestOptions,
+                TopUserResult.class));
+
+    return result.thenApply(TopUserResult::getTopUsers);
+  }
+
+  public CompletableFuture<AssignUserID> assignUserID(@Nonnull String userID, @Nonnull String clusterName) {
+    return this.assignUserID(userID, clusterName, RequestOptions.empty);
+  }
+
+  public CompletableFuture<AssignUserID> assignUserID(
+      @Nonnull String userID, @Nonnull String clusterName, RequestOptions requestOptions) {
+    requestOptions.addExtraHeader("X-Algolia-User-ID", userID);
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
+                Arrays.asList("1", "clusters", "mapping"),
+                requestOptions,
+                AssignUserID.class)
+            .setData(ImmutableMap.of("cluster", clusterName)));
+  }
+
+  public CompletableFuture<UserID> getUserID(@Nonnull String userID) {
+    return this.getUserID(userID, RequestOptions.empty);
+  }
+
+  public CompletableFuture<UserID> getUserID(
+      @Nonnull String userID, RequestOptions requestOptions) {
+    String encodedUserID = "";
+
+    try {
+      encodedUserID = URLEncoder.encode(userID, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      CompletableFuture.supplyAsync(
+          () -> new AlgoliaEncodingException("cannot encode given userID", e));
+    }
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+            HttpMethod.GET,
+            AlgoliaRequestKind.SEARCH_API_READ,
+            Arrays.asList("1", "clusters", "mapping", encodedUserID),
+            requestOptions,
+            UserID.class));
+  }
+
+  public CompletableFuture<DeleteUserID> removeUserID(@Nonnull String userID) {
+    return this.removeUserID(userID, RequestOptions.empty);
+  }
+
+  public CompletableFuture<DeleteUserID> removeUserID(
+      @Nonnull String userID, RequestOptions requestOptions) {
+    requestOptions.addExtraHeader("X-Algolia-User-ID", userID);
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+            HttpMethod.DELETE,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
+            Arrays.asList("1", "clusters", "mapping"),
+            requestOptions,
+            DeleteUserID.class));
   }
 }
