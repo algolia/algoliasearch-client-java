@@ -28,8 +28,8 @@ The logger is named `algoliasearch`.
 You can find the full reference on [Algolia's website](https://www.algolia.com/doc/api-client/java/).
 
 
-## In this page
 
+1. **[Supported platforms](#supported-platforms)**
 
 
 1. **[Install](#install)**
@@ -56,6 +56,11 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 # Getting Started
 
 
+
+## Supported platforms
+
+This API client only supports Java 1.8 & Java 1.9
+If you need support for an older version, please use this [package](https://github.com/algolia/algoliasearch-client-java).
 
 ## Install
 
