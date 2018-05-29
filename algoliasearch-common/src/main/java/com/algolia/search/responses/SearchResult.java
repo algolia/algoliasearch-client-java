@@ -34,6 +34,8 @@ public class SearchResult<T> implements Serializable {
 
   private Boolean processed;
 
+  private String queryID;
+
   public List<T> getHits() {
     return hits;
   }
@@ -164,6 +166,15 @@ public class SearchResult<T> implements Serializable {
 
   public SearchResult<T> setProcessed(Boolean processed) {
     this.processed = processed;
+    return this;
+  }
+
+  public String getQueryID() {
+    return queryID;
+  }
+
+  public SearchResult<T> setQueryID(final String queryID) {
+    this.queryID = queryID;
     return this;
   }
 
