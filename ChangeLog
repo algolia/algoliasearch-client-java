@@ -1,11 +1,17 @@
 Changelog
 =========
 
-2.17.0 (2018-04-03)
+2.17.0 (2018-06-07)
+-------------------
+- **Deprecation**: Keys should not be managed at the Index level but at the Client level
+- Fix: Adding a rule with an empty ID failed silently, it will now raise an exception
+- Feat: Expose QueryID in SearchResults
+
+2.16.8 (2018-04-03)
 -------------------
 - Add maxConnPerRoute
 
-2.16.6 (2018-04-03)
+2.16.7 (2018-04-03)
 -------------------
 - Fix AroundRadius serialization (#476)
 
