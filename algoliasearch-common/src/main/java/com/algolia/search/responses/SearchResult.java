@@ -36,6 +36,22 @@ public class SearchResult<T> implements Serializable {
 
   private String queryID;
 
+  private List<Map<String, Object>> userData;
+
+  private List<Map<String, Object>> appliedRules;
+
+  public List<Map<String, Object>> getAppliedRules() { return appliedRules; }
+
+  public void setAppliedRules(List<Map<String, Object>> appliedRules) {
+    this.appliedRules = appliedRules;
+  }
+
+  public List<Map<String, Object>> getUserData() { return userData; }
+
+  public void setUserData(List<Map<String, Object>> userData) {
+    this.userData = userData;
+  }
+
   public List<T> getHits() {
     return hits;
   }
