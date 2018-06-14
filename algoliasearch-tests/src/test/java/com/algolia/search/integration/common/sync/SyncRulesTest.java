@@ -1,18 +1,45 @@
 package com.algolia.search.integration.common.sync;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.query_rules.Rule;
+import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RuleQuery;
-import com.algolia.search.objects.tasks.sync.Task;
+import com.algolia.search.responses.SearchResult;
 import com.algolia.search.responses.SearchRuleResult;
+import com.google.common.collect.ImmutableMap;
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.Optional;
-import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+class DummyRecord {
+  private String objectID;
+  private String company;
+
+  public DummyRecord() {}
+
+  public String getObjectID() {
+    return objectID;
+  }
+
+  public void setObjectID(String objectID) {
+    this.objectID = objectID;
+  }
+
+
+  public String getCompany() {
+    return company;
+  }
+
+  public void setCompany(String company) {
+    this.company = company;
+  }
+}
 
 @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
 public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
@@ -38,6 +65,21 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     assertThatThrownBy(
         () -> index.saveRule("", generateRule(""))
     ).hasMessageContaining("Cannot save rule with empty queryRuleID");
+  }
+
+  @Test
+  public void getRuleUserDataFromQueryResponse() throws Exception {
+    Index<DummyRecord> index = createIndex(DummyRecord.class);
+    DummyRecord record = new DummyRecord();
+    record.setObjectID("one");
+    record.setCompany("algolia");
+    waitForCompletion(index.addObject(record));
+
+    waitForCompletion(index.saveRule("id", generateRule("id")));
+    SearchResult<DummyRecord> res = index.search(new Query("my pattern").setGetRankingInfo(true));
+
+    assertThat(res.getAppliedRules()).hasSize(1);
+    assertThat(res.getUserData()).isEqualTo(Arrays.asList(ImmutableMap.of("a", "b")));
   }
 
   @Test
