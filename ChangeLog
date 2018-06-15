@@ -1,6 +1,18 @@
 Changelog
 =========
 
+2.17.3 (2018-06-15)
+-------------------
+- Fix: Expose missing `userData`/`appliedRules` fields in search query responses when a query rule is triggered
+
+2.17.2 (2018-06-12)
+-------------------
+- Nothing (wrongly released)
+
+2.17.1 (2018-06-07)
+-------------------
+- Nothing (wrongly released)
+
 2.17.0 (2018-06-07)
 -------------------
 - **Deprecation**: Keys should not be managed at the Index level but at the Client level
