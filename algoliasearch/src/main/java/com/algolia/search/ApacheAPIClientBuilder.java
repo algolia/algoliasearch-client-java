@@ -58,6 +58,12 @@ public final class ApacheAPIClientBuilder extends APIClientBuilder {
   }
 
   @Override
+  public ApacheAPIClientBuilder setAnalyticsHost(@Nonnull String analyticsHost) {
+    this.analyticsHost = analyticsHost;
+    return this;
+  }
+
+  @Override
   public ApacheAPIClientBuilder setQueryHosts(List<String> queryHosts) {
     super.setQueryHosts(queryHosts);
     return this;

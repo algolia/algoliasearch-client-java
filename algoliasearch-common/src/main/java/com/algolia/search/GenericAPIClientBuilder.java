@@ -24,6 +24,7 @@ public abstract class GenericAPIClientBuilder {
   protected final String apiKey;
   protected String customAgent;
   protected String customAgentVersion;
+  protected String analyticsHost = ANALYTICS_HOST;
   protected List<String> queryHosts = generateQueryHosts();
   protected List<String> buildHosts = generateBuildHosts();
   protected Map<String, String> customHeaders = new HashMap<>();
@@ -129,6 +130,17 @@ public abstract class GenericAPIClientBuilder {
    */
   public GenericAPIClientBuilder setObjectMapper(@Nonnull ObjectMapper objectMapper) {
     this.objectMapper = objectMapper.copy();
+    return this;
+  }
+
+  /**
+   * Set the analytics host
+   *
+   * @param analyticsHost the analytics host to use
+   * @return this
+   */
+  public GenericAPIClientBuilder setAnalyticsHost(@Nonnull String analyticsHost) {
+    this.analyticsHost = analyticsHost;
     return this;
   }
 

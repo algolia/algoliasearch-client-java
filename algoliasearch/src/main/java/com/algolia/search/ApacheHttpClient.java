@@ -29,6 +29,7 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
   private static final Charset UTF8 = Charset.forName("UTF-8");
   private final CloseableHttpClient internal;
   private final ObjectMapper objectMapper;
+  private final String analyticsHost;
   private final List<String> queryHosts;
   private final List<String> buildHosts;
   private final int hostDownTimeout;
@@ -77,6 +78,7 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
 
     this.internal = httpClientBuilder.build();
     this.objectMapper = configuration.getObjectMapper();
+    this.analyticsHost = configuration.getAnalyticsHost();
     this.queryHosts = configuration.getQueryHosts();
     this.buildHosts = configuration.getBuildHosts();
     this.hostDownTimeout = configuration.getHostDownTimeout();
@@ -125,6 +127,11 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
   @Override
   protected ObjectMapper getObjectMapper() {
     return objectMapper;
+  }
+
+  @Override
+  public String getAnalyticsHost() {
+    return analyticsHost;
   }
 
   @Override

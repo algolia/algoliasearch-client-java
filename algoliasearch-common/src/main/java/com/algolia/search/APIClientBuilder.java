@@ -128,6 +128,7 @@ public abstract class APIClientBuilder extends GenericAPIClientBuilder {
             applicationId,
             apiKey,
             objectMapper,
+            analyticsHost,
             generateBuildHosts(),
             generateQueryHosts(),
             generateHeaders(),

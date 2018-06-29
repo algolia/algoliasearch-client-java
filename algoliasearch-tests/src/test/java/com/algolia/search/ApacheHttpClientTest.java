@@ -37,6 +37,7 @@ public class ApacheHttpClientTest {
             APPLICATION_ID,
             API_KEY,
             Defaults.DEFAULT_OBJECT_MAPPER,
+            Defaults.ANALYTICS_HOST,
             Collections.singletonList(APPLICATION_ID + ".algolia.net"),
             Collections.singletonList(APPLICATION_ID + "-dsn.algolia.net"),
             ImmutableMap.of(
@@ -55,6 +56,7 @@ public class ApacheHttpClientTest {
             APPLICATION_ID,
             API_KEY,
             Defaults.DEFAULT_OBJECT_MAPPER,
+            Defaults.ANALYTICS_HOST,
             Arrays.asList(hosts),
             Arrays.asList(hosts),
             ImmutableMap.of(

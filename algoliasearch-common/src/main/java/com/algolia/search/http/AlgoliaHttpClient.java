@@ -36,6 +36,8 @@ public abstract class AlgoliaHttpClient {
 
   protected abstract ObjectMapper getObjectMapper();
 
+  public abstract String getAnalyticsHost();
+
   public abstract List<String> getQueryHosts();
 
   public abstract List<String> getBuildHosts();
@@ -92,25 +94,12 @@ public abstract class AlgoliaHttpClient {
 
   public <T> T requestWithRetry(@Nonnull AlgoliaRequest<T> request) throws AlgoliaException {
     List<String> hosts = request.isSearch() ? queryHostsThatAreUp() : buildHostsThatAreUp();
-
-    String content = null;
-    if (request.hasData()) {
-      try {
-        content = getObjectMapper().writeValueAsString(request.getData());
-      } catch (IOException e) {
-        throw new AlgoliaException("can not serialize request body", e);
-      }
-    }
-
+    String content = serializeRequest(request);
     AlgoliaHttpResponse response = null;
 
     List<AlgoliaIOException> ioExceptionList = new ArrayList<>(4);
     for (String host : hosts) {
-      logger.debug("Trying {}", host);
-      logger.debug("{}", request.toString(host));
-      if (logger.isDebugEnabled() && content != null) {
-        logger.debug("{}", content);
-      }
+      logRequest(host, request, content);
 
       try {
         response = request(new AlgoliaHttpRequest(host, content, request));
@@ -135,16 +124,51 @@ public abstract class AlgoliaHttpClient {
       throw new AlgoliaHttpRetriesException("All retries failed", ioExceptionList);
     }
 
+    return buildResponse(request, response);
+  }
+
+  public <T> T requestAnalytics(@Nonnull AlgoliaRequest<T> request) throws AlgoliaException {
+    String host = getAnalyticsHost();
+    String content = serializeRequest(request);
+    logRequest(host, request, content);
+    AlgoliaHttpResponse response = null;
+    AlgoliaIOException requestException = null;
+
+    try {
+      response = request(new AlgoliaHttpRequest(host, content, request));
+    } catch (IOException e) {
+      logger.debug("Failing to query {}", host, e);
+      requestException = new AlgoliaIOException(host, e);
+    }
+
+    if (response == null) {
+      throw requestException;
+    }
+
+    return buildResponse(request, response);
+  }
+
+  private <T> String serializeRequest(@Nonnull AlgoliaRequest<T> request) throws AlgoliaException {
+    String content = null;
+    if (request.hasData()) {
+      try {
+        content = getObjectMapper().writeValueAsString(request.getData());
+      } catch (IOException e) {
+        throw new AlgoliaException("can not serialize request body", e);
+      }
+    }
+    return content;
+  }
+
+  private <T> T buildResponse(
+      @Nonnull AlgoliaRequest<T> request, @Nonnull AlgoliaHttpResponse response)
+      throws AlgoliaException {
+    logResponse(response);
+
     try {
       Reader body = response.getBody();
-
-      if (logger.isDebugEnabled()) {
-        String bodyAsString = CharStreams.toString(body);
-        logger.debug("Answer: {}", bodyAsString);
-        body = new StringReader(bodyAsString);
-      }
-
       int code = response.getStatusCode();
+
       if (code / 100 == 4) {
         String message = Utils.parseAs(getObjectMapper(), body, AlgoliaError.class).getMessage();
 
@@ -177,6 +201,28 @@ public abstract class AlgoliaHttpClient {
         logger.debug("Can not close underlying response", e);
         throw new AlgoliaException("Can not close underlying response", e);
       }
+    }
+  }
+
+  private <T> void logRequest(
+      @Nonnull String host, @Nonnull AlgoliaRequest<T> request, String content) {
+    if (logger.isDebugEnabled()) {
+      if (content == null) {
+        content = "";
+      }
+      logger.debug("HTTP request {} with {}", request.toString(host), content);
+    }
+  }
+
+  private <T> void logResponse(@Nonnull AlgoliaHttpResponse response) {
+    try {
+      if (logger.isDebugEnabled()) {
+        Reader body = response.getBody();
+        String bodyAsString = CharStreams.toString(body);
+        logger.debug("HTTP response {}", bodyAsString);
+      }
+    } catch (IOException e) {
+      logger.debug("Cannot log HTTP response because of {}", e);
     }
   }
 
