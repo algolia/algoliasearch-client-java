@@ -9,7 +9,6 @@ import com.algolia.search.inputs.query_rules.Condition;
 import com.algolia.search.inputs.query_rules.Consequence;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.objects.RuleQuery;
-import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.responses.SearchRuleResult;
 import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
@@ -44,10 +43,9 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
   public void trySaveRuleWithEmptyObjectID() throws Exception {
     AsyncIndex<?> index = createIndex();
 
-    assertThatThrownBy(
-        () -> index.saveRule("", generateRule("")).get()
-    ).hasMessageContaining("Cannot save rule with empty queryRuleID");
-}
+    assertThatThrownBy(() -> index.saveRule("", generateRule("")).get())
+        .hasMessageContaining("Cannot save rule with empty queryRuleID");
+  }
 
   @Test
   public void deleteQueryRule() throws Exception {

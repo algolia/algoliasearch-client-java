@@ -135,6 +135,7 @@ public abstract class AsyncAPIClientBuilder extends GenericAPIClientBuilder {
             applicationId,
             apiKey,
             objectMapper,
+            analyticsHost,
             generateBuildHosts(),
             generateQueryHosts(),
             generateHeaders(),

@@ -23,6 +23,7 @@ public class AsyncHttpAPIClientBuilderTest {
                 "appId",
                 "apiKey",
                 Defaults.DEFAULT_OBJECT_MAPPER,
+                Defaults.ANALYTICS_HOST,
                 Arrays.asList(
                     "appId.algolia.net",
                     "appId-1.algolianet.com",

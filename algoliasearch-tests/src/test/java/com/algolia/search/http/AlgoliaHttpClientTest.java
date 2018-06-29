@@ -340,6 +340,11 @@ public class AlgoliaHttpClientTest {
     }
 
     @Override
+    public String getAnalyticsHost() {
+      return Defaults.ANALYTICS_HOST;
+    }
+
+    @Override
     public List<String> getQueryHosts() {
       return Arrays.asList(
           applicationId + "-dsn." + ALGOLIA_NET,

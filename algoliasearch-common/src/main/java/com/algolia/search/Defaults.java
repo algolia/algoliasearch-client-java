@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public interface Defaults {
   String ALGOLIANET_COM = "algolianet.com";
   String ALGOLIA_NET = "algolia.net";
+  String ANALYTICS_HOST = "analytics.algolia.com";
   long MAX_TIME_MS_TO_WAIT = 10000L;
 
   Feature OBJECT_MAPPER_DEFAULT_FEATURE = Feature.AUTO_CLOSE_JSON_CONTENT;

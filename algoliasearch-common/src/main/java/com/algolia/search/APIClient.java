@@ -107,6 +107,10 @@ public class APIClient {
     return new Index<>(name, Object.class, this);
   }
 
+  public Analytics initAnalytics() {
+    return new Analytics(this);
+  }
+
   /**
    * Moves an existing index
    *
@@ -1274,7 +1278,7 @@ public class APIClient {
       RequestOptions requestOptions)
       throws AlgoliaException {
     if (ruleId.isEmpty()) {
-        throw new AlgoliaException("Cannot save rule with empty queryRuleID");
+      throw new AlgoliaException("Cannot save rule with empty queryRuleID");
     }
 
     Task task =

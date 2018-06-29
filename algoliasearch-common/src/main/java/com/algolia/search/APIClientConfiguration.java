@@ -9,6 +9,7 @@ public class APIClientConfiguration {
   private final String applicationId;
   private final String apiKey;
   private final ObjectMapper objectMapper;
+  private final String analyticsHost;
   private final List<String> buildHosts;
   private final List<String> queryHosts;
   private final Map<String, String> headers;
@@ -22,6 +23,7 @@ public class APIClientConfiguration {
       String applicationId,
       String apiKey,
       ObjectMapper objectMapper,
+      String analyticsHost,
       List<String> buildHosts,
       List<String> queryHosts,
       Map<String, String> headers,
@@ -33,6 +35,7 @@ public class APIClientConfiguration {
     this.applicationId = applicationId;
     this.apiKey = apiKey;
     this.objectMapper = objectMapper;
+    this.analyticsHost = analyticsHost;
     this.buildHosts = buildHosts;
     this.queryHosts = queryHosts;
     this.headers = headers;
@@ -53,6 +56,10 @@ public class APIClientConfiguration {
 
   public ObjectMapper getObjectMapper() {
     return objectMapper;
+  }
+
+  public String getAnalyticsHost() {
+    return analyticsHost;
   }
 
   public List<String> getBuildHosts() {

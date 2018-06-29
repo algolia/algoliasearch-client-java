@@ -32,7 +32,6 @@ class DummyRecord {
     this.objectID = objectID;
   }
 
-
   public String getCompany() {
     return company;
   }
@@ -63,9 +62,8 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
   public void trySaveRuleWithEmptyObjectID() throws Exception {
     Index<?> index = createIndex();
 
-    assertThatThrownBy(
-        () -> index.saveRule("", generateRule(""))
-    ).hasMessageContaining("Cannot save rule with empty queryRuleID");
+    assertThatThrownBy(() -> index.saveRule("", generateRule("")))
+        .hasMessageContaining("Cannot save rule with empty queryRuleID");
   }
 
   @Test
