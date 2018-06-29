@@ -11,7 +11,7 @@ import java.util.Map;
 public class AlgoliaRequest<T> {
 
   private final HttpMethod method;
-  private final boolean isSearch;
+  private final AlgoliaRequestKind kind;
   private final List<String> path;
   private final RequestOptions options;
 
@@ -23,12 +23,12 @@ public class AlgoliaRequest<T> {
 
   public AlgoliaRequest(
       HttpMethod method,
-      boolean isSearch,
+      AlgoliaRequestKind kind,
       List<String> path,
       RequestOptions options,
       Class<T> resultClass) {
     this.method = method;
-    this.isSearch = isSearch;
+    this.kind = kind;
     this.path = path;
     this.options = options;
     this.resultClass = resultClass;
@@ -36,13 +36,13 @@ public class AlgoliaRequest<T> {
 
   public AlgoliaRequest(
       HttpMethod method,
-      boolean isSearch,
+      AlgoliaRequestKind kind,
       List<String> path,
       RequestOptions options,
       Class<T> collectionClass,
       Class<?> elementClass) {
     this.method = method;
-    this.isSearch = isSearch;
+    this.kind = kind;
     this.path = path;
     this.options = options;
     this.collectionClass = collectionClass;
@@ -62,7 +62,11 @@ public class AlgoliaRequest<T> {
   }
 
   public boolean isSearch() {
-    return isSearch;
+    return this.kind == AlgoliaRequestKind.SEARCH_API_READ;
+  }
+
+  public AlgoliaRequestKind getKind() {
+    return kind;
   }
 
   List<String> getPath() {

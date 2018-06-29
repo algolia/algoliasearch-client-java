@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
 import com.algolia.search.http.AlgoliaRequest;
+import com.algolia.search.http.AlgoliaRequestKind;
 import com.algolia.search.http.AsyncAlgoliaHttpClient;
 import com.algolia.search.http.HttpMethod;
 import com.algolia.search.inputs.*;
@@ -68,7 +69,7 @@ public class AsyncAPIClient {
         httpClient.requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.GET,
-                true,
+                AlgoliaRequestKind.SEARCH_API_READ,
                 Arrays.asList("1", "indexes"),
                 requestOptions,
                 Indices.class));
@@ -128,7 +129,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", srcIndexName, "operation"),
                     requestOptions,
                     AsyncTask.class)
@@ -184,7 +185,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", srcIndexName, "operation"),
                     requestOptions,
                     AsyncTask.class)
@@ -225,7 +226,11 @@ public class AsyncAPIClient {
     CompletableFuture<Logs> result =
         httpClient.requestWithRetry(
             new AlgoliaRequest<>(
-                HttpMethod.GET, false, Arrays.asList("1", "logs"), requestOptions, Logs.class));
+                HttpMethod.GET,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
+                Arrays.asList("1", "logs"),
+                requestOptions,
+                Logs.class));
 
     return result.thenApply(Logs::getLogs);
   }
@@ -269,7 +274,11 @@ public class AsyncAPIClient {
     CompletableFuture<Logs> result =
         httpClient.requestWithRetry(
             new AlgoliaRequest<>(
-                    HttpMethod.GET, false, Arrays.asList("1", "logs"), requestOptions, Logs.class)
+                    HttpMethod.GET,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
+                    Arrays.asList("1", "logs"),
+                    requestOptions,
+                    Logs.class)
                 .setParameters(parameters));
 
     return result.thenApply(Logs::getLogs);
@@ -300,7 +309,11 @@ public class AsyncAPIClient {
     CompletableFuture<ApiKeys> result =
         httpClient.requestWithRetry(
             new AlgoliaRequest<>(
-                HttpMethod.GET, false, Arrays.asList("1", "keys"), requestOptions, ApiKeys.class));
+                HttpMethod.GET,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
+                Arrays.asList("1", "keys"),
+                requestOptions,
+                ApiKeys.class));
 
     return result.thenApply(ApiKeys::getKeys);
   }
@@ -334,7 +347,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.GET,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "keys", key),
                 requestOptions,
                 ApiKey.class))
@@ -367,7 +380,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.DELETE,
-            false,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "keys", key),
             requestOptions,
             DeleteKey.class));
@@ -401,7 +414,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.POST,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "keys"),
                 requestOptions,
                 CreateUpdateKey.class)
@@ -440,7 +453,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.PUT,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "keys", keyName),
                 requestOptions,
                 CreateUpdateKey.class)
@@ -509,7 +522,7 @@ public class AsyncAPIClient {
           httpClient.requestWithRetry(
               new AlgoliaRequest<>(
                   HttpMethod.GET,
-                  false,
+                  AlgoliaRequestKind.SEARCH_API_WRITE,
                   Arrays.asList(
                       "1",
                       "indexes",
@@ -581,7 +594,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", "*", "batch"),
                     requestOptions,
                     AsyncTasksMultipleIndex.class)
@@ -644,7 +657,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.POST,
-                true,
+                AlgoliaRequestKind.SEARCH_API_READ,
                 Arrays.asList("1", "indexes", "*", "queries"),
                 requestOptions,
                 MultiQueriesResult.class)
@@ -675,7 +688,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.DELETE,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName),
                 requestOptions,
                 AsyncTask.class))
@@ -689,7 +702,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName),
                     requestOptions,
                     AsyncTaskIndexing.class)
@@ -703,7 +716,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.PUT,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, objectID),
                     requestOptions,
                     AsyncTaskIndexing.class)
@@ -717,7 +730,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.GET,
-                true,
+                AlgoliaRequestKind.SEARCH_API_READ,
                 Arrays.asList("1", "indexes", indexName, objectID),
                 requestOptions,
                 klass))
@@ -739,7 +752,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "batch"),
                     requestOptions,
                     AsyncTaskSingleIndex.class)
@@ -753,7 +766,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.PUT,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, objectID),
                     requestOptions,
                     AsyncTask.class)
@@ -776,7 +789,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.DELETE,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, objectID),
                 requestOptions,
                 AsyncTask.class))
@@ -797,7 +810,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.POST,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "clear"),
                 requestOptions,
                 AsyncTask.class))
@@ -816,7 +829,7 @@ public class AsyncAPIClient {
     AlgoliaRequest<Results> algoliaRequest =
         new AlgoliaRequest<>(
             HttpMethod.POST,
-            true,
+            AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes", "*", "objects"),
             requestOptions,
             Results.class,
@@ -849,7 +862,7 @@ public class AsyncAPIClient {
     AlgoliaRequest<Results> algoliaRequest =
         new AlgoliaRequest<>(
             HttpMethod.POST,
-            true,
+            AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes", "*", "objects"),
             requestOptions,
             Results.class,
@@ -864,7 +877,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.GET,
-                true,
+                AlgoliaRequestKind.SEARCH_API_READ,
                 Arrays.asList("1", "indexes", indexName, "settings"),
                 requestOptions,
                 IndexSettings.class)
@@ -880,7 +893,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.PUT,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "settings"),
                     requestOptions,
                     AsyncTask.class)
@@ -894,7 +907,7 @@ public class AsyncAPIClient {
         httpClient.requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.GET,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "keys"),
                 requestOptions,
                 ApiKeys.class));
@@ -908,7 +921,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.GET,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "keys", key),
                 requestOptions,
                 ApiKey.class))
@@ -920,7 +933,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.DELETE,
-            false,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes", indexName, "keys", key),
             requestOptions,
             DeleteKey.class));
@@ -931,7 +944,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.POST,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "keys"),
                 requestOptions,
                 CreateUpdateKey.class)
@@ -943,7 +956,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.PUT,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "keys", keyName),
                 requestOptions,
                 CreateUpdateKey.class)
@@ -956,7 +969,7 @@ public class AsyncAPIClient {
     AlgoliaRequest<SearchResult<T>> algoliaRequest =
         new AlgoliaRequest(
             HttpMethod.POST,
-            true,
+            AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes", indexName, "query"),
             requestOptions,
             SearchResult.class,
@@ -990,7 +1003,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "batch"),
                     requestOptions,
                     AsyncTaskSingleIndex.class)
@@ -1007,7 +1020,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, operation.getObjectID(), "partial"),
                     requestOptions,
                     AsyncTaskSingleIndex.class)
@@ -1022,7 +1035,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, objectID, "partial"),
                     requestOptions,
                     AsyncTaskSingleIndex.class)
@@ -1040,7 +1053,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.PUT,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
                     requestOptions,
                     AsyncTask.class)
@@ -1055,7 +1068,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.GET,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
                 requestOptions,
                 AbstractSynonym.class))
@@ -1071,7 +1084,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.DELETE,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "synonyms", synonymID),
                     requestOptions,
                     AsyncTask.class)
@@ -1085,7 +1098,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "synonyms", "clear"),
                     requestOptions,
                     AsyncTask.class)
@@ -1098,7 +1111,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.POST,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "synonyms", "search"),
                 requestOptions,
                 SearchSynonymResult.class)
@@ -1115,7 +1128,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "synonyms", "batch"),
                     requestOptions,
                     AsyncTask.class)
@@ -1159,7 +1172,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.POST,
-                true,
+                AlgoliaRequestKind.SEARCH_API_READ,
                 Arrays.asList("1", "indexes", indexName, "facets", facetName, "query"),
                 requestOptions,
                 SearchFacetResult.class)
@@ -1181,7 +1194,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.PUT,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
                     requestOptions,
                     AsyncTask.class)
@@ -1196,7 +1209,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.GET,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
                 requestOptions,
                 Rule.class))
@@ -1212,7 +1225,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.DELETE,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "rules", queryRuleID),
                     requestOptions,
                     AsyncTask.class)
@@ -1226,7 +1239,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "rules", "clear"),
                     requestOptions,
                     AsyncTask.class)
@@ -1239,7 +1252,7 @@ public class AsyncAPIClient {
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
                 HttpMethod.POST,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes", indexName, "rules", "search"),
                 requestOptions,
                 SearchRuleResult.class)
@@ -1256,7 +1269,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "rules", "batch"),
                     requestOptions,
                     AsyncTask.class)
@@ -1277,7 +1290,7 @@ public class AsyncAPIClient {
         .requestWithRetry(
             new AlgoliaRequest<>(
                     HttpMethod.POST,
-                    false,
+                    AlgoliaRequestKind.SEARCH_API_WRITE,
                     Arrays.asList("1", "indexes", indexName, "deleteByQuery"),
                     requestOptions,
                     AsyncTask.class)
