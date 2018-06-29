@@ -41,7 +41,7 @@ public class AlgoliaHttpClientTest {
     mockClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.GET,
-            true,
+            AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes"),
             RequestOptions.empty,
             Result.class));
@@ -55,7 +55,7 @@ public class AlgoliaHttpClientTest {
         mockClient.requestWithRetry(
             new AlgoliaRequest<>(
                 HttpMethod.GET,
-                false,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes"),
                 RequestOptions.empty,
                 Result.class));
@@ -72,7 +72,7 @@ public class AlgoliaHttpClientTest {
                 mockClient.requestWithRetry(
                     new AlgoliaRequest<>(
                         HttpMethod.GET,
-                        false,
+                        AlgoliaRequestKind.SEARCH_API_WRITE,
                         Arrays.asList("1", "indexes"),
                         RequestOptions.empty,
                         Result.class)))
@@ -88,7 +88,7 @@ public class AlgoliaHttpClientTest {
                 mockClient.requestWithRetry(
                     new AlgoliaRequest<>(
                         HttpMethod.GET,
-                        false,
+                        AlgoliaRequestKind.SEARCH_API_WRITE,
                         Arrays.asList("1", "indexes"),
                         RequestOptions.empty,
                         Result.class)))
@@ -104,7 +104,7 @@ public class AlgoliaHttpClientTest {
                 mockClient.requestWithRetry(
                     new AlgoliaRequest<>(
                         HttpMethod.GET,
-                        false,
+                        AlgoliaRequestKind.SEARCH_API_WRITE,
                         Arrays.asList("1", "indexes"),
                         RequestOptions.empty,
                         Result.class)))
@@ -118,7 +118,7 @@ public class AlgoliaHttpClientTest {
     mockClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.GET,
-            false,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes"),
             RequestOptions.empty,
             Result.class));
@@ -134,7 +134,7 @@ public class AlgoliaHttpClientTest {
     mockClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.GET,
-            false,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes"),
             RequestOptions.empty,
             Result.class));
@@ -153,7 +153,7 @@ public class AlgoliaHttpClientTest {
                 mockClient.requestWithRetry(
                     new AlgoliaRequest<>(
                         HttpMethod.GET,
-                        false,
+                        AlgoliaRequestKind.SEARCH_API_WRITE,
                         Arrays.asList("1", "indexes"),
                         RequestOptions.empty,
                         Result.class)))
@@ -172,7 +172,7 @@ public class AlgoliaHttpClientTest {
     mockClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.GET,
-            false,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes"),
             RequestOptions.empty,
             Result.class));
@@ -185,7 +185,7 @@ public class AlgoliaHttpClientTest {
     mockClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.GET,
-            true,
+            AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes"),
             RequestOptions.empty,
             Result.class));
@@ -201,7 +201,7 @@ public class AlgoliaHttpClientTest {
     mockClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.GET,
-            false,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes"),
             RequestOptions.empty,
             Result.class));
@@ -218,7 +218,7 @@ public class AlgoliaHttpClientTest {
     mockClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.GET,
-            true,
+            AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes"),
             RequestOptions.empty,
             Result.class));
@@ -234,7 +234,7 @@ public class AlgoliaHttpClientTest {
     mockClient.requestWithRetry(
         new AlgoliaRequest<>(
             HttpMethod.GET,
-            true,
+            AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes"),
             RequestOptions.empty,
             Result.class));
@@ -255,7 +255,7 @@ public class AlgoliaHttpClientTest {
       mockClient.requestWithRetry(
           new AlgoliaRequest<>(
               HttpMethod.GET,
-              true,
+              AlgoliaRequestKind.SEARCH_API_READ,
               Arrays.asList("1", "indexes"),
               RequestOptions.empty,
               Result.class));
@@ -275,7 +275,11 @@ public class AlgoliaHttpClientTest {
             "",
             "",
             new AlgoliaRequest<>(
-                HttpMethod.GET, true, new ArrayList<>(), RequestOptions.empty, Object.class)));
+                HttpMethod.GET,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                new ArrayList<>(),
+                RequestOptions.empty,
+                Object.class)));
   }
 
   private AlgoliaHttpResponse response(int status) {
