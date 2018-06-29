@@ -11,7 +11,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.StringReader;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;

@@ -40,13 +40,17 @@ public class SearchResult<T> implements Serializable {
 
   private List<Map<String, Object>> appliedRules;
 
-  public List<Map<String, Object>> getAppliedRules() { return appliedRules; }
+  public List<Map<String, Object>> getAppliedRules() {
+    return appliedRules;
+  }
 
   public void setAppliedRules(List<Map<String, Object>> appliedRules) {
     this.appliedRules = appliedRules;
   }
 
-  public List<Map<String, Object>> getUserData() { return userData; }
+  public List<Map<String, Object>> getUserData() {
+    return userData;
+  }
 
   public void setUserData(List<Map<String, Object>> userData) {
     this.userData = userData;

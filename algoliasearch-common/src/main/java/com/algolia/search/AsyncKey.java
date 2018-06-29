@@ -41,7 +41,6 @@ public interface AsyncKey<T> extends AsyncBaseIndex<T> {
     return getApiKey(key, RequestOptions.empty);
   }
 
-
   /** Deprecated: use {@link AsyncAPIClient#getApiKey(String, RequestOptions)} */
   @Deprecated
   default CompletableFuture<Optional<ApiKey>> getApiKey(
@@ -74,13 +73,11 @@ public interface AsyncKey<T> extends AsyncBaseIndex<T> {
     return addApiKey(key);
   }
 
-
   /** Deprecated: use {@link AsyncAPIClient#addApiKey(ApiKey)} */
   @Deprecated
   default CompletableFuture<CreateUpdateKey> addApiKey(@Nonnull ApiKey key) {
     return addApiKey(key, RequestOptions.empty);
   }
-
 
   /** Deprecated: use {@link AsyncAPIClient#addApiKey(ApiKey, RequestOptions)} */
   @Deprecated
@@ -102,7 +99,6 @@ public interface AsyncKey<T> extends AsyncBaseIndex<T> {
       @Nonnull String keyName, @Nonnull ApiKey key) {
     return updateApiKey(keyName, key, RequestOptions.empty);
   }
-
 
   /** Deprecated: use {@link AsyncAPIClient#updateApiKey(String, ApiKey, RequestOptions)} */
   @Deprecated
