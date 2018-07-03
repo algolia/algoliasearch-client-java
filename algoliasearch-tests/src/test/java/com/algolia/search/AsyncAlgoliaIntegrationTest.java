@@ -42,6 +42,10 @@ public abstract class AsyncAlgoliaIntegrationTest {
     return client.initIndex(uniqueIndexName, klass);
   }
 
+  protected static AsyncAnalytics createAnalytics() {
+    return client.initAnalytics();
+  }
+
   protected static AsyncIndex<Object> createIndex() {
     return createIndex(Object.class);
   }
