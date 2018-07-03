@@ -7,6 +7,7 @@ import com.algolia.search.http.AlgoliaRequest;
 import com.algolia.search.http.AlgoliaRequestKind;
 import com.algolia.search.http.HttpMethod;
 import com.algolia.search.inputs.*;
+import com.algolia.search.inputs.analytics.ABTest;
 import com.algolia.search.inputs.batch.*;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
@@ -1377,6 +1378,61 @@ public class APIClient {
                 .setData(queryRules));
 
     return task.setAPIClient(this).setIndex(indexName);
+  }
+
+  public TaskABTest addABTest(ABTest abtest) throws AlgoliaException {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.ANALYTICS_API,
+                Arrays.asList("2", "abtests"),
+                RequestOptions.empty,
+                TaskABTest.class)
+            .setData(abtest));
+  }
+
+  public TaskABTest stopABTest(long id) throws AlgoliaException {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+            HttpMethod.POST,
+            AlgoliaRequestKind.ANALYTICS_API,
+            Arrays.asList("2", "abtests", Long.toString(id), "stop"),
+            RequestOptions.empty,
+            TaskABTest.class));
+  }
+
+  public TaskABTest deleteABTest(long id) throws AlgoliaException {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+            HttpMethod.DELETE,
+            AlgoliaRequestKind.ANALYTICS_API,
+            Arrays.asList("2", "abtests", Long.toString(id)),
+            RequestOptions.empty,
+            TaskABTest.class));
+  }
+
+  public ABTest getABTest(long id) throws AlgoliaException {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+            HttpMethod.GET,
+            AlgoliaRequestKind.ANALYTICS_API,
+            Arrays.asList("2", "abtests", Long.toString(id)),
+            RequestOptions.empty,
+            ABTest.class));
+  }
+
+  public ABTests getABTests(int offset, int limit) throws AlgoliaException {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+                HttpMethod.GET,
+                AlgoliaRequestKind.ANALYTICS_API,
+                Arrays.asList("2", "abtests"),
+                RequestOptions.empty,
+                ABTests.class)
+            .setParameters(
+                ImmutableMap.of(
+                    "offset", Integer.toString(offset),
+                    "limit", Integer.toString(limit))));
   }
 
   /** Used internally for deleteByQuery */

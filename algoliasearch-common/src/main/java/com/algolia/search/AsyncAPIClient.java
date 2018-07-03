@@ -7,6 +7,7 @@ import com.algolia.search.http.AlgoliaRequestKind;
 import com.algolia.search.http.AsyncAlgoliaHttpClient;
 import com.algolia.search.http.HttpMethod;
 import com.algolia.search.inputs.*;
+import com.algolia.search.inputs.analytics.ABTest;
 import com.algolia.search.inputs.batch.*;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
 import com.algolia.search.inputs.query_rules.Rule;
@@ -87,6 +88,10 @@ public class AsyncAPIClient {
    */
   public <T> AsyncIndex<T> initIndex(@Nonnull String name, @Nonnull Class<T> klass) {
     return new AsyncIndex<>(name, klass, this);
+  }
+
+  public AsyncAnalytics initAnalytics() {
+    return new AsyncAnalytics(this);
   }
 
   /**
@@ -1296,5 +1301,60 @@ public class AsyncAPIClient {
                     AsyncTask.class)
                 .setData(query))
         .thenApply(s -> s.setIndex(indexName));
+  }
+
+  CompletableFuture<AsyncTaskABTest> addABTest(ABTest abtest) {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.ANALYTICS_API,
+                Arrays.asList("2", "abtests"),
+                RequestOptions.empty,
+                AsyncTaskABTest.class)
+            .setData(abtest));
+  }
+
+  CompletableFuture<AsyncTaskABTest> stopABTest(long id) {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+            HttpMethod.POST,
+            AlgoliaRequestKind.ANALYTICS_API,
+            Arrays.asList("2", "abtests", Long.toString(id), "stop"),
+            RequestOptions.empty,
+            AsyncTaskABTest.class));
+  }
+
+  CompletableFuture<AsyncTaskABTest> deleteABTest(long id) {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+            HttpMethod.DELETE,
+            AlgoliaRequestKind.ANALYTICS_API,
+            Arrays.asList("2", "abtests", Long.toString(id)),
+            RequestOptions.empty,
+            AsyncTaskABTest.class));
+  }
+
+  CompletableFuture<ABTest> getABTest(long id) {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+            HttpMethod.GET,
+            AlgoliaRequestKind.ANALYTICS_API,
+            Arrays.asList("2", "abtests", Long.toString(id)),
+            RequestOptions.empty,
+            ABTest.class));
+  }
+
+  CompletableFuture<ABTests> getABTests(int offset, int limit) {
+    return httpClient.requestAnalytics(
+        new AlgoliaRequest<>(
+                HttpMethod.GET,
+                AlgoliaRequestKind.ANALYTICS_API,
+                Arrays.asList("2", "abtests"),
+                RequestOptions.empty,
+                ABTests.class)
+            .setParameters(
+                ImmutableMap.of(
+                    "offset", Integer.toString(offset),
+                    "limit", Integer.toString(limit))));
   }
 }

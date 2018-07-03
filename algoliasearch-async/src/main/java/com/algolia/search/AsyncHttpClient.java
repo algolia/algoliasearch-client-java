@@ -26,6 +26,12 @@ class AsyncHttpClient extends AsyncAlgoliaHttpClient {
   }
 
   @Override
+  public <T> CompletableFuture<T> requestAnalytics(@Nonnull AlgoliaRequest<T> request) {
+    return FutureConverter.toCompletableFuture(
+        service.submit(() -> internal.requestAnalytics(request)));
+  }
+
+  @Override
   public void close() throws AlgoliaException {
     internal.close();
   }
