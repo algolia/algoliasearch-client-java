@@ -45,6 +45,10 @@ public abstract class SyncAlgoliaIntegrationTest {
     return client.initIndex(uniqueIndexName, klass);
   }
 
+  protected static Analytics createAnalytics() {
+    return client.initAnalytics();
+  }
+
   protected static Index<?> createIndex() {
     return createIndex(Object.class);
   }
