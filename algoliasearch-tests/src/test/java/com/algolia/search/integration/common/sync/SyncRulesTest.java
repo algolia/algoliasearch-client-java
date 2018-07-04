@@ -1,21 +1,22 @@
 package com.algolia.search.integration.common.sync;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.inputs.query_rules.Rule;
+import com.algolia.search.inputs.query_rules.*;
 import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.responses.SearchResult;
 import com.algolia.search.responses.SearchRuleResult;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import org.junit.Test;
-
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.Test;
 
 class DummyRecord {
   private String objectID;
@@ -118,5 +119,33 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
     SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
     assertThat(searchResult.getHits()).hasSize(2);
+  }
+
+  @Test
+  public void queryRuleSerialization() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    Condition condition =
+        new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
+
+    ConsequenceQueryObject consequenceQuery =
+        new ConsequenceQueryObject()
+            .setRemove(Collections.singletonList("{facet:products.properties.fbrand}"));
+
+    ConsequenceParams params =
+        new ConsequenceParams()
+            .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));
+
+    params.setQuery(consequenceQuery);
+    Consequence consequence = new Consequence().setParams(params);
+
+    Rule rule1 =
+        new Rule()
+            .setObjectID("1528811588947")
+            .setDescription("Boost Brands")
+            .setCondition(condition)
+            .setConsequence(consequence);
+
+    objectMapper.writeValueAsString(rule1);
   }
 }
