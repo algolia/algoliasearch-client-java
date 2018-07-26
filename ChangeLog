@@ -1,5 +1,33 @@
-Changelog
-=========
+# ChangeLog
+
+# [2.18.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.17.3...2.18.0) (2018-07-26)
+
+### Summary
+
+Hello everyone,
+
+Nearly two months after our last minor version, here is a new one. It includes
+two main changes, and not the smallest ones:
+
+ - Bug fix related to the Query Rules serialization of the Consequence part
+ - Implementation of a long awaited new Algolia feature: [AB Testing](https://www.algolia.com/products/ab-testing)
+
+Thanks to AB tests, you are now able to compare two different index
+configurations in term of analytics performances (number of search queries,
+CTR, etc.). You can set up AB tests via the Algolia dashboard or, since this
+version of our Java client, list, create, change or delete AB tests
+programatically.
+
+### Changes
+
+- **style:** Autoformat ConsequenceQuery.java file ([656d11e](https://github.com/algolia/algoliasearch-client-java-2/commit/656d11e))
+- **test:** Add integration tests for AB testing ([78e14df](https://github.com/algolia/algoliasearch-client-java-2/commit/78e14df))
+- **feat:** Implement AB Testing ([71832d2](https://github.com/algolia/algoliasearch-client-java-2/commit/71832d2))
+- **feat:** Handle analytics.algolia.com endpoint as part of the HTTP clients ([22b06b5](https://github.com/algolia/algoliasearch-client-java-2/commit/22b06b5))
+- **refactor:** Introduce AlgoliaRequestKind to different search/write/analytics calls ([6c2ad2c](https://github.com/algolia/algoliasearch-client-java-2/commit/6c2ad2c))
+- **style:** Reformat some files ([1965cb0](https://github.com/algolia/algoliasearch-client-java-2/commit/1965cb0))
+- **fix:** Avoid infinite serialization recursion of `ConsequenceQuery` ([f38cb5f](https://github.com/algolia/algoliasearch-client-java-2/commit/f38cb5f))
+- **misc:** [maven-release-plugin] prepare for next development iteration ([6535f98](https://github.com/algolia/algoliasearch-client-java-2/commit/6535f98))
 
 2.17.3 (2018-06-15)
 -------------------
