@@ -64,7 +64,7 @@ If you need support for an older version, please use this [package](https://gith
 
 ## Install
 
-If you're using `Maven`, add the following dependency to your `pom.xml` file:
+With [Maven](https://maven.apache.org/), add the following dependency to your `pom.xml` file:
 
 ```xml
 <dependency>
@@ -74,7 +74,7 @@ If you're using `Maven`, add the following dependency to your `pom.xml` file:
 </dependency>
 ```
 
-For the asynchronous version use:
+Then, for the asynchronous version, use:
 
 ```xml
 <dependency>
@@ -84,7 +84,7 @@ For the asynchronous version use:
 </dependency>
 ```
 
-On `Google AppEngine` use this:
+Or on `Google AppEngine`, use:
 
 ```xml
 <dependency>
@@ -362,10 +362,10 @@ search.start();
 
 ### Search
 
-- [Search an index](https://algolia.com/doc/api-reference/api-methods/search/?language=java)
+- [Search index](https://algolia.com/doc/api-reference/api-methods/search/?language=java)
 - [Search for facet values](https://algolia.com/doc/api-reference/api-methods/search-for-facet-values/?language=java)
 - [Search multiple indexes](https://algolia.com/doc/api-reference/api-methods/multiple-queries/?language=java)
-- [Browse an index](https://algolia.com/doc/api-reference/api-methods/browse/?language=java)
+- [Browse index](https://algolia.com/doc/api-reference/api-methods/browse/?language=java)
 
 
 
@@ -429,13 +429,24 @@ search.start();
 
 ### Query rules
 
-- [Save a single rule](https://algolia.com/doc/api-reference/api-methods/rules-save/?language=java)
-- [Batch save multiple rules](https://algolia.com/doc/api-reference/api-methods/rules-save-batch/?language=java)
-- [Get a rule](https://algolia.com/doc/api-reference/api-methods/rules-get/?language=java)
-- [Delete a single rule](https://algolia.com/doc/api-reference/api-methods/rules-delete/?language=java)
-- [Clear all rules](https://algolia.com/doc/api-reference/api-methods/rules-clear/?language=java)
-- [Search for rules](https://algolia.com/doc/api-reference/api-methods/rules-search/?language=java)
+- [Save rule](https://algolia.com/doc/api-reference/api-methods/rules-save/?language=java)
+- [Batch rules](https://algolia.com/doc/api-reference/api-methods/rules-save-batch/?language=java)
+- [Get rule](https://algolia.com/doc/api-reference/api-methods/rules-get/?language=java)
+- [Delete rule](https://algolia.com/doc/api-reference/api-methods/rules-delete/?language=java)
+- [Clear rules](https://algolia.com/doc/api-reference/api-methods/rules-clear/?language=java)
+- [Search rules](https://algolia.com/doc/api-reference/api-methods/rules-search/?language=java)
 - [Export rules](https://algolia.com/doc/api-reference/api-methods/rules-export/?language=java)
+
+
+
+
+### A/B Test
+
+- [Add A/B test](https://algolia.com/doc/api-reference/api-methods/add-ab-test/?language=java)
+- [Get A/B test](https://algolia.com/doc/api-reference/api-methods/get-ab-test/?language=java)
+- [List A/B tests](https://algolia.com/doc/api-reference/api-methods/list-ab-tests/?language=java)
+- [Stop A/B test](https://algolia.com/doc/api-reference/api-methods/stop-ab-test/?language=java)
+- [Delete A/B test](https://algolia.com/doc/api-reference/api-methods/delete-ab-test/?language=java)
 
 
 
