@@ -61,6 +61,7 @@ public abstract class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
               .get(WAIT_TIME_IN_SECONDS, SECONDS)
               .stream()
               .map(ApiKey::getDescription)
+              .filter(k -> k != null)
               .anyMatch(k -> k.equals(description));
       if (!found) {
         return;
