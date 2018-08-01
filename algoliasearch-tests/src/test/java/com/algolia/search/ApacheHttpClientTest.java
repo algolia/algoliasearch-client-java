@@ -129,6 +129,6 @@ public class ApacheHttpClientTest {
   @Test
   public void shouldHandleSNI() throws Exception {
     APIClient client = build(APPLICATION_ID + "-1.algolianet.com");
-    assertThat(client.listApiKeys()).isNotEmpty();
+    assertThat(client.listIndexes()).isNotEmpty();
   }
 }
