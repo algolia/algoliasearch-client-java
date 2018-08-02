@@ -21,8 +21,8 @@ public abstract class SyncAlgoliaIntegrationTest {
 
   protected static APIClient client;
   private static List<String> indexNameToDeleteAfterTheTests = new ArrayList<>();
-  protected String APPLICATION_ID = System.getenv("ALGOLIA_APPLICATION_ID");
-  protected String API_KEY = System.getenv("ALGOLIA_API_KEY");
+  protected String ALGOLIA_APPLICATION_ID = System.getenv("ALGOLIA_APPLICATION_ID");
+  protected String ALGOLIA_API_KEY = System.getenv("ALGOLIA_API_KEY");
   protected static final long WAIT_TIME_IN_SECONDS = 60 * 5; // 5 minutes
 
   @AfterClass
@@ -55,14 +55,14 @@ public abstract class SyncAlgoliaIntegrationTest {
 
   @Before
   public void checkEnvVariables() throws Exception {
-    if (APPLICATION_ID == null || APPLICATION_ID.isEmpty()) {
-      throw new Exception("APPLICATION_ID is not defined or empty");
+    if (ALGOLIA_APPLICATION_ID == null || ALGOLIA_APPLICATION_ID.isEmpty()) {
+      throw new Exception("ALGOLIA_APPLICATION_ID is not defined or empty");
     }
-    if (API_KEY == null || API_KEY.isEmpty()) {
-      throw new Exception("API_KEY is not defined or empty");
+    if (ALGOLIA_API_KEY == null || ALGOLIA_API_KEY.isEmpty()) {
+      throw new Exception("ALGOLIA_API_KEY is not defined or empty");
     }
 
-    client = createInstance(APPLICATION_ID, API_KEY);
+    client = createInstance(ALGOLIA_APPLICATION_ID, ALGOLIA_API_KEY);
   }
 
   public abstract APIClient createInstance(String appId, String apiKey);

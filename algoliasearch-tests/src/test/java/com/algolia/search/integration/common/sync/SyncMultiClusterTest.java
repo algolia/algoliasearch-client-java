@@ -27,8 +27,8 @@ public abstract class SyncMultiClusterTest extends SyncAlgoliaIntegrationTest {
 
   @Before
   public void checkEnvVariables() throws Exception {
-    APPLICATION_ID = System.getenv("ALGOLIA_APPLICATION_ID_MCM");
-    API_KEY = System.getenv("ALGOLIA_API_KEY_MCM");
+    ALGOLIA_APPLICATION_ID = System.getenv("ALGOLIA_APPLICATION_ID_MCM");
+    ALGOLIA_API_KEY = System.getenv("ALGOLIA_API_KEY_MCM");
 
     super.checkEnvVariables();
   }
