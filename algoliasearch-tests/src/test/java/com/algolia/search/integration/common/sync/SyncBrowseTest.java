@@ -100,7 +100,7 @@ public abstract class SyncBrowseTest extends SyncAlgoliaIntegrationTest {
                 DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
 
     APIClient clientWithSpecificObjectMapper =
-        createInstance(APPLICATION_ID, API_KEY, objectMapper);
+        createInstance(ALGOLIA_APPLICATION_ID, ALGOLIA_API_KEY, objectMapper);
 
     Index<BadClass> indexWithWrongClass =
         clientWithSpecificObjectMapper.initIndex("whatever", BadClass.class);
