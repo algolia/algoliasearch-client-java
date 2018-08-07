@@ -11,6 +11,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -163,11 +164,12 @@ public abstract class AlgoliaHttpClient {
   private <T> T buildResponse(
       @Nonnull AlgoliaRequest<T> request, @Nonnull AlgoliaHttpResponse response)
       throws AlgoliaException {
-    logResponse(response);
 
     try {
       Reader body = response.getBody();
       int code = response.getStatusCode();
+
+      body = logResponse(code, body);
 
       if (code / 100 == 4) {
         String message = Utils.parseAs(getObjectMapper(), body, AlgoliaError.class).getMessage();
@@ -214,16 +216,14 @@ public abstract class AlgoliaHttpClient {
     }
   }
 
-  private <T> void logResponse(@Nonnull AlgoliaHttpResponse response) {
-    try {
-      if (logger.isDebugEnabled()) {
-        Reader body = response.getBody();
-        String bodyAsString = CharStreams.toString(body);
-        logger.debug("HTTP response {}", bodyAsString);
-      }
-    } catch (IOException e) {
-      logger.debug("Cannot log HTTP response because of {}", e);
+  private Reader logResponse(int code, @Nonnull Reader body) throws IOException {
+    if (!logger.isDebugEnabled()) {
+      return body;
     }
+
+    String bodyAsString = CharStreams.toString(body);
+    logger.debug("HTTP response {}", bodyAsString);
+    return new StringReader(bodyAsString);
   }
 
   public abstract void close() throws AlgoliaException;
