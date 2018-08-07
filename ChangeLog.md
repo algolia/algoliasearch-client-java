@@ -1,5 +1,31 @@
 # ChangeLog
 
+# [2.18.1](https://github.com/algolia/algoliasearch-client-java-2/compare/2.18.0...2.18.1) (2018-08-07)
+
+### Summary
+
+Hello everyone,
+
+Quick patch release for our Java client because of a bug that was introduced in
+the previous version that would make calls to Algolia fail when debug logging
+was enabled.
+
+The rest of the changes are internal only, aiming to make the testing suite run
+for both Algolia maintainers and external contributors. More on that later. ;)
+
+### Changes
+
+- **fix:** Prevent double-close of response's body when DEBUG logging is enabled ([2ffd96b](https://github.com/algolia/algoliasearch-client-java-2/commit/2ffd96b))
+- **test:** Prevent NullPointerException in waitForKeyNotPresent ([4050c19](https://github.com/algolia/algoliasearch-client-java-2/commit/4050c19))
+- **test:** Make shouldHandleSNI test work with both community/non-community PRs ([bef94ef](https://github.com/algolia/algoliasearch-client-java-2/commit/bef94ef))
+- **chore(travis):** Bypass key management tests for community PRs ([7adbb1c](https://github.com/algolia/algoliasearch-client-java-2/commit/7adbb1c))
+- **chore(travis):** Get Algolia credentials from API Key Dealer ([820b0df](https://github.com/algolia/algoliasearch-client-java-2/commit/820b0df))
+- **chore(travis):** Rename env variables ([735048f](https://github.com/algolia/algoliasearch-client-java-2/commit/735048f))
+- **chore(md):** Update contribution-related files ([ddb4607](https://github.com/algolia/algoliasearch-client-java-2/commit/ddb4607))
+- **misc:** Update README ([9fef4ea](https://github.com/algolia/algoliasearch-client-java-2/commit/9fef4ea))
+- **doc:** Rename ChangeLog into ChangeLog.md to enable Markdown rendering in Github ([83404cd](https://github.com/algolia/algoliasearch-client-java-2/commit/83404cd))
+- **misc:** [maven-release-plugin] prepare for next development iteration ([8175ac8](https://github.com/algolia/algoliasearch-client-java-2/commit/8175ac8))
+
 # [2.18.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.17.3...2.18.0) (2018-07-26)
 
 ### Summary
