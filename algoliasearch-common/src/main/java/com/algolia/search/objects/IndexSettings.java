@@ -19,6 +19,7 @@ public class IndexSettings implements Serializable {
   private Integer minProximity;
   private List<String> responseFields;
   private Integer maxFacetHits;
+  private String keepDiacriticsOnCharacters;
 
   /* attributes */
   /** Deprecated: use {@link #searchableAttributes} */
@@ -580,6 +581,15 @@ public class IndexSettings implements Serializable {
     return this;
   }
 
+  public String getKeepDiacriticsOnCharacters() {
+    return keepDiacriticsOnCharacters;
+  }
+
+  public IndexSettings setKeepDiacriticsOnCharacters(String keepDiacriticsOnCharacters) {
+    this.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters;
+    return this;
+  }
+
   @JsonAnySetter
   public IndexSettings setCustomSetting(String key, Object value) {
     this.customSettings.put(key, value);
@@ -706,6 +716,9 @@ public class IndexSettings implements Serializable {
         + disableTypoToleranceOnWords
         + ", separatorsToIndex='"
         + separatorsToIndex
+        + '\''
+        + ", keepDiacriticsOnCharacters='"
+        + keepDiacriticsOnCharacters
         + '\''
         + ", customSettings="
         + customSettings

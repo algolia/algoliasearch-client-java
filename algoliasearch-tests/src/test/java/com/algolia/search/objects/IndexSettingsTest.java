@@ -33,6 +33,14 @@ public class IndexSettingsTest {
   }
 
   @Test
+  public void keepDiacriticsOnCharacters() throws IOException {
+    IndexSettings settings = new IndexSettings().setKeepDiacriticsOnCharacters("øé");
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getKeepDiacriticsOnCharacters()).isEqualTo("øé");
+  }
+
+  @Test
   public void typoToleranceString() throws IOException {
     IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of("min"));
     IndexSettings result = serializeDeserialize(settings);
