@@ -30,6 +30,7 @@ public class IndexSettings implements Serializable {
   private List<String> attributesForFaceting;
   private List<String> unretrievableAttributes;
   private List<String> attributesToRetrieve;
+  private List<String> camelCaseAttributes;
 
   /* filtering-faceting */
   private Long maxValuesPerFacet;
@@ -255,6 +256,15 @@ public class IndexSettings implements Serializable {
 
   public IndexSettings setAttributesToRetrieve(List<String> attributesToRetrieve) {
     this.attributesToRetrieve = attributesToRetrieve;
+    return this;
+  }
+
+  public List<String> getCamelCaseAttributes() {
+    return camelCaseAttributes;
+  }
+
+  public IndexSettings setCamelCaseAttributes(List<String> camelCaseAttributes) {
+    this.camelCaseAttributes = camelCaseAttributes;
     return this;
   }
 
@@ -650,6 +660,8 @@ public class IndexSettings implements Serializable {
         + unretrievableAttributes
         + ", attributesToRetrieve="
         + attributesToRetrieve
+        + ", camelCaseAttributes="
+        + camelCaseAttributes
         + ", maxValuesPerFacet="
         + maxValuesPerFacet
         + ", sortFacetValuesBy="

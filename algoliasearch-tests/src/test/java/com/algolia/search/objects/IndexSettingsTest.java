@@ -49,6 +49,14 @@ public class IndexSettingsTest {
   }
 
   @Test
+  public void camelCaseAttributes() throws IOException {
+    IndexSettings settings = new IndexSettings().setCamelCaseAttributes(Arrays.asList("a", "b"));
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getCamelCaseAttributes()).isEqualTo(Arrays.asList("a", "b"));
+  }
+
+  @Test
   public void typoToleranceString() throws IOException {
     IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of("min"));
     IndexSettings result = serializeDeserialize(settings);
