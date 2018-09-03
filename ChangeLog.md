@@ -1,5 +1,25 @@
 # ChangeLog
 
+# [2.19.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.18.1...2.19.0) (2018-09-03)
+
+### Summary
+
+Hello everyone,
+
+Coming back from vacations, let's start this month of September with a few
+minor but welcome changes: support for new settings and query parameters. The
+list of changes speaks for itself this time. Feel free to consult the details
+of each parameter in [the official Algolia documentation](https://www.algolia.com/doc/api-reference/api-parameters/).
+
+### Changes
+
+- **chore(md):** Update contribution-related files ([65c6dab](https://github.com/algolia/algoliasearch-client-java-2/commit/65c6dab))
+- **feat:** Expose decompoundedAttributes as a setting parameter ([3285561](https://github.com/algolia/algoliasearch-client-java-2/commit/3285561))
+- **feat:** Expose camelCaseAttributes as a setting parameter ([e2e3712](https://github.com/algolia/algoliasearch-client-java-2/commit/e2e3712))
+- **feat:** Expose queryLanguages as a setting and search parameter ([04d160f](https://github.com/algolia/algoliasearch-client-java-2/commit/04d160f))
+- **feat:** Implement keepDiacriticsOnCharacters as a setting parameter ([5fd418a](https://github.com/algolia/algoliasearch-client-java-2/commit/5fd418a))
+- **misc:** [maven-release-plugin] prepare for next development iteration ([5602826](https://github.com/algolia/algoliasearch-client-java-2/commit/5602826))
+
 # [2.18.1](https://github.com/algolia/algoliasearch-client-java-2/compare/2.18.0...2.18.1) (2018-08-07)
 
 ### Summary
