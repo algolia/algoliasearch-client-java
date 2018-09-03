@@ -7,6 +7,9 @@ import com.algolia.search.Defaults;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 
 public class IndexSettingsTest {
@@ -54,6 +57,16 @@ public class IndexSettingsTest {
     IndexSettings result = serializeDeserialize(settings);
     assertThat(result).isEqualToComparingFieldByField(settings);
     assertThat(result.getCamelCaseAttributes()).isEqualTo(Arrays.asList("a", "b"));
+  }
+
+  @Test
+  public void decompoundedAttributes() throws IOException {
+    Map<String, List<String>> expected = new HashMap();
+    expected.put("de", Arrays.asList("attr1", "attr2"));
+    IndexSettings settings = new IndexSettings().setDecompoundedAttributes(expected);
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getDecompoundedAttributes()).isEqualTo(expected);
   }
 
   @Test
