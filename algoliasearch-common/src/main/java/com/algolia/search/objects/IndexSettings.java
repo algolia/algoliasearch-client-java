@@ -20,6 +20,7 @@ public class IndexSettings implements Serializable {
   private List<String> responseFields;
   private Integer maxFacetHits;
   private String keepDiacriticsOnCharacters;
+  private List<String> queryLanguages;
 
   /* attributes */
   /** Deprecated: use {@link #searchableAttributes} */
@@ -590,6 +591,15 @@ public class IndexSettings implements Serializable {
     return this;
   }
 
+  public List<String> getQueryLanguages() {
+    return queryLanguages;
+  }
+
+  public IndexSettings setQueryLanguages(List<String> queryLanguages) {
+    this.queryLanguages = queryLanguages;
+    return this;
+  }
+
   @JsonAnySetter
   public IndexSettings setCustomSetting(String key, Object value) {
     this.customSettings.put(key, value);
@@ -720,6 +730,8 @@ public class IndexSettings implements Serializable {
         + ", keepDiacriticsOnCharacters='"
         + keepDiacriticsOnCharacters
         + '\''
+        + ", queryLanguages="
+        + queryLanguages
         + ", customSettings="
         + customSettings
         + '}';

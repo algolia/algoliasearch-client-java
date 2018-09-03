@@ -27,6 +27,7 @@ public class Query implements Serializable {
   protected List<String> responseFields;
   protected Long maxFacetHits;
   protected Boolean percentileComputation;
+  protected List<String> queryLanguages;
 
   /* attributes */
   protected List<String> attributesToRetrieve;
@@ -131,6 +132,7 @@ public class Query implements Serializable {
     builder = add(builder, "responseFields", responseFields);
     builder = add(builder, "maxFacetHits", maxFacetHits);
     builder = add(builder, "percentileComputation", percentileComputation);
+    builder = add(builder, "queryLanguages", queryLanguages);
 
     /* attributes */
     builder = add(builder, "attributesToRetrieve", attributesToRetrieve);
@@ -418,6 +420,15 @@ public class Query implements Serializable {
 
   public Query setPercentileComputation(Boolean percentileComputation) {
     this.percentileComputation = percentileComputation;
+    return this;
+  }
+
+  public List<String> getQueryLanguages() {
+    return queryLanguages;
+  }
+
+  public Query setQueryLanguages(List<String> queryLanguages) {
+    this.queryLanguages = queryLanguages;
     return this;
   }
 
@@ -899,6 +910,8 @@ public class Query implements Serializable {
         + maxFacetHits
         + ", percentileComputation="
         + percentileComputation
+        + ", queryLanguages="
+        + queryLanguages
         + ", attributesToRetrieve="
         + attributesToRetrieve
         + ", restrictSearchableAttributes="

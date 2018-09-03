@@ -41,6 +41,14 @@ public class IndexSettingsTest {
   }
 
   @Test
+  public void queryLanguages() throws IOException {
+    IndexSettings settings = new IndexSettings().setQueryLanguages(Arrays.asList("a", "b"));
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getQueryLanguages()).isEqualTo(Arrays.asList("a", "b"));
+  }
+
+  @Test
   public void typoToleranceString() throws IOException {
     IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of("min"));
     IndexSettings result = serializeDeserialize(settings);
