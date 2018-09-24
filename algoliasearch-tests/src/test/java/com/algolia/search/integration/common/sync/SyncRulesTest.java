@@ -176,4 +176,48 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
     assertThat(searchResult.getHits()).hasSize(3);
   }
+
+  /**
+   * Match empty query only if the “is” anchoring is set.
+   * @throws Exception
+   */
+  @Test
+  public void matchTheEmptyQuery() throws Exception {
+    Condition ruleCondition = new Condition().setPattern("").setAnchoring("is");
+    Consequence ruleConsequence = new Consequence().setUserData(ImmutableMap.of("a","b"));
+
+    Rule queryRule = new Rule()
+            .setObjectID("ruleId1")
+            .setCondition(ruleCondition)
+            .setConsequence(ruleConsequence);
+
+    Index<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(queryRule.getObjectID(), queryRule));
+
+    Optional<Rule> queryRule1 = index.getRule(queryRule.getObjectID());
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(queryRule);
+  }
+
+  /**
+   * The engine should return an error because only the "is" anchoring is allowed
+   * @throws Exception
+   */
+  @Test
+  public void trySaveRuleEmptyQueryWithWrongAnchoring() {
+    Condition ruleCondition = new Condition().setPattern("").setAnchoring("contains");
+    Consequence ruleConsequence = new Consequence().setUserData(ImmutableMap.of("a","b"));
+
+    Rule queryRule = new Rule()
+            .setObjectID("ruleId1")
+            .setCondition(ruleCondition)
+            .setConsequence(ruleConsequence);
+
+    Index<?> index = createIndex();
+
+    assertThatThrownBy(() -> index.saveRule(queryRule.getObjectID(), queryRule))
+            .hasMessageContaining("An empty pattern is only allowed when `anchoring` = `is`");
+  }
 }
