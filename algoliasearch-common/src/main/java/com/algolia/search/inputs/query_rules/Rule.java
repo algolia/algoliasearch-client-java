@@ -10,6 +10,7 @@ public class Rule implements Serializable {
   private Condition condition;
   private Consequence consequence;
   private String description;
+  private Boolean enabled;
 
   // For serialization
   public Rule() {}
@@ -47,6 +48,15 @@ public class Rule implements Serializable {
 
   public Rule setDescription(String description) {
     this.description = description;
+    return this;
+  }
+
+  public Boolean getEnabled() {
+    return enabled;
+  }
+
+  public Rule setEnabled(Boolean enabled) {
+    this.enabled = enabled;
     return this;
   }
 }

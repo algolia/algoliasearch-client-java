@@ -146,4 +146,34 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
     objectMapper.writeValueAsString(rule1);
   }
+
+  /** Test if enabled flag is saved */
+  @Test
+  public void enabledFlag() throws Exception {
+    Rule queryRule = generateRule("queryRule").setEnabled(false);
+
+    Index<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(queryRule.getObjectID(), queryRule));
+
+    Optional<Rule> queryRule1 = index.getRule(queryRule.getObjectID());
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(queryRule);
+  }
+
+  /** Should return both rules enabled and disabled */
+  @Test
+  public void searchRulesEnabledFlag() throws Exception {
+    Rule queryRule1 = generateRule("queryRule1").setEnabled(true);
+    Rule queryRule2 = generateRule("queryRule2").setEnabled(false);
+    Rule queryRule3 = generateRule("queryRule3");
+
+    Index<?> index = createIndex();
+
+    waitForCompletion(index.batchRules(Arrays.asList(queryRule1, queryRule2, queryRule3)));
+
+    SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
+    assertThat(searchResult.getHits()).hasSize(3);
+  }
 }
