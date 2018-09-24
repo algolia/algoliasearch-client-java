@@ -192,11 +192,17 @@ public class ConsequenceParams extends Query {
     return (ConsequenceParams) super.setMaxValuesPerFacet(maxValuesPerFacet);
   }
 
-  public List<String> getFacetFilters() {
+  public FacetFilters getFacetFilters() {
     return facetFilters;
   }
 
+  @Deprecated
   public ConsequenceParams setFacetFilters(List<String> facetFilters) {
+    return (ConsequenceParams) super.setFacetFilters(facetFilters);
+  }
+
+  @JsonSetter
+  public ConsequenceParams setFacetFilters(FacetFilters facetFilters) {
     return (ConsequenceParams) super.setFacetFilters(facetFilters);
   }
 

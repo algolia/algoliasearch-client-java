@@ -37,7 +37,7 @@ public class Query implements Serializable {
   protected String filters;
   protected String facets;
   protected Long maxValuesPerFacet;
-  protected List<String> facetFilters;
+  protected FacetFilters facetFilters;
   protected Boolean facetingAfterDistinct;
   protected String sortFacetValuesBy;
 
@@ -482,11 +482,18 @@ public class Query implements Serializable {
     return this.setMaxValuesPerFacet(maxValuesPerFacet.longValue());
   }
 
-  public List<String> getFacetFilters() {
+  public FacetFilters getFacetFilters() {
     return facetFilters;
   }
 
+  @Deprecated
   public Query setFacetFilters(List<String> facetFilters) {
+    this.facetFilters = new FacetFiltersAsListOfString(facetFilters);
+    return this;
+  }
+
+  @JsonSetter
+  public Query setFacetFilters(FacetFilters facetFilters) {
     this.facetFilters = facetFilters;
     return this;
   }
