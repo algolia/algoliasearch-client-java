@@ -7,6 +7,7 @@ import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.query_rules.*;
+import com.algolia.search.objects.Hide;
 import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.objects.TimeRange;
@@ -235,6 +236,31 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     queryRule.setValidity(validity);
 
     Index<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(queryRule.getObjectID(), queryRule));
+
+    Optional<Rule> queryRule1 = index.getRule(queryRule.getObjectID());
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(queryRule);
+  }
+
+  /**
+   * Adds the ability to hide a product from the hits, even if it matches the query.
+   * Test if hidden object are correctly saved
+   * @throws Exception
+   */
+  @Test
+  public void demoteHide() throws Exception {
+    Index<DummyRecord> index = createIndex(DummyRecord.class);
+    DummyRecord record = new DummyRecord();
+    record.setObjectID("one");
+    waitForCompletion(index.addObject(record));
+
+    Rule queryRule = generateRule("RuleID1");
+
+    List<Hide> hides = Arrays.asList( new Hide("one"));
+    queryRule.getConsequence().setHide(hides);
 
     waitForCompletion(index.saveRule(queryRule.getObjectID(), queryRule));
 

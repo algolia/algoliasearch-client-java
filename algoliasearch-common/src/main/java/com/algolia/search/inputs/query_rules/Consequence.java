@@ -1,5 +1,6 @@
 package com.algolia.search.inputs.query_rules;
 
+import com.algolia.search.objects.Hide;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.List;
@@ -10,6 +11,7 @@ public class Consequence implements Serializable {
   private ConsequenceParams params;
   private List<ConsequencePromote> promote;
   private Map<String, Object> userData;
+  private List<Hide> hide;
 
   public Consequence() {}
 
@@ -38,5 +40,13 @@ public class Consequence implements Serializable {
   public Consequence setUserData(Map<String, Object> userData) {
     this.userData = userData;
     return this;
+  }
+
+  public List<Hide> getHide() {
+    return hide;
+  }
+
+  public void setHide(List<Hide> hide) {
+    this.hide = hide;
   }
 }
