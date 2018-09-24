@@ -9,13 +9,15 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.query_rules.*;
 import com.algolia.search.objects.Query;
 import com.algolia.search.objects.RuleQuery;
+import com.algolia.search.objects.TimeRange;
 import com.algolia.search.responses.SearchResult;
 import com.algolia.search.responses.SearchRuleResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
+
+import java.time.Instant;
+import java.util.*;
+
 import org.junit.Test;
 
 class DummyRecord {
@@ -219,5 +221,26 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
 
     assertThatThrownBy(() -> index.saveRule(queryRule.getObjectID(), queryRule))
             .hasMessageContaining("An empty pattern is only allowed when `anchoring` = `is`");
+  }
+
+  /**
+   * Test if the validity period is well saved
+   */
+  @Test
+  public void validityTimeFrame() throws Exception {
+    Rule queryRule = generateRule("RuleID1");
+
+    List<TimeRange> validity = Arrays.asList(new TimeRange(Instant.now().getEpochSecond(), Instant.now().plusMillis(1000000).getEpochSecond()));
+
+    queryRule.setValidity(validity);
+
+    Index<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(queryRule.getObjectID(), queryRule));
+
+    Optional<Rule> queryRule1 = index.getRule(queryRule.getObjectID());
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(queryRule);
   }
 }

@@ -9,9 +9,13 @@ import com.algolia.search.inputs.query_rules.Condition;
 import com.algolia.search.inputs.query_rules.Consequence;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.objects.RuleQuery;
+import com.algolia.search.objects.TimeRange;
 import com.algolia.search.responses.SearchRuleResult;
 import com.google.common.collect.ImmutableMap;
+
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import org.junit.Test;
 
@@ -156,5 +160,26 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
 
     assertThatThrownBy(() -> index.saveRule(queryRule.getObjectID(), queryRule).get())
             .hasMessageContaining("An empty pattern is only allowed when `anchoring` = `is`");
+  }
+
+  /**
+   * Test if the validity period is well saved
+   */
+  @Test
+  public void validityTimeFrame() throws Exception {
+    Rule queryRule = generateRule("RuleID1");
+
+    List<TimeRange> validity = Arrays.asList(new TimeRange(Instant.now().getEpochSecond(), Instant.now().plusMillis(1000000).getEpochSecond()));
+
+    queryRule.setValidity(validity);
+
+    AsyncIndex<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(queryRule.getObjectID(), queryRule));
+
+    Optional<Rule> queryRule1 = index.getRule(queryRule.getObjectID()).get();
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(queryRule);
   }
 }
