@@ -7,7 +7,7 @@ public class ConsequenceQueryString extends ConsequenceQuery {
 
   private final String query;
 
-  ConsequenceQueryString(String query) {
+  public ConsequenceQueryString(String query) {
     this.query = query;
   }
 
