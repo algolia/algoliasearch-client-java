@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
-import com.algolia.search.inputs.query_rules.Condition;
-import com.algolia.search.inputs.query_rules.Consequence;
-import com.algolia.search.inputs.query_rules.Rule;
+import com.algolia.search.inputs.query_rules.*;
+import com.algolia.search.objects.Edit;
+import com.algolia.search.objects.EditType;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.objects.TimeRange;
 import com.algolia.search.responses.SearchRuleResult;
@@ -15,6 +15,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Test;
@@ -181,5 +182,72 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
     assertThat(queryRule1.get())
             .isInstanceOf(Rule.class)
             .isEqualToComparingFieldByFieldRecursively(queryRule);
+  }
+
+  @Test
+  public void editsInQuery() throws  Exception{
+    Condition condition =
+            new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
+
+    List<Edit> edits = Arrays.asList(new Edit(EditType.REPLACE.getName(),"toto","tata"));
+
+    ConsequenceQueryObject consequenceQuery =
+            new ConsequenceQueryObject()
+                    .setEdits(edits);
+
+    ConsequenceParams params = new ConsequenceParams()
+            .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));;
+
+    params.setQuery(consequenceQuery);
+    Consequence consequence = new Consequence().setParams(params);
+
+    Rule rule1 =
+            new Rule()
+                    .setObjectID("1528811588947")
+                    .setDescription("Boost Brands")
+                    .setCondition(condition)
+                    .setConsequence(consequence);
+
+    AsyncIndex<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(rule1.getObjectID(), rule1));
+
+    Optional<Rule> queryRule1 = index.getRule(rule1.getObjectID()).get();
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(rule1);
+  }
+
+  @Test
+  public void nonRegressionRemoveAttribute() throws Exception{
+    Condition condition =
+            new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
+
+    ConsequenceQueryObject consequenceQuery =
+            new ConsequenceQueryObject()
+                    .setRemove(Collections.singletonList("{facet:products.properties.fbrand}"));
+
+    ConsequenceParams params = new ConsequenceParams()
+            .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));;
+
+    params.setQuery(consequenceQuery);
+    Consequence consequence = new Consequence().setParams(params);
+
+
+    Rule rule1 =
+            new Rule()
+                    .setObjectID("1528811588947")
+                    .setDescription("Boost Brands")
+                    .setCondition(condition)
+                    .setConsequence(consequence);
+
+    AsyncIndex<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(rule1.getObjectID(), rule1));
+
+    Optional<Rule> queryRule1 = index.getRule(rule1.getObjectID()).get();
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(rule1);
   }
 }
