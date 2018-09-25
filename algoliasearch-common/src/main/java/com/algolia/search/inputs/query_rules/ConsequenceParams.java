@@ -144,6 +144,7 @@ public class ConsequenceParams<T> extends Query {
     return (ConsequenceParams) super.setMaxFacetHits(maxFacetHits);
   }
 
+  @Deprecated
   public ConsequenceParams setMaxFacetHits(Integer maxFacetHits) {
     return (ConsequenceParams) super.setMaxFacetHits(maxFacetHits);
   }
@@ -198,6 +199,7 @@ public class ConsequenceParams<T> extends Query {
     return (ConsequenceParams) super.setMaxValuesPerFacet(maxValuesPerFacet);
   }
 
+  @Deprecated
   public ConsequenceParams setMaxValuesPerFacet(Integer maxValuesPerFacet) {
     return (ConsequenceParams) super.setMaxValuesPerFacet(maxValuesPerFacet);
   }
@@ -345,6 +347,7 @@ public class ConsequenceParams<T> extends Query {
     return (ConsequenceParams) super.setHitsPerPage(hitsPerPage);
   }
 
+  @Deprecated
   public ConsequenceParams setHitsPerPage(Integer hitsPerPage) {
     return (ConsequenceParams) super.setHitsPerPage(hitsPerPage);
   }
@@ -370,6 +373,7 @@ public class ConsequenceParams<T> extends Query {
     return (ConsequenceParams) super.setLength(length);
   }
 
+  @Deprecated
   public ConsequenceParams setLength(Integer length) {
     return (ConsequenceParams) super.setLength(length);
   }
