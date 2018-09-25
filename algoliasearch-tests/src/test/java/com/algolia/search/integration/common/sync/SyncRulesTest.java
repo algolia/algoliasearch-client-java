@@ -280,7 +280,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     Condition condition =
         new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
 
-    List<Edit> edits = Arrays.asList(new Edit(EditType.REPLACE.getName(), "toto", "tata"));
+    List<Edit> edits = Arrays.asList(new Edit("replace", "toto", "tata"));
 
     ConsequenceQueryObject consequenceQuery = new ConsequenceQueryObject().setEdits(edits);
 
@@ -347,7 +347,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     Condition condition =
         new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
 
-    List<Edit> edits = Arrays.asList(new Edit(EditType.REPLACE.getName(), "toto", "tata"));
+    List<Edit> edits = Arrays.asList(new Edit("replace", "toto", "tata"));
 
     ConsequenceQueryObject consequenceQuery = new ConsequenceQueryObject().setEdits(edits);
 
@@ -384,7 +384,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     Condition condition =
         new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
 
-    List<Edit> edits = Arrays.asList(new Edit(EditType.REPLACE.getName(), "toto", "tata"));
+    List<Edit> edits = Arrays.asList(new Edit("replace", "toto", "tata"));
 
     ConsequenceQueryObject consequenceQuery = new ConsequenceQueryObject().setEdits(edits);
 
