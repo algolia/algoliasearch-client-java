@@ -1,24 +1,22 @@
 package com.algolia.search.integration.common.async;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
+import com.algolia.search.Index;
 import com.algolia.search.inputs.query_rules.*;
-import com.algolia.search.objects.Edit;
-import com.algolia.search.objects.EditType;
-import com.algolia.search.objects.RuleQuery;
-import com.algolia.search.objects.TimeRange;
+import com.algolia.search.objects.*;
 import com.algolia.search.responses.SearchRuleResult;
 import com.google.common.collect.ImmutableMap;
+import org.junit.Test;
 
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("ConstantConditions")
 public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
@@ -40,8 +38,8 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
 
     Optional<Rule> queryRule1 = index.getRule("queryRule1").get();
     assertThat(queryRule1.get())
-        .isInstanceOf(Rule.class)
-        .isEqualToComparingFieldByFieldRecursively(generateRule(ruleID));
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(generateRule(ruleID));
   }
 
   @Test
@@ -49,7 +47,7 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
     AsyncIndex<?> index = createIndex();
 
     assertThatThrownBy(() -> index.saveRule("", generateRule("")).get())
-        .hasMessageContaining("Cannot save rule with empty queryRuleID");
+            .hasMessageContaining("Cannot save rule with empty queryRuleID");
   }
 
   @Test
@@ -89,7 +87,9 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
     assertThat(searchResult.getHits()).hasSize(2);
   }
 
-  /** Test if enabled flag is saved */
+  /**
+   * Test if enabled flag is saved
+   */
   @Test
   public void enabledFlag() throws Exception {
     Rule queryRule = generateRule("queryRule").setEnabled(false);
@@ -104,7 +104,9 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
             .isEqualToComparingFieldByFieldRecursively(queryRule);
   }
 
-  /** Should return both rules enabled and disabled */
+  /**
+   * Should return both rules enabled and disabled
+   */
   @Test
   public void searchRulesEnabledFlag() throws Exception {
     Rule queryRule1 = generateRule("queryRule1").setEnabled(true);
@@ -121,12 +123,13 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
 
   /**
    * Match empty query only if the “is” anchoring is set.
+   *
    * @throws Exception
    */
   @Test
   public void matchTheEmptyQuery() throws Exception {
     Condition ruleCondition = new Condition().setPattern("").setAnchoring("is");
-    Consequence ruleConsequence = new Consequence().setUserData(ImmutableMap.of("a","b"));
+    Consequence ruleConsequence = new Consequence().setUserData(ImmutableMap.of("a", "b"));
 
     Rule queryRule = new Rule()
             .setObjectID("ruleId1")
@@ -145,12 +148,13 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
 
   /**
    * The engine should return an error because only the "is" anchoring is allowed
+   *
    * @throws Exception
    */
   @Test
   public void trySaveRuleEmptyQueryWithWrongAnchoring() {
     Condition ruleCondition = new Condition().setPattern("").setAnchoring("contains");
-    Consequence ruleConsequence = new Consequence().setUserData(ImmutableMap.of("a","b"));
+    Consequence ruleConsequence = new Consequence().setUserData(ImmutableMap.of("a", "b"));
 
     Rule queryRule = new Rule()
             .setObjectID("ruleId1")
@@ -185,18 +189,18 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
   }
 
   @Test
-  public void editsInQuery() throws  Exception{
+  public void editsInQuery() throws Exception {
     Condition condition =
             new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
 
-    List<Edit> edits = Arrays.asList(new Edit(EditType.REPLACE.getName(),"toto","tata"));
+    List<Edit> edits = Arrays.asList(new Edit(EditType.REPLACE.getName(), "toto", "tata"));
 
     ConsequenceQueryObject consequenceQuery =
             new ConsequenceQueryObject()
                     .setEdits(edits);
 
     ConsequenceParams params = new ConsequenceParams()
-            .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));;
+            .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));
 
     params.setQuery(consequenceQuery);
     Consequence consequence = new Consequence().setParams(params);
@@ -219,7 +223,7 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
   }
 
   @Test
-  public void nonRegressionRemoveAttribute() throws Exception{
+  public void nonRegressionRemoveAttribute() throws Exception {
     Condition condition =
             new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
 
@@ -228,11 +232,83 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
                     .setRemove(Collections.singletonList("{facet:products.properties.fbrand}"));
 
     ConsequenceParams params = new ConsequenceParams()
-            .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));;
+            .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));
 
     params.setQuery(consequenceQuery);
     Consequence consequence = new Consequence().setParams(params);
 
+
+    Rule rule1 =
+            new Rule()
+                    .setObjectID("1528811588947")
+                    .setDescription("Boost Brands")
+                    .setCondition(condition)
+                    .setConsequence(consequence);
+
+    AsyncIndex<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(rule1.getObjectID(), rule1));
+
+    Optional<Rule> queryRule1 = index.getRule(rule1.getObjectID()).get();
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(rule1);
+  }
+
+  @Test
+  public void automaticFacetFilters() throws Exception {
+    Condition condition =
+            new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
+
+    List<Edit> edits = Arrays.asList(new Edit(EditType.REPLACE.getName(), "toto", "tata"));
+
+    ConsequenceQueryObject consequenceQuery =
+            new ConsequenceQueryObject()
+                    .setEdits(edits);
+
+    List<AutomaticFacetFilter> automaticFacetFilters = Arrays.asList(new AutomaticFacetFilter("products.properties.fbrand", true, 42), new AutomaticFacetFilter("products.properties.fbrand"));
+
+    ConsequenceParams params = new ConsequenceParams()
+            .setAutomaticFacetFilters(automaticFacetFilters);
+
+    params.setQuery(consequenceQuery);
+    Consequence consequence = new Consequence().setParams(params);
+
+    Rule rule1 =
+            new Rule()
+                    .setObjectID("1528811588947")
+                    .setDescription("Boost Brands")
+                    .setCondition(condition)
+                    .setConsequence(consequence);
+
+    AsyncIndex<?> index = createIndex();
+
+    waitForCompletion(index.saveRule(rule1.getObjectID(), rule1));
+
+    Optional<Rule> queryRule1 = index.getRule(rule1.getObjectID()).get();
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(rule1);
+  }
+
+  @Test
+  public void optionalAutomaticFacetFilters() throws Exception {
+    Condition condition =
+            new Condition().setPattern("{facet:products.properties.fbrand}").setAnchoring("contains");
+
+    List<Edit> edits = Arrays.asList(new Edit(EditType.REPLACE.getName(), "toto", "tata"));
+
+    ConsequenceQueryObject consequenceQuery =
+            new ConsequenceQueryObject()
+                    .setEdits(edits);
+
+    List<AutomaticFacetFilter> optionalAutomaticFacetFilters = Arrays.asList(new AutomaticFacetFilter("products.properties.fbrand", true, 42), new AutomaticFacetFilter("products.properties.fbrand"));
+
+    ConsequenceParams params = new ConsequenceParams()
+            .setAutomaticOptionalFacetFilters(optionalAutomaticFacetFilters);
+
+    params.setQuery(consequenceQuery);
+    Consequence consequence = new Consequence().setParams(params);
 
     Rule rule1 =
             new Rule()
