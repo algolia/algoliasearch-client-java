@@ -3,7 +3,6 @@ package com.algolia.search.inputs.query_rules;
 import com.algolia.search.objects.Edit;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -15,13 +14,13 @@ public class ConsequenceQueryObject extends ConsequenceQuery {
 
   public ConsequenceQueryObject() {}
 
+  @Deprecated
   public List<String> getRemove() {
     return remove;
   }
 
-  /**
-   * Old features use edits instead
-   */
+  /** Old features use edits instead */
+  @Deprecated
   public ConsequenceQueryObject setRemove(List<String> remove) {
     this.remove = remove;
     return this;

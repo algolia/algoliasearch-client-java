@@ -15,9 +15,6 @@ public class Rule implements Serializable {
   private Boolean enabled;
   private List<TimeRange> validity;
 
-
-
-
   // For serialization
   public Rule() {}
 

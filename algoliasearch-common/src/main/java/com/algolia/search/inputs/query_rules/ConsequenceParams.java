@@ -10,7 +10,6 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -18,13 +17,14 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConsequenceParams<T> extends Query {
   private ConsequenceQuery query;
+
   @JsonDeserialize(using = AutomaticFacetFilterDeserializer.class)
   private List<T> automaticFacetFilters;
+
   @JsonDeserialize(using = AutomaticFacetFilterDeserializer.class)
   private List<T> automaticOptionalFacetFilters;
 
-  public ConsequenceParams() {
-  }
+  public ConsequenceParams() {}
 
   public ConsequenceQuery getQuery() {
     return query;
@@ -50,8 +50,7 @@ public class ConsequenceParams<T> extends Query {
 
   // Fields from Query
 
-  public ConsequenceParams setAutomaticOptionalFacetFilters(
-          List<T> automaticOptionalFacetFilters) {
+  public ConsequenceParams setAutomaticOptionalFacetFilters(List<T> automaticOptionalFacetFilters) {
     this.automaticOptionalFacetFilters = automaticOptionalFacetFilters;
     return this;
   }
@@ -170,7 +169,7 @@ public class ConsequenceParams<T> extends Query {
   }
 
   public ConsequenceParams setRestrictSearchableAttributes(
-          List<String> restrictSearchableAttributes) {
+      List<String> restrictSearchableAttributes) {
     return (ConsequenceParams) super.setRestrictSearchableAttributes(restrictSearchableAttributes);
   }
 
@@ -320,9 +319,9 @@ public class ConsequenceParams<T> extends Query {
   }
 
   public ConsequenceParams setRestrictHighlightAndSnippetArrays(
-          Boolean restrictHighlightAndSnippetArrays) {
+      Boolean restrictHighlightAndSnippetArrays) {
     return (ConsequenceParams)
-            super.setRestrictHighlightAndSnippetArrays(restrictHighlightAndSnippetArrays);
+        super.setRestrictHighlightAndSnippetArrays(restrictHighlightAndSnippetArrays);
   }
 
   public Long getPage() {
@@ -484,9 +483,9 @@ public class ConsequenceParams<T> extends Query {
   }
 
   public ConsequenceParams setDisableTypoToleranceOnAttributes(
-          List<String> disableTypoToleranceOnAttributes) {
+      List<String> disableTypoToleranceOnAttributes) {
     return (ConsequenceParams)
-            super.setDisableTypoToleranceOnAttributes(disableTypoToleranceOnAttributes);
+        super.setDisableTypoToleranceOnAttributes(disableTypoToleranceOnAttributes);
   }
 
   @JsonAnySetter
@@ -498,7 +497,8 @@ public class ConsequenceParams<T> extends Query {
 class AutomaticFacetFilterDeserializer extends JsonDeserializer {
 
   /**
-   * This object can be a List<String> or a List<AutomaticFacetFilter> so it needs a custom deserializer
+   * This object can be a List<String> or a List<AutomaticFacetFilter> so it needs a custom
+   * deserializer
    *
    * @param jp
    * @param ctxt
@@ -506,8 +506,7 @@ class AutomaticFacetFilterDeserializer extends JsonDeserializer {
    * @throws IOException
    */
   @Override
-  public Object deserialize(JsonParser jp, DeserializationContext ctxt)
-          throws IOException {
+  public Object deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
 
     ObjectCodec oc = jp.getCodec();
     JsonNode node = oc.readTree(jp);
@@ -515,12 +514,11 @@ class AutomaticFacetFilterDeserializer extends JsonDeserializer {
 
     if ((!node.isNull() && node.size() > 0)) {
       if (node.get(0).has("disjunctive") || node.get(0).has("score")) {
-        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<AutomaticFacetFilter>>() {
-        });
+        ObjectReader reader =
+            objectMapper.readerFor(new TypeReference<List<AutomaticFacetFilter>>() {});
         return reader.readValue(node);
       } else {
-        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<String>>() {
-        });
+        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<String>>() {});
         return reader.readValue(node);
       }
     } else {

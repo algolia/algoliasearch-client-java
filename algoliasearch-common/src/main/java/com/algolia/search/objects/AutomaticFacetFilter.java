@@ -11,8 +11,7 @@ public class AutomaticFacetFilter {
   private Boolean disjunctive;
   private Integer score;
 
-  public AutomaticFacetFilter() {
-  }
+  public AutomaticFacetFilter() {}
 
   public AutomaticFacetFilter(String facet, Boolean disjunctive, Integer score) {
     this.facet = facet;
