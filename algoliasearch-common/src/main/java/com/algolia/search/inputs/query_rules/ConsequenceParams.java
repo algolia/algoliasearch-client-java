@@ -1,17 +1,28 @@
 package com.algolia.search.inputs.query_rules;
 
+import com.algolia.search.Defaults;
 import com.algolia.search.objects.*;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ConsequenceParams extends Query {
+public class ConsequenceParams<T> extends Query {
   private ConsequenceQuery query;
-  private List<String> automaticFacetFilters;
-  private List<String> automaticOptionalFacetFilters;
+
+  @JsonDeserialize(using = AutomaticFacetFilterDeserializer.class)
+  private List<T> automaticFacetFilters;
+
+  @JsonDeserialize(using = AutomaticFacetFilterDeserializer.class)
+  private List<T> automaticOptionalFacetFilters;
 
   public ConsequenceParams() {}
 
@@ -24,23 +35,22 @@ public class ConsequenceParams extends Query {
     return this;
   }
 
-  public List<String> getAutomaticFacetFilters() {
+  public List<T> getAutomaticFacetFilters() {
     return automaticFacetFilters;
   }
 
-  public ConsequenceParams setAutomaticFacetFilters(List<String> automaticFacetFilters) {
+  public ConsequenceParams setAutomaticFacetFilters(List<T> automaticFacetFilters) {
     this.automaticFacetFilters = automaticFacetFilters;
     return this;
   }
 
-  public List<String> getAutomaticOptionalFacetFilters() {
+  public List<T> getAutomaticOptionalFacetFilters() {
     return automaticOptionalFacetFilters;
   }
 
   // Fields from Query
 
-  public ConsequenceParams setAutomaticOptionalFacetFilters(
-      List<String> automaticOptionalFacetFilters) {
+  public ConsequenceParams setAutomaticOptionalFacetFilters(List<T> automaticOptionalFacetFilters) {
     this.automaticOptionalFacetFilters = automaticOptionalFacetFilters;
     return this;
   }
@@ -129,12 +139,13 @@ public class ConsequenceParams extends Query {
     return maxFacetHits;
   }
 
-  public ConsequenceParams setMaxFacetHits(Integer maxFacetHits) {
+  @JsonSetter
+  public ConsequenceParams setMaxFacetHits(Long maxFacetHits) {
     return (ConsequenceParams) super.setMaxFacetHits(maxFacetHits);
   }
 
-  @JsonSetter
-  public ConsequenceParams setMaxFacetHits(Long maxFacetHits) {
+  @Deprecated
+  public ConsequenceParams setMaxFacetHits(Integer maxFacetHits) {
     return (ConsequenceParams) super.setMaxFacetHits(maxFacetHits);
   }
 
@@ -183,12 +194,13 @@ public class ConsequenceParams extends Query {
     return maxValuesPerFacet;
   }
 
-  public ConsequenceParams setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+  @JsonSetter
+  public ConsequenceParams setMaxValuesPerFacet(Long maxValuesPerFacet) {
     return (ConsequenceParams) super.setMaxValuesPerFacet(maxValuesPerFacet);
   }
 
-  @JsonSetter
-  public ConsequenceParams setMaxValuesPerFacet(Long maxValuesPerFacet) {
+  @Deprecated
+  public ConsequenceParams setMaxValuesPerFacet(Integer maxValuesPerFacet) {
     return (ConsequenceParams) super.setMaxValuesPerFacet(maxValuesPerFacet);
   }
 
@@ -324,11 +336,11 @@ public class ConsequenceParams extends Query {
     return page;
   }
 
-  public ConsequenceParams setPage(Integer page) {
+  public ConsequenceParams setPage(Long page) {
     return (ConsequenceParams) super.setPage(page);
   }
 
-  public ConsequenceParams setPage(Long page) {
+  public ConsequenceParams setPage(Integer page) {
     return (ConsequenceParams) super.setPage(page);
   }
 
@@ -336,12 +348,13 @@ public class ConsequenceParams extends Query {
     return hitsPerPage;
   }
 
-  public ConsequenceParams setHitsPerPage(Integer hitsPerPage) {
+  @JsonSetter
+  public ConsequenceParams setHitsPerPage(Long hitsPerPage) {
     return (ConsequenceParams) super.setHitsPerPage(hitsPerPage);
   }
 
-  @JsonSetter
-  public ConsequenceParams setHitsPerPage(Long hitsPerPage) {
+  @Deprecated
+  public ConsequenceParams setHitsPerPage(Integer hitsPerPage) {
     return (ConsequenceParams) super.setHitsPerPage(hitsPerPage);
   }
 
@@ -349,11 +362,11 @@ public class ConsequenceParams extends Query {
     return offset;
   }
 
-  public ConsequenceParams setOffset(Integer offset) {
+  public ConsequenceParams setOffset(Long offset) {
     return (ConsequenceParams) super.setOffset(offset);
   }
 
-  public ConsequenceParams setOffset(Long offset) {
+  public ConsequenceParams setOffset(Integer offset) {
     return (ConsequenceParams) super.setOffset(offset);
   }
 
@@ -361,12 +374,13 @@ public class ConsequenceParams extends Query {
     return length;
   }
 
-  public ConsequenceParams setLength(Integer length) {
+  @JsonSetter
+  public ConsequenceParams setLength(Long length) {
     return (ConsequenceParams) super.setLength(length);
   }
 
-  @JsonSetter
-  public ConsequenceParams setLength(Long length) {
+  @Deprecated
+  public ConsequenceParams setLength(Integer length) {
     return (ConsequenceParams) super.setLength(length);
   }
 
@@ -487,5 +501,38 @@ public class ConsequenceParams extends Query {
   @JsonAnySetter
   public ConsequenceParams addCustomParameter(String key, String value) {
     return (ConsequenceParams) super.addCustomParameter(key, value);
+  }
+}
+
+class AutomaticFacetFilterDeserializer extends JsonDeserializer {
+
+  /**
+   * This object can be a List<String> or a List<AutomaticFacetFilter> so it needs a custom
+   * deserializer
+   *
+   * @param jp
+   * @param ctxt
+   * @return
+   * @throws IOException
+   */
+  @Override
+  public Object deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+
+    ObjectCodec oc = jp.getCodec();
+    JsonNode node = oc.readTree(jp);
+    ObjectMapper objectMapper = Defaults.DEFAULT_OBJECT_MAPPER;
+
+    if ((!node.isNull() && node.size() > 0)) {
+      if (node.get(0).has("disjunctive") || node.get(0).has("score")) {
+        ObjectReader reader =
+            objectMapper.readerFor(new TypeReference<List<AutomaticFacetFilter>>() {});
+        return reader.readValue(node);
+      } else {
+        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<String>>() {});
+        return reader.readValue(node);
+      }
+    } else {
+      return null;
+    }
   }
 }
