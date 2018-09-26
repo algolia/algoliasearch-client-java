@@ -12,7 +12,8 @@ import com.algolia.search.responses.SearchResult;
 import com.algolia.search.responses.SearchRuleResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -231,11 +232,15 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
   public void validityTimeFrame() throws Exception {
     Rule queryRule = generateRule("RuleID1");
 
+    /**
+     * Setting the date format in UTC and removing the ms for test purpose if we don't remove the ms
+     * it will fail on the equal Assert Also setting the zone offset to UTC for test purpose
+     */
     List<TimeRange> validity =
         Arrays.asList(
             new TimeRange(
-                Instant.now().getEpochSecond(),
-                Instant.now().plusMillis(1000000).getEpochSecond()));
+                ZonedDateTime.now(ZoneOffset.UTC).withNano(0),
+                ZonedDateTime.now(ZoneOffset.UTC).plusDays(5).withNano(0)));
 
     queryRule.setValidity(validity);
 

@@ -32,8 +32,6 @@ public class ABTest implements Serializable {
 
   private String status;
 
-  public ABTest() {}
-
   public ABTest(String name, List<Variant> variants, LocalDateTime endAt) {
     this.name = name;
     this.variants = variants;
