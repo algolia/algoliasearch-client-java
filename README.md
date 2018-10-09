@@ -229,7 +229,7 @@ index.addObject(new JSONObject()
 Settings can be customized to fine tune the search behavior. For example, you can add a custom sort by number of followers to further enhance the built-in relevance:
 
 ```java
-//Sync & Async version
+// Sync & Async version
 
 index.setSettings(new IndexSettings().setCustomRanking(Collections.singletonList("desc(followers)")));
 ```
@@ -240,7 +240,7 @@ You can also configure the list of attributes you want to index by order of impo
 In this case, the order of attributes is very important to decide which hit is the best:
 
 ```java
-//Sync & Async version
+// Sync & Async version
 
 index.setSettings(new IndexSettings().setSearchableAttributes(
 	Arrays.asList("lastname", "firstname", "company")
@@ -326,7 +326,7 @@ var search = instantsearch({
   appId: 'YourApplicationID',
   apiKey: 'YourSearchOnlyAPIKey', // search only API key, no ADMIN key
   indexName: 'contacts',
-  urlSync: true,
+  routing: true,
   searchParameters: {
     hitsPerPage: 10
   }
