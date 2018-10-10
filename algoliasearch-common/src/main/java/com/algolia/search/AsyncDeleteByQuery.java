@@ -14,7 +14,7 @@ public interface AsyncDeleteByQuery<T> extends AsyncBaseIndex<T> {
    * @param query The query
    */
   default CompletableFuture<AsyncTask> deleteBy(@Nonnull Query query) {
-    return deleteBy(query, RequestOptions.empty);
+    return deleteBy(query, new RequestOptions());
   }
 
   /**

@@ -14,7 +14,7 @@ public interface AsyncSettings<T> extends AsyncBaseIndex<T> {
    * @return the settings
    */
   default CompletableFuture<IndexSettings> getSettings() {
-    return getSettings(RequestOptions.empty);
+    return getSettings(new RequestOptions());
   }
 
   /**
@@ -58,7 +58,7 @@ public interface AsyncSettings<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> setSettings(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
-    return setSettings(settings, forwardToReplicas, RequestOptions.empty);
+    return setSettings(settings, forwardToReplicas, new RequestOptions());
   }
 
   /**

@@ -58,7 +58,7 @@ public class AsyncAPIClient {
    * @return A List of the indices and their metadata
    */
   public CompletableFuture<List<Index.Attributes>> listIndices() {
-    return listIndices(RequestOptions.empty);
+    return listIndices(new RequestOptions());
   }
 
   /**
@@ -117,7 +117,7 @@ public class AsyncAPIClient {
    */
   public CompletableFuture<AsyncTask> moveIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
-    return moveIndex(srcIndexName, dstIndexName, RequestOptions.empty);
+    return moveIndex(srcIndexName, dstIndexName, new RequestOptions());
   }
 
   /**
@@ -155,7 +155,7 @@ public class AsyncAPIClient {
    */
   public CompletableFuture<AsyncTask> copyIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
-    return copyIndex(srcIndexName, dstIndexName, null, RequestOptions.empty);
+    return copyIndex(srcIndexName, dstIndexName, null, new RequestOptions());
   }
 
   /**
@@ -212,7 +212,7 @@ public class AsyncAPIClient {
    */
   public CompletableFuture<AsyncTask> copyIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scope) {
-    return copyIndex(srcIndexName, dstIndexName, scope, RequestOptions.empty);
+    return copyIndex(srcIndexName, dstIndexName, scope, new RequestOptions());
   }
 
   /**
@@ -221,7 +221,7 @@ public class AsyncAPIClient {
    * @return A List<Log>
    */
   public CompletableFuture<List<Log>> getLogs() {
-    return getLogs(RequestOptions.empty);
+    return getLogs(new RequestOptions());
   }
 
   /**
@@ -254,7 +254,7 @@ public class AsyncAPIClient {
    */
   public CompletableFuture<List<Log>> getLogs(
       @Nonnull Integer offset, @Nonnull Integer length, @Nonnull LogType logType) {
-    return getLogs(offset, length, logType, RequestOptions.empty);
+    return getLogs(offset, length, logType, new RequestOptions());
   }
 
   /**
@@ -304,7 +304,7 @@ public class AsyncAPIClient {
    * @return A List of Keys
    */
   public CompletableFuture<List<ApiKey>> listApiKeys() {
-    return listApiKeys(RequestOptions.empty);
+    return listApiKeys(new RequestOptions());
   }
 
   /**
@@ -339,7 +339,7 @@ public class AsyncAPIClient {
    * @return the key
    */
   public CompletableFuture<Optional<ApiKey>> getApiKey(@Nonnull String key) {
-    return getApiKey(key, RequestOptions.empty);
+    return getApiKey(key, new RequestOptions());
   }
 
   /**
@@ -374,7 +374,7 @@ public class AsyncAPIClient {
    * @param key name of the key
    */
   public CompletableFuture<DeleteKey> deleteApiKey(@Nonnull String key) {
-    return deleteApiKey(key, RequestOptions.empty);
+    return deleteApiKey(key, new RequestOptions());
   }
 
   /**
@@ -407,7 +407,7 @@ public class AsyncAPIClient {
    * @return the metadata of the key (such as it's name)
    */
   public CompletableFuture<CreateUpdateKey> addApiKey(@Nonnull ApiKey key) {
-    return addApiKey(key, RequestOptions.empty);
+    return addApiKey(key, new RequestOptions());
   }
 
   /**
@@ -445,7 +445,7 @@ public class AsyncAPIClient {
    */
   public CompletableFuture<CreateUpdateKey> updateApiKey(
       @Nonnull String keyName, @Nonnull ApiKey key) {
-    return updateApiKey(keyName, key, RequestOptions.empty);
+    return updateApiKey(keyName, key, new RequestOptions());
   }
 
   /**
@@ -502,7 +502,7 @@ public class AsyncAPIClient {
    * @param task the task to wait
    */
   public <T> void waitTask(@Nonnull AsyncGenericTask<T> task) {
-    waitTask(task, 100L, RequestOptions.empty);
+    waitTask(task, 100L, new RequestOptions());
   }
 
   /**
@@ -512,7 +512,7 @@ public class AsyncAPIClient {
    * @param timeToWait the time to wait in milliseconds
    */
   public <T> void waitTask(@Nonnull AsyncGenericTask<T> task, long timeToWait) {
-    waitTask(task, timeToWait, RequestOptions.empty);
+    waitTask(task, timeToWait, new RequestOptions());
   }
 
   /**
@@ -575,7 +575,7 @@ public class AsyncAPIClient {
    */
   public CompletableFuture<AsyncTasksMultipleIndex> batch(
       @Nonnull List<BatchOperation> operations) {
-    return batch(operations, RequestOptions.empty);
+    return batch(operations, new RequestOptions());
   }
 
   /**
@@ -646,7 +646,7 @@ public class AsyncAPIClient {
   @SuppressWarnings("WeakerAccess")
   public CompletableFuture<MultiQueriesResult> multipleQueries(
       @Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy) {
-    return multipleQueries(queries, strategy, RequestOptions.empty);
+    return multipleQueries(queries, strategy, new RequestOptions());
   }
 
   /**
@@ -680,7 +680,7 @@ public class AsyncAPIClient {
    * @return The associated task
    */
   public CompletableFuture<AsyncTask> deleteIndex(@Nonnull String indexName) {
-    return deleteIndex(indexName, RequestOptions.empty);
+    return deleteIndex(indexName, new RequestOptions());
   }
 
   /**
@@ -1312,7 +1312,7 @@ public class AsyncAPIClient {
                 HttpMethod.POST,
                 AlgoliaRequestKind.ANALYTICS_API,
                 Arrays.asList("2", "abtests"),
-                RequestOptions.empty,
+                new RequestOptions(),
                 AsyncTaskABTest.class)
             .setData(abtest));
   }
@@ -1323,7 +1323,7 @@ public class AsyncAPIClient {
             HttpMethod.POST,
             AlgoliaRequestKind.ANALYTICS_API,
             Arrays.asList("2", "abtests", Long.toString(id), "stop"),
-            RequestOptions.empty,
+            new RequestOptions(),
             AsyncTaskABTest.class));
   }
 
@@ -1333,7 +1333,7 @@ public class AsyncAPIClient {
             HttpMethod.DELETE,
             AlgoliaRequestKind.ANALYTICS_API,
             Arrays.asList("2", "abtests", Long.toString(id)),
-            RequestOptions.empty,
+            new RequestOptions(),
             AsyncTaskABTest.class));
   }
 
@@ -1343,7 +1343,7 @@ public class AsyncAPIClient {
             HttpMethod.GET,
             AlgoliaRequestKind.ANALYTICS_API,
             Arrays.asList("2", "abtests", Long.toString(id)),
-            RequestOptions.empty,
+            new RequestOptions(),
             ABTest.class));
   }
 
@@ -1353,7 +1353,7 @@ public class AsyncAPIClient {
                 HttpMethod.GET,
                 AlgoliaRequestKind.ANALYTICS_API,
                 Arrays.asList("2", "abtests"),
-                RequestOptions.empty,
+                new RequestOptions(),
                 ABTests.class)
             .setParameters(
                 ImmutableMap.of(
@@ -1362,7 +1362,7 @@ public class AsyncAPIClient {
   }
 
   public CompletableFuture<List<Cluster>> listClusters() {
-    return this.listClusters(RequestOptions.empty);
+    return this.listClusters(new RequestOptions());
   }
 
   public CompletableFuture<List<Cluster>> listClusters(@Nonnull RequestOptions requestOptions) {
@@ -1383,7 +1383,7 @@ public class AsyncAPIClient {
   }
 
   public CompletableFuture<UserIDs> listUserIDs(Integer page, Integer hitsPerPage) {
-    return this.listUserIDs(page, hitsPerPage, RequestOptions.empty);
+    return this.listUserIDs(page, hitsPerPage, new RequestOptions());
   }
 
   public CompletableFuture<UserIDs> listUserIDs(
@@ -1400,7 +1400,7 @@ public class AsyncAPIClient {
   }
 
   public CompletableFuture<Map<String, List<UserID>>> getTopUserID() {
-    return this.getTopUserID(RequestOptions.empty);
+    return this.getTopUserID(new RequestOptions());
   }
 
   public CompletableFuture<Map<String, List<UserID>>> getTopUserID(RequestOptions requestOptions) {
@@ -1416,8 +1416,9 @@ public class AsyncAPIClient {
     return result.thenApply(TopUserResult::getTopUsers);
   }
 
-  public CompletableFuture<AssignUserID> assignUserID(@Nonnull String userID, @Nonnull String clusterName) {
-    return this.assignUserID(userID, clusterName, RequestOptions.empty);
+  public CompletableFuture<AssignUserID> assignUserID(
+      @Nonnull String userID, @Nonnull String clusterName) {
+    return this.assignUserID(userID, clusterName, new RequestOptions());
   }
 
   public CompletableFuture<AssignUserID> assignUserID(
@@ -1435,7 +1436,7 @@ public class AsyncAPIClient {
   }
 
   public CompletableFuture<UserID> getUserID(@Nonnull String userID) {
-    return this.getUserID(userID, RequestOptions.empty);
+    return this.getUserID(userID, new RequestOptions());
   }
 
   public CompletableFuture<UserID> getUserID(
@@ -1459,7 +1460,7 @@ public class AsyncAPIClient {
   }
 
   public CompletableFuture<DeleteUserID> removeUserID(@Nonnull String userID) {
-    return this.removeUserID(userID, RequestOptions.empty);
+    return this.removeUserID(userID, new RequestOptions());
   }
 
   public CompletableFuture<DeleteUserID> removeUserID(

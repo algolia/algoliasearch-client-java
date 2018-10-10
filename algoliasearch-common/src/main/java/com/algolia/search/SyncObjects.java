@@ -19,7 +19,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default TaskIndexing addObject(@Nonnull T object) throws AlgoliaException {
-    return addObject(object, RequestOptions.empty);
+    return addObject(object, new RequestOptions());
   }
 
   /**
@@ -44,7 +44,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    */
   default TaskIndexing addObject(@Nonnull String objectID, @Nonnull T object)
       throws AlgoliaException {
-    return addObject(objectID, object, RequestOptions.empty);
+    return addObject(objectID, object, new RequestOptions());
   }
 
   /**
@@ -69,7 +69,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default TaskSingleIndex addObjects(@Nonnull List<T> objects) throws AlgoliaException {
-    return addObjects(objects, RequestOptions.empty);
+    return addObjects(objects, new RequestOptions());
   }
 
   /**
@@ -91,7 +91,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @return The object
    */
   default Optional<T> getObject(@Nonnull String objectID) throws AlgoliaException {
-    return getObject(objectID, RequestOptions.empty);
+    return getObject(objectID, new RequestOptions());
   }
 
   /**
@@ -113,7 +113,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @return the list of objects
    */
   default List<T> getObjects(@Nonnull List<String> objectIDs) throws AlgoliaException {
-    return getObjects(objectIDs, RequestOptions.empty);
+    return getObjects(objectIDs, new RequestOptions());
   }
 
   /**
@@ -139,7 +139,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
   default List<T> getObjects(
       @Nonnull List<String> objectIDs, @Nonnull List<String> attributesToRetrieve)
       throws AlgoliaException {
-    return getObjects(objectIDs, attributesToRetrieve, RequestOptions.empty);
+    return getObjects(objectIDs, attributesToRetrieve, new RequestOptions());
   }
 
   /**
@@ -167,7 +167,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default Task saveObject(@Nonnull String objectID, @Nonnull T object) throws AlgoliaException {
-    return saveObject(objectID, object, RequestOptions.empty);
+    return saveObject(objectID, object, new RequestOptions());
   }
 
   /**
@@ -191,7 +191,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default TaskSingleIndex saveObjects(@Nonnull List<T> objects) throws AlgoliaException {
-    return saveObjects(objects, RequestOptions.empty);
+    return saveObjects(objects, new RequestOptions());
   }
 
   /**
@@ -213,7 +213,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default Task deleteObject(@Nonnull String objectID) throws AlgoliaException {
-    return deleteObject(objectID, RequestOptions.empty);
+    return deleteObject(objectID, new RequestOptions());
   }
 
   /**
@@ -235,7 +235,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default TaskSingleIndex deleteObjects(@Nonnull List<String> objectIDs) throws AlgoliaException {
-    return deleteObjects(objectIDs, RequestOptions.empty);
+    return deleteObjects(objectIDs, new RequestOptions());
   }
 
   /**

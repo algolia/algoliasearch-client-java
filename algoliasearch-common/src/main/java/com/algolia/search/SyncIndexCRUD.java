@@ -15,7 +15,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default Task delete() throws AlgoliaException {
-    return delete(RequestOptions.empty);
+    return delete(new RequestOptions());
   }
 
   /**
@@ -34,7 +34,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default Task clear() throws AlgoliaException {
-    return clear(RequestOptions.empty);
+    return clear(new RequestOptions());
   }
 
   /**
@@ -55,7 +55,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @return The associated task
    */
   default Task moveTo(@Nonnull String dstIndexName) throws AlgoliaException {
-    return moveTo(dstIndexName, RequestOptions.empty);
+    return moveTo(dstIndexName, new RequestOptions());
   }
 
   /**
@@ -79,7 +79,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @return The associated task
    */
   default Task copyTo(@Nonnull String dstIndexName) throws AlgoliaException {
-    return copyTo(dstIndexName, RequestOptions.empty);
+    return copyTo(dstIndexName, new RequestOptions());
   }
 
   /**
@@ -122,6 +122,6 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    */
   default Task copyTo(@Nonnull String dstIndexName, @Nonnull List<String> scope)
       throws AlgoliaException {
-    return copyTo(dstIndexName, scope, RequestOptions.empty);
+    return copyTo(dstIndexName, scope, new RequestOptions());
   }
 }

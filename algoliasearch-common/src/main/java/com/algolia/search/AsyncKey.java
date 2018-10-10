@@ -20,7 +20,7 @@ public interface AsyncKey<T> extends AsyncBaseIndex<T> {
   /** Deprecated: use {@link AsyncAPIClient#listApiKeys()} */
   @Deprecated
   default CompletableFuture<List<ApiKey>> listApiKeys() {
-    return listApiKeys(RequestOptions.empty);
+    return listApiKeys(new RequestOptions());
   }
 
   /** Deprecated: use {@link AsyncAPIClient#listApiKeys(RequestOptions)} */
@@ -38,7 +38,7 @@ public interface AsyncKey<T> extends AsyncBaseIndex<T> {
   /** Deprecated: use {@link AsyncAPIClient#getApiKey(String)} */
   @Deprecated
   default CompletableFuture<Optional<ApiKey>> getApiKey(@Nonnull String key) {
-    return getApiKey(key, RequestOptions.empty);
+    return getApiKey(key, new RequestOptions());
   }
 
   /** Deprecated: use {@link AsyncAPIClient#getApiKey(String, RequestOptions)} */
@@ -57,7 +57,7 @@ public interface AsyncKey<T> extends AsyncBaseIndex<T> {
   /** Deprecated: use {@link AsyncAPIClient#deleteApiKey(String)} */
   @Deprecated
   default CompletableFuture<DeleteKey> deleteApiKey(@Nonnull String key) {
-    return deleteApiKey(key, RequestOptions.empty);
+    return deleteApiKey(key, new RequestOptions());
   }
 
   /** Deprecated: use {@link AsyncAPIClient#deleteApiKey(String, RequestOptions)} */
@@ -76,7 +76,7 @@ public interface AsyncKey<T> extends AsyncBaseIndex<T> {
   /** Deprecated: use {@link AsyncAPIClient#addApiKey(ApiKey)} */
   @Deprecated
   default CompletableFuture<CreateUpdateKey> addApiKey(@Nonnull ApiKey key) {
-    return addApiKey(key, RequestOptions.empty);
+    return addApiKey(key, new RequestOptions());
   }
 
   /** Deprecated: use {@link AsyncAPIClient#addApiKey(ApiKey, RequestOptions)} */
@@ -97,7 +97,7 @@ public interface AsyncKey<T> extends AsyncBaseIndex<T> {
   @Deprecated
   default CompletableFuture<CreateUpdateKey> updateApiKey(
       @Nonnull String keyName, @Nonnull ApiKey key) {
-    return updateApiKey(keyName, key, RequestOptions.empty);
+    return updateApiKey(keyName, key, new RequestOptions());
   }
 
   /** Deprecated: use {@link AsyncAPIClient#updateApiKey(String, ApiKey, RequestOptions)} */

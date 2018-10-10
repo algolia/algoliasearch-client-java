@@ -18,7 +18,7 @@ public interface AsyncSearchForFacet<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<SearchFacetResult> searchForFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) {
-    return searchForFacetValues(facetName, facetQuery, query, RequestOptions.empty);
+    return searchForFacetValues(facetName, facetQuery, query, new RequestOptions());
   }
 
   /**
@@ -48,7 +48,7 @@ public interface AsyncSearchForFacet<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<SearchFacetResult> searchForFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery) {
-    return this.searchForFacetValues(facetName, facetQuery, null, RequestOptions.empty);
+    return this.searchForFacetValues(facetName, facetQuery, null, new RequestOptions());
   }
 
   /**
@@ -77,7 +77,7 @@ public interface AsyncSearchForFacet<T> extends AsyncBaseIndex<T> {
   @Deprecated
   default CompletableFuture<SearchFacetResult> searchInFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery) {
-    return this.searchForFacetValues(facetName, facetQuery, null, RequestOptions.empty);
+    return this.searchForFacetValues(facetName, facetQuery, null, new RequestOptions());
   }
 
   /** Deprecated: use {@link #searchForFacetValues(String, String, Query)} */

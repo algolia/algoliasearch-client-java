@@ -54,7 +54,7 @@ public class AsyncIndex<T>
    * @return the result of the search, or a failed Future if the index does not exists
    */
   public CompletableFuture<SearchResult<T>> search(@Nonnull Query query) {
-    return search(query, RequestOptions.empty);
+    return search(query, new RequestOptions());
   }
 
   /**
@@ -81,7 +81,7 @@ public class AsyncIndex<T>
    * @see BatchOperation & subclasses
    */
   public CompletableFuture<AsyncTaskSingleIndex> batch(@Nonnull List<BatchOperation> operations) {
-    return batch(operations, RequestOptions.empty);
+    return batch(operations, new RequestOptions());
   }
 
   /**

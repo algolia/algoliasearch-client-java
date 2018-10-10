@@ -49,7 +49,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
   default Task saveRule(
       @Nonnull String queryRuleID, @Nonnull Rule content, boolean forwardToReplicas)
       throws AlgoliaException {
-    return saveRule(queryRuleID, content, forwardToReplicas, RequestOptions.empty);
+    return saveRule(queryRuleID, content, forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -81,7 +81,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @return the associated task
    */
   default Optional<Rule> getRule(@Nonnull String ruleId) throws AlgoliaException {
-    return getRule(ruleId, RequestOptions.empty);
+    return getRule(ruleId, new RequestOptions());
   }
 
   /**
@@ -103,7 +103,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @return the associated task
    */
   default Task deleteRule(@Nonnull String ruleId) throws AlgoliaException {
-    return deleteRule(ruleId, false, RequestOptions.empty);
+    return deleteRule(ruleId, false, new RequestOptions());
   }
 
   /**
@@ -157,7 +157,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @return the associated task
    */
   default Task clearRules(boolean forwardToReplicas) throws AlgoliaException {
-    return clearRules(forwardToReplicas, RequestOptions.empty);
+    return clearRules(forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -179,7 +179,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @return the results of the query
    */
   default SearchRuleResult searchRules(@Nonnull RuleQuery query) throws AlgoliaException {
-    return searchRules(query, RequestOptions.empty);
+    return searchRules(query, new RequestOptions());
   }
 
   /**
@@ -205,7 +205,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
   default Task batchRules(
       @Nonnull List<Rule> rules, boolean forwardToReplicas, boolean clearExistingRules)
       throws AlgoliaException {
-    return batchRules(rules, forwardToReplicas, clearExistingRules, RequestOptions.empty);
+    return batchRules(rules, forwardToReplicas, clearExistingRules, new RequestOptions());
   }
 
   /**

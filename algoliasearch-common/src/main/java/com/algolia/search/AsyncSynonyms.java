@@ -21,7 +21,7 @@ public interface AsyncSynonyms<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> saveSynonym(
       @Nonnull String synonymID, @Nonnull AbstractSynonym content) {
-    return saveSynonym(synonymID, content, false, RequestOptions.empty);
+    return saveSynonym(synonymID, content, false, new RequestOptions());
   }
 
   /**
@@ -49,7 +49,7 @@ public interface AsyncSynonyms<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> saveSynonym(
       @Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas) {
-    return saveSynonym(synonymID, content, forwardToReplicas, RequestOptions.empty);
+    return saveSynonym(synonymID, content, forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -77,7 +77,7 @@ public interface AsyncSynonyms<T> extends AsyncBaseIndex<T> {
    * @return the associated task
    */
   default CompletableFuture<Optional<AbstractSynonym>> getSynonym(@Nonnull String synonymID) {
-    return getSynonym(synonymID, RequestOptions.empty);
+    return getSynonym(synonymID, new RequestOptions());
   }
 
   /**
@@ -123,7 +123,7 @@ public interface AsyncSynonyms<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> deleteSynonym(
       @Nonnull String synonymID, boolean forwardToReplicas) {
-    return deleteSynonym(synonymID, forwardToReplicas, RequestOptions.empty);
+    return deleteSynonym(synonymID, forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -166,7 +166,7 @@ public interface AsyncSynonyms<T> extends AsyncBaseIndex<T> {
    * @return the associated task
    */
   default CompletableFuture<AsyncTask> clearSynonyms(boolean forwardToReplicas) {
-    return clearSynonyms(forwardToReplicas, RequestOptions.empty);
+    return clearSynonyms(forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -187,7 +187,7 @@ public interface AsyncSynonyms<T> extends AsyncBaseIndex<T> {
    * @return the results of the query
    */
   default CompletableFuture<SearchSynonymResult> searchSynonyms(@Nonnull SynonymQuery query) {
-    return searchSynonyms(query, RequestOptions.empty);
+    return searchSynonyms(query, new RequestOptions());
   }
 
   /**
@@ -215,7 +215,7 @@ public interface AsyncSynonyms<T> extends AsyncBaseIndex<T> {
       boolean forwardToReplicas,
       boolean replaceExistingSynonyms) {
     return batchSynonyms(
-        synonyms, forwardToReplicas, replaceExistingSynonyms, RequestOptions.empty);
+        synonyms, forwardToReplicas, replaceExistingSynonyms, new RequestOptions());
   }
 
   /**

@@ -16,7 +16,7 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    * @return The associated task
    */
   default CompletableFuture<AsyncTask> moveTo(@Nonnull String dstIndexName) {
-    return moveTo(dstIndexName, RequestOptions.empty);
+    return moveTo(dstIndexName, new RequestOptions());
   }
 
   /**
@@ -40,7 +40,7 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    * @return The associated task
    */
   default CompletableFuture<AsyncTask> copyTo(@Nonnull String dstIndexName) {
-    return copyTo(dstIndexName, RequestOptions.empty);
+    return copyTo(dstIndexName, new RequestOptions());
   }
 
   /**
@@ -82,7 +82,7 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> copyTo(
       @Nonnull String dstIndexName, @Nonnull List<String> scope) {
-    return copyTo(dstIndexName, scope, RequestOptions.empty);
+    return copyTo(dstIndexName, scope, new RequestOptions());
   }
 
   /**
@@ -91,7 +91,7 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> delete() {
-    return delete(RequestOptions.empty);
+    return delete(new RequestOptions());
   }
 
   /**
@@ -110,7 +110,7 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    * @return the associated AsyncTask
    */
   default CompletableFuture<AsyncTask> clear() {
-    return clear(RequestOptions.empty);
+    return clear(new RequestOptions());
   }
 
   /**

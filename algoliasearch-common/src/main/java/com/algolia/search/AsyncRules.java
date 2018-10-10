@@ -46,7 +46,7 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> saveRule(
       @Nonnull String ruleID, @Nonnull Rule rule, boolean forwardToReplicas) {
-    return saveRule(ruleID, rule, forwardToReplicas, RequestOptions.empty);
+    return saveRule(ruleID, rule, forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -73,7 +73,7 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
    * @return the associated task
    */
   default CompletableFuture<Optional<Rule>> getRule(@Nonnull String ruleID) {
-    return getRule(ruleID, RequestOptions.empty);
+    return getRule(ruleID, new RequestOptions());
   }
 
   /**
@@ -119,7 +119,7 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> deleteRule(
       @Nonnull String ruleID, boolean forwardToReplicas) {
-    return deleteRule(ruleID, forwardToReplicas, RequestOptions.empty);
+    return deleteRule(ruleID, forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -160,7 +160,7 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
    * @return the associated task
    */
   default CompletableFuture<AsyncTask> clearRules(boolean forwardToReplicas) {
-    return clearRules(forwardToReplicas, RequestOptions.empty);
+    return clearRules(forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -181,7 +181,7 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
    * @return the results of the query
    */
   default CompletableFuture<SearchRuleResult> searchRules(@Nonnull RuleQuery query) {
-    return searchRules(query, RequestOptions.empty);
+    return searchRules(query, new RequestOptions());
   }
 
   /**
@@ -206,7 +206,7 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> batchRules(
       @Nonnull List<Rule> rules, boolean forwardToReplicas, boolean clearExistingRules) {
-    return batchRules(rules, forwardToReplicas, clearExistingRules, RequestOptions.empty);
+    return batchRules(rules, forwardToReplicas, clearExistingRules, new RequestOptions());
   }
 
   /**

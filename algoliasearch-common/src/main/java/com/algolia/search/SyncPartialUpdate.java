@@ -19,7 +19,7 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    */
   default TaskSingleIndex partialUpdateObject(@Nonnull String objectID, @Nonnull Object object)
       throws AlgoliaException {
-    return partialUpdateObject(objectID, object, RequestOptions.empty);
+    return partialUpdateObject(objectID, object, new RequestOptions());
   }
 
   /**
@@ -45,7 +45,7 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    */
   default TaskSingleIndex partialUpdateObjects(@Nonnull List<Object> objects)
       throws AlgoliaException {
-    return partialUpdateObjects(objects, RequestOptions.empty);
+    return partialUpdateObjects(objects, new RequestOptions());
   }
 
   /**
@@ -89,7 +89,7 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
    */
   default TaskSingleIndex partialUpdateObjects(
       @Nonnull List<Object> objects, boolean createIfNotExists) throws AlgoliaException {
-    return getApiClient().partialUpdateObjects(getName(), objects, true, RequestOptions.empty);
+    return getApiClient().partialUpdateObjects(getName(), objects, true, new RequestOptions());
   }
 
   /**
@@ -129,7 +129,7 @@ public interface SyncPartialUpdate<T> extends SyncBaseIndex<T> {
   default TaskSingleIndex partialUpdateObject(
       @Nonnull PartialUpdateOperation operation, boolean createIfNotExists)
       throws AlgoliaException {
-    return partialUpdateObject(operation, createIfNotExists, RequestOptions.empty);
+    return partialUpdateObject(operation, createIfNotExists, new RequestOptions());
   }
 
   /**

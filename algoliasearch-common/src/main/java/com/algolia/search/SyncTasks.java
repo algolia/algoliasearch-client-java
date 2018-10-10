@@ -15,7 +15,7 @@ public interface SyncTasks<T> extends SyncBaseIndex<T> {
    * @param timeToWait the time to wait in milliseconds
    */
   default void waitTask(@Nonnull Task task, long timeToWait) throws AlgoliaException {
-    waitTask(task, timeToWait, RequestOptions.empty);
+    waitTask(task, timeToWait, new RequestOptions());
   }
 
   /**

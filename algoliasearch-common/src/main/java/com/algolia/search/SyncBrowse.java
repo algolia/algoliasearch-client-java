@@ -17,7 +17,7 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    * @return the iterator on top of this index
    */
   default IndexIterable<T> browse(@Nonnull Query query) {
-    return browse(query, RequestOptions.empty);
+    return browse(query, new RequestOptions());
   }
 
   /**
@@ -40,7 +40,7 @@ public interface SyncBrowse<T> extends SyncBaseIndex<T> {
    */
   default BrowseResult<T> browseFrom(@Nonnull Query query, @Nullable String cursor)
       throws AlgoliaException {
-    return browseFrom(query, cursor, RequestOptions.empty);
+    return browseFrom(query, cursor, new RequestOptions());
   }
 
   /**

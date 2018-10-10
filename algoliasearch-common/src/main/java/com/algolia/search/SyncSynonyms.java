@@ -22,7 +22,7 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    */
   default Task saveSynonym(@Nonnull String synonymID, @Nonnull AbstractSynonym content)
       throws AlgoliaException {
-    return saveSynonym(synonymID, content, false, RequestOptions.empty);
+    return saveSynonym(synonymID, content, false, new RequestOptions());
   }
 
   /**
@@ -52,7 +52,7 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
   default Task saveSynonym(
       @Nonnull String synonymID, @Nonnull AbstractSynonym content, boolean forwardToReplicas)
       throws AlgoliaException {
-    return saveSynonym(synonymID, content, forwardToReplicas, RequestOptions.empty);
+    return saveSynonym(synonymID, content, forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -81,7 +81,7 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @return the associated task
    */
   default Optional<AbstractSynonym> getSynonym(@Nonnull String synonymID) throws AlgoliaException {
-    return getSynonym(synonymID, RequestOptions.empty);
+    return getSynonym(synonymID, new RequestOptions());
   }
 
   /**
@@ -127,7 +127,7 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    */
   default Task deleteSynonym(@Nonnull String synonymID, boolean forwardToReplicas)
       throws AlgoliaException {
-    return deleteSynonym(synonymID, forwardToReplicas, RequestOptions.empty);
+    return deleteSynonym(synonymID, forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -170,7 +170,7 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @return the associated task
    */
   default Task clearSynonyms(boolean forwardToReplicas) throws AlgoliaException {
-    return clearSynonyms(forwardToReplicas, RequestOptions.empty);
+    return clearSynonyms(forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -192,7 +192,7 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
    * @return the results of the query
    */
   default SearchSynonymResult searchSynonyms(@Nonnull SynonymQuery query) throws AlgoliaException {
-    return searchSynonyms(query, RequestOptions.empty);
+    return searchSynonyms(query, new RequestOptions());
   }
 
   /**
@@ -221,7 +221,7 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
       boolean replaceExistingSynonyms)
       throws AlgoliaException {
     return batchSynonyms(
-        synonyms, forwardToReplicas, replaceExistingSynonyms, RequestOptions.empty);
+        synonyms, forwardToReplicas, replaceExistingSynonyms, new RequestOptions());
   }
 
   /**

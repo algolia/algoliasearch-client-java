@@ -58,7 +58,7 @@ public class Index<T>
    * @return the result of the search
    */
   public SearchResult<T> search(@Nonnull Query query) throws AlgoliaException {
-    return search(query, RequestOptions.empty);
+    return search(query, new RequestOptions());
   }
 
   /**
@@ -83,7 +83,7 @@ public class Index<T>
    * @see BatchOperation & subclasses
    */
   public TaskSingleIndex batch(@Nonnull List<BatchOperation> operations) throws AlgoliaException {
-    return batch(operations, RequestOptions.empty);
+    return batch(operations, new RequestOptions());
   }
 
   /**
