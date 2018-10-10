@@ -21,7 +21,7 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
   /** Deprecated: use {@link APIClient#listApiKeys()} */
   @Deprecated
   default List<ApiKey> listApiKeys() throws AlgoliaException {
-    return listApiKeys(RequestOptions.empty);
+    return listApiKeys(new RequestOptions());
   }
 
   /** Deprecated: use {@link APIClient#listApiKeys(RequestOptions)} */
@@ -39,7 +39,7 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
   /** Deprecated: use {@link APIClient#getApiKey(String)} */
   @Deprecated
   default Optional<ApiKey> getApiKey(@Nonnull String key) throws AlgoliaException {
-    return getApiKey(key, RequestOptions.empty);
+    return getApiKey(key, new RequestOptions());
   }
 
   /** Deprecated: use {@link APIClient#getApiKey(String, RequestOptions)} */
@@ -58,7 +58,7 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
   /** Deprecated: use {@link APIClient#deleteApiKey(String)} */
   @Deprecated
   default DeleteKey deleteApiKey(@Nonnull String key) throws AlgoliaException {
-    return deleteApiKey(key, RequestOptions.empty);
+    return deleteApiKey(key, new RequestOptions());
   }
 
   /** Deprecated: use {@link APIClient#deleteApiKey(String, RequestOptions)} */
@@ -77,7 +77,7 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
   /** Deprecated: use {@link APIClient#addApiKey(ApiKey)} */
   @Deprecated
   default CreateUpdateKey addApiKey(@Nonnull ApiKey key) throws AlgoliaException {
-    return addApiKey(key, RequestOptions.empty);
+    return addApiKey(key, new RequestOptions());
   }
 
   /** Deprecated: use {@link APIClient#addApiKey(ApiKey, RequestOptions)} */
@@ -91,14 +91,14 @@ public interface SyncKey<T> extends SyncBaseIndex<T> {
   @Deprecated
   default CreateUpdateKey updateKey(@Nonnull String keyName, @Nonnull ApiKey key)
       throws AlgoliaException {
-    return updateApiKey(keyName, key, RequestOptions.empty);
+    return updateApiKey(keyName, key, new RequestOptions());
   }
 
   /** Deprecated: use {@link APIClient#updateApiKey(String, ApiKey)} */
   @Deprecated
   default CreateUpdateKey updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key)
       throws AlgoliaException {
-    return updateApiKey(keyName, key, RequestOptions.empty);
+    return updateApiKey(keyName, key, new RequestOptions());
   }
 
   /** Deprecated: use {@link APIClient#updateApiKey(String, ApiKey, RequestOptions)} */

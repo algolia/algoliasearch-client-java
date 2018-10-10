@@ -53,7 +53,7 @@ public class APIClient {
    * @return A List of the indices and their metadata
    */
   public List<Index.Attributes> listIndexes() throws AlgoliaException {
-    return listIndexes(RequestOptions.empty);
+    return listIndexes(new RequestOptions());
   }
 
   /**
@@ -79,7 +79,7 @@ public class APIClient {
   /** Deprecated: use {@link #listIndexes()} */
   @Deprecated
   public List<Index.Attributes> listIndices() throws AlgoliaException {
-    return listIndexes(RequestOptions.empty);
+    return listIndexes(new RequestOptions());
   }
 
   /** Deprecated: use {@link #listIndexes(RequestOptions)} */
@@ -125,7 +125,7 @@ public class APIClient {
    */
   public Task moveIndex(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
       throws AlgoliaException {
-    return moveIndex(srcIndexName, dstIndexName, RequestOptions.empty);
+    return moveIndex(srcIndexName, dstIndexName, new RequestOptions());
   }
 
   /**
@@ -165,7 +165,7 @@ public class APIClient {
    */
   public Task copyIndex(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
       throws AlgoliaException {
-    return copyIndex(srcIndexName, dstIndexName, RequestOptions.empty);
+    return copyIndex(srcIndexName, dstIndexName, new RequestOptions());
   }
 
   /**
@@ -226,7 +226,7 @@ public class APIClient {
   public Task copyIndex(
       @Nonnull String srcIndexName, @Nonnull String dstIndexName, @Nonnull List<String> scope)
       throws AlgoliaException {
-    return copyIndex(srcIndexName, dstIndexName, scope, RequestOptions.empty);
+    return copyIndex(srcIndexName, dstIndexName, scope, new RequestOptions());
   }
 
   /**
@@ -236,7 +236,7 @@ public class APIClient {
    * @return The associated task
    */
   public Task deleteIndex(@Nonnull String indexName) throws AlgoliaException {
-    return deleteIndex(indexName, RequestOptions.empty);
+    return deleteIndex(indexName, new RequestOptions());
   }
 
   /**
@@ -266,7 +266,7 @@ public class APIClient {
    * @return A List<Log>
    */
   public List<Log> getLogs() throws AlgoliaException {
-    return getLogs(RequestOptions.empty);
+    return getLogs(new RequestOptions());
   }
 
   /**
@@ -300,7 +300,7 @@ public class APIClient {
   public List<Log> getLogs(
       @Nonnull Integer offset, @Nonnull Integer length, @Nonnull LogType logType)
       throws AlgoliaException {
-    return this.getLogs(offset, length, logType, RequestOptions.empty);
+    return this.getLogs(offset, length, logType, new RequestOptions());
   }
 
   /**
@@ -351,7 +351,7 @@ public class APIClient {
    * @return A List of Keys
    */
   public List<ApiKey> listApiKeys() throws AlgoliaException {
-    return this.listApiKeys(RequestOptions.empty);
+    return this.listApiKeys(new RequestOptions());
   }
 
   /**
@@ -386,7 +386,7 @@ public class APIClient {
    * @return the key
    */
   public Optional<ApiKey> getApiKey(@Nonnull String key) throws AlgoliaException {
-    return this.getApiKey(key, RequestOptions.empty);
+    return this.getApiKey(key, new RequestOptions());
   }
 
   /**
@@ -420,7 +420,7 @@ public class APIClient {
    * @param key name of the key
    */
   public DeleteKey deleteApiKey(@Nonnull String key) throws AlgoliaException {
-    return deleteApiKey(key, RequestOptions.empty);
+    return deleteApiKey(key, new RequestOptions());
   }
 
   /**
@@ -453,7 +453,7 @@ public class APIClient {
    * @return the metadata of the key (such as it's name)
    */
   public CreateUpdateKey addApiKey(@Nonnull ApiKey key) throws AlgoliaException {
-    return addApiKey(key, RequestOptions.empty);
+    return addApiKey(key, new RequestOptions());
   }
 
   /**
@@ -491,7 +491,7 @@ public class APIClient {
    */
   public CreateUpdateKey updateApiKey(@Nonnull String keyName, @Nonnull ApiKey key)
       throws AlgoliaException {
-    return updateApiKey(keyName, key, RequestOptions.empty);
+    return updateApiKey(keyName, key, new RequestOptions());
   }
 
   /**
@@ -549,7 +549,7 @@ public class APIClient {
    * @param task the task to wait
    */
   public <T> void waitTask(@Nonnull GenericTask<T> task) throws AlgoliaException {
-    waitTask(task, 100L, RequestOptions.empty);
+    waitTask(task, 100L, new RequestOptions());
   }
 
   /**
@@ -559,7 +559,7 @@ public class APIClient {
    * @param timeToWait the time to wait in milliseconds
    */
   public <T> void waitTask(@Nonnull GenericTask<T> task, long timeToWait) throws AlgoliaException {
-    waitTask(task, timeToWait, RequestOptions.empty);
+    waitTask(task, timeToWait, new RequestOptions());
   }
 
   /**
@@ -613,7 +613,7 @@ public class APIClient {
    */
   public TasksMultipleIndex batch(@Nonnull List<BatchOperation> operations)
       throws AlgoliaException {
-    return batch(operations, RequestOptions.empty);
+    return batch(operations, new RequestOptions());
   }
 
   /**
@@ -658,7 +658,7 @@ public class APIClient {
    */
   public MultiQueriesResult multipleQueries(@Nonnull List<IndexQuery> queries)
       throws AlgoliaException {
-    return multipleQueries(queries, RequestOptions.empty);
+    return multipleQueries(queries, new RequestOptions());
   }
 
   /**
@@ -685,7 +685,7 @@ public class APIClient {
   public MultiQueriesResult multipleQueries(
       @Nonnull List<IndexQuery> queries, @Nonnull MultiQueriesStrategy strategy)
       throws AlgoliaException {
-    return multipleQueries(queries, strategy, RequestOptions.empty);
+    return multipleQueries(queries, strategy, new RequestOptions());
   }
 
   /**
@@ -1389,7 +1389,7 @@ public class APIClient {
                 HttpMethod.POST,
                 AlgoliaRequestKind.ANALYTICS_API,
                 Arrays.asList("2", "abtests"),
-                RequestOptions.empty,
+                new RequestOptions(),
                 TaskABTest.class)
             .setData(abtest));
   }
@@ -1400,7 +1400,7 @@ public class APIClient {
             HttpMethod.POST,
             AlgoliaRequestKind.ANALYTICS_API,
             Arrays.asList("2", "abtests", Long.toString(id), "stop"),
-            RequestOptions.empty,
+            new RequestOptions(),
             TaskABTest.class));
   }
 
@@ -1410,7 +1410,7 @@ public class APIClient {
             HttpMethod.DELETE,
             AlgoliaRequestKind.ANALYTICS_API,
             Arrays.asList("2", "abtests", Long.toString(id)),
-            RequestOptions.empty,
+            new RequestOptions(),
             TaskABTest.class));
   }
 
@@ -1420,7 +1420,7 @@ public class APIClient {
             HttpMethod.GET,
             AlgoliaRequestKind.ANALYTICS_API,
             Arrays.asList("2", "abtests", Long.toString(id)),
-            RequestOptions.empty,
+            new RequestOptions(),
             ABTest.class));
   }
 
@@ -1430,7 +1430,7 @@ public class APIClient {
                 HttpMethod.GET,
                 AlgoliaRequestKind.ANALYTICS_API,
                 Arrays.asList("2", "abtests"),
-                RequestOptions.empty,
+                new RequestOptions(),
                 ABTests.class)
             .setParameters(
                 ImmutableMap.of(
@@ -1439,7 +1439,7 @@ public class APIClient {
   }
 
   public List<Cluster> listClusters() throws AlgoliaException {
-    return this.listClusters(RequestOptions.empty);
+    return this.listClusters(new RequestOptions());
   }
 
   public List<Cluster> listClusters(@Nonnull RequestOptions requestOptions)
@@ -1461,7 +1461,7 @@ public class APIClient {
   }
 
   public UserIDs listUserIDs(Integer page, Integer hitsPerPage) throws AlgoliaException {
-    return this.listUserIDs(page, hitsPerPage, RequestOptions.empty);
+    return this.listUserIDs(page, hitsPerPage, new RequestOptions());
   }
 
   public UserIDs listUserIDs(
@@ -1479,7 +1479,7 @@ public class APIClient {
   }
 
   public Map<String, List<UserID>> getTopUserID() throws AlgoliaException {
-    return this.getTopUserID(RequestOptions.empty);
+    return this.getTopUserID(new RequestOptions());
   }
 
   public Map<String, List<UserID>> getTopUserID(RequestOptions requestOptions)
@@ -1498,7 +1498,7 @@ public class APIClient {
 
   public AssignUserID assignUserID(@Nonnull String userID, @Nonnull String clusterName)
       throws AlgoliaException {
-    return this.assignUserID(userID, clusterName, RequestOptions.empty);
+    return this.assignUserID(userID, clusterName, new RequestOptions());
   }
 
   public AssignUserID assignUserID(
@@ -1517,7 +1517,7 @@ public class APIClient {
   }
 
   public UserID getUserID(@Nonnull String userID) throws AlgoliaException {
-    return this.getUserID(userID, RequestOptions.empty);
+    return this.getUserID(userID, new RequestOptions());
   }
 
   public UserID getUserID(@Nonnull String userID, RequestOptions requestOptions)
@@ -1540,7 +1540,7 @@ public class APIClient {
   }
 
   public DeleteUserID removeUserID(@Nonnull String userID) throws AlgoliaException {
-    return this.removeUserID(userID, RequestOptions.empty);
+    return this.removeUserID(userID, new RequestOptions());
   }
 
   public DeleteUserID removeUserID(@Nonnull String userID, RequestOptions requestOptions)

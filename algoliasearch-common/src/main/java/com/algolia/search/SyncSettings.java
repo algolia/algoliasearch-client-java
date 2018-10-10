@@ -14,7 +14,7 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    * @return the settings
    */
   default IndexSettings getSettings() throws AlgoliaException {
-    return getSettings(RequestOptions.empty);
+    return getSettings(new RequestOptions());
   }
 
   /**
@@ -35,7 +35,7 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    * @return the associated Task
    */
   default Task setSettings(@Nonnull IndexSettings settings) throws AlgoliaException {
-    return setSettings(settings, RequestOptions.empty);
+    return setSettings(settings, new RequestOptions());
   }
 
   /**
@@ -59,7 +59,7 @@ public interface SyncSettings<T> extends SyncBaseIndex<T> {
    */
   default Task setSettings(@Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas)
       throws AlgoliaException {
-    return setSettings(settings, forwardToReplicas, RequestOptions.empty);
+    return setSettings(settings, forwardToReplicas, new RequestOptions());
   }
 
   /**

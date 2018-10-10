@@ -43,7 +43,7 @@ public class AlgoliaHttpClientTest {
             HttpMethod.GET,
             AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes"),
-            RequestOptions.empty,
+            new RequestOptions(),
             Result.class));
   }
 
@@ -57,7 +57,7 @@ public class AlgoliaHttpClientTest {
                 HttpMethod.GET,
                 AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "indexes"),
-                RequestOptions.empty,
+                new RequestOptions(),
                 Result.class));
 
     assertThat(result).isNull();
@@ -74,7 +74,7 @@ public class AlgoliaHttpClientTest {
                         HttpMethod.GET,
                         AlgoliaRequestKind.SEARCH_API_WRITE,
                         Arrays.asList("1", "indexes"),
-                        RequestOptions.empty,
+                        new RequestOptions(),
                         Result.class)))
         .hasMessage("Bad build request");
   }
@@ -90,7 +90,7 @@ public class AlgoliaHttpClientTest {
                         HttpMethod.GET,
                         AlgoliaRequestKind.SEARCH_API_WRITE,
                         Arrays.asList("1", "indexes"),
-                        RequestOptions.empty,
+                        new RequestOptions(),
                         Result.class)))
         .hasMessage("Invalid Application-ID or API-Key");
   }
@@ -106,7 +106,7 @@ public class AlgoliaHttpClientTest {
                         HttpMethod.GET,
                         AlgoliaRequestKind.SEARCH_API_WRITE,
                         Arrays.asList("1", "indexes"),
-                        RequestOptions.empty,
+                        new RequestOptions(),
                         Result.class)))
         .hasMessage("Error");
   }
@@ -120,7 +120,7 @@ public class AlgoliaHttpClientTest {
             HttpMethod.GET,
             AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes"),
-            RequestOptions.empty,
+            new RequestOptions(),
             Result.class));
   }
 
@@ -136,7 +136,7 @@ public class AlgoliaHttpClientTest {
             HttpMethod.GET,
             AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes"),
-            RequestOptions.empty,
+            new RequestOptions(),
             Result.class));
   }
 
@@ -155,7 +155,7 @@ public class AlgoliaHttpClientTest {
                         HttpMethod.GET,
                         AlgoliaRequestKind.SEARCH_API_WRITE,
                         Arrays.asList("1", "indexes"),
-                        RequestOptions.empty,
+                        new RequestOptions(),
                         Result.class)))
         .hasMessage(
             "All retries failed, exceptions: [Failed to query host [APP_ID.algolia.net]: null,Failed to query host [APP_ID-1.algolianet.com]: null,Failed to query host [APP_ID-2.algolianet.com]: null,Failed to query host [APP_ID-3.algolianet.com]: null]");
@@ -174,7 +174,7 @@ public class AlgoliaHttpClientTest {
             HttpMethod.GET,
             AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes"),
-            RequestOptions.empty,
+            new RequestOptions(),
             Result.class));
   }
 
@@ -187,7 +187,7 @@ public class AlgoliaHttpClientTest {
             HttpMethod.GET,
             AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes"),
-            RequestOptions.empty,
+            new RequestOptions(),
             Result.class));
 
     assertThat(mockClient.hostStatuses.get(applicationId + "-dsn." + ALGOLIA_NET))
@@ -203,7 +203,7 @@ public class AlgoliaHttpClientTest {
             HttpMethod.GET,
             AlgoliaRequestKind.SEARCH_API_WRITE,
             Arrays.asList("1", "indexes"),
-            RequestOptions.empty,
+            new RequestOptions(),
             Result.class));
 
     assertThat(mockClient.hostStatuses.get(applicationId + "." + ALGOLIA_NET))
@@ -220,7 +220,7 @@ public class AlgoliaHttpClientTest {
             HttpMethod.GET,
             AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes"),
-            RequestOptions.empty,
+            new RequestOptions(),
             Result.class));
 
     assertThat(mockClient.hostStatuses.get(applicationId + "-dsn." + ALGOLIA_NET))
@@ -236,7 +236,7 @@ public class AlgoliaHttpClientTest {
             HttpMethod.GET,
             AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "indexes"),
-            RequestOptions.empty,
+            new RequestOptions(),
             Result.class));
 
     assertThat(mockClient.hostStatuses.get(applicationId + "-dsn." + ALGOLIA_NET))
@@ -257,7 +257,7 @@ public class AlgoliaHttpClientTest {
               HttpMethod.GET,
               AlgoliaRequestKind.SEARCH_API_READ,
               Arrays.asList("1", "indexes"),
-              RequestOptions.empty,
+              new RequestOptions(),
               Result.class));
     } catch (Exception ignored) {
     }
@@ -278,7 +278,7 @@ public class AlgoliaHttpClientTest {
                 HttpMethod.GET,
                 AlgoliaRequestKind.SEARCH_API_READ,
                 new ArrayList<>(),
-                RequestOptions.empty,
+                new RequestOptions(),
                 Object.class)));
   }
 

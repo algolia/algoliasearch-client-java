@@ -12,7 +12,7 @@ public interface SyncDeleteByQuery<T> extends SyncBaseIndex<T> {
   /** Deprecated: use {@link #deleteBy(Query)} */
   @Deprecated
   default void deleteByQuery(@Nonnull Query query) throws AlgoliaException {
-    deleteByQuery(query, RequestOptions.empty);
+    deleteByQuery(query, new RequestOptions());
   }
 
   /**
@@ -21,7 +21,7 @@ public interface SyncDeleteByQuery<T> extends SyncBaseIndex<T> {
    * @param query The query
    */
   default Task deleteBy(@Nonnull Query query) throws AlgoliaException {
-    return deleteBy(query, RequestOptions.empty);
+    return deleteBy(query, new RequestOptions());
   }
 
   /** Deprecated: use {@link #deleteBy(Query, RequestOptions)} */
@@ -45,7 +45,7 @@ public interface SyncDeleteByQuery<T> extends SyncBaseIndex<T> {
   /** Deprecated: use {@link #deleteBy(Query)} */
   @Deprecated
   default void deleteByQuery(@Nonnull Query query, int batchSize) throws AlgoliaException {
-    deleteByQuery(query, batchSize, RequestOptions.empty);
+    deleteByQuery(query, batchSize, new RequestOptions());
   }
 
   /** Deprecated: use {@link #deleteBy(Query, RequestOptions)} */

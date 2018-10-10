@@ -19,7 +19,7 @@ public interface AsyncPartialUpdate<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
       @Nonnull String objectID, @Nonnull Object object) {
-    return partialUpdateObject(objectID, object, RequestOptions.empty);
+    return partialUpdateObject(objectID, object, new RequestOptions());
   }
 
   /**
@@ -44,7 +44,7 @@ public interface AsyncPartialUpdate<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
       @Nonnull List<Object> objects) {
-    return partialUpdateObjects(objects, RequestOptions.empty);
+    return partialUpdateObjects(objects, new RequestOptions());
   }
 
   /**
@@ -87,7 +87,7 @@ public interface AsyncPartialUpdate<T> extends AsyncBaseIndex<T> {
   default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObjects(
       @Nonnull List<Object> objects, boolean createIfNotExists) {
     return getApiClient()
-        .partialUpdateObjects(getName(), objects, createIfNotExists, RequestOptions.empty);
+        .partialUpdateObjects(getName(), objects, createIfNotExists, new RequestOptions());
   }
 
   /**
@@ -125,7 +125,7 @@ public interface AsyncPartialUpdate<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTaskSingleIndex> partialUpdateObject(
       @Nonnull PartialUpdateOperation operation, boolean createIfNotExists) {
-    return partialUpdateObject(operation, createIfNotExists, RequestOptions.empty);
+    return partialUpdateObject(operation, createIfNotExists, new RequestOptions());
   }
 
   /**

@@ -19,7 +19,7 @@ public interface SyncSearchForFacet<T> extends SyncBaseIndex<T> {
    */
   default SearchFacetResult searchForFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
-    return searchForFacetValues(facetName, facetQuery, query, RequestOptions.empty);
+    return searchForFacetValues(facetName, facetQuery, query, new RequestOptions());
   }
 
   /**
@@ -52,7 +52,7 @@ public interface SyncSearchForFacet<T> extends SyncBaseIndex<T> {
    */
   default SearchFacetResult searchForFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
-    return searchForFacetValues(facetName, facetQuery, RequestOptions.empty);
+    return searchForFacetValues(facetName, facetQuery, new RequestOptions());
   }
 
   /**
@@ -75,21 +75,21 @@ public interface SyncSearchForFacet<T> extends SyncBaseIndex<T> {
   @Deprecated
   default SearchFacetResult searchInFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
-    return this.searchForFacetValues(facetName, facetQuery, query, RequestOptions.empty);
+    return this.searchForFacetValues(facetName, facetQuery, query, new RequestOptions());
   }
 
   /** Deprecated: use {@link #searchForFacetValues(String, String)} */
   @Deprecated
   default SearchFacetResult searchInFacetValues(
       @Nonnull String facetName, @Nonnull String facetQuery) throws AlgoliaException {
-    return this.searchForFacetValues(facetName, facetQuery, null, RequestOptions.empty);
+    return this.searchForFacetValues(facetName, facetQuery, null, new RequestOptions());
   }
 
   /** Deprecated: use {@link #searchForFacetValues(String, String, Query)} */
   @Deprecated
   default SearchFacetResult searchFacet(
       @Nonnull String facetName, @Nonnull String facetQuery, Query query) throws AlgoliaException {
-    return this.searchForFacetValues(facetName, facetQuery, query, RequestOptions.empty);
+    return this.searchForFacetValues(facetName, facetQuery, query, new RequestOptions());
   }
 
   /** Deprecated: use {@link #searchForFacetValues(String, String)} */

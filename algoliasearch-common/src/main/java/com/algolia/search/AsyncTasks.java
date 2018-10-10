@@ -37,7 +37,7 @@ public interface AsyncTasks<T> extends AsyncBaseIndex<T> {
    * @param task task to wait for
    */
   default void waitTask(@Nonnull AsyncTask task) {
-    waitTask(task, RequestOptions.empty);
+    waitTask(task, new RequestOptions());
   }
 
   /**

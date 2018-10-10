@@ -7,8 +7,6 @@ import javax.annotation.Nonnull;
 
 public class RequestOptions implements Serializable {
 
-  public static final RequestOptions empty = new RequestOptions();
-
   private final Map<String, String> headers = new HashMap<>();
   private final Map<String, String> queryParams = new HashMap<>();
   private String forwardedFor;
