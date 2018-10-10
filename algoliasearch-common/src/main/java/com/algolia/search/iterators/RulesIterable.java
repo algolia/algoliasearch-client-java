@@ -11,7 +11,7 @@ public class RulesIterable implements Iterable<Rule> {
   private final Integer hitsPerPage;
 
   public RulesIterable(@Nonnull Index<?> index) {
-    this(index, 10000);
+    this(index, 1000);
   }
 
   public RulesIterable(@Nonnull Index<?> index, @Nonnull Integer hitsPerPage) {
