@@ -64,10 +64,13 @@ public abstract class AsyncABTestingTest extends AsyncAlgoliaIntegrationTest {
 
     waitForCompletion(analytics.addABTest(abtest));
 
-    abTests = analytics.getABTests(0, 10).get();
-    assertThat(abTests.getCount()).isEqualTo(1);
-    assertThat(abTests.getTotal()).isEqualTo(1);
-    assertThat(abTests.getAbtests()).hasSize(1);
+    Boolean found = false;
+    while (!found) {
+      abTests = analytics.getABTests(0, 10).get();
+      found =
+          abTests.getCount() == 1 && abTests.getTotal() == 1 && abTests.getAbtests().size() == 1;
+      Thread.sleep(1000);
+    }
 
     ABTest inserted = abTests.getAbtests().get(0);
     ABTestingHelpersTest.compareABTests(abtest, inserted);

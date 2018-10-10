@@ -22,7 +22,7 @@ import org.junit.Test;
 public abstract class SyncABTestingTest extends SyncAlgoliaIntegrationTest {
 
   @Test
-  public void createModifyAndDeleteABTests() throws AlgoliaException {
+  public void createModifyAndDeleteABTests() throws AlgoliaException, InterruptedException {
     Analytics analytics = createAnalytics();
     int offset = 0;
     int limit = 10;
@@ -77,7 +77,10 @@ public abstract class SyncABTestingTest extends SyncAlgoliaIntegrationTest {
     assertThat(inserted.getStatus()).isEqualTo("stopped");
 
     waitForCompletion(analytics.deleteABTest(inserted.getAbTestID()));
-    abTests = analytics.getABTests(0, 10);
-    assertThat(abTests.getCount()).isEqualTo(0);
+    Boolean isEmpty = false;
+    while (!isEmpty) {
+      isEmpty = analytics.getABTests(0, 10).getCount() == 0;
+      Thread.sleep(1000);
+    }
   }
 }
