@@ -130,4 +130,22 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     assertThat(objects.get(0))
         .isEqualToComparingFieldByField(new AlgoliaObjectWithID("1", null, 5));
   }
+
+  @Test(expected = AlgoliaException.class)
+  public void deleteObjectEmptyObjectIdShouldFail() throws AlgoliaException {
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    index.deleteObject("");
+  }
+
+  @Test(expected = AlgoliaException.class)
+  public void deleteObjectWhiteSpaceObjectIdShouldFail() throws AlgoliaException {
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    index.deleteObject("  ");
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void deleteObjectNullObjectIdShouldFail() throws AlgoliaException {
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    index.deleteObject(null);
+  }
 }

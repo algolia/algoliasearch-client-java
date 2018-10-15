@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
@@ -206,7 +207,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * @param objectID the unique identifier of the object to retrieve
    * @return the associated AsyncTask
    */
-  default CompletableFuture<AsyncTask> deleteObject(@Nonnull String objectID) {
+  default CompletableFuture<AsyncTask> deleteObject(@Nonnull String objectID) throws AlgoliaException {
     return deleteObject(objectID, RequestOptions.empty);
   }
 
@@ -217,8 +218,8 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * @param requestOptions Options to pass to this request
    * @return the associated AsyncTask
    */
-  default CompletableFuture<AsyncTask> deleteObject(
-      @Nonnull String objectID, @Nonnull RequestOptions requestOptions) {
+  default CompletableFuture<AsyncTask> deleteObject (
+      @Nonnull String objectID, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return getApiClient().deleteObject(getName(), objectID, requestOptions);
   }
 

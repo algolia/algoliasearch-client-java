@@ -788,8 +788,14 @@ public class AsyncAPIClient {
         .thenApply(s -> s.setIndex(indexName));
   }
 
-  CompletableFuture<AsyncTask> deleteObject(
-      String indexName, String objectID, RequestOptions requestOptions) {
+  CompletableFuture<AsyncTask> deleteObject (
+      String indexName, String objectID, RequestOptions requestOptions) throws AlgoliaException {
+
+    if (objectID.trim().length() == 0)
+    {
+      throw new AlgoliaException("ObjectID must not be empty");
+    }
+
     return httpClient
         .requestWithRetry(
             new AlgoliaRequest<>(
