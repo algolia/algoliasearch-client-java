@@ -808,9 +808,8 @@ public class APIClient {
   Task deleteObject(String indexName, String objectID, RequestOptions requestOptions)
       throws AlgoliaException {
 
-    if (objectID.trim().length() == 0)
-    {
-      throw new AlgoliaException("ObjectID must not be empty");
+    if (objectID.trim().length() == 0) {
+      throw new IllegalArgumentException("ObjectID must not be empty");
     }
 
     Task result =

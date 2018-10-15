@@ -11,8 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-
-import com.algolia.search.exceptions.AlgoliaException;
 import org.junit.Test;
 
 @SuppressWarnings("ConstantConditions")
@@ -135,20 +133,20 @@ public abstract class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
     futureAssertThat(result).extracting("name").containsNull();
   }
 
-  @Test(expected = AlgoliaException.class)
-  public void deleteObjectEmptyObjectIdShouldFail() throws AlgoliaException {
+  @Test(expected = IllegalArgumentException.class)
+  public void deleteObjectEmptyObjectIdShouldFail() throws IllegalArgumentException {
     AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.deleteObject("");
   }
 
-  @Test(expected = AlgoliaException.class)
-  public void deleteObjectWhiteSpaceObjectIdShouldFail() throws AlgoliaException {
+  @Test(expected = IllegalArgumentException.class)
+  public void deleteObjectWhiteSpaceObjectIdShouldFail() throws IllegalArgumentException {
     AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.deleteObject("  ");
   }
 
   @Test(expected = NullPointerException.class)
-  public void deleteObjectNullObjectIdShouldFail() throws AlgoliaException {
+  public void deleteObjectNullObjectIdShouldFail() throws NullPointerException {
     AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.deleteObject(null);
   }
