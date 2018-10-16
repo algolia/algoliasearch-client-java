@@ -75,7 +75,7 @@ public abstract class SyncMultiClusterTest extends SyncAlgoliaIntegrationTest {
 
     Boolean found = false;
     while (!found) {
-      found = client.getUserID(userID) != null;
+      found = client.searchUserIDs(userID, cluster.getClusterName()).getNbHits() != 0;
       Thread.sleep(1000);
     }
   }
