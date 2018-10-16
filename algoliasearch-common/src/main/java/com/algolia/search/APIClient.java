@@ -1561,6 +1561,46 @@ public class APIClient {
             DeleteUserID.class));
   }
 
+  public SearchUserIDs searchUserIDs(@Nonnull String query, @Nonnull String clusterName)
+      throws AlgoliaException {
+    return this.searchUserIDs(query, clusterName, new RequestOptions());
+  }
+
+  public SearchUserIDs searchUserIDs(
+      @Nonnull String query, @Nonnull String clusterName, RequestOptions requestOptions)
+      throws AlgoliaException {
+    return this.searchUserIDs(query, clusterName, 0, 20, requestOptions);
+  }
+
+  public SearchUserIDs searchUserIDs(
+      @Nonnull String query, @Nonnull String clusterName, int page, int hitsPerPage)
+      throws AlgoliaException {
+    return this.searchUserIDs(query, clusterName, page, hitsPerPage, new RequestOptions());
+  }
+
+  public SearchUserIDs searchUserIDs(
+      @Nonnull String query,
+      @Nonnull String clusterName,
+      int page,
+      int hitsPerPage,
+      RequestOptions requestOptions)
+      throws AlgoliaException {
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "clusters", "mapping", "search"),
+                requestOptions,
+                SearchUserIDs.class)
+            .setData(
+                ImmutableMap.of(
+                    "query", query,
+                    "cluster", clusterName,
+                    "page", page,
+                    "hitsPerPage", hitsPerPage)));
+  }
+
   /** Used internally for deleteByQuery */
   private static class ObjectID {
 

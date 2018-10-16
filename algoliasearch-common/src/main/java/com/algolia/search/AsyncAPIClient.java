@@ -1480,4 +1480,41 @@ public class AsyncAPIClient {
             requestOptions,
             DeleteUserID.class));
   }
+
+  public CompletableFuture<SearchUserIDs> searchUserIDs(
+      @Nonnull String query, @Nonnull String clusterName) {
+    return this.searchUserIDs(query, clusterName, new RequestOptions());
+  }
+
+  public CompletableFuture<SearchUserIDs> searchUserIDs(
+      @Nonnull String query, @Nonnull String clusterName, RequestOptions requestOptions) {
+    return this.searchUserIDs(query, clusterName, 0, 20, requestOptions);
+  }
+
+  public CompletableFuture<SearchUserIDs> searchUserIDs(
+      @Nonnull String query, @Nonnull String clusterName, int page, int hitsPerPage) {
+    return this.searchUserIDs(query, clusterName, page, hitsPerPage, new RequestOptions());
+  }
+
+  public CompletableFuture<SearchUserIDs> searchUserIDs(
+      @Nonnull String query,
+      @Nonnull String clusterName,
+      int page,
+      int hitsPerPage,
+      RequestOptions requestOptions) {
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "clusters", "mapping", "search"),
+                requestOptions,
+                SearchUserIDs.class)
+            .setData(
+                ImmutableMap.of(
+                    "query", query,
+                    "cluster", clusterName,
+                    "page", page,
+                    "hitsPerPage", hitsPerPage)));
+  }
 }

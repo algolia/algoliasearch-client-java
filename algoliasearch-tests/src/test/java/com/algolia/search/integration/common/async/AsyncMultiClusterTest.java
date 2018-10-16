@@ -71,7 +71,7 @@ public abstract class AsyncMultiClusterTest extends AsyncAlgoliaIntegrationTest 
 
     Boolean found = false;
     while (!found) {
-      found = client.getUserID(userID) != null;
+      found = client.searchUserIDs(userID, cluster.getClusterName()).get().getNbHits() != 0;
       Thread.sleep(1000);
     }
   }
