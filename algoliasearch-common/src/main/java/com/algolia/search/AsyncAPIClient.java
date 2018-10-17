@@ -793,6 +793,11 @@ public class AsyncAPIClient {
 
   CompletableFuture<AsyncTask> deleteObject(
       String indexName, String objectID, RequestOptions requestOptions) {
+
+    if (objectID.trim().length() == 0) {
+      throw new IllegalArgumentException("ObjectID must not be empty");
+    }
+
     return httpClient
         .requestWithRetry(
             new AlgoliaRequest<>(

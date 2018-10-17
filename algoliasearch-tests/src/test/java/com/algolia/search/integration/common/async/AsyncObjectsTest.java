@@ -132,4 +132,22 @@ public abstract class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
     futureAssertThat(result).hasSize(1);
     futureAssertThat(result).extracting("name").containsNull();
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void deleteObjectEmptyObjectIdShouldFail() throws IllegalArgumentException {
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    index.deleteObject("");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void deleteObjectWhiteSpaceObjectIdShouldFail() throws IllegalArgumentException {
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    index.deleteObject("  ");
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void deleteObjectNullObjectIdShouldFail() throws NullPointerException {
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    index.deleteObject(null);
+  }
 }
