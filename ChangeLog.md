@@ -1,5 +1,44 @@
 # ChangeLog
 
+# [2.20.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.19.0...2.20.0) (2018-10-18)
+
+### Summary
+
+Hello everyone,
+
+Big release today. A lot of new features and bug fixes coming! As you may see,
+we've added new methods to manage assignments of userIDs to clusters for users
+of our **Multi Cluster Management feature**. We've also implemented new
+features regarding **Query Rules** and fixed a few JSON deserialization issues.
+
+Also note that `facetFilters` couldn't previously been used with list of list
+(only simple list were accepted). This prevented users to OR filters.
+
+Overall, this release should bring more feature and stabilize existing ones.
+Special thanks to our users who reported several issues and nicely waited for
+us to fix and release everything at the same time.
+
+Have a nice day.
+
+### Changes
+
+- **misc:** [maven-release-plugin] prepare release 2.20.0 ([5e58d23](https://github.com/algolia/algoliasearch-client-java-2/commit/5e58d23))
+- **Added:** Missing searchUserIDs method related to Multi Cluster Management (MCM) ([8da4bd2](https://github.com/algolia/algoliasearch-client-java-2/commit/8da4bd2))
+- **misc:** Updated: Jackson package ([2972bf6](https://github.com/algolia/algoliasearch-client-java-2/commit/2972bf6))
+- **misc:** Merge pull request #511 from algolia/fix-deleteobject-objectid ([b4cd0c9](https://github.com/algolia/algoliasearch-client-java-2/commit/b4cd0c9))
+- **Fixed:** Replaced algolia exception by IllegalArgumentException ([a684746](https://github.com/algolia/algoliasearch-client-java-2/commit/a684746))
+- **Added:** objectID parameter validity check before calling deleteObject method ([5a8ae8d](https://github.com/algolia/algoliasearch-client-java-2/commit/5a8ae8d))
+- **Changed:** Fix flaky tests for AB Testing ([f616cf3](https://github.com/algolia/algoliasearch-client-java-2/commit/f616cf3))
+- **Changed:** Use ALGOLIA_ prefixed environment variables for consistency ([f46d200](https://github.com/algolia/algoliasearch-client-java-2/commit/f46d200))
+- **Changed:** Remove the use of a static RequestOptions.empty which was error-prone with a mutable instance ([a20e216](https://github.com/algolia/algoliasearch-client-java-2/commit/a20e216))
+- **Added:** Support for Multi Cluster Management (MCM) ([acbcf89](https://github.com/algolia/algoliasearch-client-java-2/commit/acbcf89))
+- **misc:** Update README ([d7d78b5](https://github.com/algolia/algoliasearch-client-java-2/commit/d7d78b5))
+- **changed:** default hitsPerPage is 1000 for RulesIteratable ([d203841](https://github.com/algolia/algoliasearch-client-java-2/commit/d203841))
+- **Added:** Query Rules V2 ([d6b0e83](https://github.com/algolia/algoliasearch-client-java-2/commit/d6b0e83))
+- **fixed:** Change facetFilters type from List<String> to a new FacetFilters type to handle List<List<String>> case ([8013c24](https://github.com/algolia/algoliasearch-client-java-2/commit/8013c24))
+- **added:** Add .factorypath to the .gitignore ([233a823](https://github.com/algolia/algoliasearch-client-java-2/commit/233a823))
+- **misc:** [maven-release-plugin] prepare for next development iteration ([175805b](https://github.com/algolia/algoliasearch-client-java-2/commit/175805b))
+
 # [2.19.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.18.1...2.19.0) (2018-09-03)
 
 ### Summary
