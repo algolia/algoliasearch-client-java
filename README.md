@@ -59,7 +59,7 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 
 ## Supported platforms
 
-This API client only supports Java 1.8 & Java 1.9
+The API client only supports Java 1.8 & Java 1.9.
 If you need support for an older version, please use this [package](https://github.com/algolia/algoliasearch-client-java).
 
 ## Install
@@ -96,16 +96,16 @@ Or on `Google AppEngine`, use:
 
 #### Builder
 
-The `v2` of the api client uses a builder to create the `APIClient` object:
-* on `Google App Engine` use the `AppEngineAPIClientBuilder`
-  * if you fancy `Future`, use the `AsyncHttpAPIClientBuilder`
-* on `Android`, use the [`Android` API Client](https://github.com/algolia/algoliasearch-client-android)
-* on a regular `JVM`, use the `ApacheAPIClientBuilder`
+The `v2` of the API client uses a builder to create the `APIClient` object:
+* On `Google App Engine` use the `AppEngineAPIClientBuilder`
+  * If you fancy `Future`, use the `AsyncHttpAPIClientBuilder`
+* On `Android`, use the [Android API Client](https://github.com/algolia/algoliasearch-client-android)
+* On a regular `JVM`, use the `ApacheAPIClientBuilder`
 
-#### POJO, JSON & `Jackson2`
+#### POJO, JSON & Jackson2
 
-The Index (and AsyncIndex) classes are parametrized with a Java class. If you specify one it enables you to have type safe method results.
-This parametrized Java class is expected to follow the POJO convention:
+The `Index` (and `AsyncIndex`) classes are parametrized with a Java class. If you specify one, it lets you have type safe method results.
+This parametrized Java class should follow the POJO convention:
   * A constructor without parameters
   * Getters & setters for every field you want to (de)serialize
 
@@ -139,12 +139,12 @@ public class Contact {
 }
 ```
 
-All the serialization/deserialization is done with [`Jackson2`](https://github.com/FasterXML/jackson-core/wiki). You can add your custom `ObjectMapper` with the method `setObjectMapper` of the builder.
+All the serialization/deserialization is done with [Jackson2](https://github.com/FasterXML/jackson-core/wiki). You can add your custom `ObjectMapper` with the method `setObjectMapper` of the builder.
 Changing it might produce unexpected results. You can find the one used in the interface `com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER`.
 
 #### Async & Future
 
-All methods of the `AsyncAPIClient` are exactly the same as the `APIClient` but returns `CompletableFuture<?>`. All other classes are prefixes with `Async`. You can also pass an optional `ExecutorService` to the `build` of the `AsyncHttpAPIClientBuilder`.
+All methods of the `AsyncAPIClient` are exactly the same as the `APIClient` but return `CompletableFuture<?>`. All other classes are prefixed with `Async`. You can also pass an optional `ExecutorService` to the `build` of the `AsyncHttpAPIClientBuilder`.
 
 ## Quick Start
 
@@ -180,32 +180,36 @@ APIClient client =
 Index<Contact> index = client.initIndex("your_index_name", Contact.class);
 ```
 
+### Kotlin support
+
+Even though the Android client is written in Java, you can still use it in a Kotlin project, as long as you don't mix Java and Kotlin code in the same file.
+
 ## Push data
 
-Without any prior configuration, you can start indexing contacts in the ```contacts``` index using the following code:
+Without any prior configuration, you can start indexing contacts in the `contacts` index using the following code:
 
 ```java
 class Contact {
 
-	private String firstname;
-	private String lastname;
-	private int followers;
-	private String company;
+  private String firstname;
+  private String lastname;
+  private int followers;
+  private String company;
 
-	//Getters/Setters ommitted
+  // Getters/setters ommitted
 }
 
 Index<Contact> index = client.initIndex("contacts", Contact.class);
 index.addObject(new Contact()
-      .setFirstname("Jimmie")
-      .setLastname("Barninger")
-      .setFollowers(93)
-      .setCompany("California Paint"));
+     .setFirstname("Jimmie")
+     .setLastname("Barninger")
+     .setFollowers(93)
+     .setCompany("California Paint"));
 index.addObject(new JSONObject()
-      .setFirstname("Warren")
-      .setLastname("Speach")
-      .setFollowers(42)
-      .setCompany("Norwalk Crmc"));
+     .setFirstname("Warren")
+     .setLastname("Speach")
+     .setFollowers(42)
+     .setCompany("Norwalk Crmc"));
 ```
 
 If you prefer the async version:
@@ -213,15 +217,15 @@ If you prefer the async version:
 ```java
 AsyncIndex<Contact> index = client.initIndex("contacts", Contact.class);
 index.addObject(new Contact()
-      .setFirstname("Jimmie")
-      .setLastname("Barninger")
-      .setFollowers(93)
-      .setCompany("California Paint"));
+     .setFirstname("Jimmie")
+     .setLastname("Barninger")
+     .setFollowers(93)
+     .setCompany("California Paint"));
 index.addObject(new JSONObject()
-      .setFirstname("Warren")
-      .setLastname("Speach")
-      .setFollowers(42)
-      .setCompany("Norwalk Crmc"));
+     .setFirstname("Warren")
+     .setLastname("Speach")
+     .setFollowers(42)
+     .setCompany("Norwalk Crmc"));
 ```
 
 ## Configure
@@ -243,7 +247,7 @@ In this case, the order of attributes is very important to decide which hit is t
 // Sync & Async version
 
 index.setSettings(new IndexSettings().setSearchableAttributes(
-	Arrays.asList("lastname", "firstname", "company")
+  Arrays.asList("lastname", "firstname", "company")
 );
 ```
 
@@ -254,26 +258,26 @@ You can now search for contacts using `firstname`, `lastname`, `company`, etc. (
 ```java
 //Sync version
 
-// search by firstname
+// Search for a first name
 System.out.println(index.search(new Query("jimmie")));
-// search a firstname with typo
+// Search for a first name with typo
 System.out.println(index.search(new Query("jimie")));
-// search for a company
+// Search for a company
 System.out.println(index.search(new Query("california paint")));
-// search for a firstname & company
+// Search for a first name and a company
 System.out.println(index.search(new Query("jimmie paint")));
 ```
 
 ```java
 //Async version
 
-// search by firstname
+// Search for a first name
 System.out.println(index.search(new Query("jimmie")).get());
-// search a firstname with typo
+// Search for a first name with typo
 System.out.println(index.search(new Query("jimie")).get());
-// search for a company
+// Search for a company
 System.out.println(index.search(new Query("california paint")).get());
-// search for a firstname & company
+// Search for a first name and a company
 System.out.println(index.search(new Query("jimmie paint")).get());
 ```
 
@@ -364,7 +368,7 @@ search.start();
 
 - [Search index](https://algolia.com/doc/api-reference/api-methods/search/?language=java)
 - [Search for facet values](https://algolia.com/doc/api-reference/api-methods/search-for-facet-values/?language=java)
-- [Search multiple indexes](https://algolia.com/doc/api-reference/api-methods/multiple-queries/?language=java)
+- [Search multiple indices](https://algolia.com/doc/api-reference/api-methods/multiple-queries/?language=java)
 - [Browse index](https://algolia.com/doc/api-reference/api-methods/browse/?language=java)
 
 
@@ -373,7 +377,7 @@ search.start();
 ### Indexing
 
 - [Add objects](https://algolia.com/doc/api-reference/api-methods/add-objects/?language=java)
-- [Update objects](https://algolia.com/doc/api-reference/api-methods/update-objects/?language=java)
+- [Update objects](https://algolia.com/doc/api-reference/api-methods/save-objects/?language=java)
 - [Partial update objects](https://algolia.com/doc/api-reference/api-methods/partial-update-objects/?language=java)
 - [Delete objects](https://algolia.com/doc/api-reference/api-methods/delete-objects/?language=java)
 - [Delete by](https://algolia.com/doc/api-reference/api-methods/delete-by/?language=java)
@@ -429,13 +433,13 @@ search.start();
 
 ### Query rules
 
-- [Save rule](https://algolia.com/doc/api-reference/api-methods/rules-save/?language=java)
-- [Batch rules](https://algolia.com/doc/api-reference/api-methods/rules-save-batch/?language=java)
-- [Get rule](https://algolia.com/doc/api-reference/api-methods/rules-get/?language=java)
-- [Delete rule](https://algolia.com/doc/api-reference/api-methods/rules-delete/?language=java)
-- [Clear rules](https://algolia.com/doc/api-reference/api-methods/rules-clear/?language=java)
-- [Search rules](https://algolia.com/doc/api-reference/api-methods/rules-search/?language=java)
-- [Export rules](https://algolia.com/doc/api-reference/api-methods/rules-export/?language=java)
+- [Save rule](https://algolia.com/doc/api-reference/api-methods/save-rule/?language=java)
+- [Batch rules](https://algolia.com/doc/api-reference/api-methods/batch-rules/?language=java)
+- [Get rule](https://algolia.com/doc/api-reference/api-methods/get-rule/?language=java)
+- [Delete rule](https://algolia.com/doc/api-reference/api-methods/delete-rule/?language=java)
+- [Clear rules](https://algolia.com/doc/api-reference/api-methods/clear-rules/?language=java)
+- [Search rules](https://algolia.com/doc/api-reference/api-methods/search-rules/?language=java)
+- [Export rules](https://algolia.com/doc/api-reference/api-methods/export-rules/?language=java)
 
 
 
