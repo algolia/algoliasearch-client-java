@@ -11,10 +11,7 @@ import com.algolia.search.responses.SearchRuleResult;
 import com.google.common.collect.ImmutableMap;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import org.junit.Test;
 
 @SuppressWarnings("ConstantConditions")
@@ -201,7 +198,7 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
     ConsequenceQueryObject consequenceQuery = new ConsequenceQueryObject().setEdits(edits);
 
     ConsequenceParams params =
-        new ConsequenceParams()
+        new ConsequenceParams<>()
             .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));
 
     params.setQuery(consequenceQuery);
@@ -234,7 +231,7 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
             .setRemove(Collections.singletonList("{facet:products.properties.fbrand}"));
 
     ConsequenceParams params =
-        new ConsequenceParams()
+        new ConsequenceParams<>()
             .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));
 
     params.setQuery(consequenceQuery);
@@ -272,7 +269,7 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
             new AutomaticFacetFilter("products.properties.fbrand"));
 
     ConsequenceParams params =
-        new ConsequenceParams().setAutomaticFacetFilters(automaticFacetFilters);
+        new ConsequenceParams<>().setAutomaticFacetFilters(automaticFacetFilters);
 
     params.setQuery(consequenceQuery);
     Consequence consequence = new Consequence().setParams(params);
@@ -309,7 +306,7 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
             new AutomaticFacetFilter("products.properties.fbrand"));
 
     ConsequenceParams params =
-        new ConsequenceParams().setAutomaticOptionalFacetFilters(optionalAutomaticFacetFilters);
+        new ConsequenceParams<>().setAutomaticOptionalFacetFilters(optionalAutomaticFacetFilters);
 
     params.setQuery(consequenceQuery);
     Consequence consequence = new Consequence().setParams(params);

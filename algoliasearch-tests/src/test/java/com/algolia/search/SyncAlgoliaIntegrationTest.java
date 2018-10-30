@@ -74,7 +74,7 @@ public abstract class SyncAlgoliaIntegrationTest {
     Consequence ruleConsequence =
         new Consequence()
             .setUserData(ImmutableMap.of("a", "b"))
-            .setParams(new ConsequenceParams().setFacets("a=1"));
+            .setParams(new ConsequenceParams<>().setFacets("a=1"));
 
     return new Rule()
         .setObjectID(objectID)
