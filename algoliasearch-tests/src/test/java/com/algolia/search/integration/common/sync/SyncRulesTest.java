@@ -133,7 +133,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
             .setRemove(Collections.singletonList("{facet:products.properties.fbrand}"));
 
     ConsequenceParams params =
-        new ConsequenceParams()
+        new ConsequenceParams<>()
             .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));
 
     params.setQuery(consequenceQuery);
@@ -290,7 +290,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
     ConsequenceQueryObject consequenceQuery = new ConsequenceQueryObject().setEdits(edits);
 
     ConsequenceParams params =
-        new ConsequenceParams()
+        new ConsequenceParams<>()
             .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));
 
     params.setQuery(consequenceQuery);
@@ -323,7 +323,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
             .setRemove(Collections.singletonList("{facet:products.properties.fbrand}"));
 
     ConsequenceParams params =
-        new ConsequenceParams()
+        new ConsequenceParams<>()
             .setAutomaticFacetFilters(Collections.singletonList("products.properties.fbrand"));
     ;
 
@@ -362,7 +362,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
             new AutomaticFacetFilter("products.properties.fbrand"));
 
     ConsequenceParams params =
-        new ConsequenceParams().setAutomaticFacetFilters(automaticFacetFilters);
+        new ConsequenceParams<>().setAutomaticFacetFilters(automaticFacetFilters);
 
     params.setQuery(consequenceQuery);
     Consequence consequence = new Consequence().setParams(params);
@@ -399,7 +399,7 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
             new AutomaticFacetFilter("products.properties.fbrand"));
 
     ConsequenceParams params =
-        new ConsequenceParams().setAutomaticOptionalFacetFilters(optionalAutomaticFacetFilters);
+        new ConsequenceParams<>().setAutomaticOptionalFacetFilters(optionalAutomaticFacetFilters);
 
     params.setQuery(consequenceQuery);
     Consequence consequence = new Consequence().setParams(params);

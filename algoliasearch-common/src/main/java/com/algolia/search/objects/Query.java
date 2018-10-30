@@ -12,7 +12,7 @@ import java.util.Map;
 @SuppressWarnings({"unused", "WeakerAccess"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Query implements Serializable {
+public class Query<T extends Query<?>> implements Serializable {
 
   /* advanced */
   protected Distinct distinct;
@@ -299,105 +299,105 @@ public class Query implements Serializable {
     return builder.toString();
   }
 
-  public Query setAroundRadius(AroundRadius aroundRadius) {
+  public T setAroundRadius(AroundRadius aroundRadius) {
     this.aroundRadius = aroundRadius;
-    return this;
+    return (T) this;
   }
 
   @JsonAnySetter
-  public Query addCustomParameter(String key, String value) {
+  public T addCustomParameter(String key, String value) {
     this.customParameters.put(key, value);
-    return this;
+    return (T) this;
   }
 
   public Distinct getDistinct() {
     return distinct;
   }
 
-  public Query setDistinct(Distinct distinct) {
+  public T setDistinct(Distinct distinct) {
     this.distinct = distinct;
-    return this;
+    return (T) this;
   }
 
   public Boolean getGetRankingInfo() {
     return getRankingInfo;
   }
 
-  public Query setGetRankingInfo(Boolean getRankingInfo) {
+  public T setGetRankingInfo(Boolean getRankingInfo) {
     this.getRankingInfo = getRankingInfo;
-    return this;
+    return (T) this;
   }
 
   public List<String> getNumericFilters() {
     return numericFilters;
   }
 
-  public Query setNumericFilters(List<String> numericFilters) {
+  public T setNumericFilters(List<String> numericFilters) {
     this.numericFilters = numericFilters;
-    return this;
+    return (T) this;
   }
 
   public List<String> getTagFilters() {
     return tagFilters;
   }
 
-  public Query setTagFilters(List<String> tagFilters) {
+  public T setTagFilters(List<String> tagFilters) {
     this.tagFilters = tagFilters;
-    return this;
+    return (T) this;
   }
 
   public Boolean getAnalytics() {
     return analytics;
   }
 
-  public Query setAnalytics(Boolean analytics) {
+  public T setAnalytics(Boolean analytics) {
     this.analytics = analytics;
-    return this;
+    return (T) this;
   }
 
   public String getAnalyticsTags() {
     return analyticsTags;
   }
 
-  public Query setAnalyticsTags(String analyticsTags) {
+  public T setAnalyticsTags(String analyticsTags) {
     this.analyticsTags = analyticsTags;
-    return this;
+    return (T) this;
   }
 
   public Boolean getSynonyms() {
     return synonyms;
   }
 
-  public Query setSynonyms(Boolean synonyms) {
+  public T setSynonyms(Boolean synonyms) {
     this.synonyms = synonyms;
-    return this;
+    return (T) this;
   }
 
   public Boolean getReplaceSynonymsInHighlight() {
     return replaceSynonymsInHighlight;
   }
 
-  public Query setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
+  public T setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
     this.replaceSynonymsInHighlight = replaceSynonymsInHighlight;
-    return this;
+    return (T) this;
   }
 
   public Integer getMinProximity() {
     return minProximity;
   }
 
-  public Query setMinProximity(Integer minProximity) {
+  public T setMinProximity(Integer minProximity) {
     this.minProximity = minProximity;
-    return this;
+    return (T) this;
   }
 
   public List<String> getResponseFields() {
     return responseFields;
   }
 
-  public Query setResponseFields(List<String> responseFields) {
+  public T setResponseFields(List<String> responseFields) {
     this.responseFields = responseFields;
-    return this;
+    return (T) this;
   }
 
   public Long getMaxFacetHits() {
@@ -405,67 +405,67 @@ public class Query implements Serializable {
   }
 
   @JsonSetter
-  public Query setMaxFacetHits(Long maxFacetHits) {
+  public T setMaxFacetHits(Long maxFacetHits) {
     this.maxFacetHits = maxFacetHits;
-    return this;
+    return (T) this;
   }
 
-  public Query setMaxFacetHits(Integer maxFacetHits) {
-    return this.setMaxFacetHits(maxFacetHits.longValue());
+  public T setMaxFacetHits(Integer maxFacetHits) {
+    return (T) this.setMaxFacetHits(maxFacetHits.longValue());
   }
 
   public Boolean getPercentileComputation() {
     return percentileComputation;
   }
 
-  public Query setPercentileComputation(Boolean percentileComputation) {
+  public T setPercentileComputation(Boolean percentileComputation) {
     this.percentileComputation = percentileComputation;
-    return this;
+    return (T) this;
   }
 
   public List<String> getQueryLanguages() {
     return queryLanguages;
   }
 
-  public Query setQueryLanguages(List<String> queryLanguages) {
+  public T setQueryLanguages(List<String> queryLanguages) {
     this.queryLanguages = queryLanguages;
-    return this;
+    return (T) this;
   }
 
   public List<String> getAttributesToRetrieve() {
     return attributesToRetrieve;
   }
 
-  public Query setAttributesToRetrieve(List<String> attributesToRetrieve) {
+  public T setAttributesToRetrieve(List<String> attributesToRetrieve) {
     this.attributesToRetrieve = attributesToRetrieve;
-    return this;
+    return (T) this;
   }
 
   public List<String> getRestrictSearchableAttributes() {
     return restrictSearchableAttributes;
   }
 
-  public Query setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
+  public T setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
     this.restrictSearchableAttributes = restrictSearchableAttributes;
-    return this;
+    return (T) this;
   }
 
   public String getFilters() {
     return filters;
   }
 
-  public Query setFilters(String filters) {
+  public T setFilters(String filters) {
     this.filters = filters;
-    return this;
+    return (T) this;
   }
 
   public String getFacets() {
     return facets;
   }
 
-  public Query setFacets(String facets) {
+  public T setFacets(String facets) {
     this.facets = facets;
-    return this;
+    return (T) this;
   }
 
   public Long getMaxValuesPerFacet() {
@@ -473,13 +473,13 @@ public class Query implements Serializable {
   }
 
   @JsonSetter
-  public Query setMaxValuesPerFacet(Long maxValuesPerFacet) {
+  public T setMaxValuesPerFacet(Long maxValuesPerFacet) {
     this.maxValuesPerFacet = maxValuesPerFacet;
-    return this;
+    return (T) this;
   }
 
-  public Query setMaxValuesPerFacet(Integer maxValuesPerFacet) {
-    return this.setMaxValuesPerFacet(maxValuesPerFacet.longValue());
+  public T setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+    return (T) this.setMaxValuesPerFacet(maxValuesPerFacet.longValue());
   }
 
   public FacetFilters getFacetFilters() {
@@ -487,42 +487,42 @@ public class Query implements Serializable {
   }
 
   @Deprecated
-  public Query setFacetFilters(List<String> facetFilters) {
+  public T setFacetFilters(List<String> facetFilters) {
     this.facetFilters = new FacetFiltersAsListOfString(facetFilters);
-    return this;
+    return (T) this;
   }
 
   @JsonSetter
-  public Query setFacetFilters(FacetFilters facetFilters) {
+  public T setFacetFilters(FacetFilters facetFilters) {
     this.facetFilters = facetFilters;
-    return this;
+    return (T) this;
   }
 
   public Boolean getFacetingAfterDistinct() {
     return facetingAfterDistinct;
   }
 
-  public Query setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
+  public T setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
     this.facetingAfterDistinct = facetingAfterDistinct;
-    return this;
+    return (T) this;
   }
 
   public String getAroundLatLng() {
     return aroundLatLng;
   }
 
-  public Query setAroundLatLng(String aroundLatLng) {
+  public T setAroundLatLng(String aroundLatLng) {
     this.aroundLatLng = aroundLatLng;
-    return this;
+    return (T) this;
   }
 
   public Boolean getAroundLatLngViaIP() {
     return aroundLatLngViaIP;
   }
 
-  public Query setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
+  public T setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
     this.aroundLatLngViaIP = aroundLatLngViaIP;
-    return this;
+    return (T) this;
   }
 
   public AroundRadius getAroundRadius() {
@@ -533,90 +533,90 @@ public class Query implements Serializable {
     return aroundPrecision;
   }
 
-  public Query setAroundPrecision(Integer aroundPrecision) {
+  public T setAroundPrecision(Integer aroundPrecision) {
     this.aroundPrecision = aroundPrecision;
-    return this;
+    return (T) this;
   }
 
   public Integer getMinimumAroundRadius() {
     return minimumAroundRadius;
   }
 
-  public Query setMinimumAroundRadius(Integer minimumAroundRadius) {
+  public T setMinimumAroundRadius(Integer minimumAroundRadius) {
     this.minimumAroundRadius = minimumAroundRadius;
-    return this;
+    return (T) this;
   }
 
   public List<String> getInsideBoundingBox() {
     return insideBoundingBox;
   }
 
-  public Query setInsideBoundingBox(List<String> insideBoundingBox) {
+  public T setInsideBoundingBox(List<String> insideBoundingBox) {
     this.insideBoundingBox = insideBoundingBox;
-    return this;
+    return (T) this;
   }
 
   public List<String> getInsidePolygon() {
     return insidePolygon;
   }
 
-  public Query setInsidePolygon(List<String> insidePolygon) {
+  public T setInsidePolygon(List<String> insidePolygon) {
     this.insidePolygon = insidePolygon;
-    return this;
+    return (T) this;
   }
 
   public List<String> getAttributesToHighlight() {
     return attributesToHighlight;
   }
 
-  public Query setAttributesToHighlight(List<String> attributesToHighlight) {
+  public T setAttributesToHighlight(List<String> attributesToHighlight) {
     this.attributesToHighlight = attributesToHighlight;
-    return this;
+    return (T) this;
   }
 
   public List<String> getAttributesToSnippet() {
     return attributesToSnippet;
   }
 
-  public Query setAttributesToSnippet(List<String> attributesToSnippet) {
+  public T setAttributesToSnippet(List<String> attributesToSnippet) {
     this.attributesToSnippet = attributesToSnippet;
-    return this;
+    return (T) this;
   }
 
   public String getHighlightPreTag() {
     return highlightPreTag;
   }
 
-  public Query setHighlightPreTag(String highlightPreTag) {
+  public T setHighlightPreTag(String highlightPreTag) {
     this.highlightPreTag = highlightPreTag;
-    return this;
+    return (T) this;
   }
 
   public String getHighlightPostTag() {
     return highlightPostTag;
   }
 
-  public Query setHighlightPostTag(String highlightPostTag) {
+  public T setHighlightPostTag(String highlightPostTag) {
     this.highlightPostTag = highlightPostTag;
-    return this;
+    return (T) this;
   }
 
   public String getSnippetEllipsisText() {
     return snippetEllipsisText;
   }
 
-  public Query setSnippetEllipsisText(String snippetEllipsisText) {
+  public T setSnippetEllipsisText(String snippetEllipsisText) {
     this.snippetEllipsisText = snippetEllipsisText;
-    return this;
+    return (T) this;
   }
 
   public Boolean getRestrictHighlightAndSnippetArrays() {
     return restrictHighlightAndSnippetArrays;
   }
 
-  public Query setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
+  public T setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
     this.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays;
-    return this;
+    return (T) this;
   }
 
   public Long getPage() {
@@ -624,13 +624,13 @@ public class Query implements Serializable {
   }
 
   @JsonSetter
-  public Query setPage(Long page) {
+  public T setPage(Long page) {
     this.page = page;
-    return this;
+    return (T) this;
   }
 
-  public Query setPage(Integer page) {
-    return this.setPage(page.longValue());
+  public T setPage(Integer page) {
+    return (T) this.setPage(page.longValue());
   }
 
   public Long getHitsPerPage() {
@@ -638,13 +638,13 @@ public class Query implements Serializable {
   }
 
   @JsonSetter
-  public Query setHitsPerPage(Long hitsPerPage) {
+  public T setHitsPerPage(Long hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
-    return this;
+    return (T) this;
   }
 
-  public Query setHitsPerPage(Integer hitsPerPage) {
-    return this.setHitsPerPage(hitsPerPage.longValue());
+  public T setHitsPerPage(Integer hitsPerPage) {
+    return (T) this.setHitsPerPage(hitsPerPage.longValue());
   }
 
   public Long getOffset() {
@@ -652,13 +652,13 @@ public class Query implements Serializable {
   }
 
   @JsonSetter
-  public Query setOffset(Long offset) {
+  public T setOffset(Long offset) {
     this.offset = offset;
-    return this;
+    return (T) this;
   }
 
-  public Query setOffset(Integer offset) {
-    return this.setOffset(offset.longValue());
+  public T setOffset(Integer offset) {
+    return (T) this.setOffset(offset.longValue());
   }
 
   public Long getLength() {
@@ -666,216 +666,216 @@ public class Query implements Serializable {
   }
 
   @JsonSetter
-  public Query setLength(Long length) {
+  public T setLength(Long length) {
     this.length = length;
-    return this;
+    return (T) this;
   }
 
-  public Query setLength(Integer length) {
-    return this.setLength(length.longValue());
+  public T setLength(Integer length) {
+    return (T) this.setLength(length.longValue());
   }
 
   public String getQueryType() {
     return queryType;
   }
 
-  public Query setQueryType(String queryType) {
+  public T setQueryType(String queryType) {
     this.queryType = queryType;
-    return this;
+    return (T) this;
   }
 
   public RemoveWordsType getRemoveWordsIfNoResults() {
     return removeWordsIfNoResults;
   }
 
-  public Query setRemoveWordsIfNoResults(RemoveWordsType removeWordsIfNoResults) {
+  public T setRemoveWordsIfNoResults(RemoveWordsType removeWordsIfNoResults) {
     this.removeWordsIfNoResults = removeWordsIfNoResults;
-    return this;
+    return (T) this;
   }
 
   public Boolean getAdvancedSyntax() {
     return advancedSyntax;
   }
 
-  public Query setAdvancedSyntax(Boolean advancedSyntax) {
+  public T setAdvancedSyntax(Boolean advancedSyntax) {
     this.advancedSyntax = advancedSyntax;
-    return this;
+    return (T) this;
   }
 
   public List<String> getOptionalWords() {
     return optionalWords;
   }
 
-  public Query setOptionalWords(List<String> optionalWords) {
+  public T setOptionalWords(List<String> optionalWords) {
     this.optionalWords = optionalWords;
-    return this;
+    return (T) this;
   }
 
   public RemoveStopWords getRemoveStopWords() {
     return removeStopWords;
   }
 
-  public Query setRemoveStopWords(RemoveStopWords removeStopWords) {
+  public T setRemoveStopWords(RemoveStopWords removeStopWords) {
     this.removeStopWords = removeStopWords;
-    return this;
+    return (T) this;
   }
 
   public List<String> getDisableExactOnAttributes() {
     return disableExactOnAttributes;
   }
 
-  public Query setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
+  public T setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
     this.disableExactOnAttributes = disableExactOnAttributes;
-    return this;
+    return (T) this;
   }
 
   public String getExactOnSingleWordQuery() {
     return exactOnSingleWordQuery;
   }
 
-  public Query setExactOnSingleWordQuery(String exactOnSingleWordQuery) {
+  public T setExactOnSingleWordQuery(String exactOnSingleWordQuery) {
     this.exactOnSingleWordQuery = exactOnSingleWordQuery;
-    return this;
+    return (T) this;
   }
 
   public List<String> getAlternativesAsExact() {
     return alternativesAsExact;
   }
 
-  public Query setAlternativesAsExact(List<String> alternativesAsExact) {
+  public T setAlternativesAsExact(List<String> alternativesAsExact) {
     this.alternativesAsExact = alternativesAsExact;
-    return this;
+    return (T) this;
   }
 
   public Integer getMinWordSizefor1Typo() {
     return minWordSizefor1Typo;
   }
 
-  public Query setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
+  public T setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
     this.minWordSizefor1Typo = minWordSizefor1Typo;
-    return this;
+    return (T) this;
   }
 
   public Integer getMinWordSizefor2Typos() {
     return minWordSizefor2Typos;
   }
 
-  public Query setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
+  public T setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
     this.minWordSizefor2Typos = minWordSizefor2Typos;
-    return this;
+    return (T) this;
   }
 
   public TypoTolerance getTypoTolerance() {
     return typoTolerance;
   }
 
-  public Query setTypoTolerance(TypoTolerance typoTolerance) {
+  public T setTypoTolerance(TypoTolerance typoTolerance) {
     this.typoTolerance = typoTolerance;
-    return this;
+    return (T) this;
   }
 
   public Boolean getAllowTyposOnNumericTokens() {
     return allowTyposOnNumericTokens;
   }
 
-  public Query setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
+  public T setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
     this.allowTyposOnNumericTokens = allowTyposOnNumericTokens;
-    return this;
+    return (T) this;
   }
 
   public IgnorePlurals getIgnorePlurals() {
     return ignorePlurals;
   }
 
-  public Query setIgnorePlurals(IgnorePlurals ignorePlurals) {
+  public T setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
-    return this;
+    return (T) this;
   }
 
   public List<String> getDisableTypoToleranceOnAttributes() {
     return disableTypoToleranceOnAttributes;
   }
 
-  public Query setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
+  public T setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
     this.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes;
-    return this;
+    return (T) this;
   }
 
   public String getUserToken() {
     return userToken;
   }
 
-  public Query setUserToken(String userToken) {
+  public T setUserToken(String userToken) {
     this.userToken = userToken;
-    return this;
+    return (T) this;
   }
 
   public Integer getValidUntil() {
     return validUntil;
   }
 
-  public Query setValidUntil(Integer validUntil) {
+  public T setValidUntil(Integer validUntil) {
     this.validUntil = validUntil;
-    return this;
+    return (T) this;
   }
 
   public List<String> getRestrictIndices() {
     return restrictIndices;
   }
 
-  public Query setRestrictIndices(List<String> restrictIndices) {
+  public T setRestrictIndices(List<String> restrictIndices) {
     this.restrictIndices = restrictIndices;
-    return this;
+    return (T) this;
   }
 
   public String getRestrictSources() {
     return restrictSources;
   }
 
-  public Query setRestrictSources(String restrictSources) {
+  public T setRestrictSources(String restrictSources) {
     this.restrictSources = restrictSources;
-    return this;
+    return (T) this;
   }
 
   public String getCursor() {
     return cursor;
   }
 
-  public Query setCursor(String cursor) {
+  public T setCursor(String cursor) {
     this.cursor = cursor;
-    return this;
+    return (T) this;
   }
 
   public Boolean getEnableRules() {
     return enableRules;
   }
 
-  public Query setEnableRules(Boolean enableRules) {
+  public T setEnableRules(Boolean enableRules) {
     this.enableRules = enableRules;
-    return this;
+    return (T) this;
   }
 
   public List<String> getRuleContexts() {
     return ruleContexts;
   }
 
-  public Query setRuleContexts(List<String> ruleContexts) {
+  public T setRuleContexts(List<String> ruleContexts) {
     this.ruleContexts = ruleContexts;
-    return this;
+    return (T) this;
   }
 
-  public Query setQuery(String query) {
+  public T setQuery(String query) {
     this.query = query;
-    return this;
+    return (T) this;
   }
 
   public String getSortFacetValuesBy() {
     return sortFacetValuesBy;
   }
 
-  public Query setSortFacetValuesBy(String sortFacetValuesBy) {
+  public T setSortFacetValuesBy(String sortFacetValuesBy) {
     this.sortFacetValuesBy = sortFacetValuesBy;
-    return this;
+    return (T) this;
   }
 
   @JsonAnyGetter
@@ -884,9 +884,9 @@ public class Query implements Serializable {
   }
 
   @JsonAnySetter
-  public Query setCustomParameters(Map<String, Object> customParameters) {
+  public T setCustomParameters(Map<String, Object> customParameters) {
     this.customParameters = customParameters;
-    return this;
+    return (T) this;
   }
 
   @Override
