@@ -180,10 +180,6 @@ APIClient client =
 Index<Contact> index = client.initIndex("your_index_name", Contact.class);
 ```
 
-### Kotlin support
-
-Even though the Android client is written in Java, you can still use it in a Kotlin project, as long as you don't mix Java and Kotlin code in the same file.
-
 ## Push data
 
 Without any prior configuration, you can start indexing contacts in the `contacts` index using the following code:
