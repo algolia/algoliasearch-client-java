@@ -2,7 +2,7 @@ package com.algolia.search.inputs.query_rules;
 
 import com.algolia.search.Defaults;
 import com.algolia.search.objects.AutomaticFacetFilter;
-import com.algolia.search.objects.Query;
+import com.algolia.search.objects.QueryBase;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ConsequenceParams<T> extends Query<ConsequenceParams<T>> {
+public class ConsequenceParams<T> extends QueryBase<ConsequenceParams<T>> {
   private ConsequenceQuery query;
 
   @JsonDeserialize(using = AutomaticFacetFilterDeserializer.class)

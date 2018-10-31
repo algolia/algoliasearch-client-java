@@ -362,7 +362,8 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
             new AutomaticFacetFilter("products.properties.fbrand"));
 
     ConsequenceParams params =
-        new ConsequenceParams<>().setAutomaticFacetFilters(automaticFacetFilters);
+        new ConsequenceParams<AutomaticFacetFilter>()
+            .setAutomaticFacetFilters(automaticFacetFilters);
 
     params.setQuery(consequenceQuery);
     Consequence consequence = new Consequence().setParams(params);
@@ -399,7 +400,8 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
             new AutomaticFacetFilter("products.properties.fbrand"));
 
     ConsequenceParams params =
-        new ConsequenceParams<>().setAutomaticOptionalFacetFilters(optionalAutomaticFacetFilters);
+        new ConsequenceParams<AutomaticFacetFilter>()
+            .setAutomaticOptionalFacetFilters(optionalAutomaticFacetFilters);
 
     params.setQuery(consequenceQuery);
     Consequence consequence = new Consequence().setParams(params);
