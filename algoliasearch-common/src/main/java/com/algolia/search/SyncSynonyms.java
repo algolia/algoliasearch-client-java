@@ -245,6 +245,34 @@ public interface SyncSynonyms<T> extends SyncBaseIndex<T> {
   }
 
   /**
+   * Replace a list of synonyms
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward the operation to the slave indices
+   * @return the associated task
+   */
+  default Task replaceAllSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas) throws AlgoliaException {
+    return replaceAllSynonyms(synonyms, forwardToReplicas, new RequestOptions());
+  }
+
+  /**
+   * Replace a list of synonyms
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward the operation to the slave indices
+   * @param requestOptions Options to pass to this request
+   * @return the associated task
+   */
+  default Task replaceAllSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms,
+      boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    return batchSynonyms(synonyms, forwardToReplicas, true, requestOptions);
+  }
+
+  /**
    * Add or Replace a list of synonyms, no replacement
    *
    * @param synonyms List of synonyms

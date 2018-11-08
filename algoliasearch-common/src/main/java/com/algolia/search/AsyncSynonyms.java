@@ -238,6 +238,33 @@ public interface AsyncSynonyms<T> extends AsyncBaseIndex<T> {
   }
 
   /**
+   * Replace a list of synonyms
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward the operation to the slave indices
+   * @return the associated task
+   */
+  default CompletableFuture<AsyncTask> replaceAllSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms, boolean forwardToReplicas) {
+    return replaceAllSynonyms(synonyms, forwardToReplicas, new RequestOptions());
+  }
+
+  /**
+   * Replace a list of synonyms
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward the operation to the slave indices
+   * @param requestOptions Options to pass to this request
+   * @return the associated task
+   */
+  default CompletableFuture<AsyncTask> replaceAllSynonyms(
+      @Nonnull List<AbstractSynonym> synonyms,
+      boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
+    return batchSynonyms(synonyms, forwardToReplicas, true, requestOptions);
+  }
+
+  /**
    * Add or Replace a list of synonyms, no replacement
    *
    * @param synonyms List of synonyms

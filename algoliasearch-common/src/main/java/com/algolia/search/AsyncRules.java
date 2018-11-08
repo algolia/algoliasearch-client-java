@@ -197,7 +197,7 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
   }
 
   /**
-   * Add and replace a list of Rules
+   * Replace a list of Rules
    *
    * @param rules List of Rules
    * @param forwardToReplicas Forward the operation to the replicas indices
@@ -209,7 +209,7 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
   }
 
   /**
-   * Add and replace a list of Rules
+   * Replace a list of Rules
    *
    * @param rules List of Rules
    * @param forwardToReplicas Forward the operation to the replicas indices

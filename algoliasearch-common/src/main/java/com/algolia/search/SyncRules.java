@@ -195,7 +195,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
   }
 
   /**
-   * Add and replace a list of query Rules
+   * Replace a list of query Rules
    *
    * @param rules List of query Rules
    * @param forwardToReplicas Forward the operation to the slave indices
@@ -207,7 +207,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
   }
 
   /**
-   * Add and replace a list of query Rules
+   * Replace a list of query Rules
    *
    * @param rules List of query Rules
    * @param forwardToReplicas Forward the operation to the slave indices
