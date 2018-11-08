@@ -230,6 +230,38 @@ public class APIClient {
   }
 
   /**
+   * Copy all the synonyms from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   */
+  public Task copySynonyms(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
+      throws AlgoliaException {
+    List<String> scope = new ArrayList<>(Collections.singletonList("synonyms"));
+    return copyIndex(srcIndexName, dstIndexName, scope, new RequestOptions());
+  }
+
+  /**
+   * Copy all the synonyms from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  public Task copySynonyms(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    List<String> scope = new ArrayList<>(Collections.singletonList("synonyms"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
    * Delete an existing index
    *
    * @param indexName The index name that will be deleted
