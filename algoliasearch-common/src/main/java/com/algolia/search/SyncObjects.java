@@ -5,6 +5,8 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.objects.tasks.sync.TaskIndexing;
 import com.algolia.search.objects.tasks.sync.TaskSingleIndex;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
@@ -204,6 +206,58 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
   default TaskSingleIndex saveObjects(
       @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return getApiClient().saveObjects(getName(), objects, requestOptions);
+  }
+
+  /**
+   * Replace all objects
+   *
+   * @param objects the list objects to update
+   * @param safe run the method in a safe way
+   * @return the associated Task
+   */
+  default List<Task> replaceAllObjects(@Nonnull List<T> objects, boolean safe)
+      throws AlgoliaException {
+    return replaceAllObjects(objects, safe, new RequestOptions());
+  }
+
+  /**
+   * Replace all objects
+   *
+   * @param objects the list objects to update
+   * @param safe run the method in a safe way
+   * @param requestOptions Options to pass to this request
+   * @return the associated Task
+   */
+  default List<Task> replaceAllObjects(
+      @Nonnull List<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+
+    List<Task> ret = new ArrayList<>();
+    String tmpName = this.getName() + "_tmp";
+
+    // Copy all index resources from production index
+    List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
+
+    Task copyIndexResponse = getApiClient().copyIndex(getName(), tmpName, scope, requestOptions);
+    ret.add(copyIndexResponse);
+
+    if (safe) {
+      getApiClient().waitTask(copyIndexResponse);
+    }
+
+    // Send records (batched automatically)
+    Task batchResponse = getApiClient().saveObjects(tmpName, objects, requestOptions);
+    ret.add(batchResponse);
+
+    if (safe) {
+      getApiClient().waitTask(batchResponse);
+    }
+
+    // Move temporary index to production
+    Task moveIndexResponse = getApiClient().moveIndex(getName(), tmpName, requestOptions);
+    ret.add(moveIndexResponse);
+
+    return ret;
   }
 
   /**
