@@ -197,6 +197,33 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
   }
 
   /**
+   * Add and replace a list of Rules
+   *
+   * @param rules List of Rules
+   * @param forwardToReplicas Forward the operation to the replicas indices
+   * @return the associated task
+   */
+  default CompletableFuture<AsyncTask> replaceAllRules(
+      @Nonnull List<Rule> rules, boolean forwardToReplicas) {
+    return replaceAllRules(rules, forwardToReplicas, new RequestOptions());
+  }
+
+  /**
+   * Add and replace a list of Rules
+   *
+   * @param rules List of Rules
+   * @param forwardToReplicas Forward the operation to the replicas indices
+   * @param requestOptions Options to pass to this request
+   * @return the associated task
+   */
+  default CompletableFuture<AsyncTask> replaceAllRules(
+      @Nonnull List<Rule> rules,
+      boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
+    return batchRules(rules, forwardToReplicas, true, requestOptions);
+  }
+
+  /**
    * Add or replace a list of Rules
    *
    * @param rules List of Rules
