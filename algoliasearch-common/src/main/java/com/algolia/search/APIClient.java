@@ -238,7 +238,7 @@ public class APIClient {
    * @return The task associated
    */
   public Task copySynonyms(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
-          throws AlgoliaException {
+      throws AlgoliaException {
     return copySynonyms(srcIndexName, dstIndexName, new RequestOptions());
   }
 
@@ -252,10 +252,10 @@ public class APIClient {
    * @return The task associated
    */
   public Task copySynonyms(
-          @Nonnull String srcIndexName,
-          @Nonnull String dstIndexName,
-          @Nonnull RequestOptions requestOptions)
-          throws AlgoliaException {
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
     List<String> scope = new ArrayList<>(Collections.singletonList("synonyms"));
     return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
   }
@@ -269,7 +269,7 @@ public class APIClient {
    * @return The task associated
    */
   public Task copyRules(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
-          throws AlgoliaException {
+      throws AlgoliaException {
     return copyRules(srcIndexName, dstIndexName, new RequestOptions());
   }
 
@@ -283,11 +283,42 @@ public class APIClient {
    * @return The task associated
    */
   public Task copyRules(
-          @Nonnull String srcIndexName,
-          @Nonnull String dstIndexName,
-          @Nonnull RequestOptions requestOptions)
-          throws AlgoliaException {
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
     List<String> scope = new ArrayList<>(Collections.singletonList("rules"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   */
+  public Task copySettings(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
+      throws AlgoliaException {
+    return copySettings(srcIndexName, dstIndexName, new RequestOptions());
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  public Task copySettings(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    List<String> scope = new ArrayList<>(Collections.singletonList("settings"));
     return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
   }
 
