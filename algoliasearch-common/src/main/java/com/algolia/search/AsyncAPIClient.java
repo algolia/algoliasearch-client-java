@@ -225,8 +225,7 @@ public class AsyncAPIClient {
    */
   public CompletableFuture<AsyncTask> copySynonyms(
           @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
-    List<String> scope = new ArrayList<>(Collections.singletonList("synonyms"));
-    return copyIndex(srcIndexName, dstIndexName, scope, new RequestOptions());
+    return copyIndex(srcIndexName, dstIndexName, new RequestOptions());
   }
 
   /**
@@ -243,6 +242,36 @@ public class AsyncAPIClient {
           @Nonnull String dstIndexName,
           @Nonnull RequestOptions requestOptions) {
     List<String> scope = new ArrayList<>(Collections.singletonList("synonyms"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> copyRules(
+          @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
+    return copyRules(srcIndexName, dstIndexName, new RequestOptions());
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> copyRules(
+          @Nonnull String srcIndexName,
+          @Nonnull String dstIndexName,
+          @Nonnull RequestOptions requestOptions) {
+    List<String> scope = new ArrayList<>(Collections.singletonList("rules"));
     return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
   }
 
