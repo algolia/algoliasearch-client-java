@@ -147,7 +147,8 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @param requestOptions request options
    * @throws AlgoliaException Algolia Exception
    */
-  default void reIndex(@Nonnull IndexContent<T> indexContent, @Nonnull RequestOptions requestOptions)
+  default void reIndex(
+      @Nonnull IndexContent<T> indexContent, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
 
     // 1. Init temps Index
@@ -175,10 +176,21 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
     }
 
     // 3. Fetch your data with the iterator and push it to the temporary index
-    ArrayList<T> records = Lists.newArrayList(indexContent.getObjects());
+    ArrayList<T> records = new ArrayList<>();
 
-    for (List<T> chunk : Lists.partition(records, 10000)) {
-      Task task = tmpIndex.addObjects(chunk, requestOptions);
+    for (T object : indexContent.getObjects()) {
+
+      if (records.size() == 10000) {
+        Task task = tmpIndex.addObjects(records, requestOptions);
+        taskIds.add(task.getTaskID());
+        records.clear();
+      }
+
+      records.add(object);
+    }
+
+    if (records.size() > 0) {
+      Task task = tmpIndex.addObjects(records, requestOptions);
       taskIds.add(task.getTaskID());
     }
 

@@ -48,5 +48,4 @@ public class IndexContent<T> {
   public void setObjects(Iterable<T> objects) {
     this.objects = objects;
   }
-
 }
