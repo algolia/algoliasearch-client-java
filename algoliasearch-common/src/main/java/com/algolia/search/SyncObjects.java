@@ -213,11 +213,9 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    *
    * @param objects the list objects to update
    * @param safe run the method in a safe way
-   * @return the associated Task
    */
-  default List<Task> replaceAllObjects(@Nonnull List<T> objects, boolean safe)
-      throws AlgoliaException {
-    return replaceAllObjects(objects, safe, new RequestOptions());
+  default void replaceAllObjects(@Nonnull List<T> objects, boolean safe) throws AlgoliaException {
+    replaceAllObjects(objects, safe, new RequestOptions());
   }
 
   /**
@@ -226,20 +224,17 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @param objects the list objects to update
    * @param safe run the method in a safe way
    * @param requestOptions Options to pass to this request
-   * @return the associated Task
    */
-  default List<Task> replaceAllObjects(
+  default void replaceAllObjects(
       @Nonnull List<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
 
-    List<Task> ret = new ArrayList<>();
     String tmpName = this.getName() + "_tmp";
 
     // Copy all index resources from production index
     List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
 
     Task copyIndexResponse = getApiClient().copyIndex(getName(), tmpName, scope, requestOptions);
-    ret.add(copyIndexResponse);
 
     if (safe) {
       getApiClient().waitTask(copyIndexResponse);
@@ -247,7 +242,6 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
 
     // Send records (batched automatically)
     Task batchResponse = getApiClient().saveObjects(tmpName, objects, requestOptions);
-    ret.add(batchResponse);
 
     if (safe) {
       getApiClient().waitTask(batchResponse);
@@ -255,9 +249,6 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
 
     // Move temporary index to production
     Task moveIndexResponse = getApiClient().moveIndex(getName(), tmpName, requestOptions);
-    ret.add(moveIndexResponse);
-
-    return ret;
   }
 
   /**

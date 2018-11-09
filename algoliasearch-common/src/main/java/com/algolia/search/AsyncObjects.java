@@ -4,9 +4,12 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
@@ -198,6 +201,53 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
   default CompletableFuture<AsyncTaskSingleIndex> saveObjects(
       @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) {
     return getApiClient().saveObjects(getName(), objects, requestOptions);
+  }
+
+  /**
+   * Replace all objects
+   *
+   * @param objects the list objects to update
+   * @param safe run the method in a safe way
+   */
+  default void replaceAllObjects(@Nonnull List<T> objects, boolean safe)
+      throws ExecutionException, InterruptedException {
+    replaceAllObjects(objects, safe, new RequestOptions());
+  }
+
+  /**
+   * Replace all objects
+   *
+   * @param objects the list objects to update
+   * @param safe run the method in a safe way
+   * @param requestOptions Options to pass to this request
+   */
+  default void replaceAllObjects(
+      @Nonnull List<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
+      throws ExecutionException, InterruptedException {
+
+    String tmpName = this.getName() + "_tmp";
+
+    // Copy all index resources from production index
+    List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
+
+    AsyncTask copyIndexResponse =
+        getApiClient().copyIndex(getName(), tmpName, scope, requestOptions).get();
+
+    if (safe) {
+      getApiClient().waitTask(copyIndexResponse);
+    }
+
+    // Send records (batched automatically)
+    AsyncTaskSingleIndex batchResponse =
+        getApiClient().saveObjects(tmpName, objects, requestOptions).get();
+
+    if (safe) {
+      getApiClient().waitTask(batchResponse);
+    }
+
+    // Move temporary index to production
+    AsyncTask moveIndexResponse =
+        getApiClient().moveIndex(getName(), tmpName, requestOptions).get();
   }
 
   /**
