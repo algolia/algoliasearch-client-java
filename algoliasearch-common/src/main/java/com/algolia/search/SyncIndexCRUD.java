@@ -1,8 +1,11 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.objects.IndexContent;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.sync.Task;
+import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
 
@@ -123,5 +126,74 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
   default Task copyTo(@Nonnull String dstIndexName, @Nonnull List<String> scope)
       throws AlgoliaException {
     return copyTo(dstIndexName, scope, new RequestOptions());
+  }
+
+  /**
+   * Rebuild the entirety of your data atomically, to ensure that searches performed on the index
+   * during the rebuild will not be interrupted.
+   *
+   * @param indexContent the content of the index to reindex
+   * @throws AlgoliaException AlgoliaException
+   */
+  default void reIndex(@Nonnull IndexContent<T> indexContent) throws AlgoliaException {
+    reIndex(indexContent, new RequestOptions());
+  }
+
+  /**
+   * Rebuild the entirety of your data atomically, to ensure that searches performed on the index
+   * during the rebuild will not be interrupted.
+   *
+   * @param indexContent the content of the index to reindex
+   * @param requestOptions request options
+   * @throws AlgoliaException Algolia Exception
+   */
+  default void reIndex(@Nonnull IndexContent<T> indexContent, @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+
+    // 1. Init temps Index
+    Index tmpIndex = this.getApiClient().initIndex(getName() + "_tmp");
+    List<Long> taskIds = new ArrayList<>();
+
+    // 2. Copy the settings, synonyms and rules (but not the records)
+    List<String> scopes = new ArrayList<>();
+
+    if (indexContent.isRules()) {
+      scopes.add("rules");
+    }
+
+    if (indexContent.isSettings()) {
+      scopes.add("settings");
+    }
+
+    if (indexContent.isSynonyms()) {
+      scopes.add("synonyms");
+    }
+
+    if (scopes.size() > 0) {
+      Task copyIndexTask = copyTo(tmpIndex.getName(), scopes, requestOptions);
+      taskIds.add(copyIndexTask.getTaskID());
+    }
+
+    // 3. Fetch your data with the iterator and push it to the temporary index
+    ArrayList<T> records = Lists.newArrayList(indexContent.getObjects());
+
+    for (List<T> chunk : Lists.partition(records, 10000)) {
+      Task task = tmpIndex.addObjects(chunk, requestOptions);
+      taskIds.add(task.getTaskID());
+    }
+
+    // 4. Wait for all the tasks to finish asynchronously
+    if (indexContent.isSafeOperation()) {
+      for (Long taskId : taskIds) {
+        tmpIndex.waitTask(taskId);
+      }
+    }
+
+    // 5. Move the temporary index to the target index
+    Task moveIndexResponse = moveTo(tmpIndex.getName(), requestOptions);
+
+    if (indexContent.isSafeOperation()) {
+      getApiClient().waitTask(moveIndexResponse);
+    }
   }
 }
