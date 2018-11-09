@@ -5,6 +5,7 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.objects.tasks.sync.TaskIndexing;
 import com.algolia.search.objects.tasks.sync.TaskSingleIndex;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -241,14 +242,28 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
     }
 
     // Send records (batched automatically)
-    Task batchResponse = getApiClient().saveObjects(tmpName, objects, requestOptions);
+    List<List<T>> chunks = Lists.partition(objects, 1000);
+    List<Task> batchResponses = new ArrayList<>();
+
+    for (List<T> chunk : chunks) {
+      Task batchResponse = getApiClient().saveObjects(tmpName, chunk, requestOptions);
+      if (safe) {
+        batchResponses.add(batchResponse);
+      }
+    }
 
     if (safe) {
-      getApiClient().waitTask(batchResponse);
+      for (Task response : batchResponses) {
+        getApiClient().waitTask(response);
+      }
     }
 
     // Move temporary index to production
     Task moveIndexResponse = getApiClient().moveIndex(getName(), tmpName, requestOptions);
+
+    if (safe) {
+      getApiClient().waitTask(moveIndexResponse);
+    }
   }
 
   /**

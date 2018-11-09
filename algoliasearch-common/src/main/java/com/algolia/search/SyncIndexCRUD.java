@@ -4,7 +4,6 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.IndexContent;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.sync.Task;
-import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -180,7 +179,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
 
     for (T object : indexContent.getObjects()) {
 
-      if (records.size() == 10000) {
+      if (records.size() == 1000) {
         Task task = tmpIndex.addObjects(records, requestOptions);
         taskIds.add(task.getTaskID());
         records.clear();

@@ -4,6 +4,7 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -238,16 +239,30 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
     }
 
     // Send records (batched automatically)
-    AsyncTaskSingleIndex batchResponse =
-        getApiClient().saveObjects(tmpName, objects, requestOptions).get();
+    List<List<T>> chunks = Lists.partition(objects, 1000);
+    List<AsyncTaskSingleIndex> batchResponses = new ArrayList<>();
+
+    for (List<T> chunk : chunks) {
+      AsyncTaskSingleIndex batchResponse =
+          getApiClient().saveObjects(tmpName, chunk, requestOptions).get();
+      if (safe) {
+        batchResponses.add(batchResponse);
+      }
+    }
 
     if (safe) {
-      getApiClient().waitTask(batchResponse);
+      for (AsyncTaskSingleIndex response : batchResponses) {
+        getApiClient().waitTask(response);
+      }
     }
 
     // Move temporary index to production
     AsyncTask moveIndexResponse =
         getApiClient().moveIndex(getName(), tmpName, requestOptions).get();
+
+    if (safe) {
+      getApiClient().waitTask(moveIndexResponse);
+    }
   }
 
   /**
