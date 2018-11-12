@@ -6,6 +6,7 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.sync.Task;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings("UnusedReturnValue")
@@ -52,25 +53,25 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
   /**
    * Moves an existing index
    *
-   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   * @param newIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @return The associated task
    */
-  default Task moveTo(@Nonnull String dstIndexName) throws AlgoliaException {
-    return moveTo(dstIndexName, new RequestOptions());
+  default Task moveTo(@Nonnull String newIndexName) throws AlgoliaException {
+    return moveTo(newIndexName, new RequestOptions());
   }
 
   /**
    * Moves an existing index
    *
-   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   * @param newIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
    * @return The associated task
    */
-  default Task moveTo(@Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions)
+  default Task moveTo(@Nonnull String newIndexName, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
-    return getApiClient().moveIndex(getName(), dstIndexName, requestOptions);
+    return getApiClient().moveIndex(getName(), newIndexName, requestOptions);
   }
 
   /**
@@ -151,27 +152,43 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
       throws AlgoliaException {
 
     // 1. Init temps Index
-    Index tmpIndex = this.getApiClient().initIndex(getName() + "_tmp");
-    List<Long> taskIds = new ArrayList<>();
+    Index tmpIndex =
+        this.getApiClient().initIndex(getName() + "_tmp_" + UUID.randomUUID().toString());
 
     // 2. Copy the settings, synonyms and rules (but not the records)
+    List<Long> taskIds = new ArrayList<>();
     List<String> scopes = new ArrayList<>();
 
-    if (indexContent.isRules()) {
+    if (indexContent.getRules() != null) {
       scopes.add("rules");
     }
 
-    if (indexContent.isSettings()) {
+    if (indexContent.getSettings() != null) {
       scopes.add("settings");
     }
 
-    if (indexContent.isSynonyms()) {
+    if (indexContent.getSynonyms() != null) {
       scopes.add("synonyms");
     }
 
     if (scopes.size() > 0) {
       Task copyIndexTask = copyTo(tmpIndex.getName(), scopes, requestOptions);
       taskIds.add(copyIndexTask.getTaskID());
+    }
+
+    if (indexContent.getRules() != null) {
+      Task task = tmpIndex.batchRules(indexContent.getRules(), requestOptions);
+      taskIds.add(task.getTaskID());
+    }
+
+    if (indexContent.getSettings() != null) {
+      Task task = tmpIndex.setSettings(indexContent.getSettings(), requestOptions);
+      taskIds.add(task.getTaskID());
+    }
+
+    if (indexContent.getSynonyms() != null) {
+      Task task = tmpIndex.batchSynonyms(indexContent.getSynonyms(), requestOptions);
+      taskIds.add(task.getTaskID());
     }
 
     // 3. Fetch your data with the iterator and push it to the temporary index
@@ -201,10 +218,11 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
     }
 
     // 5. Move the temporary index to the target index
-    Task moveIndexResponse = moveTo(tmpIndex.getName(), requestOptions);
+    Task moveIndexResponse =
+        getApiClient().moveIndex(tmpIndex.getName(), getName(), requestOptions);
 
     if (indexContent.isSafeOperation()) {
-      getApiClient().waitTask(moveIndexResponse);
+      tmpIndex.waitTask(moveIndexResponse);
     }
   }
 }

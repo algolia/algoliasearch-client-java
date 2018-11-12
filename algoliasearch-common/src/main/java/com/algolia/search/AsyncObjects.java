@@ -5,10 +5,7 @@ import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
@@ -226,11 +223,11 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
       @Nonnull List<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
       throws ExecutionException, InterruptedException {
 
-    String tmpName = this.getName() + "_tmp";
+    String tmpName = this.getName() + "_tmp_" + UUID.randomUUID().toString();
+    List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
+    List<AsyncTaskSingleIndex> batchResponses = new ArrayList<>();
 
     // Copy all index resources from production index
-    List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
-
     AsyncTask copyIndexResponse =
         getApiClient().copyIndex(getName(), tmpName, scope, requestOptions).get();
 
@@ -240,7 +237,6 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
 
     // Send records (batched automatically)
     List<List<T>> chunks = Lists.partition(objects, 1000);
-    List<AsyncTaskSingleIndex> batchResponses = new ArrayList<>();
 
     for (List<T> chunk : chunks) {
       AsyncTaskSingleIndex batchResponse =
@@ -250,6 +246,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
       }
     }
 
+    // if safe waits for task to finish
     if (safe) {
       for (AsyncTaskSingleIndex response : batchResponses) {
         getApiClient().waitTask(response);
@@ -258,8 +255,9 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
 
     // Move temporary index to production
     AsyncTask moveIndexResponse =
-        getApiClient().moveIndex(getName(), tmpName, requestOptions).get();
+        getApiClient().moveIndex(tmpName, getName(), requestOptions).get();
 
+    // if safe waits for task to finish
     if (safe) {
       getApiClient().waitTask(moveIndexResponse);
     }

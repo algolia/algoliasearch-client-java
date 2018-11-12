@@ -8,6 +8,12 @@ import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.MultipleGetObjectsRequests;
+import com.algolia.search.inputs.query_rules.Rule;
+import com.algolia.search.inputs.synonym.AbstractSynonym;
+import com.algolia.search.inputs.synonym.Synonym;
+import com.algolia.search.objects.IndexSettings;
+import com.algolia.search.objects.Query;
+import com.algolia.search.responses.SearchResult;
 import java.util.*;
 import org.junit.Test;
 
@@ -174,5 +180,59 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
     assertThat(result).isNotNull();
     assertThat(result.get(0).get("objectID")).isEqualTo("objectID1");
     assertThat(result.get(1).get("objectID")).isEqualTo("objectID2");
+  }
+
+  @Test
+  public void testReplaceAllObjects() throws AlgoliaException {
+    // Create index with initials data
+    Index<AlgoliaObjectWithID> index = createIndex(AlgoliaObjectWithID.class);
+    waitForCompletion(
+        index.saveObjects(
+            Arrays.asList(
+                new AlgoliaObjectWithID("1", "algolia1", 5),
+                new AlgoliaObjectWithID("2", "algolia2", 5))));
+
+    // Replace old objects with new objects
+    List<AlgoliaObjectWithID> newObjects =
+        Arrays.asList(
+            new AlgoliaObjectWithID("3", "algolia3", 5),
+            new AlgoliaObjectWithID("4", "algolia4", 5));
+
+    // Save Rule
+    waitForCompletion(index.saveRule("id", generateRule("id")));
+
+    // Save synonym
+    List<String> synonymList = Arrays.asList("San Francisco", "SF");
+    waitForCompletion(index.saveSynonym("synonym1", new Synonym(synonymList)));
+
+    // Save settings
+    IndexSettings settings =
+        new IndexSettings().setAttributesForFaceting(Collections.singletonList("name"));
+    waitForCompletion(index.setSettings(settings));
+
+    // Perform the replacement
+    index.replaceAllObjects(newObjects, true);
+
+    // Test if objects well replaced
+    SearchResult<AlgoliaObjectWithID> result = index.search(new Query(""));
+    assertThat(result).isNotNull();
+    assertThat(result.getHits()).isNotNull();
+    assertThat(result.getNbHits()).isEqualTo(2);
+    assertThat(result.getHits()).extracting("objectID").contains("3");
+    assertThat(result.getHits()).extracting("objectID").contains("4");
+
+    Optional<Rule> queryRule1 = index.getRule("id");
+    assertThat(queryRule1.get())
+            .isInstanceOf(Rule.class)
+            .isEqualToComparingFieldByFieldRecursively(generateRule("id"));
+
+    Optional<AbstractSynonym> synonym1 = index.getSynonym("synonym1");
+    assertThat(synonym1.get())
+            .isInstanceOf(Synonym.class)
+            .isEqualToComparingFieldByField(
+                    new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
+
+    IndexSettings settingsRes = index.getSettings();
+    assertThat(settingsRes.getAttributesForFaceting()).containsOnly("name");
   }
 }

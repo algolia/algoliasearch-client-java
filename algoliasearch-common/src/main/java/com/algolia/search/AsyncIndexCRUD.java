@@ -1,9 +1,16 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.objects.IndexContent;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
+import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
@@ -121,5 +128,111 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    */
   default CompletableFuture<AsyncTask> clear(@Nonnull RequestOptions requestOptions) {
     return getApiClient().clearIndex(getName(), requestOptions);
+  }
+
+  /**
+   * Rebuild the entirety of your data atomically, to ensure that searches performed on the index
+   * during the rebuild will not be interrupted.
+   *
+   * @param indexContent the content of the index to reindex
+   */
+  default void reIndex(@Nonnull IndexContent<T> indexContent)
+      throws InterruptedException, ExecutionException, AlgoliaException {
+    reIndex(indexContent, new RequestOptions());
+  }
+
+  /**
+   * Rebuild the entirety of your data atomically, to ensure that searches performed on the index
+   * during the rebuild will not be interrupted.
+   *
+   * @param indexContent the content of the index to reindex
+   * @param requestOptions request options
+   */
+  default void reIndex(
+      @Nonnull IndexContent<T> indexContent, @Nonnull RequestOptions requestOptions)
+      throws ExecutionException, InterruptedException, AlgoliaException {
+
+    // 1. Init temps Index
+    Class<T> persistentClass =
+        (Class<T>)
+            ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+    AsyncIndex<T> tmpIndex =
+        getApiClient()
+            .initIndex(getName() + "_tmp_" + UUID.randomUUID().toString(), persistentClass);
+
+    // 2. Copy the settings, synonyms and rules (but not the records)
+    List<Long> taskIds = new ArrayList<>();
+    List<String> scopes = new ArrayList<>();
+
+    if (indexContent.getRules() != null) {
+      scopes.add("rules");
+    }
+
+    if (indexContent.getSettings() != null) {
+      scopes.add("settings");
+    }
+
+    if (indexContent.getSynonyms() != null) {
+      scopes.add("synonyms");
+    }
+
+    // Copy index
+    if (scopes.size() > 0) {
+      AsyncTask copyIndexTask = copyTo(tmpIndex.getName(), scopes, requestOptions).get();
+      taskIds.add(copyIndexTask.getTaskID());
+    }
+
+    // Rules
+    if (indexContent.getRules() != null) {
+      AsyncTask task = tmpIndex.batchRules(indexContent.getRules(), requestOptions).get();
+      taskIds.add(task.getTaskID());
+    }
+
+    // Settings
+    if (indexContent.getSettings() != null) {
+      AsyncTask task = tmpIndex.setSettings(indexContent.getSettings(), requestOptions).get();
+      taskIds.add(task.getTaskID());
+    }
+
+    // Synonyms
+    if (indexContent.getSynonyms() != null) {
+      AsyncTask task = tmpIndex.batchSynonyms(indexContent.getSynonyms(), requestOptions).get();
+      taskIds.add(task.getTaskID());
+    }
+
+    // 3. Fetch your data with the iterator and push it to the temporary index
+    ArrayList<T> records = new ArrayList<>();
+
+    for (T object : indexContent.getObjects()) {
+
+      if (records.size() == 1000) {
+        AsyncTaskSingleIndex task = tmpIndex.addObjects(records, requestOptions).get();
+        taskIds.add(task.getTaskID());
+        records.clear();
+      }
+
+      records.add(object);
+    }
+
+    if (records.size() > 0) {
+      AsyncTaskSingleIndex task = tmpIndex.addObjects(records, requestOptions).get();
+      taskIds.add(task.getTaskID());
+    }
+
+    // 4. Wait for all the tasks to finish asynchronously
+    if (indexContent.isSafeOperation()) {
+      for (Long taskId : taskIds) {
+        tmpIndex.waitTask(taskId);
+      }
+    }
+
+    // 5. Move the temporary index to the target index
+    AsyncTask moveIndexResponse =
+        getApiClient().moveIndex(tmpIndex.getName(), getName(), requestOptions).get();
+
+    if (indexContent.isSafeOperation()) {
+      tmpIndex.waitTask(moveIndexResponse);
+    }
   }
 }

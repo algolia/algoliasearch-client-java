@@ -1,43 +1,38 @@
 package com.algolia.search.objects;
 
+import com.algolia.search.inputs.query_rules.Rule;
+import com.algolia.search.inputs.synonym.AbstractSynonym;
+import java.util.List;
+
 public class IndexContent<T> {
 
-  private boolean settings;
-  private boolean rules;
-  private boolean synonyms;
+  private IndexSettings settings;
+  private List<Rule> rules;
+  private List<AbstractSynonym> synonyms;
   private Iterable<T> objects;
-
-  public boolean isSafeOperation() {
-    return safeOperation;
-  }
-
-  public void setSafeOperation(boolean safeOperation) {
-    this.safeOperation = safeOperation;
-  }
-
   private boolean safeOperation;
 
-  public boolean isSettings() {
+  public IndexSettings getSettings() {
     return settings;
   }
 
-  public void setSettings(boolean settings) {
+  public void setSettings(IndexSettings settings) {
     this.settings = settings;
   }
 
-  public boolean isRules() {
+  public List<Rule> getRules() {
     return rules;
   }
 
-  public void setRules(boolean rules) {
+  public void setRules(List<Rule> rules) {
     this.rules = rules;
   }
 
-  public boolean isSynonyms() {
+  public List<AbstractSynonym> getSynonyms() {
     return synonyms;
   }
 
-  public void setSynonyms(boolean synonyms) {
+  public void setSynonyms(List<AbstractSynonym> synonyms) {
     this.synonyms = synonyms;
   }
 
@@ -47,5 +42,13 @@ public class IndexContent<T> {
 
   public void setObjects(Iterable<T> objects) {
     this.objects = objects;
+  }
+
+  public boolean isSafeOperation() {
+    return safeOperation;
+  }
+
+  public void setSafeOperation(boolean safeOperation) {
+    this.safeOperation = safeOperation;
   }
 }

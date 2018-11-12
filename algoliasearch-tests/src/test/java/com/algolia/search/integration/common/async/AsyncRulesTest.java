@@ -17,7 +17,7 @@ import org.junit.Test;
 @SuppressWarnings("ConstantConditions")
 public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
 
-  private Rule generateRule(String objectID) {
+  static Rule generateRule(String objectID) {
     Condition condition = new Condition().setPattern("my pattern").setAnchoring("is");
     Consequence consequence = new Consequence().setUserData(ImmutableMap.of("a", "b"));
 

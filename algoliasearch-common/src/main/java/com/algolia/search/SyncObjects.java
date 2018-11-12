@@ -6,10 +6,7 @@ import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.objects.tasks.sync.TaskIndexing;
 import com.algolia.search.objects.tasks.sync.TaskSingleIndex;
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings("SameParameterValue")
@@ -230,11 +227,11 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
       @Nonnull List<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
 
-    String tmpName = this.getName() + "_tmp";
+    String tmpName = this.getName() + "_tmp_" + UUID.randomUUID().toString();
+    List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
+    List<Task> batchResponses = new ArrayList<>();
 
     // Copy all index resources from production index
-    List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
-
     Task copyIndexResponse = getApiClient().copyIndex(getName(), tmpName, scope, requestOptions);
 
     if (safe) {
@@ -243,7 +240,6 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
 
     // Send records (batched automatically)
     List<List<T>> chunks = Lists.partition(objects, 1000);
-    List<Task> batchResponses = new ArrayList<>();
 
     for (List<T> chunk : chunks) {
       Task batchResponse = getApiClient().saveObjects(tmpName, chunk, requestOptions);
@@ -252,6 +248,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
       }
     }
 
+    // if safe waits for task to finish
     if (safe) {
       for (Task response : batchResponses) {
         getApiClient().waitTask(response);
@@ -259,8 +256,9 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
     }
 
     // Move temporary index to production
-    Task moveIndexResponse = getApiClient().moveIndex(getName(), tmpName, requestOptions);
+    Task moveIndexResponse = getApiClient().moveIndex(tmpName, getName(), requestOptions);
 
+    // if safe waits for task to finish
     if (safe) {
       getApiClient().waitTask(moveIndexResponse);
     }
