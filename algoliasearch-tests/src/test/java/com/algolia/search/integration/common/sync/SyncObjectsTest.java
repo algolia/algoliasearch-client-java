@@ -7,10 +7,8 @@ import com.algolia.search.AlgoliaObjectWithID;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import com.algolia.search.inputs.MultipleGetObjectsRequests;
+import java.util.*;
 import org.junit.Test;
 
 public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
@@ -149,5 +147,32 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
   public void deleteObjectNullObjectIdShouldFail() throws AlgoliaException, NullPointerException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.deleteObject(null);
+  }
+
+  @Test
+  public void testMultipleGetObjects() throws AlgoliaException {
+
+    // Save object in Index1
+    Index<AlgoliaObject> index1 = createIndex(AlgoliaObject.class);
+    waitForCompletion(
+        index1.saveObject("objectID1", new AlgoliaObjectWithID("objectID1", "algolia1", 5)));
+
+    // Save object in Index2
+    Index<AlgoliaObject> index2 = createIndex(AlgoliaObject.class);
+    waitForCompletion(
+        index2.saveObject("objectID2", new AlgoliaObjectWithID("objectID2", "algolia2", 6)));
+
+    // Perform the multiple index queries
+    List<MultipleGetObjectsRequests> requests =
+        Arrays.asList(
+            new MultipleGetObjectsRequests(index1.getName(), "objectID1"),
+            new MultipleGetObjectsRequests(index2.getName(), "objectID2"));
+
+    List<Map<String, String>> result = client.multipleGetObjects(requests);
+
+    // Verify that objects are present in the results
+    assertThat(result).isNotNull();
+    assertThat(result.get(0).get("objectID")).isEqualTo("objectID1");
+    assertThat(result.get(1).get("objectID")).isEqualTo("objectID2");
   }
 }

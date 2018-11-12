@@ -2,14 +2,9 @@ package com.algolia.search.integration.common.async;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.algolia.search.AlgoliaObject;
-import com.algolia.search.AlgoliaObjectWithID;
-import com.algolia.search.AsyncAlgoliaIntegrationTest;
-import com.algolia.search.AsyncIndex;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import com.algolia.search.*;
+import com.algolia.search.inputs.MultipleGetObjectsRequests;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import org.junit.Test;
 
@@ -149,5 +144,32 @@ public abstract class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
   public void deleteObjectNullObjectIdShouldFail() throws NullPointerException {
     AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.deleteObject(null);
+  }
+
+  @Test
+  public void testMultipleGetObjects() throws Exception {
+
+    // Save object in Index1
+    AsyncIndex<AlgoliaObject> index1 = createIndex(AlgoliaObject.class);
+    waitForCompletion(
+        index1.saveObject("objectID1", new AlgoliaObjectWithID("objectID1", "algolia1", 5)));
+
+    // Save object in Index2
+    AsyncIndex<AlgoliaObject> index2 = createIndex(AlgoliaObject.class);
+    waitForCompletion(
+        index2.saveObject("objectID2", new AlgoliaObjectWithID("objectID2", "algolia2", 6)));
+
+    // Perform the multiple index queries
+    List<MultipleGetObjectsRequests> requests =
+        Arrays.asList(
+            new MultipleGetObjectsRequests(index1.getName(), "objectID1"),
+            new MultipleGetObjectsRequests(index2.getName(), "objectID2"));
+
+    List<Map<String, String>> result = client.multipleGetObjects(requests).get();
+
+    // Verify that objects are present in the results
+    assertThat(result).isNotNull();
+    assertThat(result.get(0).get("objectID")).isEqualTo("objectID1");
+    assertThat(result.get(1).get("objectID")).isEqualTo("objectID2");
   }
 }

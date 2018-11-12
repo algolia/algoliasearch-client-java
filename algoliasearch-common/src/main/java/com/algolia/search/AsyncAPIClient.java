@@ -701,6 +701,31 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param requests list of objects to retrieve. Each object is identified by: indexName and
+   *     objectId
+   * @return the result of the queries
+   */
+  public CompletableFuture<List<Map<String, String>>> multipleGetObjects(
+      @Nonnull List<MultipleGetObjectsRequests> requests) {
+    return multipleGetObjects(requests, new RequestOptions());
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param requests list of objects to retrieve. Each object is identified by: indexName and
+   *     objectId
+   * @param requestsOptions requestOptions to pass to the query
+   * @return the result of the queries
+   */
+  public CompletableFuture<List<Map<String, String>>> multipleGetObjects(
+      @Nonnull List<MultipleGetObjectsRequests> requests, @Nonnull RequestOptions requestsOptions) {
+    return multiGetObjects(requests, requestsOptions);
+  }
+
+  /**
    * Performs multiple searches on multiple indices with the strategy <code>
    * MultiQueriesStrategy.NONE</code>
    *
@@ -918,6 +943,35 @@ public class AsyncAPIClient {
                 requestOptions,
                 AsyncTask.class))
         .thenApply(s -> s.setIndex(indexName));
+  }
+
+  @SuppressWarnings("unchecked")
+  <T> CompletableFuture<List<T>> multiGetObjects(
+      List<MultipleGetObjectsRequests> request, RequestOptions requestOptions) {
+
+    Requests requests =
+        new Requests(
+            request
+                .stream()
+                .map(
+                    o ->
+                        new Requests.Request()
+                            .setIndexName(o.getIndexName())
+                            .setObjectID(o.getObjectID()))
+                .collect(Collectors.toList()));
+
+    AlgoliaRequest<Results> algoliaRequest =
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "indexes", "*", "objects"),
+                requestOptions,
+                Results.class)
+            .setData(requests);
+
+    return httpClient
+        .requestWithRetry(algoliaRequest.setData(requests))
+        .thenApply(Results::getResults);
   }
 
   @SuppressWarnings("unchecked")
