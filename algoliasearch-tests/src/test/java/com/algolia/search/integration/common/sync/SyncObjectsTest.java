@@ -223,14 +223,14 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
 
     Optional<Rule> queryRule1 = index.getRule("id");
     assertThat(queryRule1.get())
-            .isInstanceOf(Rule.class)
-            .isEqualToComparingFieldByFieldRecursively(generateRule("id"));
+        .isInstanceOf(Rule.class)
+        .isEqualToComparingFieldByFieldRecursively(generateRule("id"));
 
     Optional<AbstractSynonym> synonym1 = index.getSynonym("synonym1");
     assertThat(synonym1.get())
-            .isInstanceOf(Synonym.class)
-            .isEqualToComparingFieldByField(
-                    new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
+        .isInstanceOf(Synonym.class)
+        .isEqualToComparingFieldByField(
+            new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
 
     IndexSettings settingsRes = index.getSettings();
     assertThat(settingsRes.getAttributesForFaceting()).containsOnly("name");

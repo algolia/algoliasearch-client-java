@@ -5,7 +5,6 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.objects.tasks.sync.TaskIndexing;
 import com.algolia.search.objects.tasks.sync.TaskSingleIndex;
-import com.google.common.collect.Lists;
 import java.util.*;
 import javax.annotation.Nonnull;
 
@@ -212,7 +211,8 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @param objects the list objects to update
    * @param safe run the method in a safe way
    */
-  default void replaceAllObjects(@Nonnull List<T> objects, boolean safe) throws AlgoliaException {
+  default void replaceAllObjects(@Nonnull Iterable<T> objects, boolean safe)
+      throws AlgoliaException {
     replaceAllObjects(objects, safe, new RequestOptions());
   }
 
@@ -224,7 +224,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   default void replaceAllObjects(
-      @Nonnull List<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
+      @Nonnull Iterable<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
 
     String tmpName = this.getName() + "_tmp_" + UUID.randomUUID().toString();
@@ -239,10 +239,23 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
     }
 
     // Send records (batched automatically)
-    List<List<T>> chunks = Lists.partition(objects, 1000);
+    ArrayList<T> records = new ArrayList<>();
 
-    for (List<T> chunk : chunks) {
-      Task batchResponse = getApiClient().saveObjects(tmpName, chunk, requestOptions);
+    for (T object : objects) {
+
+      if (records.size() == 1000) {
+        Task batchResponse = getApiClient().saveObjects(tmpName, records, requestOptions);
+        if (safe) {
+          batchResponses.add(batchResponse);
+        }
+        records.clear();
+      }
+
+      records.add(object);
+    }
+
+    if (records.size() > 0) {
+      Task batchResponse = getApiClient().saveObjects(tmpName, records, requestOptions);
       if (safe) {
         batchResponses.add(batchResponse);
       }

@@ -4,7 +4,6 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
-import com.google.common.collect.Lists;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -207,7 +206,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * @param objects the list objects to update
    * @param safe run the method in a safe way
    */
-  default void replaceAllObjects(@Nonnull List<T> objects, boolean safe)
+  default void replaceAllObjects(@Nonnull Iterable<T> objects, boolean safe)
       throws ExecutionException, InterruptedException {
     replaceAllObjects(objects, safe, new RequestOptions());
   }
@@ -220,7 +219,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   default void replaceAllObjects(
-      @Nonnull List<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
+      @Nonnull Iterable<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
       throws ExecutionException, InterruptedException {
 
     String tmpName = this.getName() + "_tmp_" + UUID.randomUUID().toString();
@@ -236,14 +235,24 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
     }
 
     // Send records (batched automatically)
-    List<List<T>> chunks = Lists.partition(objects, 1000);
+    ArrayList<T> records = new ArrayList<>();
 
-    for (List<T> chunk : chunks) {
-      AsyncTaskSingleIndex batchResponse =
-          getApiClient().saveObjects(tmpName, chunk, requestOptions).get();
-      if (safe) {
+    for (T object : objects) {
+
+      if (records.size() == 1000) {
+        AsyncTaskSingleIndex batchResponse =
+            getApiClient().saveObjects(tmpName, records, requestOptions).get();
         batchResponses.add(batchResponse);
+        records.clear();
       }
+
+      records.add(object);
+    }
+
+    if (records.size() > 0) {
+      AsyncTaskSingleIndex batchResponse =
+          getApiClient().saveObjects(tmpName, records, requestOptions).get();
+      batchResponses.add(batchResponse);
     }
 
     // if safe waits for task to finish
