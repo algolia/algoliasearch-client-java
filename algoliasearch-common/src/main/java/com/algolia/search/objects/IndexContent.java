@@ -2,6 +2,7 @@ package com.algolia.search.objects;
 
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
+import java.util.ArrayList;
 import java.util.List;
 
 public class IndexContent<T> {
@@ -10,7 +11,6 @@ public class IndexContent<T> {
   private List<Rule> rules;
   private List<AbstractSynonym> synonyms;
   private Iterable<T> objects;
-  private boolean safeOperation;
 
   public IndexSettings getSettings() {
     return settings;
@@ -44,11 +44,21 @@ public class IndexContent<T> {
     this.objects = objects;
   }
 
-  public boolean isSafeOperation() {
-    return safeOperation;
-  }
+  public List<String> getScopes() {
+    List<String> scopes = new ArrayList<>();
 
-  public void setSafeOperation(boolean safeOperation) {
-    this.safeOperation = safeOperation;
+    if (getRules() == null) {
+      scopes.add("rules");
+    }
+
+    if (getSettings() == null) {
+      scopes.add("settings");
+    }
+
+    if (getSynonyms() == null) {
+      scopes.add("synonyms");
+    }
+
+    return scopes;
   }
 }

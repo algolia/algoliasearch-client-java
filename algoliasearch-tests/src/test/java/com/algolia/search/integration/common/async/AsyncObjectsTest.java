@@ -210,9 +210,6 @@ public abstract class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
     // Perform the replacement
     index.replaceAllObjects(newObjects, true);
 
-    // Perform the replacement
-    index.replaceAllObjects(newObjects, true);
-
     // Test if objects well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query("")).get();
     assertThat(result).isNotNull();
@@ -222,12 +219,12 @@ public abstract class AsyncObjectsTest extends AsyncAlgoliaIntegrationTest {
     assertThat(result.getHits()).extracting("objectID").contains("4");
 
     Optional<Rule> queryRule1 = index.getRule("id").get();
-    assertThat(queryRule1.get())
+    assertThat(queryRule1.orElse(null))
         .isInstanceOf(Rule.class)
         .isEqualToComparingFieldByFieldRecursively(AsyncRulesTest.generateRule("id"));
 
     Optional<AbstractSynonym> synonym1 = index.getSynonym("synonym1").get();
-    assertThat(synonym1.get())
+    assertThat(synonym1.orElse(null))
         .isInstanceOf(Synonym.class)
         .isEqualToComparingFieldByField(
             new Synonym().setObjectID("synonym1").setSynonyms(synonymList));

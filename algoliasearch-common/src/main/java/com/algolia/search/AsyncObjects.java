@@ -242,7 +242,9 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
       if (records.size() == 1000) {
         AsyncTaskSingleIndex batchResponse =
             getApiClient().saveObjects(tmpName, records, requestOptions).get();
-        batchResponses.add(batchResponse);
+        if (safe) {
+          batchResponses.add(batchResponse);
+        }
         records.clear();
       }
 

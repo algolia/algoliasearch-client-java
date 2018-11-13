@@ -136,7 +136,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @throws AlgoliaException AlgoliaException
    */
   default void reIndex(@Nonnull IndexContent<T> indexContent) throws AlgoliaException {
-    reIndex(indexContent, new RequestOptions());
+    reIndex(indexContent, true, new RequestOptions());
   }
 
   /**
@@ -144,11 +144,12 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * during the rebuild will not be interrupted.
    *
    * @param indexContent the content of the index to reindex
+   * @param safe runs the reindex safely
    * @param requestOptions request options
    * @throws AlgoliaException Algolia Exception
    */
   default void reIndex(
-      @Nonnull IndexContent<T> indexContent, @Nonnull RequestOptions requestOptions)
+      @Nonnull IndexContent<T> indexContent, boolean safe, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
 
     // 1. Init temps Index
@@ -157,23 +158,13 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
 
     // 2. Copy the settings, synonyms and rules (but not the records)
     List<Long> taskIds = new ArrayList<>();
-    List<String> scopes = new ArrayList<>();
-
-    if (indexContent.getRules() != null) {
-      scopes.add("rules");
-    }
-
-    if (indexContent.getSettings() != null) {
-      scopes.add("settings");
-    }
-
-    if (indexContent.getSynonyms() != null) {
-      scopes.add("synonyms");
-    }
+    List<String> scopes = indexContent.getScopes();
 
     if (scopes.size() > 0) {
       Task copyIndexTask = copyTo(tmpIndex.getName(), scopes, requestOptions);
-      taskIds.add(copyIndexTask.getTaskID());
+      if (safe) {
+        tmpIndex.waitTask(copyIndexTask.getTaskID());
+      }
     }
 
     if (indexContent.getRules() != null) {
@@ -192,26 +183,28 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
     }
 
     // 3. Fetch your data with the iterator and push it to the temporary index
-    ArrayList<T> records = new ArrayList<>();
+    if (indexContent.getObjects() != null) {
+      ArrayList<T> records = new ArrayList<>();
 
-    for (T object : indexContent.getObjects()) {
+      for (T object : indexContent.getObjects()) {
 
-      if (records.size() == 1000) {
-        Task task = tmpIndex.addObjects(records, requestOptions);
-        taskIds.add(task.getTaskID());
-        records.clear();
+        if (records.size() == 1000) {
+          Task task = tmpIndex.addObjects(records, requestOptions);
+          taskIds.add(task.getTaskID());
+          records.clear();
+        }
+
+        records.add(object);
       }
 
-      records.add(object);
-    }
-
-    if (records.size() > 0) {
-      Task task = tmpIndex.addObjects(records, requestOptions);
-      taskIds.add(task.getTaskID());
+      if (records.size() > 0) {
+        Task task = tmpIndex.addObjects(records, requestOptions);
+        taskIds.add(task.getTaskID());
+      }
     }
 
     // 4. Wait for all the tasks to finish asynchronously
-    if (indexContent.isSafeOperation()) {
+    if (safe) {
       for (Long taskId : taskIds) {
         tmpIndex.waitTask(taskId);
       }
@@ -221,7 +214,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
     Task moveIndexResponse =
         getApiClient().moveIndex(tmpIndex.getName(), getName(), requestOptions);
 
-    if (indexContent.isSafeOperation()) {
+    if (safe) {
       tmpIndex.waitTask(moveIndexResponse);
     }
   }
