@@ -135,8 +135,20 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @param indexContent the content of the index to reindex
    * @throws AlgoliaException AlgoliaException
    */
-  default void reIndex(@Nonnull IndexContent<T> indexContent) throws AlgoliaException {
-    reIndex(indexContent, true, new RequestOptions());
+  default List<Long> reIndex(@Nonnull IndexContent<T> indexContent) throws AlgoliaException {
+    return reIndex(indexContent, false, new RequestOptions());
+  }
+
+  /**
+   * Rebuild the entirety of your data atomically, to ensure that searches performed on the index
+   * during the rebuild will not be interrupted.
+   *
+   * @param indexContent the content of the index to reindex
+   * @param safe runs the reindex safely
+   * @throws AlgoliaException AlgoliaException
+   */
+  default List<Long> reIndex(@Nonnull IndexContent<T> indexContent,boolean safe) throws AlgoliaException {
+    return reIndex(indexContent, safe, new RequestOptions());
   }
 
   /**
@@ -148,13 +160,13 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @param requestOptions request options
    * @throws AlgoliaException Algolia Exception
    */
-  default void reIndex(
+  default List<Long> reIndex(
       @Nonnull IndexContent<T> indexContent, boolean safe, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
 
     // 1. Init temps Index
-    Index tmpIndex =
-        this.getApiClient().initIndex(getName() + "_tmp_" + UUID.randomUUID().toString());
+    Index<T> tmpIndex =
+        this.getApiClient().initIndex(getName() + "_tmp_" + UUID.randomUUID().toString(), indexContent.getObjectClass());
 
     // 2. Copy the settings, synonyms and rules (but not the records)
     List<Long> taskIds = new ArrayList<>();
@@ -162,6 +174,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
 
     if (scopes.size() > 0) {
       Task copyIndexTask = copyTo(tmpIndex.getName(), scopes, requestOptions);
+      taskIds.add(copyIndexTask.getTaskID());
       if (safe) {
         tmpIndex.waitTask(copyIndexTask.getTaskID());
       }
@@ -213,9 +226,12 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
     // 5. Move the temporary index to the target index
     Task moveIndexResponse =
         getApiClient().moveIndex(tmpIndex.getName(), getName(), requestOptions);
+    taskIds.add(moveIndexResponse.getTaskID());
 
     if (safe) {
       tmpIndex.waitTask(moveIndexResponse);
     }
+
+    return taskIds;
   }
 }

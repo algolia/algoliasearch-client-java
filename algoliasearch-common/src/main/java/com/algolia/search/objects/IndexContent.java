@@ -11,6 +11,15 @@ public class IndexContent<T> {
   private List<Rule> rules;
   private List<AbstractSynonym> synonyms;
   private Iterable<T> objects;
+  private final Class<T> type;
+
+  public IndexContent(Class<T> type) {
+    this.type = type;
+  }
+
+  public Class<T> getObjectClass() {
+    return this.type;
+  }
 
   public IndexSettings getSettings() {
     return settings;

@@ -105,7 +105,7 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Object
     newIndexContent.setObjects(
@@ -126,7 +126,14 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
 
     newIndexContent.setSettings(newSettings);
 
+    // Perform the reindex
     index.reIndex(newIndexContent);
+
+    List<Long> taskIds = index.reIndex(newIndexContent);
+
+    for (Long taskId : taskIds) {
+      index.waitTask(taskId);
+    }
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query("")).get();
@@ -176,7 +183,7 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set new Objects
     newIndexContent.setObjects(
@@ -188,7 +195,7 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     newIndexContent.setRules(Collections.singletonList(generateRule("id1")));
 
     // Perform the reindex
-    index.reIndex(newIndexContent);
+    index.reIndex(newIndexContent, true);
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query("")).get();
@@ -239,7 +246,7 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set new Objects
     newIndexContent.setObjects(
@@ -253,8 +260,14 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     // Empty Synonyms
     newIndexContent.setSynonyms(Collections.emptyList());
 
-    // Perfom the reindex
+    // Perform the reindex
     index.reIndex(newIndexContent);
+
+    List<Long> taskIds = index.reIndex(newIndexContent);
+
+    for (Long taskId : taskIds) {
+      index.waitTask(taskId);
+    }
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query("")).get();
@@ -300,7 +313,7 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Rule
     newIndexContent.setRules(Collections.singletonList(generateRule("id1")));
@@ -314,7 +327,7 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
         new IndexSettings().setAttributesForFaceting(Collections.singletonList("age"));
     newIndexContent.setSettings(newSettings);
 
-    index.reIndex(newIndexContent);
+    index.reIndex(newIndexContent,true);
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query("")).get();

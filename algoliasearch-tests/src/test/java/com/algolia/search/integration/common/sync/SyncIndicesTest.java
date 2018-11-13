@@ -108,7 +108,7 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Object
     newIndexContent.setObjects(
@@ -127,9 +127,14 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     IndexSettings newSettings =
         new IndexSettings().setAttributesForFaceting(Collections.singletonList("age"));
 
+    // Perform the reindex
     newIndexContent.setSettings(newSettings);
 
-    index.reIndex(newIndexContent);
+    List<Long> taskIds = index.reIndex(newIndexContent);
+
+    for (Long taskId : taskIds) {
+      index.waitTask(taskId);
+    }
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query(""));
@@ -179,7 +184,7 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set the Objects iterator
     IndexIterable<AlgoliaObjectWithID> iterator = index.browse(new Query(""));
@@ -197,8 +202,14 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
         new IndexSettings().setAttributesForFaceting(Collections.singletonList("age"));
     newIndexContent.setSettings(newSettings);
 
-    // Perfom the reindex
-    index.reIndex(newIndexContent);
+    // Perform the reindex
+    newIndexContent.setSettings(newSettings);
+
+    List<Long> taskIds = index.reIndex(newIndexContent);
+
+    for (Long taskId : taskIds) {
+      index.waitTask(taskId);
+    }
 
     // Assert that objects are the same
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query(""));
@@ -248,7 +259,7 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set new Objects
     newIndexContent.setObjects(
@@ -260,7 +271,7 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     newIndexContent.setRules(Collections.singletonList(generateRule("id1")));
 
     // Perform the reindex
-    index.reIndex(newIndexContent);
+    index.reIndex(newIndexContent ,true);
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query(""));
@@ -311,7 +322,7 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set new Objects
     newIndexContent.setObjects(
@@ -325,8 +336,8 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     // Empty Synonyms
     newIndexContent.setSynonyms(Collections.emptyList());
 
-    // Perfom the reindex
-    index.reIndex(newIndexContent);
+    // Perform the reindex
+    index.reIndex(newIndexContent, true);
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query(""));
@@ -372,7 +383,7 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>();
+    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Rule
     newIndexContent.setRules(Collections.singletonList(generateRule("id1")));
@@ -386,7 +397,7 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
         new IndexSettings().setAttributesForFaceting(Collections.singletonList("age"));
     newIndexContent.setSettings(newSettings);
 
-    index.reIndex(newIndexContent);
+    index.reIndex(newIndexContent, true);
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query(""));

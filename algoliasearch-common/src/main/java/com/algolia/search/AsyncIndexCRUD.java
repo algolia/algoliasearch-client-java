@@ -136,9 +136,21 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    *
    * @param indexContent the content of the index to reindex
    */
-  default void reIndex(@Nonnull IndexContent<T> indexContent)
+  default List<Long> reIndex(@Nonnull IndexContent<T> indexContent)
       throws InterruptedException, ExecutionException, AlgoliaException {
-    reIndex(indexContent, true, new RequestOptions());
+    return reIndex(indexContent, false, new RequestOptions());
+  }
+
+  /**
+   * Rebuild the entirety of your data atomically, to ensure that searches performed on the index
+   * during the rebuild will not be interrupted.
+   *
+   * @param indexContent the content of the index to reindex
+   * @param safe runs the reindex safely
+   */
+  default List<Long> reIndex(@Nonnull IndexContent<T> indexContent, boolean safe)
+          throws InterruptedException, ExecutionException, AlgoliaException {
+    return reIndex(indexContent, safe, new RequestOptions());
   }
 
   /**
@@ -149,18 +161,14 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    * @param safe runs the reindex safely
    * @param requestOptions request options
    */
-  default void reIndex(
+  default List<Long> reIndex(
       @Nonnull IndexContent<T> indexContent, boolean safe, @Nonnull RequestOptions requestOptions)
       throws ExecutionException, InterruptedException, AlgoliaException {
 
     // 1. Init temps Index
-    Class<T> persistentClass =
-        (Class<T>)
-            ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-
     AsyncIndex<T> tmpIndex =
         getApiClient()
-            .initIndex(getName() + "_tmp_" + UUID.randomUUID().toString(), persistentClass);
+            .initIndex(getName() + "_tmp_" + UUID.randomUUID().toString(), indexContent.getObjectClass());
 
     // 2. Copy the settings, synonyms and rules (but not the records)
     List<Long> taskIds = new ArrayList<>();
@@ -169,6 +177,7 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
     // Copy index
     if (scopes.size() > 0) {
       AsyncTask copyIndexTask = copyTo(tmpIndex.getName(), scopes, requestOptions).get();
+      taskIds.add(copyIndexTask.getTaskID());
       if (safe) {
         tmpIndex.waitTask(copyIndexTask.getTaskID());
       }
@@ -223,9 +232,12 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
     // 5. Move the temporary index to the target index
     AsyncTask moveIndexResponse =
         getApiClient().moveIndex(tmpIndex.getName(), getName(), requestOptions).get();
+    taskIds.add(moveIndexResponse.getTaskID());
 
     if (safe) {
       tmpIndex.waitTask(moveIndexResponse);
     }
+
+    return taskIds;
   }
 }
