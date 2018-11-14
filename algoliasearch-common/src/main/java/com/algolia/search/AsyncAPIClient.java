@@ -818,6 +818,29 @@ public class AsyncAPIClient {
         .thenApply(s -> s.setIndex(indexName));
   }
 
+  @SuppressWarnings("unchecked")
+  public <T> CompletableFuture<BrowseResult<T>> browse(
+      String indexName, Query query, String cursor, Class<T> klass, RequestOptions requestOptions) {
+    AlgoliaRequest<BrowseResult> algoliaRequest =
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "indexes", indexName, "browse"),
+                requestOptions,
+                BrowseResult.class,
+                klass)
+            .setData(query.setCursor(cursor));
+
+    return httpClient
+        .requestWithRetry(algoliaRequest)
+        .thenCompose(
+            result -> {
+              CompletableFuture<BrowseResult<T>> r = new CompletableFuture<>();
+                r.complete(result);
+              return r;
+            });
+  }
+
   /** Package protected method for the Index class */
   <T> CompletableFuture<AsyncTaskIndexing> addObject(
       String indexName, T object, RequestOptions requestOptions) {

@@ -19,7 +19,8 @@ public class AsyncIndex<T>
         AsyncPartialUpdate<T>,
         AsyncSynonyms<T>,
         AsyncRules<T>,
-        AsyncDeleteByQuery<T> {
+        AsyncDeleteByQuery<T>,
+        AsyncBrowse<T> {
 
   /** Index name */
   private final String name;
