@@ -2,6 +2,7 @@ package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.IndexContent;
+import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.sync.Task;
 import java.util.ArrayList;
@@ -174,6 +175,7 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
     // 2. Copy the settings, synonyms and rules (but not the records)
     List<Long> taskIds = new ArrayList<>();
     List<String> scopes = indexContent.getScopes();
+    List<String> replicas = new ArrayList<>();
 
     if (scopes.size() > 0) {
       Task copyIndexTask = copyTo(tmpIndex.getName(), scopes, requestOptions);
@@ -189,6 +191,8 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
     }
 
     if (indexContent.getSettings() != null) {
+      replicas = indexContent.getSettings().getReplicas();
+      indexContent.getSettings().setReplicas(null);
       Task task = tmpIndex.setSettings(indexContent.getSettings(), requestOptions);
       taskIds.add(task.getTaskID());
     }
@@ -233,6 +237,16 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
 
     if (safe) {
       tmpIndex.waitTask(moveIndexResponse);
+    }
+
+    if (replicas != null && replicas.size() > 0) {
+      IndexSettings settingsWithReplicas = new IndexSettings().setReplicas(replicas);
+      Task task =
+          this.getApiClient().setSettings(getName(), settingsWithReplicas, false, requestOptions);
+      taskIds.add(task.getTaskID());
+      if (safe) {
+        tmpIndex.waitTask(task.getTaskID());
+      }
     }
 
     return taskIds;

@@ -231,7 +231,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
     List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
     List<Task> batchResponses = new ArrayList<>();
 
-    // Copy all index resources from production index
+    // Copy all index resources from index
     Task copyIndexResponse = getApiClient().copyIndex(getName(), tmpName, scope, requestOptions);
 
     if (safe) {
@@ -268,7 +268,7 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
       }
     }
 
-    // Move temporary index to production
+    // Move temporary index
     Task moveIndexResponse = getApiClient().moveIndex(tmpName, getName(), requestOptions);
 
     // if safe waits for task to finish

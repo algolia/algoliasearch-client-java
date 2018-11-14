@@ -226,7 +226,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
     List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
     List<AsyncTaskSingleIndex> batchResponses = new ArrayList<>();
 
-    // Copy all index resources from production index
+    // Copy all index resources from srcIndex
     AsyncTask copyIndexResponse =
         getApiClient().copyIndex(getName(), tmpName, scope, requestOptions).get();
 
@@ -264,7 +264,7 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
       }
     }
 
-    // Move temporary index to production
+    // Move temporary index
     AsyncTask moveIndexResponse =
         getApiClient().moveIndex(tmpName, getName(), requestOptions).get();
 

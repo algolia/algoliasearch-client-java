@@ -3,7 +3,6 @@ package com.algolia.search.integration.common.async;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.*;
-import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.iterators.AsyncIndexIterable;
 import com.algolia.search.objects.Query;
 import com.google.common.collect.Lists;

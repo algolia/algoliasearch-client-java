@@ -2,6 +2,7 @@ package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.IndexContent;
+import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
@@ -173,6 +174,7 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
     // 2. Copy the settings, synonyms and rules (but not the records)
     List<Long> taskIds = new ArrayList<>();
     List<String> scopes = indexContent.getScopes();
+    List<String> replicas = new ArrayList<>();
 
     // Copy index
     if (scopes.size() > 0) {
@@ -191,6 +193,8 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
 
     // Settings
     if (indexContent.getSettings() != null) {
+      replicas = indexContent.getSettings().getReplicas();
+      indexContent.getSettings().setReplicas(null);
       AsyncTask task = tmpIndex.setSettings(indexContent.getSettings(), requestOptions).get();
       taskIds.add(task.getTaskID());
     }
@@ -236,6 +240,18 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
 
     if (safe) {
       tmpIndex.waitTask(moveIndexResponse);
+    }
+
+    if (replicas != null && replicas.size() > 0) {
+      IndexSettings settingsWithReplicas = new IndexSettings().setReplicas(replicas);
+      AsyncTask task =
+          this.getApiClient()
+              .setSettings(getName(), settingsWithReplicas, false, requestOptions)
+              .get();
+      taskIds.add(task.getTaskID());
+      if (safe) {
+        tmpIndex.waitTask(task.getTaskID());
+      }
     }
 
     return taskIds;

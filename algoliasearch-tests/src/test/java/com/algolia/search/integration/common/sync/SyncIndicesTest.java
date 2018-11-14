@@ -104,7 +104,9 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
 
     // Save settings
     IndexSettings settings =
-        new IndexSettings().setAttributesForFaceting(Collections.singletonList("name"));
+        new IndexSettings()
+            .setAttributesForFaceting(Collections.singletonList("name"))
+            .setReplicas(Collections.singletonList("TestReindex-replica"));
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********

@@ -836,7 +836,7 @@ public class AsyncAPIClient {
         .thenCompose(
             result -> {
               CompletableFuture<BrowseResult<T>> r = new CompletableFuture<>();
-                r.complete(result);
+              r.complete(result);
               return r;
             });
   }
