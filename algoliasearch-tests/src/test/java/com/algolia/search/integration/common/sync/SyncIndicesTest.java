@@ -108,7 +108,8 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Object
     newIndexContent.setObjects(
@@ -184,7 +185,8 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set the Objects iterator
     IndexIterable<AlgoliaObjectWithID> iterator = index.browse(new Query(""));
@@ -259,7 +261,8 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set new Objects
     newIndexContent.setObjects(
@@ -271,7 +274,7 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     newIndexContent.setRules(Collections.singletonList(generateRule("id1")));
 
     // Perform the reindex
-    index.reIndex(newIndexContent ,true);
+    index.reIndex(newIndexContent, true);
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query(""));
@@ -322,7 +325,8 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set new Objects
     newIndexContent.setObjects(
@@ -383,7 +387,8 @@ public abstract class SyncIndicesTest extends SyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Rule
     newIndexContent.setRules(Collections.singletonList(generateRule("id1")));

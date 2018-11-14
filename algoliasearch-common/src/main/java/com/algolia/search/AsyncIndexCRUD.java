@@ -5,7 +5,6 @@ import com.algolia.search.objects.IndexContent;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -149,7 +148,7 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
    * @param safe runs the reindex safely
    */
   default List<Long> reIndex(@Nonnull IndexContent<T> indexContent, boolean safe)
-          throws InterruptedException, ExecutionException, AlgoliaException {
+      throws InterruptedException, ExecutionException, AlgoliaException {
     return reIndex(indexContent, safe, new RequestOptions());
   }
 
@@ -168,7 +167,8 @@ public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
     // 1. Init temps Index
     AsyncIndex<T> tmpIndex =
         getApiClient()
-            .initIndex(getName() + "_tmp_" + UUID.randomUUID().toString(), indexContent.getObjectClass());
+            .initIndex(
+                getName() + "_tmp_" + UUID.randomUUID().toString(), indexContent.getObjectClass());
 
     // 2. Copy the settings, synonyms and rules (but not the records)
     List<Long> taskIds = new ArrayList<>();

@@ -105,7 +105,8 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Object
     newIndexContent.setObjects(
@@ -183,7 +184,8 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set new Objects
     newIndexContent.setObjects(
@@ -246,7 +248,8 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Set new Objects
     newIndexContent.setObjects(
@@ -313,7 +316,8 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(index.setSettings(settings));
 
     // ********* ReIndex with new data *********
-    IndexContent<AlgoliaObjectWithID> newIndexContent = new IndexContent<>(AlgoliaObjectWithID.class);
+    IndexContent<AlgoliaObjectWithID> newIndexContent =
+        new IndexContent<>(AlgoliaObjectWithID.class);
 
     // Rule
     newIndexContent.setRules(Collections.singletonList(generateRule("id1")));
@@ -327,7 +331,7 @@ public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {
         new IndexSettings().setAttributesForFaceting(Collections.singletonList("age"));
     newIndexContent.setSettings(newSettings);
 
-    index.reIndex(newIndexContent,true);
+    index.reIndex(newIndexContent, true);
 
     // Assert that objects are well replaced
     SearchResult<AlgoliaObjectWithID> result = index.search(new Query("")).get();

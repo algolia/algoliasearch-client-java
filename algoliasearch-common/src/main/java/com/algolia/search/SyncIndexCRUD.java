@@ -147,7 +147,8 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
    * @param safe runs the reindex safely
    * @throws AlgoliaException AlgoliaException
    */
-  default List<Long> reIndex(@Nonnull IndexContent<T> indexContent,boolean safe) throws AlgoliaException {
+  default List<Long> reIndex(@Nonnull IndexContent<T> indexContent, boolean safe)
+      throws AlgoliaException {
     return reIndex(indexContent, safe, new RequestOptions());
   }
 
@@ -166,7 +167,9 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
 
     // 1. Init temps Index
     Index<T> tmpIndex =
-        this.getApiClient().initIndex(getName() + "_tmp_" + UUID.randomUUID().toString(), indexContent.getObjectClass());
+        this.getApiClient()
+            .initIndex(
+                getName() + "_tmp_" + UUID.randomUUID().toString(), indexContent.getObjectClass());
 
     // 2. Copy the settings, synonyms and rules (but not the records)
     List<Long> taskIds = new ArrayList<>();
