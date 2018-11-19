@@ -200,8 +200,7 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    * @param rules List of query Rules
    * @return the associated task
    */
-  default Task replaceAllRules(@Nonnull List<Rule> rules)
-          throws AlgoliaException {
+  default Task replaceAllRules(@Nonnull List<Rule> rules) throws AlgoliaException {
     return replaceAllRules(rules, false, new RequestOptions());
   }
 

@@ -202,11 +202,9 @@ public interface AsyncRules<T> extends AsyncBaseIndex<T> {
    * @param rules List of Rules
    * @return the associated task
    */
-  default CompletableFuture<AsyncTask> replaceAllRules(
-          @Nonnull List<Rule> rules) {
+  default CompletableFuture<AsyncTask> replaceAllRules(@Nonnull List<Rule> rules) {
     return replaceAllRules(rules, false, new RequestOptions());
   }
-
 
   /**
    * Replace a list of Rules

@@ -1,16 +1,9 @@
 package com.algolia.search;
 
-import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.objects.IndexContent;
-import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
-import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public interface AsyncIndexCRUD<T> extends AsyncBaseIndex<T> {
