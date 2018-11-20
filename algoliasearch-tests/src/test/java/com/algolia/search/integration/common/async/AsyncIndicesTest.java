@@ -1,23 +1,12 @@
 package com.algolia.search.integration.common.async;
 
-import static com.algolia.search.integration.common.async.AsyncRulesTest.generateRule;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.AlgoliaObject;
-import com.algolia.search.AlgoliaObjectWithID;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
-import com.algolia.search.inputs.query_rules.Rule;
-import com.algolia.search.inputs.synonym.AbstractSynonym;
-import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.*;
 import com.algolia.search.responses.SearchResult;
-import com.algolia.search.responses.SearchRuleResult;
-import com.algolia.search.responses.SearchSynonymResult;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 import org.junit.Test;
 
 public abstract class AsyncIndicesTest extends AsyncAlgoliaIntegrationTest {

@@ -45,10 +45,16 @@ public class SyncAccountClient {
       @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
 
-    // Test if the destination index exists
-    IndexSettings destSettings = destinationIndex.getSettings();
+    if (sourceIndex
+        .getApiClient()
+        .configuration
+        .getApplicationId()
+        .equals(destinationIndex.getApiClient().configuration.getApplicationId())) {
+      throw new AlgoliaException(
+          "Source and Destination indices should not be on the same application.");
+    }
 
-    if (destSettings != null) {
+    if (destinationIndex.getSettings() != null) {
       throw new AlgoliaException(
           "Destination index already exists. Please delete it before copying index across applications.");
     }

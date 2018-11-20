@@ -8,27 +8,35 @@ import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.IndexSettings;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
 import com.algolia.search.objects.Query;
 import com.algolia.search.responses.SearchResult;
+import java.time.Instant;
+import java.util.*;
 import org.junit.Test;
 
 public abstract class SyncAccountClientTest extends SyncAlgoliaIntegrationTest {
 
-  @Test(expected = AlgoliaException.class)
-  public void copyIndexWithExistingIndex() throws AlgoliaException {
-    // Save object in Index1
-    Index<AlgoliaObject> srcIndex = createIndex(AlgoliaObject.class);
-    waitForCompletion(
-        srcIndex.saveObject("objectID1", new AlgoliaObjectWithID("objectID1", "algolia1", 5)));
+  private APIClient client2 = createInstance(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2);
 
-    // Save object in Index2
+  @Test(expected = AlgoliaException.class)
+  public void copyIndexOnSameApp() throws AlgoliaException {
+    Index<AlgoliaObject> srcIndex = createIndex(AlgoliaObject.class);
     Index<AlgoliaObject> dstIndex = createIndex(AlgoliaObject.class);
-    waitForCompletion(
+
+    SyncAccountClient.copyIndex(srcIndex, dstIndex);
+  }
+
+  @Test(expected = AlgoliaException.class)
+  public void copyOnExistingIndex() throws AlgoliaException {
+
+    String sourceIndexName =
+        "java_" + System.getProperty("user.name") + Instant.now().toString() + "_copyIndex";
+    Index<AlgoliaObject> srcIndex = client2.initIndex(sourceIndexName, AlgoliaObject.class);
+
+    String destinationIndexName =
+        "java_" + System.getProperty("user.name") + Instant.now().toString() + "_copyIndex";
+    Index<AlgoliaObject> dstIndex = createIndex(destinationIndexName, AlgoliaObject.class);
+    dstIndex.waitTask(
         dstIndex.saveObject("objectID2", new AlgoliaObjectWithID("objectID2", "algolia2", 6)));
 
     SyncAccountClient.copyIndex(srcIndex, dstIndex);
@@ -38,27 +46,38 @@ public abstract class SyncAccountClientTest extends SyncAlgoliaIntegrationTest {
   public void copyFullIndex() throws AlgoliaException {
 
     // Create source index
-    Index<AlgoliaObjectWithID> srcIndex = createIndex(AlgoliaObjectWithID.class);
-    waitForCompletion(
-            srcIndex.saveObjects(
-                    Arrays.asList(
-                            new AlgoliaObjectWithID("1", "algolia1", 5),
-                            new AlgoliaObjectWithID("2", "algolia2", 5))));
+    String sourceIndexName =
+        "java_" + System.getProperty("user.name") + Instant.now().toString() + "_copyFullIndex";
+
+    Index<AlgoliaObjectWithID> srcIndex = createIndex(sourceIndexName, AlgoliaObjectWithID.class);
+
+    srcIndex.waitTask(
+        srcIndex.saveObjects(
+            Arrays.asList(
+                new AlgoliaObjectWithID("1", "algolia1", 5),
+                new AlgoliaObjectWithID("2", "algolia2", 5))));
 
     // Save Rule
-    waitForCompletion(srcIndex.saveRule("id", generateRule("id")));
+    srcIndex.waitTask(srcIndex.saveRule("id", generateRule("id")));
 
     // Save synonym
     List<String> synonymList = Arrays.asList("San Francisco", "SF");
-    waitForCompletion(srcIndex.saveSynonym("synonym1", new Synonym(synonymList)));
+    srcIndex.waitTask(srcIndex.saveSynonym("synonym1", new Synonym(synonymList)));
 
     // Save settings
     IndexSettings settings =
         new IndexSettings().setAttributesForFaceting(Collections.singletonList("name"));
-    waitForCompletion(srcIndex.setSettings(settings));
+    srcIndex.waitTask(srcIndex.setSettings(settings));
 
     // Create destination index
-    Index<AlgoliaObjectWithID> dstIndex = createIndex(AlgoliaObjectWithID.class);
+    String destinationIndexName =
+        "java_"
+            + System.getProperty("user.name")
+            + "_"
+            + Instant.now().toString()
+            + "_copyFullIndex";
+    Index<AlgoliaObjectWithID> dstIndex =
+        client2.initIndex(destinationIndexName, AlgoliaObjectWithID.class);
 
     List<Long> taskIds = SyncAccountClient.copyIndex(srcIndex, dstIndex);
 
@@ -90,5 +109,7 @@ public abstract class SyncAccountClientTest extends SyncAlgoliaIntegrationTest {
     // Assert that the settings are still the same
     IndexSettings settingsRes = dstIndex.getSettings();
     assertThat(settingsRes.getAttributesForFaceting()).containsOnly("name");
+
+    client2.deleteIndex(destinationIndexName);
   }
 }
