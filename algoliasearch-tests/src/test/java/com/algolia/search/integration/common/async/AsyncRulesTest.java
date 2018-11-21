@@ -83,6 +83,29 @@ public abstract class AsyncRulesTest extends AsyncAlgoliaIntegrationTest {
     assertThat(searchResult.getHits()).hasSize(2);
   }
 
+  @Test
+  public void replaceAllRules() throws Exception {
+    Rule queryRule1 = generateRule("queryRule1");
+    Rule queryRule2 = generateRule("queryRule2");
+
+    AsyncIndex<?> index = createIndex();
+
+    waitForCompletion(index.batchRules(Arrays.asList(queryRule1, queryRule2)));
+
+    SearchRuleResult searchResult = index.searchRules(new RuleQuery("")).get();
+    assertThat(searchResult.getHits()).hasSize(2);
+
+    Rule queryRule3 = generateRule("queryRule3");
+    waitForCompletion(index.replaceAllRules(Collections.singletonList(queryRule3)));
+
+    SearchRuleResult searchResultAfterReplace = index.searchRules(new RuleQuery("")).get();
+    assertThat(searchResultAfterReplace.getHits()).hasSize(1);
+
+    assertThat(searchResultAfterReplace.getHits().get(0))
+        .isInstanceOf(Rule.class)
+        .isEqualToComparingFieldByFieldRecursively(queryRule3);
+  }
+
   /** Test if enabled flag is saved */
   @Test
   public void enabledFlag() throws Exception {
