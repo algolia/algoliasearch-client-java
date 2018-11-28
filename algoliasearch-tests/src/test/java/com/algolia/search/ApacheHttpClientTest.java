@@ -16,17 +16,17 @@ import org.junit.Test;
 
 public class ApacheHttpClientTest {
 
-  private static String ALGOLIA_APPLICATION_ID = System.getenv("ALGOLIA_APPLICATION_ID");
-  private static String ALGOLIA_API_KEY = System.getenv("ALGOLIA_API_KEY");
+  private static String ALGOLIA_APPLICATION_ID_1 = System.getenv("ALGOLIA_APPLICATION_ID_1");
+  private static String ALGOLIA_API_KEY_1 = System.getenv("ALGOLIA_ADMIN_KEY_1");
   private APIClientConfiguration defaultConfig;
 
   @Before
   public void checkEnvVariables() throws Exception {
-    if (ALGOLIA_APPLICATION_ID == null || ALGOLIA_APPLICATION_ID.isEmpty()) {
-      throw new Exception("ALGOLIA_APPLICATION_ID is not defined or empty");
+    if (ALGOLIA_APPLICATION_ID_1 == null || ALGOLIA_APPLICATION_ID_1.isEmpty()) {
+      throw new Exception("ALGOLIA_APPLICATION_ID_1 is not defined or empty");
     }
-    if (ALGOLIA_API_KEY == null || ALGOLIA_API_KEY.isEmpty()) {
-      throw new Exception("ALGOLIA_API_KEY is not defined or empty");
+    if (ALGOLIA_API_KEY_1 == null || ALGOLIA_API_KEY_1.isEmpty()) {
+      throw new Exception("ALGOLIA_API_KEY_1 is not defined or empty");
     }
   }
 
@@ -34,15 +34,15 @@ public class ApacheHttpClientTest {
   public void before() {
     defaultConfig =
         new APIClientConfiguration(
-            ALGOLIA_APPLICATION_ID,
-            ALGOLIA_API_KEY,
+            ALGOLIA_APPLICATION_ID_1,
+            ALGOLIA_API_KEY_1,
             Defaults.DEFAULT_OBJECT_MAPPER,
             Defaults.ANALYTICS_HOST,
-            Collections.singletonList(ALGOLIA_APPLICATION_ID + ".algolia.net"),
-            Collections.singletonList(ALGOLIA_APPLICATION_ID + "-dsn.algolia.net"),
+            Collections.singletonList(ALGOLIA_APPLICATION_ID_1 + ".algolia.net"),
+            Collections.singletonList(ALGOLIA_APPLICATION_ID_1 + "-dsn.algolia.net"),
             ImmutableMap.of(
-                "X-Algolia-Application-Id", ALGOLIA_APPLICATION_ID,
-                "X-Algolia-API-Key", ALGOLIA_API_KEY),
+                "X-Algolia-Application-Id", ALGOLIA_APPLICATION_ID_1,
+                "X-Algolia-API-Key", ALGOLIA_API_KEY_1),
             1000,
             2000,
             1000,
@@ -53,15 +53,15 @@ public class ApacheHttpClientTest {
   private APIClient build(String... hosts) {
     APIClientConfiguration configuration =
         new APIClientConfiguration(
-            ALGOLIA_APPLICATION_ID,
-            ALGOLIA_API_KEY,
+            ALGOLIA_APPLICATION_ID_1,
+            ALGOLIA_API_KEY_1,
             Defaults.DEFAULT_OBJECT_MAPPER,
             Defaults.ANALYTICS_HOST,
             Arrays.asList(hosts),
             Arrays.asList(hosts),
             ImmutableMap.of(
-                "X-Algolia-Application-Id", ALGOLIA_APPLICATION_ID,
-                "X-Algolia-API-Key", ALGOLIA_API_KEY),
+                "X-Algolia-Application-Id", ALGOLIA_APPLICATION_ID_1,
+                "X-Algolia-API-Key", ALGOLIA_API_KEY_1),
             1000,
             2000,
             1000,
@@ -84,7 +84,7 @@ public class ApacheHttpClientTest {
 
   @Test
   public void shouldHandleTimeoutsInDns() throws Exception {
-    APIClient client = build("java-dsn.algolia.biz", ALGOLIA_APPLICATION_ID + "-dsn.algolia.net");
+    APIClient client = build("java-dsn.algolia.biz", ALGOLIA_APPLICATION_ID_1 + "-dsn.algolia.net");
 
     assertThatItTookLessThan(3 * 1000, () -> assertThat(client.listIndexes()).isNotNull());
   }
@@ -92,7 +92,7 @@ public class ApacheHttpClientTest {
   @Test
   public void shouldHandleConnectTimeout() throws Exception {
     APIClient client =
-        build("notcp-xx-1.algolianet.com", ALGOLIA_APPLICATION_ID + "-dsn.algolia.net");
+        build("notcp-xx-1.algolianet.com", ALGOLIA_APPLICATION_ID_1 + "-dsn.algolia.net");
 
     assertThatItTookLessThan(3 * 1000, () -> assertThat(client.listIndexes()).isNotNull());
   }
@@ -122,14 +122,14 @@ public class ApacheHttpClientTest {
 
     runnable.start();
 
-    APIClient client = build("localhost:8080", ALGOLIA_APPLICATION_ID + "-1.algolianet.com");
+    APIClient client = build("localhost:8080", ALGOLIA_APPLICATION_ID_1 + "-1.algolianet.com");
 
     assertThatItTookLessThan(2 * 1000, client::listIndexes);
   }
 
   @Test
   public void shouldHandleSNI() throws Exception {
-    APIClient client = build(ALGOLIA_APPLICATION_ID + "-1.algolianet.com");
+    APIClient client = build(ALGOLIA_APPLICATION_ID_1 + "-1.algolianet.com");
     assertThat(client.listIndexes()).isNotEmpty();
   }
 }

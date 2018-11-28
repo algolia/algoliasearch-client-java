@@ -21,9 +21,11 @@ public abstract class SyncAlgoliaIntegrationTest {
 
   protected static APIClient client;
   private static List<String> indexNameToDeleteAfterTheTests = new ArrayList<>();
-  protected String ALGOLIA_APPLICATION_ID = System.getenv("ALGOLIA_APPLICATION_ID");
-  protected String ALGOLIA_API_KEY = System.getenv("ALGOLIA_API_KEY");
-  protected static final long WAIT_TIME_IN_SECONDS = 60 * 5; // 5 minutes
+  protected String ALGOLIA_APPLICATION_ID_1 = System.getenv("ALGOLIA_APPLICATION_ID_1");
+  protected String ALGOLIA_API_KEY_1 = System.getenv("ALGOLIA_ADMIN_KEY_1");
+  protected String ALGOLIA_APPLICATION_ID_2 = System.getenv("ALGOLIA_APPLICATION_ID_2");
+  protected String ALGOLIA_API_KEY_2 = System.getenv("ALGOLIA_ADMIN_KEY_2");
+  private static final long WAIT_TIME_IN_SECONDS = 60 * 5; // 5 minutes
 
   @AfterClass
   public static void after() {
@@ -40,9 +42,13 @@ public abstract class SyncAlgoliaIntegrationTest {
   }
 
   protected static <T> Index<T> createIndex(Class<T> klass) {
-    String uniqueIndexName = "test-" + UUID.randomUUID().toString();
-    indexNameToDeleteAfterTheTests.add(uniqueIndexName);
-    return client.initIndex(uniqueIndexName, klass);
+    String uniqueIndexName = "java_" + UUID.randomUUID().toString();
+    return createIndex(uniqueIndexName, klass);
+  }
+
+  protected static <T> Index<T> createIndex(String indexName, Class<T> klass) {
+    indexNameToDeleteAfterTheTests.add(indexName);
+    return client.initIndex(indexName, klass);
   }
 
   protected static Analytics createAnalytics() {
@@ -55,14 +61,21 @@ public abstract class SyncAlgoliaIntegrationTest {
 
   @Before
   public void checkEnvVariables() throws Exception {
-    if (ALGOLIA_APPLICATION_ID == null || ALGOLIA_APPLICATION_ID.isEmpty()) {
+    if (ALGOLIA_APPLICATION_ID_1 == null || ALGOLIA_APPLICATION_ID_1.isEmpty()) {
       throw new Exception("ALGOLIA_APPLICATION_ID is not defined or empty");
     }
-    if (ALGOLIA_API_KEY == null || ALGOLIA_API_KEY.isEmpty()) {
+    if (ALGOLIA_API_KEY_1 == null || ALGOLIA_API_KEY_1.isEmpty()) {
       throw new Exception("ALGOLIA_API_KEY is not defined or empty");
     }
 
-    client = createInstance(ALGOLIA_APPLICATION_ID, ALGOLIA_API_KEY);
+    if (ALGOLIA_APPLICATION_ID_2 == null || ALGOLIA_APPLICATION_ID_2.isEmpty()) {
+      throw new Exception("ALGOLIA_APPLICATION_ID_2 is not defined or empty");
+    }
+    if (ALGOLIA_API_KEY_2 == null || ALGOLIA_API_KEY_2.isEmpty()) {
+      throw new Exception("ALGOLIA_API_KEY_2 is not defined or empty");
+    }
+
+    client = createInstance(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
   }
 
   public abstract APIClient createInstance(String appId, String apiKey);

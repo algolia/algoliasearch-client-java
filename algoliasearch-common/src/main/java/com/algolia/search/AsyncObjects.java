@@ -4,9 +4,9 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.async.AsyncTask;
 import com.algolia.search.objects.tasks.async.AsyncTaskIndexing;
 import com.algolia.search.objects.tasks.async.AsyncTaskSingleIndex;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
@@ -198,6 +198,80 @@ public interface AsyncObjects<T> extends AsyncBaseIndex<T> {
   default CompletableFuture<AsyncTaskSingleIndex> saveObjects(
       @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) {
     return getApiClient().saveObjects(getName(), objects, requestOptions);
+  }
+
+  /**
+   * Replace all objects
+   *
+   * @param objects the list objects to update
+   * @param safe run the method in a safe way
+   */
+  default void replaceAllObjects(@Nonnull Iterable<T> objects, boolean safe)
+      throws ExecutionException, InterruptedException {
+    replaceAllObjects(objects, safe, new RequestOptions());
+  }
+
+  /**
+   * Replace all objects
+   *
+   * @param objects the list objects to update
+   * @param safe run the method in a safe way
+   * @param requestOptions Options to pass to this request
+   */
+  default void replaceAllObjects(
+      @Nonnull Iterable<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
+      throws ExecutionException, InterruptedException {
+
+    String tmpName = this.getName() + "_tmp_" + UUID.randomUUID().toString();
+    List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
+    List<AsyncTaskSingleIndex> batchResponses = new ArrayList<>();
+
+    // Copy all index resources from srcIndex
+    AsyncTask copyIndexResponse =
+        getApiClient().copyIndex(getName(), tmpName, scope, requestOptions).get();
+
+    if (safe) {
+      getApiClient().waitTask(copyIndexResponse);
+    }
+
+    // Send records (batched automatically)
+    ArrayList<T> records = new ArrayList<>();
+
+    for (T object : objects) {
+
+      if (records.size() == 1000) {
+        AsyncTaskSingleIndex batchResponse =
+            getApiClient().saveObjects(tmpName, records, requestOptions).get();
+        if (safe) {
+          batchResponses.add(batchResponse);
+        }
+        records.clear();
+      }
+
+      records.add(object);
+    }
+
+    if (records.size() > 0) {
+      AsyncTaskSingleIndex batchResponse =
+          getApiClient().saveObjects(tmpName, records, requestOptions).get();
+      batchResponses.add(batchResponse);
+    }
+
+    // if safe waits for task to finish
+    if (safe) {
+      for (AsyncTaskSingleIndex response : batchResponses) {
+        getApiClient().waitTask(response);
+      }
+    }
+
+    // Move temporary index
+    AsyncTask moveIndexResponse =
+        getApiClient().moveIndex(tmpName, getName(), requestOptions).get();
+
+    // if safe waits for task to finish
+    if (safe) {
+      getApiClient().waitTask(moveIndexResponse);
+    }
   }
 
   /**

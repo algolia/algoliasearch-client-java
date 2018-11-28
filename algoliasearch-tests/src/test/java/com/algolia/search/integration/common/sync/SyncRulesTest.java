@@ -122,6 +122,29 @@ public abstract class SyncRulesTest extends SyncAlgoliaIntegrationTest {
   }
 
   @Test
+  public void replaceAllRules() throws AlgoliaException {
+    Rule queryRule1 = generateRule("queryRule1");
+    Rule queryRule2 = generateRule("queryRule2");
+
+    Index<?> index = createIndex();
+
+    waitForCompletion(index.batchRules(Arrays.asList(queryRule1, queryRule2)));
+
+    SearchRuleResult searchResult = index.searchRules(new RuleQuery(""));
+    assertThat(searchResult.getHits()).hasSize(2);
+
+    Rule queryRule3 = generateRule("queryRule3");
+    waitForCompletion(index.replaceAllRules(Collections.singletonList(queryRule3)));
+
+    SearchRuleResult searchResultAfterReplace = index.searchRules(new RuleQuery(""));
+    assertThat(searchResultAfterReplace.getHits()).hasSize(1);
+
+    assertThat(searchResultAfterReplace.getHits().get(0))
+        .isInstanceOf(Rule.class)
+        .isEqualToComparingFieldByFieldRecursively(queryRule3);
+  }
+
+  @Test
   public void queryRuleSerialization() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
 

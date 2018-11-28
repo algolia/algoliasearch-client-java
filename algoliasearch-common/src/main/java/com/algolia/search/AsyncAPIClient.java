@@ -216,6 +216,96 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Copy all the synonyms from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> copySynonyms(
+      @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
+    return copySynonyms(srcIndexName, dstIndexName, new RequestOptions());
+  }
+
+  /**
+   * Copy all the synonyms from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> copySynonyms(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions) {
+    List<String> scope = new ArrayList<>(Collections.singletonList("synonyms"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> copyRules(
+      @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
+    return copyRules(srcIndexName, dstIndexName, new RequestOptions());
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> copyRules(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions) {
+    List<String> scope = new ArrayList<>(Collections.singletonList("rules"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
+   * Copy all the settings from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> copySettings(
+      @Nonnull String srcIndexName, @Nonnull String dstIndexName) {
+    return copySettings(srcIndexName, dstIndexName, new RequestOptions());
+  }
+
+  /**
+   * Copy all the settings from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The associated task
+   */
+  public CompletableFuture<AsyncTask> copySettings(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions) {
+    List<String> scope = new ArrayList<>(Collections.singletonList("settings"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
    * Return 10 last log entries.
    *
    * @return A List<Log>
@@ -611,6 +701,31 @@ public class AsyncAPIClient {
   }
 
   /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param requests list of objects to retrieve. Each object is identified by: indexName and
+   *     objectId
+   * @return the result of the queries
+   */
+  public CompletableFuture<List<Map<String, String>>> multipleGetObjects(
+      @Nonnull List<MultipleGetObjectsRequests> requests) {
+    return multipleGetObjects(requests, new RequestOptions());
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param requests list of objects to retrieve. Each object is identified by: indexName and
+   *     objectId
+   * @param requestsOptions requestOptions to pass to the query
+   * @return the result of the queries
+   */
+  public CompletableFuture<List<Map<String, String>>> multipleGetObjects(
+      @Nonnull List<MultipleGetObjectsRequests> requests, @Nonnull RequestOptions requestsOptions) {
+    return multiGetObjects(requests, requestsOptions);
+  }
+
+  /**
    * Performs multiple searches on multiple indices with the strategy <code>
    * MultiQueriesStrategy.NONE</code>
    *
@@ -701,6 +816,29 @@ public class AsyncAPIClient {
                 requestOptions,
                 AsyncTask.class))
         .thenApply(s -> s.setIndex(indexName));
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> CompletableFuture<BrowseResult<T>> browse(
+      String indexName, Query query, String cursor, Class<T> klass, RequestOptions requestOptions) {
+    AlgoliaRequest<BrowseResult> algoliaRequest =
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "indexes", indexName, "browse"),
+                requestOptions,
+                BrowseResult.class,
+                klass)
+            .setData(query.setCursor(cursor));
+
+    return httpClient
+        .requestWithRetry(algoliaRequest)
+        .thenCompose(
+            result -> {
+              CompletableFuture<BrowseResult<T>> r = new CompletableFuture<>();
+              r.complete(result);
+              return r;
+            });
   }
 
   /** Package protected method for the Index class */
@@ -828,6 +966,35 @@ public class AsyncAPIClient {
                 requestOptions,
                 AsyncTask.class))
         .thenApply(s -> s.setIndex(indexName));
+  }
+
+  @SuppressWarnings("unchecked")
+  <T> CompletableFuture<List<T>> multiGetObjects(
+      List<MultipleGetObjectsRequests> request, RequestOptions requestOptions) {
+
+    Requests requests =
+        new Requests(
+            request
+                .stream()
+                .map(
+                    o ->
+                        new Requests.Request()
+                            .setIndexName(o.getIndexName())
+                            .setObjectID(o.getObjectID()))
+                .collect(Collectors.toList()));
+
+    AlgoliaRequest<Results> algoliaRequest =
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_READ,
+                Arrays.asList("1", "indexes", "*", "objects"),
+                requestOptions,
+                Results.class)
+            .setData(requests);
+
+    return httpClient
+        .requestWithRetry(algoliaRequest.setData(requests))
+        .thenApply(Results::getResults);
   }
 
   @SuppressWarnings("unchecked")

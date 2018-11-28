@@ -10,6 +10,7 @@ import com.algolia.search.inputs.synonym.Synonym;
 import com.algolia.search.objects.SynonymQuery;
 import com.algolia.search.responses.SearchSynonymResult;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Test;
@@ -84,5 +85,32 @@ public abstract class SyncSynonymsTest extends SyncAlgoliaIntegrationTest {
 
     SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
     assertThat(searchResult.getHits()).hasSize(2);
+  }
+
+  @Test
+  public void replaceAllSynonyms() throws Exception {
+    Index<?> index = createIndex();
+
+    List<String> a = Arrays.asList("San Francisco", "SF");
+    List<String> b = Arrays.asList("Paris", "pas la province");
+
+    Synonym syn1 = new Synonym().setObjectID("syn1").setSynonyms(a);
+    Synonym syn2 = new Synonym().setObjectID("syn2").setSynonyms(b);
+
+    waitForCompletion(index.batchSynonyms(Arrays.asList(syn1, syn2)));
+
+    SearchSynonymResult searchResult = index.searchSynonyms(new SynonymQuery(""));
+    assertThat(searchResult.getHits()).hasSize(2);
+
+    List<String> c = Arrays.asList("Marseille", "Aix");
+    Synonym syn3 = new Synonym().setObjectID("syn3").setSynonyms(c);
+
+    waitForCompletion(index.replaceAllSynonyms(Collections.singletonList(syn3)));
+    SearchSynonymResult searchAfterReplace = index.searchSynonyms(new SynonymQuery(""));
+
+    assertThat(searchAfterReplace.getHits()).hasSize(1);
+    assertThat(searchAfterReplace.getHits().get(0))
+        .isInstanceOf(Synonym.class)
+        .isEqualToComparingFieldByFieldRecursively(syn3);
   }
 }

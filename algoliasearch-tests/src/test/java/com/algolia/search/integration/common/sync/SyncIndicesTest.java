@@ -6,7 +6,7 @@ import com.algolia.search.AlgoliaObject;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import com.algolia.search.objects.Query;
+import com.algolia.search.objects.*;
 import com.algolia.search.responses.SearchResult;
 import java.util.List;
 import org.junit.Test;

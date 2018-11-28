@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.AlgoliaObject;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.AsyncIndex;
-import com.algolia.search.objects.Query;
+import com.algolia.search.objects.*;
 import com.algolia.search.responses.SearchResult;
 import org.junit.Test;
 

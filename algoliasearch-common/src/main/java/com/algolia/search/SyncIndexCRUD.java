@@ -50,25 +50,25 @@ public interface SyncIndexCRUD<T> extends SyncBaseIndex<T> {
   /**
    * Moves an existing index
    *
-   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   * @param newIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @return The associated task
    */
-  default Task moveTo(@Nonnull String dstIndexName) throws AlgoliaException {
-    return moveTo(dstIndexName, new RequestOptions());
+  default Task moveTo(@Nonnull String newIndexName) throws AlgoliaException {
+    return moveTo(newIndexName, new RequestOptions());
   }
 
   /**
    * Moves an existing index
    *
-   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   * @param newIndexName the new index name that will contains a copy of srcIndexName (destination
    *     will be overwritten if it already exist)
    * @param requestOptions Options to pass to this request
    * @return The associated task
    */
-  default Task moveTo(@Nonnull String dstIndexName, @Nonnull RequestOptions requestOptions)
+  default Task moveTo(@Nonnull String newIndexName, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
-    return getApiClient().moveIndex(getName(), dstIndexName, requestOptions);
+    return getApiClient().moveIndex(getName(), newIndexName, requestOptions);
   }
 
   /**

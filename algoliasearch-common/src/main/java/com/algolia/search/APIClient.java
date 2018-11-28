@@ -230,6 +230,99 @@ public class APIClient {
   }
 
   /**
+   * Copy all the synonyms from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   */
+  public Task copySynonyms(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
+      throws AlgoliaException {
+    return copySynonyms(srcIndexName, dstIndexName, new RequestOptions());
+  }
+
+  /**
+   * Copy all the synonyms from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  public Task copySynonyms(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    List<String> scope = new ArrayList<>(Collections.singletonList("synonyms"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   */
+  public Task copyRules(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
+      throws AlgoliaException {
+    return copyRules(srcIndexName, dstIndexName, new RequestOptions());
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  public Task copyRules(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    List<String> scope = new ArrayList<>(Collections.singletonList("rules"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @return The task associated
+   */
+  public Task copySettings(@Nonnull String srcIndexName, @Nonnull String dstIndexName)
+      throws AlgoliaException {
+    return copySettings(srcIndexName, dstIndexName, new RequestOptions());
+  }
+
+  /**
+   * Copy all the rules from a source index to a destination index
+   *
+   * @param srcIndexName the index name that will be the source of the copy
+   * @param dstIndexName the new index name that will contains a copy of srcIndexName (destination
+   *     will be overwritten if it already exist)
+   * @param requestOptions Options to pass to this request
+   * @return The task associated
+   */
+  public Task copySettings(
+      @Nonnull String srcIndexName,
+      @Nonnull String dstIndexName,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    List<String> scope = new ArrayList<>(Collections.singletonList("settings"));
+    return copyIndex(srcIndexName, dstIndexName, scope, requestOptions);
+  }
+
+  /**
    * Delete an existing index
    *
    * @param indexName The index name that will be deleted
@@ -650,6 +743,34 @@ public class APIClient {
   }
 
   /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param requests list of objects to retrieve. Each object is identified by: indexName and
+   *     objectId
+   * @return the result of the queries
+   * @throws AlgoliaException if API error
+   */
+  public List<Map<String, String>> multipleGetObjects(
+      @Nonnull List<MultipleGetObjectsRequests> requests) throws AlgoliaException {
+    return multipleGetObjects(requests, new RequestOptions());
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param requests list of objects to retrieve. Each object is identified by: indexName and
+   *     objectId
+   * @param requestsOptions requestOptions to pass to the query
+   * @return the result of the queries
+   * @throws AlgoliaException if API error
+   */
+  public List<Map<String, String>> multipleGetObjects(
+      @Nonnull List<MultipleGetObjectsRequests> requests, @Nonnull RequestOptions requestsOptions)
+      throws AlgoliaException {
+    return multiGetObjects(requests, requestsOptions);
+  }
+
+  /**
    * Performs multiple searches on multiple indices with the strategy <code>
    * MultiQueriesStrategy.NONE</code>
    *
@@ -849,6 +970,34 @@ public class APIClient {
                 Task.class));
 
     return result.setAPIClient(this).setIndex(indexName);
+  }
+
+  @SuppressWarnings("unchecked")
+  <T> List<T> multiGetObjects(
+      List<MultipleGetObjectsRequests> request, RequestOptions requestOptions)
+      throws AlgoliaException {
+
+    Requests requests =
+        new Requests(
+            request
+                .stream()
+                .map(
+                    o ->
+                        new Requests.Request()
+                            .setIndexName(o.getIndexName())
+                            .setObjectID(o.getObjectID()))
+                .collect(Collectors.toList()));
+
+    return httpClient
+        .requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    AlgoliaRequestKind.SEARCH_API_READ,
+                    Arrays.asList("1", "indexes", "*", "objects"),
+                    requestOptions,
+                    Results.class)
+                .setData(requests))
+        .getResults();
   }
 
   @SuppressWarnings("unchecked")

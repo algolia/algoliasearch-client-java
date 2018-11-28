@@ -195,6 +195,42 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
   }
 
   /**
+   * Replace a list of query Rules
+   *
+   * @param rules List of query Rules
+   * @return the associated task
+   */
+  default Task replaceAllRules(@Nonnull List<Rule> rules) throws AlgoliaException {
+    return replaceAllRules(rules, false, new RequestOptions());
+  }
+
+  /**
+   * Replace a list of query Rules
+   *
+   * @param rules List of query Rules
+   * @param forwardToReplicas Forward the operation to the slave indices
+   * @return the associated task
+   */
+  default Task replaceAllRules(@Nonnull List<Rule> rules, boolean forwardToReplicas)
+      throws AlgoliaException {
+    return replaceAllRules(rules, forwardToReplicas, new RequestOptions());
+  }
+
+  /**
+   * Replace a list of query Rules
+   *
+   * @param rules List of query Rules
+   * @param forwardToReplicas Forward the operation to the slave indices
+   * @param requestOptions Options to pass to this request
+   * @return the associated task
+   */
+  default Task replaceAllRules(
+      @Nonnull List<Rule> rules, boolean forwardToReplicas, @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    return batchRules(rules, forwardToReplicas, true, requestOptions);
+  }
+
+  /**
    * Add or replace a list of query Rules
    *
    * @param rules List of query Rules

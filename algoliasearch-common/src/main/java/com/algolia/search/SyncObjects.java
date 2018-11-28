@@ -5,8 +5,7 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.tasks.sync.Task;
 import com.algolia.search.objects.tasks.sync.TaskIndexing;
 import com.algolia.search.objects.tasks.sync.TaskSingleIndex;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings("SameParameterValue")
@@ -204,6 +203,78 @@ public interface SyncObjects<T> extends SyncBaseIndex<T> {
   default TaskSingleIndex saveObjects(
       @Nonnull List<T> objects, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
     return getApiClient().saveObjects(getName(), objects, requestOptions);
+  }
+
+  /**
+   * Replace all objects
+   *
+   * @param objects the list objects to update
+   * @param safe run the method in a safe way
+   */
+  default void replaceAllObjects(@Nonnull Iterable<T> objects, boolean safe)
+      throws AlgoliaException {
+    replaceAllObjects(objects, safe, new RequestOptions());
+  }
+
+  /**
+   * Replace all objects
+   *
+   * @param objects the list objects to update
+   * @param safe run the method in a safe way
+   * @param requestOptions Options to pass to this request
+   */
+  default void replaceAllObjects(
+      @Nonnull Iterable<T> objects, boolean safe, @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+
+    String tmpName = this.getName() + "_tmp_" + UUID.randomUUID().toString();
+    List<String> scope = new ArrayList<>(Arrays.asList("rules", "settings", "synonyms"));
+    List<Task> batchResponses = new ArrayList<>();
+
+    // Copy all index resources from index
+    Task copyIndexResponse = getApiClient().copyIndex(getName(), tmpName, scope, requestOptions);
+
+    if (safe) {
+      getApiClient().waitTask(copyIndexResponse);
+    }
+
+    // Send records (batched automatically)
+    ArrayList<T> records = new ArrayList<>();
+
+    for (T object : objects) {
+
+      if (records.size() == 1000) {
+        Task batchResponse = getApiClient().saveObjects(tmpName, records, requestOptions);
+        if (safe) {
+          batchResponses.add(batchResponse);
+        }
+        records.clear();
+      }
+
+      records.add(object);
+    }
+
+    if (records.size() > 0) {
+      Task batchResponse = getApiClient().saveObjects(tmpName, records, requestOptions);
+      if (safe) {
+        batchResponses.add(batchResponse);
+      }
+    }
+
+    // if safe waits for task to finish
+    if (safe) {
+      for (Task response : batchResponses) {
+        getApiClient().waitTask(response);
+      }
+    }
+
+    // Move temporary index
+    Task moveIndexResponse = getApiClient().moveIndex(tmpName, getName(), requestOptions);
+
+    // if safe waits for task to finish
+    if (safe) {
+      getApiClient().waitTask(moveIndexResponse);
+    }
   }
 
   /**

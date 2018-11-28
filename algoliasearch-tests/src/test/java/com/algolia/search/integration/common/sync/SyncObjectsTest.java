@@ -7,10 +7,14 @@ import com.algolia.search.AlgoliaObjectWithID;
 import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import com.algolia.search.inputs.MultipleGetObjectsRequests;
+import com.algolia.search.inputs.query_rules.Rule;
+import com.algolia.search.inputs.synonym.AbstractSynonym;
+import com.algolia.search.inputs.synonym.Synonym;
+import com.algolia.search.objects.IndexSettings;
+import com.algolia.search.objects.Query;
+import com.algolia.search.responses.SearchResult;
+import java.util.*;
 import org.junit.Test;
 
 public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
@@ -149,5 +153,86 @@ public abstract class SyncObjectsTest extends SyncAlgoliaIntegrationTest {
   public void deleteObjectNullObjectIdShouldFail() throws AlgoliaException, NullPointerException {
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
     index.deleteObject(null);
+  }
+
+  @Test
+  public void testMultipleGetObjects() throws AlgoliaException {
+
+    // Save object in Index1
+    Index<AlgoliaObject> index1 = createIndex(AlgoliaObject.class);
+    waitForCompletion(
+        index1.saveObject("objectID1", new AlgoliaObjectWithID("objectID1", "algolia1", 5)));
+
+    // Save object in Index2
+    Index<AlgoliaObject> index2 = createIndex(AlgoliaObject.class);
+    waitForCompletion(
+        index2.saveObject("objectID2", new AlgoliaObjectWithID("objectID2", "algolia2", 6)));
+
+    // Perform the multiple index queries
+    List<MultipleGetObjectsRequests> requests =
+        Arrays.asList(
+            new MultipleGetObjectsRequests(index1.getName(), "objectID1"),
+            new MultipleGetObjectsRequests(index2.getName(), "objectID2"));
+
+    List<Map<String, String>> result = client.multipleGetObjects(requests);
+
+    // Verify that objects are present in the results
+    assertThat(result).isNotNull();
+    assertThat(result.get(0).get("objectID")).isEqualTo("objectID1");
+    assertThat(result.get(1).get("objectID")).isEqualTo("objectID2");
+  }
+
+  @Test
+  public void testReplaceAllObjects() throws AlgoliaException {
+    // Create index with initials data
+    Index<AlgoliaObjectWithID> index = createIndex(AlgoliaObjectWithID.class);
+    waitForCompletion(
+        index.saveObjects(
+            Arrays.asList(
+                new AlgoliaObjectWithID("1", "algolia1", 5),
+                new AlgoliaObjectWithID("2", "algolia2", 5))));
+
+    // Replace old objects with new objects
+    List<AlgoliaObjectWithID> newObjects =
+        Arrays.asList(
+            new AlgoliaObjectWithID("3", "algolia3", 5),
+            new AlgoliaObjectWithID("4", "algolia4", 5));
+
+    // Save Rule
+    waitForCompletion(index.saveRule("id", generateRule("id")));
+
+    // Save synonym
+    List<String> synonymList = Arrays.asList("San Francisco", "SF");
+    waitForCompletion(index.saveSynonym("synonym1", new Synonym(synonymList)));
+
+    // Save settings
+    IndexSettings settings =
+        new IndexSettings().setAttributesForFaceting(Collections.singletonList("name"));
+    waitForCompletion(index.setSettings(settings));
+
+    // Perform the replacement
+    index.replaceAllObjects(newObjects, true);
+
+    // Test if objects well replaced
+    SearchResult<AlgoliaObjectWithID> result = index.search(new Query(""));
+    assertThat(result).isNotNull();
+    assertThat(result.getHits()).isNotNull();
+    assertThat(result.getNbHits()).isEqualTo(2);
+    assertThat(result.getHits()).extracting("objectID").contains("3");
+    assertThat(result.getHits()).extracting("objectID").contains("4");
+
+    Optional<Rule> queryRule1 = index.getRule("id");
+    assertThat(queryRule1.get())
+        .isInstanceOf(Rule.class)
+        .isEqualToComparingFieldByFieldRecursively(generateRule("id"));
+
+    Optional<AbstractSynonym> synonym1 = index.getSynonym("synonym1");
+    assertThat(synonym1.get())
+        .isInstanceOf(Synonym.class)
+        .isEqualToComparingFieldByField(
+            new Synonym().setObjectID("synonym1").setSynonyms(synonymList));
+
+    IndexSettings settingsRes = index.getSettings();
+    assertThat(settingsRes.getAttributesForFaceting()).containsOnly("name");
   }
 }
