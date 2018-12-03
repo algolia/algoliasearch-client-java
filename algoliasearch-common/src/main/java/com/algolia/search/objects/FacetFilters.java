@@ -15,7 +15,7 @@ import java.util.List;
 @JsonDeserialize(using = FacetFiltersJsonDeserializer.class)
 @JsonSerialize(using = FacetFiltersJsonSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class FacetFilters implements Serializable {
+public abstract class FacetFilters implements Serializable, CompoundType {
 
   public static FacetFilters ofList(List<String> filters) {
     return new FacetFiltersAsListOfString(filters);
