@@ -5,6 +5,7 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaHttpException;
 import com.algolia.search.exceptions.AlgoliaHttpRetriesException;
 import com.algolia.search.exceptions.AlgoliaIOException;
+import com.algolia.search.inputs.insights.InsightsResult;
 import com.algolia.search.responses.AlgoliaError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
@@ -123,6 +124,34 @@ public abstract class AlgoliaHttpClient {
     if (response == null) { // if every retry failed
       logger.debug("All retries failed");
       throw new AlgoliaHttpRetriesException("All retries failed", ioExceptionList);
+    }
+
+    return buildResponse(request, response);
+  }
+
+  public InsightsResult requestInsights(
+      @Nonnull AlgoliaRequest<InsightsResult> request, @Nonnull String host)
+      throws AlgoliaException {
+    String content = serializeRequest(request);
+    logRequest(host, request, content);
+    AlgoliaHttpResponse response = null;
+    AlgoliaIOException requestException = null;
+
+    try {
+      response = request(new AlgoliaHttpRequest(host, content, request));
+    } catch (IOException e) {
+      logger.debug("Failing to query {}", host, e);
+      requestException = new AlgoliaIOException(host, e);
+    }
+
+    if (response == null) {
+      throw requestException;
+    }
+
+    if (response.getStatusCode() == 200) {
+      // API returning "" in case of success, need to handle it like this, otherwise make crash the
+      // serializer
+      return new InsightsResult().setMessage("");
     }
 
     return buildResponse(request, response);
