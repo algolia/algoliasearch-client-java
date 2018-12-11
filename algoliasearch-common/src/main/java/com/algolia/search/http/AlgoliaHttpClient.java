@@ -5,7 +5,6 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaHttpException;
 import com.algolia.search.exceptions.AlgoliaHttpRetriesException;
 import com.algolia.search.exceptions.AlgoliaIOException;
-import com.algolia.search.inputs.insights.InsightsResult;
 import com.algolia.search.responses.AlgoliaError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
@@ -129,8 +128,7 @@ public abstract class AlgoliaHttpClient {
     return buildResponse(request, response);
   }
 
-  public InsightsResult requestInsights(
-      @Nonnull AlgoliaRequest<InsightsResult> request, @Nonnull String host)
+  public <T> T requestInsights(@Nonnull AlgoliaRequest<T> request, @Nonnull String host)
       throws AlgoliaException {
     String content = serializeRequest(request);
     logRequest(host, request, content);
@@ -151,7 +149,7 @@ public abstract class AlgoliaHttpClient {
     if (response.getStatusCode() == 200) {
       // API returning "" in case of success, need to handle it like this, otherwise make crash the
       // serializer
-      return new InsightsResult().setMessage("");
+      return null;
     }
 
     return buildResponse(request, response);

@@ -57,14 +57,14 @@ public class SyncInsightsClient {
     this.host = "insights." + config.getRegion() + ".algolia.io";
   }
 
-  /**
-   * @param userToken the user config
-   */
+  /** @param userToken the user config */
   public SyncUserInsightsClient user(@Nonnull String userToken) {
     return new SyncUserInsightsClient(userToken, this);
   }
 
   /**
+   * This command pushes an event to the Insights API.
+   *
    * @param event An event
    * @throws AlgoliaException If APi Error
    */
@@ -74,6 +74,8 @@ public class SyncInsightsClient {
   }
 
   /**
+   * This command pushes an event to the Insights API.
+   *
    * @param event An event
    * @param requestOptions RequestOptions
    * @throws AlgoliaException If APi Error
@@ -86,6 +88,8 @@ public class SyncInsightsClient {
   }
 
   /**
+   * This command pushes an array of events to the Insights API.
+   *
    * @param events List of events
    * @throws AlgoliaException If APi Error
    */
@@ -94,6 +98,8 @@ public class SyncInsightsClient {
   }
 
   /**
+   * This command pushes an array of events to the Insights API.
+   *
    * @param events List of events
    * @param requestOptions RequestOptions
    * @throws AlgoliaException If APi Error
@@ -103,14 +109,23 @@ public class SyncInsightsClient {
       throws AlgoliaException {
     InsightsRequest request = new InsightsRequest().setEvents(events);
 
-    return client.httpClient.requestInsights(
-        new AlgoliaRequest<>(
-                HttpMethod.POST,
-                AlgoliaRequestKind.INSIGHTS_API,
-                Arrays.asList("1", "events"),
-                new RequestOptions(),
-                InsightsResult.class)
-            .setData(request),
-        host);
+    InsightsResult result =
+        client.httpClient.requestInsights(
+            new AlgoliaRequest<>(
+                    HttpMethod.POST,
+                    AlgoliaRequestKind.INSIGHTS_API,
+                    Arrays.asList("1", "events"),
+                    requestOptions,
+                    InsightsResult.class)
+                .setData(request),
+            host);
+
+    // API response in cas of success is an empty body, so we create an empty object instead of
+    // returning null
+    if (result == null) {
+      return new InsightsResult().setMessage("");
+    }
+
+    return result;
   }
 }
