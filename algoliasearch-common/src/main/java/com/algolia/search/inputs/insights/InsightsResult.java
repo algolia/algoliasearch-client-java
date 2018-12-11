@@ -6,11 +6,11 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InsightsResult implements Serializable {
 
-  public String getStatus() {
+  public int getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(int status) {
     this.status = status;
   }
 
@@ -23,6 +23,6 @@ public class InsightsResult implements Serializable {
     return this;
   }
 
-  private String status;
+  private int status;
   private String message;
 }
