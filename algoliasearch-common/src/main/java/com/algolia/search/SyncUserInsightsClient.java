@@ -225,6 +225,52 @@ public class SyncUserInsightsClient {
 
   /**
    * @param eventName The Event Name
+   * @param indexName The index name
+   * @param filters List of filters
+   * @throws AlgoliaException If API error
+   */
+  public InsightsResult convertedFilters(
+          @Nonnull String eventName,
+          @Nonnull String indexName,
+          @Nonnull List<String> filters)
+          throws AlgoliaException {
+    InsightsEvent event =
+            new InsightsEvent()
+                    .setEventType("conversion")
+                    .setUserToken(userToken)
+                    .setEventName(eventName)
+                    .setIndex(indexName)
+                    .setFilters(filters);
+
+    return client.sendEvent(event);
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The index name
+   * @param filters List of filters
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaException If API error
+   */
+  public InsightsResult convertedFilters(
+          @Nonnull String eventName,
+          @Nonnull String indexName,
+          @Nonnull List<String> filters,
+          @Nonnull RequestOptions requestOptions)
+          throws AlgoliaException {
+    InsightsEvent event =
+            new InsightsEvent()
+                    .setEventType("conversion")
+                    .setUserToken(userToken)
+                    .setEventName(eventName)
+                    .setIndex(indexName)
+.setFilters(filters);
+
+    return client.sendEvent(event, requestOptions);
+  }
+
+  /**
+   * @param eventName The Event Name
    * @param indexName The Index Name
    * @param filters Filters parameters
    * @throws AlgoliaException If APi Error
