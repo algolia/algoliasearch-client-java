@@ -21,7 +21,8 @@ public abstract class SyncInsightsClientTest extends SyncAlgoliaIntegrationTest 
 
     // conversion
     insights.convertedObjectIDs("convertedObjectIds", "indexName", Arrays.asList("1", "2"));
-    insights.convertedFilters("convertedFilters","index", Collections.singletonList("brand:apple"));
+    insights.convertedFilters(
+        "convertedFilters", "index", Collections.singletonList("brand:apple"));
 
     // view
     insights.viewedFilters(

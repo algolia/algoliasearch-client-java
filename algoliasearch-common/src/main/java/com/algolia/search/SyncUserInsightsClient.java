@@ -230,17 +230,15 @@ public class SyncUserInsightsClient {
    * @throws AlgoliaException If API error
    */
   public InsightsResult convertedFilters(
-          @Nonnull String eventName,
-          @Nonnull String indexName,
-          @Nonnull List<String> filters)
-          throws AlgoliaException {
+      @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters)
+      throws AlgoliaException {
     InsightsEvent event =
-            new InsightsEvent()
-                    .setEventType("conversion")
-                    .setUserToken(userToken)
-                    .setEventName(eventName)
-                    .setIndex(indexName)
-                    .setFilters(filters);
+        new InsightsEvent()
+            .setEventType("conversion")
+            .setUserToken(userToken)
+            .setEventName(eventName)
+            .setIndex(indexName)
+            .setFilters(filters);
 
     return client.sendEvent(event);
   }
@@ -253,18 +251,18 @@ public class SyncUserInsightsClient {
    * @throws AlgoliaException If API error
    */
   public InsightsResult convertedFilters(
-          @Nonnull String eventName,
-          @Nonnull String indexName,
-          @Nonnull List<String> filters,
-          @Nonnull RequestOptions requestOptions)
-          throws AlgoliaException {
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> filters,
+      @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
     InsightsEvent event =
-            new InsightsEvent()
-                    .setEventType("conversion")
-                    .setUserToken(userToken)
-                    .setEventName(eventName)
-                    .setIndex(indexName)
-.setFilters(filters);
+        new InsightsEvent()
+            .setEventType("conversion")
+            .setUserToken(userToken)
+            .setEventName(eventName)
+            .setIndex(indexName)
+            .setFilters(filters);
 
     return client.sendEvent(event, requestOptions);
   }
