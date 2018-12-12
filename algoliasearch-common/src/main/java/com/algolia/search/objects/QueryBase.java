@@ -36,6 +36,7 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   protected Boolean getRankingInfo;
   protected List<String> numericFilters;
   protected List<String> tagFilters;
+  protected Boolean clickAnalytics;
   protected Boolean analytics;
   protected String analyticsTags;
   protected Boolean synonyms;
@@ -137,6 +138,7 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     builder = add(builder, "tagFilters", tagFilters);
     builder = add(builder, "analytics", analytics);
     builder = add(builder, "analyticsTags", analyticsTags);
+    builder = add(builder, "clickAnalytics", clickAnalytics);
     builder = add(builder, "synonyms", synonyms);
     builder = add(builder, "replaceSynonymsInHighlight", replaceSynonymsInHighlight);
     builder = add(builder, "minProximity", minProximity);
@@ -354,6 +356,15 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
 
   public T setTagFilters(List<String> tagFilters) {
     this.tagFilters = tagFilters;
+    return (T) this;
+  }
+
+  public Boolean getClickAnalytics() {
+    return clickAnalytics;
+  }
+
+  public T setClickAnalytics(Boolean clickAnalytics) {
+    this.clickAnalytics = clickAnalytics;
     return (T) this;
   }
 

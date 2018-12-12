@@ -1,9 +1,10 @@
 package com.algolia.search.integration.common.sync;
 
-import com.algolia.search.SyncAlgoliaIntegrationTest;
-import com.algolia.search.SyncInsightsClient;
-import com.algolia.search.SyncUserInsightsClient;
+import com.algolia.search.*;
 import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.objects.Query;
+import com.algolia.search.responses.SearchResult;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Test;
@@ -18,19 +19,39 @@ public abstract class SyncInsightsClientTest extends SyncAlgoliaIntegrationTest 
     // click
     insights.clickedFilters("clickedFilters", "index", Collections.singletonList("brand:apple"));
     insights.clickedObjectIDs("clickedFilters", "index", Arrays.asList("objectDI1", "objectID2"));
-    //    insights.clickedObjectIDsAfterSearch("eventName","indexName",Arrays.asList("objectDI1",
-    // "objectID2"),new ArrayList<>(Arrays.asList(17l,19l)),"queryId");
 
     // conversion
-    insights.convertedObjectIDs("convertedObjectIds", "indexName", Arrays.asList("objectID1", "objectID2"));
+    insights.convertedObjectIDs(
+        "convertedObjectIds", "indexName", Arrays.asList("objectID1", "objectID2"));
     insights.convertedFilters(
         "convertedFilters", "index", Collections.singletonList("brand:apple"));
-    //  insights.convertedObjectIDsAfterSearch("eventName","index",Arrays.asList("objectDI1",
-    // "objectID2"), "queryID");
 
     // view
     insights.viewedFilters(
         "viewedFilters", "indexName", Arrays.asList("brand:apple", "brand:google"));
     insights.viewedObjectIDs("viewedObjectIDs", "indexName", Arrays.asList("1", "2"));
+
+    // We need to create a queryID with a search query
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+
+    waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
+    SearchResult<AlgoliaObject> result = index.search(new Query().setClickAnalytics(true));
+    insights.clickedObjectIDsAfterSearch(
+        "eventName",
+        "indexName",
+        Arrays.asList("objectDI1", "objectID2"),
+        new ArrayList<>(Arrays.asList(17l, 19l)),
+        result.getQueryID());
+
+    SearchResult<AlgoliaObject> result2 = index.search(new Query("al").setClickAnalytics(true));
+    insights.clickedObjectIDsAfterSearch(
+        "eventName",
+        "indexName",
+        Arrays.asList("objectDI1", "objectID2"),
+        new ArrayList<>(Arrays.asList(17l, 19l)),
+        result.getQueryID());
+
+    insights.convertedObjectIDsAfterSearch(
+        "eventName", "index", Arrays.asList("objectDI1", "objectID2"), result2.getQueryID());
   }
 }

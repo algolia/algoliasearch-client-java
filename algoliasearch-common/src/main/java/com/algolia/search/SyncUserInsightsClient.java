@@ -239,7 +239,7 @@ public class SyncUserInsightsClient {
             .setIndex(indexName)
             .setFilters(filters);
 
-    return client.sendEvent(event);
+    return client.sendEvent(event, new RequestOptions());
   }
 
   /**
