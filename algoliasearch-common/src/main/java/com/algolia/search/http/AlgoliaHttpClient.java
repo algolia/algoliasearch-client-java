@@ -146,12 +146,6 @@ public abstract class AlgoliaHttpClient {
       throw requestException;
     }
 
-    if (response.getStatusCode() == 200) {
-      // API returning "" in case of success, need to handle it like this, otherwise make crash the
-      // serializer
-      return null;
-    }
-
     return buildResponse(request, response);
   }
 

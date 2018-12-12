@@ -22,14 +22,13 @@ public abstract class SyncInsightsClientTest extends SyncAlgoliaIntegrationTest 
 
     // conversion
     insights.convertedObjectIDs(
-        "convertedObjectIds", "indexName", Arrays.asList("objectID1", "objectID2"));
+        "convertedObjectIds", "index", Arrays.asList("objectID1", "objectID2"));
     insights.convertedFilters(
         "convertedFilters", "index", Collections.singletonList("brand:apple"));
 
     // view
-    insights.viewedFilters(
-        "viewedFilters", "indexName", Arrays.asList("brand:apple", "brand:google"));
-    insights.viewedObjectIDs("viewedObjectIDs", "indexName", Arrays.asList("1", "2"));
+    insights.viewedFilters("viewedFilters", "index", Arrays.asList("brand:apple", "brand:google"));
+    insights.viewedObjectIDs("viewedObjectIDs", "index", Arrays.asList("objectID11", "objectID2"));
 
     // We need to create a queryID with a search query
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
@@ -38,7 +37,7 @@ public abstract class SyncInsightsClientTest extends SyncAlgoliaIntegrationTest 
     SearchResult<AlgoliaObject> result = index.search(new Query().setClickAnalytics(true));
     insights.clickedObjectIDsAfterSearch(
         "eventName",
-        "indexName",
+        "index",
         Arrays.asList("objectDI1", "objectID2"),
         new ArrayList<>(Arrays.asList(17l, 19l)),
         result.getQueryID());
@@ -46,7 +45,7 @@ public abstract class SyncInsightsClientTest extends SyncAlgoliaIntegrationTest 
     SearchResult<AlgoliaObject> result2 = index.search(new Query("al").setClickAnalytics(true));
     insights.clickedObjectIDsAfterSearch(
         "eventName",
-        "indexName",
+        "index",
         Arrays.asList("objectDI1", "objectID2"),
         new ArrayList<>(Arrays.asList(17l, 19l)),
         result.getQueryID());
