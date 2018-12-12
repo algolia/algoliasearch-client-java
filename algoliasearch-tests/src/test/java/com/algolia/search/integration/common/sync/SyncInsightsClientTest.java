@@ -17,12 +17,16 @@ public abstract class SyncInsightsClientTest extends SyncAlgoliaIntegrationTest 
 
     // click
     insights.clickedFilters("clickedFilters", "index", Collections.singletonList("brand:apple"));
-    insights.clickedObjectIDs("clickedFilters", "index", Collections.singletonList("brand:apple"));
+    insights.clickedObjectIDs("clickedFilters", "index", Arrays.asList("objectDI1", "objectID2"));
+    //    insights.clickedObjectIDsAfterSearch("eventName","indexName",Arrays.asList("objectDI1",
+    // "objectID2"),new ArrayList<>(Arrays.asList(17l,19l)),"queryId");
 
     // conversion
-    insights.convertedObjectIDs("convertedObjectIds", "indexName", Arrays.asList("1", "2"));
+    insights.convertedObjectIDs("convertedObjectIds", "indexName", Arrays.asList("objectID1", "objectID2"));
     insights.convertedFilters(
         "convertedFilters", "index", Collections.singletonList("brand:apple"));
+    //  insights.convertedObjectIDsAfterSearch("eventName","index",Arrays.asList("objectDI1",
+    // "objectID2"), "queryID");
 
     // view
     insights.viewedFilters(

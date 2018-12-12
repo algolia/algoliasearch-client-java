@@ -4,7 +4,6 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.insights.InsightsEvent;
 import com.algolia.search.inputs.insights.InsightsResult;
 import com.algolia.search.objects.RequestOptions;
-import com.google.common.primitives.UnsignedInteger;
 import java.util.List;
 import javax.annotation.Nonnull;
 
@@ -105,7 +104,7 @@ public class SyncUserInsightsClient {
       @Nonnull String eventName,
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
-      @Nonnull List<UnsignedInteger> positions,
+      @Nonnull List<Long> positions,
       @Nonnull String queryID)
       throws AlgoliaException {
     return clickedObjectIDsAfterSearch(
@@ -125,7 +124,7 @@ public class SyncUserInsightsClient {
       @Nonnull String eventName,
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
-      @Nonnull List<UnsignedInteger> positions,
+      @Nonnull List<Long> positions,
       @Nonnull String queryID,
       @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {

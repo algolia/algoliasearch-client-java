@@ -1,7 +1,6 @@
 package com.algolia.search.inputs.insights;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.common.primitives.UnsignedInteger;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class InsightsEvent implements Serializable {
   private String queryId;
   private List<String> objectIDs;
   private List<String> filters;
-  private List<UnsignedInteger> positions;
+  private List<Long> positions;
 
   public String getEventType() {
     return eventType;
@@ -90,11 +89,11 @@ public class InsightsEvent implements Serializable {
     return this;
   }
 
-  public List<UnsignedInteger> getPositions() {
+  public List<Long> getPositions() {
     return positions;
   }
 
-  public InsightsEvent setPositions(List<UnsignedInteger> positions) {
+  public InsightsEvent setPositions(List<Long> positions) {
     this.positions = positions;
     return this;
   }

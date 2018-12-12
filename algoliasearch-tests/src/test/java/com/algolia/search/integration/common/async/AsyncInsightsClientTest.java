@@ -19,12 +19,10 @@ public abstract class AsyncInsightsClientTest extends AsyncAlgoliaIntegrationTes
     insights
         .clickedFilters("clickedFilters", "index", Collections.singletonList("brand:apple"))
         .get();
-    insights
-        .clickedObjectIDs("clickedFilters", "index", Collections.singletonList("brand:apple"))
-        .get();
+    insights.clickedObjectIDs("clickedFilters", "index", Arrays.asList("objectID1", "objectID2")).get();
 
     // conversion
-    insights.convertedObjectIDs("convertedObjectIds", "indexName", Arrays.asList("1", "2")).get();
+    insights.convertedObjectIDs("convertedObjectIds", "indexName", Arrays.asList("objectDI1", "objectID2")).get();
     insights
         .convertedFilters("convertedFilters", "index", Collections.singletonList("brand:apple"))
         .get();
