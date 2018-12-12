@@ -109,23 +109,14 @@ public class SyncInsightsClient {
       throws AlgoliaException {
     InsightsRequest request = new InsightsRequest().setEvents(events);
 
-    InsightsResult result =
-        client.httpClient.requestInsights(
-            new AlgoliaRequest<>(
-                    HttpMethod.POST,
-                    AlgoliaRequestKind.INSIGHTS_API,
-                    Arrays.asList("1", "events"),
-                    requestOptions,
-                    InsightsResult.class)
-                .setData(request),
-            host);
-
-    // API response in cas of success is an empty body, so we create an empty object instead of
-    // returning null
-    if (result == null) {
-      return new InsightsResult().setMessage("");
-    }
-
-    return result;
+    return client.httpClient.requestInsights(
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.INSIGHTS_API,
+                Arrays.asList("1", "events"),
+                requestOptions,
+                InsightsResult.class)
+            .setData(request),
+        host);
   }
 }

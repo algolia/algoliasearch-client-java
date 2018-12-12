@@ -1,9 +1,7 @@
 package com.algolia.search.inputs.insights;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class InsightsResult implements Serializable {
 
   public int getStatus() {
