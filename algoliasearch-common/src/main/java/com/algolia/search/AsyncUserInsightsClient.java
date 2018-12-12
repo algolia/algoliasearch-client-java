@@ -129,7 +129,7 @@ public class AsyncUserInsightsClient {
             .setIndex(indexName)
             .setObjectIDs(objectIDs)
             .setPositions(positions)
-            .setQueryId(queryID);
+            .setQueryID(queryID);
 
     return client.sendEvent(event, requestOptions);
   }
@@ -201,7 +201,7 @@ public class AsyncUserInsightsClient {
             .setEventName(eventName)
             .setIndex(indexName)
             .setObjectIDs(objectIDs)
-            .setQueryId(queryID);
+            .setQueryID(queryID);
 
     return client.sendEvent(event, requestOptions);
   }

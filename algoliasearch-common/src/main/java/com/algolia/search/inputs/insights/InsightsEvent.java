@@ -11,8 +11,8 @@ public class InsightsEvent implements Serializable {
   private String eventName;
   private String index;
   private String userToken;
-  private Long timeStamp;
-  private String queryId;
+  private Long timestamp;
+  private String queryID;
   private List<String> objectIDs;
   private List<String> filters;
   private List<Long> positions;
@@ -53,21 +53,21 @@ public class InsightsEvent implements Serializable {
     return this;
   }
 
-  public Long getTimeStamp() {
-    return timeStamp;
+  public Long getTimestamp() {
+    return timestamp;
   }
 
-  public InsightsEvent setTimeStamp(Long timeStamp) {
-    this.timeStamp = timeStamp;
+  public InsightsEvent setTimestamp(Long timestamp) {
+    this.timestamp = timestamp;
     return this;
   }
 
-  public String getQueryId() {
-    return queryId;
+  public String getQueryID() {
+    return queryID;
   }
 
-  public InsightsEvent setQueryId(String queryId) {
-    this.queryId = queryId;
+  public InsightsEvent setQueryID(String queryID) {
+    this.queryID = queryID;
     return this;
   }
 

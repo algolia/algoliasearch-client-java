@@ -7,13 +7,13 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InsightsRequest implements Serializable {
   public List<InsightsEvent> getEvents() {
-    return requests;
+    return events;
   }
 
-  public InsightsRequest setEvents(List<InsightsEvent> requests) {
-    this.requests = requests;
+  public InsightsRequest setEvents(List<InsightsEvent> events) {
+    this.events = events;
     return this;
   }
 
-  private List<InsightsEvent> requests;
+  private List<InsightsEvent> events;
 }
