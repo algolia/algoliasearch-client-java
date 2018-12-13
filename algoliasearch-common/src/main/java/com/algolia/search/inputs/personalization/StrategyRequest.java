@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PersonalizationStrategyRequest {
+public class StrategyRequest {
   public Map<String, EventScoring> getEventsScoring() {
     return eventsScoring;
   }
 
-  public PersonalizationStrategyRequest setEventsScoring(Map<String, EventScoring> eventsScoring) {
+  public StrategyRequest setEventsScoring(Map<String, EventScoring> eventsScoring) {
     this.eventsScoring = eventsScoring;
     return this;
   }
@@ -18,7 +18,7 @@ public class PersonalizationStrategyRequest {
     return facetsScoring;
   }
 
-  public PersonalizationStrategyRequest setFacetsScoring(Map<String, FacetScoring> facetsScoring) {
+  public StrategyRequest setFacetsScoring(Map<String, FacetScoring> facetsScoring) {
     this.facetsScoring = facetsScoring;
     return this;
   }

@@ -7,7 +7,7 @@ import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.personalization.EventScoring;
 import com.algolia.search.inputs.personalization.FacetScoring;
-import com.algolia.search.inputs.personalization.PersonalizationStrategyRequest;
+import com.algolia.search.inputs.personalization.StrategyRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.HashMap;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public abstract class SyncPersonalizationTest extends SyncAlgoliaIntegrationTest
     facetsScoring.put("brand", new FacetScoring().setScore(100));
     facetsScoring.put("categories", new FacetScoring().setScore(10));
 
-    PersonalizationStrategyRequest request = new PersonalizationStrategyRequest();
+    StrategyRequest request = new StrategyRequest();
 
     request.setEventsScoring(eventsScoring);
     request.setFacetsScoring(facetsScoring);

@@ -11,12 +11,14 @@ import com.algolia.search.inputs.*;
 import com.algolia.search.inputs.analytics.ABTest;
 import com.algolia.search.inputs.batch.*;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
-import com.algolia.search.inputs.personalization.PersonalizationStrategyRequest;
+import com.algolia.search.inputs.personalization.StrategyRequest;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.async.*;
 import com.algolia.search.responses.*;
+import com.algolia.search.responses.personalization.SetStrategyResult;
+import com.algolia.search.responses.personalization.GetStrategyResult;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.io.UnsupportedEncodingException;
@@ -1687,8 +1689,8 @@ public class AsyncAPIClient {
   }
 
   /** This method let you retrieve your personalization strategy */
-  public CompletableFuture<PersonalizationStrategyResult> getStrategy() {
-    return getStrategy(new RequestOptions());
+  public CompletableFuture<GetStrategyResult> getPersonalizationStrategy() {
+    return getPersonalizationStrategy(new RequestOptions());
   }
 
   /**
@@ -1696,7 +1698,7 @@ public class AsyncAPIClient {
    *
    * @param requestOptions request options
    */
-  public CompletableFuture<PersonalizationStrategyResult> getStrategy(
+  public CompletableFuture<GetStrategyResult> getPersonalizationStrategy(
       @Nonnull RequestOptions requestOptions) {
 
     return httpClient.requestWithRetry(
@@ -1705,7 +1707,7 @@ public class AsyncAPIClient {
             AlgoliaRequestKind.SEARCH_API_READ,
             Arrays.asList("1", "recommendation", "personalization", "strategy"),
             requestOptions,
-            PersonalizationStrategyResult.class));
+            GetStrategyResult.class));
   }
 
   /**
@@ -1713,9 +1715,9 @@ public class AsyncAPIClient {
    *
    * @param request Personalization strategy to send
    */
-  public CompletableFuture<PersonalizationSaveStrategyResult> setStrategy(
-      @Nonnull PersonalizationStrategyRequest request) {
-    return setStrategy(request, new RequestOptions());
+  public CompletableFuture<SetStrategyResult> setPersonalizationStrategy(
+      @Nonnull StrategyRequest request) {
+    return setPersonalizationStrategy(request, new RequestOptions());
   }
 
   /**
@@ -1724,8 +1726,8 @@ public class AsyncAPIClient {
    * @param request Personalization strategy to send
    * @param requestOptions request options
    */
-  public CompletableFuture<PersonalizationSaveStrategyResult> setStrategy(
-      @Nonnull PersonalizationStrategyRequest request, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<SetStrategyResult> setPersonalizationStrategy(
+          @Nonnull StrategyRequest request, @Nonnull RequestOptions requestOptions) {
 
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
@@ -1733,7 +1735,7 @@ public class AsyncAPIClient {
                 AlgoliaRequestKind.SEARCH_API_WRITE,
                 Arrays.asList("1", "recommendation", "personalization", "strategy"),
                 requestOptions,
-                PersonalizationSaveStrategyResult.class)
+                SetStrategyResult.class)
             .setData(request));
   }
 }

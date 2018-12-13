@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.AsyncAlgoliaIntegrationTest;
 import com.algolia.search.inputs.personalization.EventScoring;
 import com.algolia.search.inputs.personalization.FacetScoring;
-import com.algolia.search.inputs.personalization.PersonalizationStrategyRequest;
+import com.algolia.search.inputs.personalization.StrategyRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.HashMap;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public abstract class AsyncPersonalizationTest extends AsyncAlgoliaIntegrationTe
     facetsScoring.put("brand", new FacetScoring().setScore(100));
     facetsScoring.put("categories", new FacetScoring().setScore(10));
 
-    PersonalizationStrategyRequest request = new PersonalizationStrategyRequest().setEventsScoring(eventsScoring).setFacetsScoring(facetsScoring);
+    StrategyRequest request = new StrategyRequest().setEventsScoring(eventsScoring).setFacetsScoring(facetsScoring);
     String strategy = DEFAULT_OBJECT_MAPPER.writeValueAsString(request);
 
     // Here we test the payload, as this settings are at app level all tests could overlap

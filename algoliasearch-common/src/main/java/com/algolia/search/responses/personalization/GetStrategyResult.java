@@ -1,4 +1,4 @@
-package com.algolia.search.responses;
+package com.algolia.search.responses.personalization;
 
 import com.algolia.search.inputs.personalization.EventScoring;
 import com.algolia.search.inputs.personalization.FacetScoring;
@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PersonalizationStrategyResult {
+public class GetStrategyResult {
   public Map<String, EventScoring> getEventsScoring() {
     return eventsScoring;
   }
 
-  public PersonalizationStrategyResult setEventsScoring(Map<String, EventScoring> eventsScoring) {
+  public GetStrategyResult setEventsScoring(Map<String, EventScoring> eventsScoring) {
     this.eventsScoring = eventsScoring;
     return this;
   }
@@ -20,7 +20,7 @@ public class PersonalizationStrategyResult {
     return facetsScoring;
   }
 
-  public PersonalizationStrategyResult setFacetsScoring(Map<String, FacetScoring> facetsScoring) {
+  public GetStrategyResult setFacetsScoring(Map<String, FacetScoring> facetsScoring) {
     this.facetsScoring = facetsScoring;
     return this;
   }
@@ -29,7 +29,7 @@ public class PersonalizationStrategyResult {
     return taskId;
   }
 
-  public PersonalizationStrategyResult setTaskId(long taskId) {
+  public GetStrategyResult setTaskId(long taskId) {
     this.taskId = taskId;
     return this;
   }
