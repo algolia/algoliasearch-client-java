@@ -9,16 +9,14 @@ import com.algolia.search.Index;
 import com.algolia.search.SyncAlgoliaIntegrationTest;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.exceptions.AlgoliaIndexNotFoundException;
-import com.algolia.search.objects.IndexQuery;
-import com.algolia.search.objects.IndexSettings;
-import com.algolia.search.objects.MultiQueriesStrategy;
-import com.algolia.search.objects.Query;
+import com.algolia.search.objects.*;
 import com.algolia.search.responses.FacetStats;
 import com.algolia.search.responses.MultiQueriesResult;
 import com.algolia.search.responses.SearchFacetResult;
 import com.algolia.search.responses.SearchResult;
 import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
@@ -66,6 +64,47 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
 
     assertThat(search.getResults()).hasSize(2);
     assertThat(searchWithStrategy.getResults()).hasSize(2);
+  }
+
+  @Test
+  public void multiQueryWithFacetFilters() throws AlgoliaException {
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+
+    waitForCompletion(
+        index.addObjects(
+            Arrays.asList(
+                new AlgoliaObject("algolia", 1),
+                new AlgoliaObject("algolia", 2),
+                new AlgoliaObject("algolia", 3))));
+
+    waitForCompletion(
+        index.setSettings(
+            new IndexSettings()
+                .setAttributesForFaceting(Arrays.asList("searchable(name)", "searchable(age)"))));
+
+    List<IndexQuery> queryFacetListOfString =
+        Arrays.asList(
+            new IndexQuery(
+                index,
+                new Query("").setFacetFilters(FacetFilters.ofList(Arrays.asList("name:algolia")))));
+
+    List<IndexQuery> queryFacetListListOfString =
+        Arrays.asList(
+            new IndexQuery(
+                index,
+                new Query("")
+                    .setFacetFilters(
+                        FacetFilters.ofListOfList(
+                            Arrays.asList(
+                                Arrays.asList("name:algolia"), Arrays.asList("age:3"))))));
+
+    MultiQueriesResult searchWithFacetListOfString = client.multipleQueries(queryFacetListOfString);
+    MultiQueriesResult searchWithFacetListOfListOfString =
+        client.multipleQueries(queryFacetListListOfString);
+
+    assertThat(searchWithFacetListOfString.getResults().get(0).getParams()).contains("name");
+    assertThat(searchWithFacetListOfListOfString.getResults().get(0).getParams()).contains("name");
+    assertThat(searchWithFacetListOfListOfString.getResults().get(0).getParams()).contains("age");
   }
 
   @Test
