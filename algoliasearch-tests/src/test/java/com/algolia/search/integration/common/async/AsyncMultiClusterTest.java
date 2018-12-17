@@ -21,7 +21,7 @@ public abstract class AsyncMultiClusterTest extends AsyncAlgoliaIntegrationTest 
   @Before
   public void checkEnvVariables() throws Exception {
     ALGOLIA_APPLICATION_ID_1 = System.getenv("ALGOLIA_APPLICATION_ID_MCM");
-    ALGOLIA_API_KEY_1 = System.getenv("ALGOLIA_API_KEY_MCM");
+    ALGOLIA_API_KEY_1 = System.getenv("ALGOLIA_ADMIN_KEY_MCM");
 
     super.checkEnvVariables();
   }
