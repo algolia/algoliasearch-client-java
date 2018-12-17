@@ -11,11 +11,14 @@ import com.algolia.search.inputs.*;
 import com.algolia.search.inputs.analytics.ABTest;
 import com.algolia.search.inputs.batch.*;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
+import com.algolia.search.inputs.personalization.StrategyRequest;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.async.*;
 import com.algolia.search.responses.*;
+import com.algolia.search.responses.personalization.SetStrategyResult;
+import com.algolia.search.responses.personalization.GetStrategyResult;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.io.UnsupportedEncodingException;
@@ -1683,5 +1686,56 @@ public class AsyncAPIClient {
                     "cluster", clusterName,
                     "page", page,
                     "hitsPerPage", hitsPerPage)));
+  }
+
+  /** This method let you retrieve your personalization strategy */
+  public CompletableFuture<GetStrategyResult> getPersonalizationStrategy() {
+    return getPersonalizationStrategy(new RequestOptions());
+  }
+
+  /**
+   * This method let you retrieve your personalization strategy
+   *
+   * @param requestOptions request options
+   */
+  public CompletableFuture<GetStrategyResult> getPersonalizationStrategy(
+      @Nonnull RequestOptions requestOptions) {
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+            HttpMethod.GET,
+            AlgoliaRequestKind.SEARCH_API_READ,
+            Arrays.asList("1", "recommendation", "personalization", "strategy"),
+            requestOptions,
+            GetStrategyResult.class));
+  }
+
+  /**
+   * This method let you manage your personalization strategy.
+   *
+   * @param request Personalization strategy to send
+   */
+  public CompletableFuture<SetStrategyResult> setPersonalizationStrategy(
+      @Nonnull StrategyRequest request) {
+    return setPersonalizationStrategy(request, new RequestOptions());
+  }
+
+  /**
+   * This method let you manage your personalization strategy.
+   *
+   * @param request Personalization strategy to send
+   * @param requestOptions request options
+   */
+  public CompletableFuture<SetStrategyResult> setPersonalizationStrategy(
+          @Nonnull StrategyRequest request, @Nonnull RequestOptions requestOptions) {
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
+                Arrays.asList("1", "recommendation", "personalization", "strategy"),
+                requestOptions,
+                SetStrategyResult.class)
+            .setData(request));
   }
 }

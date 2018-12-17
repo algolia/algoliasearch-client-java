@@ -10,5 +10,8 @@ public abstract class AsyncAlgoliaHttpClient {
 
   public abstract <T> CompletableFuture<T> requestAnalytics(@Nonnull AlgoliaRequest<T> request);
 
+  public abstract <T> CompletableFuture<T> requestInsights(
+      @Nonnull AlgoliaRequest<T> request, @Nonnull String host);
+
   public abstract void close() throws AlgoliaException;
 }

@@ -11,12 +11,15 @@ import com.algolia.search.inputs.*;
 import com.algolia.search.inputs.analytics.ABTest;
 import com.algolia.search.inputs.batch.*;
 import com.algolia.search.inputs.partial_update.PartialUpdateOperation;
+import com.algolia.search.inputs.personalization.StrategyRequest;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.sync.*;
 import com.algolia.search.responses.*;
+import com.algolia.search.responses.personalization.SetStrategyResult;
+import com.algolia.search.responses.personalization.GetStrategyResult;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.io.UnsupportedEncodingException;
@@ -1748,6 +1751,42 @@ public class APIClient {
                     "cluster", clusterName,
                     "page", page,
                     "hitsPerPage", hitsPerPage)));
+  }
+
+  public GetStrategyResult getPersonalizationStrategy() throws AlgoliaException {
+
+    return getPersonalizationStrategy(new RequestOptions());
+  }
+
+  public GetStrategyResult getPersonalizationStrategy(@Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+            HttpMethod.GET,
+            AlgoliaRequestKind.SEARCH_API_READ,
+            Arrays.asList("1", "recommendation", "personalization", "strategy"),
+            requestOptions,
+            GetStrategyResult.class));
+  }
+
+  public SetStrategyResult setPersonalizationStrategy(
+      @Nonnull StrategyRequest request) throws AlgoliaException {
+    return setPersonalizationStrategy(request, new RequestOptions());
+  }
+
+  public SetStrategyResult setPersonalizationStrategy(
+          @Nonnull StrategyRequest request, @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+                HttpMethod.POST,
+                AlgoliaRequestKind.SEARCH_API_WRITE,
+                Arrays.asList("1", "recommendation", "personalization", "strategy"),
+                requestOptions,
+                SetStrategyResult.class)
+            .setData(request));
   }
 
   /** Used internally for deleteByQuery */

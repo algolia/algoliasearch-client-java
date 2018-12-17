@@ -128,6 +128,27 @@ public abstract class AlgoliaHttpClient {
     return buildResponse(request, response);
   }
 
+  public <T> T requestInsights(@Nonnull AlgoliaRequest<T> request, @Nonnull String host)
+      throws AlgoliaException {
+    String content = serializeRequest(request);
+    logRequest(host, request, content);
+    AlgoliaHttpResponse response = null;
+    AlgoliaIOException requestException = null;
+
+    try {
+      response = request(new AlgoliaHttpRequest(host, content, request));
+    } catch (IOException e) {
+      logger.debug("Failing to query {}", host, e);
+      requestException = new AlgoliaIOException(host, e);
+    }
+
+    if (response == null) {
+      throw requestException;
+    }
+
+    return buildResponse(request, response);
+  }
+
   public <T> T requestAnalytics(@Nonnull AlgoliaRequest<T> request) throws AlgoliaException {
     String host = getAnalyticsHost();
     String content = serializeRequest(request);
