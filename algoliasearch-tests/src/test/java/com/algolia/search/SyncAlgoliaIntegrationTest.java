@@ -11,6 +11,7 @@ import com.algolia.search.objects.tasks.sync.GenericTask;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -87,7 +88,7 @@ public abstract class SyncAlgoliaIntegrationTest {
     Consequence ruleConsequence =
         new Consequence()
             .setUserData(ImmutableMap.of("a", "b"))
-            .setParams(new ConsequenceParams<>().setFacets("a=1"));
+            .setParams(new ConsequenceParams<>().setFacets(Arrays.asList("a=1")));
 
     return new Rule()
         .setObjectID(objectID)

@@ -133,7 +133,8 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
     SearchFacetResult result = index.searchForFacetValues("series", "Peanuts");
     assertThat(result.getFacetHits()).hasSize(1);
 
-    SearchResult<AlgoliaObjectForFaceting> search = index.search(new Query("").setFacets("age"));
+    SearchResult<AlgoliaObjectForFaceting> search =
+        index.search(new Query("").setFacets(Arrays.asList("age")));
     Map<String, FacetStats> expected =
         ImmutableMap.of("age", new FacetStats().setMax(30f).setMin(10f).setSum(60f).setAvg(20f));
     assertThat(search.getFacets_stats()).isEqualToComparingFieldByFieldRecursively(expected);

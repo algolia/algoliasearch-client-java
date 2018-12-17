@@ -22,7 +22,8 @@ public abstract class AsyncPersonalizationTest extends AsyncAlgoliaIntegrationTe
     facetsScoring.put("brand", new FacetScoring().setScore(100));
     facetsScoring.put("categories", new FacetScoring().setScore(10));
 
-    StrategyRequest request = new StrategyRequest().setEventsScoring(eventsScoring).setFacetsScoring(facetsScoring);
+    StrategyRequest request =
+        new StrategyRequest().setEventsScoring(eventsScoring).setFacetsScoring(facetsScoring);
     String strategy = DEFAULT_OBJECT_MAPPER.writeValueAsString(request);
 
     // Here we test the payload, as this settings are at app level all tests could overlap

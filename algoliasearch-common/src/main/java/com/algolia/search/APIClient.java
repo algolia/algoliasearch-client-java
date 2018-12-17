@@ -18,8 +18,8 @@ import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.sync.*;
 import com.algolia.search.responses.*;
-import com.algolia.search.responses.personalization.SetStrategyResult;
 import com.algolia.search.responses.personalization.GetStrategyResult;
+import com.algolia.search.responses.personalization.SetStrategyResult;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.io.UnsupportedEncodingException;
@@ -1770,13 +1770,13 @@ public class APIClient {
             GetStrategyResult.class));
   }
 
-  public SetStrategyResult setPersonalizationStrategy(
-      @Nonnull StrategyRequest request) throws AlgoliaException {
+  public SetStrategyResult setPersonalizationStrategy(@Nonnull StrategyRequest request)
+      throws AlgoliaException {
     return setPersonalizationStrategy(request, new RequestOptions());
   }
 
   public SetStrategyResult setPersonalizationStrategy(
-          @Nonnull StrategyRequest request, @Nonnull RequestOptions requestOptions)
+      @Nonnull StrategyRequest request, @Nonnull RequestOptions requestOptions)
       throws AlgoliaException {
 
     return httpClient.requestWithRetry(

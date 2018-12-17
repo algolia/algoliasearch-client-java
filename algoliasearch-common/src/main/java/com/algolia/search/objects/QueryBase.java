@@ -53,7 +53,7 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
 
   /* filtering-faceting */
   protected String filters;
-  protected String facets;
+  protected List<String> facets;
   protected Long maxValuesPerFacet;
   protected FacetFilters facetFilters;
   protected Boolean facetingAfterDistinct;
@@ -481,11 +481,11 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     return (T) this;
   }
 
-  public String getFacets() {
+  public List<String> getFacets() {
     return facets;
   }
 
-  public T setFacets(String facets) {
+  public T setFacets(List<String> facets) {
     this.facets = facets;
     return (T) this;
   }

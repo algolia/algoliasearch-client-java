@@ -17,8 +17,8 @@ import com.algolia.search.inputs.synonym.AbstractSynonym;
 import com.algolia.search.objects.*;
 import com.algolia.search.objects.tasks.async.*;
 import com.algolia.search.responses.*;
-import com.algolia.search.responses.personalization.SetStrategyResult;
 import com.algolia.search.responses.personalization.GetStrategyResult;
+import com.algolia.search.responses.personalization.SetStrategyResult;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.io.UnsupportedEncodingException;
@@ -1727,7 +1727,7 @@ public class AsyncAPIClient {
    * @param requestOptions request options
    */
   public CompletableFuture<SetStrategyResult> setPersonalizationStrategy(
-          @Nonnull StrategyRequest request, @Nonnull RequestOptions requestOptions) {
+      @Nonnull StrategyRequest request, @Nonnull RequestOptions requestOptions) {
 
     return httpClient.requestWithRetry(
         new AlgoliaRequest<>(
