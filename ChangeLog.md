@@ -1,5 +1,21 @@
 # ChangeLog
 
+# [2.21.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.20.0...2.21.0) (2018-12-17)
+
+### Summary
+
+Hello eveyrone,
+
+Big release today. We have added a lot of helpers methods : `replaceAllRules`, `replaceAllSynonyms`, `replaceAllObjects`. We also added a new class `AccountClient` that allows you to perfom cross appplication operations. For example, with this new class you can copy an index from an application to another one. We added the support of two news API features **Personalization** and **Insights**.
+
+Have a nice day.
+
+### Changes
+
+- **Added:** Insights/Personalization feature ([a9455e7](https://github.com/algolia/algoliasearch-client-java-2/commit/a9455e7dfc3c3ef37ab5f4ac659d2705d60d4644))
+- **Fixed:** multipleQueries bug with FacetFilters ([ce98985](https://github.com/algolia/algoliasearch-client-java-2/commit/ce989856983d650955f1523779d9e7008cde4ffc))
+- **Added:** Helpers methods ([9c0a1ae](https://github.com/algolia/algoliasearch-client-java-2/commit/9c0a1ae3d30463efb49540ad46832d61fc548d8e))
+
 # [2.20.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.19.0...2.20.0) (2018-10-18)
 
 ### Summary
