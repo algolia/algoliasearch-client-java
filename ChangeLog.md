@@ -10,7 +10,7 @@
 
 ### Summary
 
-Hello eveyrone,
+Hello everyone,
 
 Big release today. We have added a lot of helpers methods : `replaceAllRules`, `replaceAllSynonyms`, `replaceAllObjects`. We also added a new class `AccountClient` that allows you to perfom cross appplication operations. For example, with this new class you can copy an index from an application to another one. We added the support of two news API features **Personalization** and **Insights**.
 
