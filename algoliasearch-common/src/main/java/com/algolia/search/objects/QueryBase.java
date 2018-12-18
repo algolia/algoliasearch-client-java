@@ -123,6 +123,9 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   /* BROWSE */
   protected String cursor;
 
+  /* Personalization */
+  protected Boolean enablePersonalization;
+
   /* CUSTOM */
   @JsonIgnore protected Map<String, Object> customParameters = new HashMap<>();
 
@@ -225,6 +228,9 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
 
     /* BROWSE */
     builder = add(builder, "cursor", cursor);
+
+    /* Personalization */
+    builder = add(builder, "enablePersonalization", enablePersonalization);
 
     /* CUSTOM */
     for (Map.Entry<String, Object> entry : customParameters.entrySet()) {
@@ -879,6 +885,15 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
 
   public List<String> getRuleContexts() {
     return ruleContexts;
+  }
+
+  public Boolean getEnablePersonalization() {
+    return enablePersonalization;
+  }
+
+  public T setEnablePersonalization(Boolean enablePersonalization) {
+    this.enablePersonalization = enablePersonalization;
+    return (T) this;
   }
 
   public T setRuleContexts(List<String> ruleContexts) {

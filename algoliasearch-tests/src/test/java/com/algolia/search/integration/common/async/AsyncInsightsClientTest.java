@@ -41,7 +41,8 @@ public abstract class AsyncInsightsClientTest extends AsyncAlgoliaIntegrationTes
     AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
-    SearchResult<AlgoliaObject> result = index.search(new Query().setClickAnalytics(true)).get();
+    SearchResult<AlgoliaObject> result =
+        index.search(new Query().setClickAnalytics(true).setEnablePersonalization(true)).get();
     insights.clickedObjectIDsAfterSearch(
         "eventName",
         "index",
@@ -50,7 +51,7 @@ public abstract class AsyncInsightsClientTest extends AsyncAlgoliaIntegrationTes
         result.getQueryID());
 
     SearchResult<AlgoliaObject> result2 =
-        index.search(new Query("al").setClickAnalytics(true)).get();
+        index.search(new Query("al").setClickAnalytics(true).setEnablePersonalization(true)).get();
     insights.clickedObjectIDsAfterSearch(
         "eventName",
         "index",

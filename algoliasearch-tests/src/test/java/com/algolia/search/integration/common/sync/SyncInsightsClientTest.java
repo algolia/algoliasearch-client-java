@@ -34,7 +34,8 @@ public abstract class SyncInsightsClientTest extends SyncAlgoliaIntegrationTest 
     Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
 
     waitForCompletion(index.addObject(new AlgoliaObject("algolia", 4)));
-    SearchResult<AlgoliaObject> result = index.search(new Query().setClickAnalytics(true));
+    SearchResult<AlgoliaObject> result =
+        index.search(new Query().setClickAnalytics(true).setEnablePersonalization(true));
     insights.clickedObjectIDsAfterSearch(
         "eventName",
         "index",
@@ -42,7 +43,8 @@ public abstract class SyncInsightsClientTest extends SyncAlgoliaIntegrationTest 
         new ArrayList<>(Arrays.asList(17l, 19l)),
         result.getQueryID());
 
-    SearchResult<AlgoliaObject> result2 = index.search(new Query("al").setClickAnalytics(true));
+    SearchResult<AlgoliaObject> result2 =
+        index.search(new Query("al").setClickAnalytics(true).setEnablePersonalization(true));
     insights.clickedObjectIDsAfterSearch(
         "eventName",
         "index",
