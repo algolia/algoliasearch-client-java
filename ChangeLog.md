@@ -1,5 +1,11 @@
 # ChangeLog
 
+# [2.21.1](https://github.com/algolia/algoliasearch-client-java-2/compare/2.21.0...2.21.1) (2018-12-18)
+
+### Change
+
+- **Added:** enablePersonalization on searchQuery ([12f63d0](https://github.com/algolia/algoliasearch-client-java-2/commit/12f63d0313aa42b286cdcae5f05555b38e27c4ea))
+
 # [2.21.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.20.0...2.21.0) (2018-12-17)
 
 ### Summary
