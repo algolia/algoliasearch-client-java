@@ -66,6 +66,7 @@ public class IndexSettings implements Serializable {
   private String queryType;
   private String removeWordsIfNoResults;
   private Boolean advancedSyntax;
+  private List<String> advancedSyntaxFeatures;
   private List<String> optionalWords;
   private RemoveStopWords removeStopWords;
   private List<String> disablePrefixOnAttributes;
@@ -376,6 +377,15 @@ public class IndexSettings implements Serializable {
 
   public IndexSettings setAdvancedSyntax(Boolean advancedSyntax) {
     this.advancedSyntax = advancedSyntax;
+    return this;
+  }
+
+  public List<String> getAdvancedSyntaxFeatures() {
+    return advancedSyntaxFeatures;
+  }
+
+  public IndexSettings setAdvancedSyntaxFeatures(List<String> advancedSyntaxFeatures) {
+    this.advancedSyntaxFeatures = advancedSyntaxFeatures;
     return this;
   }
 
@@ -713,6 +723,8 @@ public class IndexSettings implements Serializable {
         + '\''
         + ", advancedSyntax="
         + advancedSyntax
+        + ", advancedSyntaxFeatures="
+        + advancedSyntaxFeatures
         + ", optionalWords="
         + optionalWords
         + ", removeStopWords="

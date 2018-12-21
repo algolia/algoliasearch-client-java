@@ -93,6 +93,7 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   protected String queryType;
   protected RemoveWordsType removeWordsIfNoResults;
   protected Boolean advancedSyntax;
+  protected List<String> advancedSyntaxFeatures;
   protected List<String> optionalWords;
   protected RemoveStopWords removeStopWords;
   protected List<String> disableExactOnAttributes;
@@ -196,6 +197,7 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     builder = add(builder, "queryType", queryType);
     builder = add(builder, "removeWordsIfNoResults", removeWordsIfNoResults);
     builder = add(builder, "advancedSyntax", advancedSyntax);
+    builder = add(builder, "advancedSyntaxFeatures", advancedSyntaxFeatures);
     builder = add(builder, "optionalWords", optionalWords);
     if (removeStopWords != null) {
       builder = add(builder, "removeStopWords", removeStopWords.getInsideValue());
@@ -730,6 +732,15 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     return (T) this;
   }
 
+  public List<String> getAdvancedSyntaxFeatures() {
+    return advancedSyntaxFeatures;
+  }
+
+  public T setAdvancedSyntaxFeatures(List<String> advancedSyntaxFeatures) {
+    this.advancedSyntaxFeatures = advancedSyntaxFeatures;
+    return (T) this;
+  }
+
   public List<String> getOptionalWords() {
     return optionalWords;
   }
@@ -1023,6 +1034,8 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
         + removeWordsIfNoResults
         + ", advancedSyntax="
         + advancedSyntax
+        + ", advancedSyntaxFeatures="
+        + advancedSyntaxFeatures
         + ", optionalWords="
         + optionalWords
         + ", removeStopWords="
