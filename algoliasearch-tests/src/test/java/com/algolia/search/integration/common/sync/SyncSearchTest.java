@@ -138,4 +138,74 @@ public abstract class SyncSearchTest extends SyncAlgoliaIntegrationTest {
         ImmutableMap.of("age", new FacetStats().setMax(30f).setMin(10f).setSum(60f).setAvg(20f));
     assertThat(search.getFacets_stats()).isEqualToComparingFieldByFieldRecursively(expected);
   }
+
+  @Test
+  public void geoSearch() throws AlgoliaException {
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+
+    waitForCompletion(
+        index.addObjects(
+            Arrays.asList(
+                new AlgoliaObject("algolia1", 1),
+                new AlgoliaObject("algolia2", 1),
+                new AlgoliaObject("toto", 1))));
+
+    SearchResult<AlgoliaObject> searchInsideBounding =
+        index.search(
+            new Query("algolia")
+                .setInsideBoundingBox(
+                    Arrays.asList(
+                        Arrays.asList(
+                            46.650828100116044f, 7.123046875f, 45.17210966999772f, 1.009765625f))));
+
+    searchInsideBounding.getParams();
+
+    SearchResult<AlgoliaObject> searchInsindeBoundingList =
+        index.search(
+            new Query("algolia")
+                .setInsideBoundingBox(
+                    Arrays.asList(
+                        Arrays.asList(
+                            46.650828100116044f, 7.123046875f, 45.17210966999772f, 1.009765625f),
+                        Arrays.asList(
+                            49.62625916704081f,
+                            4.6181640625f,
+                            47.715070300900194f,
+                            0.482421875f))));
+
+    SearchResult<AlgoliaObject> searchInsidePolygon =
+        index.search(
+            new Query("algolia")
+                .setInsidePolygon(
+                    Arrays.asList(
+                        Arrays.asList(
+                            46.650828100116044f,
+                            7.123046875f,
+                            45.17210966999772f,
+                            1.009765625f,
+                            49.62625916704081f,
+                            4.6181640625f))));
+
+    SearchResult<AlgoliaObject> searchInsidePolygonList =
+        index.search(
+            new Query("algolia")
+                .setInsidePolygon(
+                    Arrays.asList(
+                        Arrays.asList(
+                            46.650828100116044f,
+                            7.123046875f,
+                            45.17210966999772f,
+                            1.009765625f,
+                            49.62625916704081f,
+                            4.6181640625f),
+                        Arrays.asList(
+                            49.62625916704081f,
+                            4.6181640625f,
+                            47.715070300900194f,
+                            0.482421875f,
+                            45.17210966999772f,
+                            1.009765625f,
+                            50.62626704081f,
+                            4.6181640625f))));
+  }
 }

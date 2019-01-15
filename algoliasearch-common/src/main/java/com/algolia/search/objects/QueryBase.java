@@ -65,8 +65,8 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   protected AroundRadius aroundRadius;
   protected Integer aroundPrecision;
   protected Integer minimumAroundRadius;
-  protected List<String> insideBoundingBox;
-  protected List<String> insidePolygon;
+  protected List<List<Float>> insideBoundingBox;
+  protected List<List<Float>> insidePolygon;
 
   /* highlighting-snippeting */
   protected List<String> attributesToHighlight;
@@ -577,20 +577,20 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     return (T) this;
   }
 
-  public List<String> getInsideBoundingBox() {
+  public List<List<Float>> getInsideBoundingBox() {
     return insideBoundingBox;
   }
 
-  public T setInsideBoundingBox(List<String> insideBoundingBox) {
+  public T setInsideBoundingBox(List<List<Float>> insideBoundingBox) {
     this.insideBoundingBox = insideBoundingBox;
     return (T) this;
   }
 
-  public List<String> getInsidePolygon() {
+  public List<List<Float>> getInsidePolygon() {
     return insidePolygon;
   }
 
-  public T setInsidePolygon(List<String> insidePolygon) {
+  public T setInsidePolygon(List<List<Float>> insidePolygon) {
     this.insidePolygon = insidePolygon;
     return (T) this;
   }
