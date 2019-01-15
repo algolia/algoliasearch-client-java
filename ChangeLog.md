@@ -1,6 +1,14 @@
 # ChangeLog
 
-# [2.21.1](https://github.com/algolia/algoliasearch-client-java-2/compare/2.21.0...2.21.1) (2018-12-18)
+# [2.22.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.21.1...2.22.0) (2019-01-15)
+
+### Change
+
+- **Added:** advancedSyntaxFeatures ([8075a67](https://github.com/algolia/algoliasearch-client-java-2/c`ommit/8075a6720599736892c14e15cd25b5db6f865310))
+- **Fixed:** geoSearch `insideBoundingBox` and `insidePolygon` type from `List<String>` to `List<List<Float>>` ([b4d84a5](https://github.com/algolia/algoliasearch-client-java-2/commit/b4d84a55c3ae39faf0cd2e468da0a4f2dc4eb1d5))
+- **Updated:** Jackson from 2.9.5 to 2.9.8 ([571f273](https://github.com/algolia/algoliasearch-client-java-2/commit/571f273d122ed85862ab04501aabc28b6e6813db))
+
+# [2.21.1](https://github.com/algolia/algoliasearch-client`-java-2/compare/2.21.0...2.21.1) (2018-12-18)
 
 ### Change
 
@@ -9,7 +17,7 @@
 # [2.21.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.20.0...2.21.0) (2018-12-17)
 
 ### Summary
-
+``
 Hello everyone,
 
 Big release today. We have added a lot of helpers methods : `replaceAllRules`, `replaceAllSynonyms`, `replaceAllObjects`. We also added a new class `AccountClient` that allows you to perfom cross appplication operations. For example, with this new class you can copy an index from an application to another one. We added the support of two news API features **Personalization** and **Insights**.
