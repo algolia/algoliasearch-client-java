@@ -113,4 +113,35 @@ public abstract class SyncApiKeysTest extends SyncAlgoliaIntegrationTest {
 
     waitForKeyNotPresent(index, apiKey.getDescription());
   }
+
+  @Test
+  public void restoreAPIKey() throws AlgoliaException, InterruptedException {
+    // Fill index
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+
+    waitForCompletion(index.addObject(new AlgoliaObject("1", 1)));
+
+    ApiKey apiKey =
+        new ApiKey()
+            .setDescription("restore-api-key" + System.currentTimeMillis())
+            .setIndexes(Collections.singletonList(index.getName()));
+
+    String keyName = client.addApiKey(apiKey).getKey();
+    assertThat(keyName).isNotNull();
+
+    waitForKeyPresent(null, apiKey.getDescription());
+
+    client.deleteApiKey(keyName);
+
+    waitForKeyNotPresent(null, apiKey.getDescription());
+
+    client.restoreApiKey(keyName);
+    waitForKeyPresent(null, apiKey.getDescription());
+
+    ApiKey restoredAPIKey = client.getApiKey(keyName).get();
+
+    assertThat(apiKey.getDescription()).isEqualTo(restoredAPIKey.getDescription());
+
+    client.deleteApiKey(keyName);
+  }
 }

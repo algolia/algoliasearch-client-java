@@ -128,4 +128,34 @@ public abstract class AsyncApiKeysTest extends AsyncAlgoliaIntegrationTest {
 
     waitForKeyNotPresent(index, apiKey.getDescription());
   }
+
+  @Test
+  public void restoreAPIKey() throws Exception {
+    // Fill index
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    waitForCompletion(index.addObject(new AlgoliaObject("1", 1)));
+
+    ApiKey apiKey =
+        new ApiKey()
+            .setDescription("restore-api-key" + System.currentTimeMillis())
+            .setIndexes(Collections.singletonList(index.getName()));
+
+    String keyName = client.addApiKey(apiKey).get().getKey();
+    assertThat(keyName).isNotNull();
+
+    waitForKeyPresent(null, apiKey.getDescription());
+
+    client.deleteApiKey(keyName).get();
+
+    waitForKeyNotPresent(null, apiKey.getDescription());
+
+    client.restoreApiKey(keyName).get();
+    waitForKeyPresent(null, apiKey.getDescription());
+
+    ApiKey restoredAPIKey = client.getApiKey(keyName).get().get();
+
+    assertThat(apiKey.getDescription()).isEqualTo(restoredAPIKey.getDescription());
+
+    client.deleteApiKey(keyName);
+  }
 }
