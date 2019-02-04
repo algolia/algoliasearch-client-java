@@ -10,6 +10,8 @@ import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.inputs.analytics.ABTest;
 import com.algolia.search.inputs.analytics.Variant;
 import com.algolia.search.integration.common.ABTestingHelpersTest;
+import com.algolia.search.objects.IgnorePlurals;
+import com.algolia.search.objects.Query;
 import com.algolia.search.objects.tasks.sync.TaskABTest;
 import com.algolia.search.responses.ABTests;
 import java.time.LocalDateTime;
@@ -77,10 +79,41 @@ public abstract class SyncABTestingTest extends SyncAlgoliaIntegrationTest {
     assertThat(inserted.getStatus()).isEqualTo("stopped");
 
     waitForCompletion(analytics.deleteABTest(inserted.getAbTestID()));
-    Boolean isEmpty = false;
+    boolean isEmpty = false;
     while (!isEmpty) {
       isEmpty = analytics.getABTests(0, 10).getCount() == 0;
       Thread.sleep(1000);
     }
+  }
+
+  @Test
+  public void TestAATesting() throws Exception {
+    Analytics analytics = createAnalytics();
+    Index<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    waitForCompletion(index.addObject(new AlgoliaObject("algolia", 1)));
+
+    LocalDateTime now = LocalDateTime.now();
+
+    Variant variantWithSearchParam = new Variant(index.getName(), 10, null);
+    variantWithSearchParam.setCustomSearchParameters(
+        new Query().setIgnorePlurals(IgnorePlurals.of(true)));
+
+    ABTest abtest =
+        new ABTest(
+            "AA_Testing",
+            Arrays.asList(
+                new Variant(index.getName(), 90, "a description"), variantWithSearchParam),
+            now.plus(1, ChronoUnit.DAYS));
+
+    TaskABTest abTestTask = analytics.addABTest(abtest);
+
+    index.waitTask(abTestTask.getTaskID());
+
+    ABTest inserted = analytics.getABTest(abTestTask.abTestID);
+
+    ABTestingHelpersTest.compareABTests(abtest, inserted);
+    assertThat(inserted.getVariants().get(1).getCustomSearchParameters().getIgnorePlurals())
+        .isEqualTo(variantWithSearchParam.getCustomSearchParameters().getIgnorePlurals());
+    waitForCompletion(analytics.deleteABTest(abTestTask.abTestID));
   }
 }
