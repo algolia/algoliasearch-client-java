@@ -1,5 +1,6 @@
 package com.algolia.search.inputs.analytics;
 
+import com.algolia.search.objects.Query;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,6 +24,7 @@ public class Variant implements Serializable {
   private int noResultCount;
   private int searchCount;
   private int userCount;
+  private Query customSearchParameters;
 
   public Variant() {}
 
@@ -134,5 +136,15 @@ public class Variant implements Serializable {
   @JsonProperty
   public void setUserCount(int userCount) {
     this.userCount = userCount;
+  }
+
+  @JsonProperty
+  public Query getCustomSearchParameters() {
+    return customSearchParameters;
+  }
+
+  @JsonProperty
+  public void setCustomSearchParameters(Query customSearchParameters) {
+    this.customSearchParameters = customSearchParameters;
   }
 }

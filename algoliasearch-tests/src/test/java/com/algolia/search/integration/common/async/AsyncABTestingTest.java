@@ -9,6 +9,8 @@ import com.algolia.search.AsyncIndex;
 import com.algolia.search.inputs.analytics.ABTest;
 import com.algolia.search.inputs.analytics.Variant;
 import com.algolia.search.integration.common.ABTestingHelpersTest;
+import com.algolia.search.objects.IgnorePlurals;
+import com.algolia.search.objects.Query;
 import com.algolia.search.objects.tasks.async.AsyncTaskABTest;
 import com.algolia.search.responses.ABTests;
 import java.time.LocalDateTime;
@@ -64,7 +66,7 @@ public abstract class AsyncABTestingTest extends AsyncAlgoliaIntegrationTest {
 
     waitForCompletion(analytics.addABTest(abtest));
 
-    Boolean found = false;
+    boolean found = false;
     while (!found) {
       abTests = analytics.getABTests(0, 10).get();
       found =
@@ -82,5 +84,36 @@ public abstract class AsyncABTestingTest extends AsyncAlgoliaIntegrationTest {
     waitForCompletion(analytics.deleteABTest(inserted.getAbTestID()));
     abTests = analytics.getABTests(0, 10).get();
     assertThat(abTests.getCount()).isEqualTo(0);
+  }
+
+  @Test
+  public void TestAATesting() throws Exception {
+    AsyncAnalytics analytics = createAnalytics();
+    AsyncIndex<AlgoliaObject> index = createIndex(AlgoliaObject.class);
+    waitForCompletion(index.addObject(new AlgoliaObject("algolia", 1)));
+
+    LocalDateTime now = LocalDateTime.now();
+
+    Variant variantWithSearchParam = new Variant(index.getName(), 10, null);
+    variantWithSearchParam.setCustomSearchParameters(
+        new Query().setIgnorePlurals(IgnorePlurals.of(true)));
+
+    ABTest abtest =
+        new ABTest(
+            "AA_Testing",
+            Arrays.asList(
+                new Variant(index.getName(), 90, "a description"), variantWithSearchParam),
+            now.plus(1, ChronoUnit.DAYS));
+
+    AsyncTaskABTest abTestTask = analytics.addABTest(abtest).get();
+
+    index.waitTask(abTestTask.getTaskID());
+
+    ABTest inserted = analytics.getABTest(abTestTask.abTestID).get();
+
+    ABTestingHelpersTest.compareABTests(abtest, inserted);
+    assertThat(inserted.getVariants().get(1).getCustomSearchParameters().getIgnorePlurals())
+        .isEqualTo(variantWithSearchParam.getCustomSearchParameters().getIgnorePlurals());
+    waitForCompletion(analytics.deleteABTest(abTestTask.abTestID));
   }
 }
