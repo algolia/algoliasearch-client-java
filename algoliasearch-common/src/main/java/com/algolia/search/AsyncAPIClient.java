@@ -487,6 +487,34 @@ public class AsyncAPIClient {
             DeleteKey.class));
   }
 
+  /**
+   * Restore the given API Key
+   *
+   * @param key The API Key to restore
+   * @return CompletableFuture<RestoreApiKey>
+   */
+  public CompletableFuture<RestoreApiKey> restoreApiKey(@Nonnull String key) {
+    return restoreApiKey(key, new RequestOptions());
+  }
+
+  /**
+   * Restore the given API Key
+   *
+   * @param key The API Key to restore
+   * @param requestOptions Options to pass to this request
+   * @return CompletableFuture<RestoreApiKey>
+   */
+  public CompletableFuture<RestoreApiKey> restoreApiKey(
+      @Nonnull String key, @Nonnull RequestOptions requestOptions) {
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+            HttpMethod.POST,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
+            Arrays.asList("1", "keys", key, "restore"),
+            requestOptions,
+            RestoreApiKey.class));
+  }
+
   /** Deprecated: use {@link #addApiKey(ApiKey)} */
   @Deprecated
   public CompletableFuture<CreateUpdateKey> addKey(@Nonnull ApiKey key) {

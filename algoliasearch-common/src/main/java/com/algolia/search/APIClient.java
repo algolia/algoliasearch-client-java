@@ -536,6 +536,34 @@ public class APIClient {
             DeleteKey.class));
   }
 
+  /**
+   * Restore the given API Key
+   *
+   * @param key The API Key to restore
+   * @return RestoreApiKey
+   */
+  public RestoreApiKey restoreApiKey(@Nonnull String key) throws AlgoliaException {
+    return restoreApiKey(key, new RequestOptions());
+  }
+
+  /**
+   * Restore the given API Key
+   *
+   * @param key The API Key to restore
+   * @param requestOptions Options to pass to this request
+   * @return RestoreApiKey
+   */
+  public RestoreApiKey restoreApiKey(@Nonnull String key, @Nonnull RequestOptions requestOptions)
+      throws AlgoliaException {
+    return httpClient.requestWithRetry(
+        new AlgoliaRequest<>(
+            HttpMethod.POST,
+            AlgoliaRequestKind.SEARCH_API_WRITE,
+            Arrays.asList("1", "keys", key, "restore"),
+            requestOptions,
+            RestoreApiKey.class));
+  }
+
   /** Deprecated: use {@link #addApiKey(ApiKey)} */
   @Deprecated
   public CreateUpdateKey addKey(@Nonnull ApiKey key) throws AlgoliaException {
