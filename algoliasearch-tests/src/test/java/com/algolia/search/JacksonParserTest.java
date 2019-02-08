@@ -119,11 +119,11 @@ public class JacksonParserTest {
     settings =
         new IndexSettings().setIgnorePlurals(IgnorePlurals.of(Collections.singletonList("en")));
     assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings))
-        .isEqualTo("{\"ignorePlurals\":\"en\"}");
+        .isEqualTo("{\"ignorePlurals\":[\"en\"]}");
 
     settings = new IndexSettings().setIgnorePlurals(Arrays.asList("en", "fr"));
     assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings))
-        .isEqualTo("{\"ignorePlurals\":\"en,fr\"}");
+        .isEqualTo("{\"ignorePlurals\":[\"en\",\"fr\"]}");
   }
 
   @Test
@@ -138,13 +138,13 @@ public class JacksonParserTest {
 
     ignorePlurals =
         DEFAULT_OBJECT_MAPPER
-            .readValue("{\"ignorePlurals\":\"en\"}", IndexSettings.class)
+            .readValue("{\"ignorePlurals\":[\"en\"]}", IndexSettings.class)
             .getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Collections.singletonList("en")));
 
     ignorePlurals =
         DEFAULT_OBJECT_MAPPER
-            .readValue("{\"ignorePlurals\":\"en,fr\"}", IndexSettings.class)
+            .readValue("{\"ignorePlurals\":[\"en\",\"fr\"]}", IndexSettings.class)
             .getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Arrays.asList("en", "fr")));
   }
