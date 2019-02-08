@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -14,7 +12,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 @JsonDeserialize(using = IgnorePluralsDeserializer.class)
@@ -92,11 +89,11 @@ class IgnorePluralsListString extends IgnorePlurals {
 class IgnorePluralsDeserializer extends JsonDeserializer<IgnorePlurals> {
 
   @Override
-  public IgnorePlurals deserialize(JsonParser p, DeserializationContext ctxt)
-      throws IOException, JsonProcessingException {
-    JsonToken currentToken = p.getCurrentToken();
-    if (currentToken.equals(JsonToken.VALUE_STRING)) {
-      return IgnorePlurals.of(Arrays.asList(p.getValueAsString().split(",")));
+  public IgnorePlurals deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+
+    if (p.isExpectedStartArrayToken()) {
+      List languages = p.readValueAs(List.class);
+      return IgnorePlurals.of(languages);
     }
 
     return IgnorePlurals.of(p.getBooleanValue());
@@ -108,12 +105,16 @@ class IgnorePluralsSerializer extends JsonSerializer<IgnorePlurals> {
   @SuppressWarnings("unchecked")
   @Override
   public void serialize(IgnorePlurals value, JsonGenerator gen, SerializerProvider serializers)
-      throws IOException, JsonProcessingException {
+      throws IOException {
     if (value instanceof IgnorePluralsBoolean) {
       gen.writeBoolean((Boolean) value.getInsideValue());
     } else if (value instanceof IgnorePluralsListString) {
-      List<String> list = (List<String>) value.getInsideValue();
-      gen.writeString(String.join(",", list));
+      List<String> languages = (List<String>) value.getInsideValue();
+      gen.writeStartArray();
+      for (String lang : languages) {
+        gen.writeString(lang);
+      }
+      gen.writeEndArray();
     }
   }
 }
