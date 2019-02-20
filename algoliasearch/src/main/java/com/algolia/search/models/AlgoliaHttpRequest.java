@@ -8,11 +8,14 @@ import java.util.HashMap;
 public class AlgoliaHttpRequest {
 
   public AlgoliaHttpRequest(
-      HttpMethod method, URL uri, HashMap<String, Collection<String>> headers, InputStream body) {
+      HttpMethod method,
+      String methodPath,
+      HashMap<String, Collection<String>> headers,
+      int timeout) {
     this.method = method;
-    this.uri = uri;
+    this.methodPath = methodPath;
     this.headers = headers;
-    this.body = body;
+    this.timeout = timeout;
   }
 
   public HttpMethod getMethod() {
@@ -30,6 +33,15 @@ public class AlgoliaHttpRequest {
 
   public AlgoliaHttpRequest setUri(URL uri) {
     this.uri = uri;
+    return this;
+  }
+
+  public String getMethodPath() {
+    return methodPath;
+  }
+
+  public AlgoliaHttpRequest setMethodPath(String methodPath) {
+    this.methodPath = methodPath;
     return this;
   }
 
@@ -51,8 +63,19 @@ public class AlgoliaHttpRequest {
     return this;
   }
 
+  public int getTimeout() {
+    return timeout;
+  }
+
+  public AlgoliaHttpRequest setTimeout(int timeout) {
+    this.timeout = timeout;
+    return this;
+  }
+
   private HttpMethod method;
   private URL uri;
+  private String methodPath;
   private HashMap<String, Collection<String>> headers;
   private InputStream body;
+  private int timeout;
 }

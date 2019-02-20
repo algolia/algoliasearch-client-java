@@ -1,10 +1,9 @@
 package com.algolia.search.http;
 
+import com.algolia.search.helpers.HttpStatusCodeHelper;
 import com.algolia.search.models.AlgoliaHttpRequest;
 import com.algolia.search.models.AlgoliaHttpResponse;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import org.asynchttpclient.*;
 
 public class AlgoliaHttpRequester implements IHttpRequester {
@@ -19,41 +18,15 @@ public class AlgoliaHttpRequester implements IHttpRequester {
   }
 
   public CompletableFuture<AlgoliaHttpResponse> performRequestAsync(AlgoliaHttpRequest request) {
-
     BoundRequestBuilder requestToSend = buildRequest(request);
-
-    return requestToSend
-        .execute(
-            new AsyncCompletionHandler<AlgoliaHttpResponse>() {
-
-              @Override
-              public void onThrowable(Throwable t) {}
-
-              @Override
-              public AlgoliaHttpResponse onCompleted(Response response) {
-                return new AlgoliaHttpResponse(
-                    response.getStatusCode(), response.getResponseBodyAsStream());
-              }
-            })
-        .toCompletableFuture();
+    return requestToSend.execute().toCompletableFuture().thenApply(this::buildResponse);
   }
 
-  public AlgoliaHttpResponse performRequest(AlgoliaHttpRequest request) {
-
-    AlgoliaHttpResponse response = null;
-    BoundRequestBuilder requestToSend = buildRequest(request);
-    Future<Response> responseFuture = requestToSend.execute();
-
-    try {
-
-      Response resp = responseFuture.get();
-      response = new AlgoliaHttpResponse(resp.getStatusCode(), resp.getResponseBodyAsStream());
-
-    } catch (InterruptedException | ExecutionException e) {
-      e.printStackTrace();
+  private AlgoliaHttpResponse buildResponse(Response response) {
+    if (HttpStatusCodeHelper.isSuccess(response.getStatusCode())) {
+      return new AlgoliaHttpResponse(response.getStatusCode(), response.getResponseBodyAsStream());
     }
-
-    return response;
+    return new AlgoliaHttpResponse(response.getResponseBody());
   }
 
   private BoundRequestBuilder buildRequest(AlgoliaHttpRequest algoliaHttpRequest) {
@@ -62,6 +35,7 @@ public class AlgoliaHttpRequester implements IHttpRequester {
             .setUrl(algoliaHttpRequest.getUri().toString())
             .setMethod(algoliaHttpRequest.getMethod().toString())
             .setHeaders(algoliaHttpRequest.getHeaders())
+            .setBody(algoliaHttpRequest.getBody())
             .build();
 
     return asyncHttpClient.prepareRequest(request);

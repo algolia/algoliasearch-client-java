@@ -3,7 +3,8 @@ package com.algolia.search.models;
 import java.util.List;
 
 public class ListIndicesResponse {
-  public List<IndicesResponse> getItems() {
+
+  public List<IndicesResponse> getIndices() {
     return items;
   }
 

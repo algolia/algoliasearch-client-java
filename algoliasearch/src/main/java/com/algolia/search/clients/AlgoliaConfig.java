@@ -1,7 +1,6 @@
 package com.algolia.search.clients;
 
 import com.algolia.search.transport.StatefulHost;
-
 import java.util.*;
 
 /** * Algolia's clients configuration */
@@ -76,12 +75,21 @@ public class AlgoliaConfig {
     return this;
   }
 
-  public List<StatefulHost> getDefaultHost() {
-    return defaultHost;
+  public List<StatefulHost> getDefaultHosts() {
+    return defaultHosts;
   }
 
-  AlgoliaConfig setDefaultHost(List<StatefulHost> defaultHost) {
-    this.defaultHost = defaultHost;
+  AlgoliaConfig setDefaultHosts(List<StatefulHost> defaultHosts) {
+    this.defaultHosts = defaultHosts;
+    return this;
+  }
+
+  public List<StatefulHost> getCustomHosts() {
+    return customHosts;
+  }
+
+  public AlgoliaConfig setCustomHosts(List<StatefulHost> customHosts) {
+    this.customHosts = customHosts;
     return this;
   }
 
@@ -91,5 +99,6 @@ public class AlgoliaConfig {
   private int batchSize;
   private Integer readTimeOut;
   private Integer writeTimeOut;
-  private List<StatefulHost> defaultHost;
+  private List<StatefulHost> defaultHosts;
+  private List<StatefulHost> customHosts;
 }

@@ -40,6 +40,10 @@ public class StatefulHost {
     return this;
   }
 
+  public void incrementRetryCount() {
+    this.retryCount++;
+  }
+
   public LocalDate getLastUse() {
     return lastUse;
   }
