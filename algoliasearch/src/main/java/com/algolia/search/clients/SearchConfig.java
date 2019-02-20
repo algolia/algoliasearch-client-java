@@ -46,7 +46,7 @@ public class SearchConfig extends AlgoliaConfig {
 
     Collections.shuffle(commonHosts, new Random());
 
-    this.setDefaultHost(
+    this.setDefaultHosts(
         Stream.concat(hosts.stream(), commonHosts.stream()).collect(Collectors.toList()));
   }
 }

@@ -9,7 +9,13 @@ public class AlgoliaHttpResponse {
     this.body = body;
   }
 
-  public AlgoliaHttpResponse() {}
+  public AlgoliaHttpResponse(String error) {
+    this.error = error;
+  }
+
+  public AlgoliaHttpResponse(boolean isTimedOut) {
+    this.isTimedOut = isTimedOut;
+  }
 
   public int getHttpStatusCode() {
     return httpStatusCode;
@@ -29,6 +35,26 @@ public class AlgoliaHttpResponse {
     return this;
   }
 
+  public String getError() {
+    return error;
+  }
+
+  public AlgoliaHttpResponse setError(String error) {
+    this.error = error;
+    return this;
+  }
+
+  public boolean isTimedOut() {
+    return isTimedOut;
+  }
+
+  public AlgoliaHttpResponse setTimedOut(boolean timedOut) {
+    isTimedOut = timedOut;
+    return this;
+  }
+
   private int httpStatusCode;
   private InputStream body;
+  private String error;
+  private boolean isTimedOut;
 }

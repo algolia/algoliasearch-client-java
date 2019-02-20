@@ -12,13 +12,5 @@ public interface IHttpRequester {
    *
    * @param request the request to send
    */
-  CompletableFuture<com.algolia.search.models.AlgoliaHttpResponse> performRequestAsync(
-      AlgoliaHttpRequest request);
-
-  /**
-   * Perform a synchronous request to the Algolia API
-   *
-   * @param request the request to send
-   */
-  AlgoliaHttpResponse performRequest(AlgoliaHttpRequest request);
+  CompletableFuture<AlgoliaHttpResponse> performRequestAsync(AlgoliaHttpRequest request);
 }

@@ -1,14 +1,20 @@
 package com.algolia.search.clients;
 
+import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.http.AlgoliaHttpRequester;
 import com.algolia.search.http.IHttpRequester;
+import com.algolia.search.inputs.ApiKeys;
 import com.algolia.search.models.CallType;
 import com.algolia.search.models.HttpMethod;
+import com.algolia.search.models.IndicesResponse;
 import com.algolia.search.models.ListIndicesResponse;
+import com.algolia.search.objects.ApiKey;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.transport.HttpTransport;
 import com.algolia.search.transport.IHttpTransport;
-import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public class SearchClient {
@@ -46,13 +52,31 @@ public class SearchClient {
     this.transport = new HttpTransport(config, httpRequester);
   }
 
-  public ListIndicesResponse listIndices() throws IOException {
-    return transport.executeRequest(
-        HttpMethod.GET, "/1/indexes", CallType.READ, null, ListIndicesResponse.class, null);
+  public List<IndicesResponse> listIndices()
+      throws InterruptedException, AlgoliaException, ExecutionException {
+    return listIndicesAsync().get();
   }
 
-  public ListIndicesResponse listIndices(RequestOptions requestOptions) throws IOException {
-    return transport.executeRequest(
-        HttpMethod.GET, "/1/indexes", CallType.READ, null, ListIndicesResponse.class, null);
+  public CompletableFuture<List<IndicesResponse>> listIndicesAsync() throws AlgoliaException {
+    return listIndicesAsync(null);
+  }
+
+  public CompletableFuture<List<IndicesResponse>> listIndicesAsync(RequestOptions requestOptions)
+      throws AlgoliaException {
+    return transport
+        .executeRequestAsync(
+            HttpMethod.GET,
+            "/1/indexes",
+            CallType.READ,
+            null,
+            ListIndicesResponse.class,
+            requestOptions)
+        .thenApply(ListIndicesResponse::getIndices);
+  }
+
+  public CompletableFuture<List<ApiKey>> listApiKeysAsync() throws AlgoliaException {
+    return transport
+        .executeRequestAsync(HttpMethod.GET, "/1/keys", CallType.READ, null, ApiKeys.class, null)
+        .thenApply(ApiKeys::getKeys);
   }
 }
