@@ -9,7 +9,8 @@ public class AlgoliaHttpResponse {
     this.body = body;
   }
 
-  public AlgoliaHttpResponse(String error) {
+  public AlgoliaHttpResponse(int httpStatusCode, String error) {
+    this.httpStatusCode = httpStatusCode;
     this.error = error;
   }
 
