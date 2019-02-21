@@ -2,16 +2,13 @@ package com.algolia.search.models;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AlgoliaHttpRequest {
 
   public AlgoliaHttpRequest(
-      HttpMethod method,
-      String methodPath,
-      HashMap<String, Collection<String>> headers,
-      int timeout) {
+      HttpMethod method, String methodPath, Map<String, String> headers, int timeout) {
     this.method = method;
     this.methodPath = methodPath;
     this.headers = headers;
@@ -45,11 +42,11 @@ public class AlgoliaHttpRequest {
     return this;
   }
 
-  public HashMap<String, Collection<String>> getHeaders() {
+  public Map<String, String> getHeaders() {
     return headers;
   }
 
-  public AlgoliaHttpRequest setHeaders(HashMap<String, Collection<String>> headers) {
+  public AlgoliaHttpRequest setHeaders(HashMap<String, String> headers) {
     this.headers = headers;
     return this;
   }
@@ -75,7 +72,7 @@ public class AlgoliaHttpRequest {
   private HttpMethod method;
   private URL uri;
   private String methodPath;
-  private HashMap<String, Collection<String>> headers;
+  private Map<String, String> headers;
   private InputStream body;
   private int timeout;
 }

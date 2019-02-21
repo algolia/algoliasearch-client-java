@@ -1,6 +1,8 @@
 package com.algolia.search.exceptions;
 
-public class AlgoliaApiException extends AlgoliaRuntimeException {
+public class AlgoliaApiException extends RuntimeException {
+
+  private static final long serialVersionUID = -989193527186415117L;
 
   public int getHttpErrorCode() {
     return httpErrorCode;

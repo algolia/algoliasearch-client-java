@@ -11,12 +11,14 @@ public class AlgoliaConfig {
     this.apiKey = apiKey;
 
     this.defaultHeaders =
-        new HashMap<String, Collection<String>>() {
+        new HashMap<String, String>() {
           {
-            put("X-Algolia-Application-Id", Collections.singletonList(getApplicationID()));
-            put("X-Algolia-API-Key", Collections.singletonList(getApiKey()));
-            put("User-Agent", Collections.singletonList("Java v3"));
-            put("Accept", Collections.singletonList("application/json"));
+            put("X-Algolia-Application-Id", getApplicationID());
+            put("X-Algolia-API-Key", getApiKey());
+            put(
+                "User-Agent",
+                String.format("Algolia for Java (%s); JVM (%s)", cientVersion, javaVersion));
+            put("Accept", "application/json");
           }
         };
   }
@@ -39,11 +41,11 @@ public class AlgoliaConfig {
     return this;
   }
 
-  public HashMap<String, Collection<String>> getDefaultHeaders() {
+  public HashMap<String, String> getDefaultHeaders() {
     return defaultHeaders;
   }
 
-  public AlgoliaConfig setDefaultHeaders(HashMap<String, Collection<String>> defaultHeaders) {
+  public AlgoliaConfig setDefaultHeaders(HashMap<String, String> defaultHeaders) {
     this.defaultHeaders = defaultHeaders;
     return this;
   }
@@ -93,9 +95,11 @@ public class AlgoliaConfig {
     return this;
   }
 
+  private final String javaVersion = System.getProperty("java.version");
+  private final String cientVersion = this.getClass().getPackage().getSpecificationVersion();
   private String applicationID;
   private String apiKey;
-  private HashMap<String, Collection<String>> defaultHeaders;
+  private HashMap<String, String> defaultHeaders;
   private int batchSize;
   private Integer readTimeOut;
   private Integer writeTimeOut;

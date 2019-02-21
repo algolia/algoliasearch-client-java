@@ -13,6 +13,7 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.transport.HttpTransport;
 import com.algolia.search.transport.IHttpTransport;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
@@ -32,13 +33,8 @@ public class SearchClient {
 
   public SearchClient(@Nonnull AlgoliaConfig config, @Nonnull IHttpRequester httpRequester) {
 
-    if (httpRequester == null) {
-      throw new NullPointerException("An httpRequester is required");
-    }
-
-    if (config == null) {
-      throw new NullPointerException("A configuration is required");
-    }
+    Objects.requireNonNull(httpRequester, "An httpRequester is required.");
+    Objects.requireNonNull(config, "A configuration is required.");
 
     if (config.getApplicationID() == null || config.getApplicationID().trim().length() == 0) {
       throw new NullPointerException("An ApplicationID is required");
@@ -58,7 +54,7 @@ public class SearchClient {
   }
 
   public CompletableFuture<List<IndicesResponse>> listIndicesAsync() throws AlgoliaException {
-    return listIndicesAsync(null);
+    return listIndicesAsync(new RequestOptions());
   }
 
   public CompletableFuture<List<IndicesResponse>> listIndicesAsync(RequestOptions requestOptions)
@@ -74,9 +70,25 @@ public class SearchClient {
         .thenApply(ListIndicesResponse::getIndices);
   }
 
+  public List<ApiKey> listApiKeys()
+      throws AlgoliaException, ExecutionException, InterruptedException {
+    return listApiKeys(new RequestOptions());
+  }
+
+  public List<ApiKey> listApiKeys(RequestOptions requestOptions)
+      throws AlgoliaException, ExecutionException, InterruptedException {
+    return listApiKeysAsync(requestOptions).get();
+  }
+
   public CompletableFuture<List<ApiKey>> listApiKeysAsync() throws AlgoliaException {
+    return listApiKeysAsync(new RequestOptions());
+  }
+
+  public CompletableFuture<List<ApiKey>> listApiKeysAsync(RequestOptions requestOptions)
+      throws AlgoliaException {
     return transport
-        .executeRequestAsync(HttpMethod.GET, "/1/keys", CallType.READ, null, ApiKeys.class, null)
+        .executeRequestAsync(
+            HttpMethod.GET, "/1/keys", CallType.READ, null, ApiKeys.class, requestOptions)
         .thenApply(ApiKeys::getKeys);
   }
 }

@@ -5,6 +5,7 @@ import com.algolia.search.models.CallType;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.objects.RequestOptions;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public interface IHttpTransport {
@@ -47,5 +48,5 @@ public interface IHttpTransport {
       TData data,
       Class<TResult> returnClass,
       RequestOptions requestOptions)
-      throws AlgoliaException;
+      throws AlgoliaException, ExecutionException, InterruptedException;
 }
