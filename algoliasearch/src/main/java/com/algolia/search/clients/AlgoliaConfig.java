@@ -2,14 +2,21 @@ package com.algolia.search.clients;
 
 import com.algolia.search.transport.StatefulHost;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 
 /** * Algolia's clients configuration */
 public class AlgoliaConfig {
 
   public AlgoliaConfig(String applicationID, String apiKey) {
+    this(applicationID, apiKey, ForkJoinPool.commonPool());
+  }
+
+  public AlgoliaConfig(String applicationID, String apiKey, ExecutorService executor) {
     this.applicationID = applicationID;
     this.apiKey = apiKey;
-
+    this.executor = executor;
+    this.batchSize = 1000;
     this.defaultHeaders =
         new HashMap<String, String>() {
           {
@@ -17,7 +24,7 @@ public class AlgoliaConfig {
             put("X-Algolia-API-Key", getApiKey());
             put(
                 "User-Agent",
-                String.format("Algolia for Java (%s); JVM (%s)", cientVersion, javaVersion));
+                String.format("Algolia for Java (%s); JVM (%s)", clientVersion, javaVersion));
             put("Accept", "application/json");
           }
         };
@@ -95,8 +102,12 @@ public class AlgoliaConfig {
     return this;
   }
 
+  public ExecutorService getExecutor() {
+    return executor;
+  }
+
   private final String javaVersion = System.getProperty("java.version");
-  private final String cientVersion = this.getClass().getPackage().getSpecificationVersion();
+  private final String clientVersion = this.getClass().getPackage().getSpecificationVersion();
   private String applicationID;
   private String apiKey;
   private HashMap<String, String> defaultHeaders;
@@ -105,4 +116,5 @@ public class AlgoliaConfig {
   private Integer writeTimeOut;
   private List<StatefulHost> defaultHosts;
   private List<StatefulHost> customHosts;
+  private ExecutorService executor;
 }

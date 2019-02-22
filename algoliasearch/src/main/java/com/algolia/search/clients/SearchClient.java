@@ -1,6 +1,9 @@
 package com.algolia.search.clients;
 
-import com.algolia.search.exceptions.AlgoliaException;
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.http.AlgoliaHttpRequester;
 import com.algolia.search.http.IHttpRequester;
 import com.algolia.search.inputs.ApiKeys;
@@ -15,7 +18,6 @@ import com.algolia.search.transport.IHttpTransport;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public class SearchClient {
@@ -28,7 +30,7 @@ public class SearchClient {
   }
 
   public SearchClient(@Nonnull AlgoliaConfig config) {
-    this(config, new AlgoliaHttpRequester());
+    this(config, new AlgoliaHttpRequester(config));
   }
 
   public SearchClient(@Nonnull AlgoliaConfig config, @Nonnull IHttpRequester httpRequester) {
@@ -48,17 +50,54 @@ public class SearchClient {
     this.transport = new HttpTransport(config, httpRequester);
   }
 
-  public List<IndicesResponse> listIndices()
-      throws InterruptedException, AlgoliaException, ExecutionException {
-    return listIndicesAsync().get();
+  /**
+   * List all existing indexes
+   *
+   * @return A List of the indices and their metadata
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public List<IndicesResponse> listIndices() throws AlgoliaRuntimeException {
+    return listIndices(new RequestOptions());
   }
 
-  public CompletableFuture<List<IndicesResponse>> listIndicesAsync() throws AlgoliaException {
+  /**
+   * List all existing indexes
+   *
+   * @param requestOptions Options to pass to this request
+   * @return A List of the indices and their metadata
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public List<IndicesResponse> listIndices(RequestOptions requestOptions)
+      throws AlgoliaRuntimeException {
+    return LaunderThrowable.unwrap(listIndicesAsync(requestOptions));
+  }
+
+  /**
+   * List asynchronously all existing indexes
+   *
+   * @return A List of the indices and their metadata
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<List<IndicesResponse>> listIndicesAsync() {
     return listIndicesAsync(new RequestOptions());
   }
 
-  public CompletableFuture<List<IndicesResponse>> listIndicesAsync(RequestOptions requestOptions)
-      throws AlgoliaException {
+  /**
+   * List asynchronously all existing indexes
+   *
+   * @param requestOptions Options to pass to this request
+   * @return A List of the indices and their metadata
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<List<IndicesResponse>> listIndicesAsync(RequestOptions requestOptions) {
     return transport
         .executeRequestAsync(
             HttpMethod.GET,
@@ -70,22 +109,49 @@ public class SearchClient {
         .thenApply(ListIndicesResponse::getIndices);
   }
 
-  public List<ApiKey> listApiKeys()
-      throws AlgoliaException, ExecutionException, InterruptedException {
+  /**
+   * List all existing user keys with their associated ACLs
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public List<ApiKey> listApiKeys() throws AlgoliaRuntimeException {
     return listApiKeys(new RequestOptions());
   }
 
-  public List<ApiKey> listApiKeys(RequestOptions requestOptions)
-      throws AlgoliaException, ExecutionException, InterruptedException {
-    return listApiKeysAsync(requestOptions).get();
+  /**
+   * List all existing user keys with their associated ACLs
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public List<ApiKey> listApiKeys(RequestOptions requestOptions) throws AlgoliaRuntimeException {
+    return LaunderThrowable.unwrap(listApiKeysAsync(requestOptions));
   }
 
-  public CompletableFuture<List<ApiKey>> listApiKeysAsync() throws AlgoliaException {
+  /**
+   * List asynchronously all existing user keys with their associated ACLs
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<List<ApiKey>> listApiKeysAsync() {
     return listApiKeysAsync(new RequestOptions());
   }
 
-  public CompletableFuture<List<ApiKey>> listApiKeysAsync(RequestOptions requestOptions)
-      throws AlgoliaException {
+  /**
+   * List asynchronously all existing user keys with their associated ACLs
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<List<ApiKey>> listApiKeysAsync(RequestOptions requestOptions) {
     return transport
         .executeRequestAsync(
             HttpMethod.GET, "/1/keys", CallType.READ, null, ApiKeys.class, requestOptions)
