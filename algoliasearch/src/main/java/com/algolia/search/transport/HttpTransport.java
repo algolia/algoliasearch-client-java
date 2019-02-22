@@ -2,19 +2,25 @@ package com.algolia.search.transport;
 
 import com.algolia.search.Defaults;
 import com.algolia.search.clients.AlgoliaConfig;
-import com.algolia.search.exceptions.*;
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.helpers.CompletableFutureHelper;
 import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.http.IHttpRequester;
-import com.algolia.search.models.*;
+import com.algolia.search.models.AlgoliaHttpRequest;
+import com.algolia.search.models.CallType;
+import com.algolia.search.models.HttpMethod;
 import com.algolia.search.objects.RequestOptions;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public class HttpTransport implements IHttpTransport {
@@ -27,33 +33,6 @@ public class HttpTransport implements IHttpTransport {
     this.config = config;
     this.httpRequester = httpRequester;
     this.retryStrategy = new RetryStrategy(config);
-  }
-
-  /**
-   * Executes the request to Algolia synchronously with the retry strategy. Performs a blocking
-   * .get() on the executeRequestAsync method
-   *
-   * @param method The http method used for the request (Get,Post,etc.)
-   * @param path The path of the API endpoint
-   * @param callType The Algolia call type of the request : read or write
-   * @param data The data to send if any
-   * @param returnClass The type that will be returned
-   * @param requestOptions Requests options to add to the request (if so)
-   * @param <TResult> The type of the result
-   * @param <TData> The type of the data to send (if so)
-   * @throws AlgoliaRetryException When the retry has failed on all hosts
-   * @throws AlgoliaApiException When the API sends an error
-   * @throws AlgoliaRuntimeException When an error occurred during the serialization.
-   */
-  public <TResult, TData> TResult executeRequest(
-      @Nonnull HttpMethod method,
-      @Nonnull String path,
-      @Nonnull CallType callType,
-      TData data,
-      Class<TResult> returnClass,
-      RequestOptions requestOptions)
-      throws ExecutionException, InterruptedException {
-    return executeRequestAsync(method, path, callType, data, returnClass, requestOptions).get();
   }
 
   /**
@@ -100,12 +79,14 @@ public class HttpTransport implements IHttpTransport {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization.
    */
   private <TResult> CompletableFuture<TResult> executeWithRetry(
-      Iterator<StatefulHost> hosts, AlgoliaHttpRequest request, Class<TResult> returnClass) {
+      @Nonnull Iterator<StatefulHost> hosts,
+      @Nonnull AlgoliaHttpRequest request,
+      @Nonnull Class<TResult> returnClass) {
 
     // If no more hosts to request the retry has failed
     if (!hosts.hasNext()) {
-      CompletableFutureHelper.failedFuture(
-          new AlgoliaRetryException("All hosts are unreachable", new AlgoliaRetryException("")));
+      return CompletableFutureHelper.failedFuture(
+          new AlgoliaRetryException("All hosts are unreachable"));
     }
 
     // Building the request URL
@@ -135,7 +116,8 @@ public class HttpTransport implements IHttpTransport {
                   return CompletableFutureHelper.failedFuture(
                       new AlgoliaRetryException("Couldn't process the retry strategy decision"));
               }
-            });
+            },
+            config.getExecutor());
   }
 
   /**
@@ -231,7 +213,7 @@ public class HttpTransport implements IHttpTransport {
   private int getTimeOut(CallType callType) {
     switch (callType) {
       case READ:
-        return config.getReadTimeOut() == null ? 10 * 1000 : config.getReadTimeOut();
+        return config.getReadTimeOut() == null ? 5 * 1000 : config.getReadTimeOut();
       case WRITE:
         return config.getWriteTimeOut() == null ? 30 * 1000 : config.getWriteTimeOut();
       default:
