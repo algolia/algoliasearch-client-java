@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 import org.asynchttpclient.*;
 
-public class AlgoliaHttpRequester implements IHttpRequester {
+public final class AlgoliaHttpRequester implements IHttpRequester {
 
   private final AsyncHttpClient asyncHttpClient;
   private final AlgoliaConfig config;

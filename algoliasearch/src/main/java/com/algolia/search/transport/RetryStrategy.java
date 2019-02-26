@@ -9,7 +9,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class RetryStrategy implements IRetryStrategy {
+class RetryStrategy {
   private List<StatefulHost> hosts;
 
   public RetryStrategy(AlgoliaConfig config) {

@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
-public class HttpTransport {
+public final class HttpTransport {
 
   private final AlgoliaConfig config;
   private final IHttpRequester httpRequester;
