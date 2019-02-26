@@ -14,7 +14,6 @@ import com.algolia.search.models.ListIndicesResponse;
 import com.algolia.search.objects.ApiKey;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.transport.HttpTransport;
-import com.algolia.search.transport.IHttpTransport;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -22,7 +21,7 @@ import javax.annotation.Nonnull;
 
 public class SearchClient {
 
-  private final IHttpTransport transport;
+  private final HttpTransport transport;
   private final AlgoliaConfig config;
 
   public SearchClient(@Nonnull String applicationID, @Nonnull String apiKey) {

@@ -23,11 +23,11 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
-public class HttpTransport implements IHttpTransport {
+public class HttpTransport {
 
   private final AlgoliaConfig config;
   private final IHttpRequester httpRequester;
-  private final IRetryStrategy retryStrategy;
+  private final RetryStrategy retryStrategy;
 
   public HttpTransport(AlgoliaConfig config, IHttpRequester httpRequester) {
     this.config = config;

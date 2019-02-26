@@ -8,20 +8,20 @@ import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.TaskStatusResponse;
 import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.RequestOptions;
-import com.algolia.search.transport.IHttpTransport;
+import com.algolia.search.transport.HttpTransport;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 public class SearchIndex<T> {
 
-  private final IHttpTransport transport;
+  private final HttpTransport transport;
   private final AlgoliaConfig config;
   private final String urlEncodedIndexName;
   private final String indexName;
   private final Class<T> klass;
 
-  SearchIndex(IHttpTransport transport, AlgoliaConfig config, String indexName, Class<T> klass) {
+  SearchIndex(HttpTransport transport, AlgoliaConfig config, String indexName, Class<T> klass) {
     this.transport = transport;
     this.config = config;
     this.indexName = indexName;
@@ -55,7 +55,8 @@ public class SearchIndex<T> {
    */
   public CompletableFuture<IndexSettings> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
-    RequestOptions requestOptions =
+    RequestOptions requestOptions;
+    requestOptions =
         new RequestOptions()
             .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
     return setSettingsAsync(settings, requestOptions);
