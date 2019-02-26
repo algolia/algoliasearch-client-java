@@ -51,6 +51,38 @@ public class SearchClient {
   }
 
   /**
+   * Get the index object initialized (no server call needed for initialization)
+   *
+   * @param indexName The name of the Algolia index
+   * @throws NullPointerException When indexName is null or empty
+   */
+  public SearchIndex<?> initIndex(@Nonnull String indexName) {
+
+    if (indexName == null || indexName.trim().length() == 0) {
+      throw new NullPointerException("The index name is required");
+    }
+
+    return new SearchIndex<>(transport, config, indexName, Object.class);
+  }
+
+  /**
+   * Get the index object initialized (no server call needed for initialization)
+   *
+   * @param indexName The name of the Algolia index
+   * @param klass class of the object in this index
+   * @param <T> the type of the objects in this index
+   * @throws NullPointerException When indexName is null or empty
+   */
+  public <T> SearchIndex<T> initIndex(@Nonnull String indexName, @Nonnull Class<T> klass) {
+
+    if (indexName == null || indexName.trim().length() == 0) {
+      throw new NullPointerException("The index name is required");
+    }
+
+    return new SearchIndex<>(transport, config, indexName, klass);
+  }
+
+  /**
    * List all existing indexes
    *
    * @return A List of the indices and their metadata
@@ -71,7 +103,7 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public List<IndicesResponse> listIndices(RequestOptions requestOptions)
+  public List<IndicesResponse> listIndices(@Nonnull RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
     return LaunderThrowable.unwrap(listIndicesAsync(requestOptions));
   }
@@ -97,7 +129,8 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public CompletableFuture<List<IndicesResponse>> listIndicesAsync(RequestOptions requestOptions) {
+  public CompletableFuture<List<IndicesResponse>> listIndicesAsync(
+      @Nonnull RequestOptions requestOptions) {
     return transport
         .executeRequestAsync(
             HttpMethod.GET,
@@ -106,7 +139,7 @@ public class SearchClient {
             null,
             ListIndicesResponse.class,
             requestOptions)
-        .thenApply(ListIndicesResponse::getIndices);
+        .thenApplyAsync(ListIndicesResponse::getIndices, config.getExecutor());
   }
 
   /**
@@ -128,7 +161,8 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public List<ApiKey> listApiKeys(RequestOptions requestOptions) throws AlgoliaRuntimeException {
+  public List<ApiKey> listApiKeys(@Nonnull RequestOptions requestOptions)
+      throws AlgoliaRuntimeException {
     return LaunderThrowable.unwrap(listApiKeysAsync(requestOptions));
   }
 
@@ -151,10 +185,37 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public CompletableFuture<List<ApiKey>> listApiKeysAsync(RequestOptions requestOptions) {
+  public CompletableFuture<List<ApiKey>> listApiKeysAsync(@Nonnull RequestOptions requestOptions) {
     return transport
         .executeRequestAsync(
             HttpMethod.GET, "/1/keys", CallType.READ, null, ApiKeys.class, requestOptions)
-        .thenApply(ApiKeys::getKeys);
+        .thenApplyAsync(ApiKeys::getKeys, config.getExecutor());
+  }
+
+  /**
+   * Get the permissions of an API Key.
+   *
+   * @param apiKey The API key to retrieve
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<ApiKey> getApiKeyAsync(@Nonnull String apiKey) {
+    return getApiKeyAsync(apiKey);
+  }
+
+  /**
+   * Get the permissions of an API Key.
+   *
+   * @param apiKey The API key to retrieve
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<ApiKey> getApiKeyAsync(
+      @Nonnull String apiKey, @Nonnull RequestOptions requestOptions) {
+    return transport.executeRequestAsync(
+        HttpMethod.GET, "/1/keys/" + apiKey, CallType.READ, null, ApiKey.class, requestOptions);
   }
 }
