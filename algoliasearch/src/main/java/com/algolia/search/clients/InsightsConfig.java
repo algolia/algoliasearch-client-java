@@ -8,15 +8,19 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
-public class AnalyticsConfig extends AlgoliaConfig {
+public class InsightsConfig extends AlgoliaConfig {
 
-  public AnalyticsConfig(String applicationID, String apiKey) {
+  public InsightsConfig(String applicationID, String apiKey) {
+    this(applicationID, apiKey, "us");
+  }
+
+  public InsightsConfig(String applicationID, String apiKey, String region) {
     super(applicationID, apiKey);
 
     List<StatefulHost> hosts =
         Collections.singletonList(
             new StatefulHost(
-                "analytics.algolia.com",
+                "insights." + region + ".algolia.io",
                 true,
                 LocalDate.now(ZoneOffset.UTC),
                 EnumSet.of(CallType.READ, CallType.WRITE)));
