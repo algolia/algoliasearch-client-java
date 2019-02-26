@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class QueryStringHelper {
 
-  static String urlEncodeUTF8(String s) {
+  public static String urlEncodeUTF8(String s) {
     try {
       return URLEncoder.encode(s, "UTF-8");
     } catch (UnsupportedEncodingException e) {
