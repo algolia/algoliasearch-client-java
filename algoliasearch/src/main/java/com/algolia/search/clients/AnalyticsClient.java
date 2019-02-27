@@ -31,13 +31,15 @@ public class AnalyticsClient {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
+    Objects.requireNonNull(config.getApplicationID(), "An ApplicationID is required.");
+    Objects.requireNonNull(config.getApiKey(), "An API key is required.");
 
-    if (config.getApplicationID() == null || config.getApplicationID().trim().length() == 0) {
-      throw new NullPointerException("An ApplicationID is required");
+    if (config.getApplicationID().trim().length() == 0) {
+      throw new NullPointerException("ApplicationID can't be empty.");
     }
 
-    if (config.getApiKey() == null || config.getApiKey().trim().length() == 0) {
-      throw new NullPointerException("An API key is required");
+    if (config.getApiKey().trim().length() == 0) {
+      throw new NullPointerException("APIKey can't be empty.");
     }
 
     this.config = config;
@@ -46,7 +48,7 @@ public class AnalyticsClient {
 
   /** Get an A/B test information and results. */
   public ABTests getABTests() {
-    return LaunderThrowable.unwrap(getABTestsAsync(0, 10, new RequestOptions()));
+    return LaunderThrowable.unwrap(getABTestsAsync(0, 10, null));
   }
 
   /**
@@ -54,7 +56,7 @@ public class AnalyticsClient {
    *
    * @param requestOptions Options to pass to this request
    */
-  public ABTests getABTests(@Nonnull RequestOptions requestOptions) {
+  public ABTests getABTests(RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getABTestsAsync(0, 10, requestOptions));
   }
 
@@ -65,7 +67,7 @@ public class AnalyticsClient {
    * @param limit Number of records to return. +used for paging. Limit is the size of the page.
    */
   public ABTests getABTests(int offset, int limit) {
-    return LaunderThrowable.unwrap(getABTestsAsync(offset, limit, new RequestOptions()));
+    return LaunderThrowable.unwrap(getABTestsAsync(offset, limit, null));
   }
 
   /**
@@ -75,13 +77,13 @@ public class AnalyticsClient {
    * @param limit Number of records to return. +used for paging. Limit is the size of the page.
    * @param requestOptions Options to pass to this request
    */
-  public ABTests getABTests(int offset, int limit, @Nonnull RequestOptions requestOptions) {
+  public ABTests getABTests(int offset, int limit, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getABTestsAsync(offset, limit, requestOptions));
   }
 
   /** Get an A/B test information and results. */
   public CompletableFuture<ABTests> getABTestsAsync() {
-    return getABTestsAsync(0, 10, new RequestOptions());
+    return getABTestsAsync(0, 10, null);
   }
 
   /**
@@ -89,7 +91,7 @@ public class AnalyticsClient {
    *
    * @param requestOptions Options to pass to this request
    */
-  public CompletableFuture<ABTests> getABTestsAsync(@Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<ABTests> getABTestsAsync(RequestOptions requestOptions) {
     return getABTestsAsync(0, 10, requestOptions);
   }
 
@@ -100,7 +102,7 @@ public class AnalyticsClient {
    * @param limit Number of records to return. +used for paging. Limit is the size of the page.
    */
   public CompletableFuture<ABTests> getABTestsAsync(int offset, int limit) {
-    return getABTestsAsync(0, 10, new RequestOptions());
+    return getABTestsAsync(0, 10, null);
   }
 
   /**
@@ -111,8 +113,12 @@ public class AnalyticsClient {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<ABTests> getABTestsAsync(
-      int offset, int limit, @Nonnull RequestOptions requestOptions) {
+      int offset, int limit, RequestOptions requestOptions) {
 
+    if (requestOptions == null){
+      requestOptions = new RequestOptions();
+    }
+    
     requestOptions.addExtraQueryParameters("offset", Integer.toString(offset));
     requestOptions.addExtraQueryParameters("limit", Integer.toString(limit));
 
@@ -126,7 +132,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    */
   public ABTest getABTest(long id) {
-    return LaunderThrowable.unwrap(getABTestAsync(id, new RequestOptions()));
+    return LaunderThrowable.unwrap(getABTestAsync(id, null));
   }
 
   /**
@@ -135,7 +141,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
    */
-  public ABTest getABTest(long id, @Nonnull RequestOptions requestOptions) {
+  public ABTest getABTest(long id, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getABTestAsync(id, requestOptions));
   }
 
@@ -145,7 +151,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    */
   public CompletableFuture<ABTest> getABTestAsync(long id) {
-    return getABTestAsync(id, new RequestOptions());
+    return getABTestAsync(id, null);
   }
 
   /**
@@ -154,7 +160,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
    */
-  public CompletableFuture<ABTest> getABTestAsync(long id, @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<ABTest> getABTestAsync(long id, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
         HttpMethod.GET, "/2/abtests/" + id, CallType.READ, null, ABTest.class, requestOptions);
   }
@@ -167,7 +173,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    */
   public StopAbTestResponse stopABTest(long id) {
-    return LaunderThrowable.unwrap(stopABTestAsync(id, new RequestOptions()));
+    return LaunderThrowable.unwrap(stopABTestAsync(id, null));
   }
 
   /**
@@ -178,7 +184,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
    */
-  public StopAbTestResponse stopABTest(long id, @Nonnull RequestOptions requestOptions) {
+  public StopAbTestResponse stopABTest(long id, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(stopABTestAsync(id, requestOptions));
   }
 
@@ -190,7 +196,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    */
   public CompletableFuture<StopAbTestResponse> stopABTestAsync(long id) {
-    return stopABTestAsync(id, new RequestOptions());
+    return stopABTestAsync(id, null);
   }
 
   /**
@@ -202,7 +208,7 @@ public class AnalyticsClient {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<StopAbTestResponse> stopABTestAsync(
-      long id, @Nonnull RequestOptions requestOptions) {
+      long id, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
         HttpMethod.POST,
         "/2/abtests/" + id + "/stop",
@@ -218,7 +224,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    */
   public DeleteAbTestResponse deleteABTest(long id) {
-    return LaunderThrowable.unwrap(deleteABTestAsync(id, new RequestOptions()));
+    return LaunderThrowable.unwrap(deleteABTestAsync(id, null));
   }
 
   /**
@@ -227,7 +233,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
    */
-  public DeleteAbTestResponse deleteABTest(long id, @Nonnull RequestOptions requestOptions) {
+  public DeleteAbTestResponse deleteABTest(long id, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(deleteABTestAsync(id, requestOptions));
   }
 
@@ -237,7 +243,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    */
   public CompletableFuture<DeleteAbTestResponse> deleteABTestAsync(long id) {
-    return deleteABTestAsync(id, new RequestOptions());
+    return deleteABTestAsync(id, null);
   }
 
   /**
@@ -247,7 +253,7 @@ public class AnalyticsClient {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<DeleteAbTestResponse> deleteABTestAsync(
-      long id, @Nonnull RequestOptions requestOptions) {
+      long id, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
         HttpMethod.DELETE,
         "/2/abtests/" + id,
@@ -263,7 +269,7 @@ public class AnalyticsClient {
    * @param abTest The definition of the A/B test
    */
   public AddABTestResponse addABTest(@Nonnull ABTest abTest) throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(addABTestAsync(abTest, new RequestOptions()));
+    return LaunderThrowable.unwrap(addABTestAsync(abTest, null));
   }
 
   /**
@@ -272,7 +278,7 @@ public class AnalyticsClient {
    * @param abTest The definition of the A/B test
    * @param requestOptions Options to pass to this request
    */
-  public AddABTestResponse addABTest(@Nonnull ABTest abTest, @Nonnull RequestOptions requestOptions)
+  public AddABTestResponse addABTest(@Nonnull ABTest abTest, RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
     return LaunderThrowable.unwrap(addABTestAsync(abTest, requestOptions));
   }
@@ -283,7 +289,7 @@ public class AnalyticsClient {
    * @param abTest The definition of the A/B test
    */
   public CompletableFuture<AddABTestResponse> addABTestAsync(@Nonnull ABTest abTest) {
-    return addABTestAsync(abTest, new RequestOptions());
+    return addABTestAsync(abTest, null);
   }
 
   /**
@@ -293,7 +299,7 @@ public class AnalyticsClient {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<AddABTestResponse> addABTestAsync(
-      @Nonnull ABTest abTest, @Nonnull RequestOptions requestOptions) {
+      @Nonnull ABTest abTest, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
         HttpMethod.POST,
         "/2/abtests",

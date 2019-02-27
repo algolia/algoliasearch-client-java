@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class AnalyticsConfig extends AlgoliaConfig {
 
   public AnalyticsConfig(String applicationID, String apiKey) {

@@ -37,13 +37,15 @@ public class SearchClient {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
+    Objects.requireNonNull(config.getApplicationID(), "An ApplicationID is required.");
+    Objects.requireNonNull(config.getApiKey(), "An API key is required.");
 
-    if (config.getApplicationID() == null || config.getApplicationID().trim().length() == 0) {
-      throw new NullPointerException("An ApplicationID is required");
+    if (config.getApplicationID().trim().length() == 0) {
+      throw new NullPointerException("ApplicationID can't be empty.");
     }
 
-    if (config.getApiKey() == null || config.getApiKey().trim().length() == 0) {
-      throw new NullPointerException("An API key is required");
+    if (config.getApiKey().trim().length() == 0) {
+      throw new NullPointerException("APIKey can't be empty.");
     }
 
     this.config = config;
@@ -79,6 +81,8 @@ public class SearchClient {
       throw new NullPointerException("The index name is required");
     }
 
+    Objects.requireNonNull(klass, "A class is required.");
+
     return new SearchIndex<>(transport, config, indexName, klass);
   }
 
@@ -91,7 +95,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public List<IndicesResponse> listIndices() throws AlgoliaRuntimeException {
-    return listIndices(new RequestOptions());
+    return listIndices(null);
   }
 
   /**
@@ -103,7 +107,7 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public List<IndicesResponse> listIndices(@Nonnull RequestOptions requestOptions)
+  public List<IndicesResponse> listIndices(RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
     return LaunderThrowable.unwrap(listIndicesAsync(requestOptions));
   }
@@ -117,7 +121,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<List<IndicesResponse>> listIndicesAsync() {
-    return listIndicesAsync(new RequestOptions());
+    return listIndicesAsync(null);
   }
 
   /**
@@ -129,8 +133,7 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public CompletableFuture<List<IndicesResponse>> listIndicesAsync(
-      @Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<List<IndicesResponse>> listIndicesAsync(RequestOptions requestOptions) {
     return transport
         .executeRequestAsync(
             HttpMethod.GET,
@@ -150,7 +153,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public List<ApiKey> listApiKeys() throws AlgoliaRuntimeException {
-    return listApiKeys(new RequestOptions());
+    return listApiKeys(null);
   }
 
   /**
@@ -161,8 +164,7 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public List<ApiKey> listApiKeys(@Nonnull RequestOptions requestOptions)
-      throws AlgoliaRuntimeException {
+  public List<ApiKey> listApiKeys(RequestOptions requestOptions) throws AlgoliaRuntimeException {
     return LaunderThrowable.unwrap(listApiKeysAsync(requestOptions));
   }
 
@@ -174,7 +176,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<List<ApiKey>> listApiKeysAsync() {
-    return listApiKeysAsync(new RequestOptions());
+    return listApiKeysAsync(null);
   }
 
   /**
@@ -185,7 +187,7 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public CompletableFuture<List<ApiKey>> listApiKeysAsync(@Nonnull RequestOptions requestOptions) {
+  public CompletableFuture<List<ApiKey>> listApiKeysAsync(RequestOptions requestOptions) {
     return transport
         .executeRequestAsync(
             HttpMethod.GET, "/1/keys", CallType.READ, null, ApiKeys.class, requestOptions)
@@ -201,7 +203,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<ApiKey> getApiKeyAsync(@Nonnull String apiKey) {
-    return getApiKeyAsync(apiKey, new RequestOptions());
+    return getApiKeyAsync(apiKey, null);
   }
 
   /**
@@ -214,7 +216,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<ApiKey> getApiKeyAsync(
-      @Nonnull String apiKey, @Nonnull RequestOptions requestOptions) {
+      @Nonnull String apiKey, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
         HttpMethod.GET, "/1/keys/" + apiKey, CallType.READ, null, ApiKey.class, requestOptions);
   }

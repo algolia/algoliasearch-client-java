@@ -24,7 +24,7 @@ public class UserInsightsClient {
    */
   public CompletableFuture<InsightsResult> clickedFiltersAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
-    return clickedFiltersAsync(eventName, indexName, filters, new RequestOptions());
+    return clickedFiltersAsync(eventName, indexName, filters, null);
   }
 
   /**
@@ -37,7 +37,7 @@ public class UserInsightsClient {
       @Nonnull String eventName,
       @Nonnull String indexName,
       @Nonnull List<String> filters,
-      @Nonnull RequestOptions requestOptions) {
+      RequestOptions requestOptions) {
 
     InsightsEvent event =
         new InsightsEvent()
@@ -57,7 +57,7 @@ public class UserInsightsClient {
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
-    return clickedObjectIDsAsync(eventName, indexName, objectIDs, new RequestOptions());
+    return clickedObjectIDsAsync(eventName, indexName, objectIDs, null);
   }
 
   /**
@@ -70,7 +70,7 @@ public class UserInsightsClient {
       @Nonnull String eventName,
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
-      @Nonnull RequestOptions requestOptions) {
+      RequestOptions requestOptions) {
 
     InsightsEvent event =
         new InsightsEvent()
@@ -97,7 +97,7 @@ public class UserInsightsClient {
       @Nonnull List<Long> positions,
       @Nonnull String queryID) {
     return clickedObjectIDsAfterSearchAsync(
-        eventName, indexName, objectIDs, positions, queryID, new RequestOptions());
+        eventName, indexName, objectIDs, positions, queryID, null);
   }
 
   /**
@@ -114,7 +114,7 @@ public class UserInsightsClient {
       @Nonnull List<String> objectIDs,
       @Nonnull List<Long> positions,
       @Nonnull String queryID,
-      @Nonnull RequestOptions requestOptions) {
+      RequestOptions requestOptions) {
 
     InsightsEvent event =
         new InsightsEvent()
@@ -136,7 +136,7 @@ public class UserInsightsClient {
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
-    return convertedObjectIDsAsync(eventName, indexName, objectIDs, new RequestOptions());
+    return convertedObjectIDsAsync(eventName, indexName, objectIDs, null);
   }
 
   /**
@@ -149,7 +149,7 @@ public class UserInsightsClient {
       @Nonnull String eventName,
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
-      @Nonnull RequestOptions requestOptions) {
+      RequestOptions requestOptions) {
     InsightsEvent event =
         new InsightsEvent()
             .setEventType("conversion")
@@ -172,8 +172,7 @@ public class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
       @Nonnull String queryID) {
-    return convertedObjectIDsAfterSearchAsync(
-        eventName, indexName, objectIDs, queryID, new RequestOptions());
+    return convertedObjectIDsAfterSearchAsync(eventName, indexName, objectIDs, queryID, null);
   }
 
   /**
@@ -188,7 +187,7 @@ public class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
       @Nonnull String queryID,
-      @Nonnull RequestOptions requestOptions) {
+      RequestOptions requestOptions) {
     InsightsEvent event =
         new InsightsEvent()
             .setEventType("conversion")
@@ -216,7 +215,7 @@ public class UserInsightsClient {
             .setIndex(indexName)
             .setFilters(filters);
 
-    return insightsClient.sendEventsAsync(event, new RequestOptions());
+    return insightsClient.sendEventsAsync(event, null);
   }
 
   /**
@@ -229,7 +228,7 @@ public class UserInsightsClient {
       @Nonnull String eventName,
       @Nonnull String indexName,
       @Nonnull List<String> filters,
-      @Nonnull RequestOptions requestOptions) {
+      RequestOptions requestOptions) {
     InsightsEvent event =
         new InsightsEvent()
             .setEventType("conversion")
@@ -250,7 +249,7 @@ public class UserInsightsClient {
   // view
   public CompletableFuture<InsightsResult> viewedFiltersAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
-    return viewedFiltersAsync(eventName, indexName, filters, new RequestOptions());
+    return viewedFiltersAsync(eventName, indexName, filters, null);
   }
 
   /**
@@ -263,7 +262,7 @@ public class UserInsightsClient {
       @Nonnull String eventName,
       @Nonnull String indexName,
       @Nonnull List<String> filters,
-      @Nonnull RequestOptions requestOptions) {
+      RequestOptions requestOptions) {
     InsightsEvent event =
         new InsightsEvent()
             .setEventType("view")
@@ -282,7 +281,7 @@ public class UserInsightsClient {
    */
   public CompletableFuture<InsightsResult> viewedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
-    return viewedObjectIDsAsync(eventName, indexName, objectIDs, new RequestOptions());
+    return viewedObjectIDsAsync(eventName, indexName, objectIDs, null);
   }
 
   /**
@@ -295,7 +294,7 @@ public class UserInsightsClient {
       @Nonnull String eventName,
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
-      @Nonnull RequestOptions requestOptions) {
+      RequestOptions requestOptions) {
     InsightsEvent event =
         new InsightsEvent()
             .setEventType("view")

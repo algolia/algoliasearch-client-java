@@ -33,13 +33,15 @@ public class InsightsClient {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
+    Objects.requireNonNull(config.getApplicationID(), "An ApplicationID is required.");
+    Objects.requireNonNull(config.getApiKey(), "An API key is required.");
 
-    if (config.getApplicationID() == null || config.getApplicationID().trim().length() == 0) {
-      throw new NullPointerException("An ApplicationID is required");
+    if (config.getApplicationID().trim().length() == 0) {
+      throw new NullPointerException("ApplicationID can't be empty.");
     }
 
-    if (config.getApiKey() == null || config.getApiKey().trim().length() == 0) {
-      throw new NullPointerException("An API key is required");
+    if (config.getApiKey().trim().length() == 0) {
+      throw new NullPointerException("APIKey can't be empty.");
     }
 
     this.config = config;
@@ -58,7 +60,7 @@ public class InsightsClient {
    */
   public CompletableFuture<InsightsResult> sendEventsAsync(@Nonnull InsightsEvent event) {
     List<InsightsEvent> events = Collections.singletonList(event);
-    return sendEventsAsync(events, new RequestOptions());
+    return sendEventsAsync(events, null);
   }
 
   /**
@@ -68,7 +70,7 @@ public class InsightsClient {
    * @param requestOptions RequestOptions
    */
   public CompletableFuture<InsightsResult> sendEventsAsync(
-      @Nonnull InsightsEvent event, @Nonnull RequestOptions requestOptions) {
+      @Nonnull InsightsEvent event, RequestOptions requestOptions) {
     List<InsightsEvent> events = Collections.singletonList(event);
     return sendEventsAsync(events, requestOptions);
   }
@@ -79,7 +81,7 @@ public class InsightsClient {
    * @param events List of events
    */
   public CompletableFuture<InsightsResult> sendEventsAsync(@Nonnull List<InsightsEvent> events) {
-    return sendEventsAsync(events, new RequestOptions());
+    return sendEventsAsync(events, null);
   }
 
   /**
@@ -89,7 +91,7 @@ public class InsightsClient {
    * @param requestOptions RequestOptions
    */
   public CompletableFuture<InsightsResult> sendEventsAsync(
-      @Nonnull List<InsightsEvent> events, @Nonnull RequestOptions requestOptions) {
+      @Nonnull List<InsightsEvent> events, RequestOptions requestOptions) {
     InsightsRequest request = new InsightsRequest().setEvents(events);
     return transport.executeRequestAsync(
         HttpMethod.POST,
