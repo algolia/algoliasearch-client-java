@@ -170,11 +170,17 @@ public final class HttpTransport {
       @Nonnull HttpMethod method,
       @Nonnull String methodPath,
       @Nonnull CallType callType,
-      @Nonnull RequestOptions requestOptions,
+      RequestOptions requestOptions,
       TData data) {
 
-    Map<String, String> headersToSend = buildHeaders(requestOptions.generateExtraHeaders());
-    String fullPath = buildFullPath(methodPath, requestOptions.generateExtraQueryParams());
+    Map<String, String> headersToSend =
+        requestOptions != null
+            ? buildHeaders(requestOptions.generateExtraHeaders())
+            : buildHeaders(null);
+    String fullPath =
+        requestOptions != null
+            ? buildFullPath(methodPath, requestOptions.generateExtraQueryParams())
+            : buildFullPath(methodPath, null);
 
     AlgoliaHttpRequest request =
         new AlgoliaHttpRequest(method, fullPath, headersToSend, getTimeOut(callType));

@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 
 /** * Algolia's clients configuration */
+@SuppressWarnings("WeakerAccess")
 public class AlgoliaConfig {
 
   public AlgoliaConfig(String applicationID, String apiKey) {

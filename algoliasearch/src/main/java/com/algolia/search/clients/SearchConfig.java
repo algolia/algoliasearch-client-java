@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SuppressWarnings("WeakerAccess")
 public class SearchConfig extends AlgoliaConfig {
 
   public SearchConfig(String applicationID, String apiKey) {

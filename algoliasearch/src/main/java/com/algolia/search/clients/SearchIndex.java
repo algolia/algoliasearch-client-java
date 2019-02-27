@@ -36,7 +36,7 @@ public class SearchIndex<T> {
    * @param query The search query
    */
   public CompletableFuture<SearchResult<T>> searchAsync(@Nonnull Query query) {
-    return searchAsync(query, new RequestOptions());
+    return searchAsync(query, null);
   }
 
   /**
@@ -59,12 +59,13 @@ public class SearchIndex<T> {
             SearchResult.class,
             klass,
             requestOptions)
-        .thenCompose(
+        .thenComposeAsync(
             resp -> {
               CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
               r.complete(resp);
               return r;
-            });
+            },
+            config.getExecutor());
   }
 
   /**
@@ -93,6 +94,7 @@ public class SearchIndex<T> {
    */
   public CompletableFuture<IndexSettings> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
+
     RequestOptions requestOptions =
         new RequestOptions()
             .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
@@ -145,7 +147,7 @@ public class SearchIndex<T> {
    * @param taskID The Algolia taskID
    */
   public CompletableFuture<TaskStatusResponse> getTaskAsync(@Nonnull Long taskID) {
-    return getTaskAsync(taskID, new RequestOptions());
+    return getTaskAsync(taskID, null);
   }
 
   /**
@@ -155,7 +157,7 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<TaskStatusResponse> getTaskAsync(
-      @Nonnull Long taskID, @Nonnull RequestOptions requestOptions) {
+      @Nonnull Long taskID, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
         HttpMethod.GET,
         "/1/indexes/" + urlEncodedIndexName + "/task/" + taskID,
@@ -172,7 +174,7 @@ public class SearchIndex<T> {
    * @param taskId The Algolia taskID
    */
   public void waitTask(long taskId) {
-    waitTask(taskId, 100, new RequestOptions());
+    waitTask(taskId, 100, null);
   }
 
   /**
