@@ -3,16 +3,15 @@ package com.algolia.search.clients;
 import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.helpers.QueryStringHelper;
-import com.algolia.search.models.CallType;
-import com.algolia.search.models.HttpMethod;
-import com.algolia.search.models.TaskStatusResponse;
-import com.algolia.search.objects.IndexSettings;
+import com.algolia.search.models.*;
 import com.algolia.search.objects.RequestOptions;
+import com.algolia.search.responses.SearchResult;
 import com.algolia.search.transport.HttpTransport;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
+@SuppressWarnings("WeakerAccess")
 public class SearchIndex<T> {
 
   private final HttpTransport transport;
@@ -27,6 +26,45 @@ public class SearchIndex<T> {
     this.indexName = indexName;
     this.urlEncodedIndexName = QueryStringHelper.urlEncodeUTF8(indexName);
     this.klass = klass;
+  }
+
+  /**
+   * Method used for querying an index. The search query only allows for the retrieval of up to 1000
+   * hits. If you need to retrieve more than 1000 hits (e.g. for SEO), you can either leverage the
+   * Browse index method or increase the paginationLimitedTo parameter.
+   *
+   * @param query The search query
+   */
+  public CompletableFuture<SearchResult<T>> searchAsync(@Nonnull Query query) {
+    return searchAsync(query, new RequestOptions());
+  }
+
+  /**
+   * Method used for querying an index. The search query only allows for the retrieval of up to 1000
+   * hits. If you need to retrieve more than 1000 hits (e.g. for SEO), you can either leverage the
+   * Browse index method or increase the paginationLimitedTo parameter.
+   *
+   * @param query The search query
+   * @param requestOptions Options to pass to this request
+   */
+  @SuppressWarnings("unchecked")
+  public CompletableFuture<SearchResult<T>> searchAsync(
+      @Nonnull Query query, RequestOptions requestOptions) {
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/query/",
+            CallType.READ,
+            query,
+            SearchResult.class,
+            klass,
+            requestOptions)
+        .thenCompose(
+            resp -> {
+              CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
+              r.complete(resp);
+              return r;
+            });
   }
 
   /**
@@ -55,8 +93,7 @@ public class SearchIndex<T> {
    */
   public CompletableFuture<IndexSettings> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
-    RequestOptions requestOptions;
-    requestOptions =
+    RequestOptions requestOptions =
         new RequestOptions()
             .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
     return setSettingsAsync(settings, requestOptions);

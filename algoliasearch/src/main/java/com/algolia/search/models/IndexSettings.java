@@ -1,6 +1,9 @@
-package com.algolia.search.objects;
+package com.algolia.search.models;
 
-import com.algolia.search.models.IndexingResponse;
+import com.algolia.search.objects.Distinct;
+import com.algolia.search.objects.IgnorePlurals;
+import com.algolia.search.objects.RemoveStopWords;
+import com.algolia.search.objects.TypoTolerance;
 import com.fasterxml.jackson.annotation.*;
 import java.io.Serializable;
 import java.util.HashMap;

@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
+@SuppressWarnings("WeakerAccess")
 public class SearchClient {
 
   private final HttpTransport transport;
@@ -28,11 +29,11 @@ public class SearchClient {
     this(new SearchConfig(applicationID, apiKey));
   }
 
-  public SearchClient(@Nonnull AlgoliaConfig config) {
+  public SearchClient(@Nonnull SearchConfig config) {
     this(config, new AlgoliaHttpRequester(config));
   }
 
-  public SearchClient(@Nonnull AlgoliaConfig config, @Nonnull IHttpRequester httpRequester) {
+  public SearchClient(@Nonnull SearchConfig config, @Nonnull IHttpRequester httpRequester) {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
@@ -200,7 +201,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<ApiKey> getApiKeyAsync(@Nonnull String apiKey) {
-    return getApiKeyAsync(apiKey);
+    return getApiKeyAsync(apiKey, new RequestOptions());
   }
 
   /**
