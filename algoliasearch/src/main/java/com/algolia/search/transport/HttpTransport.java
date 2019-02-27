@@ -12,6 +12,7 @@ import com.algolia.search.models.AlgoliaHttpRequest;
 import com.algolia.search.models.CallType;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.objects.RequestOptions;
+import com.fasterxml.jackson.databind.JavaType;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -58,10 +59,44 @@ public final class HttpTransport {
       Class<TResult> returnClass,
       RequestOptions requestOptions) {
 
+    return executeRequestAsync(method, path, callType, data, returnClass, null, requestOptions);
+  }
+
+  /**
+   * Executes the request to Algolia asynchronously with the retry strategy.
+   *
+   * @param method The http method used for the request (Get,Post,etc.)
+   * @param path The path of the API endpoint
+   * @param callType The Algolia call type of the request : read or write
+   * @param data The data to send if any
+   * @param returnClass The type that will be returned
+   * @param requestOptions Requests options to add to the request (if so)
+   * @param <TResult> The type of the result
+   * @param <TInnerResult> The type of the nested class
+   * @param <TData> The type of the data to send (if so)
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an error
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization.
+   */
+  public <TResult, TInnerResult, TData> CompletableFuture<TResult> executeRequestAsync(
+      @Nonnull HttpMethod method,
+      @Nonnull String path,
+      @Nonnull CallType callType,
+      TData data,
+      Class<TResult> returnClass,
+      Class<TInnerResult> innerClass,
+      RequestOptions requestOptions) {
+
     Iterator<StatefulHost> hosts = retryStrategy.getTryableHosts(callType).iterator();
     AlgoliaHttpRequest request = buildRequest(method, path, callType, requestOptions, data);
+    JavaType type =
+        innerClass == null
+            ? Defaults.DEFAULT_OBJECT_MAPPER.getTypeFactory().constructType(returnClass)
+            : Defaults.DEFAULT_OBJECT_MAPPER
+                .getTypeFactory()
+                .constructParametricType(returnClass, innerClass);
 
-    return executeWithRetry(hosts, request, returnClass);
+    return executeWithRetry(hosts, request, type);
   }
 
   /**
@@ -72,7 +107,7 @@ public final class HttpTransport {
    *
    * @param hosts An iterator of the hosts to request
    * @param request The request to send to the API
-   * @param returnClass The return class (used for serialization)
+   * @param type The type used for deserialization
    * @param <TResult> The type of the result
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an error
@@ -81,7 +116,7 @@ public final class HttpTransport {
   private <TResult> CompletableFuture<TResult> executeWithRetry(
       @Nonnull Iterator<StatefulHost> hosts,
       @Nonnull AlgoliaHttpRequest request,
-      @Nonnull Class<TResult> returnClass) {
+      @Nonnull JavaType type) {
 
     // If no more hosts to request the retry has failed
     if (!hosts.hasNext()) {
@@ -103,12 +138,12 @@ public final class HttpTransport {
                 case SUCCESS:
                   try (InputStream dataStream = resp.getBody()) {
                     return CompletableFuture.completedFuture(
-                        Defaults.DEFAULT_OBJECT_MAPPER.readValue(dataStream, returnClass));
+                        Defaults.DEFAULT_OBJECT_MAPPER.readValue(dataStream, type));
                   } catch (IOException e) {
                     throw new AlgoliaRuntimeException(e);
                   }
                 case RETRY:
-                  return executeWithRetry(hosts, request, returnClass);
+                  return executeWithRetry(hosts, request, type);
                 case FAILURE:
                   return CompletableFutureHelper.failedFuture(
                       new AlgoliaApiException(resp.getError(), resp.getHttpStatusCode()));
