@@ -115,10 +115,10 @@ public class AnalyticsClient {
   public CompletableFuture<ABTests> getABTestsAsync(
       int offset, int limit, RequestOptions requestOptions) {
 
-    if (requestOptions == null){
+    if (requestOptions == null) {
       requestOptions = new RequestOptions();
     }
-    
+
     requestOptions.addExtraQueryParameters("offset", Integer.toString(offset));
     requestOptions.addExtraQueryParameters("limit", Integer.toString(limit));
 

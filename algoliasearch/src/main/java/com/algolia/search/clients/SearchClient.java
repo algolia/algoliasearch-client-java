@@ -7,10 +7,8 @@ import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.http.AlgoliaHttpRequester;
 import com.algolia.search.http.IHttpRequester;
 import com.algolia.search.inputs.ApiKeys;
-import com.algolia.search.models.CallType;
-import com.algolia.search.models.HttpMethod;
-import com.algolia.search.models.IndicesResponse;
-import com.algolia.search.models.ListIndicesResponse;
+import com.algolia.search.inputs.MultipleGetObjectsRequests;
+import com.algolia.search.models.*;
 import com.algolia.search.objects.ApiKey;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.transport.HttpTransport;
@@ -84,6 +82,84 @@ public class SearchClient {
     Objects.requireNonNull(klass, "A class is required.");
 
     return new SearchIndex<>(transport, config, indexName, klass);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param queries The query object
+   * @param klass Class of the data to retrieve
+   * @param <T> Type of the data to retrieve
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public <T> MultipleGetObjectsResponse<T> multipleGetObjects(
+      List<MultipleGetObjectsRequests> queries, Class<T> klass) throws AlgoliaRuntimeException {
+    return multipleGetObjects(queries, klass, null);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param queries The query object
+   * @param klass Class of the data to retrieve
+   * @param requestOptions Options to pass to this request
+   * @param <T> Type of the data to retrieve
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public <T> MultipleGetObjectsResponse<T> multipleGetObjects(
+      List<MultipleGetObjectsRequests> queries, Class<T> klass, RequestOptions requestOptions) throws AlgoliaRuntimeException {
+    return LaunderThrowable.unwrap(multipleGetObjectsAsync(queries, klass, requestOptions));
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param queries The query object
+   * @param klass Class of the data to retrieve
+   * @param <T> Type of the data to retrieve
+   */
+  public <T> CompletableFuture<MultipleGetObjectsResponse<T>> multipleGetObjectsAsync(
+      List<MultipleGetObjectsRequests> queries, Class<T> klass) {
+    return multipleGetObjectsAsync(queries, klass, null);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from different indices, in a single API call.
+   *
+   * @param queries The query object
+   * @param klass Class of the data to retrieve
+   * @param requestOptions Options to pass to this request
+   * @param <T> Type of the data to retrieve
+   */
+  @SuppressWarnings("unchecked")
+  public <T> CompletableFuture<MultipleGetObjectsResponse<T>> multipleGetObjectsAsync(
+      List<MultipleGetObjectsRequests> queries, Class<T> klass, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(queries, "Queries is required");
+    Objects.requireNonNull(klass, "Class is required");
+
+    MultipleGetObjectsRequest request = new MultipleGetObjectsRequest(queries);
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/*/objects",
+            CallType.READ,
+            request,
+            MultipleGetObjectsResponse.class,
+            klass,
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<MultipleGetObjectsResponse<T>> r = new CompletableFuture<>();
+              r.complete(resp);
+              return r;
+            },
+            config.getExecutor());
   }
 
   /**
