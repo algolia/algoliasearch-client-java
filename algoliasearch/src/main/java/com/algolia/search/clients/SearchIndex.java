@@ -112,13 +112,70 @@ public class SearchIndex<T> {
       @Nonnull String objectID, RequestOptions requestOptions) {
     Objects.requireNonNull(objectID, "The objectID is required.");
 
-    return transport.executeRequestAsync(
-        HttpMethod.DELETE,
-        "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
-        CallType.WRITE,
-        null,
-        DeleteResponse.class,
-        requestOptions);
+    return transport
+        .executeRequestAsync(
+            HttpMethod.DELETE,
+            "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
+            CallType.WRITE,
+            null,
+            DeleteResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Clear the records of an index without affecting its settings. This method enables you to delete
+   * an index’s contents (records) without removing any settings, rules and synonyms.
+   */
+  public DeleteResponse clearObjects() {
+    return LaunderThrowable.unwrap(clearObjectsAsync(null));
+  }
+
+  /**
+   * Clear the records of an index without affecting its settings. This method enables you to delete
+   * an index’s contents (records) without removing any settings, rules and synonyms.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public DeleteResponse clearObjects(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(clearObjectsAsync(requestOptions));
+  }
+
+  /**
+   * Clear the records of an index without affecting its settings. This method enables you to delete
+   * an index’s contents (records) without removing any settings, rules and synonyms.
+   */
+  public CompletableFuture<DeleteResponse> clearObjectsAsync() {
+    return clearObjectsAsync(null);
+  }
+
+  /**
+   * Clear the records of an index without affecting its settings. This method enables you to delete
+   * an index’s contents (records) without removing any settings, rules and synonyms.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<DeleteResponse> clearObjectsAsync(RequestOptions requestOptions) {
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/clear",
+            CallType.WRITE,
+            null,
+            DeleteResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
   }
 
   /**
