@@ -167,7 +167,8 @@ public class SearchClient {
    * Perform multiple write operations, potentially targeting multiple indices, in a single API
    * call.
    *
-   * @param operations The batch operations to process. It could be on multiple indices with multiple actions
+   * @param operations The batch operations to process. It could be on multiple indices with
+   *     multiple actions
    */
   public MultipleIndexBatchIndexingResponse multipleBatch(
       @Nonnull List<BatchOperation> operations) {
@@ -178,7 +179,8 @@ public class SearchClient {
    * Perform multiple write operations, potentially targeting multiple indices, in a single API
    * call.
    *
-   * @param operations The batch operations to process. It could be on multiple indices with multiple action
+   * @param operations The batch operations to process. It could be on multiple indices with
+   *     multiple action
    * @param requestOptions Options to pass to this request
    */
   public MultipleIndexBatchIndexingResponse multipleBatch(
@@ -190,7 +192,8 @@ public class SearchClient {
    * Perform multiple write operations, potentially targeting multiple indices, in a single API
    * call.
    *
-   * @param operations The batch operations to process. It could be on multiple indices with multiple action
+   * @param operations The batch operations to process. It could be on multiple indices with
+   *     multiple action
    */
   public CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
       @Nonnull List<BatchOperation> operations) {
@@ -201,7 +204,8 @@ public class SearchClient {
    * Perform multiple write operations, potentially targeting multiple indices, in a single API
    * call.
    *
-   * @param operations The batch operations to process. It could be on multiple indices with multiple action
+   * @param operations The batch operations to process. It could be on multiple indices with
+   *     multiple action
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
@@ -223,6 +227,84 @@ public class SearchClient {
             resp -> {
               resp.setWaitConsumer(this::waitTask);
               return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * This method allows to send multiple search queries, potentially targeting multiple indices, in
+   * a single API call.
+   *
+   * @param request The request
+   * @param klass The class of the expected results
+   * @param <T> Type of the expected results
+   */
+  public <T> MultipleQueriesResponse<T> multipleQueries(
+      @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> klass) {
+    return LaunderThrowable.unwrap(multipleQueriesAsync(request, klass, null));
+  }
+
+  /**
+   * This method allows to send multiple search queries, potentially targeting multiple indices, in
+   * a single API call.
+   *
+   * @param request The request
+   * @param klass The class of the expected results
+   * @param requestOptions Options to pass to this request
+   * @param <T> Type of the expected results
+   */
+  public <T> MultipleQueriesResponse<T> multipleQueries(
+      @Nonnull MultipleQueriesRequest request,
+      @Nonnull Class<T> klass,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(multipleQueriesAsync(request, klass, requestOptions));
+  }
+
+  /**
+   * This method allows to send multiple search queries, potentially targeting multiple indices, in
+   * a single API call.
+   *
+   * @param request The request
+   * @param klass The class of the expected results
+   * @param <T> Type of the expected results
+   */
+  public <T> CompletableFuture<MultipleQueriesResponse<T>> multipleQueriesAsync(
+      @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> klass) {
+    return multipleQueriesAsync(request, klass, null);
+  }
+
+  /**
+   * This method allows to send multiple search queries, potentially targeting multiple indices, in
+   * a single API call.
+   *
+   * @param request The request
+   * @param klass The class of the expected results
+   * @param requestOptions Options to pass to this request
+   * @param <T> Type of the expected results
+   */
+  @SuppressWarnings("unchecked")
+  public <T> CompletableFuture<MultipleQueriesResponse<T>> multipleQueriesAsync(
+      @Nonnull MultipleQueriesRequest request,
+      @Nonnull Class<T> klass,
+      RequestOptions requestOptions) {
+
+    Objects.requireNonNull(request, "Request is required");
+    Objects.requireNonNull(klass, "A Class is required");
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/*/queries",
+            CallType.READ,
+            request,
+            MultipleQueriesResponse.class,
+            klass,
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<MultipleQueriesResponse<T>> r = new CompletableFuture<>();
+              r.complete(resp);
+              return r;
             },
             config.getExecutor());
   }
