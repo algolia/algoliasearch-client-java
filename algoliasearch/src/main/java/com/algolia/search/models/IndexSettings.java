@@ -13,7 +13,7 @@ import java.util.Map;
 @SuppressWarnings({"unused", "WeakerAccess"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IndexSettings extends IndexingResponse implements Serializable {
+public class IndexSettings implements Serializable {
 
   /* advanced */
   private String attributeForDistinct;
