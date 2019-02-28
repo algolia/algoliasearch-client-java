@@ -77,7 +77,7 @@ public class SearchIndex<T> {
    *
    * @param settings the settings to set
    */
-  public IndexSettings setSettings(@Nonnull IndexSettings settings) {
+  public SetSettingsResponse setSettings(@Nonnull IndexSettings settings) {
     return LaunderThrowable.unwrap(setSettingsAsync(settings));
   }
 
@@ -86,7 +86,7 @@ public class SearchIndex<T> {
    *
    * @param settings the settings to set
    */
-  public CompletableFuture<IndexSettings> setSettingsAsync(@Nonnull IndexSettings settings) {
+  public CompletableFuture<SetSettingsResponse> setSettingsAsync(@Nonnull IndexSettings settings) {
     return setSettingsAsync(settings, new RequestOptions());
   }
 
@@ -96,7 +96,7 @@ public class SearchIndex<T> {
    * @param settings the settings to set
    * @param forwardToReplicas if true forward the settings to the replicas
    */
-  public CompletableFuture<IndexSettings> setSettingsAsync(
+  public CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
 
     Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
@@ -115,7 +115,7 @@ public class SearchIndex<T> {
    * @param forwardToReplicas if true forward the settings to the replicas
    * @param requestOptions Options to pass to this request
    */
-  public CompletableFuture<IndexSettings> setSettingsAsync(
+  public CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions) {
@@ -131,7 +131,7 @@ public class SearchIndex<T> {
    * @param settings the settings to set
    * @param requestOptions Options to pass to this request
    */
-  public CompletableFuture<IndexSettings> setSettingsAsync(
+  public CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull RequestOptions requestOptions) {
 
     Objects.requireNonNull(settings, "Index settings are required.");
@@ -142,7 +142,7 @@ public class SearchIndex<T> {
             "/1/indexes/" + urlEncodedIndexName + "/settings",
             CallType.WRITE,
             settings,
-            IndexSettings.class,
+            SetSettingsResponse.class,
             requestOptions)
         .thenApplyAsync(
             resp -> {
@@ -150,6 +150,40 @@ public class SearchIndex<T> {
               return resp;
             },
             config.getExecutor());
+  }
+
+  /** Get the settings of an index. */
+  public IndexSettings getSettings() {
+    return LaunderThrowable.unwrap(getSettingsAsync(null));
+  }
+
+  /**
+   * Get the settings of an index.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public IndexSettings getSettings(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getSettingsAsync(requestOptions));
+  }
+
+  /** Get the settings of an index. */
+  public CompletableFuture<IndexSettings> getSettingsAsync() {
+    return getSettingsAsync(null);
+  }
+
+  /**
+   * Get the settings of an index.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<IndexSettings> getSettingsAsync(RequestOptions requestOptions) {
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/indexes/" + urlEncodedIndexName + "/settings",
+        CallType.READ,
+        null,
+        IndexSettings.class,
+        requestOptions);
   }
 
   /**
