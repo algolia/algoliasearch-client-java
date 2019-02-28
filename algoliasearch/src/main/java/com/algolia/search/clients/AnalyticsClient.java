@@ -300,6 +300,9 @@ public class AnalyticsClient {
    */
   public CompletableFuture<AddABTestResponse> addABTestAsync(
       @Nonnull ABTest abTest, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(abTest, "An ABTest is required.");
+
     return transport.executeRequestAsync(
         HttpMethod.POST,
         "/2/abtests",

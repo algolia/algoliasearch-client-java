@@ -1,6 +1,6 @@
 package com.algolia.search.models;
 
-import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,11 +51,11 @@ public class AlgoliaHttpRequest {
     return this;
   }
 
-  public InputStream getBody() {
+  public ByteArrayInputStream getBody() {
     return body;
   }
 
-  public AlgoliaHttpRequest setBody(InputStream body) {
+  public AlgoliaHttpRequest setBody(ByteArrayInputStream body) {
     this.body = body;
     return this;
   }
@@ -73,6 +73,6 @@ public class AlgoliaHttpRequest {
   private URL uri;
   private String methodPath;
   private Map<String, String> headers;
-  private InputStream body;
+  private ByteArrayInputStream body;
   private int timeout;
 }

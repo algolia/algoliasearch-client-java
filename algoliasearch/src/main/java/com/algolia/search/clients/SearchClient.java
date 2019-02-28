@@ -111,7 +111,8 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> MultipleGetObjectsResponse<T> multipleGetObjects(
-      List<MultipleGetObjectsRequests> queries, Class<T> klass, RequestOptions requestOptions) throws AlgoliaRuntimeException {
+      List<MultipleGetObjectsRequests> queries, Class<T> klass, RequestOptions requestOptions)
+      throws AlgoliaRuntimeException {
     return LaunderThrowable.unwrap(multipleGetObjectsAsync(queries, klass, requestOptions));
   }
 
@@ -293,6 +294,9 @@ public class SearchClient {
    */
   public CompletableFuture<ApiKey> getApiKeyAsync(
       @Nonnull String apiKey, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(apiKey, "An API key is required.");
+
     return transport.executeRequestAsync(
         HttpMethod.GET, "/1/keys/" + apiKey, CallType.READ, null, ApiKey.class, requestOptions);
   }
