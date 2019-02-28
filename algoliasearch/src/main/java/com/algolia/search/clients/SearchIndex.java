@@ -75,6 +75,53 @@ public class SearchIndex<T> {
   }
 
   /**
+   * Remove objects from an index using their object ids.
+   *
+   * @param objectID The Algolia objectID
+   */
+  public DeleteResponse deleteObject(@Nonnull String objectID) {
+    return LaunderThrowable.unwrap(deleteObjectAsync(objectID, null));
+  }
+
+  /**
+   * Remove objects from an index using their object ids.
+   *
+   * @param objectID The Algolia objectID
+   * @param requestOptions Options to pass to this request
+   */
+  public DeleteResponse deleteObject(@Nonnull String objectID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(deleteObjectAsync(objectID, requestOptions));
+  }
+
+  /**
+   * Remove objects from an index using their object ids.
+   *
+   * @param objectID The Algolia objectID
+   */
+  public CompletableFuture<DeleteResponse> deleteObjectAsync(@Nonnull String objectID) {
+    return deleteObjectAsync(objectID, null);
+  }
+
+  /**
+   * Remove objects from an index using their object ids.
+   *
+   * @param objectID The Algolia objectID
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<DeleteResponse> deleteObjectAsync(
+      @Nonnull String objectID, RequestOptions requestOptions) {
+    Objects.requireNonNull(objectID, "The objectID is required.");
+
+    return transport.executeRequestAsync(
+        HttpMethod.DELETE,
+        "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
+        CallType.WRITE,
+        null,
+        DeleteResponse.class,
+        requestOptions);
+  }
+
+  /**
    * Set settings of this index, and do not forward to slaves
    *
    * @param settings the settings to set
