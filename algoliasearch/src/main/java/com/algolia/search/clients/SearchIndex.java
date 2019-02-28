@@ -6,6 +6,7 @@ import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.models.*;
 import com.algolia.search.objects.RequestOptions;
+import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.responses.SearchResult;
 import com.algolia.search.transport.HttpTransport;
 import java.util.Objects;
@@ -232,6 +233,64 @@ public class SearchIndex<T> {
         null,
         Rule.class,
         requestOptions);
+  }
+
+  /**
+   * Search for rules matching various criteria.
+   *
+   * @param query The search rule query
+   */
+  public SearchResult<Rule> searchRule(@Nonnull RuleQuery query) {
+    return LaunderThrowable.unwrap(searchRuleAsync(query, null));
+  }
+
+  /**
+   * Search for rules matching various criteria.
+   *
+   * @param query The search rule query
+   * @param requestOptions Options to pass to this request
+   */
+  public SearchResult<Rule> searchRule(@Nonnull RuleQuery query, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(searchRuleAsync(query, requestOptions));
+  }
+
+  /**
+   * Search for rules matching various criteria.
+   *
+   * @param query The search rule query
+   */
+  public CompletableFuture<SearchResult<Rule>> searchRuleAsync(@Nonnull RuleQuery query) {
+    return searchRuleAsync(query, null);
+  }
+
+  /**
+   * Search for rules matching various criteria.
+   *
+   * @param query The search rule query
+   * @param requestOptions Options to pass to this request
+   */
+  @SuppressWarnings("unchecked")
+  public CompletableFuture<SearchResult<Rule>> searchRuleAsync(
+      @Nonnull RuleQuery query, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(query, "A search query is required.");
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/rules/search",
+            CallType.READ,
+            null,
+            SearchResult.class,
+            Rule.class,
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<SearchResult<Rule>> r = new CompletableFuture<>();
+              r.complete(resp);
+              return r;
+            },
+            config.getExecutor());
   }
 
   /**
