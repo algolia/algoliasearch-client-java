@@ -164,6 +164,70 @@ public class SearchClient {
   }
 
   /**
+   * Perform multiple write operations, potentially targeting multiple indices, in a single API
+   * call.
+   *
+   * @param operations The batch operations to process. It could be on multiple indices with multiple actions
+   */
+  public MultipleIndexBatchIndexingResponse multipleBatch(
+      @Nonnull List<BatchOperation> operations) {
+    return LaunderThrowable.unwrap(multipleBatchAsync(operations, null));
+  }
+
+  /**
+   * Perform multiple write operations, potentially targeting multiple indices, in a single API
+   * call.
+   *
+   * @param operations The batch operations to process. It could be on multiple indices with multiple action
+   * @param requestOptions Options to pass to this request
+   */
+  public MultipleIndexBatchIndexingResponse multipleBatch(
+      @Nonnull List<BatchOperation> operations, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(multipleBatchAsync(operations, requestOptions));
+  }
+
+  /**
+   * Perform multiple write operations, potentially targeting multiple indices, in a single API
+   * call.
+   *
+   * @param operations The batch operations to process. It could be on multiple indices with multiple action
+   */
+  public CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
+      @Nonnull List<BatchOperation> operations) {
+    return multipleBatchAsync(operations, null);
+  }
+
+  /**
+   * Perform multiple write operations, potentially targeting multiple indices, in a single API
+   * call.
+   *
+   * @param operations The batch operations to process. It could be on multiple indices with multiple action
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
+      @Nonnull List<BatchOperation> operations, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(operations, "Operations are required");
+
+    BatchRequest request = new BatchRequest(operations);
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/*/batch",
+            CallType.WRITE,
+            request,
+            MultipleIndexBatchIndexingResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
    * List all existing indexes
    *
    * @return A List of the indices and their metadata
@@ -299,5 +363,58 @@ public class SearchClient {
 
     return transport.executeRequestAsync(
         HttpMethod.GET, "/1/keys/" + apiKey, CallType.READ, null, ApiKey.class, requestOptions);
+  }
+
+  /**
+   * Wait for a task to complete before executing the next line of code, to synchronize index
+   * updates. All write operations in Algolia are asynchronous by design.
+   *
+   * @param indexName The indexName to wait on
+   * @param taskID The Algolia taskID
+   */
+  public void waitTask(@Nonnull String indexName, long taskID) {
+    waitTask(indexName, taskID, 100, null);
+  }
+
+  /**
+   * Wait for a task to complete before executing the next line of code, to synchronize index
+   * updates. All write operations in Algolia are asynchronous by design.
+   *
+   * @param indexName The indexName to wait on
+   * @param taskID The Algolia taskID
+   * @param timeToWait The time to wait between each call
+   */
+  public void waitTask(@Nonnull String indexName, long taskID, int timeToWait) {
+    waitTask(indexName, taskID, timeToWait, null);
+  }
+
+  /**
+   * Wait for a task to complete before executing the next line of code, to synchronize index
+   * updates. All write operations in Algolia are asynchronous by design.
+   *
+   * @param indexName The indexName to wait on
+   * @param taskID The Algolia taskID
+   * @param requestOptions Options to pass to this request
+   */
+  public void waitTask(@Nonnull String indexName, long taskID, RequestOptions requestOptions) {
+    waitTask(indexName, taskID, 100, requestOptions);
+  }
+
+  /**
+   * Wait for a task to complete before executing the next line of code, to synchronize index
+   * updates. All write operations in Algolia are asynchronous by design.
+   *
+   * @param indexName The indexName to wait on
+   * @param taskID The Algolia taskID
+   * @param timeToWait The time to wait between each call
+   * @param requestOptions Options to pass to this request
+   */
+  public void waitTask(
+      @Nonnull String indexName, long taskID, int timeToWait, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(indexName, "The index name is required.");
+
+    SearchIndex indexToWait = initIndex(indexName);
+    indexToWait.waitTask(taskID, timeToWait, requestOptions);
   }
 }
