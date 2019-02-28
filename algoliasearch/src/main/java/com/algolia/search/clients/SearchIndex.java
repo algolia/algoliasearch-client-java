@@ -3,6 +3,7 @@ package com.algolia.search.clients;
 import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.helpers.QueryStringHelper;
+import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.models.*;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.responses.SearchResult;
@@ -183,6 +184,53 @@ public class SearchIndex<T> {
         CallType.READ,
         null,
         IndexSettings.class,
+        requestOptions);
+  }
+
+  /**
+   * Get the specified rule by its objectID
+   *
+   * @param objectID Algolia's objectID
+   */
+  public Rule getRule(@Nonnull String objectID) {
+    return LaunderThrowable.unwrap(getRuleAsync(objectID));
+  }
+
+  /**
+   * Get the specified rule by its objectID
+   *
+   * @param objectID Algolia's objectID
+   * @param requestOptions Options to pass to this request
+   */
+  public Rule getRule(@Nonnull String objectID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getRuleAsync(objectID, requestOptions));
+  }
+
+  /**
+   * Get the specified rule by its objectID
+   *
+   * @param objectID Algolia's objectID
+   */
+  public CompletableFuture<Rule> getRuleAsync(@Nonnull String objectID) {
+    return getRuleAsync(objectID, null);
+  }
+
+  /**
+   * Get the specified rule by its objectID
+   *
+   * @param objectID Algolia's objectID
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<Rule> getRuleAsync(
+      @Nonnull String objectID, RequestOptions requestOptions) {
+    Objects.requireNonNull(objectID, "The rule ID is required.");
+
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/indexes/" + urlEncodedIndexName + "/rules/" + objectID,
+        CallType.READ,
+        null,
+        Rule.class,
         requestOptions);
   }
 
