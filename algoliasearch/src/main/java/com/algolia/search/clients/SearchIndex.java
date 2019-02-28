@@ -7,6 +7,7 @@ import com.algolia.search.models.*;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.responses.SearchResult;
 import com.algolia.search.transport.HttpTransport;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
@@ -50,6 +51,9 @@ public class SearchIndex<T> {
   @SuppressWarnings("unchecked")
   public CompletableFuture<SearchResult<T>> searchAsync(
       @Nonnull Query query, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(query, "A query key is required.");
+
     return transport
         .executeRequestAsync(
             HttpMethod.POST,
@@ -95,9 +99,12 @@ public class SearchIndex<T> {
   public CompletableFuture<IndexSettings> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
 
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+
     RequestOptions requestOptions =
         new RequestOptions()
             .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
+
     return setSettingsAsync(settings, requestOptions);
   }
 
@@ -113,6 +120,7 @@ public class SearchIndex<T> {
       @Nonnull Boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions) {
 
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
     requestOptions.addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
     return setSettingsAsync(settings, requestOptions);
   }
@@ -125,6 +133,9 @@ public class SearchIndex<T> {
    */
   public CompletableFuture<IndexSettings> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(settings, "Index settings are required.");
+
     return transport
         .executeRequestAsync(
             HttpMethod.PUT,
@@ -146,7 +157,7 @@ public class SearchIndex<T> {
    *
    * @param taskID The Algolia taskID
    */
-  public CompletableFuture<TaskStatusResponse> getTaskAsync(@Nonnull Long taskID) {
+  public CompletableFuture<TaskStatusResponse> getTaskAsync(long taskID) {
     return getTaskAsync(taskID, null);
   }
 
@@ -157,7 +168,7 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<TaskStatusResponse> getTaskAsync(
-      @Nonnull Long taskID, RequestOptions requestOptions) {
+      long taskID, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
         HttpMethod.GET,
         "/1/indexes/" + urlEncodedIndexName + "/task/" + taskID,

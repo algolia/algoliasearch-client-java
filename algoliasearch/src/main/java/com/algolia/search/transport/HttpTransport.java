@@ -88,7 +88,9 @@ public final class HttpTransport {
       RequestOptions requestOptions) {
 
     Iterator<StatefulHost> hosts = retryStrategy.getTryableHosts(callType).iterator();
+
     AlgoliaHttpRequest request = buildRequest(method, path, callType, requestOptions, data);
+
     JavaType type =
         innerClass == null
             ? Defaults.DEFAULT_OBJECT_MAPPER.getTypeFactory().constructType(returnClass)
@@ -149,7 +151,8 @@ public final class HttpTransport {
                       new AlgoliaApiException(resp.getError(), resp.getHttpStatusCode()));
                 default:
                   return CompletableFutureHelper.failedFuture(
-                      new AlgoliaRetryException("Couldn't process the retry strategy decision"));
+                      new AlgoliaRetryException(
+                          "Error while processing the retry strategy decision."));
               }
             },
             config.getExecutor());
@@ -176,20 +179,25 @@ public final class HttpTransport {
     Map<String, String> headersToSend =
         requestOptions != null
             ? buildHeaders(requestOptions.generateExtraHeaders())
-            : buildHeaders(null);
+            : buildHeaders();
+
     String fullPath =
         requestOptions != null
             ? buildFullPath(methodPath, requestOptions.generateExtraQueryParams())
-            : buildFullPath(methodPath, null);
+            : buildFullPath(methodPath);
 
     AlgoliaHttpRequest request =
         new AlgoliaHttpRequest(method, fullPath, headersToSend, getTimeOut(callType));
 
     if (data != null) {
       try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
         Defaults.DEFAULT_OBJECT_MAPPER.writeValue(out, data);
+
         ByteArrayInputStream content = new ByteArrayInputStream(out.toByteArray());
+
         request.setBody(content);
+
       } catch (IOException e) {
         throw new AlgoliaRuntimeException("Error while serializing the response", e);
       }
@@ -213,6 +221,15 @@ public final class HttpTransport {
   }
 
   /**
+   * Builds the method full path
+   *
+   * @param methodPath The path to the API method
+   */
+  private String buildFullPath(String methodPath) {
+    return buildFullPath(methodPath, null);
+  }
+
+  /**
    * Builds the method full path, i.e path + query parameters if so
    *
    * @param methodPath The path to the API method
@@ -225,7 +242,17 @@ public final class HttpTransport {
     }
 
     String queryParameters = QueryStringHelper.buildQueryString(optionalQueryParameters);
+
     return methodPath + queryParameters;
+  }
+
+  /**
+   * Builds the headers for the request If no optional headers are passed the method takes the
+   * default headers from the configuration Otherwise we merge the optional headers with the default
+   * headers. Please note that optionals headers will overwrite default headers
+   */
+  private Map<String, String> buildHeaders() {
+    return buildHeaders(null);
   }
 
   /**
@@ -242,6 +269,7 @@ public final class HttpTransport {
     }
 
     config.getDefaultHeaders().forEach(optionalHeaders::putIfAbsent);
+
     return optionalHeaders;
   }
 
