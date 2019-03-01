@@ -7,7 +7,7 @@ import java.util.concurrent.ForkJoinPool;
 
 /** * Algolia's clients configuration */
 @SuppressWarnings("WeakerAccess")
-public class AlgoliaConfig {
+public abstract class AlgoliaConfig {
 
   public AlgoliaConfig(String applicationID, String apiKey) {
     this(applicationID, apiKey, ForkJoinPool.commonPool());
@@ -35,18 +35,8 @@ public class AlgoliaConfig {
     return applicationID;
   }
 
-  public AlgoliaConfig setApplicationID(String applicationID) {
-    this.applicationID = applicationID;
-    return this;
-  }
-
   public String getApiKey() {
     return apiKey;
-  }
-
-  public AlgoliaConfig setApiKey(String apiKey) {
-    this.apiKey = apiKey;
-    return this;
   }
 
   public HashMap<String, String> getDefaultHeaders() {
@@ -89,9 +79,8 @@ public class AlgoliaConfig {
     return defaultHosts;
   }
 
-  AlgoliaConfig setDefaultHosts(List<StatefulHost> defaultHosts) {
+  void setDefaultHosts(List<StatefulHost> defaultHosts) {
     this.defaultHosts = defaultHosts;
-    return this;
   }
 
   public List<StatefulHost> getCustomHosts() {
