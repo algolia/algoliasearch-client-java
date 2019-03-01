@@ -4,11 +4,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class BatchOperation<T> implements Serializable {
 
   public BatchOperation(String indexName, String action, T body) {
     this.action = action;
     this.indexName = indexName;
+    this.body = body;
+  }
+
+  public BatchOperation(String action, T body) {
+    this.action = action;
     this.body = body;
   }
 

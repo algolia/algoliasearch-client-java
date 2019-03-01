@@ -1,5 +1,7 @@
 package com.algolia.search.clients;
 
+import static java.util.stream.Collectors.toList;
+
 import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.helpers.QueryStringHelper;
@@ -9,6 +11,8 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.responses.SearchResult;
 import com.algolia.search.transport.HttpTransport;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -59,7 +63,7 @@ public class SearchIndex<T> {
     return transport
         .executeRequestAsync(
             HttpMethod.POST,
-            "/1/indexes/" + urlEncodedIndexName + "/query/",
+            "/1/indexes/" + urlEncodedIndexName + "/query",
             CallType.READ,
             query,
             SearchResult.class,
@@ -70,6 +74,87 @@ public class SearchIndex<T> {
               CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
               r.complete(resp);
               return r;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Split records into smaller chunks before sending them to the API asynchronously
+   *
+   * @param data The data to send and chunk
+   * @param actionType The action type of the batch
+   * @param requestOptions Options to pass to this request
+   */
+  CompletableFuture<BatchIndexingResponse> splitIntoBatchesAsync(
+      @Nonnull Iterable<T> data, @Nonnull String actionType, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(data, "Data are required.");
+    Objects.requireNonNull(actionType, "An action type is required.");
+
+    List<CompletableFuture<BatchResponse>> futures = new ArrayList<>();
+    List<T> records = new ArrayList<>();
+
+    for (T item : data) {
+
+      if (records.size() == config.getBatchSize()) {
+        BatchRequest<T> request = new BatchRequest<>(actionType, records);
+        CompletableFuture<BatchResponse> batch = batchAsync(request, requestOptions);
+        futures.add(batch);
+        records.clear();
+      }
+
+      records.add(item);
+    }
+
+    if (records.size() > 0) {
+      BatchRequest<T> request = new BatchRequest<>(actionType, records);
+      CompletableFuture<BatchResponse> batch = batchAsync(request, requestOptions);
+      futures.add(batch);
+    }
+
+    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+        .thenComposeAsync(
+            v -> {
+              List<BatchResponse> resp =
+                  futures.stream().map(CompletableFuture::join).collect(toList());
+
+              return CompletableFuture.completedFuture(new BatchIndexingResponse(resp));
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Perform several indexing operations in one API call.
+   *
+   * @param request The batch request -
+   */
+  public CompletableFuture<BatchResponse> batchAsync(@Nonnull BatchRequest<T> request) {
+    return batchAsync(request, null);
+  }
+
+  /**
+   * Perform several indexing operations in one API call.
+   *
+   * @param request The batch request
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<BatchResponse> batchAsync(
+      @Nonnull BatchRequest<T> request, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(request, "A BatchRequest key is required.");
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/batch",
+            CallType.WRITE,
+            request,
+            BatchResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
             },
             config.getExecutor());
   }
