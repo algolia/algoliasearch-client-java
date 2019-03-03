@@ -123,7 +123,7 @@ public class AnalyticsClient {
     requestOptions.addExtraQueryParameters("limit", Integer.toString(limit));
 
     return transport.executeRequestAsync(
-        HttpMethod.DELETE, "/2/abtests", CallType.WRITE, null, ABTests.class, requestOptions);
+        HttpMethod.GET, "/2/abtests", CallType.READ, null, ABTests.class, requestOptions);
   }
 
   /**
