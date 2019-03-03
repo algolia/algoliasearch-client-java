@@ -11,55 +11,55 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Collections;
 import org.assertj.core.util.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class QueryTest {
+class QueryTest {
 
   @Test
-  public void queryStringWithQuery() {
+  void queryStringWithQuery() {
     Query query = new Query();
     query.setQuery("search");
     assertThat(query.toParam()).isEqualTo("query=search");
   }
 
   @Test
-  public void queryStringEmpty() {
+  void queryStringEmpty() {
     Query query = new Query();
     assertThat(query.toParam()).isEqualTo("");
   }
 
   @Test
-  public void queryWithCustomParameters() {
+  void queryWithCustomParameters() {
     Query query = new Query().addCustomParameter("myKey", "myValue");
     assertThat(query.toParam()).isEqualTo("myKey=myValue");
   }
 
   @Test
-  public void queryWithHTMLEntities() {
+  void queryWithHTMLEntities() {
     Query query = new Query("&?@:=");
     assertThat(query.toParam()).isEqualTo("query=%26%3F%40%3A%3D");
   }
 
   @Test
-  public void queryWithUTF8() {
+  void queryWithUTF8() {
     Query query = new Query("é®„");
     assertThat(query.toParam()).isEqualTo("query=%C3%A9%C2%AE%E2%80%9E");
   }
 
   @Test
-  public void queryWithMultipleParams() {
+  void queryWithMultipleParams() {
     Query query = new Query("é®„").setTagFilters(Collections.singletonList("(attribute)"));
     assertThat(query.toParam()).isEqualTo("tagFilters=%28attribute%29&query=%C3%A9%C2%AE%E2%80%9E");
   }
 
   @Test
-  public void queryWithDistinct() {
+  void queryWithDistinct() {
     Query query = new Query("").setDistinct(Distinct.of(0));
     assertThat(query.toParam()).isEqualTo("distinct=0&query=");
   }
 
   @Test
-  public void queryWithAroundRadius() throws JsonProcessingException {
+  void queryWithAroundRadius() throws JsonProcessingException {
     Query query = new Query("").setAroundRadius(AroundRadius.of("all"));
     String serialized = objectMapper.writeValueAsString(query);
     assertThat(query.toParam()).isEqualTo("aroundRadius=all&query=");
@@ -72,19 +72,19 @@ public class QueryTest {
   }
 
   @Test
-  public void queryWithRemoveStopWords() {
+  void queryWithRemoveStopWords() {
     Query query = new Query("").setRemoveStopWords(RemoveStopWords.of(true));
     assertThat(query.toParam()).isEqualTo("removeStopWords=true&query=");
   }
 
   @Test
-  public void queryWithIgnorePlurals() {
+  void queryWithIgnorePlurals() {
     Query query = new Query("").setIgnorePlurals(IgnorePlurals.of(true));
     assertThat(query.toParam()).isEqualTo("query=&ignorePlurals=true");
   }
 
   @Test
-  public void queryWithEmptyList() {
+  void queryWithEmptyList() {
     Query query = new Query("").setAttributesToHighlight(Lists.emptyList());
     assertThat(query.toParam()).isEqualTo("attributesToHighlight=&query=");
   }
@@ -94,7 +94,7 @@ public class QueryTest {
           PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
   @Test
-  public void customParameters() throws IOException {
+  void customParameters() throws IOException {
     Query query = new Query().addCustomParameter("a", "b");
     String serialized = objectMapper.writeValueAsString(query);
     assertThat(serialized).isEqualTo("{\"a\":\"b\"}");

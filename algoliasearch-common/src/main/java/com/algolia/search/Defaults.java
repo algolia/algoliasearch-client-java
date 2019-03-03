@@ -5,7 +5,6 @@ import static com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SuppressWarnings("WeakerAccess")
 public interface Defaults {
   String ALGOLIANET_COM = "algolianet.com";
   String ALGOLIA_NET = "algolia.net";
@@ -20,6 +19,7 @@ public interface Defaults {
   ObjectMapper DEFAULT_OBJECT_MAPPER =
       new ObjectMapper()
           .enable(OBJECT_MAPPER_DEFAULT_FEATURE)
+          .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
           .disable(OBJECT_MAPPER_DEFAULT_DESERIALIZATION_FEATURE);
 
   int READ_TIMEOUT_MS = 2 * 1000; // 2 seconds

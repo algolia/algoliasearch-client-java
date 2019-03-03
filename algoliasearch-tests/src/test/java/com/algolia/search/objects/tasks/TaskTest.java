@@ -8,16 +8,16 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TaskTest {
+class TaskTest {
 
   private ObjectMapper objectMapper =
       Defaults.DEFAULT_OBJECT_MAPPER.setVisibility(
           PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
   @Test
-  public void serialization() throws IOException {
+  void serialization() throws IOException {
     String serialized =
         "{\"updatedAt\":\"2017-12-07T09:59:49.392Z\",\"taskID\":6483140,\"objectID\":\"99\"}";
 
