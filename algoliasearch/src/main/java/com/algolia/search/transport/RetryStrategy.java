@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 class RetryStrategy {
   private List<StatefulHost> hosts;
 
-  public RetryStrategy(AlgoliaConfig config) {
+  RetryStrategy(AlgoliaConfig config) {
     hosts = (config.getCustomHosts() != null) ? config.getCustomHosts() : config.getDefaultHosts();
   }
 
-  public List<StatefulHost> getTryableHosts(CallType callType) {
-    resetExpiredHosts();
+  List<StatefulHost> getTryableHosts(CallType callType) {
     synchronized (this) {
+      resetExpiredHosts();
       if (hosts.stream().anyMatch(h -> h.isUp() && h.getAccept().contains(callType))) {
         return hosts
             .stream()
@@ -38,7 +38,7 @@ class RetryStrategy {
     }
   }
 
-  public RetryOutcome decide(StatefulHost tryableHost, int httpResponseCode, boolean isTimedOut) {
+  RetryOutcome decide(StatefulHost tryableHost, int httpResponseCode, boolean isTimedOut) {
 
     synchronized (this) {
       if (!isTimedOut && HttpStatusCodeHelper.isSuccess(httpResponseCode)) {
