@@ -6,9 +6,11 @@ import com.algolia.search.Defaults;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Arrays;
-import org.junit.Test;
+import java.util.Collections;
 
-public class FacetFiltersTest {
+import org.junit.jupiter.api.Test;
+
+class FacetFiltersTest {
 
   private ObjectMapper objectMapper = Defaults.DEFAULT_OBJECT_MAPPER;
 
@@ -19,17 +21,17 @@ public class FacetFiltersTest {
   }
 
   @Test
-  public void facetFiltersAsListOfString() throws IOException {
+  void facetFiltersAsListOfString() throws IOException {
     FacetFilters facetFilters = new FacetFiltersAsListOfString(Arrays.asList("filter1", "filter2"));
     FacetFilters result = serializeDeserialize(facetFilters);
     assertThat(result).isEqualToComparingFieldByField(facetFilters);
   }
 
   @Test
-  public void facetFiltersAsListOfList() throws IOException {
+  void facetFiltersAsListOfList() throws IOException {
     FacetFilters facetFilters =
         new FacetFiltersAsListOfList(
-            Arrays.asList(Arrays.asList("filter1", "filter2"), Arrays.asList("filter3")));
+            Arrays.asList(Arrays.asList("filter1", "filter2"), Collections.singletonList("filter3")));
     FacetFilters result = serializeDeserialize(facetFilters);
     assertThat(result).isEqualToComparingFieldByField(facetFilters);
   }

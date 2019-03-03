@@ -5,12 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.exceptions.AlgoliaException;
 import com.algolia.search.objects.Query;
 import java.util.Collections;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class UtilsTest {
+class UtilsTest {
 
   @Test
-  public void secureKeys() throws AlgoliaException {
+  void secureKeys() throws AlgoliaException {
     assertThat(
             Utils.generateSecuredApiKey(
                 "182634d8894831d5dbce3b3185c50881",
@@ -28,10 +28,5 @@ public class UtilsTest {
                 null))
         .isEqualTo(
             "OGYwN2NlNTdlOGM2ZmM4MjA5NGM0ZmYwNTk3MDBkNzMzZjQ0MDI3MWZjNTNjM2Y3YTAzMWM4NTBkMzRiNTM5YnRhZ0ZpbHRlcnM9JTI4cHVibGljJTJDdXNlcjElMjkmdXNlclRva2VuPTQy");
-  }
-
-  @Test
-  public void completeExceptionally() {
-    assertThat(Utils.completeExceptionally(new NullPointerException())).isCompletedExceptionally();
   }
 }

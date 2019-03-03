@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IndexSettingsTest {
+class IndexSettingsTest {
 
   private ObjectMapper objectMapper = Defaults.DEFAULT_OBJECT_MAPPER;
 
@@ -23,7 +23,7 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void typoToleranceBoolean() throws IOException {
+  void typoToleranceBoolean() throws IOException {
     IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of(true));
     IndexSettings result = serializeDeserialize(settings);
     assertThat(result).isEqualToComparingFieldByField(settings);
@@ -36,7 +36,7 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void keepDiacriticsOnCharacters() throws IOException {
+  void keepDiacriticsOnCharacters() throws IOException {
     IndexSettings settings = new IndexSettings().setKeepDiacriticsOnCharacters("øé");
     IndexSettings result = serializeDeserialize(settings);
     assertThat(result).isEqualToComparingFieldByField(settings);
@@ -44,7 +44,7 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void queryLanguages() throws IOException {
+  void queryLanguages() throws IOException {
     IndexSettings settings = new IndexSettings().setQueryLanguages(Arrays.asList("a", "b"));
     IndexSettings result = serializeDeserialize(settings);
     assertThat(result).isEqualToComparingFieldByField(settings);
@@ -52,7 +52,7 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void camelCaseAttributes() throws IOException {
+  void camelCaseAttributes() throws IOException {
     IndexSettings settings = new IndexSettings().setCamelCaseAttributes(Arrays.asList("a", "b"));
     IndexSettings result = serializeDeserialize(settings);
     assertThat(result).isEqualToComparingFieldByField(settings);
@@ -60,8 +60,8 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void decompoundedAttributes() throws IOException {
-    Map<String, List<String>> expected = new HashMap();
+  void decompoundedAttributes() throws IOException {
+    Map<String, List<String>> expected = new HashMap<>();
     expected.put("de", Arrays.asList("attr1", "attr2"));
     IndexSettings settings = new IndexSettings().setDecompoundedAttributes(expected);
     IndexSettings result = serializeDeserialize(settings);
@@ -70,7 +70,7 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void typoToleranceString() throws IOException {
+  void typoToleranceString() throws IOException {
     IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of("min"));
     IndexSettings result = serializeDeserialize(settings);
 
@@ -79,7 +79,7 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void removeStopWordsBoolean() throws IOException {
+  void removeStopWordsBoolean() throws IOException {
     IndexSettings settings = new IndexSettings().setRemoveStopWords(RemoveStopWords.of(true));
     IndexSettings result = serializeDeserialize(settings);
     assertThat(result).isEqualToComparingFieldByField(settings);
@@ -92,7 +92,7 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void removeStopWordsList() throws IOException {
+  void removeStopWordsList() throws IOException {
     IndexSettings settings =
         new IndexSettings().setRemoveStopWords(RemoveStopWords.of(Arrays.asList("a", "b")));
     IndexSettings result = serializeDeserialize(settings);
@@ -102,7 +102,7 @@ public class IndexSettingsTest {
   }
 
   @Test
-  public void customSettings() throws IOException {
+  void customSettings() throws IOException {
     IndexSettings settings = new IndexSettings().setCustomSetting("a", "b");
     IndexSettings result = serializeDeserialize(settings);
 

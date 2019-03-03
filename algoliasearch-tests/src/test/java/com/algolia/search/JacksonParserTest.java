@@ -4,19 +4,19 @@ import static com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.inputs.synonym.*;
+import com.algolia.search.models.IndexSettings;
 import com.algolia.search.objects.Distinct;
 import com.algolia.search.objects.IgnorePlurals;
-import com.algolia.search.objects.IndexSettings;
 import com.algolia.search.objects.RemoveStopWords;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class JacksonParserTest {
+class JacksonParserTest {
 
   @Test
-  public void shouldDeserializeSynonyms() throws IOException {
+  void shouldDeserializeSynonyms() throws IOException {
     AbstractSynonym synonym;
 
     synonym =
@@ -51,7 +51,7 @@ public class JacksonParserTest {
   }
 
   @Test
-  public void serializeDistinct() throws IOException {
+  void serializeDistinct() throws IOException {
     IndexSettings settings;
 
     settings = new IndexSettings().setDistinct(Distinct.of(true));
@@ -62,7 +62,7 @@ public class JacksonParserTest {
   }
 
   @Test
-  public void deserializeDistinct() throws IOException {
+  void deserializeDistinct() throws IOException {
     Distinct distinct;
 
     distinct =
@@ -75,7 +75,7 @@ public class JacksonParserTest {
   }
 
   @Test
-  public void serializeRemoveStopWords() throws IOException {
+  void serializeRemoveStopWords() throws IOException {
     IndexSettings settings;
 
     settings = new IndexSettings().setRemoveStopWords(true);
@@ -92,7 +92,7 @@ public class JacksonParserTest {
   }
 
   @Test
-  public void deserializeRemoveStopWords() throws IOException {
+  void deserializeRemoveStopWords() throws IOException {
     RemoveStopWords removeStopWords;
 
     removeStopWords =
@@ -109,7 +109,7 @@ public class JacksonParserTest {
   }
 
   @Test
-  public void serializeIgnorePlurals() throws IOException {
+  void serializeIgnorePlurals() throws IOException {
     IndexSettings settings;
 
     settings = new IndexSettings().setIgnorePlurals(true);
@@ -127,7 +127,7 @@ public class JacksonParserTest {
   }
 
   @Test
-  public void deserializeIgnorePlurals() throws IOException {
+  void deserializeIgnorePlurals() throws IOException {
     IgnorePlurals ignorePlurals;
 
     ignorePlurals =
