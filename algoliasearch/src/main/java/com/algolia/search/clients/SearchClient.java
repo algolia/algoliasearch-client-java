@@ -10,7 +10,9 @@ import com.algolia.search.inputs.ApiKeys;
 import com.algolia.search.inputs.MultipleGetObjectsRequests;
 import com.algolia.search.models.*;
 import com.algolia.search.objects.ApiKey;
+import com.algolia.search.objects.Log;
 import com.algolia.search.objects.RequestOptions;
+import com.algolia.search.responses.Logs;
 import com.algolia.search.transport.HttpTransport;
 import java.util.List;
 import java.util.Objects;
@@ -445,6 +447,61 @@ public class SearchClient {
 
     return transport.executeRequestAsync(
         HttpMethod.GET, "/1/keys/" + apiKey, CallType.READ, null, ApiKey.class, requestOptions);
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   */
+  public CompletableFuture<List<Log>> getLogsAsync() {
+    return getLogsAsync(0, 10, null);
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+   * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
+   *     allowed value: 1,000.
+   */
+  public CompletableFuture<List<Log>> getLogsAsync(int offset, int length) {
+    return getLogsAsync(offset, length, null);
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<List<Log>> getLogsAsync(RequestOptions requestOptions) {
+    return getLogsAsync(0, 10, requestOptions);
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+   * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
+   *     allowed value: 1,000.
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<List<Log>> getLogsAsync(
+      int offset, int length, RequestOptions requestOptions) {
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    requestOptions.addExtraQueryParameters("offset", Integer.toString(offset));
+    requestOptions.addExtraQueryParameters("length", Integer.toString(length));
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.GET, "/1/logs", CallType.READ, null, Logs.class, requestOptions)
+        .thenApplyAsync(Logs::getLogs, config.getExecutor());
   }
 
   /**
