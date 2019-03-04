@@ -42,6 +42,29 @@ public class SearchIndex<T> {
    *
    * @param query The search query
    */
+  public SearchResult<T> search(@Nonnull Query query) {
+    return LaunderThrowable.unwrap(searchAsync(query));
+  }
+
+  /**
+   * Method used for querying an index. The search query only allows for the retrieval of up to 1000
+   * hits. If you need to retrieve more than 1000 hits (e.g. for SEO), you can either leverage the
+   * Browse index method or increase the paginationLimitedTo parameter.
+   *
+   * @param query The search query
+   * @param requestOptions Options to pass to this request
+   */
+  public SearchResult<T> search(@Nonnull Query query, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(searchAsync(query, requestOptions));
+  }
+
+  /**
+   * Method used for querying an index. The search query only allows for the retrieval of up to 1000
+   * hits. If you need to retrieve more than 1000 hits (e.g. for SEO), you can either leverage the
+   * Browse index method or increase the paginationLimitedTo parameter.
+   *
+   * @param query The search query
+   */
   public CompletableFuture<SearchResult<T>> searchAsync(@Nonnull Query query) {
     return searchAsync(query, null);
   }
