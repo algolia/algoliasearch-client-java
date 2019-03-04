@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 
 class FacetFiltersTest {
@@ -31,7 +30,8 @@ class FacetFiltersTest {
   void facetFiltersAsListOfList() throws IOException {
     FacetFilters facetFilters =
         new FacetFiltersAsListOfList(
-            Arrays.asList(Arrays.asList("filter1", "filter2"), Collections.singletonList("filter3")));
+            Arrays.asList(
+                Arrays.asList("filter1", "filter2"), Collections.singletonList("filter3")));
     FacetFilters result = serializeDeserialize(facetFilters);
     assertThat(result).isEqualToComparingFieldByField(facetFilters);
   }
