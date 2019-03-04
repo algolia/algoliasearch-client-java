@@ -2,36 +2,29 @@ package com.algolia.search;
 
 public class AlgoliaObject {
 
-  private String name;
-  private int age;
-
-  public AlgoliaObject() {}
-
-  public AlgoliaObject(String name, int age) {
-    this.name = name;
-    this.age = age;
+  public AlgoliaObject(String objectID, String attribute) {
+    this.objectID = objectID;
+    this.attribute = attribute;
   }
 
-  public String getName() {
-    return name;
+  public String getObjectID() {
+    return objectID;
   }
 
-  public AlgoliaObject setName(String name) {
-    this.name = name;
+  public AlgoliaObject setObjectID(String objectID) {
+    this.objectID = objectID;
     return this;
   }
 
-  public int getAge() {
-    return age;
+  public String getAttribute() {
+    return attribute;
   }
 
-  public AlgoliaObject setAge(int age) {
-    this.age = age;
+  public AlgoliaObject setAttribute(String attribute) {
+    this.attribute = attribute;
     return this;
   }
 
-  @Override
-  public String toString() {
-    return "AlgoliaObject{" + "name='" + name + '\'' + ", age=" + age + '}';
-  }
+  private String objectID;
+  private String attribute;
 }

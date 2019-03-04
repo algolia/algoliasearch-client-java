@@ -20,7 +20,7 @@
     <appengine-api.version>1.9.62</appengine-api.version>
     <future-converter.version>1.1.0</future-converter.version>
     <junit.version>5.4.0</junit.version>
-    <assertj-core.version>3.9.1</assertj-core.version>
+    <assertj-core.version>3.12.0</assertj-core.version>
     <logback.version>1.2.3</logback.version>
   </properties>
 
