@@ -410,6 +410,25 @@ public class SearchIndex<T> {
    *
    * @param request The batch request -
    */
+  public BatchResponse batch(@Nonnull BatchRequest<T> request) {
+    return LaunderThrowable.unwrap(batchAsync(request, null));
+  }
+
+  /**
+   * Perform several indexing operations in one API call.
+   *
+   * @param request The batch request
+   * @param requestOptions Options to pass to this request
+   */
+  public BatchResponse batch(@Nonnull BatchRequest<T> request, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(batchAsync(request, requestOptions));
+  }
+
+  /**
+   * Perform several indexing operations in one API call.
+   *
+   * @param request The batch request -
+   */
   public CompletableFuture<BatchResponse> batchAsync(@Nonnull BatchRequest<T> request) {
     return batchAsync(request, null);
   }
