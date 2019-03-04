@@ -104,6 +104,86 @@ public class SearchIndex<T> {
    * part of an object by singling out one or more attributes of an existing object and performing
    * the following actions:
    *
+   * @param data Data to update
+   */
+  public CompletableFuture<UpdateObjectResponse> partialUpdateObjectAsync(@Nonnull T data) {
+    return partialUpdateObjectAsync(data, false, null);
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data Data to update
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<UpdateObjectResponse> partialUpdateObjectAsync(
+      @Nonnull T data, RequestOptions requestOptions) {
+    return partialUpdateObjectAsync(data, false, requestOptions);
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data Data to update
+   * @param createIfNotExists When true, a partial update on a nonexistent object will create the
+   *     object (generating the objectID and using the attributes as defined in the object). WHen
+   *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
+   *     back).
+   */
+  public CompletableFuture<UpdateObjectResponse> partialUpdateObjectAsync(
+      @Nonnull T data, @Nonnull Boolean createIfNotExists) {
+    return partialUpdateObjectAsync(data, createIfNotExists, null);
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data Data to update
+   * @param createIfNotExists When true, a partial update on a nonexistent object will create the
+   *     object (generating the objectID and using the attributes as defined in the object). WHen
+   *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
+   *     back).
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<UpdateObjectResponse> partialUpdateObjectAsync(
+      @Nonnull T data, @Nonnull Boolean createIfNotExists, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(data, "Data is required.");
+    Objects.requireNonNull(createIfNotExists, "createIfNotExists is required.");
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    requestOptions.addExtraQueryParameters("createIfNotExists", createIfNotExists.toString());
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/partial",
+            CallType.WRITE,
+            data,
+            UpdateObjectResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
    * @param data The data to send to the API
    */
   public CompletableFuture<BatchIndexingResponse> partialUpdateObjectsAsync(
