@@ -11,9 +11,7 @@ import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.responses.SearchResult;
 import com.algolia.search.transport.HttpTransport;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
@@ -99,6 +97,124 @@ public class SearchIndex<T> {
               return r;
             },
             config.getExecutor());
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   */
+  public CompletableFuture<BatchIndexingResponse> saveObjectAsync(@Nonnull T data) {
+    return saveObjectAsync(data, false, null);
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param autoGenerateObjectID If set to true, the method will perform "AddObject", otherwise will
+   *     perform an "UpdateObject"
+   */
+  public CompletableFuture<BatchIndexingResponse> saveObjectAsync(
+      @Nonnull T data, boolean autoGenerateObjectID) {
+    return saveObjectAsync(data, autoGenerateObjectID, null);
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<BatchIndexingResponse> saveObjectAsync(
+      @Nonnull T data, RequestOptions requestOptions) {
+    return saveObjectAsync(data, false, requestOptions);
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param autoGenerateObjectID If set to true, the method will perform "AddObject", otherwise will
+   *     perform an "UpdateObject"
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<BatchIndexingResponse> saveObjectAsync(
+      @Nonnull T data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(data, "Data are required.");
+
+    return saveObjectsAsync(Collections.singletonList(data), autoGenerateObjectID, requestOptions);
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   */
+  public CompletableFuture<BatchIndexingResponse> saveObjectsAsync(@Nonnull Iterable<T> data) {
+    return saveObjectsAsync(data, false, null);
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param autoGenerateObjectID If set to true, the method will perform "AddObject", otherwise will
+   *     perform an "UpdateObject"
+   */
+  public CompletableFuture<BatchIndexingResponse> saveObjectsAsync(
+      @Nonnull Iterable<T> data, boolean autoGenerateObjectID) {
+    return saveObjectsAsync(data, autoGenerateObjectID, null);
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<BatchIndexingResponse> saveObjectsAsync(
+      @Nonnull Iterable<T> data, RequestOptions requestOptions) {
+    return saveObjectsAsync(data, false, requestOptions);
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param autoGenerateObjectID If set to true, the method will perform "AddObject", otherwise will
+   *     perform an "UpdateObject"
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<BatchIndexingResponse> saveObjectsAsync(
+      @Nonnull Iterable<T> data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
+    Objects.requireNonNull(data, "Data are required.");
+
+    if (autoGenerateObjectID) {
+      return splitIntoBatchesAsync(data, ActionEnum.AddObject, requestOptions);
+    }
+
+    return splitIntoBatchesAsync(data, ActionEnum.UpdateObject, requestOptions);
+  }
+
+  /**
+   * Split records into smaller chunks before sending them to the API asynchronously
+   *
+   * @param data The data to send and chunk
+   * @param actionType The action type of the batch
+   */
+  CompletableFuture<BatchIndexingResponse> splitIntoBatchesAsync(
+      @Nonnull Iterable<T> data, @Nonnull String actionType) {
+    return splitIntoBatchesAsync(data, actionType, null);
   }
 
   /**
