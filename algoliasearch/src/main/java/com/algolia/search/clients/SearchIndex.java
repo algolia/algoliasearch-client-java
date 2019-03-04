@@ -100,6 +100,69 @@ public class SearchIndex<T> {
   }
 
   /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data The data to send to the API
+   */
+  public CompletableFuture<BatchIndexingResponse> partialUpdateObjectsAsync(
+      @Nonnull Iterable<T> data) {
+    return partialUpdateObjectsAsync(data, false, null);
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data The data to send to the API
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<BatchIndexingResponse> partialUpdateObjectsAsync(
+      @Nonnull Iterable<T> data, RequestOptions requestOptions) {
+    return partialUpdateObjectsAsync(data, false, requestOptions);
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data The data to send to the API
+   * @param createIfNotExists When true, a partial update on a nonexistent object will create the
+   *     object (generating the objectID and using the attributes as defined in the object). WHen
+   *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
+   *     back).
+   */
+  public CompletableFuture<BatchIndexingResponse> partialUpdateObjectsAsync(
+      @Nonnull Iterable<T> data, boolean createIfNotExists) {
+    return partialUpdateObjectsAsync(data, createIfNotExists, null);
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data The data to send to the API
+   * @param createIfNotExists When true, a partial update on a nonexistent object will create the
+   *     object (generating the objectID and using the attributes as defined in the object). WHen
+   *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
+   *     back).
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<BatchIndexingResponse> partialUpdateObjectsAsync(
+      @Nonnull Iterable<T> data, boolean createIfNotExists, RequestOptions requestOptions) {
+    Objects.requireNonNull(data, "Data are required.");
+
+    String action =
+        createIfNotExists ? ActionEnum.PartialUpdateObject : ActionEnum.PartialUpdateObjectNoCreate;
+
+    return splitIntoBatchesAsync(data, action, requestOptions);
+  }
+
+  /**
    * This method allows you to create records on your index by sending one or more objects Each
    * object contains a set of attributes and values, which represents a full record on an index.
    *
