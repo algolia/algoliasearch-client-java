@@ -4,7 +4,8 @@ import com.algolia.search.clients.AlgoliaConfig;
 import com.algolia.search.helpers.HttpStatusCodeHelper;
 import com.algolia.search.models.CallType;
 import com.algolia.search.models.RetryOutcome;
-import java.time.LocalDate;
+
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,15 +44,15 @@ class RetryStrategy {
     synchronized (this) {
       if (!isTimedOut && HttpStatusCodeHelper.isSuccess(httpResponseCode)) {
         tryableHost.setUp(true);
-        tryableHost.setLastUse(LocalDate.now(ZoneOffset.UTC));
+        tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
         return RetryOutcome.SUCCESS;
       } else if (!isTimedOut && isRetryable(httpResponseCode)) {
         tryableHost.setUp(false);
-        tryableHost.setLastUse(LocalDate.now(ZoneOffset.UTC));
+        tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
         return RetryOutcome.RETRY;
       } else if (isTimedOut) {
         tryableHost.setUp(true);
-        tryableHost.setLastUse(LocalDate.now(ZoneOffset.UTC));
+        tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
         tryableHost.incrementRetryCount();
         return RetryOutcome.RETRY;
       }
@@ -65,7 +66,7 @@ class RetryStrategy {
   }
 
   private void reset(StatefulHost host) {
-    host.setUp(true).setRetryCount(0).setLastUse(LocalDate.now(ZoneOffset.UTC));
+    host.setUp(true).setRetryCount(0).setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
   }
 
   private void resetExpiredHosts() {
