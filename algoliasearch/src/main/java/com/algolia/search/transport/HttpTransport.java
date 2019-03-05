@@ -142,7 +142,7 @@ public final class HttpTransport {
                     return CompletableFuture.completedFuture(
                         Defaults.DEFAULT_OBJECT_MAPPER.readValue(dataStream, type));
                   } catch (IOException e) {
-                    throw new AlgoliaRuntimeException(e);
+                    return CompletableFutureHelper.failedFuture(new AlgoliaRuntimeException(e));
                   }
                 case RETRY:
                   return executeWithRetry(hosts, request, type);

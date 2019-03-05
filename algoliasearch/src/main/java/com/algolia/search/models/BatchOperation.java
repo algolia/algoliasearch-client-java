@@ -13,6 +13,11 @@ public class BatchOperation<T> implements Serializable {
     this.body = body;
   }
 
+  public BatchOperation(String indexName, String action) {
+    this.action = action;
+    this.indexName = indexName;
+  }
+
   public BatchOperation(String action, T body) {
     this.action = action;
     this.body = body;

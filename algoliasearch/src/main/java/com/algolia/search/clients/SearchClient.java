@@ -172,8 +172,8 @@ public class SearchClient {
    * @param operations The batch operations to process. It could be on multiple indices with
    *     multiple actions
    */
-  public MultipleIndexBatchIndexingResponse multipleBatch(
-      @Nonnull List<BatchOperation> operations) {
+  public <T> MultipleIndexBatchIndexingResponse multipleBatch(
+      @Nonnull List<BatchOperation<T>> operations) {
     return LaunderThrowable.unwrap(multipleBatchAsync(operations, null));
   }
 
@@ -185,8 +185,8 @@ public class SearchClient {
    *     multiple action
    * @param requestOptions Options to pass to this request
    */
-  public MultipleIndexBatchIndexingResponse multipleBatch(
-      @Nonnull List<BatchOperation> operations, RequestOptions requestOptions) {
+  public <T> MultipleIndexBatchIndexingResponse multipleBatch(
+      @Nonnull List<BatchOperation<T>> operations, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(multipleBatchAsync(operations, requestOptions));
   }
 
@@ -197,8 +197,8 @@ public class SearchClient {
    * @param operations The batch operations to process. It could be on multiple indices with
    *     multiple action
    */
-  public CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
-      @Nonnull List<BatchOperation> operations) {
+  public <T> CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
+      @Nonnull List<BatchOperation<T>> operations) {
     return multipleBatchAsync(operations, null);
   }
 
@@ -210,8 +210,8 @@ public class SearchClient {
    *     multiple action
    * @param requestOptions Options to pass to this request
    */
-  public CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
-      @Nonnull List<BatchOperation> operations, RequestOptions requestOptions) {
+  public <T> CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
+      @Nonnull List<BatchOperation<T>> operations, RequestOptions requestOptions) {
 
     Objects.requireNonNull(operations, "Operations are required");
 
