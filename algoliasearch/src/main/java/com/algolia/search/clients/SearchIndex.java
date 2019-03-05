@@ -3,12 +3,14 @@ package com.algolia.search.clients;
 import static java.util.stream.Collectors.toList;
 
 import com.algolia.search.Defaults;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.models.*;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.RuleQuery;
+import com.algolia.search.objects.SynonymQuery;
 import com.algolia.search.responses.SearchResult;
 import com.algolia.search.transport.HttpTransport;
 import java.util.*;
@@ -498,6 +500,10 @@ public class SearchIndex<T> {
       @Nonnull String objectID, RequestOptions requestOptions) {
     Objects.requireNonNull(objectID, "The objectID is required.");
 
+    if (objectID.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
     return transport
         .executeRequestAsync(
             HttpMethod.DELETE,
@@ -591,13 +597,7 @@ public class SearchIndex<T> {
   public CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
 
-    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
-
-    RequestOptions requestOptions =
-        new RequestOptions()
-            .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
-
-    return setSettingsAsync(settings, requestOptions);
+    return setSettingsAsync(settings, forwardToReplicas, new RequestOptions());
   }
 
   /**
@@ -612,8 +612,11 @@ public class SearchIndex<T> {
       @Nonnull Boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions) {
 
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
     Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+
     requestOptions.addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
+
     return setSettingsAsync(settings, requestOptions);
   }
 
@@ -627,6 +630,7 @@ public class SearchIndex<T> {
       @Nonnull IndexSettings settings, @Nonnull RequestOptions requestOptions) {
 
     Objects.requireNonNull(settings, "Index settings are required.");
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
 
     return transport
         .executeRequestAsync(
@@ -716,6 +720,10 @@ public class SearchIndex<T> {
       @Nonnull String objectID, RequestOptions requestOptions) {
     Objects.requireNonNull(objectID, "The rule ID is required.");
 
+    if (objectID.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
     return transport.executeRequestAsync(
         HttpMethod.GET,
         "/1/indexes/" + urlEncodedIndexName + "/rules/" + objectID,
@@ -781,6 +789,434 @@ public class SearchIndex<T> {
               return r;
             },
             config.getExecutor());
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param rule A query rule
+   */
+  public CompletableFuture<SaveRuleResponse> saveRuleAsync(@Nonnull Rule rule) {
+    return saveRuleAsync(rule, new RequestOptions());
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param rule A query rule
+   * @param forwardToReplicas Forward the request to the replicas
+   */
+  public CompletableFuture<SaveRuleResponse> saveRuleAsync(
+      @Nonnull Rule rule, @Nonnull Boolean forwardToReplicas) {
+    return saveRuleAsync(rule, forwardToReplicas, new RequestOptions());
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param rule A query rule
+   * @param forwardToReplicas Forward the request to the replicas
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveRuleResponse> saveRuleAsync(
+      @Nonnull Rule rule,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+
+    requestOptions.addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
+
+    return saveRuleAsync(rule, requestOptions);
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param rule A query rule
+   */
+  public CompletableFuture<SaveRuleResponse> saveRuleAsync(
+      @Nonnull Rule rule, @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(rule, "A rule is required.");
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
+
+    if (rule.getObjectID().trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.PUT,
+            "/1/indexes/" + urlEncodedIndexName + "/rules/" + rule.getObjectID(),
+            CallType.WRITE,
+            null,
+            SaveRuleResponse.class,
+            Rule.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Create or update a specified set of rules, or all rules.
+   *
+   * @param rules List of rules
+   */
+  public CompletableFuture<SaveRuleResponse> saveRulesAsync(@Nonnull Iterable<Rule> rules) {
+    return saveRulesAsync(rules, new RequestOptions());
+  }
+
+  /**
+   * Create or update a specified set of rules, or all rules.
+   *
+   * @param rules List of rules
+   * @param forwardToReplicas Forward to the replicas the request
+   * @param clearExistingRules Clear all existing rules
+   */
+  public CompletableFuture<SaveRuleResponse> saveRulesAsync(
+      @Nonnull Iterable<Rule> rules,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull Boolean clearExistingRules) {
+
+    return saveRulesAsync(rules, forwardToReplicas, clearExistingRules, new RequestOptions());
+  }
+
+  /**
+   * Create or update a specified set of rules, or all rules.
+   *
+   * @param rules List of rules
+   * @param forwardToReplicas Forward to the replicas the request
+   * @param clearExistingRules Clear all existing rules
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveRuleResponse> saveRulesAsync(
+      @Nonnull Iterable<Rule> rules,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull Boolean clearExistingRules,
+      @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+    Objects.requireNonNull(clearExistingRules, "clearExistingRules is required.");
+
+    requestOptions
+        .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString())
+        .addExtraQueryParameters("clearExistingRules", clearExistingRules.toString());
+
+    return saveRulesAsync(rules, requestOptions);
+  }
+
+  /**
+   * Create or update a specified set of rules, or all rules.
+   *
+   * @param rules List of rules
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveRuleResponse> saveRulesAsync(
+      @Nonnull Iterable<Rule> rules, @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(rules, "Rules are required.");
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/rules/batch",
+            CallType.WRITE,
+            null,
+            SaveRuleResponse.class,
+            Rule.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Push a new set of rules and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing rules are deleted and replaced with the new ones, in a
+   * single, atomic operation
+   *
+   * @param rules List of rules
+   */
+  public CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(@Nonnull Iterable<Rule> rules) {
+    return saveRulesAsync(rules, false, true, new RequestOptions());
+  }
+
+  /**
+   * Push a new set of rules and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing rules are deleted and replaced with the new ones, in a
+   * single, atomic operation
+   *
+   * @param rules List of rules
+   * @param forwardToReplicas Forward to the replicas the request
+   */
+  public CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
+      @Nonnull Iterable<Rule> rules, @Nonnull Boolean forwardToReplicas) {
+    return saveRulesAsync(rules, forwardToReplicas, true, new RequestOptions());
+  }
+
+  /**
+   * Push a new set of rules and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing rules are deleted and replaced with the new ones, in a
+   * single, atomic operation
+   *
+   * @param rules List of rules
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
+      @Nonnull Iterable<Rule> rules, @Nonnull RequestOptions requestOptions) {
+    return saveRulesAsync(rules, false, true, requestOptions);
+  }
+
+
+  /**
+   * Get all synonyms that match a query.
+   * @param query Synonym query
+   */
+  public CompletableFuture<SearchResult<Synonym>> searchSynonymsAsync(
+          SynonymQuery query) {
+    return searchSynonymsAsync(query, null);
+  }
+
+  /**
+   * Get all synonyms that match a query.
+   * @param query Synonym query
+   * @param requestOptions Options to pass to this request
+   */
+  @SuppressWarnings("unchecked")
+  public CompletableFuture<SearchResult<Synonym>> searchSynonymsAsync(
+          SynonymQuery query, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(query, "A query is required.");
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/synonyms/search",
+            CallType.READ,
+            null,
+            SearchResult.class,
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<SearchResult<Synonym>> r = new CompletableFuture<>();
+              r.complete(resp);
+              return r;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Get a single synonym using its object id.
+   *
+   * @param objectID Algolia's objectID
+   */
+  public CompletableFuture<Synonym> getSynonymAsync(@Nonnull String objectID) {
+    return getSynonymAsync(objectID, null);
+  }
+
+  /**
+   * Get a single synonym using its object id.
+   *
+   * @param objectID Algolia's objectID
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<Synonym> getSynonymAsync(
+      @Nonnull String objectID, RequestOptions requestOptions) {
+    Objects.requireNonNull(objectID, "The synonym ID is required.");
+
+    if (objectID.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/indexes/" + urlEncodedIndexName + "/synonyms/" + objectID,
+        CallType.READ,
+        null,
+        Synonym.class,
+        requestOptions);
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param synonym Algolia's synonym
+   * @param forwardToReplicas Forward the request to the replicas
+   */
+  public CompletableFuture<SaveSynonymResponse> saveSynonymAsync(
+      @Nonnull Synonym synonym, @Nonnull Boolean forwardToReplicas) {
+    return saveSynonymAsync(synonym, forwardToReplicas, new RequestOptions());
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param synonym Algolia's synonym
+   * @param forwardToReplicas Forward the request to the replicas
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveSynonymResponse> saveSynonymAsync(
+      @Nonnull Synonym synonym,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+
+    requestOptions.addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
+
+    return saveSynonymAsync(synonym, requestOptions);
+  }
+
+  /**
+   * Create or update a single synonym on an index.
+   *
+   * @param synonym Algolia's synonym
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveSynonymResponse> saveSynonymAsync(
+      @Nonnull Synonym synonym, @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(synonym, "A synonym is required.");
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
+
+    if (synonym.getObjectID().trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.PUT,
+            "/1/indexes/" + urlEncodedIndexName + "/synonyms/" + synonym.getObjectID(),
+            CallType.WRITE,
+            null,
+            SaveSynonymResponse.class,
+            Synonym.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Create or update multiple synonyms.
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward to the replicas the request
+   * @param replaceExistingSynonyms Replace all existing synonyms
+   */
+  public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
+      @Nonnull Iterable<Synonym> synonyms,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull Boolean replaceExistingSynonyms) {
+    return saveSynonymsAsync(
+        synonyms, forwardToReplicas, replaceExistingSynonyms, new RequestOptions());
+  }
+
+  /**
+   * Create or update multiple synonyms.
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward to the replicas the request
+   * @param replaceExistingSynonyms Replace all existing synonyms
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
+      @Nonnull Iterable<Synonym> synonyms,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull Boolean replaceExistingSynonyms,
+      @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+    Objects.requireNonNull(replaceExistingSynonyms, "replaceExistingSynonyms is required.");
+
+    requestOptions
+        .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString())
+        .addExtraQueryParameters("replaceExistingSynonyms", replaceExistingSynonyms.toString());
+
+    return saveSynonymsAsync(synonyms, requestOptions);
+  }
+
+  /**
+   * Create or update multiple synonyms.
+   *
+   * @param synonyms List of synonyms
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
+      @Nonnull Iterable<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
+
+    Objects.requireNonNull(synonyms, "synonyms are required.");
+    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/synonyms/batch",
+            CallType.WRITE,
+            null,
+            SaveSynonymResponse.class,
+            Synonym.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Push a new set of synonyms and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing synonyms are deleted and replaced with the new ones, in
+   * a single, atomic operation
+   *
+   * @param synonyms List of synonyms
+   */
+  public CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
+      @Nonnull Iterable<Synonym> synonyms) {
+    return saveSynonymsAsync(synonyms, false, true, new RequestOptions());
+  }
+
+  /**
+   * Push a new set of synonyms and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing synonyms are deleted and replaced with the new ones, in
+   * a single, atomic operation
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward to the replicas the request
+   */
+  public CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
+      @Nonnull Iterable<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
+    return saveSynonymsAsync(synonyms, forwardToReplicas, true, new RequestOptions());
+  }
+
+  /**
+   * Push a new set of synonyms and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing synonyms are deleted and replaced with the new ones, in
+   * a single, atomic operation
+   *
+   * @param synonyms List of synonyms
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
+      @Nonnull Iterable<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
+    return saveSynonymsAsync(synonyms, false, true, requestOptions);
   }
 
   /**
