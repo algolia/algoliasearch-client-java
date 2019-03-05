@@ -1,7 +1,6 @@
 package com.algolia.search.transport;
 
 import com.algolia.search.models.CallType;
-
 import java.time.OffsetDateTime;
 import java.util.EnumSet;
 

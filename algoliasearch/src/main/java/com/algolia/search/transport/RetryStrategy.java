@@ -4,7 +4,6 @@ import com.algolia.search.clients.AlgoliaConfig;
 import com.algolia.search.helpers.HttpStatusCodeHelper;
 import com.algolia.search.models.CallType;
 import com.algolia.search.models.RetryOutcome;
-
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;

@@ -2,7 +2,6 @@ package com.algolia.search.clients;
 
 import com.algolia.search.models.CallType;
 import com.algolia.search.transport.StatefulHost;
-
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
