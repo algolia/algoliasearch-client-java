@@ -1,17 +1,17 @@
 package com.algolia.search.responses;
 
-import com.algolia.search.inputs.analytics.ABTest;
+import com.algolia.search.inputs.analytics.ABTestResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ABTests implements Serializable {
-  private ArrayList<ABTest> abtests;
+  private ArrayList<ABTestResponse> abtests;
   private int count;
   private int total;
 
-  public ArrayList<ABTest> getAbtests() {
+  public ArrayList<ABTestResponse> getAbtests() {
     return abtests;
   }
 
