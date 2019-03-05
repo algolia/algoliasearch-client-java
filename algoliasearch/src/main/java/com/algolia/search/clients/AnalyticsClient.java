@@ -5,6 +5,7 @@ import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.http.AlgoliaHttpRequester;
 import com.algolia.search.http.IHttpRequester;
 import com.algolia.search.inputs.analytics.ABTest;
+import com.algolia.search.inputs.analytics.ABTestResponse;
 import com.algolia.search.models.*;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.responses.ABTests;
@@ -131,7 +132,7 @@ public class AnalyticsClient {
    *
    * @param id The ABTest ID
    */
-  public ABTest getABTest(long id) {
+  public ABTestResponse getABTest(long id) {
     return LaunderThrowable.unwrap(getABTestAsync(id, null));
   }
 
@@ -141,7 +142,7 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
    */
-  public ABTest getABTest(long id, RequestOptions requestOptions) {
+  public ABTestResponse getABTest(long id, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getABTestAsync(id, requestOptions));
   }
 
@@ -150,7 +151,7 @@ public class AnalyticsClient {
    *
    * @param id The ABTest ID
    */
-  public CompletableFuture<ABTest> getABTestAsync(long id) {
+  public CompletableFuture<ABTestResponse> getABTestAsync(long id) {
     return getABTestAsync(id, null);
   }
 
@@ -160,9 +161,14 @@ public class AnalyticsClient {
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
    */
-  public CompletableFuture<ABTest> getABTestAsync(long id, RequestOptions requestOptions) {
+  public CompletableFuture<ABTestResponse> getABTestAsync(long id, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
-        HttpMethod.GET, "/2/abtests/" + id, CallType.READ, null, ABTest.class, requestOptions);
+        HttpMethod.GET,
+        "/2/abtests/" + id,
+        CallType.READ,
+        null,
+        ABTestResponse.class,
+        requestOptions);
   }
 
   /**

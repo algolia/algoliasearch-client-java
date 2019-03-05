@@ -2,8 +2,14 @@ package com.algolia.search.integration;
 
 import com.algolia.search.clients.AnalyticsClient;
 import com.algolia.search.clients.SearchClient;
+import com.algolia.search.models.ActionEnum;
+import com.algolia.search.models.BatchOperation;
+import com.algolia.search.models.IndicesResponse;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -21,7 +27,7 @@ public abstract class AlgoliaBaseIntegrationTest {
   private static String ALGOLIA_ADMIN_KEY_MCM = System.getenv("ALGOLIA_ADMIN_KEY_MCM");
 
   private static String osName = System.getProperty("os.name").trim();
-  private static String userName = System.getProperty("user.name");
+  protected static String userName = System.getProperty("user.name");
   private static String javaVersion = System.getProperty("java.version");
 
   @BeforeAll
@@ -32,10 +38,34 @@ public abstract class AlgoliaBaseIntegrationTest {
   }
 
   @AfterAll
-  static void globalTearDown() {}
+  static void globalTearDown() {
+    List<IndicesResponse> indices = searchClient.listIndices();
+
+    if (indices != null && !indices.isEmpty()) {
+      OffsetDateTime today =
+          OffsetDateTime.now(ZoneOffset.UTC).withHour(0).withMinute(0).withNano(0).withSecond(0);
+
+      List<IndicesResponse> indicesToDelete =
+          indices
+              .stream()
+              .filter(i -> i.getName().contains("java_jvm") && i.getCreatedAt().isBefore(today))
+              .collect(Collectors.toList());
+
+      if (!indicesToDelete.isEmpty()) {
+
+        List<BatchOperation<Object>> operations =
+            indicesToDelete
+                .stream()
+                .map(i -> new BatchOperation<>(i.getName(), ActionEnum.Delete))
+                .collect(Collectors.toList());
+
+        searchClient.multipleBatch(operations);
+      }
+    }
+  }
 
   protected static String getTestIndexName(String indexName) {
-    OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
+    ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
     return String.format("java_jvm_%s_%s_%s_%s_%s", javaVersion, utc, osName, userName, indexName);
   }
 
