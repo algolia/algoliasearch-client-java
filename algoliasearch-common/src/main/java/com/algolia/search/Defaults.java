@@ -4,6 +4,8 @@ import static com.fasterxml.jackson.core.JsonGenerator.Feature;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public interface Defaults {
   String ALGOLIANET_COM = "algolianet.com";
@@ -18,7 +20,9 @@ public interface Defaults {
 
   ObjectMapper DEFAULT_OBJECT_MAPPER =
       new ObjectMapper()
+          .registerModule(new JavaTimeModule())
           .enable(OBJECT_MAPPER_DEFAULT_FEATURE)
+          .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
           .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
           .disable(OBJECT_MAPPER_DEFAULT_DESERIALIZATION_FEATURE);
 

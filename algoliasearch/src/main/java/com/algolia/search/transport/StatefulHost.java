@@ -1,12 +1,14 @@
 package com.algolia.search.transport;
 
 import com.algolia.search.models.CallType;
-import java.time.LocalDate;
+
+import java.time.OffsetDateTime;
 import java.util.EnumSet;
 
+@SuppressWarnings("WeakerAccess")
 public class StatefulHost {
 
-  public StatefulHost(String url, boolean up, LocalDate lastUse, EnumSet<CallType> accept) {
+  public StatefulHost(String url, boolean up, OffsetDateTime lastUse, EnumSet<CallType> accept) {
     this.url = url;
     this.up = up;
     this.lastUse = lastUse;
@@ -44,11 +46,11 @@ public class StatefulHost {
     this.retryCount++;
   }
 
-  public LocalDate getLastUse() {
+  public OffsetDateTime getLastUse() {
     return lastUse;
   }
 
-  public StatefulHost setLastUse(LocalDate lastUse) {
+  public StatefulHost setLastUse(OffsetDateTime lastUse) {
     this.lastUse = lastUse;
     return this;
   }
@@ -65,6 +67,6 @@ public class StatefulHost {
   private String url;
   private boolean up;
   private int retryCount;
-  private LocalDate lastUse;
+  private OffsetDateTime lastUse;
   private EnumSet<CallType> accept;
 }

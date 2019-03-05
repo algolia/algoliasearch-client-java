@@ -1,5 +1,7 @@
 package com.algolia.search.models;
 
+import java.time.ZonedDateTime;
+
 public class UpdateObjectResponse extends IndexingResponse {
 
   public String getObjectID() {
@@ -11,15 +13,15 @@ public class UpdateObjectResponse extends IndexingResponse {
     return this;
   }
 
-  public String getUpdatedAt() {
+  public ZonedDateTime getUpdatedAt() {
     return updatedAt;
   }
 
-  public UpdateObjectResponse setUpdatedAt(String updatedAt) {
+  public UpdateObjectResponse setUpdatedAt(ZonedDateTime updatedAt) {
     this.updatedAt = updatedAt;
     return this;
   }
 
   private String objectID;
-  private String updatedAt;
+  private ZonedDateTime updatedAt;
 }

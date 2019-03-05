@@ -1,5 +1,7 @@
 package com.algolia.search.models;
 
+import java.time.OffsetDateTime;
+
 public class IndicesResponse {
   public String getName() {
     return name;
@@ -10,20 +12,20 @@ public class IndicesResponse {
     return this;
   }
 
-  public String getCreatedAt() {
+  public OffsetDateTime getCreatedAt() {
     return createdAt;
   }
 
-  public IndicesResponse setCreatedAt(String createdAt) {
+  public IndicesResponse setCreatedAt(OffsetDateTime createdAt) {
     this.createdAt = createdAt;
     return this;
   }
 
-  public String getUpdatedAt() {
+  public OffsetDateTime getUpdatedAt() {
     return updatedAt;
   }
 
-  public IndicesResponse setUpdatedAt(String updatedAt) {
+  public IndicesResponse setUpdatedAt(OffsetDateTime updatedAt) {
     this.updatedAt = updatedAt;
     return this;
   }
@@ -83,8 +85,8 @@ public class IndicesResponse {
   }
 
   private String name;
-  private String createdAt;
-  private String updatedAt;
+  private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
   private int entries;
   private int dataSize;
   private int fileSize;
