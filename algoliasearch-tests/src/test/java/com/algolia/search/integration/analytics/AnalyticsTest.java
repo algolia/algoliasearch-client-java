@@ -3,13 +3,13 @@ package com.algolia.search.integration.analytics;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import com.algolia.search.AlgoliaObject;
 import com.algolia.search.clients.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.inputs.analytics.ABTest;
 import com.algolia.search.inputs.analytics.ABTestResponse;
 import com.algolia.search.inputs.analytics.Variant;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
+import com.algolia.search.integration.AlgoliaObject;
 import com.algolia.search.models.AddABTestResponse;
 import com.algolia.search.models.BatchIndexingResponse;
 import com.algolia.search.models.DeleteAbTestResponse;
