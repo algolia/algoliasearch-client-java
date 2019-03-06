@@ -27,6 +27,6 @@ public class QuerySerializer extends StdSerializer<Query> {
       throws IOException {
     Map<String, String> map =
         DEFAULT_OBJECT_MAPPER.convertValue(value, new TypeReference<Map<String, String>>() {});
-    gen.writeString(QueryStringHelper.buildQueryString(map,true));
+    gen.writeString(QueryStringHelper.buildQueryString(map, true));
   }
 }

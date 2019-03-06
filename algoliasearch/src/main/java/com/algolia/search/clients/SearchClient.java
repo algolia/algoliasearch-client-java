@@ -427,6 +427,32 @@ public class SearchClient {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
+  public ApiKey getApiKey(@Nonnull String apiKey) throws AlgoliaRuntimeException {
+    return LaunderThrowable.unwrap(getApiKeyAsync(apiKey, null));
+  }
+
+  /**
+   * Get the permissions of an API Key.
+   *
+   * @param apiKey The API key to retrieve
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public ApiKey getApiKey(@Nonnull String apiKey, RequestOptions requestOptions)
+      throws AlgoliaRuntimeException {
+    return LaunderThrowable.unwrap(getApiKeyAsync(apiKey, requestOptions));
+  }
+
+  /**
+   * Get the permissions of an API Key.
+   *
+   * @param apiKey The API key to retrieve
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   public CompletableFuture<ApiKey> getApiKeyAsync(@Nonnull String apiKey) {
     return getApiKeyAsync(apiKey, null);
   }
@@ -445,8 +471,144 @@ public class SearchClient {
 
     Objects.requireNonNull(apiKey, "An API key is required.");
 
+    if (apiKey.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
     return transport.executeRequestAsync(
         HttpMethod.GET, "/1/keys/" + apiKey, CallType.READ, null, ApiKey.class, requestOptions);
+  }
+
+  /**
+   * Add a new API Key with specific permissions/restrictions
+   *
+   * @param acl The api with the restrictions/permissions to add
+   */
+  public CompletableFuture<AddApiKeyResponse> addApiKeyAsync(@Nonnull ApiKey acl) {
+    return addApiKeyAsync(acl, null);
+  }
+
+  /**
+   * Add a new API Key with specific permissions/restrictions
+   *
+   * @param acl The api with the restrictions/permissions to add
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<AddApiKeyResponse> addApiKeyAsync(
+      @Nonnull ApiKey acl, RequestOptions requestOptions) {
+    Objects.requireNonNull(acl, "An API key is required.");
+
+    return transport.executeRequestAsync(
+        HttpMethod.POST, "/1/keys", CallType.WRITE, acl, AddApiKeyResponse.class, requestOptions);
+  }
+
+  /**
+   * Delete an existing API Key
+   *
+   * @param apiKey The API Key to delete
+   */
+  public CompletableFuture<DeleteApiKeyResponse> deleteApiKeyAsync(@Nonnull String apiKey) {
+    return deleteApiKeyAsync(apiKey, null);
+  }
+
+  /**
+   * Delete an existing API Key
+   *
+   * @param apiKey The API Key to delete
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<DeleteApiKeyResponse> deleteApiKeyAsync(
+      @Nonnull String apiKey, RequestOptions requestOptions) {
+    Objects.requireNonNull(apiKey, "An API key is required.");
+
+    if (apiKey.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("API key must not be empty.");
+    }
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.DELETE,
+            "/1/keys/" + apiKey,
+            CallType.WRITE,
+            null,
+            DeleteApiKeyResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setGetApiKeyFunction(this::getApiKey);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Update the permissions of an existing API Key.
+   *
+   * @param request The API key to update
+   */
+  public CompletableFuture<UpdateApiKeyResponse> updateApiKeyAsync(@Nonnull ApiKey request) {
+    return updateApiKeyAsync(request, null);
+  }
+
+  /**
+   * Update the permissions of an existing API Key.
+   *
+   * @param request The API key to update
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<UpdateApiKeyResponse> updateApiKeyAsync(
+      @Nonnull ApiKey request, RequestOptions requestOptions) {
+    Objects.requireNonNull(request, "An API key is required.");
+
+    if (request == null || request.getValue().trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.PUT,
+            "/1/keys/" + request,
+            CallType.WRITE,
+            request,
+            UpdateApiKeyResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setGetApiKeyFunction(this::getApiKey);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Restore the given API Key
+   *
+   * @param apiKey The given API Key
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<RestoreApiKeyResponse> restoreApiKeyAsync(
+      @Nonnull String apiKey, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(apiKey, "An API Key is required.");
+
+    if (apiKey.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("API Key must not be empty.");
+    }
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/keys/" + apiKey + "/restore",
+            CallType.WRITE,
+            null,
+            RestoreApiKeyResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setGetApiKeyFunction(this::getApiKey);
+              return resp;
+            },
+            config.getExecutor());
   }
 
   /**
