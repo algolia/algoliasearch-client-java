@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SuppressWarnings("WeakerAccess")
 public class IndexingResponse implements IAlgoliaWaitableResponse, Serializable {
 
   private Long taskID;

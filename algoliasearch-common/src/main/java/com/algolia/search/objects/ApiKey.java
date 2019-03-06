@@ -2,11 +2,12 @@ package com.algolia.search.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiKey implements Serializable {
@@ -28,6 +29,17 @@ public class ApiKey implements Serializable {
   private List<String> indexes;
 
   private List<String> referers;
+
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private String value;
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
 
   public Integer getValidity() {
     return validity;

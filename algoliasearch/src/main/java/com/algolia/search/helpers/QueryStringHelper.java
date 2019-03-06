@@ -16,8 +16,8 @@ public class QueryStringHelper {
   }
 
   /**
-   * Build a query string from a map Encodes the key and the value of the map
-   * Output a=3&b=2
+   * Build a query string from a map Encodes the key and the value of the map Output a=3&b=2
+   *
    * @param map The map to convert to a query string
    */
   public static String buildQueryString(Map<String, String> map, boolean withoutLeadingMark) {
@@ -25,8 +25,8 @@ public class QueryStringHelper {
   }
 
   /**
-   * Build a query string from a map Encodes the key and the value of the map
-   * Output ?a=3&b=2
+   * Build a query string from a map Encodes the key and the value of the map Output ?a=3&b=2
+   *
    * @param map The map to convert to a query string
    */
   public static String buildQueryString(Map<String, String> map) {
