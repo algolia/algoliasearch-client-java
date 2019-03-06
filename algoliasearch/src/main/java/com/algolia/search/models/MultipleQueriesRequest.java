@@ -7,8 +7,16 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MultipleQueriesRequest implements Serializable {
 
-  public String getStrategy() {
-    return strategy;
+  public MultipleQueriesRequest() {}
+
+  public MultipleQueriesRequest(String strategy, List<MultipleQueries> requests) {
+    this.strategy = strategy;
+    this.requests = requests;
+  }
+
+  public MultipleQueriesRequest setRequests(List<MultipleQueries> requests) {
+    this.requests = requests;
+    return this;
   }
 
   public MultipleQueriesRequest setStrategy(String strategy) {
@@ -16,13 +24,12 @@ public class MultipleQueriesRequest implements Serializable {
     return this;
   }
 
-  public List<MultipleQueries> getRequests() {
-    return requests;
+  public String getStrategy() {
+    return strategy;
   }
 
-  public MultipleQueriesRequest setRequests(List<MultipleQueries> requests) {
-    this.requests = requests;
-    return this;
+  public List<MultipleQueries> getRequests() {
+    return requests;
   }
 
   private String strategy;

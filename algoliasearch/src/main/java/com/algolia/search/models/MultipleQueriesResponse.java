@@ -7,14 +7,14 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MultipleQueriesResponse<T> implements Serializable {
 
-  public List<T> getResults() {
+  public List<SearchResult<T>> getResults() {
     return results;
   }
 
-  public MultipleQueriesResponse<T> setResults(List<T> results) {
+  public MultipleQueriesResponse<T> setResults(List<SearchResult<T>> results) {
     this.results = results;
     return this;
   }
 
-  private List<T> results;
+  private List<SearchResult<T>> results;
 }

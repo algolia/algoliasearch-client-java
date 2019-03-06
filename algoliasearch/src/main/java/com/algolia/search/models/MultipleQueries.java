@@ -1,10 +1,14 @@
 package com.algolia.search.models;
 
+import com.algolia.search.serializer.QuerySerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MultipleQueries implements Serializable {
+
+  public MultipleQueries() {}
 
   public MultipleQueries(String indexName, Query params) {
     this.indexName = indexName;
@@ -31,5 +35,6 @@ public class MultipleQueries implements Serializable {
     return this;
   }
 
+  @JsonSerialize(using = QuerySerializer.class)
   private Query params;
 }

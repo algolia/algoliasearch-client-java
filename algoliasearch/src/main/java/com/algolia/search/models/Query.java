@@ -10,6 +10,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Query implements Serializable {
 
+  public Query() {}
+
   public Query(String query) {
     this.query = query;
   }
@@ -311,38 +313,38 @@ public class Query implements Serializable {
     return this;
   }
 
-  public Long getPage() {
+  public Integer getPage() {
     return page;
   }
 
-  public Query setPage(Long page) {
+  public Query setPage(Integer page) {
     this.page = page;
     return this;
   }
 
-  public Long getHitsPerPage() {
+  public Integer getHitsPerPage() {
     return hitsPerPage;
   }
 
-  public Query setHitsPerPage(Long hitsPerPage) {
+  public Query setHitsPerPage(Integer hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
   }
 
-  public Long getOffset() {
+  public Integer getOffset() {
     return offset;
   }
 
-  public Query setOffset(Long offset) {
+  public Query setOffset(Integer offset) {
     this.offset = offset;
     return this;
   }
 
-  public Long getLength() {
+  public Integer getLength() {
     return length;
   }
 
-  public Query setLength(Long length) {
+  public Query setLength(Integer length) {
     this.length = length;
     return this;
   }
@@ -568,10 +570,10 @@ public class Query implements Serializable {
   private Boolean restrictHighlightAndSnippetArrays;
 
   /* pagination */
-  private Long page;
-  private Long hitsPerPage;
-  private Long offset;
-  private Long length;
+  private Integer page;
+  private Integer hitsPerPage;
+  private Integer offset;
+  private Integer length;
 
   /* performance */
   // Nothing in Query

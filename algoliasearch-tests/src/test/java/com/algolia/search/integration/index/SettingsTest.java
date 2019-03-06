@@ -2,9 +2,9 @@ package com.algolia.search.integration.index;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.algolia.search.AlgoliaObject;
 import com.algolia.search.clients.SearchIndex;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
+import com.algolia.search.integration.AlgoliaObject;
 import com.algolia.search.models.BatchIndexingResponse;
 import com.algolia.search.models.IndexSettings;
 import com.algolia.search.models.SetSettingsResponse;

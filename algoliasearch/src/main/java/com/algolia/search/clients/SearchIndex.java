@@ -978,24 +978,24 @@ public class SearchIndex<T> {
     return saveRulesAsync(rules, false, true, requestOptions);
   }
 
-
   /**
    * Get all synonyms that match a query.
+   *
    * @param query Synonym query
    */
-  public CompletableFuture<SearchResult<Synonym>> searchSynonymsAsync(
-          SynonymQuery query) {
+  public CompletableFuture<SearchResult<Synonym>> searchSynonymsAsync(SynonymQuery query) {
     return searchSynonymsAsync(query, null);
   }
 
   /**
    * Get all synonyms that match a query.
+   *
    * @param query Synonym query
    * @param requestOptions Options to pass to this request
    */
   @SuppressWarnings("unchecked")
   public CompletableFuture<SearchResult<Synonym>> searchSynonymsAsync(
-          SynonymQuery query, RequestOptions requestOptions) {
+      SynonymQuery query, RequestOptions requestOptions) {
 
     Objects.requireNonNull(query, "A query is required.");
 
