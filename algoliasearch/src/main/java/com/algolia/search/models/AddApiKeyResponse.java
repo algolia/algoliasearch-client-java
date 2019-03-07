@@ -20,18 +20,17 @@ public class AddApiKeyResponse implements IAlgoliaWaitableResponse, Serializable
     this.getApiKeyFunction = getApiKeyConsumer;
   }
 
-  public OffsetDateTime getUpdatedAt() {
-    return updatedAt;
+  public OffsetDateTime getCreatedAt() {
+    return createdAt;
   }
 
-  public void setUpdatedAt(OffsetDateTime updatedAt) {
-    this.updatedAt = updatedAt;
+  public void setCreatedAt(OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
   }
 
   private Function<String, ApiKey> getApiKeyFunction;
   private String key;
-  private OffsetDateTime updatedAt;
-  private ApiKey pendingKey;
+  private OffsetDateTime createdAt;
 
   @Override
   public void waitTask() {
@@ -43,12 +42,12 @@ public class AddApiKeyResponse implements IAlgoliaWaitableResponse, Serializable
         if (ex.getHttpErrorCode() == 404) {
           try {
             Thread.sleep(1001);
+            continue;
           } catch (InterruptedException ignored) {
           }
-          continue;
         }
-        break;
       }
+      break;
     }
   }
 }

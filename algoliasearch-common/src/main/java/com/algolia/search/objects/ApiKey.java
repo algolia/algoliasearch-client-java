@@ -30,7 +30,7 @@ public class ApiKey implements Serializable {
 
   private List<String> referers;
 
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String value;
 
   public String getValue() {
@@ -130,8 +130,8 @@ public class ApiKey implements Serializable {
   @Override
   public String toString() {
     return "ApiKey{"
-        + "validity="
-        + validity
+        + "value="
+        + value
         + ", maxQueriesPerIPPerHour="
         + maxQueriesPerIPPerHour
         + ", maxHitsPerQuery="
@@ -146,11 +146,11 @@ public class ApiKey implements Serializable {
         + restrictSources
         + '\''
         + ", acl="
-        + acl
+        + String.join(",", acl)
         + ", indexes="
-        + indexes
+        + String.join(",", indexes)
         + ", referers="
-        + referers
+        + String.join(",", referers)
         + '}';
   }
 }

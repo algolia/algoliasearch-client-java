@@ -498,8 +498,20 @@ public class SearchClient {
       @Nonnull ApiKey acl, RequestOptions requestOptions) {
     Objects.requireNonNull(acl, "An API key is required.");
 
-    return transport.executeRequestAsync(
-        HttpMethod.POST, "/1/keys", CallType.WRITE, acl, AddApiKeyResponse.class, requestOptions);
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/keys",
+            CallType.WRITE,
+            acl,
+            AddApiKeyResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setGetApiKeyFunction(this::getApiKey);
+              return resp;
+            },
+            config.getExecutor());
   }
 
   /**
@@ -535,6 +547,7 @@ public class SearchClient {
             requestOptions)
         .thenApplyAsync(
             resp -> {
+              resp.setKey(apiKey);
               resp.setGetApiKeyFunction(this::getApiKey);
               return resp;
             },
@@ -567,17 +580,27 @@ public class SearchClient {
     return transport
         .executeRequestAsync(
             HttpMethod.PUT,
-            "/1/keys/" + request,
+            "/1/keys/" + request.getValue(),
             CallType.WRITE,
             request,
             UpdateApiKeyResponse.class,
             requestOptions)
         .thenApplyAsync(
             resp -> {
+              resp.setPendingKey(request);
               resp.setGetApiKeyFunction(this::getApiKey);
               return resp;
             },
             config.getExecutor());
+  }
+
+  /**
+   * Restore the given API Key
+   *
+   * @param apiKey The given API Key
+   */
+  public CompletableFuture<RestoreApiKeyResponse> restoreApiKeyAsync(@Nonnull String apiKey) {
+    return restoreApiKeyAsync(apiKey, null);
   }
 
   /**
@@ -605,6 +628,7 @@ public class SearchClient {
             requestOptions)
         .thenApplyAsync(
             resp -> {
+              resp.setKey(apiKey);
               resp.setGetApiKeyFunction(this::getApiKey);
               return resp;
             },
