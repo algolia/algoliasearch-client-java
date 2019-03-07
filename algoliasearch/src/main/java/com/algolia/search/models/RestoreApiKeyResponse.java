@@ -37,8 +37,8 @@ public class RestoreApiKeyResponse implements IAlgoliaWaitableResponse, Serializ
           }
           continue;
         }
-        break;
       }
+      break;
     }
   }
 }

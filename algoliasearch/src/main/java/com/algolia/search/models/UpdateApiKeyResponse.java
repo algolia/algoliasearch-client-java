@@ -28,6 +28,18 @@ public class UpdateApiKeyResponse implements IAlgoliaWaitableResponse, Serializa
     this.updatedAt = updatedAt;
   }
 
+  public Function<String, ApiKey> getGetApiKeyFunction() {
+    return getApiKeyFunction;
+  }
+
+  public ApiKey getPendingKey() {
+    return pendingKey;
+  }
+
+  public void setPendingKey(ApiKey pendingKey) {
+    this.pendingKey = pendingKey;
+  }
+
   private Function<String, ApiKey> getApiKeyFunction;
   private String key;
   private OffsetDateTime updatedAt;
