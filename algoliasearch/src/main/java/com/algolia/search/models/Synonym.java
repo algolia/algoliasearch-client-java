@@ -1,7 +1,9 @@
 package com.algolia.search.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Synonym {
   public String getObjectID() {
     return objectID;
@@ -66,11 +68,11 @@ public class Synonym {
     return this;
   }
 
-  public String getReplacements() {
+  public List<String> getReplacements() {
     return replacements;
   }
 
-  public Synonym setReplacements(String replacements) {
+  public Synonym setReplacements(List<String> replacements) {
     this.replacements = replacements;
     return this;
   }
@@ -82,5 +84,5 @@ public class Synonym {
   private String word;
   private List<String> corrections;
   private String placeholder;
-  private String replacements;
+  private List<String> replacements;
 }
