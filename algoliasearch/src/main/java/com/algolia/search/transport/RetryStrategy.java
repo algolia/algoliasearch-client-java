@@ -20,14 +20,12 @@ class RetryStrategy {
     synchronized (this) {
       resetExpiredHosts();
       if (hosts.stream().anyMatch(h -> h.isUp() && h.getAccept().contains(callType))) {
-        return hosts
-            .stream()
+        return hosts.stream()
             .filter(h -> h.isUp() && h.getAccept().contains(callType))
             .collect(Collectors.toList());
       } else {
         for (StatefulHost host :
-            hosts
-                .stream()
+            hosts.stream()
                 .filter(h -> h.getAccept().contains(callType))
                 .collect(Collectors.toList())) {
           reset(host);

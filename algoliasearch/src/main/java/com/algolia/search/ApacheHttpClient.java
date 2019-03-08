@@ -39,10 +39,7 @@ public class ApacheHttpClient extends AlgoliaHttpClient {
     logger.debug("Create ApacheHttpClient with configuration {}", configuration);
 
     final List<Header> httpHeaders =
-        configuration
-            .getHeaders()
-            .entrySet()
-            .stream()
+        configuration.getHeaders().entrySet().stream()
             .map(e -> new BasicHeader(e.getKey(), e.getValue()))
             .collect(Collectors.toList());
 

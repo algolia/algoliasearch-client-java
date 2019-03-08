@@ -34,8 +34,7 @@ public class QueryStringHelper {
   }
 
   private static Optional<String> buildString(Map<String, String> map) {
-    return map.entrySet()
-        .stream()
+    return map.entrySet().stream()
         .map(p -> urlEncodeUTF8(p.getKey()) + "=" + urlEncodeUTF8(p.getValue()))
         .reduce((p1, p2) -> p1 + "&" + p2);
   }

@@ -1073,6 +1073,25 @@ public class SearchIndex<T> {
    *
    * @param query Synonym query
    */
+  public SearchResult<Synonym> searchSynonyms(SynonymQuery query) {
+    return LaunderThrowable.unwrap(searchSynonymsAsync(query, null));
+  }
+
+  /**
+   * Get all synonyms that match a query.
+   *
+   * @param query Synonym query
+   * @param requestOptions Options to pass to this request
+   */
+  public SearchResult<Synonym> searchSynonyms(SynonymQuery query, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(searchSynonymsAsync(query, requestOptions));
+  }
+
+  /**
+   * Get all synonyms that match a query.
+   *
+   * @param query Synonym query
+   */
   public CompletableFuture<SearchResult<Synonym>> searchSynonymsAsync(SynonymQuery query) {
     return searchSynonymsAsync(query, null);
   }
@@ -1094,8 +1113,9 @@ public class SearchIndex<T> {
             HttpMethod.POST,
             "/1/indexes/" + urlEncodedIndexName + "/synonyms/search",
             CallType.READ,
-            null,
+            query,
             SearchResult.class,
+            Synonym.class,
             requestOptions)
         .thenComposeAsync(
             resp -> {
@@ -1136,6 +1156,15 @@ public class SearchIndex<T> {
         null,
         Synonym.class,
         requestOptions);
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param synonym Algolia's synonym
+   */
+  public CompletableFuture<SaveSynonymResponse> saveSynonymAsync(@Nonnull Synonym synonym) {
+    return saveSynonymAsync(synonym, false, new RequestOptions());
   }
 
   /**
@@ -1190,9 +1219,8 @@ public class SearchIndex<T> {
             HttpMethod.PUT,
             "/1/indexes/" + urlEncodedIndexName + "/synonyms/" + synonym.getObjectID(),
             CallType.WRITE,
-            null,
+            synonym,
             SaveSynonymResponse.class,
-            Synonym.class,
             requestOptions)
         .thenApplyAsync(
             resp -> {
@@ -1200,6 +1228,16 @@ public class SearchIndex<T> {
               return resp;
             },
             config.getExecutor());
+  }
+
+  /**
+   * Create or update multiple synonyms.
+   *
+   * @param synonyms List of synonyms
+   */
+  public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
+      @Nonnull Iterable<Synonym> synonyms) {
+    return saveSynonymsAsync(synonyms, false, false, new RequestOptions());
   }
 
   /**
@@ -1259,9 +1297,109 @@ public class SearchIndex<T> {
             HttpMethod.POST,
             "/1/indexes/" + urlEncodedIndexName + "/synonyms/batch",
             CallType.WRITE,
-            null,
+            synonyms,
             SaveSynonymResponse.class,
-            Synonym.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Remove a single synonym from an index using its object id.
+   *
+   * @param objectID The synonym objectID
+   */
+  public CompletableFuture<DeleteResponse> deleteSynonymAsync(@Nonnull String objectID) {
+    return deleteSynonymAsync(objectID, false);
+  }
+
+  /**
+   * Remove a single synonym from an index using its object id.
+   *
+   * @param objectID The synonym objectID
+   * @param forwardToReplicas Forward the request to the replicas
+   */
+  public CompletableFuture<DeleteResponse> deleteSynonymAsync(
+      @Nonnull String objectID, @Nonnull Boolean forwardToReplicas) {
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+    RequestOptions requestOptions =
+        new RequestOptions()
+            .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
+
+    return deleteSynonymAsync(objectID, requestOptions);
+  }
+
+  /**
+   * Remove a single synonym from an index using its object id.
+   *
+   * @param objectID The synonym objectID
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<DeleteResponse> deleteSynonymAsync(
+      @Nonnull String objectID, RequestOptions requestOptions) {
+    Objects.requireNonNull(objectID, "The objectID is required.");
+
+    if (objectID.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.DELETE,
+            "/1/indexes/" + urlEncodedIndexName + "/synonyms/" + objectID,
+            CallType.WRITE,
+            null,
+            DeleteResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Remove all synonyms from an index.
+   */
+  public CompletableFuture<ClearSynonymsResponse> clearSynonymsAsync() {
+    return clearSynonymsAsync(new RequestOptions());
+  }
+
+  /**
+   * Remove all synonyms from an index.
+   *
+   * @param forwardToReplicas Forward the request to the replicas
+   */
+  public CompletableFuture<ClearSynonymsResponse> clearSynonymsAsync(
+      @Nonnull Boolean forwardToReplicas) {
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+    RequestOptions requestOptions =
+        new RequestOptions()
+            .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
+
+    return clearSynonymsAsync(requestOptions);
+  }
+
+  /**
+   * Remove all synonyms from an index.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<ClearSynonymsResponse> clearSynonymsAsync(
+      RequestOptions requestOptions) {
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/synonyms/clear",
+            CallType.WRITE,
+            null,
+            ClearSynonymsResponse.class,
             requestOptions)
         .thenApplyAsync(
             resp -> {
