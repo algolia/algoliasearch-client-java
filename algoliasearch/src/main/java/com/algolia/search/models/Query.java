@@ -502,15 +502,6 @@ public class Query implements Serializable {
     return this;
   }
 
-  public String getCursor() {
-    return cursor;
-  }
-
-  public Query setCursor(String cursor) {
-    this.cursor = cursor;
-    return this;
-  }
-
   public Boolean getEnablePersonalization() {
     return enablePersonalization;
   }
@@ -609,9 +600,6 @@ public class Query implements Serializable {
   private Integer validUntil;
   private List<String> restrictIndices;
   private String restrictSources;
-
-  /* BROWSE */
-  private String cursor;
 
   /* Personalization */
   private Boolean enablePersonalization;
