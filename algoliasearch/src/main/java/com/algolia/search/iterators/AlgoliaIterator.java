@@ -10,13 +10,13 @@ import javax.annotation.Nonnull;
 abstract class AlgoliaIterator<E> implements Iterator<E> {
 
   protected final SearchIndex<?> index;
-  final Integer hitsPerPage;
+  protected final Integer hitsPerPage;
   private final RequestOptions requestOptions;
 
   // Internal state
+  private boolean isFirstRequest = true;
   private Integer currentPage = 0;
   private Iterator<E> currentIterator = null;
-  private boolean isFirstRequest = true;
 
   abstract SearchResult<E> doQuery(Integer page, RequestOptions requestOptions);
 
@@ -25,7 +25,6 @@ abstract class AlgoliaIterator<E> implements Iterator<E> {
   }
 
   AlgoliaIterator(@Nonnull SearchIndex<?> index, @Nonnull Integer hitsPerPage) {
-
     this(index, hitsPerPage, null);
   }
 

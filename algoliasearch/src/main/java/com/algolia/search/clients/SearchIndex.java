@@ -6,6 +6,7 @@ import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.helpers.QueryStringHelper;
+import com.algolia.search.iterators.IndexIterator;
 import com.algolia.search.models.*;
 import com.algolia.search.models.SearchResult;
 import com.algolia.search.objects.RequestOptions;
@@ -565,6 +566,79 @@ public class SearchIndex<T> {
             resp -> {
               resp.setWaitConsumer(this::waitTask);
               return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * This method allows you to retrieve all index content
+   * It can retrieve up to 1,000 records per call and supports full text search and filters.
+   * You can use the same query parameters as for a search query
+   * @param query The browse query
+   */
+  public IndexIterator<T> browse(@Nonnull BrowseIndexQuery query) {
+    return new IndexIterator<>(this, query);
+  }
+
+  /**
+   * This method allows you to retrieve all index content
+   * It can retrieve up to 1,000 records per call and supports full text search and filters.
+   * You can use the same query parameters as for a search query
+   * @param query The browse query
+   */
+  public BrowseIndexResponse<T> browseFrom(@Nonnull BrowseIndexQuery query) {
+    return LaunderThrowable.unwrap(browseFromAsync(query, null));
+  }
+
+  /**
+   * This method allows you to retrieve all index content
+   * It can retrieve up to 1,000 records per call and supports full text search and filters.
+   * You can use the same query parameters as for a search query
+   * @param query The browse query
+   * @param requestOptions Options to pass to this request
+   */
+  public BrowseIndexResponse<T> browseFrom(
+      @Nonnull BrowseIndexQuery query, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(browseFromAsync(query, requestOptions));
+  }
+
+  /**
+   * This method allows you to retrieve all index content
+   * It can retrieve up to 1,000 records per call and supports full text search and filters.
+   * You can use the same query parameters as for a search query
+   * @param query The browse query
+   */
+  public CompletableFuture<BrowseIndexResponse<T>> browseFromAsync(
+      @Nonnull BrowseIndexQuery query) {
+    return browseFromAsync(query, null);
+  }
+
+  /**
+   * This method allows you to retrieve all index content
+   * It can retrieve up to 1,000 records per call and supports full text search and filters.
+   * You can use the same query parameters as for a search query
+   * @param query The browse query
+   * @param requestOptions Options to pass to this request
+   */
+  @SuppressWarnings("unchecked")
+  public CompletableFuture<BrowseIndexResponse<T>> browseFromAsync(
+      @Nonnull BrowseIndexQuery query, RequestOptions requestOptions) {
+    Objects.requireNonNull(query, "A query is required.");
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/query",
+            CallType.READ,
+            query,
+            BrowseIndexResponse.class,
+            klass,
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<BrowseIndexResponse<T>> r = new CompletableFuture<>();
+              r.complete(resp);
+              return r;
             },
             config.getExecutor());
   }
@@ -1363,9 +1437,7 @@ public class SearchIndex<T> {
             config.getExecutor());
   }
 
-  /**
-   * Remove all synonyms from an index.
-   */
+  /** Remove all synonyms from an index. */
   public CompletableFuture<ClearSynonymsResponse> clearSynonymsAsync() {
     return clearSynonymsAsync(new RequestOptions());
   }
