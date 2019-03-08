@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.io.Serializable;
 
 @JsonTypeInfo(
-  use = JsonTypeInfo.Id.NAME,
-  include = JsonTypeInfo.As.EXISTING_PROPERTY,
-  property = "type"
-)
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = "type")
 @JsonSubTypes({
   @JsonSubTypes.Type(value = AltCorrection1.class, name = SynonymType.ALT_CORRECTION_1),
   @JsonSubTypes.Type(value = AltCorrection2.class, name = SynonymType.ALT_CORRECTION_2),

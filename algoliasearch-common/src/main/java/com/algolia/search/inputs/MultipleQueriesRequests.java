@@ -14,8 +14,7 @@ public class MultipleQueriesRequests implements Serializable {
 
   public MultipleQueriesRequests(List<IndexQuery> requests) {
     this.requests =
-        requests
-            .stream()
+        requests.stream()
             .map(MultipleQueriesRequests.QueryWithIndex::new)
             .collect(Collectors.toList());
   }

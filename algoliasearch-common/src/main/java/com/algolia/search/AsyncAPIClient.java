@@ -1005,8 +1005,7 @@ public class AsyncAPIClient {
 
     Requests requests =
         new Requests(
-            request
-                .stream()
+            request.stream()
                 .map(
                     o ->
                         new Requests.Request()
@@ -1033,8 +1032,7 @@ public class AsyncAPIClient {
       String indexName, List<String> objectIDs, Class<T> klass, RequestOptions requestOptions) {
     Requests requests =
         new Requests(
-            objectIDs
-                .stream()
+            objectIDs.stream()
                 .map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o))
                 .collect(Collectors.toList()));
     AlgoliaRequest<Results> algoliaRequest =
@@ -1061,8 +1059,7 @@ public class AsyncAPIClient {
     String encodedAttributesToRetrieve = String.join(",", attributesToRetrieve);
     Requests requests =
         new Requests(
-            objectIDs
-                .stream()
+            objectIDs.stream()
                 .map(
                     o ->
                         new Requests.Request()
@@ -1360,8 +1357,7 @@ public class AsyncAPIClient {
       RequestOptions requestOptions) {
     return batch(
             indexName,
-            objects
-                .stream()
+            objects.stream()
                 .map(
                     createIfNotExists
                         ? BatchPartialUpdateObjectOperation::new

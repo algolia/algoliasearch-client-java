@@ -118,9 +118,7 @@ class QueryRulesTest extends AlgoliaBaseIntegrationTest {
     assertThat(searchRules.getHits()).hasSize(2);
 
     assertThat(
-            searchRules
-                .getHits()
-                .stream()
+            searchRules.getHits().stream()
                 .filter(r -> r.getObjectID().equals(ruleToSave.getObjectID()))
                 .findFirst()
                 .get())
@@ -128,9 +126,7 @@ class QueryRulesTest extends AlgoliaBaseIntegrationTest {
         .isEqualTo(ruleToSave);
 
     assertThat(
-            searchRules
-                .getHits()
-                .stream()
+            searchRules.getHits().stream()
                 .filter(r -> r.getObjectID().equals(retrievedRule2.getObjectID()))
                 .findFirst()
                 .get())
@@ -139,13 +135,12 @@ class QueryRulesTest extends AlgoliaBaseIntegrationTest {
 
     List<Rule> rulesFromIterator = new ArrayList<>();
 
-    for (Rule rule : new RulesIterable(index, 1)) {
+    for (Rule rule : new RulesIterable(index)) {
       rulesFromIterator.add(rule);
     }
 
     assertThat(
-            rulesFromIterator
-                .stream()
+            rulesFromIterator.stream()
                 .filter(r -> r.getObjectID().equals(ruleToSave.getObjectID()))
                 .findFirst()
                 .get())
@@ -153,8 +148,7 @@ class QueryRulesTest extends AlgoliaBaseIntegrationTest {
         .isEqualTo(ruleToSave);
 
     assertThat(
-            rulesFromIterator
-                .stream()
+            rulesFromIterator.stream()
                 .filter(r -> r.getObjectID().equals(retrievedRule2.getObjectID()))
                 .findFirst()
                 .get())

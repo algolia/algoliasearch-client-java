@@ -46,16 +46,14 @@ public abstract class AlgoliaBaseIntegrationTest {
           OffsetDateTime.now(ZoneOffset.UTC).withHour(0).withMinute(0).withNano(0).withSecond(0);
 
       List<IndicesResponse> indicesToDelete =
-          indices
-              .stream()
+          indices.stream()
               .filter(i -> i.getName().contains("java_jvm") && i.getCreatedAt().isBefore(today))
               .collect(Collectors.toList());
 
       if (!indicesToDelete.isEmpty()) {
 
         List<BatchOperation<Object>> operations =
-            indicesToDelete
-                .stream()
+            indicesToDelete.stream()
                 .map(i -> new BatchOperation<>(i.getName(), ActionEnum.Delete))
                 .collect(Collectors.toList());
 

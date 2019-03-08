@@ -52,9 +52,7 @@ class AnalyticsTest extends AlgoliaBaseIntegrationTest {
 
     if (abTests.getAbtests() != null) {
       List<ABTestResponse> abTestsToDelte =
-          abTests
-              .getAbtests()
-              .stream()
+          abTests.getAbtests().stream()
               .filter(
                   x ->
                       x.getName().contains("java-")
