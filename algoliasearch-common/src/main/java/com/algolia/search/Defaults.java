@@ -24,8 +24,13 @@ public interface Defaults {
           // element
           .disable(
               SerializationFeature
-                  .WRITE_DATES_AS_TIMESTAMPS) // Most of the time we are sending ISO string to the
-          // engine, not timestamp
+                  .WRITE_DATES_AS_TIMESTAMPS) // Disabling it to handle date serialization in POJOS
+          .disable(
+              SerializationFeature
+                  .WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS) // Nano seconds not supported by the engine
+          .disable(
+              DeserializationFeature
+                  .READ_DATE_TIMESTAMPS_AS_NANOSECONDS) // Nano seconds not supported by the engine
           .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
   int READ_TIMEOUT_MS = 2 * 1000; // 2 seconds

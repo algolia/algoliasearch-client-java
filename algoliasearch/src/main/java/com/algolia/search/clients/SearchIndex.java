@@ -6,12 +6,11 @@ import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.helpers.QueryStringHelper;
-import com.algolia.search.inputs.query_rules.Rule;
 import com.algolia.search.models.*;
+import com.algolia.search.models.SearchResult;
 import com.algolia.search.objects.RequestOptions;
 import com.algolia.search.objects.RuleQuery;
 import com.algolia.search.objects.SynonymQuery;
-import com.algolia.search.responses.SearchResult;
 import com.algolia.search.transport.HttpTransport;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -738,8 +737,8 @@ public class SearchIndex<T> {
    *
    * @param query The search rule query
    */
-  public SearchResult<Rule> searchRule(@Nonnull RuleQuery query) {
-    return LaunderThrowable.unwrap(searchRuleAsync(query, null));
+  public SearchResult<Rule> searchRules(@Nonnull RuleQuery query) {
+    return LaunderThrowable.unwrap(searchRulesAsync(query, null));
   }
 
   /**
@@ -748,8 +747,8 @@ public class SearchIndex<T> {
    * @param query The search rule query
    * @param requestOptions Options to pass to this request
    */
-  public SearchResult<Rule> searchRule(@Nonnull RuleQuery query, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(searchRuleAsync(query, requestOptions));
+  public SearchResult<Rule> searchRules(@Nonnull RuleQuery query, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(searchRulesAsync(query, requestOptions));
   }
 
   /**
@@ -757,8 +756,8 @@ public class SearchIndex<T> {
    *
    * @param query The search rule query
    */
-  public CompletableFuture<SearchResult<Rule>> searchRuleAsync(@Nonnull RuleQuery query) {
-    return searchRuleAsync(query, null);
+  public CompletableFuture<SearchResult<Rule>> searchRulesAsync(@Nonnull RuleQuery query) {
+    return searchRulesAsync(query, null);
   }
 
   /**
@@ -768,7 +767,7 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   @SuppressWarnings("unchecked")
-  public CompletableFuture<SearchResult<Rule>> searchRuleAsync(
+  public CompletableFuture<SearchResult<Rule>> searchRulesAsync(
       @Nonnull RuleQuery query, RequestOptions requestOptions) {
 
     Objects.requireNonNull(query, "A search query is required.");
@@ -778,7 +777,7 @@ public class SearchIndex<T> {
             HttpMethod.POST,
             "/1/indexes/" + urlEncodedIndexName + "/rules/search",
             CallType.READ,
-            null,
+            query,
             SearchResult.class,
             Rule.class,
             requestOptions)
@@ -851,9 +850,8 @@ public class SearchIndex<T> {
             HttpMethod.PUT,
             "/1/indexes/" + urlEncodedIndexName + "/rules/" + rule.getObjectID(),
             CallType.WRITE,
-            null,
+            rule,
             SaveRuleResponse.class,
-            Rule.class,
             requestOptions)
         .thenApplyAsync(
             resp -> {
@@ -929,9 +927,47 @@ public class SearchIndex<T> {
             HttpMethod.POST,
             "/1/indexes/" + urlEncodedIndexName + "/rules/batch",
             CallType.WRITE,
-            null,
+            rules,
             SaveRuleResponse.class,
-            Rule.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Delete the rule for the given ruleId
+   *
+   * @param objectID The rule objectID
+   */
+  public CompletableFuture<DeleteResponse> deleteRuleAsync(@Nonnull String objectID) {
+    return deleteRuleAsync(objectID, null);
+  }
+
+  /**
+   * Delete the rule for the given ruleId
+   *
+   * @param objectID The rule objectID
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<DeleteResponse> deleteRuleAsync(
+      @Nonnull String objectID, RequestOptions requestOptions) {
+    Objects.requireNonNull(objectID, "The objectID is required.");
+
+    if (objectID.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.DELETE,
+            "/1/indexes/" + urlEncodedIndexName + "/rules/" + objectID,
+            CallType.WRITE,
+            null,
+            DeleteResponse.class,
             requestOptions)
         .thenApplyAsync(
             resp -> {
@@ -976,6 +1012,60 @@ public class SearchIndex<T> {
   public CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
       @Nonnull Iterable<Rule> rules, @Nonnull RequestOptions requestOptions) {
     return saveRulesAsync(rules, false, true, requestOptions);
+  }
+
+  /** Delete all rules in an index. */
+  public CompletableFuture<DeleteResponse> clearRulesAsync() {
+    return clearRulesAsync(false);
+  }
+
+  /**
+   * Delete all rules in an index.
+   *
+   * @param forwardToReplicas Forward the request to the replicas if so
+   */
+  public CompletableFuture<DeleteResponse> clearRulesAsync(@Nonnull Boolean forwardToReplicas) {
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+    RequestOptions requestOptions =
+        new RequestOptions()
+            .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
+    return clearRulesAsync(requestOptions);
+  }
+
+  /**
+   * Delete all rules in an index.
+   *
+   * @param forwardToReplicas Forward the request to the replicas if so
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<DeleteResponse> clearRulesAsync(
+      @Nonnull Boolean forwardToReplicas, RequestOptions requestOptions) {
+    Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
+    requestOptions.addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString());
+    return clearRulesAsync(requestOptions);
+  }
+
+  /**
+   * Delete all rules in an index.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<DeleteResponse> clearRulesAsync(RequestOptions requestOptions) {
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/rules/clear",
+            CallType.WRITE,
+            null,
+            DeleteResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
   }
 
   /**

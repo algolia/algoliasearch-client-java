@@ -1,0 +1,53 @@
+package com.algolia.search.models;
+
+import com.algolia.search.serializer.AutomaticFacetFilterDeserializer;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.List;
+
+@SuppressWarnings({"unused"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ConsequenceParams extends Query {
+
+  private ConsequenceQuery query;
+
+  @JsonDeserialize(using = AutomaticFacetFilterDeserializer.class)
+  private List<AutomaticFacetFilter> automaticFacetFilters;
+
+  @JsonDeserialize(using = AutomaticFacetFilterDeserializer.class)
+  private List<AutomaticFacetFilter> automaticOptionalFacetFilters;
+
+  public ConsequenceParams() {}
+
+  @JsonProperty("query")
+  public ConsequenceQuery getConsequenceQuery() {
+    return query;
+  }
+
+  @JsonProperty("query")
+  public ConsequenceParams setConsequenceQuery(ConsequenceQuery consequenceQuery) {
+    this.query = consequenceQuery;
+    return this;
+  }
+
+  public List<AutomaticFacetFilter> getAutomaticFacetFilters() {
+    return automaticFacetFilters;
+  }
+
+  public ConsequenceParams setAutomaticFacetFilters(
+      List<AutomaticFacetFilter> automaticFacetFilters) {
+    this.automaticFacetFilters = automaticFacetFilters;
+    return this;
+  }
+
+  public List<AutomaticFacetFilter> getAutomaticOptionalFacetFilters() {
+    return automaticOptionalFacetFilters;
+  }
+
+  public ConsequenceParams setAutomaticOptionalFacetFilters(
+      List<AutomaticFacetFilter> automaticOptionalFacetFilters) {
+    this.automaticOptionalFacetFilters = automaticOptionalFacetFilters;
+    return this;
+  }
+}
