@@ -42,9 +42,9 @@ public class AddApiKeyResponse implements IAlgoliaWaitableResponse, Serializable
         if (ex.getHttpErrorCode() == 404) {
           try {
             Thread.sleep(1001);
-            continue;
           } catch (InterruptedException ignored) {
           }
+          continue;
         }
       }
       break;
