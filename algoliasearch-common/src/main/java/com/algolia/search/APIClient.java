@@ -1010,8 +1010,7 @@ public class APIClient {
 
     Requests requests =
         new Requests(
-            request
-                .stream()
+            request.stream()
                 .map(
                     o ->
                         new Requests.Request()
@@ -1037,8 +1036,7 @@ public class APIClient {
       throws AlgoliaException {
     Requests requests =
         new Requests(
-            objectIDs
-                .stream()
+            objectIDs.stream()
                 .map(o -> new Requests.Request().setIndexName(indexName).setObjectID(o))
                 .collect(Collectors.toList()));
     AlgoliaRequest<Results> algoliaRequest =
@@ -1064,8 +1062,7 @@ public class APIClient {
     final String encodedAttributesToRetrieve = String.join(",", attributesToRetrieve);
     Requests requests =
         new Requests(
-            objectIDs
-                .stream()
+            objectIDs.stream()
                 .map(
                     o ->
                         new Requests.Request()
@@ -1409,8 +1406,7 @@ public class APIClient {
     TaskSingleIndex task =
         batch(
             indexName,
-            objects
-                .stream()
+            objects.stream()
                 .map(
                     createIfNotExists
                         ? BatchPartialUpdateObjectOperation::new

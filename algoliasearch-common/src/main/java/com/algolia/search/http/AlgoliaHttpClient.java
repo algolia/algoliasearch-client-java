@@ -71,8 +71,7 @@ public abstract class AlgoliaHttpClient {
 
   private List<String> hostsThatAreUp(List<String> hosts) {
     List<String> list =
-        hosts
-            .stream()
+        hosts.stream()
             .filter(s -> getStatus(s).isUpOrCouldBeRetried(now()))
             .collect(Collectors.toList());
 
