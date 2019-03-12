@@ -18,17 +18,12 @@ public abstract class AlgoliaConfig {
     this.apiKey = apiKey;
     this.executor = executor;
     this.batchSize = 1000;
-    this.defaultHeaders =
-        new HashMap<String, String>() {
-          {
-            put("X-Algolia-Application-Id", getApplicationID());
-            put("X-Algolia-API-Key", getApiKey());
-            put(
-                "User-Agent",
-                String.format("Algolia for Java (%s); JVM (%s)", clientVersion, javaVersion));
-            put("Accept", "application/json");
-          }
-        };
+    this.defaultHeaders = new HashMap<>();
+    this.defaultHeaders.put("X-Algolia-Application-Id", getApplicationID());
+    this.defaultHeaders.put("X-Algolia-API-Key", getApiKey());
+    this.defaultHeaders.put(
+        "User-Agent", String.format("Algolia for Java (%s); JVM (%s)", clientVersion, javaVersion));
+    this.defaultHeaders.put("Accept", "application/json");
   }
 
   public String getApplicationID() {

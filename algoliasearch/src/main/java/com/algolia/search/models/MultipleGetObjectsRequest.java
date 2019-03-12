@@ -1,23 +1,23 @@
 package com.algolia.search.models;
 
-import com.algolia.search.inputs.MultipleGetObjectsRequests;
+import com.algolia.search.inputs.MultipleGetObject;
 import java.io.Serializable;
 import java.util.List;
 
 public class MultipleGetObjectsRequest implements Serializable {
 
-  public MultipleGetObjectsRequest(List<MultipleGetObjectsRequests> requests) {
+  public MultipleGetObjectsRequest(List<MultipleGetObject> requests) {
     this.requests = requests;
   }
 
-  public List<MultipleGetObjectsRequests> getRequests() {
+  public List<MultipleGetObject> getRequests() {
     return requests;
   }
 
-  public MultipleGetObjectsRequest setRequests(List<MultipleGetObjectsRequests> requests) {
+  public MultipleGetObjectsRequest setRequests(List<MultipleGetObject> requests) {
     this.requests = requests;
     return this;
   }
 
-  private List<MultipleGetObjectsRequests> requests;
+  private List<MultipleGetObject> requests;
 }

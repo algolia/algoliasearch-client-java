@@ -5,8 +5,10 @@ import static java.util.stream.Collectors.toList;
 import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
+import com.algolia.search.helpers.AlgoliaHelper;
 import com.algolia.search.helpers.QueryStringHelper;
-import com.algolia.search.iterators.IndexIterator;
+import com.algolia.search.inputs.MultipleGetObject;
+import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.models.*;
 import com.algolia.search.models.SearchResult;
 import com.algolia.search.objects.RequestOptions;
@@ -102,10 +104,145 @@ public class SearchIndex<T> {
   }
 
   /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectID ID of the object within that index
+   */
+  public CompletableFuture<T> getObjectAsync(@Nonnull String objectID) {
+    return getObjectAsync(objectID, null);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectID ID of the object within that index
+   * @param attributesToRetrieve List of attributes to retrieve. By default, all retrievable
+   *     attributes are returned.
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<T> getObjectAsync(
+      @Nonnull String objectID,
+      @Nonnull List<String> attributesToRetrieve,
+      RequestOptions requestOptions) {
+
+    Objects.requireNonNull(attributesToRetrieve, "AttributesToRetrieve are required.");
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    requestOptions.addExtraQueryParameters(
+        "attributesToRetrieve",
+        QueryStringHelper.urlEncodeUTF8(String.join(",", attributesToRetrieve)));
+
+    return getObjectAsync(objectID, requestOptions);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectID ID of the object within that index
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<T> getObjectAsync(
+      @Nonnull String objectID, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(objectID, "objectID are required.");
+
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
+        CallType.READ,
+        null,
+        klass,
+        requestOptions);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectIDs ID of the object within that index
+   */
+  public CompletableFuture<List<T>> getObjectsAsync(@Nonnull List<String> objectIDs) {
+    return getObjectsAsync(objectIDs, null, null);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectIDs ID of the object within that index
+   * @param attributesToRetrieve List of attributes to retrieve. By default, all retrievable
+   *     attributes are returned.
+   */
+  public CompletableFuture<List<T>> getObjectsAsync(
+      @Nonnull List<String> objectIDs, List<String> attributesToRetrieve) {
+    return getObjectsAsync(objectIDs, attributesToRetrieve, null);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectIDs ID of the object within that index
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<List<T>> getObjectsAsync(
+      @Nonnull List<String> objectIDs, RequestOptions requestOptions) {
+    return getObjectsAsync(objectIDs, null, requestOptions);
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectIDs ID of the object within that index
+   * @param attributesToRetrieve List of attributes to retrieve. By default, all retrievable
+   *     attributes are returned.
+   * @param requestOptions Options to pass to this request
+   */
+  @SuppressWarnings("unchecked")
+  public CompletableFuture<List<T>> getObjectsAsync(
+      @Nonnull List<String> objectIDs,
+      List<String> attributesToRetrieve,
+      RequestOptions requestOptions) {
+
+    Objects.requireNonNull(objectIDs, "Object IDs are required.");
+
+    if (objectIDs.isEmpty()) {
+      throw new IllegalArgumentException("objectIDs can't be empty.");
+    }
+
+    List<MultipleGetObject> queries = new ArrayList<>();
+
+    for (String objectId : objectIDs) {
+      queries.add(new MultipleGetObject(this.indexName, objectId, attributesToRetrieve));
+    }
+
+    MultipleGetObjectsRequest request = new MultipleGetObjectsRequest(queries);
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/*/objects",
+            CallType.READ,
+            request,
+            MultipleGetObjectsResponse.class,
+            klass,
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<List<T>> r = new CompletableFuture<>();
+              r.complete(resp.getResults());
+              return r;
+            },
+            config.getExecutor());
+  }
+
+  /**
    * Update one or more attributes of an existing object. This method enables you to update only a
    * part of an object by singling out one or more attributes of an existing object and performing
    * the following actions:
    *
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+   *     annotation @JsonProperty(\"objectID\"")
    * @param data Data to update
    */
   public CompletableFuture<UpdateObjectResponse> partialUpdateObjectAsync(@Nonnull T data) {
@@ -119,6 +256,8 @@ public class SearchIndex<T> {
    *
    * @param data Data to update
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+   *     annotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<UpdateObjectResponse> partialUpdateObjectAsync(
       @Nonnull T data, RequestOptions requestOptions) {
@@ -135,6 +274,8 @@ public class SearchIndex<T> {
    *     object (generating the objectID and using the attributes as defined in the object). WHen
    *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
    *     back).
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+   *     annotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<UpdateObjectResponse> partialUpdateObjectAsync(
       @Nonnull T data, @Nonnull Boolean createIfNotExists) {
@@ -152,12 +293,16 @@ public class SearchIndex<T> {
    *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
    *     back).
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+   *     annotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<UpdateObjectResponse> partialUpdateObjectAsync(
       @Nonnull T data, @Nonnull Boolean createIfNotExists, RequestOptions requestOptions) {
 
     Objects.requireNonNull(data, "Data is required.");
     Objects.requireNonNull(createIfNotExists, "createIfNotExists is required.");
+
+    String objectID = AlgoliaHelper.getObjectID(data, klass);
 
     if (requestOptions == null) {
       requestOptions = new RequestOptions();
@@ -168,7 +313,7 @@ public class SearchIndex<T> {
     return transport
         .executeRequestAsync(
             HttpMethod.POST,
-            "/1/indexes/" + urlEncodedIndexName + "/partial",
+            "/1/indexes/" + urlEncodedIndexName + "/" + objectID + "/" + "partial",
             CallType.WRITE,
             data,
             UpdateObjectResponse.class,
@@ -357,8 +502,8 @@ public class SearchIndex<T> {
    * @param data The data to send and chunk
    * @param actionType The action type of the batch
    */
-  CompletableFuture<BatchIndexingResponse> splitIntoBatchesAsync(
-      @Nonnull Iterable<T> data, @Nonnull String actionType) {
+  <E> CompletableFuture<BatchIndexingResponse> splitIntoBatchesAsync(
+      @Nonnull Iterable<E> data, @Nonnull String actionType) {
     return splitIntoBatchesAsync(data, actionType, null);
   }
 
@@ -369,19 +514,19 @@ public class SearchIndex<T> {
    * @param actionType The action type of the batch
    * @param requestOptions Options to pass to this request
    */
-  CompletableFuture<BatchIndexingResponse> splitIntoBatchesAsync(
-      @Nonnull Iterable<T> data, @Nonnull String actionType, RequestOptions requestOptions) {
+  <E> CompletableFuture<BatchIndexingResponse> splitIntoBatchesAsync(
+      @Nonnull Iterable<E> data, @Nonnull String actionType, RequestOptions requestOptions) {
 
     Objects.requireNonNull(data, "Data are required.");
     Objects.requireNonNull(actionType, "An action type is required.");
 
     List<CompletableFuture<BatchResponse>> futures = new ArrayList<>();
-    List<T> records = new ArrayList<>();
+    List<E> records = new ArrayList<>();
 
-    for (T item : data) {
+    for (E item : data) {
 
       if (records.size() == config.getBatchSize()) {
-        BatchRequest<T> request = new BatchRequest<>(actionType, records);
+        BatchRequest<E> request = new BatchRequest<>(actionType, records);
         CompletableFuture<BatchResponse> batch = batchAsync(request, requestOptions);
         futures.add(batch);
         records.clear();
@@ -391,7 +536,7 @@ public class SearchIndex<T> {
     }
 
     if (records.size() > 0) {
-      BatchRequest<T> request = new BatchRequest<>(actionType, records);
+      BatchRequest<E> request = new BatchRequest<>(actionType, records);
       CompletableFuture<BatchResponse> batch = batchAsync(request, requestOptions);
       futures.add(batch);
     }
@@ -412,7 +557,7 @@ public class SearchIndex<T> {
    *
    * @param request The batch request -
    */
-  public BatchResponse batch(@Nonnull BatchRequest<T> request) {
+  public <E> BatchResponse batch(@Nonnull BatchRequest<E> request) {
     return LaunderThrowable.unwrap(batchAsync(request, null));
   }
 
@@ -422,7 +567,7 @@ public class SearchIndex<T> {
    * @param request The batch request
    * @param requestOptions Options to pass to this request
    */
-  public BatchResponse batch(@Nonnull BatchRequest<T> request, RequestOptions requestOptions) {
+  public <E> BatchResponse batch(@Nonnull BatchRequest<E> request, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(batchAsync(request, requestOptions));
   }
 
@@ -431,7 +576,7 @@ public class SearchIndex<T> {
    *
    * @param request The batch request -
    */
-  public CompletableFuture<BatchResponse> batchAsync(@Nonnull BatchRequest<T> request) {
+  public <E> CompletableFuture<BatchResponse> batchAsync(@Nonnull BatchRequest<E> request) {
     return batchAsync(request, null);
   }
 
@@ -441,10 +586,10 @@ public class SearchIndex<T> {
    * @param request The batch request
    * @param requestOptions Options to pass to this request
    */
-  public CompletableFuture<BatchResponse> batchAsync(
-      @Nonnull BatchRequest<T> request, RequestOptions requestOptions) {
+  public <E> CompletableFuture<BatchResponse> batchAsync(
+      @Nonnull BatchRequest<E> request, RequestOptions requestOptions) {
 
-    Objects.requireNonNull(request, "A BatchRequest key is required.");
+    Objects.requireNonNull(request, "A BatchRequest is required.");
 
     return transport
         .executeRequestAsync(
@@ -521,6 +666,41 @@ public class SearchIndex<T> {
   }
 
   /**
+   * Remove objects from an index using their object ids.
+   *
+   * @param objectIDs List of objectIDs to delete
+   */
+  public CompletableFuture<BatchIndexingResponse> deleteObjectsAsync(
+      @Nonnull List<String> objectIDs) {
+    return deleteObjectsAsync(objectIDs, null);
+  }
+
+  /**
+   * Remove objects from an index using their object ids.
+   *
+   * @param objectIDs List of objectIDs to delete
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<BatchIndexingResponse> deleteObjectsAsync(
+      @Nonnull List<String> objectIDs, RequestOptions requestOptions) {
+    Objects.requireNonNull(objectIDs, "The objectID is required.");
+
+    if (objectIDs.isEmpty()) {
+      throw new IllegalArgumentException("objectIDs can't be empty.");
+    }
+
+    List<Map<String, String>> request = new ArrayList<>();
+
+    for (String id : objectIDs) {
+      Map<String, String> tmp = new HashMap<>();
+      tmp.put("objectID", id);
+      request.add(tmp);
+    }
+
+    return splitIntoBatchesAsync(request, ActionEnum.DeleteObject, requestOptions);
+  }
+
+  /**
    * Clear the records of an index without affecting its settings. This method enables you to delete
    * an index’s contents (records) without removing any settings, rules and synonyms.
    */
@@ -571,19 +751,21 @@ public class SearchIndex<T> {
   }
 
   /**
-   * This method allows you to retrieve all index content
-   * It can retrieve up to 1,000 records per call and supports full text search and filters.
-   * You can use the same query parameters as for a search query
+   * This method allows you to retrieve all index content It can retrieve up to 1,000 records per
+   * call and supports full text search and filters. You can use the same query parameters as for a
+   * search query
+   *
    * @param query The browse query
    */
-  public IndexIterator<T> browse(@Nonnull BrowseIndexQuery query) {
-    return new IndexIterator<>(this, query);
+  public IndexIterable<T> browse(@Nonnull BrowseIndexQuery query) {
+    return new IndexIterable<>(this, query);
   }
 
   /**
-   * This method allows you to retrieve all index content
-   * It can retrieve up to 1,000 records per call and supports full text search and filters.
-   * You can use the same query parameters as for a search query
+   * This method allows you to retrieve all index content It can retrieve up to 1,000 records per
+   * call and supports full text search and filters. You can use the same query parameters as for a
+   * search query
+   *
    * @param query The browse query
    */
   public BrowseIndexResponse<T> browseFrom(@Nonnull BrowseIndexQuery query) {
@@ -591,9 +773,10 @@ public class SearchIndex<T> {
   }
 
   /**
-   * This method allows you to retrieve all index content
-   * It can retrieve up to 1,000 records per call and supports full text search and filters.
-   * You can use the same query parameters as for a search query
+   * This method allows you to retrieve all index content It can retrieve up to 1,000 records per
+   * call and supports full text search and filters. You can use the same query parameters as for a
+   * search query
+   *
    * @param query The browse query
    * @param requestOptions Options to pass to this request
    */
@@ -603,9 +786,10 @@ public class SearchIndex<T> {
   }
 
   /**
-   * This method allows you to retrieve all index content
-   * It can retrieve up to 1,000 records per call and supports full text search and filters.
-   * You can use the same query parameters as for a search query
+   * This method allows you to retrieve all index content It can retrieve up to 1,000 records per
+   * call and supports full text search and filters. You can use the same query parameters as for a
+   * search query
+   *
    * @param query The browse query
    */
   public CompletableFuture<BrowseIndexResponse<T>> browseFromAsync(
@@ -614,9 +798,10 @@ public class SearchIndex<T> {
   }
 
   /**
-   * This method allows you to retrieve all index content
-   * It can retrieve up to 1,000 records per call and supports full text search and filters.
-   * You can use the same query parameters as for a search query
+   * This method allows you to retrieve all index content It can retrieve up to 1,000 records per
+   * call and supports full text search and filters. You can use the same query parameters as for a
+   * search query
+   *
    * @param query The browse query
    * @param requestOptions Options to pass to this request
    */
@@ -628,7 +813,7 @@ public class SearchIndex<T> {
     return transport
         .executeRequestAsync(
             HttpMethod.POST,
-            "/1/indexes/" + urlEncodedIndexName + "/query",
+            "/1/indexes/" + urlEncodedIndexName + "/browse",
             CallType.READ,
             query,
             BrowseIndexResponse.class,

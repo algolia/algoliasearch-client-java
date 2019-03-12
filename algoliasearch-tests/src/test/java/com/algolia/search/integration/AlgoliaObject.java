@@ -1,6 +1,11 @@
 package com.algolia.search.integration;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AlgoliaObject {
+
+  public AlgoliaObject() {}
 
   public AlgoliaObject(String objectID, String attribute) {
     this.objectID = objectID;

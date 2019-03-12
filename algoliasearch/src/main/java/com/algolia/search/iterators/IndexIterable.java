@@ -15,7 +15,7 @@ public class IndexIterable<E> implements Iterable<E> {
   private final RequestOptions requestOptions;
 
   public IndexIterable(@Nonnull SearchIndex<E> index) {
-    this(index, (BrowseIndexQuery) new BrowseIndexQuery().setHitsPerPage(1000));
+    this(index, new BrowseIndexQuery());
   }
 
   public IndexIterable(@Nonnull SearchIndex<E> index, @Nonnull BrowseIndexQuery query) {

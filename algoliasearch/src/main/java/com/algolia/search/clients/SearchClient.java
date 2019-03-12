@@ -7,7 +7,7 @@ import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.http.AlgoliaHttpRequester;
 import com.algolia.search.http.IHttpRequester;
 import com.algolia.search.inputs.ApiKeys;
-import com.algolia.search.inputs.MultipleGetObjectsRequests;
+import com.algolia.search.inputs.MultipleGetObject;
 import com.algolia.search.models.*;
 import com.algolia.search.objects.ApiKey;
 import com.algolia.search.objects.Log;
@@ -97,7 +97,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> MultipleGetObjectsResponse<T> multipleGetObjects(
-      List<MultipleGetObjectsRequests> queries, Class<T> klass) throws AlgoliaRuntimeException {
+      List<MultipleGetObject> queries, Class<T> klass) throws AlgoliaRuntimeException {
     return multipleGetObjects(queries, klass, null);
   }
 
@@ -113,7 +113,7 @@ public class SearchClient {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> MultipleGetObjectsResponse<T> multipleGetObjects(
-      List<MultipleGetObjectsRequests> queries, Class<T> klass, RequestOptions requestOptions)
+      List<MultipleGetObject> queries, Class<T> klass, RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
     return LaunderThrowable.unwrap(multipleGetObjectsAsync(queries, klass, requestOptions));
   }
@@ -126,7 +126,7 @@ public class SearchClient {
    * @param <T> Type of the data to retrieve
    */
   public <T> CompletableFuture<MultipleGetObjectsResponse<T>> multipleGetObjectsAsync(
-      List<MultipleGetObjectsRequests> queries, Class<T> klass) {
+      List<MultipleGetObject> queries, Class<T> klass) {
     return multipleGetObjectsAsync(queries, klass, null);
   }
 
@@ -140,7 +140,7 @@ public class SearchClient {
    */
   @SuppressWarnings("unchecked")
   public <T> CompletableFuture<MultipleGetObjectsResponse<T>> multipleGetObjectsAsync(
-      List<MultipleGetObjectsRequests> queries, Class<T> klass, RequestOptions requestOptions) {
+      List<MultipleGetObject> queries, Class<T> klass, RequestOptions requestOptions) {
 
     Objects.requireNonNull(queries, "Queries is required");
     Objects.requireNonNull(klass, "Class is required");

@@ -2,7 +2,7 @@ package com.algolia.search.integration.client;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.algolia.search.inputs.MultipleGetObjectsRequests;
+import com.algolia.search.inputs.MultipleGetObject;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.integration.AlgoliaMultipleOpObject;
 import com.algolia.search.models.*;
@@ -42,12 +42,12 @@ class MultipleOperationsTest extends AlgoliaBaseIntegrationTest {
 
     saveMultiple.waitTask();
 
-    List<MultipleGetObjectsRequests> objectsToRetrieve =
+    List<MultipleGetObject> objectsToRetrieve =
         Arrays.asList(
-            new MultipleGetObjectsRequests(index1Name, saveMultiple.getObjectIDs().get(0)),
-            new MultipleGetObjectsRequests(index1Name, saveMultiple.getObjectIDs().get(1)),
-            new MultipleGetObjectsRequests(index2Name, saveMultiple.getObjectIDs().get(2)),
-            new MultipleGetObjectsRequests(index2Name, saveMultiple.getObjectIDs().get(3)));
+            new MultipleGetObject(index1Name, saveMultiple.getObjectIDs().get(0)),
+            new MultipleGetObject(index1Name, saveMultiple.getObjectIDs().get(1)),
+            new MultipleGetObject(index2Name, saveMultiple.getObjectIDs().get(2)),
+            new MultipleGetObject(index2Name, saveMultiple.getObjectIDs().get(3)));
 
     MultipleGetObjectsResponse<AlgoliaMultipleOpObject> multipleGet =
         searchClient
