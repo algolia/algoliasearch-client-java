@@ -199,7 +199,7 @@ public final class HttpTransport {
         request.setBody(content);
 
       } catch (IOException e) {
-        throw new AlgoliaRuntimeException("Error while serializing the response", e);
+        throw new AlgoliaRuntimeException("Error while serializing the request", e);
       }
     }
 

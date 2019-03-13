@@ -28,7 +28,7 @@ class ApiKeysTest extends AlgoliaBaseIntegrationTest {
             .setMaxQueriesPerIPPerHour(1000)
             .setQueryParameters("typoTolerance=strict")
             .setReferers(Collections.singletonList("referer"))
-            .setValidity(600);
+            .setValidity(600L);
 
     CompletableFuture<AddApiKeyResponse> addApiKeyFuture =
         searchClient.addApiKeyAsync(apiKeyToSend);

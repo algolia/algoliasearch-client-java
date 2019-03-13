@@ -12,7 +12,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiKey implements Serializable {
 
-  private Integer validity;
+  private Long validity;
 
   private Integer maxQueriesPerIPPerHour;
 
@@ -41,11 +41,11 @@ public class ApiKey implements Serializable {
     this.value = value;
   }
 
-  public Integer getValidity() {
+  public Long getValidity() {
     return validity;
   }
 
-  public ApiKey setValidity(Integer validity) {
+  public ApiKey setValidity(Long validity) {
     this.validity = validity;
     return this;
   }

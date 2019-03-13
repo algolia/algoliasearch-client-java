@@ -885,10 +885,9 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<SetSettingsResponse> setSettingsAsync(
-      @Nonnull IndexSettings settings, @Nonnull RequestOptions requestOptions) {
+      @Nonnull IndexSettings settings, RequestOptions requestOptions) {
 
     Objects.requireNonNull(settings, "Index settings are required.");
-    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
 
     return transport
         .executeRequestAsync(
@@ -1125,7 +1124,7 @@ public class SearchIndex<T> {
    *
    * @param rules List of rules
    */
-  public CompletableFuture<SaveRuleResponse> saveRulesAsync(@Nonnull Iterable<Rule> rules) {
+  public CompletableFuture<SaveRuleResponse> saveRulesAsync(@Nonnull List<Rule> rules) {
     return saveRulesAsync(rules, new RequestOptions());
   }
 
@@ -1137,7 +1136,7 @@ public class SearchIndex<T> {
    * @param clearExistingRules Clear all existing rules
    */
   public CompletableFuture<SaveRuleResponse> saveRulesAsync(
-      @Nonnull Iterable<Rule> rules,
+      @Nonnull List<Rule> rules,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean clearExistingRules) {
 
@@ -1153,7 +1152,7 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<SaveRuleResponse> saveRulesAsync(
-      @Nonnull Iterable<Rule> rules,
+      @Nonnull List<Rule> rules,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean clearExistingRules,
       @Nonnull RequestOptions requestOptions) {
@@ -1176,10 +1175,9 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<SaveRuleResponse> saveRulesAsync(
-      @Nonnull Iterable<Rule> rules, @Nonnull RequestOptions requestOptions) {
+      @Nonnull List<Rule> rules, RequestOptions requestOptions) {
 
     Objects.requireNonNull(rules, "Rules are required.");
-    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
 
     return transport
         .executeRequestAsync(
@@ -1243,7 +1241,7 @@ public class SearchIndex<T> {
    *
    * @param rules List of rules
    */
-  public CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(@Nonnull Iterable<Rule> rules) {
+  public CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(@Nonnull List<Rule> rules) {
     return saveRulesAsync(rules, false, true, new RequestOptions());
   }
 
@@ -1256,7 +1254,7 @@ public class SearchIndex<T> {
    * @param forwardToReplicas Forward to the replicas the request
    */
   public CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
-      @Nonnull Iterable<Rule> rules, @Nonnull Boolean forwardToReplicas) {
+      @Nonnull List<Rule> rules, @Nonnull Boolean forwardToReplicas) {
     return saveRulesAsync(rules, forwardToReplicas, true, new RequestOptions());
   }
 
@@ -1269,7 +1267,7 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
-      @Nonnull Iterable<Rule> rules, @Nonnull RequestOptions requestOptions) {
+      @Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
     return saveRulesAsync(rules, false, true, requestOptions);
   }
 
@@ -1494,8 +1492,7 @@ public class SearchIndex<T> {
    *
    * @param synonyms List of synonyms
    */
-  public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
-      @Nonnull Iterable<Synonym> synonyms) {
+  public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(@Nonnull List<Synonym> synonyms) {
     return saveSynonymsAsync(synonyms, false, false, new RequestOptions());
   }
 
@@ -1507,7 +1504,7 @@ public class SearchIndex<T> {
    * @param replaceExistingSynonyms Replace all existing synonyms
    */
   public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
-      @Nonnull Iterable<Synonym> synonyms,
+      @Nonnull List<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean replaceExistingSynonyms) {
     return saveSynonymsAsync(
@@ -1523,7 +1520,7 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
-      @Nonnull Iterable<Synonym> synonyms,
+      @Nonnull List<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean replaceExistingSynonyms,
       @Nonnull RequestOptions requestOptions) {
@@ -1546,10 +1543,9 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
-      @Nonnull Iterable<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
+      @Nonnull List<Synonym> synonyms, RequestOptions requestOptions) {
 
     Objects.requireNonNull(synonyms, "synonyms are required.");
-    Objects.requireNonNull(requestOptions, "RequestOptions are required.");
 
     return transport
         .executeRequestAsync(
@@ -1674,7 +1670,7 @@ public class SearchIndex<T> {
    * @param synonyms List of synonyms
    */
   public CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
-      @Nonnull Iterable<Synonym> synonyms) {
+      @Nonnull List<Synonym> synonyms) {
     return saveSynonymsAsync(synonyms, false, true, new RequestOptions());
   }
 
@@ -1687,7 +1683,7 @@ public class SearchIndex<T> {
    * @param forwardToReplicas Forward to the replicas the request
    */
   public CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
-      @Nonnull Iterable<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
+      @Nonnull List<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
     return saveSynonymsAsync(synonyms, forwardToReplicas, true, new RequestOptions());
   }
 
@@ -1700,8 +1696,28 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
-      @Nonnull Iterable<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
+      @Nonnull List<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
     return saveSynonymsAsync(synonyms, false, true, requestOptions);
+  }
+
+  /** Delete the index and all its settings, including links to its replicas. */
+  public CompletableFuture<DeleteResponse> deleteAsync() {
+    return deleteAsync(null);
+  }
+
+  /**
+   * Delete the index and all its settings, including links to its replicas.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<DeleteResponse> deleteAsync(RequestOptions requestOptions) {
+    return transport.executeRequestAsync(
+        HttpMethod.DELETE,
+        "/1/indexes/" + urlEncodedIndexName,
+        CallType.WRITE,
+        null,
+        DeleteResponse.class,
+        requestOptions);
   }
 
   /**
@@ -1775,5 +1791,9 @@ public class SearchIndex<T> {
       timeToWait =
           timeToWait > Defaults.MAX_TIME_MS_TO_WAIT ? Defaults.MAX_TIME_MS_TO_WAIT : timeToWait;
     }
+  }
+
+  public AlgoliaConfig getConfig() {
+    return config;
   }
 }

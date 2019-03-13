@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 public abstract class AlgoliaBaseIntegrationTest {
 
   protected static SearchClient searchClient;
+  protected static SearchClient searchClient2;
   protected static AnalyticsClient analyticsClient;
 
   private static String ALGOLIA_APPLICATION_ID_1 = System.getenv("ALGOLIA_APPLICATION_ID_1");
@@ -34,6 +35,7 @@ public abstract class AlgoliaBaseIntegrationTest {
   static void globalInit() throws Exception {
     checkEnvironmentVariable();
     searchClient = new SearchClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
+    searchClient2 = new SearchClient(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2);
     analyticsClient = new AnalyticsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
   }
 
