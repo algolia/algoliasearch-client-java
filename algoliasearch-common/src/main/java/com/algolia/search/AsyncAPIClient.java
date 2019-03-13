@@ -739,7 +739,7 @@ public class AsyncAPIClient {
    * @return the result of the queries
    */
   public CompletableFuture<List<Map<String, String>>> multipleGetObjects(
-      @Nonnull List<MultipleGetObjectsRequests> requests) {
+      @Nonnull List<MultipleGetObject> requests) {
     return multipleGetObjects(requests, new RequestOptions());
   }
 
@@ -752,7 +752,7 @@ public class AsyncAPIClient {
    * @return the result of the queries
    */
   public CompletableFuture<List<Map<String, String>>> multipleGetObjects(
-      @Nonnull List<MultipleGetObjectsRequests> requests, @Nonnull RequestOptions requestsOptions) {
+      @Nonnull List<MultipleGetObject> requests, @Nonnull RequestOptions requestsOptions) {
     return multiGetObjects(requests, requestsOptions);
   }
 
@@ -1001,7 +1001,7 @@ public class AsyncAPIClient {
 
   @SuppressWarnings("unchecked")
   <T> CompletableFuture<List<T>> multiGetObjects(
-      List<MultipleGetObjectsRequests> request, RequestOptions requestOptions) {
+      List<MultipleGetObject> request, RequestOptions requestOptions) {
 
     Requests requests =
         new Requests(

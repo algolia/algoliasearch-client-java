@@ -781,8 +781,8 @@ public class APIClient {
    * @return the result of the queries
    * @throws AlgoliaException if API error
    */
-  public List<Map<String, String>> multipleGetObjects(
-      @Nonnull List<MultipleGetObjectsRequests> requests) throws AlgoliaException {
+  public List<Map<String, String>> multipleGetObjects(@Nonnull List<MultipleGetObject> requests)
+      throws AlgoliaException {
     return multipleGetObjects(requests, new RequestOptions());
   }
 
@@ -796,7 +796,7 @@ public class APIClient {
    * @throws AlgoliaException if API error
    */
   public List<Map<String, String>> multipleGetObjects(
-      @Nonnull List<MultipleGetObjectsRequests> requests, @Nonnull RequestOptions requestsOptions)
+      @Nonnull List<MultipleGetObject> requests, @Nonnull RequestOptions requestsOptions)
       throws AlgoliaException {
     return multiGetObjects(requests, requestsOptions);
   }
@@ -1004,8 +1004,7 @@ public class APIClient {
   }
 
   @SuppressWarnings("unchecked")
-  <T> List<T> multiGetObjects(
-      List<MultipleGetObjectsRequests> request, RequestOptions requestOptions)
+  <T> List<T> multiGetObjects(List<MultipleGetObject> request, RequestOptions requestOptions)
       throws AlgoliaException {
 
     Requests requests =

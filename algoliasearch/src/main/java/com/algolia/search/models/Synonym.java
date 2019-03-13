@@ -1,10 +1,11 @@
 package com.algolia.search.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Synonym {
+public class Synonym implements Serializable {
   public String getObjectID() {
     return objectID;
   }
