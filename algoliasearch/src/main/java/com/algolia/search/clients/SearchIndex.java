@@ -104,6 +104,47 @@ public class SearchIndex<T> {
   }
 
   /**
+   * Search for a set of values within a given facet attribute. Can be combined with a query. This
+   * method enables you to search through the values of a facet attribute, selecting only a subset
+   * of those values that meet a given criteria.
+   *
+   * @param query Search for facet query
+   */
+  public CompletableFuture<SearchForFacetResponse> searchForFacetValuesAsync(
+      SearchForFacetRequest query) {
+    return searchForFacetValuesAsync(query, null);
+  }
+
+  /**
+   * Search for a set of values within a given facet attribute. Can be combined with a query. This
+   * method enables you to search through the values of a facet attribute, selecting only a subset
+   * of those values that meet a given criteria.
+   *
+   * @param query Search for facet query
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SearchForFacetResponse> searchForFacetValuesAsync(
+      SearchForFacetRequest query, RequestOptions requestOptions) {
+    Objects.requireNonNull(query, "query is required.");
+
+    if (query.getFacetName() == null || query.getFacetName().trim().length() == 0) {
+      throw new AlgoliaRuntimeException("facetName is required.");
+    }
+
+    if (query.getFacetQuery() == null || query.getFacetQuery().trim().length() == 0) {
+      throw new AlgoliaRuntimeException("facetQuery is required.");
+    }
+
+    return transport.executeRequestAsync(
+        HttpMethod.POST,
+        "/1/indexes/" + urlEncodedIndexName + "/facets/" + query.getFacetName() + "/query",
+        CallType.READ,
+        query,
+        SearchForFacetResponse.class,
+        requestOptions);
+  }
+
+  /**
    * Retrieve one or more objects, potentially from the index, in a single API call.
    *
    * @param objectID ID of the object within that index
