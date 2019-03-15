@@ -169,11 +169,11 @@ public class Query implements Serializable {
     return this;
   }
 
-  public String getFacets() {
+  public List<String> getFacets() {
     return facets;
   }
 
-  public Query setFacets(String facets) {
+  public Query setFacets(List<String> facets) {
     this.facets = facets;
     return this;
   }
@@ -511,6 +511,15 @@ public class Query implements Serializable {
     return this;
   }
 
+  public List<List<String>> getFacetFilters() {
+    return facetFilters;
+  }
+
+  public Query setFacetFilters(List<List<String>> facetFilters) {
+    this.facetFilters = facetFilters;
+    return this;
+  }
+
   /* search */
   @JsonProperty("query")
   private String query;
@@ -537,9 +546,10 @@ public class Query implements Serializable {
 
   /* filtering-faceting */
   private String filters;
-  private String facets;
+  private List<String> facets;
   private Long maxValuesPerFacet;
   // protected FacetFilters facetFilters;
+  private List<List<String>> facetFilters;
   private Boolean facetingAfterDistinct;
   private String sortFacetValuesBy;
 
