@@ -111,7 +111,7 @@ public class SearchIndex<T> {
    * @param query Search for facet query
    */
   public CompletableFuture<SearchForFacetResponse> searchForFacetValuesAsync(
-      SearchForFacetRequest query) {
+      @Nonnull SearchForFacetRequest query) {
     return searchForFacetValuesAsync(query, null);
   }
 
@@ -124,7 +124,7 @@ public class SearchIndex<T> {
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<SearchForFacetResponse> searchForFacetValuesAsync(
-      SearchForFacetRequest query, RequestOptions requestOptions) {
+      @Nonnull SearchForFacetRequest query, RequestOptions requestOptions) {
     Objects.requireNonNull(query, "query is required.");
 
     if (query.getFacetName() == null || query.getFacetName().trim().length() == 0) {
@@ -782,6 +782,164 @@ public class SearchIndex<T> {
             CallType.WRITE,
             null,
             DeleteResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are
+   * untouched. Replace all records in an index without any downtime.
+   *
+   * @param data The data to send
+   */
+  public CompletableFuture<MultiResponse> replaceAllObjectsAsync(Iterable<T> data) {
+    return replaceAllObjectsAsync(data, null, false);
+  }
+
+  /**
+   * Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are
+   * untouched. Replace all records in an index without any downtime.
+   *
+   * @param data The data to send
+   * @param safe Run all API calls synchronously
+   */
+  public CompletableFuture<MultiResponse> replaceAllObjectsAsync(Iterable<T> data, boolean safe) {
+    return replaceAllObjectsAsync(data, null, safe);
+  }
+
+  /**
+   * Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are
+   * untouched. Replace all records in an index without any downtime.
+   *
+   * @param data The data to send
+   * @param requestOptions Options to pass to this request
+   * @param safe Run all API calls synchronously
+   */
+  public CompletableFuture<MultiResponse> replaceAllObjectsAsync(
+      Iterable<T> data, RequestOptions requestOptions, boolean safe) {
+    Objects.requireNonNull(data, "Data can't be null");
+
+    Random rnd = new Random();
+    String tmpIndexName = indexName + "_tmp_" + rnd.nextInt(100);
+    SearchIndex<T> tmpIndex = new SearchIndex<>(transport, config, tmpIndexName, klass);
+
+    List<String> scopes = Arrays.asList(CopyScope.Rules, CopyScope.Settings, CopyScope.Synonyms);
+
+    List<CompletableFuture<? extends IAlgoliaWaitableResponse>> futures = new ArrayList<>();
+
+    // Copy index resources
+    CompletableFuture<CopyToResponse> copyResponseFuture =
+        copyToAsync(tmpIndexName, scopes, requestOptions);
+    futures.add(copyResponseFuture);
+
+    if (safe) {
+      copyResponseFuture.join().waitTask();
+    }
+
+    // Save new objects
+    CompletableFuture<BatchIndexingResponse> saveObjectsFuture =
+        tmpIndex.saveObjectsAsync(data, requestOptions);
+    futures.add(saveObjectsFuture);
+
+    if (safe) {
+      saveObjectsFuture.join().waitTask();
+    }
+
+    // Move temporary index to source index
+    CompletableFuture<MoveIndexResponse> moveIndexFuture =
+        moveFromAsync(tmpIndexName, requestOptions);
+    futures.add(moveIndexFuture);
+
+    if (safe) {
+      moveIndexFuture.join().waitTask();
+    }
+
+    return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+        .thenComposeAsync(
+            v -> {
+              List<IAlgoliaWaitableResponse> resp =
+                  futures.stream().map(CompletableFuture::join).collect(toList());
+
+              return CompletableFuture.completedFuture(new MultiResponse().setResponses(resp));
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Rename an index. Normally used to reindex your data atomically, without any down time.
+   *
+   * @param sourceIndex The source to move
+   */
+  public CompletableFuture<MoveIndexResponse> moveFromAsync(@Nonnull String sourceIndex) {
+    return moveFromAsync(sourceIndex, null);
+  }
+
+  /**
+   * Rename an index. Normally used to reindex your data atomically, without any down time.
+   *
+   * @param sourceIndex The source to move
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<MoveIndexResponse> moveFromAsync(
+      @Nonnull String sourceIndex, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(sourceIndex, "sourceIndex can't be null.");
+
+    if (sourceIndex.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("sourceIndex is required.");
+    }
+
+    MoveIndexRequest request =
+        new MoveIndexRequest().setOperation(MoveType.Move).setDestination(indexName);
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + sourceIndex + "/operation",
+            CallType.WRITE,
+            request,
+            MoveIndexResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Make a copy of an index, including its objects, settings, synonyms, and query rules.
+   *
+   * @param destinationIndex The destination index
+   * @param scope The scope of the copy
+   * @param requestOptions Options to pass to this request
+   */
+  CompletableFuture<CopyToResponse> copyToAsync(
+      @Nonnull String destinationIndex, List<String> scope, RequestOptions requestOptions) {
+
+    if (destinationIndex == null || destinationIndex.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("destinationIndex is required.");
+    }
+
+    CopyToRequest request =
+        new CopyToRequest()
+            .setOperation(MoveType.Copy)
+            .setDestination(destinationIndex)
+            .setScope(scope);
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/operation",
+            CallType.WRITE,
+            request,
+            CopyToResponse.class,
             requestOptions)
         .thenApplyAsync(
             resp -> {
