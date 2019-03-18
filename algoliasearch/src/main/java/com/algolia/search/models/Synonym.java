@@ -5,7 +5,50 @@ import java.io.Serializable;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@SuppressWarnings("WeakerAccess")
 public class Synonym implements Serializable {
+
+  public Synonym() {}
+
+  public static Synonym createSynonym(String objectID, List<String> synonyms) {
+    return new Synonym().setObjectID(objectID).setSynonyms(synonyms).setType(SynonymType.Synonym);
+  }
+
+  public static Synonym createOneWaySynonym(String objectID, String input, List<String> synonyms) {
+    return new Synonym()
+        .setObjectID(objectID)
+        .setInput(input)
+        .setSynonyms(synonyms)
+        .setType(SynonymType.OneWaySynonym);
+  }
+
+  public static Synonym createPlaceHolder(
+      String objectID, String placeholder, List<String> replacements) {
+    return new Synonym()
+        .setObjectID(objectID)
+        .setReplacements(replacements)
+        .setPlaceholder(placeholder)
+        .setType(SynonymType.Placeholder);
+  }
+
+  public static Synonym createAltCorrection1(
+      String objectID, String word, List<String> corrections) {
+    return new Synonym()
+        .setObjectID(objectID)
+        .setWord(word)
+        .setCorrections(corrections)
+        .setType(SynonymType.AltCorrection1);
+  }
+
+  public static Synonym createAltCorrection2(
+      String objectID, String word, List<String> corrections) {
+    return new Synonym()
+        .setObjectID(objectID)
+        .setWord(word)
+        .setCorrections(corrections)
+        .setType(SynonymType.AltCorrection2);
+  }
+
   public String getObjectID() {
     return objectID;
   }

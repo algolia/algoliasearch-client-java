@@ -45,41 +45,25 @@ class SynonymsTest extends AlgoliaBaseIntegrationTest {
         index.saveObjectsAsync(objectsToSave, true);
 
     Synonym gba =
-        new Synonym()
-            .setObjectID("gba")
-            .setType(SynonymType.Synonym)
-            .setSynonyms(Arrays.asList("gba", "gameboy advance", "game boy advance"));
+        Synonym.createSynonym("gba", Arrays.asList("gba", "gameboy advance", "game boy advance"));
 
     saveObjectsFuture.join().waitTask();
     CompletableFuture<SaveSynonymResponse> saveSynonymFuture = index.saveSynonymAsync(gba);
 
     Synonym wiiToWiiu =
-        new Synonym()
-            .setObjectID("wii_to_wii_u")
-            .setType(SynonymType.OneWaySynonym)
-            .setInput("wii")
-            .setSynonyms(Collections.singletonList("wii u"));
+        Synonym.createOneWaySynonym("wii_to_wii_u", "wii", Collections.singletonList("wii u"));
 
     Synonym playstationPlaceholder =
-        new Synonym()
-            .setObjectID("playstation_version_placeholder")
-            .setType(SynonymType.Placeholder)
-            .setPlaceholder("<PLAYSTATIONVERSION>")
-            .setReplacements(Arrays.asList("1", "one", "2", "3", "4", "4 pro"));
+        Synonym.createPlaceHolder(
+            "playstation_version_placeholder",
+            "<PLAYSTATIONVERSION>",
+            Arrays.asList("1", "one", "2", "3", "4", "4 pro"));
 
     Synonym ps4 =
-        new Synonym()
-            .setObjectID("ps4")
-            .setType(SynonymType.AltCorrection1)
-            .setWord("ps4")
-            .setCorrections(Collections.singletonList("playstation4"));
+        Synonym.createAltCorrection1("ps4", "ps4", Collections.singletonList("playstation4"));
 
     Synonym psone =
-        new Synonym()
-            .setObjectID("psone")
-            .setType(SynonymType.AltCorrection2)
-            .setWord("psone")
-            .setCorrections(Collections.singletonList("playstationone"));
+        Synonym.createAltCorrection2("psone", "psone", Collections.singletonList("playstationone"));
 
     CompletableFuture<SaveSynonymResponse> saveSynonymsFuture =
         index.saveSynonymsAsync(Arrays.asList(wiiToWiiu, playstationPlaceholder, ps4, psone));
