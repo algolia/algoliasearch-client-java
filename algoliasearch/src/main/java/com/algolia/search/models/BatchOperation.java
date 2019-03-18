@@ -2,10 +2,35 @@ package com.algolia.search.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
+import javax.annotation.Nonnull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class BatchOperation<T> implements Serializable {
+
+  public static <T> BatchOperation<T> createAddObject(@Nonnull T body) {
+    return new BatchOperation<>(ActionEnum.AddObject, body);
+  }
+
+  public static <T> BatchOperation<T> createUpdateObject(@Nonnull T body) {
+    return new BatchOperation<>(ActionEnum.UpdateObject, body);
+  }
+
+  public static <T> BatchOperation<T> createPartialUpdateObject(@Nonnull T body) {
+    return new BatchOperation<>(ActionEnum.PartialUpdateObject, body);
+  }
+
+  public static <T> BatchOperation<T> createPartialUpdateObjectNoCreate(@Nonnull T body) {
+    return new BatchOperation<>(ActionEnum.PartialUpdateObjectNoCreate, body);
+  }
+
+  public static <T> BatchOperation<T> createDeleteObject(@Nonnull T body) {
+    return new BatchOperation<>(ActionEnum.DeleteObject, body);
+  }
+
+  public static <T> BatchOperation<T> createDelete(@Nonnull T body) {
+    return new BatchOperation<>(ActionEnum.Delete, body);
+  }
 
   public BatchOperation(String indexName, String action, T body) {
     this.action = action;

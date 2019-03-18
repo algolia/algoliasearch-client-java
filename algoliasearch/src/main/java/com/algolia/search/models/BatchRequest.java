@@ -10,9 +10,9 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class BatchRequest<T> implements Serializable {
 
-  private List<BatchOperation> requests;
+  private List<BatchOperation<T>> requests;
 
-  public BatchRequest(List<BatchOperation> requests) {
+  public BatchRequest(List<BatchOperation<T>> requests) {
     this.requests = requests;
   }
 
@@ -27,7 +27,7 @@ public class BatchRequest<T> implements Serializable {
     }
   }
 
-  public List<BatchOperation> getRequests() {
+  public List<BatchOperation<T>> getRequests() {
     return requests;
   }
 }
