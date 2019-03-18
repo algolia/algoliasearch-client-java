@@ -8,10 +8,6 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Consequence implements Serializable {
-  private ConsequenceParams params;
-  private List<ConsequencePromote> promote;
-  private Map<String, Object> userData;
-  private List<Hide> hide;
 
   public Consequence() {}
 
@@ -49,4 +45,9 @@ public class Consequence implements Serializable {
   public void setHide(List<Hide> hide) {
     this.hide = hide;
   }
+
+  private ConsequenceParams params;
+  private List<ConsequencePromote> promote;
+  private Map<String, Object> userData;
+  private List<Hide> hide;
 }
