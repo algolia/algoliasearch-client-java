@@ -1,9 +1,11 @@
 package com.algolia.search;
 
-import static com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.algolia.search.models.*;
+import com.algolia.search.models.settings.Distinct;
+import com.algolia.search.models.settings.IgnorePlurals;
+import com.algolia.search.models.settings.IndexSettings;
+import com.algolia.search.models.settings.RemoveStopWords;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,10 +18,12 @@ class JacksonParserTest {
     IndexSettings settings;
 
     settings = new IndexSettings().setDistinct(Distinct.of(true));
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"distinct\":true}");
+    assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
+        .isEqualTo("{\"distinct\":true}");
 
     settings = new IndexSettings().setDistinct(Distinct.of(1));
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings)).isEqualTo("{\"distinct\":1}");
+    assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
+        .isEqualTo("{\"distinct\":1}");
   }
 
   @Test
@@ -27,11 +31,13 @@ class JacksonParserTest {
     Distinct distinct;
 
     distinct =
-        DEFAULT_OBJECT_MAPPER.readValue("{\"distinct\":true}", IndexSettings.class).getDistinct();
+        Defaults.getObjectMapper()
+            .readValue("{\"distinct\":true}", IndexSettings.class)
+            .getDistinct();
     assertThat(distinct).isEqualTo(Distinct.of(true));
 
     distinct =
-        DEFAULT_OBJECT_MAPPER.readValue("{\"distinct\":1}", IndexSettings.class).getDistinct();
+        Defaults.getObjectMapper().readValue("{\"distinct\":1}", IndexSettings.class).getDistinct();
     assertThat(distinct).isEqualTo(Distinct.of(1));
   }
 
@@ -40,15 +46,15 @@ class JacksonParserTest {
     IndexSettings settings;
 
     settings = new IndexSettings().setRemoveStopWords(true);
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings))
+    assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
         .isEqualTo("{\"removeStopWords\":true}");
 
     settings = new IndexSettings().setRemoveStopWords(Arrays.asList("a", "b"));
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings))
+    assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
         .isEqualTo("{\"removeStopWords\":\"a,b\"}");
 
     settings = new IndexSettings().setRemoveStopWords(RemoveStopWords.of(false));
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings))
+    assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
         .isEqualTo("{\"removeStopWords\":false}");
   }
 
@@ -57,13 +63,13 @@ class JacksonParserTest {
     RemoveStopWords removeStopWords;
 
     removeStopWords =
-        DEFAULT_OBJECT_MAPPER
+        Defaults.getObjectMapper()
             .readValue("{\"removeStopWords\":true}", IndexSettings.class)
             .getRemoveStopWords();
     assertThat(removeStopWords).isEqualTo(RemoveStopWords.of(true));
 
     removeStopWords =
-        DEFAULT_OBJECT_MAPPER
+        Defaults.getObjectMapper()
             .readValue("{\"removeStopWords\":\"a,b\"}", IndexSettings.class)
             .getRemoveStopWords();
     assertThat(removeStopWords).isEqualTo(RemoveStopWords.of(Arrays.asList("a", "b")));
@@ -74,16 +80,16 @@ class JacksonParserTest {
     IndexSettings settings;
 
     settings = new IndexSettings().setIgnorePlurals(true);
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings))
+    assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
         .isEqualTo("{\"ignorePlurals\":true}");
 
     settings =
         new IndexSettings().setIgnorePlurals(IgnorePlurals.of(Collections.singletonList("en")));
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings))
+    assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
         .isEqualTo("{\"ignorePlurals\":[\"en\"]}");
 
     settings = new IndexSettings().setIgnorePlurals(Arrays.asList("en", "fr"));
-    assertThat(DEFAULT_OBJECT_MAPPER.writeValueAsString(settings))
+    assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
         .isEqualTo("{\"ignorePlurals\":[\"en\",\"fr\"]}");
   }
 
@@ -92,19 +98,19 @@ class JacksonParserTest {
     IgnorePlurals ignorePlurals;
 
     ignorePlurals =
-        DEFAULT_OBJECT_MAPPER
+        Defaults.getObjectMapper()
             .readValue("{\"ignorePlurals\":true}", IndexSettings.class)
             .getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(true));
 
     ignorePlurals =
-        DEFAULT_OBJECT_MAPPER
+        Defaults.getObjectMapper()
             .readValue("{\"ignorePlurals\":[\"en\"]}", IndexSettings.class)
             .getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Collections.singletonList("en")));
 
     ignorePlurals =
-        DEFAULT_OBJECT_MAPPER
+        Defaults.getObjectMapper()
             .readValue("{\"ignorePlurals\":[\"en\",\"fr\"]}", IndexSettings.class)
             .getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Arrays.asList("en", "fr")));

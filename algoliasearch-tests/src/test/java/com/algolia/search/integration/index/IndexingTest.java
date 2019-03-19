@@ -4,7 +4,10 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.algolia.search.clients.SearchIndex;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
-import com.algolia.search.models.*;
+import com.algolia.search.models.common.BatchIndexingResponse;
+import com.algolia.search.models.common.BrowseIndexQuery;
+import com.algolia.search.models.search.Query;
+import com.algolia.search.models.search.SearchResult;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.*;

@@ -1,7 +1,7 @@
 package com.algolia.search.serializer;
 
 import com.algolia.search.Defaults;
-import com.algolia.search.models.AutomaticFacetFilter;
+import com.algolia.search.models.rules.AutomaticFacetFilter;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,7 +21,7 @@ public class AutomaticFacetFilterDeserializer extends JsonDeserializer {
 
     ObjectCodec oc = jp.getCodec();
     JsonNode node = oc.readTree(jp);
-    ObjectMapper objectMapper = Defaults.DEFAULT_OBJECT_MAPPER;
+    ObjectMapper objectMapper = Defaults.getObjectMapper();
 
     if ((!node.isNull() && node.size() > 0)) {
       if (node.get(0).has("disjunctive") || node.get(0).has("score")) {

@@ -2,9 +2,9 @@ package com.algolia.search.integration;
 
 import com.algolia.search.clients.AnalyticsClient;
 import com.algolia.search.clients.SearchClient;
-import com.algolia.search.models.ActionEnum;
-import com.algolia.search.models.BatchOperation;
-import com.algolia.search.models.IndicesResponse;
+import com.algolia.search.models.batch.BatchOperation;
+import com.algolia.search.models.common.ActionEnum;
+import com.algolia.search.models.common.IndicesResponse;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;

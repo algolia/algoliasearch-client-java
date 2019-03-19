@@ -3,8 +3,8 @@ package com.algolia.search.integration.client;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
-import com.algolia.search.models.IndicesResponse;
-import com.algolia.search.models.Log;
+import com.algolia.search.models.common.IndicesResponse;
+import com.algolia.search.models.common.Log;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;

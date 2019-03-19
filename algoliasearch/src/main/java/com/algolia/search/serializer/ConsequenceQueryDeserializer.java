@@ -1,9 +1,9 @@
 package com.algolia.search.serializer;
 
 import com.algolia.search.Defaults;
-import com.algolia.search.models.ConsequenceQuery;
-import com.algolia.search.models.Edit;
-import com.algolia.search.models.EditType;
+import com.algolia.search.models.rules.ConsequenceQuery;
+import com.algolia.search.models.rules.Edit;
+import com.algolia.search.models.rules.EditType;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,7 +18,7 @@ public class ConsequenceQueryDeserializer extends JsonDeserializer<ConsequenceQu
       throws IOException {
     ObjectCodec oc = jp.getCodec();
     JsonNode node = oc.readTree(jp);
-    ObjectMapper objectMapper = Defaults.DEFAULT_OBJECT_MAPPER;
+    ObjectMapper objectMapper = Defaults.getObjectMapper();
 
     if (node.has("edits")) {
       ObjectReader reader = objectMapper.readerFor(new TypeReference<List<Edit>>() {});

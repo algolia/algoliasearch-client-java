@@ -1,0 +1,7 @@
+package com.algolia.search.models.common;
+
+public class CopyScope {
+  public static final String Settings = "settings";
+  public static final String Synonyms = "synonyms";
+  public static final String Rules = "rules";
+}

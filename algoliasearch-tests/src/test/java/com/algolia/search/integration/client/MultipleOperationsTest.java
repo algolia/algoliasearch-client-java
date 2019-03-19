@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.integration.AlgoliaMultipleOpObject;
-import com.algolia.search.models.*;
+import com.algolia.search.models.batch.BatchOperation;
+import com.algolia.search.models.common.*;
+import com.algolia.search.models.search.Query;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
