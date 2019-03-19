@@ -1,8 +1,8 @@
 package com.algolia.search.clients;
 
-import com.algolia.search.models.InsightsEvent;
-import com.algolia.search.models.InsightsResult;
 import com.algolia.search.models.RequestOptions;
+import com.algolia.search.models.insights.InsightsEvent;
+import com.algolia.search.models.insights.InsightsResult;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;

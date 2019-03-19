@@ -93,8 +93,8 @@ public final class HttpTransport {
 
     JavaType type =
         innerClass == null
-            ? Defaults.DEFAULT_OBJECT_MAPPER.getTypeFactory().constructType(returnClass)
-            : Defaults.DEFAULT_OBJECT_MAPPER
+            ? Defaults.getObjectMapper().getTypeFactory().constructType(returnClass)
+            : Defaults.getObjectMapper()
                 .getTypeFactory()
                 .constructParametricType(returnClass, innerClass);
 
@@ -140,7 +140,7 @@ public final class HttpTransport {
                 case SUCCESS:
                   try (InputStream dataStream = resp.getBody()) {
                     return CompletableFuture.completedFuture(
-                        Defaults.DEFAULT_OBJECT_MAPPER.readValue(dataStream, type));
+                        Defaults.getObjectMapper().readValue(dataStream, type));
                   } catch (IOException e) {
                     return CompletableFutureHelper.failedFuture(new AlgoliaRuntimeException(e));
                   }
@@ -177,13 +177,11 @@ public final class HttpTransport {
       TData data) {
 
     Map<String, String> headersToSend =
-        requestOptions != null
-            ? buildHeaders(requestOptions.generateExtraHeaders())
-            : buildHeaders();
+        requestOptions != null ? buildHeaders(requestOptions.getExtraHeaders()) : buildHeaders();
 
     String fullPath =
         requestOptions != null
-            ? buildFullPath(methodPath, requestOptions.generateExtraQueryParams())
+            ? buildFullPath(methodPath, requestOptions.getExtraQueryParams())
             : buildFullPath(methodPath);
 
     AlgoliaHttpRequest request =
@@ -192,7 +190,7 @@ public final class HttpTransport {
     if (data != null) {
       try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
-        Defaults.DEFAULT_OBJECT_MAPPER.writeValue(out, data);
+        Defaults.getObjectMapper().writeValue(out, data);
 
         ByteArrayInputStream content = new ByteArrayInputStream(out.toByteArray());
 

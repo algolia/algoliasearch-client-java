@@ -9,20 +9,9 @@ public class RequestOptions implements Serializable {
 
   private final Map<String, String> headers = new HashMap<>();
   private final Map<String, String> queryParams = new HashMap<>();
-  private String forwardedFor;
 
-  public String getForwardedFor() {
-    return forwardedFor;
-  }
-
-  public RequestOptions setForwardedFor(@Nonnull String forwardedFor) {
-    this.forwardedFor = forwardedFor;
-    return this;
-  }
-
-  public RequestOptions addExtraHeader(@Nonnull String key, @Nonnull String value) {
+  public void addExtraHeader(@Nonnull String key, @Nonnull String value) {
     headers.put(key, value);
-    return this;
   }
 
   public RequestOptions addExtraQueryParameters(@Nonnull String key, @Nonnull String value) {
@@ -30,27 +19,16 @@ public class RequestOptions implements Serializable {
     return this;
   }
 
-  public Map<String, String> generateExtraHeaders() {
-    if (forwardedFor != null) {
-      headers.put("X-Forwarded-For", forwardedFor);
-    }
+  public Map<String, String> getExtraHeaders() {
     return headers;
   }
 
-  public Map<String, String> generateExtraQueryParams() {
+  public Map<String, String> getExtraQueryParams() {
     return queryParams;
   }
 
   @Override
   public String toString() {
-    return "RequestOptions{"
-        + "headers="
-        + headers
-        + ", queryParams="
-        + queryParams
-        + ", forwardedFor='"
-        + forwardedFor
-        + '\''
-        + '}';
+    return "RequestOptions{" + "headers=" + headers + ", queryParams=" + queryParams + '\'' + '}';
   }
 }

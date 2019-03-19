@@ -1,9 +1,8 @@
 package com.algolia.search.serializer;
 
-import static com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER;
-
+import com.algolia.search.Defaults;
 import com.algolia.search.helpers.QueryStringHelper;
-import com.algolia.search.models.Query;
+import com.algolia.search.models.search.Query;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -26,7 +25,7 @@ public class QuerySerializer extends StdSerializer<Query> {
   public void serialize(Query value, JsonGenerator gen, SerializerProvider provider)
       throws IOException {
     Map<String, String> map =
-        DEFAULT_OBJECT_MAPPER.convertValue(value, new TypeReference<Map<String, String>>() {});
+        Defaults.getObjectMapper().convertValue(value, new TypeReference<Map<String, String>>() {});
     gen.writeString(QueryStringHelper.buildQueryString(map, true));
   }
 }
