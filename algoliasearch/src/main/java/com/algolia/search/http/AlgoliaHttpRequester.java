@@ -1,5 +1,6 @@
 package com.algolia.search.http;
 
+import com.algolia.search.Defaults;
 import com.algolia.search.clients.AlgoliaConfig;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.helpers.HttpStatusCodeHelper;
@@ -16,8 +17,11 @@ public final class AlgoliaHttpRequester implements IHttpRequester {
 
   public AlgoliaHttpRequester(AlgoliaConfig config) {
     this.config = config;
+
+    Integer connectTimeOut = config.getConnectTimeOut() != null ? config.getConnectTimeOut() : Defaults.CONNECT_TIMEOUT_MS;
+
     DefaultAsyncHttpClientConfig.Builder clientBuilder =
-        Dsl.config().setCompressionEnforced(true).setConnectTimeout(500).setKeepAlive(true);
+        Dsl.config().setCompressionEnforced(true).setConnectTimeout(connectTimeOut).setKeepAlive(true);
 
     asyncHttpClient = Dsl.asyncHttpClient(clientBuilder);
   }

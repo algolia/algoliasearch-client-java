@@ -70,6 +70,15 @@ public abstract class AlgoliaConfig {
     return this;
   }
 
+  public Integer getConnectTimeOut() {
+    return connectTimeOut;
+  }
+
+  public AlgoliaConfig setConnectTimeOut(Integer connectTimeOut) {
+    this.connectTimeOut = connectTimeOut;
+    return this;
+  }
+
   public List<StatefulHost> getDefaultHosts() {
     return defaultHosts;
   }
@@ -91,7 +100,7 @@ public abstract class AlgoliaConfig {
     return executor;
   }
 
-  private final String javaVersion = System.getProperty("java.version");
+  private static final String javaVersion = System.getProperty("java.version");
   private final String clientVersion = this.getClass().getPackage().getSpecificationVersion();
   private String applicationID;
   private String apiKey;
@@ -99,6 +108,7 @@ public abstract class AlgoliaConfig {
   private int batchSize;
   private Integer readTimeOut;
   private Integer writeTimeOut;
+  private Integer connectTimeOut;
   private List<StatefulHost> defaultHosts;
   private List<StatefulHost> customHosts;
   private ExecutorService executor;

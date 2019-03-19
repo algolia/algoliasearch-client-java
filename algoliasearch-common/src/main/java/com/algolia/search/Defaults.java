@@ -33,7 +33,8 @@ public interface Defaults {
                   .READ_DATE_TIMESTAMPS_AS_NANOSECONDS) // Nano seconds not supported by the engine
           .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
-  int READ_TIMEOUT_MS = 2 * 1000; // 2 seconds
+  int READ_TIMEOUT_MS = 5 * 1000; // 5 seconds
+  int WRITE_TIMEOUT_MS = 30 * 1000; // 30 seconds
   int CONNECT_TIMEOUT_MS = 2 * 1000; // 2 seconds
   int HOST_DOWN_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
 }
