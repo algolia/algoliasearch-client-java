@@ -1,6 +1,8 @@
 package com.algolia.search.models;
 
-public class StopAbTestResponse {
+import java.io.Serializable;
+
+public class StopAbTestResponse implements Serializable {
   public Long getTaskID() {
     return taskID;
   }

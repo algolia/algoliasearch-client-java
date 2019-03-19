@@ -10,35 +10,20 @@ import java.util.Map;
 public class SearchResult<T> implements Serializable {
 
   private Long page;
-
   private Long nbHits;
-
   private Long nbPages;
-
   private Long hitsPerPage;
-
   private Long processingTimeMS;
-
   private Map<String, Map<String, Long>> facets;
-
   private Map<String, FacetStats> facets_stats;
-
   private Boolean exhaustiveFacetsCount;
-
   private String query;
-
   private String params;
-
   private List<T> hits;
-
   private String index;
-
   private Boolean processed;
-
   private String queryID;
-
   private List<Map<String, Object>> userData;
-
   private List<Map<String, Object>> appliedRules;
 
   public List<Map<String, Object>> getAppliedRules() {
@@ -61,7 +46,7 @@ public class SearchResult<T> implements Serializable {
     return hits;
   }
 
-  public SearchResult setHits(List<T> hits) {
+  public SearchResult<T> setHits(List<T> hits) {
     this.hits = hits;
     return this;
   }
@@ -70,12 +55,12 @@ public class SearchResult<T> implements Serializable {
     return page;
   }
 
-  public SearchResult setPage(Integer page) {
+  public SearchResult<T> setPage(Integer page) {
     return this.setPage(page.longValue());
   }
 
   @JsonSetter
-  public SearchResult setPage(Long page) {
+  public SearchResult<T> setPage(Long page) {
     this.page = page;
     return this;
   }
@@ -84,12 +69,12 @@ public class SearchResult<T> implements Serializable {
     return nbHits;
   }
 
-  public SearchResult setNbHits(Integer nbHits) {
+  public SearchResult<T> setNbHits(Integer nbHits) {
     return this.setNbHits(nbHits.longValue());
   }
 
   @JsonSetter
-  public SearchResult setNbHits(Long nbHits) {
+  public SearchResult<T> setNbHits(Long nbHits) {
     this.nbHits = nbHits;
     return this;
   }
@@ -98,12 +83,12 @@ public class SearchResult<T> implements Serializable {
     return nbPages;
   }
 
-  public SearchResult setNbPages(Integer nbPages) {
+  public SearchResult<T> setNbPages(Integer nbPages) {
     return this.setNbPages(nbPages.longValue());
   }
 
   @JsonSetter
-  public SearchResult setNbPages(Long nbPages) {
+  public SearchResult<T> setNbPages(Long nbPages) {
     this.nbPages = nbPages;
     return this;
   }
@@ -112,12 +97,12 @@ public class SearchResult<T> implements Serializable {
     return hitsPerPage;
   }
 
-  public SearchResult setHitsPerPage(Integer hitsPerPage) {
+  public SearchResult<T> setHitsPerPage(Integer hitsPerPage) {
     return this.setHitsPerPage(hitsPerPage.longValue());
   }
 
   @JsonSetter
-  public SearchResult setHitsPerPage(Long hitsPerPage) {
+  public SearchResult<T> setHitsPerPage(Long hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
   }
@@ -126,12 +111,12 @@ public class SearchResult<T> implements Serializable {
     return processingTimeMS;
   }
 
-  public SearchResult setProcessingTimeMS(Integer processingTimeMS) {
+  public SearchResult<T> setProcessingTimeMS(Integer processingTimeMS) {
     return this.setProcessingTimeMS(processingTimeMS.longValue());
   }
 
   @JsonSetter
-  public SearchResult setProcessingTimeMS(Long processingTimeMS) {
+  public SearchResult<T> setProcessingTimeMS(Long processingTimeMS) {
     this.processingTimeMS = processingTimeMS;
     return this;
   }
@@ -140,7 +125,7 @@ public class SearchResult<T> implements Serializable {
     return facets;
   }
 
-  public SearchResult setFacets(Map<String, Map<String, Long>> facets) {
+  public SearchResult<T> setFacets(Map<String, Map<String, Long>> facets) {
     this.facets = facets;
     return this;
   }
@@ -149,7 +134,7 @@ public class SearchResult<T> implements Serializable {
     return exhaustiveFacetsCount;
   }
 
-  public SearchResult setExhaustiveFacetsCount(Boolean exhaustiveFacetsCount) {
+  public SearchResult<T> setExhaustiveFacetsCount(Boolean exhaustiveFacetsCount) {
     this.exhaustiveFacetsCount = exhaustiveFacetsCount;
     return this;
   }
@@ -158,7 +143,7 @@ public class SearchResult<T> implements Serializable {
     return query;
   }
 
-  public SearchResult setQuery(String query) {
+  public SearchResult<T> setQuery(String query) {
     this.query = query;
     return this;
   }
@@ -167,7 +152,7 @@ public class SearchResult<T> implements Serializable {
     return params;
   }
 
-  public SearchResult setParams(String params) {
+  public SearchResult<T> setParams(String params) {
     this.params = params;
     return this;
   }

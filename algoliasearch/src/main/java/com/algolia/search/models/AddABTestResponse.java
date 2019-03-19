@@ -1,6 +1,8 @@
 package com.algolia.search.models;
 
-public class AddABTestResponse {
+import java.io.Serializable;
+
+public class AddABTestResponse implements Serializable {
   public long getAbTestID() {
     return abTestID;
   }

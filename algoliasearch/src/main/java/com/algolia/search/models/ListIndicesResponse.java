@@ -1,8 +1,9 @@
 package com.algolia.search.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ListIndicesResponse {
+public class ListIndicesResponse implements Serializable {
 
   public List<IndicesResponse> getIndices() {
     return items;
