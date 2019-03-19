@@ -2,7 +2,6 @@ package com.algolia.search.integration.client;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.algolia.search.inputs.MultipleGetObject;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.integration.AlgoliaMultipleOpObject;
 import com.algolia.search.models.*;

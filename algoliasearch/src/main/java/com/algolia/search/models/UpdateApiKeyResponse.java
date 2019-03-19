@@ -1,6 +1,5 @@
 package com.algolia.search.models;
 
-import com.algolia.search.objects.ApiKey;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.Objects;

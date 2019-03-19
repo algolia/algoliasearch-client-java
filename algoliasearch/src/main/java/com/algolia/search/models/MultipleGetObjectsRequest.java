@@ -1,6 +1,5 @@
 package com.algolia.search.models;
 
-import com.algolia.search.inputs.MultipleGetObject;
 import java.io.Serializable;
 import java.util.List;
 

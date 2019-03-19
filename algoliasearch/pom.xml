@@ -10,26 +10,12 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <properties>
-    <async-http-client.version>2.7.0</async-http-client.version>
-  </properties>
-
   <artifactId>algoliasearch</artifactId>
 
   <dependencies>
     <dependency>
-      <groupId>com.algolia</groupId>
-      <artifactId>algoliasearch-common</artifactId>
-    </dependency>
-    <!-- will be removed. Here for legacy purposes -->
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.asynchttpclient</groupId>
       <artifactId>async-http-client</artifactId>
-      <version>${async-http-client.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>

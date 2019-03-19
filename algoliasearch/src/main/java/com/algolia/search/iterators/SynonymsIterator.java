@@ -1,10 +1,10 @@
 package com.algolia.search.iterators;
 
 import com.algolia.search.clients.SearchIndex;
+import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.SearchResult;
 import com.algolia.search.models.Synonym;
-import com.algolia.search.objects.RequestOptions;
-import com.algolia.search.objects.SynonymQuery;
+import com.algolia.search.models.SynonymQuery;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings("WeakerAccess")

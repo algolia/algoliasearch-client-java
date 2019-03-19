@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.models.IndicesResponse;
-import com.algolia.search.objects.Log;
+import com.algolia.search.models.Log;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;

@@ -3,11 +3,7 @@ package com.algolia.search.integration.client;
 import static org.assertj.core.api.Assertions.*;
 
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
-import com.algolia.search.models.AddApiKeyResponse;
-import com.algolia.search.models.DeleteApiKeyResponse;
-import com.algolia.search.models.RestoreApiKeyResponse;
-import com.algolia.search.models.UpdateApiKeyResponse;
-import com.algolia.search.objects.ApiKey;
+import com.algolia.search.models.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

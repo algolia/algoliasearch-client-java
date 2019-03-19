@@ -11,7 +11,7 @@ import com.algolia.search.http.IHttpRequester;
 import com.algolia.search.models.AlgoliaHttpRequest;
 import com.algolia.search.models.CallType;
 import com.algolia.search.models.HttpMethod;
-import com.algolia.search.objects.RequestOptions;
+import com.algolia.search.models.RequestOptions;
 import com.fasterxml.jackson.databind.JavaType;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
