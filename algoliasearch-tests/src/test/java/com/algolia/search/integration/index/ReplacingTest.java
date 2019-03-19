@@ -1,6 +1,6 @@
 package com.algolia.search.integration.index;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.algolia.search.clients.SearchIndex;
@@ -54,7 +54,7 @@ class ReplacingTest extends AlgoliaBaseIntegrationTest {
     Synonym synonymToSave =
         new Synonym()
             .setObjectID("one")
-            .setType(SynonymType.Synonym)
+            .setType(SynonymType.SYNONYM)
             .setSynonyms(Arrays.asList("one", "two"));
 
     CompletableFuture<SaveSynonymResponse> saveSynonymFuture =
@@ -84,7 +84,7 @@ class ReplacingTest extends AlgoliaBaseIntegrationTest {
     Synonym synonymToSave2 =
         new Synonym()
             .setObjectID("two")
-            .setType(SynonymType.Synonym)
+            .setType(SynonymType.SYNONYM)
             .setSynonyms(Arrays.asList("one", "two"));
 
     CompletableFuture<SaveSynonymResponse> replaceAllSynonymsFuture =

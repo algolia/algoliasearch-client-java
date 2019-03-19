@@ -11,7 +11,7 @@ public class Synonym implements Serializable {
   public Synonym() {}
 
   public static Synonym createSynonym(String objectID, List<String> synonyms) {
-    return new Synonym().setObjectID(objectID).setSynonyms(synonyms).setType(SynonymType.Synonym);
+    return new Synonym().setObjectID(objectID).setSynonyms(synonyms).setType(SynonymType.SYNONYM);
   }
 
   public static Synonym createOneWaySynonym(String objectID, String input, List<String> synonyms) {
@@ -19,7 +19,7 @@ public class Synonym implements Serializable {
         .setObjectID(objectID)
         .setInput(input)
         .setSynonyms(synonyms)
-        .setType(SynonymType.OneWaySynonym);
+        .setType(SynonymType.ONE_WAY_SYNONYM);
   }
 
   public static Synonym createPlaceHolder(
@@ -28,7 +28,7 @@ public class Synonym implements Serializable {
         .setObjectID(objectID)
         .setReplacements(replacements)
         .setPlaceholder(placeholder)
-        .setType(SynonymType.Placeholder);
+        .setType(SynonymType.PLACEHOLDER);
   }
 
   public static Synonym createAltCorrection1(
@@ -37,7 +37,7 @@ public class Synonym implements Serializable {
         .setObjectID(objectID)
         .setWord(word)
         .setCorrections(corrections)
-        .setType(SynonymType.AltCorrection1);
+        .setType(SynonymType.ALT_CORRECTION_1);
   }
 
   public static Synonym createAltCorrection2(
@@ -46,7 +46,7 @@ public class Synonym implements Serializable {
         .setObjectID(objectID)
         .setWord(word)
         .setCorrections(corrections)
-        .setType(SynonymType.AltCorrection2);
+        .setType(SynonymType.ALT_CORRECTION_2);
   }
 
   public String getObjectID() {

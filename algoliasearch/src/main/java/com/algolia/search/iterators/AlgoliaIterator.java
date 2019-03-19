@@ -9,8 +9,8 @@ import javax.annotation.Nonnull;
 
 abstract class AlgoliaIterator<E> implements Iterator<E> {
 
-  protected final SearchIndex<?> index;
-  protected final Integer hitsPerPage;
+  final SearchIndex<?> index;
+  private final Integer hitsPerPage;
   private final RequestOptions requestOptions;
 
   // Internal state

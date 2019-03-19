@@ -8,7 +8,10 @@ import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.helpers.AlgoliaHelper;
 import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.iterators.IndexIterable;
-import com.algolia.search.models.*;
+import com.algolia.search.models.CallType;
+import com.algolia.search.models.HttpMethod;
+import com.algolia.search.models.IAlgoliaWaitableResponse;
+import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.batch.BatchRequest;
 import com.algolia.search.models.batch.BatchResponse;
 import com.algolia.search.models.common.*;
@@ -436,7 +439,9 @@ public class SearchIndex<T> {
     Objects.requireNonNull(data, "Data are required.");
 
     String action =
-        createIfNotExists ? ActionEnum.PartialUpdateObject : ActionEnum.PartialUpdateObjectNoCreate;
+        createIfNotExists
+            ? ActionEnum.PARTIAL_UPDATE_OBJECT
+            : ActionEnum.PARTIAL_UPDATE_OBJECT_NO_CREATE;
 
     return splitIntoBatchesAsync(data, action, requestOptions);
   }
@@ -456,8 +461,8 @@ public class SearchIndex<T> {
    * object contains a set of attributes and values, which represents a full record on an index.
    *
    * @param data The data to send
-   * @param autoGenerateObjectID If set to true, the method will perform "AddObject", otherwise will
-   *     perform an "UpdateObject"
+   * @param autoGenerateObjectID If set to true, the method will perform "ADD_OBJECT", otherwise
+   *     will perform an "UpdateObject"
    */
   public CompletableFuture<BatchIndexingResponse> saveObjectAsync(
       @Nonnull T data, boolean autoGenerateObjectID) {
@@ -481,8 +486,8 @@ public class SearchIndex<T> {
    * object contains a set of attributes and values, which represents a full record on an index.
    *
    * @param data The data to send
-   * @param autoGenerateObjectID If set to true, the method will perform "AddObject", otherwise will
-   *     perform an "UpdateObject"
+   * @param autoGenerateObjectID If set to true, the method will perform "ADD_OBJECT", otherwise
+   *     will perform an "UpdateObject"
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<BatchIndexingResponse> saveObjectAsync(
@@ -508,8 +513,8 @@ public class SearchIndex<T> {
    * object contains a set of attributes and values, which represents a full record on an index.
    *
    * @param data The data to send
-   * @param autoGenerateObjectID If set to true, the method will perform "AddObject", otherwise will
-   *     perform an "UpdateObject"
+   * @param autoGenerateObjectID If set to true, the method will perform "ADD_OBJECT", otherwise
+   *     will perform an "UpdateObject"
    */
   public CompletableFuture<BatchIndexingResponse> saveObjectsAsync(
       @Nonnull Iterable<T> data, boolean autoGenerateObjectID) {
@@ -533,8 +538,8 @@ public class SearchIndex<T> {
    * object contains a set of attributes and values, which represents a full record on an index.
    *
    * @param data The data to send
-   * @param autoGenerateObjectID If set to true, the method will perform "AddObject", otherwise will
-   *     perform an "UpdateObject"
+   * @param autoGenerateObjectID If set to true, the method will perform "ADD_OBJECT", otherwise
+   *     will perform an "UpdateObject"
    * @param requestOptions Options to pass to this request
    */
   public CompletableFuture<BatchIndexingResponse> saveObjectsAsync(
@@ -542,10 +547,10 @@ public class SearchIndex<T> {
     Objects.requireNonNull(data, "Data are required.");
 
     if (autoGenerateObjectID) {
-      return splitIntoBatchesAsync(data, ActionEnum.AddObject, requestOptions);
+      return splitIntoBatchesAsync(data, ActionEnum.ADD_OBJECT, requestOptions);
     }
 
-    return splitIntoBatchesAsync(data, ActionEnum.UpdateObject, requestOptions);
+    return splitIntoBatchesAsync(data, ActionEnum.UPDATE_OBJECT, requestOptions);
   }
 
   /**
@@ -749,7 +754,7 @@ public class SearchIndex<T> {
       request.add(tmp);
     }
 
-    return splitIntoBatchesAsync(request, ActionEnum.DeleteObject, requestOptions);
+    return splitIntoBatchesAsync(request, ActionEnum.DELETE_OBJECT, requestOptions);
   }
 
   /**
@@ -839,7 +844,7 @@ public class SearchIndex<T> {
     String tmpIndexName = indexName + "_tmp_" + rnd.nextInt(100);
     SearchIndex<T> tmpIndex = new SearchIndex<>(transport, config, tmpIndexName, klass);
 
-    List<String> scopes = Arrays.asList(CopyScope.Rules, CopyScope.Settings, CopyScope.Synonyms);
+    List<String> scopes = Arrays.asList(CopyScope.RULES, CopyScope.SETTINGS, CopyScope.SYNONYMS);
 
     List<CompletableFuture<? extends IAlgoliaWaitableResponse>> futures = new ArrayList<>();
 
@@ -906,7 +911,7 @@ public class SearchIndex<T> {
     }
 
     MoveIndexRequest request =
-        new MoveIndexRequest().setOperation(MoveType.Move).setDestination(indexName);
+        new MoveIndexRequest().setOperation(MoveType.MOVE).setDestination(indexName);
 
     return transport
         .executeRequestAsync(
@@ -940,7 +945,7 @@ public class SearchIndex<T> {
 
     CopyToRequest request =
         new CopyToRequest()
-            .setOperation(MoveType.Copy)
+            .setOperation(MoveType.COPY)
             .setDestination(destinationIndex)
             .setScope(scope);
 

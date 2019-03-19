@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+@SuppressWarnings("WeakerAccess")
 public class HmacShaHelper {
 
   private static String hmac(String key, String msg) throws Exception {

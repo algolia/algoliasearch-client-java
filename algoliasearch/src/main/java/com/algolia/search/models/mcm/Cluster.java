@@ -2,6 +2,7 @@ package com.algolia.search.models.mcm;
 
 import java.io.Serializable;
 
+@SuppressWarnings("WeakerAccess")
 public class Cluster implements Serializable {
 
   private String clusterName;

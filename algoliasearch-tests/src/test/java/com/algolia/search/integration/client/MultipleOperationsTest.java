@@ -1,6 +1,6 @@
 package com.algolia.search.integration.client;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.integration.AlgoliaMultipleOpObject;
@@ -30,13 +30,13 @@ class MultipleOperationsTest extends AlgoliaBaseIntegrationTest {
     List<BatchOperation<AlgoliaMultipleOpObject>> objectsToSave =
         Arrays.asList(
             new BatchOperation<>(
-                index1Name, ActionEnum.AddObject, new AlgoliaMultipleOpObject("Jimmie")),
+                index1Name, ActionEnum.ADD_OBJECT, new AlgoliaMultipleOpObject("Jimmie")),
             new BatchOperation<>(
-                index1Name, ActionEnum.AddObject, new AlgoliaMultipleOpObject("Jimmie")),
+                index1Name, ActionEnum.ADD_OBJECT, new AlgoliaMultipleOpObject("Jimmie")),
             new BatchOperation<>(
-                index2Name, ActionEnum.AddObject, new AlgoliaMultipleOpObject("Jimmie")),
+                index2Name, ActionEnum.ADD_OBJECT, new AlgoliaMultipleOpObject("Jimmie")),
             new BatchOperation<>(
-                index2Name, ActionEnum.AddObject, new AlgoliaMultipleOpObject("Jimmie")));
+                index2Name, ActionEnum.ADD_OBJECT, new AlgoliaMultipleOpObject("Jimmie")));
 
     MultipleIndexBatchIndexingResponse saveMultiple =
         searchClient.multipleBatchAsync(objectsToSave).join();
@@ -77,9 +77,9 @@ class MultipleOperationsTest extends AlgoliaBaseIntegrationTest {
             new MultipleQueries(index1Name, new Query().setHitsPerPage(2)),
             new MultipleQueries(index2Name, new Query().setHitsPerPage(2)));
 
-    MultipleQueriesRequest request = new MultipleQueriesRequest(StrategyType.None, multipleSearch);
+    MultipleQueriesRequest request = new MultipleQueriesRequest(StrategyType.NONE, multipleSearch);
     MultipleQueriesRequest request2 =
-        new MultipleQueriesRequest(StrategyType.StopIfEnoughMatches, multipleSearch);
+        new MultipleQueriesRequest(StrategyType.STOP_IF_ENOUGH_MATCHES, multipleSearch);
 
     CompletableFuture<MultipleQueriesResponse<AlgoliaMultipleOpObject>> multiSearchFuture =
         searchClient.multipleQueriesAsync(request, AlgoliaMultipleOpObject.class);

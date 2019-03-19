@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 public class IndexIterable<E> implements Iterable<E> {
 
   private final SearchIndex<E> index;
-  private BrowseIndexQuery query;
+  private final BrowseIndexQuery query;
   private final RequestOptions requestOptions;
 
   public IndexIterable(@Nonnull SearchIndex<E> index) {

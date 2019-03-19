@@ -19,11 +19,11 @@ public class Edit implements Serializable {
   }
 
   public static Edit createDelete(String delete) {
-    return new Edit(EditType.Remove, delete, null);
+    return new Edit(EditType.REMOVE, delete, null);
   }
 
   public static Edit createReplace(String delete, String insert) {
-    return new Edit(EditType.Replace, delete, insert);
+    return new Edit(EditType.REPLACE, delete, insert);
   }
 
   public String getDelete() {

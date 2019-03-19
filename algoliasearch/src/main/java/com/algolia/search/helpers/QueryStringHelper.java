@@ -2,7 +2,10 @@ package com.algolia.search.helpers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class QueryStringHelper {
 

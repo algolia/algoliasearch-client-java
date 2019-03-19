@@ -13,7 +13,7 @@ public class IndexIterator<E> implements Iterator<E> {
 
   private final SearchIndex<E> index;
   private final RequestOptions requestOptions;
-  private BrowseIndexQuery query;
+  private final BrowseIndexQuery query;
   private Integer currentPage = 0;
   private Iterator<E> currentIterator = null;
   private boolean isFirstRequest = true;

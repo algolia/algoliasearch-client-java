@@ -1,6 +1,7 @@
 package com.algolia.search.integration.index;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.clients.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
