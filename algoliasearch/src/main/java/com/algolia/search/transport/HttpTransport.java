@@ -282,11 +282,11 @@ public final class HttpTransport {
   private int getTimeOut(CallType callType) {
     switch (callType) {
       case READ:
-        return config.getReadTimeOut() == null ? 5 * 1000 : config.getReadTimeOut();
+        return config.getReadTimeOut() == null ? Defaults.READ_TIMEOUT_MS : config.getReadTimeOut();
       case WRITE:
-        return config.getWriteTimeOut() == null ? 30 * 1000 : config.getWriteTimeOut();
+        return config.getWriteTimeOut() == null ? Defaults.WRITE_TIMEOUT_MS  : config.getWriteTimeOut();
       default:
-        return 30 * 1000;
+        return Defaults.WRITE_TIMEOUT_MS;
     }
   }
 }
