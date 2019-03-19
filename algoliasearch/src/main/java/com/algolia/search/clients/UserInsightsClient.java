@@ -17,6 +17,7 @@ public class UserInsightsClient {
     this.userToken = userToken;
     this.insightsClient = insightsClient;
   }
+
   /**
    * @param eventName The Event Name
    * @param indexName The Index Name

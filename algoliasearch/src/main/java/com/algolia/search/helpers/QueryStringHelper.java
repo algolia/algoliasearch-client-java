@@ -2,11 +2,16 @@ package com.algolia.search.helpers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class QueryStringHelper {
 
+  /**
+   * Encode the given string
+   *
+   * @param s The string to encode
+   * @return URL encoded string
+   */
   public static String urlEncodeUTF8(String s) {
     try {
       return URLEncoder.encode(s, "UTF-8");
@@ -37,5 +42,11 @@ public class QueryStringHelper {
     return map.entrySet().stream()
         .map(p -> urlEncodeUTF8(p.getKey()) + "=" + urlEncodeUTF8(p.getValue()))
         .reduce((p1, p2) -> p1 + "&" + p2);
+  }
+
+  private static String buildString(Map<String, String> map, String... ignoreList) {
+    HashMap<String, String> copy = new HashMap<>(map);
+    copy.keySet().removeAll(Arrays.asList(ignoreList));
+    return buildQueryString(copy);
   }
 }

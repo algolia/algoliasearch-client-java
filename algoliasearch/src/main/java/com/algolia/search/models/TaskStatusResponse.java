@@ -1,6 +1,8 @@
 package com.algolia.search.models;
 
-public class TaskStatusResponse {
+import java.io.Serializable;
+
+public class TaskStatusResponse implements Serializable {
 
   public String getStatus() {
     return status;

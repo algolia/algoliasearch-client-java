@@ -18,10 +18,16 @@ public final class AlgoliaHttpRequester implements IHttpRequester {
   public AlgoliaHttpRequester(AlgoliaConfig config) {
     this.config = config;
 
-    Integer connectTimeOut = config.getConnectTimeOut() != null ? config.getConnectTimeOut() : Defaults.CONNECT_TIMEOUT_MS;
+    Integer connectTimeOut =
+        config.getConnectTimeOut() != null
+            ? config.getConnectTimeOut()
+            : Defaults.CONNECT_TIMEOUT_MS;
 
     DefaultAsyncHttpClientConfig.Builder clientBuilder =
-        Dsl.config().setCompressionEnforced(true).setConnectTimeout(connectTimeOut).setKeepAlive(true);
+        Dsl.config()
+            .setCompressionEnforced(true)
+            .setConnectTimeout(connectTimeOut)
+            .setKeepAlive(true);
 
     asyncHttpClient = Dsl.asyncHttpClient(clientBuilder);
   }

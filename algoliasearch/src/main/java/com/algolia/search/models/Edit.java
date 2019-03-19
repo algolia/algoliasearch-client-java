@@ -1,9 +1,10 @@
 package com.algolia.search.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Edit {
+public class Edit implements Serializable {
 
   private String type;
   private String delete;

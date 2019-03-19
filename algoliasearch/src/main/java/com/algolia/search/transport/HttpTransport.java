@@ -284,7 +284,9 @@ public final class HttpTransport {
       case READ:
         return config.getReadTimeOut() == null ? Defaults.READ_TIMEOUT_MS : config.getReadTimeOut();
       case WRITE:
-        return config.getWriteTimeOut() == null ? Defaults.WRITE_TIMEOUT_MS  : config.getWriteTimeOut();
+        return config.getWriteTimeOut() == null
+            ? Defaults.WRITE_TIMEOUT_MS
+            : config.getWriteTimeOut();
       default:
         return Defaults.WRITE_TIMEOUT_MS;
     }

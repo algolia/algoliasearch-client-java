@@ -215,7 +215,7 @@ public class SearchClient {
 
     Objects.requireNonNull(operations, "Operations are required");
 
-    BatchRequest request = new BatchRequest(operations);
+    BatchRequest request = new BatchRequest<>(operations);
 
     return transport
         .executeRequestAsync(
@@ -688,6 +688,255 @@ public class SearchClient {
         .executeRequestAsync(
             HttpMethod.GET, "/1/logs", CallType.READ, null, Logs.class, requestOptions)
         .thenApplyAsync(Logs::getLogs, config.getExecutor());
+  }
+
+  /** List the clusters available in a multi-clusters setup for a single appID */
+  public CompletableFuture<ListClustersResponse> listClustersAsync() {
+    return listClustersAsync(null);
+  }
+
+  /**
+   * List the clusters available in a multi-clusters setup for a single appID
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<ListClustersResponse> listClustersAsync(RequestOptions requestOptions) {
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/clusters",
+        CallType.READ,
+        null,
+        ListClustersResponse.class,
+        requestOptions);
+  }
+
+  /**
+   * Search for userIDs The data returned will usually be a few seconds behind real-time, because
+   * userID usage may take up to a few seconds propagate to the different cluster
+   *
+   * @param query The query to search for userIDs
+   */
+  public CompletableFuture<SearchResult<UserId>> searchUserIDsAsync(
+      @Nonnull SearchUserIdsRequest query) {
+    return searchUserIDsAsync(query, null);
+  }
+
+  /**
+   * Search for userIDs The data returned will usually be a few seconds behind real-time, because
+   * userID usage may take up to a few seconds propagate to the different cluster
+   *
+   * @param query The query to search for userIDs
+   * @param requestOptions Options to pass to this request
+   */
+  @SuppressWarnings("unchecked")
+  public CompletableFuture<SearchResult<UserId>> searchUserIDsAsync(
+      @Nonnull SearchUserIdsRequest query, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(query, "A query is required");
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/clusters/mapping/search",
+            CallType.READ,
+            query,
+            SearchResult.class,
+            UserId.class,
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<SearchResult<UserId>> r = new CompletableFuture<>();
+              r.complete(resp);
+              return r;
+            },
+            config.getExecutor());
+  }
+
+  /** List the userIDs assigned to a multi-clusters appID. */
+  public CompletableFuture<ListUserIdsResponse> listUserIDsAsync() {
+    return listUserIDsAsync(0, 10, null);
+  }
+
+  /**
+   * List the userIDs assigned to a multi-clusters appID.
+   *
+   * @param page The page number to request
+   * @param hitsPerPage Number of hits per page
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<ListUserIdsResponse> listUserIDsAsync(
+      int page, int hitsPerPage, RequestOptions requestOptions) {
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    requestOptions.addExtraQueryParameters("page", String.valueOf(page));
+    requestOptions.addExtraQueryParameters("hitsPerPage", String.valueOf(hitsPerPage));
+
+    return listUserIDsAsync(requestOptions);
+  }
+
+  /**
+   * List the userIDs assigned to a multi-clusters appID.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  CompletableFuture<ListUserIdsResponse> listUserIDsAsync(RequestOptions requestOptions) {
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/clusters/mapping",
+        CallType.READ,
+        null,
+        ListUserIdsResponse.class,
+        requestOptions);
+  }
+
+  /**
+   * Returns the userID data stored in the mapping.
+   *
+   * @param userID The userID in the mapping
+   */
+  public CompletableFuture<UserId> getUserIDAsync(@Nonnull String userID) {
+    Objects.requireNonNull(userID, "The userID is required.");
+    return getUserIDAsync(userID, null);
+  }
+
+  /**
+   * Returns the userID data stored in the mapping.
+   *
+   * @param userID The userID in the mapping
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<UserId> getUserIDAsync(
+      @Nonnull String userID, RequestOptions requestOptions) {
+    Objects.requireNonNull(userID, "The userID is required.");
+
+    if (userID.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("userID must not be empty.");
+    }
+
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/clusters/mapping/" + userID,
+        CallType.READ,
+        null,
+        UserId.class,
+        requestOptions);
+  }
+
+  /**
+   * Get the top 10 userIDs with the highest number of records per cluster. The data returned will
+   * usually be a few seconds behind real-time, because userID usage may take up to a few seconds to
+   * propagate to the different clusters.
+   */
+  public CompletableFuture<TopUserIdResponse> getTopUserIdAsync() {
+    return getTopUserIDAsync(null);
+  }
+
+  /**
+   * Get the top 10 userIDs with the highest number of records per cluster. The data returned will
+   * usually be a few seconds behind real-time, because userID usage may take up to a few seconds to
+   * propagate to the different clusters.
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<TopUserIdResponse> getTopUserIDAsync(RequestOptions requestOptions) {
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/clusters/mapping/top",
+        CallType.READ,
+        null,
+        TopUserIdResponse.class,
+        requestOptions);
+  }
+
+  /**
+   * Remove a userID and its associated data from the multi-clusters.
+   *
+   * @param userId userID
+   */
+  public CompletableFuture<RemoveUserIdResponse> removeUserIdAsync(@Nonnull String userId) {
+    return removeUserIDAsync(userId, null);
+  }
+
+  /**
+   * Remove a userID and its associated data from the multi-clusters.
+   *
+   * @param userId userID
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<RemoveUserIdResponse> removeUserIDAsync(
+      @Nonnull String userId, RequestOptions requestOptions) {
+    Objects.requireNonNull(userId, "userId key is required.");
+
+    if (userId.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("userId must not be empty.");
+    }
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    requestOptions.addExtraHeader("X-Algolia-USER-ID", userId);
+
+    return transport.executeRequestAsync(
+        HttpMethod.DELETE,
+        "/1/clusters/mapping",
+        CallType.WRITE,
+        null,
+        RemoveUserIdResponse.class,
+        requestOptions);
+  }
+
+  /**
+   * Assign or Move a userID to a cluster. The time it takes to migrate (move) a user is
+   * proportional to the amount of data linked to the userID.
+   *
+   * @param userId The userID
+   * @param clusterName The name of the cluster
+   */
+  public CompletableFuture<AssignUserIdResponse> assignUserIDAsync(
+      @Nonnull String userId, @Nonnull String clusterName) {
+    return assignUserIDAsync(userId, clusterName, null);
+  }
+
+  /**
+   * Assign or Move a userID to a cluster. The time it takes to migrate (move) a user is
+   * proportional to the amount of data linked to the userID.
+   *
+   * @param userId The userID
+   * @param clusterName The name of the cluster
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<AssignUserIdResponse> assignUserIDAsync(
+      @Nonnull String userId, @Nonnull String clusterName, RequestOptions requestOptions) {
+    Objects.requireNonNull(userId, "userId key is required.");
+    Objects.requireNonNull(clusterName, "clusterName key is required.");
+
+    if (userId.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("userId must not be empty.");
+    }
+
+    if (clusterName.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("clusterName must not be empty.");
+    }
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    requestOptions.addExtraHeader("X-Algolia-USER-ID", userId);
+
+    AssignUserIdRequest request = new AssignUserIdRequest(clusterName);
+
+    return transport.executeRequestAsync(
+        HttpMethod.POST,
+        "/1/clusters/mapping",
+        CallType.WRITE,
+        null,
+        AssignUserIdResponse.class,
+        requestOptions);
   }
 
   /**

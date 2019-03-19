@@ -1,8 +1,9 @@
 package com.algolia.search.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MultiResponse implements IAlgoliaWaitableResponse {
+public class MultiResponse implements Serializable, IAlgoliaWaitableResponse {
 
   public List<IAlgoliaWaitableResponse> getResponses() {
     return responses;

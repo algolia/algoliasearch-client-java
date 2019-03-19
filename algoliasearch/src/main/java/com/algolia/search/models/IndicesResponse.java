@@ -1,8 +1,9 @@
 package com.algolia.search.models;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-public class IndicesResponse {
+public class IndicesResponse implements Serializable {
   public String getName() {
     return name;
   }

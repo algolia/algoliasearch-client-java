@@ -2,10 +2,11 @@ package com.algolia.search.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AutomaticFacetFilter {
+public class AutomaticFacetFilter implements Serializable {
 
   private String facet;
   private Boolean disjunctive;
