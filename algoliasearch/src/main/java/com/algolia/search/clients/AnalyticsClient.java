@@ -4,14 +4,10 @@ import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.http.AlgoliaHttpRequester;
 import com.algolia.search.http.IHttpRequester;
-import com.algolia.search.models.*;
+import com.algolia.search.models.CallType;
+import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
-import com.algolia.search.models.analytics.ABTest;
-import com.algolia.search.models.analytics.ABTestResponse;
-import com.algolia.search.models.analytics.ABTests;
-import com.algolia.search.models.analytics.AddABTestResponse;
-import com.algolia.search.models.analytics.DeleteAbTestResponse;
-import com.algolia.search.models.analytics.StopAbTestResponse;
+import com.algolia.search.models.analytics.*;
 import com.algolia.search.transport.HttpTransport;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -21,7 +17,6 @@ import javax.annotation.Nonnull;
 public class AnalyticsClient {
 
   private final HttpTransport transport;
-  private final AlgoliaConfig config;
 
   public AnalyticsClient(@Nonnull String applicationID, @Nonnull String apiKey) {
     this(new AnalyticsConfig(applicationID, apiKey));
@@ -46,7 +41,6 @@ public class AnalyticsClient {
       throw new NullPointerException("APIKey can't be empty.");
     }
 
-    this.config = config;
     this.transport = new HttpTransport(config, httpRequester);
   }
 

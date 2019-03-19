@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 class RetryStrategy {
-  private List<StatefulHost> hosts;
+  private final List<StatefulHost> hosts;
 
   RetryStrategy(AlgoliaConfig config) {
     hosts = (config.getCustomHosts() != null) ? config.getCustomHosts() : config.getDefaultHosts();

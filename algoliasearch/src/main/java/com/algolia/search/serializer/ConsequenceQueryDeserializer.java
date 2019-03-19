@@ -30,7 +30,7 @@ public class ConsequenceQueryDeserializer extends JsonDeserializer<ConsequenceQu
       List<String> list = reader.readValue(node);
 
       List<Edit> edits =
-          list.stream().map(r -> new Edit(EditType.Remove, r, null)).collect(Collectors.toList());
+          list.stream().map(r -> new Edit(EditType.REMOVE, r, null)).collect(Collectors.toList());
 
       return new ConsequenceQuery().setEdits(edits);
     }

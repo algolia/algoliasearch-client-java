@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -95,8 +94,7 @@ class DistinctAsBoolean extends Distinct {
 class DistinctJsonDeserializer extends JsonDeserializer<Distinct> {
 
   @Override
-  public Distinct deserialize(JsonParser p, DeserializationContext ctxt)
-      throws IOException {
+  public Distinct deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
     JsonToken currentToken = p.getCurrentToken();
     if (currentToken.equals(JsonToken.VALUE_NUMBER_INT)) {
       return Distinct.of(p.getIntValue());

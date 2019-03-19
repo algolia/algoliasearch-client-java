@@ -6,7 +6,7 @@ public class AlgoliaApiException extends AlgoliaRuntimeException {
     return httpErrorCode;
   }
 
-  private int httpErrorCode;
+  private final int httpErrorCode;
 
   public AlgoliaApiException(String message, Throwable cause, int httpErrorCode) {
     super(message, cause);

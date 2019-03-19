@@ -10,27 +10,27 @@ import javax.annotation.Nonnull;
 public class BatchOperation<T> implements Serializable {
 
   public static <T> BatchOperation<T> createAddObject(@Nonnull T body) {
-    return new BatchOperation<>(ActionEnum.AddObject, body);
+    return new BatchOperation<>(ActionEnum.ADD_OBJECT, body);
   }
 
   public static <T> BatchOperation<T> createUpdateObject(@Nonnull T body) {
-    return new BatchOperation<>(ActionEnum.UpdateObject, body);
+    return new BatchOperation<>(ActionEnum.UPDATE_OBJECT, body);
   }
 
   public static <T> BatchOperation<T> createPartialUpdateObject(@Nonnull T body) {
-    return new BatchOperation<>(ActionEnum.PartialUpdateObject, body);
+    return new BatchOperation<>(ActionEnum.PARTIAL_UPDATE_OBJECT, body);
   }
 
   public static <T> BatchOperation<T> createPartialUpdateObjectNoCreate(@Nonnull T body) {
-    return new BatchOperation<>(ActionEnum.PartialUpdateObjectNoCreate, body);
+    return new BatchOperation<>(ActionEnum.PARTIAL_UPDATE_OBJECT_NO_CREATE, body);
   }
 
   public static <T> BatchOperation<T> createDeleteObject(@Nonnull T body) {
-    return new BatchOperation<>(ActionEnum.DeleteObject, body);
+    return new BatchOperation<>(ActionEnum.DELETE_OBJECT, body);
   }
 
   public static <T> BatchOperation<T> createDelete(@Nonnull T body) {
-    return new BatchOperation<>(ActionEnum.Delete, body);
+    return new BatchOperation<>(ActionEnum.DELETE, body);
   }
 
   public BatchOperation(String indexName, String action, T body) {

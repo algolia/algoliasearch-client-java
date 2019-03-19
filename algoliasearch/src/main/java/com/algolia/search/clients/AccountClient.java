@@ -5,7 +5,7 @@ import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.iterators.RulesIterable;
 import com.algolia.search.iterators.SynonymsIterable;
-import com.algolia.search.models.*;
+import com.algolia.search.models.IAlgoliaWaitableResponse;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.BatchIndexingResponse;
 import com.algolia.search.models.common.MultiResponse;

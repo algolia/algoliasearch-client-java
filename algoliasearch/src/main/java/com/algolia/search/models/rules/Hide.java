@@ -2,6 +2,7 @@ package com.algolia.search.models.rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+@SuppressWarnings("WeakerAccess")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Hide {
 

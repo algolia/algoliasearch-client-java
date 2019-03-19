@@ -8,6 +8,7 @@ import java.util.function.Function;
 
 public class DeleteApiKeyResponse implements IAlgoliaWaitableResponse, Serializable {
 
+  @SuppressWarnings("WeakerAccess")
   public String getKey() {
     return key;
   }

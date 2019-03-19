@@ -56,7 +56,7 @@ public abstract class AlgoliaBaseIntegrationTest {
 
         List<BatchOperation<Object>> operations =
             indicesToDelete.stream()
-                .map(i -> new BatchOperation<>(i.getName(), ActionEnum.Delete))
+                .map(i -> new BatchOperation<>(i.getName(), ActionEnum.DELETE))
                 .collect(Collectors.toList());
 
         searchClient.multipleBatch(operations);

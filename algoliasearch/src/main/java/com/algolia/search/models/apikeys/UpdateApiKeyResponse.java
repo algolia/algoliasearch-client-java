@@ -6,6 +6,7 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.function.Function;
 
+@SuppressWarnings("WeakerAccess")
 public class UpdateApiKeyResponse implements IAlgoliaWaitableResponse, Serializable {
 
   public String getKey() {

@@ -1,6 +1,7 @@
 package com.algolia.search.integration.account;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.clients.AccountClient;
 import com.algolia.search.clients.SearchIndex;
@@ -70,7 +71,7 @@ class AccountCopyTest extends AlgoliaBaseIntegrationTest {
     Synonym synonymToSave =
         new Synonym()
             .setObjectID("one")
-            .setType(SynonymType.Synonym)
+            .setType(SynonymType.SYNONYM)
             .setSynonyms(Arrays.asList("one", "two"));
     CompletableFuture<SaveSynonymResponse> saveSynonymFuture =
         index1.saveSynonymAsync(synonymToSave);

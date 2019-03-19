@@ -1,5 +1,6 @@
 package com.algolia.search.models;
 
+@SuppressWarnings("WeakerAccess")
 public enum HttpMethod {
   GET("GET"),
   POST("POST"),

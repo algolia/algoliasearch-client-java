@@ -3,6 +3,7 @@ package com.algolia.search.exceptions;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+@SuppressWarnings("WeakerAccess")
 public class LaunderThrowable {
 
   public static <T> T unwrap(CompletableFuture<T> f) {

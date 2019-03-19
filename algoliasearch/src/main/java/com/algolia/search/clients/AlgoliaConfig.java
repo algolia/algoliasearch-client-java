@@ -1,7 +1,8 @@
 package com.algolia.search.clients;
 
 import com.algolia.search.transport.StatefulHost;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 
@@ -9,11 +10,11 @@ import java.util.concurrent.ForkJoinPool;
 @SuppressWarnings("WeakerAccess")
 public abstract class AlgoliaConfig {
 
-  public AlgoliaConfig(String applicationID, String apiKey) {
+  AlgoliaConfig(String applicationID, String apiKey) {
     this(applicationID, apiKey, ForkJoinPool.commonPool());
   }
 
-  public AlgoliaConfig(String applicationID, String apiKey, ExecutorService executor) {
+  AlgoliaConfig(String applicationID, String apiKey, ExecutorService executor) {
     this.applicationID = applicationID;
     this.apiKey = apiKey;
     this.executor = executor;
@@ -102,8 +103,8 @@ public abstract class AlgoliaConfig {
 
   private static final String javaVersion = System.getProperty("java.version");
   private final String clientVersion = this.getClass().getPackage().getSpecificationVersion();
-  private String applicationID;
-  private String apiKey;
+  private final String applicationID;
+  private final String apiKey;
   private HashMap<String, String> defaultHeaders;
   private int batchSize;
   private Integer readTimeOut;
@@ -111,5 +112,5 @@ public abstract class AlgoliaConfig {
   private Integer connectTimeOut;
   private List<StatefulHost> defaultHosts;
   private List<StatefulHost> customHosts;
-  private ExecutorService executor;
+  private final ExecutorService executor;
 }

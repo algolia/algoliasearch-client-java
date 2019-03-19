@@ -2,7 +2,9 @@ package com.algolia.search.clients;
 
 import com.algolia.search.http.AlgoliaHttpRequester;
 import com.algolia.search.http.IHttpRequester;
-import com.algolia.search.models.*;
+import com.algolia.search.models.CallType;
+import com.algolia.search.models.HttpMethod;
+import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.insights.InsightsEvent;
 import com.algolia.search.models.insights.InsightsRequest;
 import com.algolia.search.models.insights.InsightsResult;
@@ -17,7 +19,6 @@ import javax.annotation.Nonnull;
 public class InsightsClient {
 
   private final HttpTransport transport;
-  private final AlgoliaConfig config;
 
   public InsightsClient(@Nonnull String applicationID, @Nonnull String apiKey) {
     this(new InsightsConfig(applicationID, apiKey));
@@ -42,7 +43,6 @@ public class InsightsClient {
       throw new NullPointerException("APIKey can't be empty.");
     }
 
-    this.config = config;
     this.transport = new HttpTransport(config, httpRequester);
   }
 
