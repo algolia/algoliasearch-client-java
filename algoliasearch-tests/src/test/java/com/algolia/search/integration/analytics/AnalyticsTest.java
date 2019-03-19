@@ -5,16 +5,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.algolia.search.clients.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.inputs.analytics.ABTest;
-import com.algolia.search.inputs.analytics.ABTestResponse;
-import com.algolia.search.inputs.analytics.Variant;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.integration.AlgoliaObject;
-import com.algolia.search.models.AddABTestResponse;
-import com.algolia.search.models.BatchIndexingResponse;
-import com.algolia.search.models.DeleteAbTestResponse;
-import com.algolia.search.models.StopAbTestResponse;
-import com.algolia.search.responses.ABTests;
+import com.algolia.search.models.*;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;

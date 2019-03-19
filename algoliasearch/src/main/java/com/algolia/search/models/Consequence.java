@@ -1,6 +1,5 @@
 package com.algolia.search.models;
 
-import com.algolia.search.objects.Hide;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.List;

@@ -6,7 +6,6 @@ import com.algolia.search.clients.SearchIndex;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.integration.AlgoliaObject;
 import com.algolia.search.models.*;
-import com.algolia.search.objects.TypoTolerance;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;

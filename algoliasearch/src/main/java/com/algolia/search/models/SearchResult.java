@@ -1,6 +1,5 @@
 package com.algolia.search.models;
 
-import com.algolia.search.responses.FacetStats;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
 import java.util.List;

@@ -2,7 +2,7 @@ package com.algolia.search.iterators;
 
 import com.algolia.search.clients.SearchIndex;
 import com.algolia.search.models.BrowseIndexQuery;
-import com.algolia.search.objects.RequestOptions;
+import com.algolia.search.models.RequestOptions;
 import java.util.Iterator;
 import java.util.Objects;
 import javax.annotation.Nonnull;

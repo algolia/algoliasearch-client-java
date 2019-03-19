@@ -6,7 +6,6 @@ import com.algolia.search.clients.SearchIndex;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.iterators.RulesIterable;
 import com.algolia.search.models.*;
-import com.algolia.search.objects.RuleQuery;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;

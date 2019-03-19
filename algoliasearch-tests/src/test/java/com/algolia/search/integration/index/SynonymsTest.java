@@ -7,7 +7,6 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.iterators.SynonymsIterable;
 import com.algolia.search.models.*;
-import com.algolia.search.objects.SynonymQuery;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.ArrayList;
 import java.util.Arrays;

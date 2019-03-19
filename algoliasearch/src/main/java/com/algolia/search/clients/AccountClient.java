@@ -6,7 +6,7 @@ import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.iterators.RulesIterable;
 import com.algolia.search.iterators.SynonymsIterable;
 import com.algolia.search.models.*;
-import com.algolia.search.objects.RequestOptions;
+import com.algolia.search.models.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

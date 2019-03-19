@@ -1,8 +1,8 @@
 package com.algolia.search.iterators;
 
 import com.algolia.search.clients.SearchIndex;
+import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.Rule;
-import com.algolia.search.objects.RequestOptions;
 import java.util.Iterator;
 import java.util.Objects;
 import javax.annotation.Nonnull;

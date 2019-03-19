@@ -35,10 +35,6 @@
       <groupId>com.algolia</groupId>
       <artifactId>algoliasearch</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.algolia</groupId>
-      <artifactId>algoliasearch-common</artifactId>
-    </dependency>
 
     <!--Test-->
     <dependency>

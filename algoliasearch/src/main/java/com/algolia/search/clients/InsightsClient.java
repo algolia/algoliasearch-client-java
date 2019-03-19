@@ -2,12 +2,7 @@ package com.algolia.search.clients;
 
 import com.algolia.search.http.AlgoliaHttpRequester;
 import com.algolia.search.http.IHttpRequester;
-import com.algolia.search.inputs.insights.InsightsEvent;
-import com.algolia.search.inputs.insights.InsightsRequest;
-import com.algolia.search.inputs.insights.InsightsResult;
-import com.algolia.search.models.CallType;
-import com.algolia.search.models.HttpMethod;
-import com.algolia.search.objects.RequestOptions;
+import com.algolia.search.models.*;
 import com.algolia.search.transport.HttpTransport;
 import java.util.Collections;
 import java.util.List;
