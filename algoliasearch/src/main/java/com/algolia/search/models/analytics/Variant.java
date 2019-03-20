@@ -1,6 +1,6 @@
 package com.algolia.search.models.analytics;
 
-import com.algolia.search.models.search.Query;
+import com.algolia.search.models.indexing.Query;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

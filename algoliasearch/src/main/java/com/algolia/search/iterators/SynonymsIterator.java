@@ -1,8 +1,8 @@
 package com.algolia.search.iterators;
 
-import com.algolia.search.clients.SearchIndex;
+import com.algolia.search.SearchIndex;
 import com.algolia.search.models.RequestOptions;
-import com.algolia.search.models.search.SearchResult;
+import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.synonyms.Synonym;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import javax.annotation.Nonnull;

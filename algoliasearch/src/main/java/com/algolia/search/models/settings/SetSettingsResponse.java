@@ -1,7 +1,7 @@
 package com.algolia.search.models.settings;
 
 import com.algolia.search.models.IAlgoliaWaitableResponse;
-import com.algolia.search.models.common.IndexingResponse;
+import com.algolia.search.models.indexing.IndexingResponse;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 

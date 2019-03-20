@@ -1,6 +1,6 @@
 package com.algolia.search.models.apikeys;
 
-import com.algolia.search.models.search.Query;
+import com.algolia.search.models.indexing.Query;
 import java.util.List;
 
 public class SecuredApiKeyRestriction {

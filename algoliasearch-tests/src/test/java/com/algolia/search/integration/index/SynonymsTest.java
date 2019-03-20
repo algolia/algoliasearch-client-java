@@ -3,12 +3,12 @@ package com.algolia.search.integration.index;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.algolia.search.clients.SearchIndex;
+import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.iterators.SynonymsIterable;
-import com.algolia.search.models.common.BatchIndexingResponse;
-import com.algolia.search.models.search.SearchResult;
+import com.algolia.search.models.indexing.BatchIndexingResponse;
+import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.synonyms.SaveSynonymResponse;
 import com.algolia.search.models.synonyms.Synonym;
 import com.algolia.search.models.synonyms.SynonymQuery;

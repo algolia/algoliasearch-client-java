@@ -41,8 +41,8 @@ public class Defaults {
     return Holder.DEFAULT_OBJECT_MAPPER;
   }
 
-  public static final long MAX_TIME_MS_TO_WAIT = 10000L;
-  public static final int READ_TIMEOUT_MS = 5 * 1000; // 5 seconds
-  public static final int WRITE_TIMEOUT_MS = 30 * 1000; // 30 seconds
-  public static final int CONNECT_TIMEOUT_MS = 2 * 1000; // 2 seconds
+  static final long MAX_TIME_MS_TO_WAIT = 10000L;
+  static final int READ_TIMEOUT_MS = 5 * 1000; // 5 seconds
+  static final int WRITE_TIMEOUT_MS = 30 * 1000; // 30 seconds
+  static final int CONNECT_TIMEOUT_MS = 2 * 1000; // 2 seconds
 }

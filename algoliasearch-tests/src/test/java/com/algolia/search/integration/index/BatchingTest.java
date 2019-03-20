@@ -2,13 +2,13 @@ package com.algolia.search.integration.index;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.algolia.search.clients.SearchIndex;
+import com.algolia.search.SearchIndex;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.iterators.IndexIterable;
-import com.algolia.search.models.batch.BatchOperation;
-import com.algolia.search.models.batch.BatchRequest;
-import com.algolia.search.models.batch.BatchResponse;
-import com.algolia.search.models.common.BatchIndexingResponse;
+import com.algolia.search.models.indexing.BatchIndexingResponse;
+import com.algolia.search.models.indexing.BatchOperation;
+import com.algolia.search.models.indexing.BatchRequest;
+import com.algolia.search.models.indexing.BatchResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

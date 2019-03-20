@@ -1,10 +1,10 @@
 package com.algolia.search.integration;
 
-import com.algolia.search.clients.AnalyticsClient;
-import com.algolia.search.clients.SearchClient;
-import com.algolia.search.models.batch.BatchOperation;
-import com.algolia.search.models.common.ActionEnum;
-import com.algolia.search.models.common.IndicesResponse;
+import com.algolia.search.AnalyticsClient;
+import com.algolia.search.SearchClient;
+import com.algolia.search.models.indexing.ActionEnum;
+import com.algolia.search.models.indexing.BatchOperation;
+import com.algolia.search.models.indexing.IndicesResponse;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;

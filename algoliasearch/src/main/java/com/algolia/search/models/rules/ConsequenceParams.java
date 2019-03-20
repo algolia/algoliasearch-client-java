@@ -1,7 +1,6 @@
 package com.algolia.search.models.rules;
 
-import com.algolia.search.models.search.Query;
-import com.algolia.search.serializer.AutomaticFacetFilterDeserializer;
+import com.algolia.search.models.indexing.Query;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
