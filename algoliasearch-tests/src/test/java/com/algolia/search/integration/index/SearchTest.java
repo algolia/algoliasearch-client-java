@@ -20,7 +20,7 @@ class SearchTest extends AlgoliaBaseIntegrationTest {
   private SearchIndex<Employee> index;
   private List<Employee> employees;
 
-  void init() {
+  SearchTest() {
     index = searchClient.initIndex(getTestIndexName("search"), Employee.class);
     employees =
         Arrays.asList(
@@ -41,7 +41,6 @@ class SearchTest extends AlgoliaBaseIntegrationTest {
 
   @Test
   void testSearch() throws ExecutionException, InterruptedException {
-    init();
 
     CompletableFuture<BatchIndexingResponse> saveObjectsFuture =
         index.saveObjectsAsync(employees, true);

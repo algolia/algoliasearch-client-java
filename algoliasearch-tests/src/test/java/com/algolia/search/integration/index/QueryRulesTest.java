@@ -25,7 +25,7 @@ class QueryRulesTest extends AlgoliaBaseIntegrationTest {
   private SearchIndex<AlgoliaRule> index;
   private List<AlgoliaRule> objectsToSave;
 
-  void init() {
+  QueryRulesTest() {
     index = searchClient.initIndex(getTestIndexName("rules"), AlgoliaRule.class);
     objectsToSave =
         Arrays.asList(
@@ -38,7 +38,6 @@ class QueryRulesTest extends AlgoliaBaseIntegrationTest {
 
   @Test
   void RulesTest() {
-    init();
 
     CompletableFuture<BatchIndexingResponse> saveObjectsFuture =
         index.saveObjectsAsync(objectsToSave);

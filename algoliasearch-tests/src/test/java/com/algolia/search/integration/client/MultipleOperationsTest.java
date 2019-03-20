@@ -17,15 +17,13 @@ class MultipleOperationsTest extends AlgoliaBaseIntegrationTest {
   private String index1Name;
   private String index2Name;
 
-  void init() {
+  MultipleOperationsTest() {
     index1Name = getTestIndexName("multiple_operations");
     index2Name = getTestIndexName("multiple_operations_dev");
   }
 
   @Test
   void testMultipleOperation() {
-
-    init();
 
     List<BatchOperation<AlgoliaMultipleOpObject>> objectsToSave =
         Arrays.asList(

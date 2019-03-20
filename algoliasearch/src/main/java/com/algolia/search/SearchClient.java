@@ -4,6 +4,7 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
+import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.apikeys.*;
@@ -785,6 +786,15 @@ public final class SearchClient {
    *
    * @param userID The userID in the mapping
    */
+  public UserId getUserID(@Nonnull String userID) {
+    return LaunderThrowable.unwrap(getUserIDAsync(userID));
+  }
+
+  /**
+   * Returns the userID data stored in the mapping.
+   *
+   * @param userID The userID in the mapping
+   */
   public CompletableFuture<UserId> getUserIDAsync(@Nonnull String userID) {
     Objects.requireNonNull(userID, "The userID is required.");
     return getUserIDAsync(userID, null);
@@ -806,7 +816,7 @@ public final class SearchClient {
 
     return transport.executeRequestAsync(
         HttpMethod.GET,
-        "/1/clusters/mapping/" + userID,
+        "/1/clusters/mapping/" + QueryStringHelper.urlEncodeUTF8(userID),
         CallType.READ,
         UserId.class,
         requestOptions);
@@ -817,7 +827,7 @@ public final class SearchClient {
    * usually be a few seconds behind real-time, because userID usage may take up to a few seconds to
    * propagate to the different clusters.
    */
-  public CompletableFuture<TopUserIdResponse> getTopUserIdAsync() {
+  public CompletableFuture<TopUserIdResponse> getTopUserIDAsync() {
     return getTopUserIDAsync(null);
   }
 
@@ -837,12 +847,16 @@ public final class SearchClient {
         requestOptions);
   }
 
+  public RemoveUserIdResponse removeUserID(@Nonnull String userId) {
+    return LaunderThrowable.unwrap(removeUserIDAsync(userId, null));
+  }
+
   /**
    * Remove a userID and its associated data from the multi-clusters.
    *
    * @param userId userID
    */
-  public CompletableFuture<RemoveUserIdResponse> removeUserIdAsync(@Nonnull String userId) {
+  public CompletableFuture<RemoveUserIdResponse> removeUserIDAsync(@Nonnull String userId) {
     return removeUserIDAsync(userId, null);
   }
 
@@ -919,9 +933,16 @@ public final class SearchClient {
         HttpMethod.POST,
         "/1/clusters/mapping",
         CallType.WRITE,
+        request,
         AssignUserIdResponse.class,
         requestOptions);
   }
+
+  /**
+   * public String generateSecuredAPIKey(String parentAPIKey, SecuredApiKeyRestriction restriction){
+   *
+   * <p>}*
+   */
 
   /**
    * Wait for a task to complete before executing the next line of code, to synchronize index
