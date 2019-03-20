@@ -363,12 +363,7 @@ public class SearchClient {
   public CompletableFuture<List<IndicesResponse>> listIndicesAsync(RequestOptions requestOptions) {
     return transport
         .executeRequestAsync(
-            HttpMethod.GET,
-            "/1/indexes",
-            CallType.READ,
-            null,
-            ListIndicesResponse.class,
-            requestOptions)
+            HttpMethod.GET, "/1/indexes", CallType.READ, ListIndicesResponse.class, requestOptions)
         .thenApplyAsync(ListIndicesResponse::getIndices, config.getExecutor());
   }
 
@@ -544,7 +539,6 @@ public class SearchClient {
             HttpMethod.DELETE,
             "/1/keys/" + apiKey,
             CallType.WRITE,
-            null,
             DeleteApiKeyResponse.class,
             requestOptions)
         .thenApplyAsync(
@@ -625,7 +619,6 @@ public class SearchClient {
             HttpMethod.POST,
             "/1/keys/" + apiKey + "/restore",
             CallType.WRITE,
-            null,
             RestoreApiKeyResponse.class,
             requestOptions)
         .thenApplyAsync(
@@ -704,12 +697,7 @@ public class SearchClient {
    */
   public CompletableFuture<ListClustersResponse> listClustersAsync(RequestOptions requestOptions) {
     return transport.executeRequestAsync(
-        HttpMethod.GET,
-        "/1/clusters",
-        CallType.READ,
-        null,
-        ListClustersResponse.class,
-        requestOptions);
+        HttpMethod.GET, "/1/clusters", CallType.READ, ListClustersResponse.class, requestOptions);
   }
 
   /**
@@ -789,7 +777,6 @@ public class SearchClient {
         HttpMethod.GET,
         "/1/clusters/mapping",
         CallType.READ,
-        null,
         ListUserIdsResponse.class,
         requestOptions);
   }
@@ -822,7 +809,6 @@ public class SearchClient {
         HttpMethod.GET,
         "/1/clusters/mapping/" + userID,
         CallType.READ,
-        null,
         UserId.class,
         requestOptions);
   }
@@ -848,7 +834,6 @@ public class SearchClient {
         HttpMethod.GET,
         "/1/clusters/mapping/top",
         CallType.READ,
-        null,
         TopUserIdResponse.class,
         requestOptions);
   }
@@ -886,7 +871,6 @@ public class SearchClient {
         HttpMethod.DELETE,
         "/1/clusters/mapping",
         CallType.WRITE,
-        null,
         RemoveUserIdResponse.class,
         requestOptions);
   }
@@ -936,7 +920,6 @@ public class SearchClient {
         HttpMethod.POST,
         "/1/clusters/mapping",
         CallType.WRITE,
-        null,
         AssignUserIdResponse.class,
         requestOptions);
   }
