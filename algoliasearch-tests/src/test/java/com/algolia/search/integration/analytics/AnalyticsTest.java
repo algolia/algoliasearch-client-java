@@ -3,12 +3,12 @@ package com.algolia.search.integration.analytics;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import com.algolia.search.clients.SearchIndex;
+import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.integration.AlgoliaObject;
 import com.algolia.search.models.analytics.*;
-import com.algolia.search.models.common.BatchIndexingResponse;
+import com.algolia.search.models.indexing.BatchIndexingResponse;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;

@@ -1,6 +1,6 @@
 package com.algolia.search.models.rules;
 
-import com.algolia.search.models.common.IndexingResponse;
+import com.algolia.search.models.indexing.IndexingResponse;
 import java.time.OffsetDateTime;
 
 public class SaveRuleResponse extends IndexingResponse {

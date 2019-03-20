@@ -1,10 +1,10 @@
 package com.algolia.search.iterators;
 
-import com.algolia.search.clients.SearchIndex;
+import com.algolia.search.SearchIndex;
 import com.algolia.search.models.RequestOptions;
+import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.rules.Rule;
 import com.algolia.search.models.rules.RuleQuery;
-import com.algolia.search.models.search.SearchResult;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings("WeakerAccess")

@@ -3,11 +3,11 @@ package com.algolia.search.integration.account;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.algolia.search.clients.AccountClient;
-import com.algolia.search.clients.SearchIndex;
+import com.algolia.search.AccountClient;
+import com.algolia.search.SearchIndex;
 import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
 import com.algolia.search.integration.AlgoliaObject;
-import com.algolia.search.models.common.BatchIndexingResponse;
+import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.rules.*;
 import com.algolia.search.models.settings.IndexSettings;
 import com.algolia.search.models.settings.SetSettingsResponse;
