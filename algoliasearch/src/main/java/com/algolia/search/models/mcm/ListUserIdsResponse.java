@@ -5,14 +5,14 @@ import java.util.List;
 
 public class ListUserIdsResponse implements Serializable {
 
-  private List<UserId> userIds;
+  private List<UserId> userIDs;
 
-  public List<UserId> getUserIds() {
-    return userIds;
+  public List<UserId> getUserIDs() {
+    return userIDs;
   }
 
-  public ListUserIdsResponse setUserIds(List<UserId> userIds) {
-    this.userIds = userIds;
+  public ListUserIdsResponse setUserIDs(List<UserId> userIDs) {
+    this.userIDs = userIDs;
     return this;
   }
 }

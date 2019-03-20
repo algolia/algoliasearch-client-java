@@ -29,7 +29,7 @@ class IndexingTest extends AlgoliaBaseIntegrationTest {
   private String indexMoveName;
   private String indexClearName;
 
-  void init() {
+  IndexingTest() {
     indexName = getTestIndexName("indexing");
     index = searchClient.initIndex(indexName, AlgoliaMock.class);
 
@@ -45,7 +45,6 @@ class IndexingTest extends AlgoliaBaseIntegrationTest {
 
   @Test
   void testIndexingOperations() throws ExecutionException, InterruptedException {
-    init();
 
     // AddObject with ID
     AlgoliaMock objectOne = new AlgoliaMock("one");

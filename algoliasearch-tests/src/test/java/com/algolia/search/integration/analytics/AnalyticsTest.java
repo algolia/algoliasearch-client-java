@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 class AnalyticsTest extends AlgoliaBaseIntegrationTest {
 
   private SearchIndex<AlgoliaObject> index1;
@@ -28,7 +29,7 @@ class AnalyticsTest extends AlgoliaBaseIntegrationTest {
   private String index1Name;
   private String index2Name;
 
-  void init() {
+  AnalyticsTest() {
     index1Name = getTestIndexName("ab_testing");
     index2Name = getTestIndexName("ab_testing_dev");
     index1 = searchClient.initIndex(index1Name, AlgoliaObject.class);
@@ -37,7 +38,6 @@ class AnalyticsTest extends AlgoliaBaseIntegrationTest {
 
   @Test
   void abTestingTest() {
-    init();
     String now =
         ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     String testName = String.format("java-%s-%s", now, userName);

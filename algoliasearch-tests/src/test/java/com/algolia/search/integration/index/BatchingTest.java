@@ -22,14 +22,12 @@ class BatchingTest extends AlgoliaBaseIntegrationTest {
 
   private SearchIndex<ObjectToBatch> index;
 
-  void init() {
+  BatchingTest() {
     index = searchClient.initIndex("index_batching", ObjectToBatch.class);
   }
 
   @Test
   void testBatching() throws ExecutionException, InterruptedException {
-
-    init();
 
     List<ObjectToBatch> batchOne =
         Arrays.asList(

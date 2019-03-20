@@ -8,6 +8,7 @@ import com.algolia.search.models.indexing.IndicesResponse;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterAll;
@@ -17,6 +18,7 @@ public abstract class AlgoliaBaseIntegrationTest {
 
   protected static SearchClient searchClient;
   protected static SearchClient searchClient2;
+  protected static SearchClient mcmClient;
   protected static AnalyticsClient analyticsClient;
 
   protected static String ALGOLIA_APPLICATION_ID_1 = System.getenv("ALGOLIA_APPLICATION_ID_1");
@@ -37,6 +39,7 @@ public abstract class AlgoliaBaseIntegrationTest {
     searchClient = new SearchClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
     searchClient2 = new SearchClient(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2);
     analyticsClient = new AnalyticsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
+    mcmClient = new SearchClient(ALGOLIA_APPLICATION_ID_MCM, ALGOLIA_ADMIN_KEY_MCM);
   }
 
   @AfterAll
@@ -67,6 +70,12 @@ public abstract class AlgoliaBaseIntegrationTest {
   protected static String getTestIndexName(String indexName) {
     ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
     return String.format("java_jvm_%s_%s_%s_%s_%s", javaVersion, utc, osName, userName, indexName);
+  }
+
+  protected static String getMcmUserId() {
+    ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
+    return String.format(
+        "java-%s-%s", DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").format(utc), userName);
   }
 
   private static void checkEnvironmentVariable() throws Exception {

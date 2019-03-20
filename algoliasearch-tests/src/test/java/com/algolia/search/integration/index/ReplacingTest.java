@@ -23,13 +23,12 @@ class ReplacingTest extends AlgoliaBaseIntegrationTest {
 
   private SearchIndex<AlgoliaObject> index;
 
-  void init() {
+  ReplacingTest() {
     index = searchClient.initIndex(getTestIndexName("replacing"), AlgoliaObject.class);
   }
 
   @Test
   void testReplacing() throws ExecutionException, InterruptedException {
-    init();
 
     CompletableFuture<BatchIndexingResponse> addObjectFuture =
         index.saveObjectAsync(new AlgoliaObject().setObjectID("one"));

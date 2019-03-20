@@ -21,14 +21,13 @@ class SettingsTest extends AlgoliaBaseIntegrationTest {
   private SearchIndex<AlgoliaObject> index;
   private String indexName;
 
-  void init() {
+  SettingsTest() {
     indexName = getTestIndexName("settings");
     index = searchClient.initIndex(indexName, AlgoliaObject.class);
   }
 
   @Test
   void testSettings() {
-    init();
 
     CompletableFuture<BatchIndexingResponse> saveObjectFuture =
         index.saveObjectAsync(new AlgoliaObject("one", "value"));

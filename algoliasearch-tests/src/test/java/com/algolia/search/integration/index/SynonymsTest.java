@@ -25,15 +25,13 @@ class SynonymsTest extends AlgoliaBaseIntegrationTest {
 
   private SearchIndex<SynonymTestObject> index;
 
-  void init() {
+  SynonymsTest() {
     String indexName = getTestIndexName("synonyms");
     index = searchClient.initIndex(indexName, SynonymTestObject.class);
   }
 
   @Test
   void testSynonyms() {
-
-    init();
 
     List<SynonymTestObject> objectsToSave =
         Arrays.asList(
