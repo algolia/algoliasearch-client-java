@@ -42,6 +42,29 @@ public final class HttpTransport {
    * @param method The http method used for the request (Get,Post,etc.)
    * @param path The path of the API endpoint
    * @param callType The Algolia call type of the request : read or write
+   * @param returnClass The type that will be returned
+   * @param requestOptions Requests options to add to the request (if so)
+   * @param <TResult> The type of the result
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an error
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization.
+   */
+  public <TResult> CompletableFuture<TResult> executeRequestAsync(
+      @Nonnull HttpMethod method,
+      @Nonnull String path,
+      @Nonnull CallType callType,
+      Class<TResult> returnClass,
+      RequestOptions requestOptions) {
+
+    return executeRequestAsync(method, path, callType, null, returnClass, null, requestOptions);
+  }
+
+  /**
+   * Executes the request to Algolia asynchronously with the retry strategy.
+   *
+   * @param method The http method used for the request (Get,Post,etc.)
+   * @param path The path of the API endpoint
+   * @param callType The Algolia call type of the request : read or write
    * @param data The data to send if any
    * @param returnClass The type that will be returned
    * @param requestOptions Requests options to add to the request (if so)

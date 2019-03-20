@@ -160,12 +160,7 @@ public class AnalyticsClient {
    */
   public CompletableFuture<ABTestResponse> getABTestAsync(long id, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
-        HttpMethod.GET,
-        "/2/abtests/" + id,
-        CallType.READ,
-        null,
-        ABTestResponse.class,
-        requestOptions);
+        HttpMethod.GET, "/2/abtests/" + id, CallType.READ, ABTestResponse.class, requestOptions);
   }
 
   /**
@@ -216,7 +211,6 @@ public class AnalyticsClient {
         HttpMethod.POST,
         "/2/abtests/" + id + "/stop",
         CallType.WRITE,
-        null,
         StopAbTestResponse.class,
         requestOptions);
   }
@@ -261,7 +255,6 @@ public class AnalyticsClient {
         HttpMethod.DELETE,
         "/2/abtests/" + id,
         CallType.WRITE,
-        null,
         DeleteAbTestResponse.class,
         requestOptions);
   }
