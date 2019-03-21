@@ -20,6 +20,7 @@ import com.algolia.search.models.mcm.*;
 import com.algolia.search.models.personalization.GetStrategyResponse;
 import com.algolia.search.models.personalization.SetStrategyRequest;
 import com.algolia.search.models.personalization.SetStrategyResponse;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -313,6 +314,161 @@ public final class SearchClient {
               CompletableFuture<MultipleQueriesResponse<T>> r = new CompletableFuture<>();
               r.complete(resp);
               return r;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Make a copy of the settings of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   */
+  public CompletableFuture<CopyResponse> copySettingsAsync(
+      @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return copyIndexAsync(
+        sourceIndex, destinationIndex, Collections.singletonList(CopyScope.SETTINGS), null);
+  }
+
+  /**
+   * Make a copy of the settings of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<CopyResponse> copySettingsAsync(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      RequestOptions requestOptions) {
+    return copyIndexAsync(
+        sourceIndex, destinationIndex, Collections.singletonList(CopyScope.SETTINGS), null);
+  }
+
+  /**
+   * Make a copy of the rules of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   */
+  public CompletableFuture<CopyResponse> copyRulesAsync(
+      @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return copyIndexAsync(
+        sourceIndex, destinationIndex, Collections.singletonList(CopyScope.RULES), null);
+  }
+
+  /**
+   * Make a copy of the rules of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<CopyResponse> copyRulesAsync(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      RequestOptions requestOptions) {
+    return copyIndexAsync(
+        sourceIndex, destinationIndex, Collections.singletonList(CopyScope.RULES), null);
+  }
+
+  /**
+   * Make a copy of the synonyms of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   */
+  public CompletableFuture<CopyResponse> copySynonymsAsync(
+      @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return copyIndexAsync(
+        sourceIndex, destinationIndex, Collections.singletonList(CopyScope.SYNONYMS), null);
+  }
+
+  /**
+   * Make a copy of the synonyms of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<CopyResponse> copySynonymsAsync(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      RequestOptions requestOptions) {
+    return copyIndexAsync(
+        sourceIndex,
+        destinationIndex,
+        Collections.singletonList(CopyScope.SYNONYMS),
+        requestOptions);
+  }
+
+  /**
+   * Make a copy of an index, in the given scope.
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   */
+  public CompletableFuture<CopyResponse> copyIndexAsync(
+      @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return copyIndexAsync(sourceIndex, destinationIndex, null, null);
+  }
+
+  /**
+   * Make a copy of an index, in the given scope.
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param scopes Scope of the copy
+   */
+  public CompletableFuture<CopyResponse> copyIndexAsync(
+      @Nonnull String sourceIndex, @Nonnull String destinationIndex, List<String> scopes) {
+    return copyIndexAsync(sourceIndex, destinationIndex, scopes, null);
+  }
+
+  /**
+   * Make a copy of an index in the given scope.
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param scopes Scope of the copy
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<CopyResponse> copyIndexAsync(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      List<String> scopes,
+      RequestOptions requestOptions) {
+
+    Objects.requireNonNull(sourceIndex, "The source index is required.");
+    Objects.requireNonNull(destinationIndex, "The destination index is required.");
+
+    if (sourceIndex.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("destination index must not be empty.");
+    }
+
+    if (destinationIndex.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("destination index must not be empty.");
+    }
+
+    CopyToRequest request =
+        new CopyToRequest()
+            .setDestination(destinationIndex)
+            .setScope(scopes)
+            .setOperation(MoveType.COPY);
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + QueryStringHelper.urlEncodeUTF8(sourceIndex) + "/operation",
+            CallType.WRITE,
+            request,
+            CopyResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setIndexName(sourceIndex);
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
             },
             config.getExecutor());
   }

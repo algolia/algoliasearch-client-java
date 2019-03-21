@@ -14,7 +14,6 @@ public class IndexSettings implements Serializable {
   private String attributeForDistinct;
   private Distinct distinct;
   private Boolean replaceSynonymsInHighlight;
-  private Map<String, List<String>> placeholders;
   private Integer minProximity;
   private List<String> responseFields;
   private Integer maxFacetHits;
@@ -443,15 +442,6 @@ public class IndexSettings implements Serializable {
     return this;
   }
 
-  public Map<String, List<String>> getPlaceholders() {
-    return placeholders;
-  }
-
-  public IndexSettings setPlaceholders(Map<String, List<String>> placeholders) {
-    this.placeholders = placeholders;
-    return this;
-  }
-
   public List<String> getResponseFields() {
     return responseFields;
   }
@@ -591,8 +581,6 @@ public class IndexSettings implements Serializable {
         + distinct
         + ", replaceSynonymsInHighlight="
         + replaceSynonymsInHighlight
-        + ", placeholders="
-        + placeholders
         + ", minProximity="
         + minProximity
         + ", responseFields="

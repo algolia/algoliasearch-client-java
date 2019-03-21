@@ -7,8 +7,7 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SetStrategyRequest implements Serializable {
 
-  public SetStrategyRequest() {
-  }
+  public SetStrategyRequest() {}
 
   public SetStrategyRequest(
       Map<String, EventScoring> eventsScoring, Map<String, FacetScoring> facetsScoring) {

@@ -83,6 +83,11 @@ public final class SearchIndex<T>
       RequestOptions requestOptions) {
 
     Objects.requireNonNull(attributesToRetrieve, "AttributesToRetrieve are required.");
+    Objects.requireNonNull(objectID, "objectID is required.");
+
+    if (objectID.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
 
     if (requestOptions == null) {
       requestOptions = new RequestOptions();
@@ -104,7 +109,11 @@ public final class SearchIndex<T>
   public CompletableFuture<T> getObjectAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
 
-    Objects.requireNonNull(objectID, "objectID are required.");
+    Objects.requireNonNull(objectID, "objectID is required.");
+
+    if (objectID.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    }
 
     return transport.executeRequestAsync(
         HttpMethod.GET,

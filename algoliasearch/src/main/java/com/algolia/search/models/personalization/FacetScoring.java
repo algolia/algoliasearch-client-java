@@ -6,8 +6,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FacetScoring implements Serializable {
 
-  public FacetScoring() {
-  }
+  public FacetScoring() {}
 
   public FacetScoring(long score) {
     this.score = score;

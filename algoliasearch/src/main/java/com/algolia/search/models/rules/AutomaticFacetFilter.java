@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class AutomaticFacetFilter implements Serializable {
 
   private String facet;
-  private Boolean disjunctive;
+  private Boolean disjunctive = false;
   private Integer score;
 
   public AutomaticFacetFilter() {}
@@ -84,7 +84,7 @@ class AutomaticFacetFilterDeserializer extends JsonDeserializer {
             objectMapper.readerFor(new TypeReference<List<AutomaticFacetFilter>>() {});
         return reader.readValue(node);
       } else {
-        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<String>>() {});
+        ObjectReader reader = objectMapper.readerFor(List.class);
         List<String> list = reader.readValue(node);
 
         return list.stream()
