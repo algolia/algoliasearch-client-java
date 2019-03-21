@@ -51,7 +51,7 @@ class JacksonParserTest {
 
     settings = new IndexSettings().setRemoveStopWords(Arrays.asList("a", "b"));
     assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
-        .isEqualTo("{\"removeStopWords\":\"a,b\"}");
+        .isEqualTo("{\"removeStopWords\":[\"a\",\"b\"]}");
 
     settings = new IndexSettings().setRemoveStopWords(RemoveStopWords.of(false));
     assertThat(Defaults.getObjectMapper().writeValueAsString(settings))
@@ -70,7 +70,7 @@ class JacksonParserTest {
 
     removeStopWords =
         Defaults.getObjectMapper()
-            .readValue("{\"removeStopWords\":\"a,b\"}", IndexSettings.class)
+            .readValue("{\"removeStopWords\":[\"a\",\"b\"]}", IndexSettings.class)
             .getRemoveStopWords();
     assertThat(removeStopWords).isEqualTo(RemoveStopWords.of(Arrays.asList("a", "b")));
   }

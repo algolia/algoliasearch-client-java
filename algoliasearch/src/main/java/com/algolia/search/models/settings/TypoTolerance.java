@@ -96,8 +96,12 @@ class TypoToleranceJsonDeserializer extends JsonDeserializer<TypoTolerance> {
   @Override
   public TypoTolerance deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
     JsonToken currentToken = p.getCurrentToken();
-    if (currentToken.equals(JsonToken.VALUE_FALSE) || currentToken.equals(JsonToken.VALUE_TRUE)) {
-      return TypoTolerance.of(p.getBooleanValue());
+
+    String value = p.getValueAsString();
+
+    if (value.equals(JsonToken.VALUE_FALSE.asString())
+        || value.equals(JsonToken.VALUE_TRUE.asString())) {
+      return TypoTolerance.of(p.getValueAsBoolean());
     }
 
     return TypoTolerance.of(p.getValueAsString());
