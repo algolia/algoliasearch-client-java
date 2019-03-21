@@ -94,15 +94,15 @@ class ReplacingTest extends AlgoliaBaseIntegrationTest {
     replaceAllRulesFuture.get().waitTask();
     replaceAllSynonymsFuture.get().waitTask();
 
-    assertThatThrownBy(() -> index.getObjectAsync("one").join())
+    assertThatThrownBy(() -> index.getObjectAsync("one").get())
         .hasCauseInstanceOf(AlgoliaApiException.class)
         .hasMessageContaining("ObjectID does not exist");
 
-    assertThatThrownBy(() -> index.getRuleAsync("one").join())
+    assertThatThrownBy(() -> index.getRuleAsync("one").get())
         .hasCauseInstanceOf(AlgoliaApiException.class)
         .hasMessageContaining("ObjectID does not exist");
 
-    assertThatThrownBy(() -> index.getSynonymAsync("one").join())
+    assertThatThrownBy(() -> index.getSynonymAsync("one").get())
         .hasCauseInstanceOf(AlgoliaApiException.class)
         .hasMessageContaining("Synonym set does not exist");
 

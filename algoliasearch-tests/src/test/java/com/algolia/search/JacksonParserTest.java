@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.models.personalization.EventScoring;
 import com.algolia.search.models.personalization.FacetScoring;
 import com.algolia.search.models.personalization.SetStrategyRequest;
+import com.algolia.search.models.rules.AutomaticFacetFilter;
+import com.algolia.search.models.rules.ConsequenceParams;
 import com.algolia.search.models.settings.Distinct;
 import com.algolia.search.models.settings.IgnorePlurals;
 import com.algolia.search.models.settings.IndexSettings;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class JacksonParserTest {
@@ -137,5 +140,17 @@ class JacksonParserTest {
     assertThat(Defaults.getObjectMapper().writeValueAsString(strategyTosave))
         .isEqualTo(
             "{\"eventsScoring\":{\"Purchase\":{\"score\":100,\"type\":\"conversion\"},\"Add to cart\":{\"score\":50,\"type\":\"conversion\"}},\"facetsScoring\":{\"categories\":{\"score\":10},\"brand\":{\"score\":100}}}");
+  }
+
+  @Test
+  void serializeFacetFilters() throws IOException {
+
+    List<AutomaticFacetFilter> automaticFacetFilters =
+        Defaults.getObjectMapper()
+            .readValue("{\"automaticFacetFilters\":[\"lastname\",\"firstname\"]}", ConsequenceParams.class)
+            .getAutomaticFacetFilters();
+
+    assertThat( automaticFacetFilters.stream().anyMatch(r -> r.getFacet().equals("lastname") && !r.getDisjunctive())).isTrue();
+    assertThat( automaticFacetFilters.stream().anyMatch(r -> r.getFacet().equals("firstname") && !r.getDisjunctive())).isTrue();
   }
 }
