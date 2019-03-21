@@ -17,6 +17,9 @@ import com.algolia.search.models.indexing.BatchOperation;
 import com.algolia.search.models.indexing.BatchRequest;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
+import com.algolia.search.models.personalization.GetStrategyResponse;
+import com.algolia.search.models.personalization.SetStrategyRequest;
+import com.algolia.search.models.personalization.SetStrategyResponse;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -948,6 +951,55 @@ public final class SearchClient {
         CallType.WRITE,
         request,
         AssignUserIdResponse.class,
+        requestOptions);
+  }
+
+  /** Returns the personalization strategy of the application */
+  public CompletableFuture<GetStrategyResponse> getPersonalizationStrategyAsync() {
+    return getPersonalizationStrategyAsync(null);
+  }
+
+  /**
+   * Returns the personalization strategy of the application
+   *
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<GetStrategyResponse> getPersonalizationStrategyAsync(
+      RequestOptions requestOptions) {
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "/1/recommendation/personalization/strategy",
+        CallType.READ,
+        GetStrategyResponse.class,
+        requestOptions);
+  }
+
+  /**
+   * This command configures the personalization strategy
+   *
+   * @param request The personalization strategy>
+   */
+  public CompletableFuture<SetStrategyResponse> setPersonalizationStrategyAsync(
+      @Nonnull SetStrategyRequest request) {
+    return setPersonalizationStrategyAsync(request, null);
+  }
+
+  /**
+   * This command configures the personalization strategy
+   *
+   * @param request The personalization strategy>
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<SetStrategyResponse> setPersonalizationStrategyAsync(
+      @Nonnull SetStrategyRequest request, RequestOptions requestOptions) {
+    Objects.requireNonNull(request, "request key is required.");
+
+    return transport.executeRequestAsync(
+        HttpMethod.POST,
+        "/1/recommendation/personalization/strategy",
+        CallType.WRITE,
+        request,
+        SetStrategyResponse.class,
         requestOptions);
   }
 
