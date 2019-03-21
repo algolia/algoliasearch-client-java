@@ -1,8 +1,13 @@
 package com.algolia.search.models.apikeys;
 
+import com.algolia.search.models.indexing.FlatListSerializer;
 import com.algolia.search.models.indexing.Query;
+import com.algolia.search.models.indexing.QuerySerializer;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SecuredApiKeyRestriction {
 
   public Query getQuery() {
@@ -50,9 +55,16 @@ public class SecuredApiKeyRestriction {
     return this;
   }
 
+  @JsonSerialize(using = QuerySerializer.class)
   private Query query;
+
   private Long validUntil;
+
+  @JsonSerialize(using = FlatListSerializer.class)
   private List<String> restrictIndices;
+
+  @JsonSerialize(using = FlatListSerializer.class)
   private List<String> restrictSources;
+
   private String userToken;
 }

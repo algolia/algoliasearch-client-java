@@ -23,7 +23,7 @@ public abstract class AlgoliaBaseIntegrationTest {
 
   protected static String ALGOLIA_APPLICATION_ID_1 = System.getenv("ALGOLIA_APPLICATION_ID_1");
   protected static String ALGOLIA_API_KEY_1 = System.getenv("ALGOLIA_ADMIN_KEY_1");
-  private static String ALGOLIA_SEARCH_KEY_1 = System.getenv("ALGOLIA_SEARCH_KEY_1");
+  protected static String ALGOLIA_SEARCH_KEY_1 = System.getenv("ALGOLIA_SEARCH_KEY_1");
   private static String ALGOLIA_APPLICATION_ID_2 = System.getenv("ALGOLIA_APPLICATION_ID_2");
   private static String ALGOLIA_API_KEY_2 = System.getenv("ALGOLIA_ADMIN_KEY_2");
   private static String ALGOLIA_APPLICATION_ID_MCM = System.getenv("ALGOLIA_APPLICATION_ID_MCM");
@@ -52,7 +52,11 @@ public abstract class AlgoliaBaseIntegrationTest {
 
       List<IndicesResponse> indicesToDelete =
           indices.stream()
-              .filter(i -> i.getName().contains("java_jvm") && i.getCreatedAt().isBefore(today))
+              .filter(
+                  i ->
+                      i.getName().contains("java_jvm")
+                          && i.getCreatedAt() != null
+                          && i.getCreatedAt().isBefore(today))
               .collect(Collectors.toList());
 
       if (!indicesToDelete.isEmpty()) {

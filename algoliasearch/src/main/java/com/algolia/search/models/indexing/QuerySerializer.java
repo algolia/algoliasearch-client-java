@@ -9,7 +9,8 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import java.util.Map;
 
-class QuerySerializer extends StdSerializer<Query> {
+/** Customer serializer to serialize an Algolia search query as URL parameters */
+public class QuerySerializer extends StdSerializer<Query> {
 
   public QuerySerializer() {
     this(null);
