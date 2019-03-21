@@ -6,8 +6,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EventScoring implements Serializable {
 
-  public EventScoring() {
-  }
+  public EventScoring() {}
 
   public EventScoring(long score, String type) {
     this.score = score;

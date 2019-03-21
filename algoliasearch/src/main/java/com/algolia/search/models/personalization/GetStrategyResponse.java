@@ -7,8 +7,7 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetStrategyResponse implements Serializable {
 
-  public GetStrategyResponse() {
-  }
+  public GetStrategyResponse() {}
 
   public Map<String, EventScoring> getEventsScoring() {
     return eventsScoring;
