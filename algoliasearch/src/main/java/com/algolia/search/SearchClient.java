@@ -4,6 +4,7 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
+import com.algolia.search.helpers.HmacShaHelper;
 import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
@@ -631,6 +632,18 @@ public final class SearchClient {
   }
 
   /**
+   * Generate a virtual API Key without any call to the server.
+   *
+   * @param parentAPIKey API key to generate from.
+   * @param restriction Restriction to add the key
+   * @throws Exception if an error occurs during the encoding
+   */
+  public String generateSecuredAPIKey(
+      @Nonnull String parentAPIKey, SecuredApiKeyRestriction restriction) throws Exception {
+    return HmacShaHelper.generateSecuredApiKey(parentAPIKey, restriction);
+  }
+
+  /**
    * Get the logs of the latest search and indexing operations You can retrieve the logs of your
    * last 1,000 API calls. It is designed for immediate, real-time debugging.
    */
@@ -937,12 +950,6 @@ public final class SearchClient {
         AssignUserIdResponse.class,
         requestOptions);
   }
-
-  /**
-   * public String generateSecuredAPIKey(String parentAPIKey, SecuredApiKeyRestriction restriction){
-   *
-   * <p>}*
-   */
 
   /**
    * Wait for a task to complete before executing the next line of code, to synchronize index

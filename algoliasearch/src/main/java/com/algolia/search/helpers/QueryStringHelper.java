@@ -1,5 +1,8 @@
 package com.algolia.search.helpers;
 
+import com.algolia.search.Defaults;
+import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
@@ -18,6 +21,7 @@ public class QueryStringHelper {
   public static String urlEncodeUTF8(String s) {
     try {
       return URLEncoder.encode(s, "UTF-8");
+
     } catch (UnsupportedEncodingException e) {
       throw new UnsupportedOperationException(e);
     }
@@ -39,6 +43,13 @@ public class QueryStringHelper {
    */
   public static String buildQueryString(Map<String, String> map) {
     return buildString(map).map(s -> "?" + s).orElse("");
+  }
+
+  static String buildRestrictionQueryString(SecuredApiKeyRestriction restriction) {
+    Map<String, String> map =
+        Defaults.getObjectMapper()
+            .convertValue(restriction, new TypeReference<Map<String, String>>() {});
+    return buildQueryString(map, true);
   }
 
   private static Optional<String> buildString(Map<String, String> map) {
