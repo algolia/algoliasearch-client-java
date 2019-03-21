@@ -1,5 +1,6 @@
 package com.algolia.search.models.settings;
 
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.CompoundType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonDeserialize(using = RemoveStopWordsDeserializer.class)
@@ -94,11 +95,22 @@ class RemoveStopWordsDeserializer extends JsonDeserializer<RemoveStopWords> {
   @Override
   public RemoveStopWords deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
     JsonToken currentToken = p.getCurrentToken();
+
     if (currentToken.equals(JsonToken.VALUE_FALSE) || currentToken.equals(JsonToken.VALUE_TRUE)) {
       return RemoveStopWords.of(p.getBooleanValue());
     }
 
-    return RemoveStopWords.of(Arrays.asList(p.getValueAsString().split(",")));
+    if (currentToken == JsonToken.START_ARRAY) {
+
+      List<String> removeStopWrods = new ArrayList<>();
+
+      while (p.nextToken() != JsonToken.END_ARRAY) {
+        removeStopWrods.add(p.getValueAsString());
+      }
+      return RemoveStopWords.of(removeStopWrods);
+    }
+
+    throw new AlgoliaRuntimeException("Unsupported deserialization for RemoveStopWords");
   }
 }
 
@@ -112,7 +124,7 @@ class RemoveStopWordsSerializer extends JsonSerializer<RemoveStopWords> {
       gen.writeBoolean((Boolean) value.getInsideValue());
     } else if (value instanceof RemoveStopWordsListString) {
       List<String> list = (List<String>) value.getInsideValue();
-      gen.writeString(String.join(",", list));
+      gen.writeObject(list);
     }
   }
 }

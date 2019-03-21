@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
 
 class SettingsTest extends AlgoliaBaseIntegrationTest {
@@ -27,7 +28,7 @@ class SettingsTest extends AlgoliaBaseIntegrationTest {
   }
 
   @Test
-  void testSettings() {
+  void testSettings() throws ExecutionException, InterruptedException {
 
     CompletableFuture<BatchIndexingResponse> saveObjectFuture =
         index.saveObjectAsync(new AlgoliaObject("one", "value"));
@@ -124,36 +125,34 @@ class SettingsTest extends AlgoliaBaseIntegrationTest {
     settings.setKeepDiacriticsOnCharacters("øé");
 
     // Wait for the save object task to finish on the API Side
-    saveObjectFuture.join().waitTask();
+    saveObjectFuture.get().waitTask();
     CompletableFuture<SetSettingsResponse> saveSettingsFuture = index.setSettingsAsync(settings);
-    saveSettingsFuture.join().waitTask();
+    saveSettingsFuture.get().waitTask();
 
     // Get and check that the settings are the same
     CompletableFuture<IndexSettings> getSettingsFuture = index.getSettingsAsync();
-    IndexSettings settingsAfterSave = getSettingsFuture.join();
+    IndexSettings settingsAfterSave = getSettingsFuture.get();
     assertThat(settings)
         .usingRecursiveComparison()
         .ignoringFields("alternativesAsExact", "typoTolerance")
         .isEqualTo(settingsAfterSave);
 
-    // assertThat(settingsAfterSave.getTypoTolerance()).isEqualTo(TypoTolerance.of(false));
-    // Check serializer failure (not failing on previous version)
+    assertThat(settingsAfterSave.getTypoTolerance()).isEqualTo(TypoTolerance.of(false));
 
     // Set new values
     settings.setTypoTolerance(TypoTolerance.of("min"));
     settings.setIgnorePlurals(Arrays.asList("en", "fr"));
-    // settings.setRemoveStopWords(Arrays.asList("en", "fr") Improve serializer (not failing on
-    // previous version)
+    settings.setRemoveStopWords(Arrays.asList("en", "fr"));
     settings.setDistinct(true);
 
     // Save new settings
     CompletableFuture<SetSettingsResponse> saveSettingsAfterChangesFuture =
         index.setSettingsAsync(settings);
-    saveSettingsAfterChangesFuture.join().waitTask();
+    saveSettingsAfterChangesFuture.get().waitTask();
 
     // Get and check that the settings are the same
     CompletableFuture<IndexSettings> getSettingsAfterChangesFuture = index.getSettingsAsync();
-    IndexSettings settingsAfterChanges = getSettingsAfterChangesFuture.join();
+    IndexSettings settingsAfterChanges = getSettingsAfterChangesFuture.get();
     assertThat(settings)
         .usingRecursiveComparison()
         .ignoringFields("alternativesAsExact", "typoTolerance")

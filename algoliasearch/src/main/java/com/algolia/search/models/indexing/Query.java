@@ -1,5 +1,9 @@
 package com.algolia.search.models.indexing;
 
+import com.algolia.search.models.settings.Distinct;
+import com.algolia.search.models.settings.IgnorePlurals;
+import com.algolia.search.models.settings.RemoveStopWords;
+import com.algolia.search.models.settings.TypoTolerance;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -520,12 +524,66 @@ public class Query implements Serializable {
     return this;
   }
 
+  public Distinct getDistinct() {
+    return distinct;
+  }
+
+  public Query setDistinct(Distinct distinct) {
+    this.distinct = distinct;
+    return this;
+  }
+
+  public AroundRadius getAroundRadius() {
+    return aroundRadius;
+  }
+
+  public Query setAroundRadius(AroundRadius aroundRadius) {
+    this.aroundRadius = aroundRadius;
+    return this;
+  }
+
+  public RemoveWordsType getRemoveWordsIfNoResults() {
+    return removeWordsIfNoResults;
+  }
+
+  public Query setRemoveWordsIfNoResults(RemoveWordsType removeWordsIfNoResults) {
+    this.removeWordsIfNoResults = removeWordsIfNoResults;
+    return this;
+  }
+
+  public RemoveStopWords getRemoveStopWords() {
+    return removeStopWords;
+  }
+
+  public Query setRemoveStopWords(RemoveStopWords removeStopWords) {
+    this.removeStopWords = removeStopWords;
+    return this;
+  }
+
+  public TypoTolerance getTypoTolerance() {
+    return typoTolerance;
+  }
+
+  public Query setTypoTolerance(TypoTolerance typoTolerance) {
+    this.typoTolerance = typoTolerance;
+    return this;
+  }
+
+  public IgnorePlurals getIgnorePlurals() {
+    return ignorePlurals;
+  }
+
+  public Query setIgnorePlurals(IgnorePlurals ignorePlurals) {
+    this.ignorePlurals = ignorePlurals;
+    return this;
+  }
+
   /* search */
   @JsonProperty("query")
   private String query;
 
   /* advanced */
-  // protected Distinct distinct;
+  private Distinct distinct;
   private Boolean getRankingInfo;
   private List<String> numericFilters;
   private List<String> tagFilters;
@@ -548,7 +606,6 @@ public class Query implements Serializable {
   private String filters;
   private List<String> facets;
   private Long maxValuesPerFacet;
-  // protected FacetFilters facetFilters;
   private List<List<String>> facetFilters;
   private Boolean facetingAfterDistinct;
   private String sortFacetValuesBy;
@@ -556,7 +613,7 @@ public class Query implements Serializable {
   /* geo-search */
   private String aroundLatLng;
   private Boolean aroundLatLngViaIP;
-  // protected AroundRadius aroundRadius;
+  private AroundRadius aroundRadius;
   private Integer aroundPrecision;
   private Integer minimumAroundRadius;
   private List<List<Float>> insideBoundingBox;
@@ -585,11 +642,11 @@ public class Query implements Serializable {
 
   /* query strategy */
   private String queryType;
-  // protected RemoveWordsType removeWordsIfNoResults;
+  private RemoveWordsType removeWordsIfNoResults;
   private Boolean advancedSyntax;
   private List<String> advancedSyntaxFeatures;
   private List<String> optionalWords;
-  // protected RemoveStopWords removeStopWords;
+  private RemoveStopWords removeStopWords;
   private List<String> disableExactOnAttributes;
   private String exactOnSingleWordQuery;
   private List<String> alternativesAsExact;
@@ -600,9 +657,9 @@ public class Query implements Serializable {
   /* typos */
   private Integer minWordSizefor1Typo;
   private Integer minWordSizefor2Typos;
-  // protected TypoTolerance typoTolerance;
+  private TypoTolerance typoTolerance;
   private Boolean allowTyposOnNumericTokens;
-  // protected IgnorePlurals ignorePlurals;
+  private IgnorePlurals ignorePlurals;
   private List<String> disableTypoToleranceOnAttributes;
 
   /* SECURED API KEYS */
