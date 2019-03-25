@@ -14,8 +14,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.asynchttpclient</groupId>
-      <artifactId>async-http-client</artifactId>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpasyncclient</artifactId>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>

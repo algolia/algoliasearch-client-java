@@ -776,7 +776,7 @@ public final class SearchIndex<T>
 
     // Move temporary index to source index
     CompletableFuture<MoveIndexResponse> moveIndexFuture =
-        moveFromAsync(tmpIndexName, requestOptions);
+        moveFromAsync(QueryStringHelper.urlEncodeUTF8(tmpIndexName), requestOptions);
     futures.add(moveIndexFuture);
 
     if (safe) {

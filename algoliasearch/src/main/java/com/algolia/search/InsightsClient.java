@@ -43,6 +43,11 @@ public class InsightsClient {
     this.transport = new HttpTransport(config, httpRequester);
   }
 
+  /** Close the underlying Http Client */
+  public void close() {
+    transport.close();
+  }
+
   /** @param userToken the user config */
   public UserInsightsClient user(@Nonnull String userToken) {
     return new UserInsightsClient(userToken, this);

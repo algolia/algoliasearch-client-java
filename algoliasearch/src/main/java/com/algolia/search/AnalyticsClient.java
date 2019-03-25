@@ -41,6 +41,11 @@ public final class AnalyticsClient {
     this.transport = new HttpTransport(config, httpRequester);
   }
 
+  /** Close the underlying Http Client */
+  public void close() {
+    transport.close();
+  }
+
   /** Get an A/B test information and results. */
   public ABTests getABTests() {
     return LaunderThrowable.unwrap(getABTestsAsync(0, 10, null));

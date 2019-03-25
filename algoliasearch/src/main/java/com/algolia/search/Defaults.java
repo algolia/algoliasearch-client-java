@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.nio.charset.Charset;
 
 public class Defaults {
 
@@ -41,6 +42,7 @@ public class Defaults {
     return Holder.DEFAULT_OBJECT_MAPPER;
   }
 
+  public static final Charset UTF8 = Charset.forName("UTF-8");
   static final long MAX_TIME_MS_TO_WAIT = 10000L;
   static final int READ_TIMEOUT_MS = 5 * 1000; // 5 seconds
   static final int WRITE_TIMEOUT_MS = 30 * 1000; // 30 seconds
