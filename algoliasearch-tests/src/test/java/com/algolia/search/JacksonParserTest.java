@@ -2,21 +2,18 @@ package com.algolia.search;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.models.indexing.AroundRadius;
+import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.personalization.EventScoring;
 import com.algolia.search.models.personalization.FacetScoring;
 import com.algolia.search.models.personalization.SetStrategyRequest;
 import com.algolia.search.models.rules.AutomaticFacetFilter;
 import com.algolia.search.models.rules.ConsequenceParams;
-import com.algolia.search.models.settings.Distinct;
-import com.algolia.search.models.settings.IgnorePlurals;
-import com.algolia.search.models.settings.IndexSettings;
-import com.algolia.search.models.settings.RemoveStopWords;
+import com.algolia.search.models.settings.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class JacksonParserTest {
@@ -159,5 +156,154 @@ class JacksonParserTest {
             automaticFacetFilters.stream()
                 .anyMatch(r -> r.getFacet().equals("firstname") && !r.getDisjunctive()))
         .isTrue();
+  }
+
+  @Test
+  void typoToleranceBoolean() throws IOException {
+    IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of(true));
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getTypoTolerance()).isEqualTo(TypoTolerance.of(true));
+
+    settings = new IndexSettings().setTypoTolerance(TypoTolerance.of(false));
+    result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getTypoTolerance()).isEqualTo(TypoTolerance.of(false));
+  }
+
+  @Test
+  void keepDiacriticsOnCharacters() throws IOException {
+    IndexSettings settings = new IndexSettings().setKeepDiacriticsOnCharacters("øé");
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getKeepDiacriticsOnCharacters()).isEqualTo("øé");
+  }
+
+  @Test
+  void queryLanguages() throws IOException {
+    IndexSettings settings = new IndexSettings().setQueryLanguages(Arrays.asList("a", "b"));
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getQueryLanguages()).isEqualTo(Arrays.asList("a", "b"));
+  }
+
+  @Test
+  void camelCaseAttributes() throws IOException {
+    IndexSettings settings = new IndexSettings().setCamelCaseAttributes(Arrays.asList("a", "b"));
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getCamelCaseAttributes()).isEqualTo(Arrays.asList("a", "b"));
+  }
+
+  @Test
+  void decompoundedAttributes() throws IOException {
+    Map<String, List<String>> expected = new HashMap<>();
+    expected.put("de", Arrays.asList("attr1", "attr2"));
+    IndexSettings settings = new IndexSettings().setDecompoundedAttributes(expected);
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getDecompoundedAttributes()).isEqualTo(expected);
+  }
+
+  @Test
+  void typoToleranceString() throws IOException {
+    IndexSettings settings = new IndexSettings().setTypoTolerance(TypoTolerance.of("min"));
+    IndexSettings result = serializeDeserialize(settings);
+
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getTypoTolerance()).isEqualTo(TypoTolerance.of("min"));
+  }
+
+  @Test
+  void removeStopWordsBoolean() throws IOException {
+    IndexSettings settings = new IndexSettings().setRemoveStopWords(RemoveStopWords.of(true));
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getRemoveStopWords()).isEqualTo(RemoveStopWords.of(true));
+
+    settings = new IndexSettings().setRemoveStopWords(RemoveStopWords.of(false));
+    result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getRemoveStopWords()).isEqualTo(RemoveStopWords.of(false));
+  }
+
+  @Test
+  void removeStopWordsList() throws IOException {
+    IndexSettings settings =
+        new IndexSettings().setRemoveStopWords(RemoveStopWords.of(Arrays.asList("a", "b")));
+    IndexSettings result = serializeDeserialize(settings);
+
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getRemoveStopWords()).isEqualTo(RemoveStopWords.of(Arrays.asList("a", "b")));
+  }
+
+  @Test
+  void queryStringWithQuery() {
+    Query query = new Query();
+    query.setQuery("search");
+    assertThat(query.toParam()).isEqualTo("query=search");
+  }
+
+  @Test
+  void queryStringEmpty() {
+    Query query = new Query();
+    assertThat(query.toParam()).isEqualTo("");
+  }
+
+  @Test
+  void queryWithHTMLEntities() {
+    Query query = new Query("&?@:=");
+    assertThat(query.toParam()).isEqualTo("query=%26%3F%40%3A%3D");
+  }
+
+  @Test
+  void queryWithUTF8() {
+    Query query = new Query("é®„");
+    assertThat(query.toParam()).isEqualTo("query=%C3%A9%C2%AE%E2%80%9E");
+  }
+
+  @Test
+  void queryWithDistinct() {
+    Query query = new Query("").setDistinct(Distinct.of(0));
+    assertThat(query.toParam()).isEqualTo("distinct=0&query=");
+  }
+
+  @Disabled
+  void queryWithMultipleParams() {
+    Query query = new Query("é®„").setTagFilters(Collections.singletonList("(attribute)"));
+    assertThat(query.toParam()).isEqualTo("tagFilters=%28attribute%29&query=%C3%A9%C2%AE%E2%80%9E");
+  }
+
+  @Test
+  void queryWithRemoveStopWords() {
+    Query query = new Query("").setRemoveStopWords(RemoveStopWords.of(true));
+    assertThat(query.toParam()).isEqualTo("removeStopWords=true&query=");
+  }
+
+  @Test
+  void queryWithIgnorePlurals() {
+    Query query = new Query("").setIgnorePlurals(IgnorePlurals.of(true));
+    assertThat(query.toParam()).isEqualTo("ignorePlurals=true&query=");
+  }
+
+  @Test
+  void queryWithAroundRadius() throws JsonProcessingException {
+    Query query = new Query("").setAroundRadius(AroundRadius.of("all"));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(query);
+    assertThat(query.toParam()).isEqualTo("aroundRadius=all&query=");
+    assertThat(serialized).isEqualTo("{\"aroundRadius\":\"all\",\"query\":\"\"}");
+
+    query = new Query("").setAroundRadius(AroundRadius.of(1));
+    serialized = Defaults.getObjectMapper().writeValueAsString(query);
+    assertThat(query.toParam()).isEqualTo("aroundRadius=1&query=");
+    assertThat(serialized).isEqualTo("{\"aroundRadius\":1,\"query\":\"\"}");
+  }
+
+  private IndexSettings serializeDeserialize(IndexSettings obj) throws IOException {
+    String serialized = Defaults.getObjectMapper().writeValueAsString(obj);
+    return Defaults.getObjectMapper()
+        .readValue(
+            serialized,
+            Defaults.getObjectMapper().getTypeFactory().constructType(IndexSettings.class));
   }
 }

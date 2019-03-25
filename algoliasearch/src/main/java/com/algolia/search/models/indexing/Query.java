@@ -1,5 +1,6 @@
 package com.algolia.search.models.indexing;
 
+import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.models.settings.Distinct;
 import com.algolia.search.models.settings.IgnorePlurals;
 import com.algolia.search.models.settings.RemoveStopWords;
@@ -576,6 +577,10 @@ public class Query implements Serializable {
   public Query setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
     return this;
+  }
+
+  public String toParam() {
+    return QueryStringHelper.buildQueryAsQueryParams(this);
   }
 
   /* search */
