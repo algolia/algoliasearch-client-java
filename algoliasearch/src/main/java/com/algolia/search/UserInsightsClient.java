@@ -1,5 +1,8 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.insights.InsightsEvent;
 import com.algolia.search.models.insights.InsightsResult;
@@ -22,6 +25,10 @@ public final class UserInsightsClient {
    * @param eventName The Event Name
    * @param indexName The Index Name
    * @param filters Filters parameters
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> clickedFiltersAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
@@ -33,6 +40,10 @@ public final class UserInsightsClient {
    * @param indexName The Index Name
    * @param filters Filters parameters
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> clickedFiltersAsync(
       @Nonnull String eventName,
@@ -55,6 +66,10 @@ public final class UserInsightsClient {
    * @param eventName The Event Name
    * @param indexName The Index Name
    * @param objectIDs List of objectId
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
@@ -66,6 +81,10 @@ public final class UserInsightsClient {
    * @param indexName The Index Name
    * @param objectIDs List of objectId
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAsync(
       @Nonnull String eventName,
@@ -90,6 +109,10 @@ public final class UserInsightsClient {
    * @param objectIDs List of objectId
    * @param positions List of position
    * @param queryID The query Id
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAfterSearchAsync(
       @Nonnull String eventName,
@@ -108,6 +131,10 @@ public final class UserInsightsClient {
    * @param positions List of position
    * @param queryID The query Id
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAfterSearchAsync(
       @Nonnull String eventName,
@@ -134,6 +161,10 @@ public final class UserInsightsClient {
    * @param eventName The Event Name
    * @param indexName The Index Name
    * @param objectIDs List of objectId
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
@@ -145,6 +176,10 @@ public final class UserInsightsClient {
    * @param indexName The Index Name
    * @param objectIDs List of objectId
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAsync(
       @Nonnull String eventName,
@@ -167,6 +202,10 @@ public final class UserInsightsClient {
    * @param indexName The Index Name
    * @param objectIDs List of objectId
    * @param queryID The query Id
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAfterSearchAsync(
       @Nonnull String eventName,
@@ -182,6 +221,10 @@ public final class UserInsightsClient {
    * @param objectIDs List of objectId
    * @param queryID The query Id
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAfterSearchAsync(
       @Nonnull String eventName,
@@ -205,6 +248,10 @@ public final class UserInsightsClient {
    * @param eventName The Event Name
    * @param indexName The index name
    * @param filters List of filters
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> convertedFiltersAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
@@ -224,6 +271,10 @@ public final class UserInsightsClient {
    * @param indexName The index name
    * @param filters List of filters
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> convertedFiltersAsync(
       @Nonnull String eventName,
@@ -245,9 +296,11 @@ public final class UserInsightsClient {
    * @param eventName The Event Name
    * @param indexName The Index Name
    * @param filters Filters parameters
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
-
-  // view
   public CompletableFuture<InsightsResult> viewedFiltersAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
     return viewedFiltersAsync(eventName, indexName, filters, null);
@@ -258,6 +311,10 @@ public final class UserInsightsClient {
    * @param indexName The Index Name
    * @param filters Filters parameters
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> viewedFiltersAsync(
       @Nonnull String eventName,
@@ -279,6 +336,10 @@ public final class UserInsightsClient {
    * @param eventName The Event Name
    * @param indexName The Index Name
    * @param objectIDs List of objectId
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> viewedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
@@ -290,6 +351,10 @@ public final class UserInsightsClient {
    * @param indexName The Index Name
    * @param objectIDs List of objectId
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> viewedObjectIDsAsync(
       @Nonnull String eventName,

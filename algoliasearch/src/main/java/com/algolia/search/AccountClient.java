@@ -1,6 +1,7 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.iterators.RulesIterable;
@@ -34,6 +35,8 @@ public final class AccountClient {
    * @param destinationIndex The destination index
    * @throws AlgoliaRuntimeException If destination index already exist or source and destination
    *     are on the same application
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
    */
   public <T> CompletableFuture<MultiResponse> copyIndexAsync(
       @Nonnull SearchIndex<T> sourceIndex, @Nonnull SearchIndex<T> destinationIndex) {
@@ -49,6 +52,8 @@ public final class AccountClient {
    * @param requestOptions Request options to pass to the request
    * @throws AlgoliaRuntimeException If destination index already exist or source and destination
    *     are on the same application
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
    */
   public <T> CompletableFuture<MultiResponse> copyIndexAsync(
       @Nonnull SearchIndex<T> sourceIndex,

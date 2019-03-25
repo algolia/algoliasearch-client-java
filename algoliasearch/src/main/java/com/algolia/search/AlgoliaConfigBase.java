@@ -8,13 +8,13 @@ import java.util.concurrent.ForkJoinPool;
 
 /** * Algolia's clients configuration */
 @SuppressWarnings("WeakerAccess")
-public abstract class AlgoliaConfig {
+public abstract class AlgoliaConfigBase {
 
-  AlgoliaConfig(String applicationID, String apiKey) {
+  AlgoliaConfigBase(String applicationID, String apiKey) {
     this(applicationID, apiKey, ForkJoinPool.commonPool());
   }
 
-  AlgoliaConfig(String applicationID, String apiKey, ExecutorService executor) {
+  AlgoliaConfigBase(String applicationID, String apiKey, ExecutorService executor) {
     this.applicationID = applicationID;
     this.apiKey = apiKey;
     this.executor = executor;
@@ -39,7 +39,7 @@ public abstract class AlgoliaConfig {
     return defaultHeaders;
   }
 
-  public AlgoliaConfig setDefaultHeaders(HashMap<String, String> defaultHeaders) {
+  public AlgoliaConfigBase setDefaultHeaders(HashMap<String, String> defaultHeaders) {
     this.defaultHeaders = defaultHeaders;
     return this;
   }
@@ -48,7 +48,7 @@ public abstract class AlgoliaConfig {
     return batchSize;
   }
 
-  public AlgoliaConfig setBatchSize(int batchSize) {
+  public AlgoliaConfigBase setBatchSize(int batchSize) {
     this.batchSize = batchSize;
     return this;
   }
@@ -57,7 +57,7 @@ public abstract class AlgoliaConfig {
     return readTimeOut;
   }
 
-  public AlgoliaConfig setReadTimeOut(Integer readTimeOut) {
+  public AlgoliaConfigBase setReadTimeOut(Integer readTimeOut) {
     this.readTimeOut = readTimeOut;
     return this;
   }
@@ -66,7 +66,7 @@ public abstract class AlgoliaConfig {
     return writeTimeOut;
   }
 
-  public AlgoliaConfig setWriteTimeOut(Integer writeTimeOut) {
+  public AlgoliaConfigBase setWriteTimeOut(Integer writeTimeOut) {
     this.writeTimeOut = writeTimeOut;
     return this;
   }
@@ -75,7 +75,7 @@ public abstract class AlgoliaConfig {
     return connectTimeOut;
   }
 
-  public AlgoliaConfig setConnectTimeOut(Integer connectTimeOut) {
+  public AlgoliaConfigBase setConnectTimeOut(Integer connectTimeOut) {
     this.connectTimeOut = connectTimeOut;
     return this;
   }
@@ -92,7 +92,7 @@ public abstract class AlgoliaConfig {
     return customHosts;
   }
 
-  public AlgoliaConfig setCustomHosts(List<StatefulHost> customHosts) {
+  public AlgoliaConfigBase setCustomHosts(List<StatefulHost> customHosts) {
     this.customHosts = customHosts;
     return this;
   }

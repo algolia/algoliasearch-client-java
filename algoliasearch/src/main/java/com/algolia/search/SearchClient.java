@@ -30,17 +30,17 @@ import javax.annotation.Nonnull;
 public final class SearchClient {
 
   private final HttpTransport transport;
-  private final AlgoliaConfig config;
+  private final AlgoliaConfigBase config;
 
   public SearchClient(@Nonnull String applicationID, @Nonnull String apiKey) {
-    this(new SearchConfig(applicationID, apiKey));
+    this(new SearchConfigBase(applicationID, apiKey));
   }
 
-  public SearchClient(@Nonnull SearchConfig config) {
+  public SearchClient(@Nonnull SearchConfigBase config) {
     this(config, new AlgoliaHttpRequester(config));
   }
 
-  public SearchClient(@Nonnull SearchConfig config, @Nonnull IHttpRequester httpRequester) {
+  public SearchClient(@Nonnull SearchConfigBase config, @Nonnull IHttpRequester httpRequester) {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
@@ -149,6 +149,9 @@ public final class SearchClient {
    * @param klass Class of the data to retrieve
    * @param requestOptions Options to pass to this request
    * @param <T> Type of the data to retrieve
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   @SuppressWarnings("unchecked")
   public <T> CompletableFuture<MultipleGetObjectsResponse<T>> multipleGetObjectsAsync(
@@ -183,6 +186,9 @@ public final class SearchClient {
    *
    * @param operations The batch operations to process. It could be on multiple indices with
    *     multiple actions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> MultipleIndexBatchIndexingResponse multipleBatch(
       @Nonnull List<BatchOperation<T>> operations) {
@@ -196,6 +202,9 @@ public final class SearchClient {
    * @param operations The batch operations to process. It could be on multiple indices with
    *     multiple action
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> MultipleIndexBatchIndexingResponse multipleBatch(
       @Nonnull List<BatchOperation<T>> operations, RequestOptions requestOptions) {
@@ -208,6 +217,9 @@ public final class SearchClient {
    *
    * @param operations The batch operations to process. It could be on multiple indices with
    *     multiple action
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
       @Nonnull List<BatchOperation<T>> operations) {
@@ -221,6 +233,9 @@ public final class SearchClient {
    * @param operations The batch operations to process. It could be on multiple indices with
    *     multiple action
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> CompletableFuture<MultipleIndexBatchIndexingResponse> multipleBatchAsync(
       @Nonnull List<BatchOperation<T>> operations, RequestOptions requestOptions) {
@@ -252,6 +267,9 @@ public final class SearchClient {
    * @param request The request
    * @param klass The class of the expected results
    * @param <T> Type of the expected results
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> MultipleQueriesResponse<T> multipleQueries(
       @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> klass) {
@@ -266,6 +284,9 @@ public final class SearchClient {
    * @param klass The class of the expected results
    * @param requestOptions Options to pass to this request
    * @param <T> Type of the expected results
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> MultipleQueriesResponse<T> multipleQueries(
       @Nonnull MultipleQueriesRequest request,
@@ -281,6 +302,9 @@ public final class SearchClient {
    * @param request The request
    * @param klass The class of the expected results
    * @param <T> Type of the expected results
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <T> CompletableFuture<MultipleQueriesResponse<T>> multipleQueriesAsync(
       @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> klass) {
@@ -295,6 +319,9 @@ public final class SearchClient {
    * @param klass The class of the expected results
    * @param requestOptions Options to pass to this request
    * @param <T> Type of the expected results
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   @SuppressWarnings("unchecked")
   public <T> CompletableFuture<MultipleQueriesResponse<T>> multipleQueriesAsync(
@@ -328,6 +355,9 @@ public final class SearchClient {
    *
    * @param sourceIndex The source index to copy from
    * @param destinationIndex the destination index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copySettingsAsync(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
@@ -341,6 +371,9 @@ public final class SearchClient {
    * @param sourceIndex The source index to copy from
    * @param destinationIndex the destination index
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copySettingsAsync(
       @Nonnull String sourceIndex,
@@ -355,6 +388,9 @@ public final class SearchClient {
    *
    * @param sourceIndex The source index to copy from
    * @param destinationIndex the destination index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copyRulesAsync(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
@@ -368,6 +404,9 @@ public final class SearchClient {
    * @param sourceIndex The source index to copy from
    * @param destinationIndex the destination index
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copyRulesAsync(
       @Nonnull String sourceIndex,
@@ -382,6 +421,9 @@ public final class SearchClient {
    *
    * @param sourceIndex The source index to copy from
    * @param destinationIndex the destination index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copySynonymsAsync(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
@@ -395,6 +437,9 @@ public final class SearchClient {
    * @param sourceIndex The source index to copy from
    * @param destinationIndex the destination index
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copySynonymsAsync(
       @Nonnull String sourceIndex,
@@ -412,6 +457,9 @@ public final class SearchClient {
    *
    * @param sourceIndex The source index to copy from
    * @param destinationIndex the destination index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copyIndexAsync(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
@@ -424,6 +472,9 @@ public final class SearchClient {
    * @param sourceIndex The source index to copy from
    * @param destinationIndex the destination index
    * @param scopes Scope of the copy
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copyIndexAsync(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex, List<String> scopes) {
@@ -437,6 +488,9 @@ public final class SearchClient {
    * @param destinationIndex the destination index
    * @param scopes Scope of the copy
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<CopyResponse> copyIndexAsync(
       @Nonnull String sourceIndex,
@@ -645,6 +699,9 @@ public final class SearchClient {
    * Add a new API Key with specific permissions/restrictions
    *
    * @param acl The api with the restrictions/permissions to add
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<AddApiKeyResponse> addApiKeyAsync(@Nonnull ApiKey acl) {
     return addApiKeyAsync(acl, null);
@@ -655,6 +712,9 @@ public final class SearchClient {
    *
    * @param acl The api with the restrictions/permissions to add
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<AddApiKeyResponse> addApiKeyAsync(
       @Nonnull ApiKey acl, RequestOptions requestOptions) {
@@ -680,6 +740,9 @@ public final class SearchClient {
    * Delete an existing API Key
    *
    * @param apiKey The API Key to delete
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<DeleteApiKeyResponse> deleteApiKeyAsync(@Nonnull String apiKey) {
     return deleteApiKeyAsync(apiKey, null);
@@ -690,6 +753,9 @@ public final class SearchClient {
    *
    * @param apiKey The API Key to delete
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<DeleteApiKeyResponse> deleteApiKeyAsync(
       @Nonnull String apiKey, RequestOptions requestOptions) {
@@ -719,6 +785,9 @@ public final class SearchClient {
    * Update the permissions of an existing API Key.
    *
    * @param request The API key to update
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<UpdateApiKeyResponse> updateApiKeyAsync(@Nonnull ApiKey request) {
     return updateApiKeyAsync(request, null);
@@ -729,6 +798,9 @@ public final class SearchClient {
    *
    * @param request The API key to update
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<UpdateApiKeyResponse> updateApiKeyAsync(
       @Nonnull ApiKey request, RequestOptions requestOptions) {
@@ -759,6 +831,9 @@ public final class SearchClient {
    * Restore the given API Key
    *
    * @param apiKey The given API Key
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<RestoreApiKeyResponse> restoreApiKeyAsync(@Nonnull String apiKey) {
     return restoreApiKeyAsync(apiKey, null);
@@ -769,6 +844,9 @@ public final class SearchClient {
    *
    * @param apiKey The given API Key
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<RestoreApiKeyResponse> restoreApiKeyAsync(
       @Nonnull String apiKey, RequestOptions requestOptions) {
@@ -801,6 +879,9 @@ public final class SearchClient {
    * @param parentAPIKey API key to generate from.
    * @param restriction Restriction to add the key
    * @throws Exception if an error occurs during the encoding
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public String generateSecuredAPIKey(
       @Nonnull String parentAPIKey, SecuredApiKeyRestriction restriction) throws Exception {
@@ -810,6 +891,10 @@ public final class SearchClient {
   /**
    * Get the logs of the latest search and indexing operations You can retrieve the logs of your
    * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<List<Log>> getLogsAsync() {
     return getLogsAsync(0, 10, null);
@@ -822,6 +907,9 @@ public final class SearchClient {
    * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
    * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
    *     allowed value: 1,000.
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<List<Log>> getLogsAsync(int offset, int length) {
     return getLogsAsync(offset, length, null);
@@ -832,6 +920,9 @@ public final class SearchClient {
    * last 1,000 API calls. It is designed for immediate, real-time debugging.
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<List<Log>> getLogsAsync(RequestOptions requestOptions) {
     return getLogsAsync(0, 10, requestOptions);
@@ -845,6 +936,9 @@ public final class SearchClient {
    * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
    *     allowed value: 1,000.
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<List<Log>> getLogsAsync(
       int offset, int length, RequestOptions requestOptions) {
@@ -871,6 +965,9 @@ public final class SearchClient {
    * List the clusters available in a multi-clusters setup for a single appID
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<ListClustersResponse> listClustersAsync(RequestOptions requestOptions) {
     return transport.executeRequestAsync(
@@ -882,6 +979,9 @@ public final class SearchClient {
    * userID usage may take up to a few seconds propagate to the different cluster
    *
    * @param query The query to search for userIDs
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<SearchResult<UserId>> searchUserIDsAsync(
       @Nonnull SearchUserIdsRequest query) {
@@ -894,6 +994,9 @@ public final class SearchClient {
    *
    * @param query The query to search for userIDs
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   @SuppressWarnings("unchecked")
   public CompletableFuture<SearchResult<UserId>> searchUserIDsAsync(
@@ -919,7 +1022,13 @@ public final class SearchClient {
             config.getExecutor());
   }
 
-  /** List the userIDs assigned to a multi-clusters appID. */
+  /**
+   * List the userIDs assigned to a multi-clusters appID.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   public CompletableFuture<ListUserIdsResponse> listUserIDsAsync() {
     return listUserIDsAsync(0, 10, null);
   }
@@ -930,6 +1039,9 @@ public final class SearchClient {
    * @param page The page number to request
    * @param hitsPerPage Number of hits per page
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<ListUserIdsResponse> listUserIDsAsync(
       int page, int hitsPerPage, RequestOptions requestOptions) {
@@ -962,6 +1074,9 @@ public final class SearchClient {
    * Returns the userID data stored in the mapping.
    *
    * @param userID The userID in the mapping
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public UserId getUserID(@Nonnull String userID) {
     return LaunderThrowable.unwrap(getUserIDAsync(userID));
@@ -982,6 +1097,9 @@ public final class SearchClient {
    *
    * @param userID The userID in the mapping
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<UserId> getUserIDAsync(
       @Nonnull String userID, RequestOptions requestOptions) {
@@ -1003,6 +1121,10 @@ public final class SearchClient {
    * Get the top 10 userIDs with the highest number of records per cluster. The data returned will
    * usually be a few seconds behind real-time, because userID usage may take up to a few seconds to
    * propagate to the different clusters.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<TopUserIdResponse> getTopUserIDAsync() {
     return getTopUserIDAsync(null);
@@ -1014,6 +1136,9 @@ public final class SearchClient {
    * propagate to the different clusters.
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<TopUserIdResponse> getTopUserIDAsync(RequestOptions requestOptions) {
     return transport.executeRequestAsync(
@@ -1024,6 +1149,14 @@ public final class SearchClient {
         requestOptions);
   }
 
+  /**
+   * Remove a userID and its associated data from the multi-clusters
+   *
+   * @param userId The userID to remove
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   public RemoveUserIdResponse removeUserID(@Nonnull String userId) {
     return LaunderThrowable.unwrap(removeUserIDAsync(userId, null));
   }
@@ -1032,6 +1165,9 @@ public final class SearchClient {
    * Remove a userID and its associated data from the multi-clusters.
    *
    * @param userId userID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<RemoveUserIdResponse> removeUserIDAsync(@Nonnull String userId) {
     return removeUserIDAsync(userId, null);
@@ -1042,6 +1178,9 @@ public final class SearchClient {
    *
    * @param userId userID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<RemoveUserIdResponse> removeUserIDAsync(
       @Nonnull String userId, RequestOptions requestOptions) {
@@ -1071,6 +1210,9 @@ public final class SearchClient {
    *
    * @param userId The userID
    * @param clusterName The name of the cluster
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<AssignUserIdResponse> assignUserIDAsync(
       @Nonnull String userId, @Nonnull String clusterName) {
@@ -1084,6 +1226,9 @@ public final class SearchClient {
    * @param userId The userID
    * @param clusterName The name of the cluster
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<AssignUserIdResponse> assignUserIDAsync(
       @Nonnull String userId, @Nonnull String clusterName, RequestOptions requestOptions) {
@@ -1115,7 +1260,13 @@ public final class SearchClient {
         requestOptions);
   }
 
-  /** Returns the personalization strategy of the application */
+  /**
+   * Returns the personalization strategy of the application
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   public CompletableFuture<GetStrategyResponse> getPersonalizationStrategyAsync() {
     return getPersonalizationStrategyAsync(null);
   }
@@ -1124,6 +1275,9 @@ public final class SearchClient {
    * Returns the personalization strategy of the application
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<GetStrategyResponse> getPersonalizationStrategyAsync(
       RequestOptions requestOptions) {
@@ -1139,6 +1293,9 @@ public final class SearchClient {
    * This command configures the personalization strategy
    *
    * @param request The personalization strategy>
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<SetStrategyResponse> setPersonalizationStrategyAsync(
       @Nonnull SetStrategyRequest request) {
@@ -1150,6 +1307,9 @@ public final class SearchClient {
    *
    * @param request The personalization strategy>
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<SetStrategyResponse> setPersonalizationStrategyAsync(
       @Nonnull SetStrategyRequest request, RequestOptions requestOptions) {
@@ -1170,6 +1330,9 @@ public final class SearchClient {
    *
    * @param indexName The indexName to wait on
    * @param taskID The Algolia taskID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public void waitTask(@Nonnull String indexName, long taskID) {
     waitTask(indexName, taskID, 100, null);
@@ -1182,6 +1345,9 @@ public final class SearchClient {
    * @param indexName The indexName to wait on
    * @param taskID The Algolia taskID
    * @param timeToWait The time to wait between each call
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public void waitTask(@Nonnull String indexName, long taskID, int timeToWait) {
     waitTask(indexName, taskID, timeToWait, null);
@@ -1194,6 +1360,9 @@ public final class SearchClient {
    * @param indexName The indexName to wait on
    * @param taskID The Algolia taskID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public void waitTask(@Nonnull String indexName, long taskID, RequestOptions requestOptions) {
     waitTask(indexName, taskID, 100, requestOptions);
@@ -1207,6 +1376,9 @@ public final class SearchClient {
    * @param taskID The Algolia taskID
    * @param timeToWait The time to wait between each call
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public void waitTask(
       @Nonnull String indexName, long taskID, int timeToWait, RequestOptions requestOptions) {

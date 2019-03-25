@@ -1,5 +1,8 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
@@ -18,14 +21,14 @@ public class InsightsClient {
   private final HttpTransport transport;
 
   public InsightsClient(@Nonnull String applicationID, @Nonnull String apiKey) {
-    this(new InsightsConfig(applicationID, apiKey));
+    this(new InsightsConfigBase(applicationID, apiKey));
   }
 
-  public InsightsClient(@Nonnull InsightsConfig config) {
+  public InsightsClient(@Nonnull InsightsConfigBase config) {
     this(config, new AlgoliaHttpRequester(config));
   }
 
-  public InsightsClient(@Nonnull InsightsConfig config, @Nonnull IHttpRequester httpRequester) {
+  public InsightsClient(@Nonnull InsightsConfigBase config, @Nonnull IHttpRequester httpRequester) {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
@@ -57,6 +60,10 @@ public class InsightsClient {
    * This command pushes an event to the Insights API.
    *
    * @param event An event
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> sendEventsAsync(@Nonnull InsightsEvent event) {
     List<InsightsEvent> events = Collections.singletonList(event);
@@ -68,6 +75,10 @@ public class InsightsClient {
    *
    * @param event An event
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> sendEventsAsync(
       @Nonnull InsightsEvent event, RequestOptions requestOptions) {
@@ -79,6 +90,10 @@ public class InsightsClient {
    * This command pushes an array of events to the Insights API.
    *
    * @param events List of events
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> sendEventsAsync(@Nonnull List<InsightsEvent> events) {
     return sendEventsAsync(events, null);
@@ -89,6 +104,10 @@ public class InsightsClient {
    *
    * @param events List of events
    * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<InsightsResult> sendEventsAsync(
       @Nonnull List<InsightsEvent> events, RequestOptions requestOptions) {

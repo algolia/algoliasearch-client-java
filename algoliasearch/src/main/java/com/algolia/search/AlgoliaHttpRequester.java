@@ -11,6 +11,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import javax.annotation.Nonnull;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
@@ -26,9 +27,9 @@ public class AlgoliaHttpRequester implements IHttpRequester {
 
   private final CloseableHttpAsyncClient asyncHttpClient;
   private final RequestConfig requestConfig;
-  private final AlgoliaConfig config;
+  private final AlgoliaConfigBase config;
 
-  AlgoliaHttpRequester(AlgoliaConfig config) {
+  AlgoliaHttpRequester(@Nonnull AlgoliaConfigBase config) {
 
     this.config = config;
 
@@ -130,6 +131,12 @@ public class AlgoliaHttpRequester implements IHttpRequester {
         if (algoliaRequest.getBody() != null) put.setEntity(addEntity(algoliaRequest.getBody()));
         put.setConfig(buildRequestConfig(algoliaRequest));
         return addHeaders(put, algoliaRequest.getHeaders());
+
+      case HttpPatch.METHOD_NAME:
+        HttpPatch patch = new HttpPatch(algoliaRequest.getUri().toString());
+        if (algoliaRequest.getBody() != null) patch.setEntity(addEntity(algoliaRequest.getBody()));
+        patch.setConfig(buildRequestConfig(algoliaRequest));
+        return addHeaders(patch, algoliaRequest.getHeaders());
 
       default:
         throw new UnsupportedOperationException(
