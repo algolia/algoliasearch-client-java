@@ -1,16 +1,19 @@
 package com.algolia.search.integration.client;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
+import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
 import com.algolia.search.models.common.Log;
 import com.algolia.search.models.indexing.IndicesResponse;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-class LogsTest extends AlgoliaBaseIntegrationTest {
+@ExtendWith({AlgoliaIntegrationTestExtension.class})
+class LogsTest {
 
   @Test
   void testLog() throws ExecutionException, InterruptedException {
@@ -23,7 +26,7 @@ class LogsTest extends AlgoliaBaseIntegrationTest {
             .getLogsAsync(0, 2)
             .thenApply(
                 r -> {
-                  assertEquals(2, r.size());
+                  assertThat(r).hasSize(2);
                   return r;
                 });
   }

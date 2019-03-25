@@ -1,9 +1,11 @@
 package com.algolia.search.integration.client;
 
+import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
+import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.models.CopyIndexTestObject;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.CopyResponse;
 import com.algolia.search.models.rules.*;
@@ -17,8 +19,10 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-class CopyIndexTest extends AlgoliaBaseIntegrationTest {
+@ExtendWith({AlgoliaIntegrationTestExtension.class})
+class CopyIndexTest {
 
   private String sourceIndexName;
   private String settingsIndexName;
@@ -131,35 +135,4 @@ class CopyIndexTest extends AlgoliaBaseIntegrationTest {
 
     CompletableFuture.allOf(fullSettingsFuture, fullRuleFuture, fullSynonymFuture);
   }
-}
-
-class CopyIndexTestObject {
-
-  public CopyIndexTestObject() {}
-
-  CopyIndexTestObject(String objectID, String company) {
-    this.objectID = objectID;
-    this.company = company;
-  }
-
-  public String getObjectID() {
-    return objectID;
-  }
-
-  public CopyIndexTestObject setObjectID(String objectID) {
-    this.objectID = objectID;
-    return this;
-  }
-
-  public String getCompany() {
-    return company;
-  }
-
-  public CopyIndexTestObject setCompany(String company) {
-    this.company = company;
-    return this;
-  }
-
-  private String objectID;
-  private String company;
 }

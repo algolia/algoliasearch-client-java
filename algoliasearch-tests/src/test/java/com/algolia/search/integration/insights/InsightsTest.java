@@ -1,18 +1,22 @@
 package com.algolia.search.integration.insights;
 
+import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+
 import com.algolia.search.InsightsClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.UserInsightsClient;
-import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
-import com.algolia.search.integration.AlgoliaObject;
+import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.indexing.SearchResult;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-class InsightsTest extends AlgoliaBaseIntegrationTest {
+@ExtendWith({AlgoliaIntegrationTestExtension.class})
+class InsightsTest {
   private SearchIndex<AlgoliaObject> index;
   private String indexName;
 

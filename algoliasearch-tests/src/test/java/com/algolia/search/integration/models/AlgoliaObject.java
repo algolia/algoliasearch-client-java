@@ -1,9 +1,10 @@
-package com.algolia.search.integration;
+package com.algolia.search.integration.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AlgoliaObject {
+public class AlgoliaObject implements Serializable {
 
   public AlgoliaObject() {}
 
