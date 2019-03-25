@@ -31,6 +31,10 @@ class HttpTransport {
     this.retryStrategy = new RetryStrategy(config);
   }
 
+  void close() {
+    httpRequester.close();
+  }
+
   /**
    * Executes the request to Algolia asynchronously with the retry strategy.
    *

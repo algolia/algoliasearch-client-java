@@ -59,6 +59,11 @@ public final class SearchClient {
     this.transport = new HttpTransport(config, httpRequester);
   }
 
+  /** Close the underlying Http Client */
+  public void close() {
+    transport.close();
+  }
+
   /**
    * Get the index object initialized (no server call needed for initialization)
    *

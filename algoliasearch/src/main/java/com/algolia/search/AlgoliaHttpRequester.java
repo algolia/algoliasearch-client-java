@@ -1,34 +1,50 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.helpers.AlgoliaHelper;
 import com.algolia.search.helpers.HttpStatusCodeHelper;
 import com.algolia.search.models.AlgoliaHttpRequest;
 import com.algolia.search.models.AlgoliaHttpResponse;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeoutException;
-import org.asynchttpclient.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.methods.*;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.entity.ContentType;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
+import org.apache.http.util.EntityUtils;
 
-class AlgoliaHttpRequester implements IHttpRequester {
+public class AlgoliaHttpRequester implements IHttpRequester {
 
-  private final AsyncHttpClient asyncHttpClient;
+  private final CloseableHttpAsyncClient asyncHttpClient;
+  private final RequestConfig requestConfig;
   private final AlgoliaConfig config;
 
   AlgoliaHttpRequester(AlgoliaConfig config) {
+
     this.config = config;
 
-    Integer connectTimeOut =
+    int connectTimeOut =
         config.getConnectTimeOut() != null
             ? config.getConnectTimeOut()
             : Defaults.CONNECT_TIMEOUT_MS;
 
-    DefaultAsyncHttpClientConfig.Builder clientBuilder =
-        Dsl.config()
-            .setCompressionEnforced(true)
+    requestConfig =
+        RequestConfig.custom()
             .setConnectTimeout(connectTimeOut)
-            .setKeepAlive(true);
+            .setContentCompressionEnabled(true)
+            .build();
 
-    asyncHttpClient = Dsl.asyncHttpClient(clientBuilder);
+    asyncHttpClient = HttpAsyncClients.createDefault();
+    asyncHttpClient.start();
   }
 
   /**
@@ -40,14 +56,14 @@ class AlgoliaHttpRequester implements IHttpRequester {
    *     side
    */
   public CompletableFuture<AlgoliaHttpResponse> performRequestAsync(AlgoliaHttpRequest request) {
-    BoundRequestBuilder requestToSend = buildRequest(request);
-    return requestToSend
-        .execute()
-        .toCompletableFuture()
+    HttpRequestBase requestToSend = buildRequest(request);
+    return AlgoliaHelper.toCompletableFuture(fc -> asyncHttpClient.execute(requestToSend, fc))
         .thenApplyAsync(this::buildResponse, config.getExecutor())
         .exceptionally(
             t -> {
-              if (t.getCause() instanceof TimeoutException) {
+              if (t.getCause() instanceof ConnectTimeoutException
+                  || t.getCause() instanceof SocketTimeoutException
+                  || t.getCause() instanceof ConnectException) {
                 return new AlgoliaHttpResponse(true);
               }
               throw new AlgoliaRuntimeException(t);
@@ -57,10 +73,14 @@ class AlgoliaHttpRequester implements IHttpRequester {
   /**
    * Closes the underlying http client.
    *
-   * @throws IOException if an I/O error occurs
+   * @throws AlgoliaRuntimeException if an I/O error occurs
    */
-  public void Close() throws IOException {
-    asyncHttpClient.close();
+  public void close() {
+    try {
+      asyncHttpClient.close();
+    } catch (IOException e) {
+      throw new AlgoliaRuntimeException(e);
+    }
   }
 
   /**
@@ -68,28 +88,68 @@ class AlgoliaHttpRequester implements IHttpRequester {
    *
    * @param response The server response
    */
-  private AlgoliaHttpResponse buildResponse(Response response) {
-    if (HttpStatusCodeHelper.isSuccess(response.getStatusCode())) {
-      return new AlgoliaHttpResponse(response.getStatusCode(), response.getResponseBodyAsStream());
+  private AlgoliaHttpResponse buildResponse(HttpResponse response) {
+    try {
+      if (HttpStatusCodeHelper.isSuccess(response.getStatusLine().getStatusCode())) {
+        return new AlgoliaHttpResponse(
+            response.getStatusLine().getStatusCode(), response.getEntity().getContent());
+      }
+      return new AlgoliaHttpResponse(
+          response.getStatusLine().getStatusCode(), EntityUtils.toString(response.getEntity()));
+    } catch (IOException e) {
+      throw new AlgoliaRuntimeException(e);
     }
-    return new AlgoliaHttpResponse(response.getStatusCode(), response.getResponseBody());
   }
 
   /**
    * Builds an http request from an AlgoliaRequest object
    *
-   * @param algoliaHttpRequest The Algolia request object
+   * @param algoliaRequest The Algolia request object
    */
-  private BoundRequestBuilder buildRequest(AlgoliaHttpRequest algoliaHttpRequest) {
-    Request request =
-        new RequestBuilder(algoliaHttpRequest.getMethod().toString())
-            .setUrl(algoliaHttpRequest.getUri().toString())
-            .setMethod(algoliaHttpRequest.getMethod().toString())
-            .setSingleHeaders(algoliaHttpRequest.getHeaders())
-            .setBody(algoliaHttpRequest.getBody())
-            .setRequestTimeout(algoliaHttpRequest.getTimeout())
-            .build();
+  private HttpRequestBase buildRequest(AlgoliaHttpRequest algoliaRequest) {
 
-    return asyncHttpClient.prepareRequest(request);
+    switch (algoliaRequest.getMethod().toString()) {
+      case HttpGet.METHOD_NAME:
+        HttpGet get = new HttpGet(algoliaRequest.getUri().toString());
+        get.setConfig(buildRequestConfig(algoliaRequest));
+        return addHeaders(get, algoliaRequest.getHeaders());
+
+      case HttpDelete.METHOD_NAME:
+        HttpDelete delete = new HttpDelete(algoliaRequest.getUri().toString());
+        delete.setConfig(buildRequestConfig(algoliaRequest));
+        return addHeaders(delete, algoliaRequest.getHeaders());
+
+      case HttpPost.METHOD_NAME:
+        HttpPost post = new HttpPost(algoliaRequest.getUri().toString());
+        if (algoliaRequest.getBody() != null) post.setEntity(addEntity(algoliaRequest.getBody()));
+        post.setConfig(buildRequestConfig(algoliaRequest));
+        return addHeaders(post, algoliaRequest.getHeaders());
+
+      case HttpPut.METHOD_NAME:
+        HttpPut put = new HttpPut(algoliaRequest.getUri().toString());
+        if (algoliaRequest.getBody() != null) put.setEntity(addEntity(algoliaRequest.getBody()));
+        put.setConfig(buildRequestConfig(algoliaRequest));
+        return addHeaders(put, algoliaRequest.getHeaders());
+
+      default:
+        throw new UnsupportedOperationException(
+            "HTTP method not supported: " + algoliaRequest.getMethod().toString());
+    }
+  }
+
+  private RequestConfig buildRequestConfig(AlgoliaHttpRequest algoliaRequest) {
+    return RequestConfig.copy(requestConfig).setSocketTimeout(algoliaRequest.getTimeout()).build();
+  }
+
+  private HttpRequestBase addHeaders(HttpRequestBase request, Map<String, String> headers) {
+    headers.forEach(request::addHeader);
+    return request;
+  }
+
+  private HttpEntity addEntity(InputStream data) {
+    return EntityBuilder.create()
+        .setStream(data)
+        .setContentType(ContentType.APPLICATION_JSON)
+        .build();
   }
 }
