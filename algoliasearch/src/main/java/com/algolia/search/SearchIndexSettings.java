@@ -1,5 +1,8 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
@@ -25,6 +28,10 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * Set settings of this index, and do not forward to replicas
    *
    * @param settings the settings to set
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SetSettingsResponse> setSettingsAsync(@Nonnull IndexSettings settings) {
     return setSettingsAsync(settings, new RequestOptions());
@@ -35,6 +42,10 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    *
    * @param settings the settings to set
    * @param forwardToReplicas if true forward the settings to the replicas
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
@@ -48,6 +59,10 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @param settings the settings to set
    * @param forwardToReplicas if true forward the settings to the replicas
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings,
@@ -67,6 +82,10 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    *
    * @param settings the settings to set
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings, RequestOptions requestOptions) {
@@ -98,12 +117,23 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * Get the settings of an index.
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default IndexSettings getSettings(RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getSettingsAsync(requestOptions));
   }
 
-  /** Get the settings of an index. */
+  /**
+   * Get the settings of an index.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
   default CompletableFuture<IndexSettings> getSettingsAsync() {
     return getSettingsAsync(null);
   }
@@ -112,6 +142,10 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * Get the settings of an index.
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<IndexSettings> getSettingsAsync(RequestOptions requestOptions) {
     return getTransport()

@@ -1,5 +1,7 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
@@ -20,6 +22,10 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * Browse index method or increase the paginationLimitedTo parameter.
    *
    * @param query The search query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default SearchResult<T> search(@Nonnull Query query) {
     return LaunderThrowable.unwrap(searchAsync(query));
@@ -32,6 +38,10 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    *
    * @param query The search query
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default SearchResult<T> search(@Nonnull Query query, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(searchAsync(query, requestOptions));
@@ -43,6 +53,10 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * Browse index method or increase the paginationLimitedTo parameter.
    *
    * @param query The search query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SearchResult<T>> searchAsync(@Nonnull Query query) {
     return searchAsync(query, null);
@@ -55,6 +69,10 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    *
    * @param query The search query
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   @SuppressWarnings("unchecked")
   default CompletableFuture<SearchResult<T>> searchAsync(
@@ -86,6 +104,10 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * of those values that meet a given criteria.
    *
    * @param query Search for facet query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SearchForFacetResponse> searchForFacetValuesAsync(
       @Nonnull SearchForFacetRequest query) {
@@ -99,6 +121,10 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    *
    * @param query Search for facet query
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SearchForFacetResponse> searchForFacetValuesAsync(
       @Nonnull SearchForFacetRequest query, RequestOptions requestOptions) {

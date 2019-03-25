@@ -1,5 +1,7 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
@@ -31,6 +33,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param objectID Algolia's objectID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default Rule getRule(@Nonnull String objectID, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getRuleAsync(objectID, requestOptions));
@@ -40,6 +46,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Get the specified rule by its objectID
    *
    * @param objectID Algolia's objectID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<Rule> getRuleAsync(@Nonnull String objectID) {
     return getRuleAsync(objectID, null);
@@ -50,6 +60,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param objectID Algolia's objectID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<Rule> getRuleAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
@@ -72,6 +86,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Search for rules matching various criteria.
    *
    * @param query The search rule query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default SearchResult<Rule> searchRules(@Nonnull RuleQuery query) {
     return LaunderThrowable.unwrap(searchRulesAsync(query, null));
@@ -82,6 +100,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param query The search rule query
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default SearchResult<Rule> searchRules(@Nonnull RuleQuery query, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(searchRulesAsync(query, requestOptions));
@@ -91,6 +113,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Search for rules matching various criteria.
    *
    * @param query The search rule query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SearchResult<Rule>> searchRulesAsync(@Nonnull RuleQuery query) {
     return searchRulesAsync(query, null);
@@ -101,6 +127,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param query The search rule query
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   @SuppressWarnings("unchecked")
   default CompletableFuture<SearchResult<Rule>> searchRulesAsync(
@@ -130,6 +160,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Create or update a single rule.
    *
    * @param rule A query rule
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> saveRuleAsync(@Nonnull Rule rule) {
     return saveRuleAsync(rule, new RequestOptions());
@@ -140,6 +174,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param rule A query rule
    * @param forwardToReplicas Forward the request to the replicas
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> saveRuleAsync(
       @Nonnull Rule rule, @Nonnull Boolean forwardToReplicas) {
@@ -152,6 +190,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param rule A query rule
    * @param forwardToReplicas Forward the request to the replicas
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> saveRuleAsync(
       @Nonnull Rule rule,
@@ -170,6 +212,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Create or update a single rule.
    *
    * @param rule A query rule
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> saveRuleAsync(
       @Nonnull Rule rule, @Nonnull RequestOptions requestOptions) {
@@ -201,6 +247,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Create or update a specified set of rules, or all rules.
    *
    * @param rules List of rules
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(@Nonnull List<Rule> rules) {
     return saveRulesAsync(rules, new RequestOptions());
@@ -212,6 +262,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param rules List of rules
    * @param forwardToReplicas Forward to the replicas the request
    * @param clearExistingRules Clear all existing rules
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
       @Nonnull List<Rule> rules,
@@ -228,6 +282,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas Forward to the replicas the request
    * @param clearExistingRules Clear all existing rules
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
       @Nonnull List<Rule> rules,
@@ -251,6 +309,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param rules List of rules
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
       @Nonnull List<Rule> rules, RequestOptions requestOptions) {
@@ -277,6 +339,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Delete the rule for the given ruleId
    *
    * @param objectID The rule objectID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<DeleteResponse> deleteRuleAsync(@Nonnull String objectID) {
     return deleteRuleAsync(objectID, null);
@@ -287,6 +353,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param objectID The rule objectID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<DeleteResponse> deleteRuleAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
@@ -317,6 +387,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * single, atomic operation
    *
    * @param rules List of rules
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(@Nonnull List<Rule> rules) {
     return saveRulesAsync(rules, false, true, new RequestOptions());
@@ -329,6 +403,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param rules List of rules
    * @param forwardToReplicas Forward to the replicas the request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
       @Nonnull List<Rule> rules, @Nonnull Boolean forwardToReplicas) {
@@ -342,6 +420,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param rules List of rules
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
       @Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
@@ -357,6 +439,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Delete all rules in an index.
    *
    * @param forwardToReplicas Forward the request to the replicas if so
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<DeleteResponse> clearRulesAsync(@Nonnull Boolean forwardToReplicas) {
     Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
@@ -371,6 +457,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *
    * @param forwardToReplicas Forward the request to the replicas if so
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<DeleteResponse> clearRulesAsync(
       @Nonnull Boolean forwardToReplicas, RequestOptions requestOptions) {
@@ -383,6 +473,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Delete all rules in an index.
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default CompletableFuture<DeleteResponse> clearRulesAsync(RequestOptions requestOptions) {
 

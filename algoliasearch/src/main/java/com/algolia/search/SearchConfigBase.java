@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings("WeakerAccess")
-public class SearchConfig extends AlgoliaConfig {
+public class SearchConfigBase extends AlgoliaConfigBase {
 
-  public SearchConfig(String applicationID, String apiKey) {
+  public SearchConfigBase(String applicationID, String apiKey) {
     super(applicationID, apiKey);
 
     List<StatefulHost> hosts =

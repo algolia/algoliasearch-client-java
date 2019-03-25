@@ -9,19 +9,15 @@ import java.util.EnumSet;
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
-public class InsightsConfig extends AlgoliaConfig {
+public class AnalyticsConfigBase extends AlgoliaConfigBase {
 
-  public InsightsConfig(String applicationID, String apiKey) {
-    this(applicationID, apiKey, "us");
-  }
-
-  public InsightsConfig(String applicationID, String apiKey, String region) {
+  public AnalyticsConfigBase(String applicationID, String apiKey) {
     super(applicationID, apiKey);
 
     List<StatefulHost> hosts =
         Collections.singletonList(
             new StatefulHost(
-                "insights." + region + ".algolia.io",
+                "analytics.algolia.com",
                 true,
                 OffsetDateTime.now(ZoneOffset.UTC),
                 EnumSet.of(CallType.READ, CallType.WRITE)));

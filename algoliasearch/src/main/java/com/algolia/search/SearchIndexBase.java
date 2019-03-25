@@ -7,7 +7,7 @@ public interface SearchIndexBase<T> {
 
   String getUrlEncodedIndexName();
 
-  SearchConfig getConfig();
+  SearchConfigBase getConfig();
 
   Class<T> getKlass();
 

@@ -1,5 +1,7 @@
 package com.algolia.search;
 
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
@@ -16,14 +18,15 @@ public final class AnalyticsClient {
   private final HttpTransport transport;
 
   public AnalyticsClient(@Nonnull String applicationID, @Nonnull String apiKey) {
-    this(new AnalyticsConfig(applicationID, apiKey));
+    this(new AnalyticsConfigBase(applicationID, apiKey));
   }
 
-  public AnalyticsClient(@Nonnull AnalyticsConfig config) {
+  public AnalyticsClient(@Nonnull AnalyticsConfigBase config) {
     this(config, new AlgoliaHttpRequester(config));
   }
 
-  public AnalyticsClient(@Nonnull AnalyticsConfig config, @Nonnull IHttpRequester httpRequester) {
+  public AnalyticsClient(
+      @Nonnull AnalyticsConfigBase config, @Nonnull IHttpRequester httpRequester) {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
@@ -55,6 +58,10 @@ public final class AnalyticsClient {
    * Get an A/B test information and results.
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public ABTests getABTests(RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getABTestsAsync(0, 10, requestOptions));
@@ -65,6 +72,10 @@ public final class AnalyticsClient {
    *
    * @param offset Position of the starting record. Used for paging. 0 is the first record.
    * @param limit Number of records to return. +used for paging. Limit is the size of the page.
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public ABTests getABTests(int offset, int limit) {
     return LaunderThrowable.unwrap(getABTestsAsync(offset, limit, null));
@@ -76,12 +87,23 @@ public final class AnalyticsClient {
    * @param offset Position of the starting record. Used for paging. 0 is the first record.
    * @param limit Number of records to return. +used for paging. Limit is the size of the page.
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public ABTests getABTests(int offset, int limit, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getABTestsAsync(offset, limit, requestOptions));
   }
 
-  /** Get an A/B test information and results. */
+  /**
+   * Get an A/B test information and results.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
   public CompletableFuture<ABTests> getABTestsAsync() {
     return getABTestsAsync(0, 10, null);
   }
@@ -90,6 +112,10 @@ public final class AnalyticsClient {
    * Get an A/B test information and results.
    *
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<ABTests> getABTestsAsync(RequestOptions requestOptions) {
     return getABTestsAsync(0, 10, requestOptions);
@@ -100,6 +126,10 @@ public final class AnalyticsClient {
    *
    * @param offset Position of the starting record. Used for paging. 0 is the first record.
    * @param limit Number of records to return. +used for paging. Limit is the size of the page.
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<ABTests> getABTestsAsync(int offset, int limit) {
     return getABTestsAsync(0, 10, null);
@@ -111,6 +141,10 @@ public final class AnalyticsClient {
    * @param offset Position of the starting record. Used for paging. 0 is the first record.
    * @param limit Number of records to return. +used for paging. Limit is the size of the page.
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<ABTests> getABTestsAsync(
       int offset, int limit, RequestOptions requestOptions) {
@@ -130,6 +164,10 @@ public final class AnalyticsClient {
    * Get an A/B test information and results.
    *
    * @param id The ABTest ID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public ABTestResponse getABTest(long id) {
     return LaunderThrowable.unwrap(getABTestAsync(id, null));
@@ -140,6 +178,10 @@ public final class AnalyticsClient {
    *
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public ABTestResponse getABTest(long id, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getABTestAsync(id, requestOptions));
@@ -149,6 +191,10 @@ public final class AnalyticsClient {
    * Get an A/B test information and results.
    *
    * @param id The ABTest ID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<ABTestResponse> getABTestAsync(long id) {
     return getABTestAsync(id, null);
@@ -159,6 +205,10 @@ public final class AnalyticsClient {
    *
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<ABTestResponse> getABTestAsync(long id, RequestOptions requestOptions) {
     return transport.executeRequestAsync(
@@ -171,6 +221,10 @@ public final class AnalyticsClient {
    * all search requests. Associated metadata and metrics are still stored
    *
    * @param id The ABTest ID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public StopAbTestResponse stopABTest(long id) {
     return LaunderThrowable.unwrap(stopABTestAsync(id, null));
@@ -183,6 +237,10 @@ public final class AnalyticsClient {
    *
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public StopAbTestResponse stopABTest(long id, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(stopABTestAsync(id, requestOptions));
@@ -194,6 +252,10 @@ public final class AnalyticsClient {
    * all search requests. Associated metadata and metrics are still stored
    *
    * @param id The ABTest ID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<StopAbTestResponse> stopABTestAsync(long id) {
     return stopABTestAsync(id, null);
@@ -206,6 +268,10 @@ public final class AnalyticsClient {
    *
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<StopAbTestResponse> stopABTestAsync(
       long id, RequestOptions requestOptions) {
@@ -221,6 +287,10 @@ public final class AnalyticsClient {
    * Deletes the A/B Test and removes all associated metadata and metrics.
    *
    * @param id The ABTest ID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public DeleteAbTestResponse deleteABTest(long id) {
     return LaunderThrowable.unwrap(deleteABTestAsync(id, null));
@@ -231,6 +301,10 @@ public final class AnalyticsClient {
    *
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public DeleteAbTestResponse deleteABTest(long id, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(deleteABTestAsync(id, requestOptions));
@@ -240,6 +314,10 @@ public final class AnalyticsClient {
    * Deletes the A/B Test and removes all associated metadata and metrics.
    *
    * @param id The ABTest ID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<DeleteAbTestResponse> deleteABTestAsync(long id) {
     return deleteABTestAsync(id, null);
@@ -250,6 +328,10 @@ public final class AnalyticsClient {
    *
    * @param id The ABTest ID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<DeleteAbTestResponse> deleteABTestAsync(
       long id, RequestOptions requestOptions) {
@@ -265,6 +347,10 @@ public final class AnalyticsClient {
    * Creates a new AB Test with provided configuration
    *
    * @param abTest The definition of the A/B test
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public AddABTestResponse addABTest(@Nonnull ABTest abTest) throws AlgoliaRuntimeException {
     return LaunderThrowable.unwrap(addABTestAsync(abTest, null));
@@ -275,6 +361,10 @@ public final class AnalyticsClient {
    *
    * @param abTest The definition of the A/B test
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public AddABTestResponse addABTest(@Nonnull ABTest abTest, RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
@@ -285,6 +375,10 @@ public final class AnalyticsClient {
    * Creates a new AB Test with provided configuration
    *
    * @param abTest The definition of the A/B test
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<AddABTestResponse> addABTestAsync(@Nonnull ABTest abTest) {
     return addABTestAsync(abTest, null);
@@ -295,6 +389,10 @@ public final class AnalyticsClient {
    *
    * @param abTest The definition of the A/B test
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public CompletableFuture<AddABTestResponse> addABTestAsync(
       @Nonnull ABTest abTest, RequestOptions requestOptions) {
