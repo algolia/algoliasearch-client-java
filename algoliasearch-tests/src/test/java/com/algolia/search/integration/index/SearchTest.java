@@ -1,21 +1,24 @@
 package com.algolia.search.integration.index;
 
+import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
+import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.models.Employee;
 import com.algolia.search.models.indexing.*;
 import com.algolia.search.models.settings.IndexSettings;
 import com.algolia.search.models.settings.SetSettingsResponse;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-class SearchTest extends AlgoliaBaseIntegrationTest {
+@ExtendWith({AlgoliaIntegrationTestExtension.class})
+class SearchTest {
 
   private SearchIndex<Employee> index;
   private List<Employee> employees;
@@ -101,45 +104,4 @@ class SearchTest extends AlgoliaBaseIntegrationTest {
         .extracting(FacetHit::getValue)
         .contains("Arista Networks");
   }
-}
-
-class Employee implements Serializable {
-
-  public Employee() {}
-
-  Employee(String company, String name) {
-    this.company = company;
-    this.name = name;
-  }
-
-  public String getCompany() {
-    return company;
-  }
-
-  public Employee setCompany(String company) {
-    this.company = company;
-    return this;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public Employee setName(String name) {
-    this.name = name;
-    return this;
-  }
-
-  public String getQueryID() {
-    return queryID;
-  }
-
-  public Employee setQueryID(String queryID) {
-    this.queryID = queryID;
-    return this;
-  }
-
-  private String company;
-  private String name;
-  private String queryID;
 }

@@ -1,12 +1,14 @@
 package com.algolia.search.integration.analytics;
 
+import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+import com.algolia.search.AnalyticsClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
-import com.algolia.search.integration.AlgoliaObject;
+import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.analytics.*;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import java.time.OffsetDateTime;
@@ -19,21 +21,31 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-class AnalyticsTest extends AlgoliaBaseIntegrationTest {
+@ExtendWith({AlgoliaIntegrationTestExtension.class})
+class AnalyticsTest {
 
   private SearchIndex<AlgoliaObject> index1;
   private SearchIndex<AlgoliaObject> index2;
   private String index1Name;
   private String index2Name;
+  private static AnalyticsClient analyticsClient;
 
   AnalyticsTest() {
+    analyticsClient = new AnalyticsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
     index1Name = getTestIndexName("ab_testing");
     index2Name = getTestIndexName("ab_testing_dev");
     index1 = searchClient.initIndex(index1Name, AlgoliaObject.class);
     index2 = searchClient.initIndex(index2Name, AlgoliaObject.class);
+  }
+
+  @AfterAll
+  static void afterAll() {
+    analyticsClient.close();
   }
 
   @Test

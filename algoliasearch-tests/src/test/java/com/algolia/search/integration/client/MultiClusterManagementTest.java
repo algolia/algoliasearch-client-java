@@ -1,9 +1,11 @@
 package com.algolia.search.integration.client;
 
+import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.SearchClient;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
+import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
 import java.time.ZoneOffset;
@@ -12,9 +14,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-class MultiClusterManagementTest extends AlgoliaBaseIntegrationTest {
+@ExtendWith({AlgoliaIntegrationTestExtension.class})
+class MultiClusterManagementTest {
+
+  private static SearchClient mcmClient;
+
+  MultiClusterManagementTest() {
+    mcmClient = new SearchClient(ALGOLIA_APPLICATION_ID_MCM, ALGOLIA_ADMIN_KEY_MCM);
+  }
+
+  @AfterAll
+  static void afterAll() {
+    mcmClient.close();
+  }
 
   @Test
   void mcmTest() throws ExecutionException, InterruptedException {

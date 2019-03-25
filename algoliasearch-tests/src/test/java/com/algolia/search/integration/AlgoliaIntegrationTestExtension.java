@@ -1,6 +1,5 @@
 package com.algolia.search.integration;
 
-import com.algolia.search.AnalyticsClient;
 import com.algolia.search.SearchClient;
 import com.algolia.search.models.indexing.ActionEnum;
 import com.algolia.search.models.indexing.BatchOperation;
@@ -11,39 +10,38 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
-public abstract class AlgoliaBaseIntegrationTest {
+public class AlgoliaIntegrationTestExtension
+    implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
 
-  protected static SearchClient searchClient;
-  protected static SearchClient searchClient2;
-  protected static SearchClient mcmClient;
-  protected static AnalyticsClient analyticsClient;
+  public static SearchClient searchClient;
+  public static SearchClient searchClient2;
 
-  protected static String ALGOLIA_APPLICATION_ID_1 = System.getenv("ALGOLIA_APPLICATION_ID_1");
-  protected static String ALGOLIA_API_KEY_1 = System.getenv("ALGOLIA_ADMIN_KEY_1");
-  protected static String ALGOLIA_SEARCH_KEY_1 = System.getenv("ALGOLIA_SEARCH_KEY_1");
+  public static String ALGOLIA_APPLICATION_ID_1 = System.getenv("ALGOLIA_APPLICATION_ID_1");
+  public static String ALGOLIA_API_KEY_1 = System.getenv("ALGOLIA_ADMIN_KEY_1");
+  public static String ALGOLIA_SEARCH_KEY_1 = System.getenv("ALGOLIA_SEARCH_KEY_1");
   private static String ALGOLIA_APPLICATION_ID_2 = System.getenv("ALGOLIA_APPLICATION_ID_2");
   private static String ALGOLIA_API_KEY_2 = System.getenv("ALGOLIA_ADMIN_KEY_2");
-  private static String ALGOLIA_APPLICATION_ID_MCM = System.getenv("ALGOLIA_APPLICATION_ID_MCM");
-  private static String ALGOLIA_ADMIN_KEY_MCM = System.getenv("ALGOLIA_ADMIN_KEY_MCM");
+  public static String ALGOLIA_APPLICATION_ID_MCM = System.getenv("ALGOLIA_APPLICATION_ID_MCM");
+  public static String ALGOLIA_ADMIN_KEY_MCM = System.getenv("ALGOLIA_ADMIN_KEY_MCM");
 
   private static String osName = System.getProperty("os.name").trim();
-  protected static String userName = System.getProperty("user.name");
+  public static String userName = System.getProperty("user.name");
   private static String javaVersion = System.getProperty("java.version");
 
-  @BeforeAll
-  static void globalInit() throws Exception {
+  @Override
+  public void beforeAll(ExtensionContext context) throws Exception {
     checkEnvironmentVariable();
     searchClient = new SearchClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
     searchClient2 = new SearchClient(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2);
-    analyticsClient = new AnalyticsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
-    mcmClient = new SearchClient(ALGOLIA_APPLICATION_ID_MCM, ALGOLIA_ADMIN_KEY_MCM);
   }
 
-  @AfterAll
-  static void globalTearDown() {
+  @Override
+  public void close() {
+    searchClient2.close();
+
     List<IndicesResponse> indices = searchClient.listIndices();
 
     if (indices != null && !indices.isEmpty()) {
@@ -69,14 +67,16 @@ public abstract class AlgoliaBaseIntegrationTest {
         searchClient.multipleBatch(operations);
       }
     }
+
+    searchClient.close();
   }
 
-  protected static String getTestIndexName(String indexName) {
+  public static String getTestIndexName(String indexName) {
     ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
     return String.format("java_jvm_%s_%s_%s_%s_%s", javaVersion, utc, osName, userName, indexName);
   }
 
-  protected static String getMcmUserId() {
+  public static String getMcmUserId() {
     ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
     return String.format(
         "java-%s-%s", DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").format(utc), userName);

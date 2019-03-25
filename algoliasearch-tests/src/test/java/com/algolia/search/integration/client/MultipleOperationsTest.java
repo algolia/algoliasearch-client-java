@@ -1,9 +1,10 @@
 package com.algolia.search.integration.client;
 
+import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
-import com.algolia.search.integration.AlgoliaMultipleOpObject;
+import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.models.AlgoliaMultipleOpObject;
 import com.algolia.search.models.indexing.*;
 import com.algolia.search.models.indexing.BatchOperation;
 import com.algolia.search.models.indexing.Query;
@@ -11,8 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-class MultipleOperationsTest extends AlgoliaBaseIntegrationTest {
+@ExtendWith({AlgoliaIntegrationTestExtension.class})
+class MultipleOperationsTest {
 
   private String index1Name;
   private String index2Name;

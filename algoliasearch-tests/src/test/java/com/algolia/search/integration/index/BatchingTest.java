@@ -1,9 +1,11 @@
 package com.algolia.search.integration.index;
 
+import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.AlgoliaBaseIntegrationTest;
+import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.models.ObjectToBatch;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.BatchOperation;
@@ -16,9 +18,11 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-class BatchingTest extends AlgoliaBaseIntegrationTest {
+@ExtendWith({AlgoliaIntegrationTestExtension.class})
+class BatchingTest {
 
   private SearchIndex<ObjectToBatch> index;
 
@@ -139,41 +143,4 @@ class BatchingTest extends AlgoliaBaseIntegrationTest {
 
     assertThat(objectsFromIterator).extracting(ObjectToBatch::getObjectID).doesNotContain("four");
   }
-}
-
-@SuppressWarnings("WeakerAccess")
-class ObjectToBatch {
-
-  // dummy constructor for deserialization
-  ObjectToBatch() {}
-
-  ObjectToBatch(String objectID) {
-    this.objectID = objectID;
-  }
-
-  ObjectToBatch(String objectID, String key) {
-    this.objectID = objectID;
-    this.key = key;
-  }
-
-  public String getObjectID() {
-    return objectID;
-  }
-
-  public ObjectToBatch setObjectID(String objectID) {
-    this.objectID = objectID;
-    return this;
-  }
-
-  public String getKey() {
-    return key;
-  }
-
-  public ObjectToBatch setKey(String key) {
-    this.key = key;
-    return this;
-  }
-
-  private String objectID;
-  private String key;
 }

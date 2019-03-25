@@ -147,10 +147,17 @@ class JacksonParserTest {
 
     List<AutomaticFacetFilter> automaticFacetFilters =
         Defaults.getObjectMapper()
-            .readValue("{\"automaticFacetFilters\":[\"lastname\",\"firstname\"]}", ConsequenceParams.class)
+            .readValue(
+                "{\"automaticFacetFilters\":[\"lastname\",\"firstname\"]}", ConsequenceParams.class)
             .getAutomaticFacetFilters();
 
-    assertThat( automaticFacetFilters.stream().anyMatch(r -> r.getFacet().equals("lastname") && !r.getDisjunctive())).isTrue();
-    assertThat( automaticFacetFilters.stream().anyMatch(r -> r.getFacet().equals("firstname") && !r.getDisjunctive())).isTrue();
+    assertThat(
+            automaticFacetFilters.stream()
+                .anyMatch(r -> r.getFacet().equals("lastname") && !r.getDisjunctive()))
+        .isTrue();
+    assertThat(
+            automaticFacetFilters.stream()
+                .anyMatch(r -> r.getFacet().equals("firstname") && !r.getDisjunctive()))
+        .isTrue();
   }
 }
