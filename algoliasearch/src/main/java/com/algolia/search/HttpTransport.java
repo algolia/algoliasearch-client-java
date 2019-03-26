@@ -31,7 +31,7 @@ class HttpTransport {
     this.retryStrategy = new RetryStrategy(config);
   }
 
-  void close() {
+  void close() throws IOException {
     httpRequester.close();
   }
 
