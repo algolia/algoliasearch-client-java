@@ -9,13 +9,13 @@ import java.util.EnumSet;
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
-public class InsightsConfigBase extends AlgoliaConfigBase {
+public class InsightsConfig extends AlgoliaConfigBase {
 
-  public InsightsConfigBase(String applicationID, String apiKey) {
+  public InsightsConfig(String applicationID, String apiKey) {
     this(applicationID, apiKey, "us");
   }
 
-  public InsightsConfigBase(String applicationID, String apiKey, String region) {
+  public InsightsConfig(String applicationID, String apiKey, String region) {
     super(applicationID, apiKey);
 
     List<StatefulHost> hosts =

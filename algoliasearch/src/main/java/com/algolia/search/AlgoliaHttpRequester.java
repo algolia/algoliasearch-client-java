@@ -12,10 +12,11 @@ import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.DeflateDecompressingEntity;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.ContentType;
@@ -92,8 +93,11 @@ public class AlgoliaHttpRequester implements IHttpRequester {
   private AlgoliaHttpResponse buildResponse(HttpResponse response) {
     try {
       if (HttpStatusCodeHelper.isSuccess(response.getStatusLine().getStatusCode())) {
+
+        HttpEntity entity = handleCompressedEntity(response.getEntity());
+
         return new AlgoliaHttpResponse(
-            response.getStatusLine().getStatusCode(), response.getEntity().getContent());
+            response.getStatusLine().getStatusCode(), entity.getContent());
       }
       return new AlgoliaHttpResponse(
           response.getStatusLine().getStatusCode(), EntityUtils.toString(response.getEntity()));
@@ -158,5 +162,21 @@ public class AlgoliaHttpRequester implements IHttpRequester {
         .setStream(data)
         .setContentType(ContentType.APPLICATION_JSON)
         .build();
+  }
+
+  private static HttpEntity handleCompressedEntity(HttpEntity entity) {
+    Header contentEncoding = entity.getContentEncoding();
+    if (contentEncoding != null)
+      for (HeaderElement e : contentEncoding.getElements()) {
+        if (Defaults.CONTENT_ENCODING_GZIP.equalsIgnoreCase(e.getName())) {
+          return new GzipDecompressingEntity(entity);
+        }
+
+        if (Defaults.CONTENT_ENCODING_DEFLATE.equalsIgnoreCase(e.getName())) {
+          return new DeflateDecompressingEntity(entity);
+        }
+      }
+
+    return entity;
   }
 }

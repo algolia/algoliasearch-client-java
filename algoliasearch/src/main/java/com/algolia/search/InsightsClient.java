@@ -21,14 +21,14 @@ public class InsightsClient {
   private final HttpTransport transport;
 
   public InsightsClient(@Nonnull String applicationID, @Nonnull String apiKey) {
-    this(new InsightsConfigBase(applicationID, apiKey));
+    this(new InsightsConfig(applicationID, apiKey));
   }
 
-  public InsightsClient(@Nonnull InsightsConfigBase config) {
+  public InsightsClient(@Nonnull InsightsConfig config) {
     this(config, new AlgoliaHttpRequester(config));
   }
 
-  public InsightsClient(@Nonnull InsightsConfigBase config, @Nonnull IHttpRequester httpRequester) {
+  public InsightsClient(@Nonnull InsightsConfig config, @Nonnull IHttpRequester httpRequester) {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");

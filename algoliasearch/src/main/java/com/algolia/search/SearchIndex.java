@@ -30,20 +30,20 @@ public final class SearchIndex<T>
         SearchIndexSearching<T> {
 
   private final HttpTransport transport;
-  private final SearchConfigBase config;
+  private final SearchConfig config;
   private final String urlEncodedIndexName;
   private final String indexName;
   private final Class<T> klass;
 
   SearchIndex(HttpTransport transport, AlgoliaConfigBase config, String indexName, Class<T> klass) {
     this.transport = transport;
-    this.config = (SearchConfigBase) config;
+    this.config = (SearchConfig) config;
     this.indexName = indexName;
     this.urlEncodedIndexName = QueryStringHelper.urlEncodeUTF8(indexName);
     this.klass = klass;
   }
 
-  public SearchConfigBase getConfig() {
+  public SearchConfig getConfig() {
     return config;
   }
 
