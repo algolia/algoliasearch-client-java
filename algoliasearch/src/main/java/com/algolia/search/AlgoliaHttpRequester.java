@@ -77,12 +77,8 @@ public class AlgoliaHttpRequester implements IHttpRequester {
    *
    * @throws AlgoliaRuntimeException if an I/O error occurs
    */
-  public void close() {
-    try {
-      asyncHttpClient.close();
-    } catch (IOException e) {
-      throw new AlgoliaRuntimeException(e);
-    }
+  public void close() throws IOException {
+    asyncHttpClient.close();
   }
 
   /**

@@ -210,7 +210,10 @@ class IndexingTest {
     SearchResult<DeleteByObject> searchAfterDelete = indexDeleteBy.searchAsync(new Query()).get();
     assertThat(searchAfterDelete.getHits()).hasSize(9);
 
-    indexDeleteBy.deleteByAsync(new Query().setTagFilters(Collections.singletonList("car"))).get().waitTask();
+    indexDeleteBy
+        .deleteByAsync(new Query().setTagFilters(Collections.singletonList("car")))
+        .get()
+        .waitTask();
 
     SearchResult<DeleteByObject> searchAfterDeleteBy = indexDeleteBy.searchAsync(new Query()).get();
     assertThat(searchAfterDeleteBy.getHits()).hasSize(0);

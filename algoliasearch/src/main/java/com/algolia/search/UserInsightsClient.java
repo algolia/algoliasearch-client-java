@@ -27,8 +27,7 @@ public final class UserInsightsClient {
    * @param filters Filters parameters
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> clickedFiltersAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
@@ -42,8 +41,7 @@ public final class UserInsightsClient {
    * @param requestOptions RequestOptions
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> clickedFiltersAsync(
       @Nonnull String eventName,
@@ -68,8 +66,7 @@ public final class UserInsightsClient {
    * @param objectIDs List of objectId
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
@@ -83,8 +80,7 @@ public final class UserInsightsClient {
    * @param requestOptions RequestOptions
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAsync(
       @Nonnull String eventName,
@@ -111,8 +107,7 @@ public final class UserInsightsClient {
    * @param queryID The query Id
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAfterSearchAsync(
       @Nonnull String eventName,
@@ -133,8 +128,7 @@ public final class UserInsightsClient {
    * @param requestOptions RequestOptions
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> clickedObjectIDsAfterSearchAsync(
       @Nonnull String eventName,
@@ -163,8 +157,7 @@ public final class UserInsightsClient {
    * @param objectIDs List of objectId
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
@@ -178,8 +171,7 @@ public final class UserInsightsClient {
    * @param requestOptions RequestOptions
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAsync(
       @Nonnull String eventName,
@@ -204,8 +196,7 @@ public final class UserInsightsClient {
    * @param queryID The query Id
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAfterSearchAsync(
       @Nonnull String eventName,
@@ -223,8 +214,7 @@ public final class UserInsightsClient {
    * @param requestOptions RequestOptions
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> convertedObjectIDsAfterSearchAsync(
       @Nonnull String eventName,
@@ -250,8 +240,7 @@ public final class UserInsightsClient {
    * @param filters List of filters
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> convertedFiltersAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
@@ -273,8 +262,7 @@ public final class UserInsightsClient {
    * @param requestOptions RequestOptions
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> convertedFiltersAsync(
       @Nonnull String eventName,
@@ -298,8 +286,7 @@ public final class UserInsightsClient {
    * @param filters Filters parameters
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> viewedFiltersAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
@@ -313,8 +300,7 @@ public final class UserInsightsClient {
    * @param requestOptions RequestOptions
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> viewedFiltersAsync(
       @Nonnull String eventName,
@@ -338,8 +324,7 @@ public final class UserInsightsClient {
    * @param objectIDs List of objectId
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> viewedObjectIDsAsync(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
@@ -353,8 +338,7 @@ public final class UserInsightsClient {
    * @param requestOptions RequestOptions
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<InsightsResult> viewedObjectIDsAsync(
       @Nonnull String eventName,

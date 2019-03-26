@@ -5,10 +5,7 @@ import java.util.List;
 
 public class DeleteByObject extends AlgoliaObject {
 
-
-  public DeleteByObject(){
-
-  }
+  public DeleteByObject() {}
 
   public DeleteByObject(String objectID, List<String> tags) {
     this.setObjectID(objectID);

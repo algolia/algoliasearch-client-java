@@ -41,15 +41,11 @@ public abstract class AlgoliaConfigBase {
     return defaultHeaders;
   }
 
-  public AlgoliaConfigBase setDefaultHeaders(HashMap<String, String> defaultHeaders) {
-    this.defaultHeaders = defaultHeaders;
-    return this;
-  }
-
   public int getBatchSize() {
     return batchSize;
   }
 
+  /** Overrides the default batch size for save methods. Default = 1000 objects per chunk. */
   public AlgoliaConfigBase setBatchSize(int batchSize) {
     this.batchSize = batchSize;
     return this;
@@ -59,6 +55,7 @@ public abstract class AlgoliaConfigBase {
     return readTimeOut;
   }
 
+  /** Overrides the default read timeout. Default = 1000ms In milliseconds */
   public AlgoliaConfigBase setReadTimeOut(Integer readTimeOut) {
     this.readTimeOut = readTimeOut;
     return this;
@@ -68,6 +65,7 @@ public abstract class AlgoliaConfigBase {
     return writeTimeOut;
   }
 
+  /** Overrides the default write timeout. Default = 30000ms In milliseconds */
   public AlgoliaConfigBase setWriteTimeOut(Integer writeTimeOut) {
     this.writeTimeOut = writeTimeOut;
     return this;
@@ -77,6 +75,7 @@ public abstract class AlgoliaConfigBase {
     return connectTimeOut;
   }
 
+  /** Overrides the default connect timeout. Default = 2000ms In milliseconds */
   public AlgoliaConfigBase setConnectTimeOut(Integer connectTimeOut) {
     this.connectTimeOut = connectTimeOut;
     return this;
@@ -94,6 +93,7 @@ public abstract class AlgoliaConfigBase {
     return customHosts;
   }
 
+  /** Sets a list of specific host to target. Default hosts will be overridden. */
   public AlgoliaConfigBase setCustomHosts(List<StatefulHost> customHosts) {
     this.customHosts = customHosts;
     return this;

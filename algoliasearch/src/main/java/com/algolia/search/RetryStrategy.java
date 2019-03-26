@@ -9,13 +9,21 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/** Algolia's retry strategy in case of server error, timeouts... */
 class RetryStrategy {
+
+  /** Hosts that will be used by the strategy. Could be default hosts or custom hosts */
   private final List<StatefulHost> hosts;
 
   RetryStrategy(AlgoliaConfigBase config) {
     hosts = (config.getCustomHosts() != null) ? config.getCustomHosts() : config.getDefaultHosts();
   }
 
+  /**
+   * Gives the available hosts.
+   *
+   * @param callType Algolia calltype.
+   */
   List<StatefulHost> getTryableHosts(CallType callType) {
     synchronized (this) {
       resetExpiredHosts();
@@ -36,6 +44,7 @@ class RetryStrategy {
     }
   }
 
+  /** Retry logic. Decide if an host is retryable or not regarding the following parameters. */
   RetryOutcome decide(StatefulHost tryableHost, int httpResponseCode, boolean isTimedOut) {
 
     synchronized (this) {
@@ -58,14 +67,25 @@ class RetryStrategy {
     }
   }
 
+  /**
+   * Tells if the response is retryable or not depending on the http status code
+   *
+   * @param httpStatusCode The http status code
+   */
   private boolean isRetryable(int httpStatusCode) {
     return httpStatusCode / 100 != 2 && httpStatusCode / 100 != 4;
   }
 
+  /**
+   * Reset the given hosts. Sets the retry count to 0 and set the last use to now.
+   *
+   * @param host The host to reset
+   */
   private void reset(StatefulHost host) {
     host.setUp(true).setRetryCount(0).setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
   }
 
+  /** Reset all hosts down for more than 5 minutes. */
   private void resetExpiredHosts() {
     for (StatefulHost host : hosts) {
       if (!host.isUp()) { // add 5 minutes test
