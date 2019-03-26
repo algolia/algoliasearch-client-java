@@ -33,14 +33,14 @@ public final class SearchClient {
   private final AlgoliaConfigBase config;
 
   public SearchClient(@Nonnull String applicationID, @Nonnull String apiKey) {
-    this(new SearchConfigBase(applicationID, apiKey));
+    this(new SearchConfig(applicationID, apiKey));
   }
 
-  public SearchClient(@Nonnull SearchConfigBase config) {
+  public SearchClient(@Nonnull SearchConfig config) {
     this(config, new AlgoliaHttpRequester(config));
   }
 
-  public SearchClient(@Nonnull SearchConfigBase config, @Nonnull IHttpRequester httpRequester) {
+  public SearchClient(@Nonnull SearchConfig config, @Nonnull IHttpRequester httpRequester) {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
@@ -1194,7 +1194,7 @@ public final class SearchClient {
       requestOptions = new RequestOptions();
     }
 
-    requestOptions.addExtraHeader("X-Algolia-USER-ID", userId);
+    requestOptions.addExtraHeader(Defaults.ALGOLIA_USER_ID_HEADER, userId);
 
     return transport.executeRequestAsync(
         HttpMethod.DELETE,
@@ -1247,7 +1247,7 @@ public final class SearchClient {
       requestOptions = new RequestOptions();
     }
 
-    requestOptions.addExtraHeader("X-Algolia-USER-ID", userId);
+    requestOptions.addExtraHeader(Defaults.ALGOLIA_USER_ID_HEADER, userId);
 
     AssignUserIdRequest request = new AssignUserIdRequest(clusterName);
 

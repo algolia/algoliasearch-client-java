@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.nio.charset.Charset;
 
 public class Defaults {
 
@@ -42,9 +41,17 @@ public class Defaults {
     return Holder.DEFAULT_OBJECT_MAPPER;
   }
 
-  public static final Charset UTF8 = Charset.forName("UTF-8");
   static final long MAX_TIME_MS_TO_WAIT = 10000L;
   static final int READ_TIMEOUT_MS = 5 * 1000; // 5 seconds
   static final int WRITE_TIMEOUT_MS = 30 * 1000; // 30 seconds
   static final int CONNECT_TIMEOUT_MS = 2 * 1000; // 2 seconds
+  static final String CONTENT_ENCODING_GZIP = "gzip";
+  static final String CONTENT_ENCODING_DEFLATE = "deflate";
+  static final String APPLICATION_JSON = "application/json";
+  static final String ACCEPT_HEADER = "Accept";
+  static final String ACCEPT_ENCODING_HEADER = "Accept-Encoding";
+  static final String ALGOLIA_APPLICATION_HEADER = "X-Algolia-Application-Id";
+  static final String ALGOLIA_KEY_HEADER = "X-Algolia-API-Key";
+  static final String ALGOLIA_USER_ID_HEADER = "X-Algolia-USER-ID";
+  static final String USER_AGENT_HEADER = "User-Agent";
 }

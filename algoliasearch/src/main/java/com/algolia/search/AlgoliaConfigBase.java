@@ -20,11 +20,13 @@ public abstract class AlgoliaConfigBase {
     this.executor = executor;
     this.batchSize = 1000;
     this.defaultHeaders = new HashMap<>();
-    this.defaultHeaders.put("X-Algolia-Application-Id", getApplicationID());
-    this.defaultHeaders.put("X-Algolia-API-Key", getApiKey());
+    this.defaultHeaders.put(Defaults.ALGOLIA_APPLICATION_HEADER, getApplicationID());
+    this.defaultHeaders.put(Defaults.ALGOLIA_KEY_HEADER, getApiKey());
     this.defaultHeaders.put(
-        "User-Agent", String.format("Algolia for Java (%s); JVM (%s)", clientVersion, javaVersion));
-    this.defaultHeaders.put("Accept", "application/json");
+        Defaults.USER_AGENT_HEADER,
+        String.format("Algolia for Java (%s); JVM (%s)", clientVersion, javaVersion));
+    this.defaultHeaders.put(Defaults.ACCEPT_HEADER, Defaults.APPLICATION_JSON);
+    this.defaultHeaders.put(Defaults.ACCEPT_ENCODING_HEADER, Defaults.CONTENT_ENCODING_GZIP);
   }
 
   public String getApplicationID() {
@@ -102,7 +104,7 @@ public abstract class AlgoliaConfigBase {
   }
 
   private static final String javaVersion = System.getProperty("java.version");
-  private final String clientVersion = this.getClass().getPackage().getSpecificationVersion();
+  private final String clientVersion = "3.0.0.0";
   private final String applicationID;
   private final String apiKey;
   private HashMap<String, String> defaultHeaders;

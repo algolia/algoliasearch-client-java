@@ -18,15 +18,14 @@ public final class AnalyticsClient {
   private final HttpTransport transport;
 
   public AnalyticsClient(@Nonnull String applicationID, @Nonnull String apiKey) {
-    this(new AnalyticsConfigBase(applicationID, apiKey));
+    this(new AnalyticsConfig(applicationID, apiKey));
   }
 
-  public AnalyticsClient(@Nonnull AnalyticsConfigBase config) {
+  public AnalyticsClient(@Nonnull AnalyticsConfig config) {
     this(config, new AlgoliaHttpRequester(config));
   }
 
-  public AnalyticsClient(
-      @Nonnull AnalyticsConfigBase config, @Nonnull IHttpRequester httpRequester) {
+  public AnalyticsClient(@Nonnull AnalyticsConfig config, @Nonnull IHttpRequester httpRequester) {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");

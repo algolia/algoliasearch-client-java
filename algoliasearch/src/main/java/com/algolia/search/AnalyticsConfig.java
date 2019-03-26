@@ -9,9 +9,9 @@ import java.util.EnumSet;
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
-public class AnalyticsConfigBase extends AlgoliaConfigBase {
+public class AnalyticsConfig extends AlgoliaConfigBase {
 
-  public AnalyticsConfigBase(String applicationID, String apiKey) {
+  public AnalyticsConfig(String applicationID, String apiKey) {
     super(applicationID, apiKey);
 
     List<StatefulHost> hosts =
