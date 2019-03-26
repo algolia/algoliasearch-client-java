@@ -1159,6 +1159,49 @@ public final class SearchIndex<T>
   }
 
   /**
+   * Remove all objects matching a filter (including geo filters). This method enables you to delete
+   * one or more objects based on filters (numeric, facet, tag or geo queries). It does not accept
+   * empty filters or a query.
+   *
+   * @param query The query used to select objects to delete
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<DeleteResponse> deleteByAsync(@Nonnull Query query) {
+    return deleteByAsync(query, null);
+  }
+
+  /**
+   * Remove all objects matching a filter (including geo filters). This method enables you to delete
+   * one or more objects based on filters (numeric, facet, tag or geo queries). It does not accept
+   * empty filters or a query.
+   *
+   * @param query The query used to select objects to delete
+   * @param requestOptions requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<DeleteResponse> deleteByAsync(
+      @Nonnull Query query, RequestOptions requestOptions) {
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + urlEncodedIndexName + "/deleteByQuery",
+            CallType.WRITE,
+            query,
+            DeleteResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
    * Get the status of the given task
    *
    * @param taskID The Algolia taskID
