@@ -36,12 +36,27 @@ public class AlgoliaIntegrationTestExtension
     checkEnvironmentVariable();
     searchClient = new SearchClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
     searchClient2 = new SearchClient(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2);
+    cleanPreviousIndices();
   }
 
   @Override
   public void close() {
     searchClient2.close();
+    searchClient.close();
+  }
 
+  public static String getTestIndexName(String indexName) {
+    ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
+    return String.format("java_jvm_%s_%s_%s_%s_%s", javaVersion, utc, osName, userName, indexName);
+  }
+
+  public static String getMcmUserId() {
+    ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
+    return String.format(
+        "java-%s-%s", DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").format(utc), userName);
+  }
+
+  private void cleanPreviousIndices() {
     List<IndicesResponse> indices = searchClient.listIndices();
 
     if (indices != null && !indices.isEmpty()) {
@@ -67,19 +82,6 @@ public class AlgoliaIntegrationTestExtension
         searchClient.multipleBatch(operations);
       }
     }
-
-    searchClient.close();
-  }
-
-  public static String getTestIndexName(String indexName) {
-    ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
-    return String.format("java_jvm_%s_%s_%s_%s_%s", javaVersion, utc, osName, userName, indexName);
-  }
-
-  public static String getMcmUserId() {
-    ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
-    return String.format(
-        "java-%s-%s", DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").format(utc), userName);
   }
 
   private static void checkEnvironmentVariable() throws Exception {
