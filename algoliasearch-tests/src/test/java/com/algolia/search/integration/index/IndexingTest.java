@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaIndexingObject;
+import com.algolia.search.integration.models.DeleteByObject;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.BrowseIndexQuery;
 import com.algolia.search.models.indexing.Query;
@@ -22,21 +23,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class IndexingTest {
 
   private SearchIndex<AlgoliaIndexingObject> index;
-  private SearchIndex<AlgoliaIndexingObject> indexDeleteBy;
   private SearchIndex<AlgoliaIndexingObject> indexMove;
   private SearchIndex<AlgoliaIndexingObject> indexClear;
 
   private String indexName;
-  private String indexDeleteByName;
   private String indexMoveName;
   private String indexClearName;
 
   IndexingTest() {
     indexName = getTestIndexName("indexing");
     index = searchClient.initIndex(indexName, AlgoliaIndexingObject.class);
-
-    indexDeleteByName = getTestIndexName("delete_by");
-    indexDeleteBy = searchClient.initIndex(indexDeleteByName, AlgoliaIndexingObject.class);
 
     indexMoveName = getTestIndexName("move_test_source");
     indexMove = searchClient.initIndex(indexMoveName, AlgoliaIndexingObject.class);
@@ -192,5 +188,31 @@ class IndexingTest {
     // Assert that all objects were deleted
     SearchResult<AlgoliaIndexingObject> search = index.searchAsync(new Query("")).get();
     assertThat(search.getHits()).hasSize(0);
+  }
+
+  @Test
+  void deleteByTest() throws ExecutionException, InterruptedException {
+    String indexDeleteByName = getTestIndexName("delete_by");
+    SearchIndex<DeleteByObject> indexDeleteBy =
+        searchClient.initIndex(indexDeleteByName, DeleteByObject.class);
+
+    List<DeleteByObject> objectsToBatch = new ArrayList<>(10);
+
+    for (int i = 0; i < 10; i++) {
+      String id = String.valueOf(i + 1);
+      objectsToBatch.add(new DeleteByObject(id, Collections.singletonList("car")));
+    }
+
+    indexDeleteBy.saveObjectsAsync(objectsToBatch).get().waitTask();
+
+    indexDeleteBy.deleteObjectAsync("1").get().waitTask();
+
+    SearchResult<DeleteByObject> searchAfterDelete = indexDeleteBy.searchAsync(new Query()).get();
+    assertThat(searchAfterDelete.getHits()).hasSize(9);
+
+    indexDeleteBy.deleteByAsync(new Query().setTagFilters(Collections.singletonList("car"))).get().waitTask();
+
+    SearchResult<DeleteByObject> searchAfterDeleteBy = indexDeleteBy.searchAsync(new Query()).get();
+    assertThat(searchAfterDeleteBy.getHits()).hasSize(0);
   }
 }

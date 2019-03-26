@@ -27,6 +27,14 @@ public class Variant implements Serializable {
     this.description = (description != null) ? description : "";
   }
 
+  public Variant(
+      String index, int trafficPercentage, String description, Query customSearchParameters) {
+    this.index = index;
+    this.trafficPercentage = trafficPercentage;
+    this.description = description;
+    this.customSearchParameters = customSearchParameters;
+  }
+
   public String getIndex() {
     return index;
   }
