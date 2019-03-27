@@ -7,10 +7,7 @@ import com.algolia.search.SearchIndex;
 import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaIndexingObject;
 import com.algolia.search.integration.models.DeleteByObject;
-import com.algolia.search.models.indexing.BatchIndexingResponse;
-import com.algolia.search.models.indexing.BrowseIndexQuery;
-import com.algolia.search.models.indexing.Query;
-import com.algolia.search.models.indexing.SearchResult;
+import com.algolia.search.models.indexing.*;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -23,22 +20,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class IndexingTest {
 
   private SearchIndex<AlgoliaIndexingObject> index;
-  private SearchIndex<AlgoliaIndexingObject> indexMove;
-  private SearchIndex<AlgoliaIndexingObject> indexClear;
-
-  private String indexName;
-  private String indexMoveName;
-  private String indexClearName;
 
   IndexingTest() {
-    indexName = getTestIndexName("indexing");
+    String indexName = getTestIndexName("indexing");
     index = searchClient.initIndex(indexName, AlgoliaIndexingObject.class);
-
-    indexMoveName = getTestIndexName("move_test_source");
-    indexMove = searchClient.initIndex(indexMoveName, AlgoliaIndexingObject.class);
-
-    indexClearName = getTestIndexName("clear_objects");
-    indexClear = searchClient.initIndex(indexClearName, AlgoliaIndexingObject.class);
   }
 
   @Test
@@ -217,5 +202,44 @@ class IndexingTest {
 
     SearchResult<DeleteByObject> searchAfterDeleteBy = indexDeleteBy.searchAsync(new Query()).get();
     assertThat(searchAfterDeleteBy.getHits()).hasSize(0);
+  }
+
+  @Test
+  void testClearObjects() throws ExecutionException, InterruptedException {
+    String indexClearName = getTestIndexName("clear_objects");
+    SearchIndex<AlgoliaIndexingObject> indexClear =
+        searchClient.initIndex(indexClearName, AlgoliaIndexingObject.class);
+
+    List<AlgoliaIndexingObject> objectsToBatch = new ArrayList<>(10);
+
+    for (int i = 0; i < 10; i++) {
+      String id = String.valueOf(i + 1);
+      objectsToBatch.add(new AlgoliaIndexingObject(id));
+    }
+
+    indexClear.saveObjectsAsync(objectsToBatch).get().waitTask();
+
+    indexClear.clearObjectsAsync().get().waitTask();
+
+    SearchResult<AlgoliaIndexingObject> searchAfterDeleteBy =
+        indexClear.searchAsync(new Query()).get();
+    assertThat(searchAfterDeleteBy.getHits()).hasSize(0);
+  }
+
+  @Test
+  void MoveIndexTest() throws ExecutionException, InterruptedException {
+    String indexMoveName = getTestIndexName("move_test_source");
+    SearchIndex<AlgoliaIndexingObject> indexMove =
+        searchClient.initIndex(indexMoveName, AlgoliaIndexingObject.class);
+
+    indexMove.saveObjectAsync(new AlgoliaIndexingObject("one")).get().waitTask();
+
+    String indexDestName = getTestIndexName("move_test_dest");
+
+    searchClient.moveIndexAsync(indexMoveName, indexDestName).get().waitTask();
+
+    List<IndicesResponse> indices = searchClient.listIndicesAsync().get();
+    assertThat(indices).extracting(IndicesResponse::getName).contains(indexDestName);
+    assertThat(indices).extracting(IndicesResponse::getName).doesNotContain(indexMoveName);
   }
 }

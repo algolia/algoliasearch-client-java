@@ -13,6 +13,7 @@ import com.algolia.search.models.analytics.*;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.settings.IgnorePlurals;
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -47,7 +48,7 @@ class AnalyticsTest {
   }
 
   @AfterAll
-  static void afterAll() {
+  static void afterAll() throws IOException {
     analyticsClient.close();
   }
 
