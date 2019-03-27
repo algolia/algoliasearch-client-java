@@ -9,6 +9,7 @@ public class RequestOptions implements Serializable {
 
   private final Map<String, String> headers = new HashMap<>();
   private final Map<String, String> queryParams = new HashMap<>();
+  private Integer timeout = null;
 
   public void addExtraHeader(@Nonnull String key, @Nonnull String value) {
     headers.put(key, value);
@@ -25,6 +26,15 @@ public class RequestOptions implements Serializable {
 
   public Map<String, String> getExtraQueryParams() {
     return queryParams;
+  }
+
+  public Integer getTimeout() {
+    return timeout;
+  }
+
+  public RequestOptions setTimeout(Integer timeout) {
+    this.timeout = timeout;
+    return this;
   }
 
   @Override

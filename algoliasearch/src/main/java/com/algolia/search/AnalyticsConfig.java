@@ -1,14 +1,14 @@
 package com.algolia.search;
 
-import com.algolia.search.models.StatefulHost;
 import com.algolia.search.models.common.CallType;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import javax.annotation.Nonnull;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public final class AnalyticsConfig extends AlgoliaConfigBase {
 
   /**
@@ -29,5 +29,22 @@ public final class AnalyticsConfig extends AlgoliaConfigBase {
                 EnumSet.of(CallType.READ, CallType.WRITE)));
 
     this.setDefaultHosts(hosts);
+  }
+
+  /**
+   * Creates a configuration for the search client with custom {@link StatefulHost}. Warning:
+   * Defaults hosts are not set when setting custom {@link StatefulHost}.
+   *
+   * @param applicationID The ApplicationID
+   * @param apiKey The API Key
+   * @param customHosts List of custom hosts
+   */
+  public AnalyticsConfig(
+      @Nonnull String applicationID,
+      @Nonnull String apiKey,
+      @Nonnull List<StatefulHost> customHosts) {
+    super(applicationID, apiKey);
+
+    this.setCustomHosts(customHosts);
   }
 }

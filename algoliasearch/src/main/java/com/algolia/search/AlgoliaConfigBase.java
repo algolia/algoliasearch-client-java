@@ -1,6 +1,5 @@
 package com.algolia.search;
 
-import com.algolia.search.models.StatefulHost;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
