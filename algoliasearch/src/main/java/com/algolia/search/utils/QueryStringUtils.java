@@ -1,4 +1,4 @@
-package com.algolia.search.helpers;
+package com.algolia.search.utils;
 
 import com.algolia.search.Defaults;
 import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class QueryStringHelper {
+public class QueryStringUtils {
 
   /**
    * Encode the given string

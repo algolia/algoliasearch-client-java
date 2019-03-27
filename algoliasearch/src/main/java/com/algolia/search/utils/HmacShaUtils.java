@@ -1,4 +1,4 @@
-package com.algolia.search.helpers;
+package com.algolia.search.utils;
 
 import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;
 import java.nio.charset.Charset;
@@ -9,13 +9,13 @@ import javax.annotation.Nonnull;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-public class HmacShaHelper {
+public class HmacShaUtils {
 
   public static String generateSecuredApiKey(
       @Nonnull String privateApiKey, @Nonnull SecuredApiKeyRestriction restriction)
       throws Exception {
 
-    String queryStr = QueryStringHelper.buildRestrictionQueryString(restriction);
+    String queryStr = QueryStringUtils.buildRestrictionQueryString(restriction);
     String key = hmac(privateApiKey, queryStr);
 
     return new String(

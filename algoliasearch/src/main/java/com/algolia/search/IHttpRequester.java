@@ -6,19 +6,19 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Contract for the Http client. This interface allows you to inject your own http client to any
- * Algolia's client.
+ * This contact allows you to inject your own HttpClient to any clients of this package. The default
+ * implementation is {@link AlgoliaHttpRequester} which wraps the Apache async http client.
  */
 public interface IHttpRequester {
 
   /**
-   * Perform an asynchronous request to the Algolia API
+   * Perform a request to the Algolia API.
    *
-   * @param request the request to send
-   * @return A completable future of an AlgoliaHttpResponse
+   * @param request The {@link AlgoliaHttpRequest} to send.
+   * @return A completable future of a {@link AlgoliaHttpResponse}.
    */
   CompletableFuture<AlgoliaHttpResponse> performRequestAsync(AlgoliaHttpRequest request);
 
-  /** Closes the underlying http client. */
+  /** Closes the resource. */
   void close() throws IOException;
 }

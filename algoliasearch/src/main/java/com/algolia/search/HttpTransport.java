@@ -3,10 +3,10 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
-import com.algolia.search.helpers.CompletableFutureHelper;
-import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.models.*;
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.utils.CompletableFutureUtils;
+import com.algolia.search.utils.QueryStringUtils;
 import com.fasterxml.jackson.databind.JavaType;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,11 +19,14 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
+/**
+ * The transport layer is responsible of the serialization/deserizalition and the retry strategy.
+ */
 class HttpTransport {
 
-  private final AlgoliaConfigBase config;
   private final IHttpRequester httpRequester;
   private final RetryStrategy retryStrategy;
+  private final AlgoliaConfigBase config;
 
   HttpTransport(AlgoliaConfigBase config, IHttpRequester httpRequester) {
     this.config = config;
@@ -144,7 +147,7 @@ class HttpTransport {
 
     // If no more hosts to request the retry has failed
     if (!hosts.hasNext()) {
-      return CompletableFutureHelper.failedFuture(
+      return CompletableFutureUtils.failedFuture(
           new AlgoliaRetryException("All hosts are unreachable"));
     }
 
@@ -164,15 +167,15 @@ class HttpTransport {
                     return CompletableFuture.completedFuture(
                         Defaults.getObjectMapper().readValue(dataStream, type));
                   } catch (IOException e) {
-                    return CompletableFutureHelper.failedFuture(new AlgoliaRuntimeException(e));
+                    return CompletableFutureUtils.failedFuture(new AlgoliaRuntimeException(e));
                   }
                 case RETRY:
                   return executeWithRetry(hosts, request, type);
                 case FAILURE:
-                  return CompletableFutureHelper.failedFuture(
+                  return CompletableFutureUtils.failedFuture(
                       new AlgoliaApiException(resp.getError(), resp.getHttpStatusCode()));
                 default:
-                  return CompletableFutureHelper.failedFuture(
+                  return CompletableFutureUtils.failedFuture(
                       new AlgoliaRetryException(
                           "Error while processing the retry strategy decision."));
               }
@@ -261,7 +264,7 @@ class HttpTransport {
       return methodPath;
     }
 
-    String queryParameters = QueryStringHelper.buildQueryString(optionalQueryParameters);
+    String queryParameters = QueryStringUtils.buildQueryString(optionalQueryParameters);
 
     return methodPath + queryParameters;
   }

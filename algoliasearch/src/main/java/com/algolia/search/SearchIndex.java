@@ -6,8 +6,6 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
-import com.algolia.search.helpers.AlgoliaHelper;
-import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.IAlgoliaWaitableResponse;
@@ -17,6 +15,8 @@ import com.algolia.search.models.common.TaskStatusResponse;
 import com.algolia.search.models.indexing.*;
 import com.algolia.search.models.indexing.BatchRequest;
 import com.algolia.search.models.indexing.BatchResponse;
+import com.algolia.search.utils.AlgoliaUtils;
+import com.algolia.search.utils.QueryStringUtils;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -39,7 +39,7 @@ public final class SearchIndex<T>
     this.transport = transport;
     this.config = (SearchConfig) config;
     this.indexName = indexName;
-    this.urlEncodedIndexName = QueryStringHelper.urlEncodeUTF8(indexName);
+    this.urlEncodedIndexName = QueryStringUtils.urlEncodeUTF8(indexName);
     this.klass = klass;
   }
 
@@ -105,7 +105,7 @@ public final class SearchIndex<T>
 
     requestOptions.addExtraQueryParameters(
         "attributesToRetrieve",
-        QueryStringHelper.urlEncodeUTF8(String.join(",", attributesToRetrieve)));
+        QueryStringUtils.urlEncodeUTF8(String.join(",", attributesToRetrieve)));
 
     return getObjectAsync(objectID, requestOptions);
   }
@@ -302,7 +302,7 @@ public final class SearchIndex<T>
     Objects.requireNonNull(data, "Data is required.");
     Objects.requireNonNull(createIfNotExists, "createIfNotExists is required.");
 
-    String objectID = AlgoliaHelper.getObjectID(data, klass);
+    String objectID = AlgoliaUtils.getObjectID(data, klass);
 
     if (requestOptions == null) {
       requestOptions = new RequestOptions();
@@ -912,7 +912,7 @@ public final class SearchIndex<T>
 
     // Move temporary index to source index
     CompletableFuture<MoveIndexResponse> moveIndexFuture =
-        moveFromAsync(QueryStringHelper.urlEncodeUTF8(tmpIndexName), requestOptions);
+        moveFromAsync(QueryStringUtils.urlEncodeUTF8(tmpIndexName), requestOptions);
     futures.add(moveIndexFuture);
 
     if (safe) {

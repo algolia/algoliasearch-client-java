@@ -1,4 +1,4 @@
-package com.algolia.search.helpers;
+package com.algolia.search.utils;
 
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import org.apache.http.HttpResponse;
 import org.apache.http.concurrent.FutureCallback;
 
-public class AlgoliaHelper {
+public class AlgoliaUtils {
 
   /**
    * Ensure that the objectID field or the @JsonProperty(\"objectID\")" is present in the given

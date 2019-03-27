@@ -9,8 +9,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings("WeakerAccess")
-public class SearchConfig extends AlgoliaConfigBase {
+public final class SearchConfig extends AlgoliaConfigBase {
 
+  /**
+   * Creates a search config with the default hosts
+   *
+   * @param applicationID The ApplicationID
+   * @param apiKey The API Key
+   */
   public SearchConfig(String applicationID, String apiKey) {
     super(applicationID, apiKey);
 
