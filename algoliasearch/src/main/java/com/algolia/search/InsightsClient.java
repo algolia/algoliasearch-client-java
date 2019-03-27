@@ -26,6 +26,7 @@ import javax.annotation.Nonnull;
 @SuppressWarnings("WeakerAccess")
 public class InsightsClient implements Closeable {
 
+  /** The transport layer. Should be reused. */
   private final HttpTransport transport;
 
   /**

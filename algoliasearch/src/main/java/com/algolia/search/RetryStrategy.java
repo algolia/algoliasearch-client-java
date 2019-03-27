@@ -1,9 +1,9 @@
 package com.algolia.search;
 
-import com.algolia.search.helpers.HttpStatusCodeHelper;
 import com.algolia.search.models.StatefulHost;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.RetryOutcome;
+import com.algolia.search.utils.HttpStatusCodeUtils;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -15,6 +15,10 @@ class RetryStrategy {
   /** Hosts that will be used by the strategy. Could be default hosts or custom hosts */
   private final List<StatefulHost> hosts;
 
+  /**
+   * Creates a new instance of the retry strategy. If custom hosts are provided in the configuration
+   * it will override the default hosts.
+   */
   RetryStrategy(AlgoliaConfigBase config) {
     hosts = (config.getCustomHosts() != null) ? config.getCustomHosts() : config.getDefaultHosts();
   }
@@ -48,7 +52,7 @@ class RetryStrategy {
   RetryOutcome decide(StatefulHost tryableHost, int httpResponseCode, boolean isTimedOut) {
 
     synchronized (this) {
-      if (!isTimedOut && HttpStatusCodeHelper.isSuccess(httpResponseCode)) {
+      if (!isTimedOut && HttpStatusCodeUtils.isSuccess(httpResponseCode)) {
         tryableHost.setUp(true);
         tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
         return RetryOutcome.SUCCESS;

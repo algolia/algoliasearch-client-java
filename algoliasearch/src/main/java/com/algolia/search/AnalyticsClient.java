@@ -23,6 +23,7 @@ import javax.annotation.Nonnull;
 @SuppressWarnings("WeakerAccess")
 public final class AnalyticsClient implements Closeable {
 
+  /** The transport layer. Must be reused. */
   private final HttpTransport transport;
 
   /**

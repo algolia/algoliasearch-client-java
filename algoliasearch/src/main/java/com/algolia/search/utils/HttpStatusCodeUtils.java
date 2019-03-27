@@ -1,6 +1,6 @@
-package com.algolia.search.helpers;
+package com.algolia.search.utils;
 
-public class HttpStatusCodeHelper {
+public class HttpStatusCodeUtils {
 
   public static boolean isSuccess(int httpStatusCode) {
     return httpStatusCode / 100 == 2;

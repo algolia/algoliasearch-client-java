@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.iterators.RulesIterable;
 import com.algolia.search.iterators.SynonymsIterable;
@@ -23,9 +24,47 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
-/** Client to perform cross indices operations */
+/**
+ * The account client performs cross indices operations This class is an helper and it doesn't hold
+ * resources.
+ */
 @SuppressWarnings("WeakerAccess")
 public final class AccountClient {
+
+  /**
+   * The method copy settings, synonyms, rules and objects from the source index to the destination
+   * index
+   *
+   * @param sourceIndex The source index to copy
+   * @param destinationIndex The destination index
+   * @throws AlgoliaRuntimeException If destination index already exist or source and destination
+   *     are on the same application
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   */
+  public <T> MultiResponse copyIndex(
+      @Nonnull SearchIndex<T> sourceIndex, @Nonnull SearchIndex<T> destinationIndex) {
+    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex));
+  }
+
+  /**
+   * The method copy settings, synonyms, rules and objects from the source index to the destination
+   * index
+   *
+   * @param sourceIndex The source index to copy
+   * @param destinationIndex The destination index
+   * @param requestOptions Request options to pass to the request
+   * @throws AlgoliaRuntimeException If destination index already exist or source and destination
+   *     are on the same application
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   */
+  public <T> MultiResponse copyIndex(
+      @Nonnull SearchIndex<T> sourceIndex,
+      @Nonnull SearchIndex<T> destinationIndex,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex, requestOptions));
+  }
 
   /**
    * The method copy settings, synonyms, rules and objects from the source index to the destination

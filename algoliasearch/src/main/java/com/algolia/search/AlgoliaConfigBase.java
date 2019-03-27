@@ -10,10 +10,21 @@ import java.util.concurrent.ForkJoinPool;
 @SuppressWarnings("WeakerAccess")
 public abstract class AlgoliaConfigBase {
 
+  /**
+   * Creates an default configuration with the forkJoinPool.
+   * @param applicationID The Application ID
+   * @param apiKey The API Key.
+   */
   AlgoliaConfigBase(String applicationID, String apiKey) {
     this(applicationID, apiKey, ForkJoinPool.commonPool());
   }
 
+  /**
+   * Creates a advanced configuration with a custom ExecutorService.
+   * @param applicationID The Application ID
+   * @param apiKey The API Key
+   * @param executor The Executor service
+   */
   AlgoliaConfigBase(String applicationID, String apiKey, ExecutorService executor) {
     this.applicationID = applicationID;
     this.apiKey = apiKey;

@@ -9,8 +9,14 @@ import java.util.EnumSet;
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
-public class AnalyticsConfig extends AlgoliaConfigBase {
+public final class AnalyticsConfig extends AlgoliaConfigBase {
 
+  /**
+   * Creates an analytic client configuration with the default host
+   *
+   * @param applicationID The Application ID
+   * @param apiKey The API Key
+   */
   public AnalyticsConfig(String applicationID, String apiKey) {
     super(applicationID, apiKey);
 

@@ -4,8 +4,6 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
-import com.algolia.search.helpers.HmacShaHelper;
-import com.algolia.search.helpers.QueryStringHelper;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.apikeys.*;
@@ -20,6 +18,8 @@ import com.algolia.search.models.mcm.*;
 import com.algolia.search.models.personalization.GetStrategyResponse;
 import com.algolia.search.models.personalization.SetStrategyRequest;
 import com.algolia.search.models.personalization.SetStrategyResponse;
+import com.algolia.search.utils.HmacShaUtils;
+import com.algolia.search.utils.QueryStringUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Collections;
@@ -37,7 +37,10 @@ import javax.annotation.Nonnull;
 @SuppressWarnings("WeakerAccess")
 public final class SearchClient implements Closeable {
 
+  /** The transport layer. Must be reused. */
   private final HttpTransport transport;
+
+  /** Client's configuration */
   private final AlgoliaConfigBase config;
 
   /**
@@ -549,7 +552,7 @@ public final class SearchClient implements Closeable {
     return transport
         .executeRequestAsync(
             HttpMethod.POST,
-            "/1/indexes/" + QueryStringHelper.urlEncodeUTF8(sourceIndex) + "/operation",
+            "/1/indexes/" + QueryStringUtils.urlEncodeUTF8(sourceIndex) + "/operation",
             CallType.WRITE,
             request,
             CopyResponse.class,
@@ -917,7 +920,7 @@ public final class SearchClient implements Closeable {
    */
   public String generateSecuredAPIKey(
       @Nonnull String parentAPIKey, SecuredApiKeyRestriction restriction) throws Exception {
-    return HmacShaHelper.generateSecuredApiKey(parentAPIKey, restriction);
+    return HmacShaUtils.generateSecuredApiKey(parentAPIKey, restriction);
   }
 
   /**
@@ -1143,7 +1146,7 @@ public final class SearchClient implements Closeable {
 
     return transport.executeRequestAsync(
         HttpMethod.GET,
-        "/1/clusters/mapping/" + QueryStringHelper.urlEncodeUTF8(userID),
+        "/1/clusters/mapping/" + QueryStringUtils.urlEncodeUTF8(userID),
         CallType.READ,
         UserId.class,
         requestOptions);

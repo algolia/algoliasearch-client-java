@@ -9,12 +9,25 @@ import java.util.EnumSet;
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
-public class InsightsConfig extends AlgoliaConfigBase {
+public final class InsightsConfig extends AlgoliaConfigBase {
 
+  /**
+   * Creates an Insight client configuration with the default region ("us").
+   *
+   * @param applicationID The ApplicationID
+   * @param apiKey The API Key
+   */
   public InsightsConfig(String applicationID, String apiKey) {
     this(applicationID, apiKey, "us");
   }
 
+  /**
+   * Creates an Insight client configuration with a custom region.
+   *
+   * @param applicationID The ApplicationID
+   * @param apiKey The API Key
+   * @param region Region of the server. For example "us"
+   */
   public InsightsConfig(String applicationID, String apiKey, String region) {
     super(applicationID, apiKey);
 

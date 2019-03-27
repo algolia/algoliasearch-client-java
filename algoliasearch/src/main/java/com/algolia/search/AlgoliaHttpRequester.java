@@ -1,10 +1,10 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
-import com.algolia.search.helpers.AlgoliaHelper;
-import com.algolia.search.helpers.HttpStatusCodeHelper;
 import com.algolia.search.models.AlgoliaHttpRequest;
 import com.algolia.search.models.AlgoliaHttpResponse;
+import com.algolia.search.utils.AlgoliaUtils;
+import com.algolia.search.utils.HttpStatusCodeUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ConnectException;
@@ -24,7 +24,12 @@ import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.util.EntityUtils;
 
-public class AlgoliaHttpRequester implements IHttpRequester {
+/**
+ * The Algolia http requester is a wrapper on top of the HttpAsyncClient of Apache. It's an
+ * implementation of {@link IHttpRequester} It takes an {@link AlgoliaHttpRequest} as input. It
+ * returns an {@link AlgoliaHttpResponse}.
+ */
+class AlgoliaHttpRequester implements IHttpRequester {
 
   private final CloseableHttpAsyncClient asyncHttpClient;
   private final RequestConfig requestConfig;
@@ -54,12 +59,11 @@ public class AlgoliaHttpRequester implements IHttpRequester {
    * response object with timeout set to true Otherwise it throws a run time exception
    *
    * @param request the request to send
-   * @throws AlgoliaRuntimeException When an error occurred processing the request on the server
-   *     side
+   * @throws AlgoliaRuntimeException When an error occurred while sending the request
    */
   public CompletableFuture<AlgoliaHttpResponse> performRequestAsync(AlgoliaHttpRequest request) {
     HttpRequestBase requestToSend = buildRequest(request);
-    return AlgoliaHelper.toCompletableFuture(fc -> asyncHttpClient.execute(requestToSend, fc))
+    return AlgoliaUtils.toCompletableFuture(fc -> asyncHttpClient.execute(requestToSend, fc))
         .thenApplyAsync(this::buildResponse, config.getExecutor())
         .exceptionally(
             t -> {
@@ -72,11 +76,7 @@ public class AlgoliaHttpRequester implements IHttpRequester {
             });
   }
 
-  /**
-   * Closes the underlying http client.
-   *
-   * @throws AlgoliaRuntimeException if an I/O error occurs
-   */
+  /** Closes the http client. */
   public void close() throws IOException {
     asyncHttpClient.close();
   }
@@ -88,7 +88,7 @@ public class AlgoliaHttpRequester implements IHttpRequester {
    */
   private AlgoliaHttpResponse buildResponse(HttpResponse response) {
     try {
-      if (HttpStatusCodeHelper.isSuccess(response.getStatusLine().getStatusCode())) {
+      if (HttpStatusCodeUtils.isSuccess(response.getStatusLine().getStatusCode())) {
 
         HttpEntity entity = handleCompressedEntity(response.getEntity());
 

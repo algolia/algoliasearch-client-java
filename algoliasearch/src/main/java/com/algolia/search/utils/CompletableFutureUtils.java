@@ -1,8 +1,8 @@
-package com.algolia.search.helpers;
+package com.algolia.search.utils;
 
 import java.util.concurrent.CompletableFuture;
 
-public class CompletableFutureHelper {
+public class CompletableFutureUtils {
   public static <T> CompletableFuture<T> failedFuture(Throwable t) {
     final CompletableFuture<T> cf = new CompletableFuture<>();
     cf.completeExceptionally(t);
