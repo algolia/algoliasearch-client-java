@@ -4,6 +4,7 @@ import com.algolia.search.SearchClient;
 import com.algolia.search.models.indexing.ActionEnum;
 import com.algolia.search.models.indexing.BatchOperation;
 import com.algolia.search.models.indexing.IndicesResponse;
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -41,8 +42,11 @@ public class AlgoliaIntegrationTestExtension
 
   @Override
   public void close() {
-    searchClient2.close();
-    searchClient.close();
+    try {
+      searchClient2.close();
+      searchClient.close();
+    } catch (IOException ignored) {
+    }
   }
 
   public static String getTestIndexName(String indexName) {

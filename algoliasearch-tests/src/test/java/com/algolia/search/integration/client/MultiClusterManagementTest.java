@@ -8,6 +8,7 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
+import java.io.IOException;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +29,7 @@ class MultiClusterManagementTest {
   }
 
   @AfterAll
-  static void afterAll() {
+  static void afterAll() throws IOException {
     mcmClient.close();
   }
 

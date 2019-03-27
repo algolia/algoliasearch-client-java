@@ -12,6 +12,7 @@ public abstract class AlgoliaConfigBase {
 
   /**
    * Creates an default configuration with the forkJoinPool.
+   *
    * @param applicationID The Application ID
    * @param apiKey The API Key.
    */
@@ -21,6 +22,7 @@ public abstract class AlgoliaConfigBase {
 
   /**
    * Creates a advanced configuration with a custom ExecutorService.
+   *
    * @param applicationID The Application ID
    * @param apiKey The API Key
    * @param executor The Executor service

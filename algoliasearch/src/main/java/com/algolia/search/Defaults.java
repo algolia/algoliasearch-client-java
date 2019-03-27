@@ -11,9 +11,7 @@ public class Defaults {
 
   public Defaults() {}
 
-  /**
-   * Singleton holding the Object Mapper instance for all the clients.
-   */
+  /** Singleton holding the Object Mapper instance for all the clients. */
   private static class Holder {
     // Jackson Configuration
     private static final ObjectMapper DEFAULT_OBJECT_MAPPER =

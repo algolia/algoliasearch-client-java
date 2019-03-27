@@ -532,16 +532,7 @@ public final class SearchClient implements Closeable {
       List<String> scopes,
       RequestOptions requestOptions) {
 
-    Objects.requireNonNull(sourceIndex, "The source index is required.");
-    Objects.requireNonNull(destinationIndex, "The destination index is required.");
-
-    if (sourceIndex.trim().length() == 0) {
-      throw new AlgoliaRuntimeException("destination index must not be empty.");
-    }
-
-    if (destinationIndex.trim().length() == 0) {
-      throw new AlgoliaRuntimeException("destination index must not be empty.");
-    }
+    checkIndicesBeforeMoving(sourceIndex, destinationIndex);
 
     CopyToRequest request =
         new CopyToRequest()
@@ -561,6 +552,50 @@ public final class SearchClient implements Closeable {
             resp -> {
               resp.setIndexName(sourceIndex);
               resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            config.getExecutor());
+  }
+
+  /**
+   * Rename an index. Normally used to reindex your data atomically, without any down time.
+   *
+   * @param sourceIndex The source index. Should not be null or empty.
+   * @param destinationIndex The destination destination. Should not be null or empty.
+   */
+  public CompletableFuture<MoveIndexResponse> moveIndexAsync(
+      @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return moveIndexAsync(sourceIndex, destinationIndex, null);
+  }
+
+  /**
+   * Rename an index. Normally used to reindex your data atomically, without any down time.
+   *
+   * @param sourceIndex The source index. Should not be null or empty.
+   * @param destinationIndex The destination destination. Should not be null or empty.
+   * @param requestOptions Options to pass to this request
+   */
+  public CompletableFuture<MoveIndexResponse> moveIndexAsync(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      RequestOptions requestOptions) {
+    checkIndicesBeforeMoving(sourceIndex, destinationIndex);
+
+    MoveIndexRequest request =
+        new MoveIndexRequest().setDestination(destinationIndex).setOperation(MoveType.MOVE);
+
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/" + QueryStringUtils.urlEncodeUTF8(sourceIndex) + "/operation",
+            CallType.WRITE,
+            request,
+            MoveIndexResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setIndexName(destinationIndex);
+              resp.setWaitBiConsumer(this::waitTask);
               return resp;
             },
             config.getExecutor());
@@ -1422,5 +1457,18 @@ public final class SearchClient implements Closeable {
 
     SearchIndex indexToWait = initIndex(indexName);
     indexToWait.waitTask(taskID, timeToWait, requestOptions);
+  }
+
+  void checkIndicesBeforeMoving(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    Objects.requireNonNull(sourceIndex, "The source index is required.");
+    Objects.requireNonNull(destinationIndex, "The destination index is required.");
+
+    if (sourceIndex.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("destination index must not be empty.");
+    }
+
+    if (destinationIndex.trim().length() == 0) {
+      throw new AlgoliaRuntimeException("destination index must not be empty.");
+    }
   }
 }
