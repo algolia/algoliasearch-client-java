@@ -2,6 +2,11 @@ package com.algolia.search;
 
 import com.algolia.search.models.RequestOptions;
 
+/**
+ * This interface holds all index common methods.
+ *
+ * @param <T>
+ */
 public interface SearchIndexBase<T> {
   HttpTransport getTransport();
 

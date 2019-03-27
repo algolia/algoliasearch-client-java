@@ -17,6 +17,11 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
+/**
+ * This interface holds all endpoints for Query Rules.
+ *
+ * @param <T>
+ */
 public interface SearchIndexRules<T> extends SearchIndexBase<T> {
 
   /**

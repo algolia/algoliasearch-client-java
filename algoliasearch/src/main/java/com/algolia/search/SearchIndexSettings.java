@@ -13,6 +13,11 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
+/**
+ * This interface holds all endpoints for Index Settings.
+ *
+ * @param <T>
+ */
 public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
 
   /**
