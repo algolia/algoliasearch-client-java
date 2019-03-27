@@ -28,7 +28,7 @@ class HttpTransport {
   private final RetryStrategy retryStrategy;
   private final AlgoliaConfigBase config;
 
-  HttpTransport(AlgoliaConfigBase config, IHttpRequester httpRequester) {
+  HttpTransport(@Nonnull AlgoliaConfigBase config, @Nonnull IHttpRequester httpRequester) {
     this.config = config;
     this.httpRequester = httpRequester;
     this.retryStrategy = new RetryStrategy(config);

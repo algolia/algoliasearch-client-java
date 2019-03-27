@@ -1,4 +1,4 @@
-package com.algolia.search.models;
+package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
 import java.time.OffsetDateTime;
@@ -18,7 +18,7 @@ public class StatefulHost {
     return url;
   }
 
-  public StatefulHost setUrl(String url) {
+  StatefulHost setUrl(String url) {
     this.url = url;
     return this;
   }
@@ -27,7 +27,7 @@ public class StatefulHost {
     return up;
   }
 
-  public StatefulHost setUp(boolean up) {
+  StatefulHost setUp(boolean up) {
     this.up = up;
     return this;
   }
@@ -36,12 +36,12 @@ public class StatefulHost {
     return retryCount;
   }
 
-  public StatefulHost setRetryCount(int retryCount) {
+  StatefulHost setRetryCount(int retryCount) {
     this.retryCount = retryCount;
     return this;
   }
 
-  public void incrementRetryCount() {
+  void incrementRetryCount() {
     this.retryCount++;
   }
 
@@ -49,7 +49,7 @@ public class StatefulHost {
     return lastUse;
   }
 
-  public StatefulHost setLastUse(OffsetDateTime lastUse) {
+  StatefulHost setLastUse(OffsetDateTime lastUse) {
     this.lastUse = lastUse;
     return this;
   }
@@ -58,7 +58,7 @@ public class StatefulHost {
     return accept;
   }
 
-  public StatefulHost setAccept(EnumSet<CallType> accept) {
+  StatefulHost setAccept(EnumSet<CallType> accept) {
     this.accept = accept;
     return this;
   }

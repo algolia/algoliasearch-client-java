@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import org.apache.http.HttpResponse;
@@ -85,6 +83,30 @@ public class AlgoliaUtils {
             + "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
   }
 
+  public static CompletableFuture<HttpResponse> toCompletableFuture(
+      Consumer<FutureCallback<HttpResponse>> c) {
+    CompletableFuture<HttpResponse> promise = new CompletableFuture<>();
+
+    c.accept(
+        new FutureCallback<HttpResponse>() {
+          @Override
+          public void completed(HttpResponse t) {
+            promise.complete(t);
+          }
+
+          @Override
+          public void failed(Exception e) {
+            promise.completeExceptionally(e);
+          }
+
+          @Override
+          public void cancelled() {
+            promise.cancel(true);
+          }
+        });
+    return promise;
+  }
+
   private static Optional<Field> findObjectIDInAnnotation(@Nonnull Class<?> klass) {
     List<Field> fields = getFields(klass);
     return fields.stream()
@@ -131,40 +153,5 @@ public class AlgoliaUtils {
     }
 
     return result;
-  }
-
-  public static <T> CompletableFuture<T> makeCompletableFuture(Future<T> future) {
-    return CompletableFuture.supplyAsync(
-        () -> {
-          try {
-            return future.get();
-          } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-          }
-        });
-  }
-
-  public static CompletableFuture<HttpResponse> toCompletableFuture(
-      Consumer<FutureCallback<HttpResponse>> c) {
-    CompletableFuture<HttpResponse> promise = new CompletableFuture<>();
-
-    c.accept(
-        new FutureCallback<HttpResponse>() {
-          @Override
-          public void completed(HttpResponse t) {
-            promise.complete(t);
-          }
-
-          @Override
-          public void failed(Exception e) {
-            promise.completeExceptionally(e);
-          }
-
-          @Override
-          public void cancelled() {
-            promise.cancel(true);
-          }
-        });
-    return promise;
   }
 }

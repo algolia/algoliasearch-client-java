@@ -1,14 +1,14 @@
 package com.algolia.search;
 
-import com.algolia.search.models.StatefulHost;
 import com.algolia.search.models.common.CallType;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.Nonnull;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public final class SearchConfig extends AlgoliaConfigBase {
 
   /**
@@ -17,7 +17,7 @@ public final class SearchConfig extends AlgoliaConfigBase {
    * @param applicationID The ApplicationID
    * @param apiKey The API Key
    */
-  public SearchConfig(String applicationID, String apiKey) {
+  public SearchConfig(@Nonnull String applicationID, @Nonnull String apiKey) {
     super(applicationID, apiKey);
 
     List<StatefulHost> hosts =
@@ -55,5 +55,22 @@ public final class SearchConfig extends AlgoliaConfigBase {
 
     this.setDefaultHosts(
         Stream.concat(hosts.stream(), commonHosts.stream()).collect(Collectors.toList()));
+  }
+
+  /**
+   * Creates a configuration for the search client with custom {@link StatefulHost}. Warning:
+   * Defaults hosts are not set when setting custom {@link StatefulHost}.
+   *
+   * @param applicationID The ApplicationID
+   * @param apiKey The API Key
+   * @param customHosts List of custom hosts
+   */
+  public SearchConfig(
+      @Nonnull String applicationID,
+      @Nonnull String apiKey,
+      @Nonnull List<StatefulHost> customHosts) {
+    super(applicationID, apiKey);
+
+    this.setCustomHosts(customHosts);
   }
 }

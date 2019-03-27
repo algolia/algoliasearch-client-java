@@ -1,9 +1,9 @@
 package com.algolia.search;
 
-import com.algolia.search.models.StatefulHost;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.RetryOutcome;
 import com.algolia.search.utils.HttpStatusCodeUtils;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -92,7 +92,11 @@ class RetryStrategy {
   /** Reset all hosts down for more than 5 minutes. */
   private void resetExpiredHosts() {
     for (StatefulHost host : hosts) {
-      if (!host.isUp()) { // add 5 minutes test
+      if (!host.isUp()
+          && Math.abs(
+                  Duration.between(OffsetDateTime.now(ZoneOffset.UTC), host.getLastUse())
+                      .getSeconds())
+              > 5 * 60) {
         reset(host);
       }
     }
