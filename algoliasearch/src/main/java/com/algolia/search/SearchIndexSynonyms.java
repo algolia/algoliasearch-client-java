@@ -18,6 +18,11 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
+/**
+ * This interface holds all endpoints for Synonyms.
+ *
+ * @param <T>
+ */
 public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
   /**
    * Get all synonyms that match a query.

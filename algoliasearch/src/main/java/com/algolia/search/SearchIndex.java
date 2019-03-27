@@ -22,6 +22,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
+/**
+ * This class holds all endpoints for an Index.
+ *
+ * @param <T>
+ */
 @SuppressWarnings("WeakerAccess")
 public final class SearchIndex<T>
     implements SearchIndexRules<T>,
@@ -35,6 +40,14 @@ public final class SearchIndex<T>
   private final String indexName;
   private final Class<T> klass;
 
+  /**
+   * Create an instance of {@link SearchIndex}. It doesn't perform an API call.
+   *
+   * @param transport The transport layer.
+   * @param config The related client's configuration.
+   * @param indexName The non-encoded index name.
+   * @param klass The class held by the index. Could be your business object or {@link Object}
+   */
   SearchIndex(HttpTransport transport, AlgoliaConfigBase config, String indexName, Class<T> klass) {
     this.transport = transport;
     this.config = (SearchConfig) config;

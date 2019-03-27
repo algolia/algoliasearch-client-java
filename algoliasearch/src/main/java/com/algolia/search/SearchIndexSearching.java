@@ -15,6 +15,11 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
+/**
+ * This interface holds all endpoints related to search.
+ *
+ * @param <T>
+ */
 public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
   /**
    * Method used for querying an index. The search query only allows for the retrieval of up to 1000

@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
  * This client is intended to be reused and it's thread-safe.
  */
 @SuppressWarnings("WeakerAccess")
-public class InsightsClient implements Closeable {
+public final class InsightsClient implements Closeable {
 
   /** The transport layer. Should be reused. */
   private final HttpTransport transport;
