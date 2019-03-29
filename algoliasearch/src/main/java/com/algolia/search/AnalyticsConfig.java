@@ -1,8 +1,6 @@
 package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -22,11 +20,7 @@ public final class AnalyticsConfig extends AlgoliaConfigBase {
 
     List<StatefulHost> hosts =
         Collections.singletonList(
-            new StatefulHost(
-                "analytics.algolia.com",
-                true,
-                OffsetDateTime.now(ZoneOffset.UTC),
-                EnumSet.of(CallType.READ, CallType.WRITE)));
+            new StatefulHost("analytics.algolia.com", EnumSet.of(CallType.READ, CallType.WRITE)));
 
     this.setDefaultHosts(hosts);
   }

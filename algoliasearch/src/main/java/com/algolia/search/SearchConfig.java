@@ -1,14 +1,12 @@
 package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"unused"})
 public final class SearchConfig extends AlgoliaConfigBase {
 
   /**
@@ -23,32 +21,20 @@ public final class SearchConfig extends AlgoliaConfigBase {
     List<StatefulHost> hosts =
         Arrays.asList(
             new StatefulHost(
-                String.format("%s-dsn.algolia.net", applicationID),
-                true,
-                OffsetDateTime.now(ZoneOffset.UTC),
-                EnumSet.of(CallType.READ)),
+                String.format("%s-dsn.algolia.net", applicationID), EnumSet.of(CallType.READ)),
             new StatefulHost(
-                String.format("%s.algolia.net", applicationID),
-                true,
-                OffsetDateTime.now(ZoneOffset.UTC),
-                EnumSet.of(CallType.WRITE)));
+                String.format("%s.algolia.net", applicationID), EnumSet.of(CallType.WRITE)));
 
     List<StatefulHost> commonHosts =
         Arrays.asList(
             new StatefulHost(
                 String.format("%s-1.algolianet.com", applicationID),
-                true,
-                OffsetDateTime.now(ZoneOffset.UTC),
                 EnumSet.of(CallType.READ, CallType.WRITE)),
             new StatefulHost(
                 String.format("%s-2.algolianet.com", applicationID),
-                true,
-                OffsetDateTime.now(ZoneOffset.UTC),
                 EnumSet.of(CallType.READ, CallType.WRITE)),
             new StatefulHost(
                 String.format("%s-3.algolianet.com", applicationID),
-                true,
-                OffsetDateTime.now(ZoneOffset.UTC),
                 EnumSet.of(CallType.READ, CallType.WRITE)));
 
     Collections.shuffle(commonHosts, new Random());
