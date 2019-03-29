@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.RetryOutcome;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -62,12 +60,7 @@ class RetryStrategyTest {
     SearchConfig config = new SearchConfig("appID", "apiKEY");
 
     config.setCustomHosts(
-        Collections.singletonList(
-            new StatefulHost(
-                "Algolia",
-                false,
-                OffsetDateTime.now(ZoneOffset.UTC).plusMinutes(6),
-                EnumSet.of(CallType.READ))));
+        Collections.singletonList(new StatefulHost("Algolia", EnumSet.of(CallType.READ))));
 
     RetryStrategy retryStrategy = new RetryStrategy(config);
 

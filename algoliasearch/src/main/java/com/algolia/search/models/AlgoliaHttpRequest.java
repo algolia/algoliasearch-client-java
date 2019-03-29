@@ -69,6 +69,10 @@ public class AlgoliaHttpRequest {
     return this;
   }
 
+  public void incrementTimeout(int retryCount) {
+    this.timeout *= (retryCount + 1);
+  }
+
   private HttpMethod method;
   private URL uri;
   private String methodPath;

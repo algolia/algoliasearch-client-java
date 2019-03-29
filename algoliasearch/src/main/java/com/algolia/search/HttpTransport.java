@@ -155,6 +155,9 @@ class HttpTransport {
     StatefulHost currentHost = hosts.next();
     request.setUri(buildURI(currentHost.getUrl(), request.getMethodPath()));
 
+    // Computing timeout with the retry count
+    request.incrementTimeout(currentHost.getRetryCount());
+
     // Performing the recursive http request in case of failure
     return httpRequester
         .performRequestAsync(request)
@@ -209,8 +212,12 @@ class HttpTransport {
             ? buildFullPath(methodPath, requestOptions.getExtraQueryParams())
             : buildFullPath(methodPath);
 
-    AlgoliaHttpRequest request =
-        new AlgoliaHttpRequest(method, fullPath, headersToSend, getTimeOut(callType));
+    int timeout =
+        requestOptions != null && requestOptions.getTimeout() != null
+            ? requestOptions.getTimeout()
+            : getTimeOut(callType);
+
+    AlgoliaHttpRequest request = new AlgoliaHttpRequest(method, fullPath, headersToSend, timeout);
 
     if (data != null) {
       try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
