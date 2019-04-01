@@ -32,17 +32,17 @@ public class SearchUserIdsRequest implements Serializable {
     return this;
   }
 
-  public Integer getHitsPerpage() {
-    return hitsPerpage;
+  public Integer getHitsPerPage() {
+    return hitsPerPage;
   }
 
-  public SearchUserIdsRequest setHitsPerpage(Integer hitsPerpage) {
-    this.hitsPerpage = hitsPerpage;
+  public SearchUserIdsRequest setHitsPerPage(Integer hitsPerPage) {
+    this.hitsPerPage = hitsPerPage;
     return this;
   }
 
   private String query;
   private String cluster;
   private Integer page;
-  private Integer hitsPerpage;
+  private Integer hitsPerPage;
 }

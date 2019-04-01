@@ -51,7 +51,7 @@ public abstract class IgnorePlurals implements Serializable, CompoundType {
 
 class IgnorePluralsBoolean extends IgnorePlurals {
 
-  private boolean insideValue;
+  private final boolean insideValue;
 
   IgnorePluralsBoolean(boolean insideValue) {
     this.insideValue = insideValue;
@@ -70,7 +70,7 @@ class IgnorePluralsBoolean extends IgnorePlurals {
 
 class IgnorePluralsListString extends IgnorePlurals {
 
-  private List<String> insideValue;
+  private final List<String> insideValue;
 
   IgnorePluralsListString(List<String> insideValue) {
     this.insideValue = insideValue;

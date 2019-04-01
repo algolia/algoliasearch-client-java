@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 abstract class AlgoliaIterator<E> implements Iterator<E> {
 
   final SearchIndex<?> index;
-  private final Integer hitsPerPage;
   private final RequestOptions requestOptions;
 
   // Internal state
@@ -35,7 +34,6 @@ abstract class AlgoliaIterator<E> implements Iterator<E> {
     Objects.requireNonNull(hitsPerPage, "hitsPerPage is required");
 
     this.index = index;
-    this.hitsPerPage = hitsPerPage;
     this.requestOptions = requestOptions;
   }
 

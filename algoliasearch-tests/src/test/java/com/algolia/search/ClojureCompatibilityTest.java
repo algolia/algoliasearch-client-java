@@ -3,15 +3,24 @@ package com.algolia.search;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 class ClojureCompatibilityTest {
 
+  private static SearchClient searchClient;
+
+  @AfterAll
+  static void close() throws IOException {
+    searchClient.close();
+  }
+
   @Test
   void reflectionVisibilityForIndex() {
-    SearchClient searchClient = new SearchClient("appID", "apiKEY");
+    searchClient = new SearchClient("appID", "apiKEY");
     SearchIndex<String> index = searchClient.initIndex("indexName", String.class);
 
     assertThat(SearchIndex.class.getMethods())

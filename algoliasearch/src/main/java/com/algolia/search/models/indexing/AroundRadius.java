@@ -51,7 +51,7 @@ public abstract class AroundRadius implements Serializable, CompoundType {
 
 class AroundRadiusString extends AroundRadius {
 
-  private String insideValue;
+  private final String insideValue;
 
   AroundRadiusString(String insideValue) {
     this.insideValue = insideValue;
@@ -71,7 +71,7 @@ class AroundRadiusString extends AroundRadius {
 
 class AroundRadiusInteger extends AroundRadius {
 
-  private Integer insideValue;
+  private final Integer insideValue;
 
   AroundRadiusInteger(Integer insideValue) {
     this.insideValue = insideValue;

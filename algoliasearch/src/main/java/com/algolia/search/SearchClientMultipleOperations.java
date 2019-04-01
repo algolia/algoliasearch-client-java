@@ -159,7 +159,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
 
     Objects.requireNonNull(operations, "Operations are required");
 
-    BatchRequest request = new BatchRequest<>(operations);
+    BatchRequest<T> request = new BatchRequest<>(operations);
 
     return getTransport()
         .executeRequestAsync(

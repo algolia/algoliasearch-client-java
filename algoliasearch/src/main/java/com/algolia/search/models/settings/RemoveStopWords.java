@@ -54,7 +54,7 @@ public abstract class RemoveStopWords implements Serializable, CompoundType {
 
 class RemoveStopWordsBoolean extends RemoveStopWords {
 
-  private boolean insideValue;
+  private final boolean insideValue;
 
   RemoveStopWordsBoolean(boolean insideValue) {
     this.insideValue = insideValue;
@@ -73,7 +73,7 @@ class RemoveStopWordsBoolean extends RemoveStopWords {
 
 class RemoveStopWordsListString extends RemoveStopWords {
 
-  private List<String> insideValue;
+  private final List<String> insideValue;
 
   RemoveStopWordsListString(List<String> insideValue) {
     this.insideValue = insideValue;
@@ -102,12 +102,12 @@ class RemoveStopWordsDeserializer extends JsonDeserializer<RemoveStopWords> {
 
     if (currentToken == JsonToken.START_ARRAY) {
 
-      List<String> removeStopWrods = new ArrayList<>();
+      List<String> removeStopWords = new ArrayList<>();
 
       while (p.nextToken() != JsonToken.END_ARRAY) {
-        removeStopWrods.add(p.getValueAsString());
+        removeStopWords.add(p.getValueAsString());
       }
-      return RemoveStopWords.of(removeStopWrods);
+      return RemoveStopWords.of(removeStopWords);
     }
 
     throw new AlgoliaRuntimeException("Unsupported deserialization for RemoveStopWords");

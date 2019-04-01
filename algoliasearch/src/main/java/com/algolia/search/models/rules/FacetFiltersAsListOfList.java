@@ -7,7 +7,7 @@ import java.util.List;
 @JsonDeserialize(as = FacetFiltersAsListOfList.class)
 public class FacetFiltersAsListOfList extends FacetFilters {
 
-  private List<List<String>> filters;
+  private final List<List<String>> filters;
 
   FacetFiltersAsListOfList(List<List<String>> filters) {
     this.filters = filters;
