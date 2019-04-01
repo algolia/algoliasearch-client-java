@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
@@ -14,6 +15,29 @@ import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
 public interface SearchClientPersonalization extends SearchClientBase {
+
+  /**
+   * Returns the personalization strategy of the application
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default GetStrategyResponse getPersonalizationStrategy() {
+    return LaunderThrowable.unwrap(getPersonalizationStrategyAsync());
+  }
+
+  /**
+   * Returns the personalization strategy of the application
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default GetStrategyResponse getPersonalizationStrategy(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getPersonalizationStrategyAsync(requestOptions));
+  }
 
   /**
    * Returns the personalization strategy of the application
@@ -43,6 +67,32 @@ public interface SearchClientPersonalization extends SearchClientBase {
             CallType.READ,
             GetStrategyResponse.class,
             requestOptions);
+  }
+
+  /**
+   * This command configures the personalization strategy
+   *
+   * @param request The personalization strategy>
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SetStrategyResponse setPersonalizationStrategy(@Nonnull SetStrategyRequest request) {
+    return LaunderThrowable.unwrap(setPersonalizationStrategyAsync(request));
+  }
+
+  /**
+   * This command configures the personalization strategy
+   *
+   * @param request The personalization strategy>
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SetStrategyResponse setPersonalizationStrategy(
+      @Nonnull SetStrategyRequest request, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(setPersonalizationStrategyAsync(request, requestOptions));
   }
 
   /**
