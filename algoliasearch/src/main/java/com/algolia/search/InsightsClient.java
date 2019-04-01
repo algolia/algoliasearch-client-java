@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
@@ -96,7 +97,32 @@ public final class InsightsClient implements Closeable {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public CompletableFuture<InsightsResult> sendEventsAsync(@Nonnull InsightsEvent event) {
+  public InsightsResult sendEvent(@Nonnull InsightsEvent event) {
+    return LaunderThrowable.unwrap(sendEventAsync(event));
+  }
+
+  /**
+   * This command pushes an event to the Insights API.
+   *
+   * @param event An event
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult sendEvent(@Nonnull InsightsEvent event, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(sendEventAsync(event, requestOptions));
+  }
+
+  /**
+   * This command pushes an event to the Insights API.
+   *
+   * @param event An event
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<InsightsResult> sendEventAsync(@Nonnull InsightsEvent event) {
     List<InsightsEvent> events = Collections.singletonList(event);
     return sendEventsAsync(events, null);
   }
@@ -110,10 +136,36 @@ public final class InsightsClient implements Closeable {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public CompletableFuture<InsightsResult> sendEventsAsync(
+  public CompletableFuture<InsightsResult> sendEventAsync(
       @Nonnull InsightsEvent event, RequestOptions requestOptions) {
     List<InsightsEvent> events = Collections.singletonList(event);
     return sendEventsAsync(events, requestOptions);
+  }
+
+  /**
+   * This command pushes an array of events to the Insights API.
+   *
+   * @param events List of events
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult sendEvents(@Nonnull List<InsightsEvent> events) {
+    return LaunderThrowable.unwrap(sendEventsAsync(events));
+  }
+
+  /**
+   * This command pushes an array of events to the Insights API.
+   *
+   * @param events List of events
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult sendEvents(
+      @Nonnull List<InsightsEvent> events, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(sendEventsAsync(events, requestOptions));
   }
 
   /**

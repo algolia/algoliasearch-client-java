@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.insights.InsightsEvent;
 import com.algolia.search.models.insights.InsightsResult;
@@ -19,6 +20,37 @@ public final class UserInsightsClient {
   public UserInsightsClient(String userToken, InsightsClient insightsClient) {
     this.userToken = userToken;
     this.insightsClient = insightsClient;
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param filters Filters parameters
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult clickedFilters(
+      @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
+    return LaunderThrowable.unwrap(clickedFiltersAsync(eventName, indexName, filters));
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param filters Filters parameters
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult clickedFilters(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> filters,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        clickedFiltersAsync(eventName, indexName, filters, requestOptions));
   }
 
   /**
@@ -57,7 +89,38 @@ public final class UserInsightsClient {
             .setIndex(indexName)
             .setFilters(filters);
 
-    return insightsClient.sendEventsAsync(event, requestOptions);
+    return insightsClient.sendEventAsync(event, requestOptions);
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult clickedObjectIDs(
+      @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
+    return LaunderThrowable.unwrap(clickedObjectIDsAsync(eventName, indexName, objectIDs));
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult clickedObjectIDs(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> objectIDs,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        clickedObjectIDsAsync(eventName, indexName, objectIDs, requestOptions));
   }
 
   /**
@@ -96,7 +159,50 @@ public final class UserInsightsClient {
             .setIndex(indexName)
             .setObjectIDs(objectIDs);
 
-    return insightsClient.sendEventsAsync(event, requestOptions);
+    return insightsClient.sendEventAsync(event, requestOptions);
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @param positions List of position
+   * @param queryID The query Id
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult clickedObjectIDsAfterSearch(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> objectIDs,
+      @Nonnull List<Long> positions,
+      @Nonnull String queryID) {
+    return LaunderThrowable.unwrap(
+        clickedObjectIDsAfterSearchAsync(eventName, indexName, objectIDs, positions, queryID));
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @param positions List of position
+   * @param queryID The query Id
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult clickedObjectIDsAfterSearch(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> objectIDs,
+      @Nonnull List<Long> positions,
+      @Nonnull String queryID,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        clickedObjectIDsAfterSearchAsync(
+            eventName, indexName, objectIDs, positions, queryID, requestOptions));
   }
 
   /**
@@ -148,7 +254,38 @@ public final class UserInsightsClient {
             .setPositions(positions)
             .setQueryID(queryID);
 
-    return insightsClient.sendEventsAsync(event, requestOptions);
+    return insightsClient.sendEventAsync(event, requestOptions);
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult convertedObjectIDs(
+      @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
+    return LaunderThrowable.unwrap(convertedObjectIDsAsync(eventName, indexName, objectIDs));
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult convertedObjectIDs(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> objectIDs,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        convertedObjectIDsAsync(eventName, indexName, objectIDs, requestOptions));
   }
 
   /**
@@ -186,7 +323,46 @@ public final class UserInsightsClient {
             .setIndex(indexName)
             .setObjectIDs(objectIDs);
 
-    return insightsClient.sendEventsAsync(event, requestOptions);
+    return insightsClient.sendEventAsync(event, requestOptions);
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @param queryID The query Id
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult convertedObjectIDsAfterSearch(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> objectIDs,
+      @Nonnull String queryID) {
+    return LaunderThrowable.unwrap(
+        convertedObjectIDsAfterSearchAsync(eventName, indexName, objectIDs, queryID));
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @param queryID The query Id
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult convertedObjectIDsAfterSearch(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> objectIDs,
+      @Nonnull String queryID,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        convertedObjectIDsAfterSearchAsync(
+            eventName, indexName, objectIDs, queryID, requestOptions));
   }
 
   /**
@@ -231,7 +407,38 @@ public final class UserInsightsClient {
             .setObjectIDs(objectIDs)
             .setQueryID(queryID);
 
-    return insightsClient.sendEventsAsync(event, requestOptions);
+    return insightsClient.sendEventAsync(event, requestOptions);
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The index name
+   * @param filters List of filters
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult convertedFilters(
+      @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
+    return LaunderThrowable.unwrap(convertedFiltersAsync(eventName, indexName, filters));
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The index name
+   * @param filters List of filters
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult convertedFilters(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> filters,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        convertedFiltersAsync(eventName, indexName, filters, requestOptions));
   }
 
   /**
@@ -252,7 +459,7 @@ public final class UserInsightsClient {
             .setIndex(indexName)
             .setFilters(filters);
 
-    return insightsClient.sendEventsAsync(event, null);
+    return insightsClient.sendEventAsync(event, null);
   }
 
   /**
@@ -277,7 +484,38 @@ public final class UserInsightsClient {
             .setIndex(indexName)
             .setFilters(filters);
 
-    return insightsClient.sendEventsAsync(event, requestOptions);
+    return insightsClient.sendEventAsync(event, requestOptions);
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param filters Filters parameters
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult viewedFilters(
+      @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
+    return LaunderThrowable.unwrap(viewedFiltersAsync(eventName, indexName, filters));
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param filters Filters parameters
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult viewedFilters(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> filters,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        viewedFiltersAsync(eventName, indexName, filters, requestOptions));
   }
 
   /**
@@ -315,7 +553,38 @@ public final class UserInsightsClient {
             .setIndex(indexName)
             .setFilters(filters);
 
-    return insightsClient.sendEventsAsync(event, requestOptions);
+    return insightsClient.sendEventAsync(event, requestOptions);
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult viewedObjectIDs(
+      @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
+    return LaunderThrowable.unwrap(viewedObjectIDsAsync(eventName, indexName, objectIDs));
+  }
+
+  /**
+   * @param eventName The Event Name
+   * @param indexName The Index Name
+   * @param objectIDs List of objectId
+   * @param requestOptions RequestOptions
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public InsightsResult viewedObjectIDs(
+      @Nonnull String eventName,
+      @Nonnull String indexName,
+      @Nonnull List<String> objectIDs,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        viewedObjectIDsAsync(eventName, indexName, objectIDs, requestOptions));
   }
 
   /**
@@ -353,6 +622,6 @@ public final class UserInsightsClient {
             .setIndex(indexName)
             .setObjectIDs(objectIDs);
 
-    return insightsClient.sendEventsAsync(event, requestOptions);
+    return insightsClient.sendEventAsync(event, requestOptions);
   }
 }

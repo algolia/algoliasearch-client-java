@@ -33,10 +33,54 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * Set settings of this index, and do not forward to replicas
    *
    * @param settings the settings to set
+   * @param forwardToReplicas if true forward the settings to the replicas
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SetSettingsResponse setSettings(
+      @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
+    return LaunderThrowable.unwrap(setSettingsAsync(settings, forwardToReplicas));
+  }
+
+  /**
+   * Set settings of this index, and do not forward to replicas
+   *
+   * @param settings the settings to set
+   * @param forwardToReplicas if true forward the settings to the replicas
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SetSettingsResponse setSettings(
+      @Nonnull IndexSettings settings,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(setSettingsAsync(settings, forwardToReplicas, requestOptions));
+  }
+
+  /**
+   * Set settings of this index, and do not forward to slaves
+   *
+   * @param settings the settings to set
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SetSettingsResponse setSettings(
+      @Nonnull IndexSettings settings, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(setSettingsAsync(settings, requestOptions));
+  }
+
+  /**
+   * Set settings of this index, and do not forward to replicas
+   *
+   * @param settings the settings to set
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SetSettingsResponse> setSettingsAsync(@Nonnull IndexSettings settings) {
     return setSettingsAsync(settings, new RequestOptions());
@@ -49,12 +93,10 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas if true forward the settings to the replicas
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
-
     return setSettingsAsync(settings, forwardToReplicas, new RequestOptions());
   }
 
@@ -66,8 +108,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings,
@@ -89,8 +130,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SetSettingsResponse> setSettingsAsync(
       @Nonnull IndexSettings settings, RequestOptions requestOptions) {
@@ -113,7 +153,13 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
             getConfig().getExecutor());
   }
 
-  /** Get the settings of an index. */
+  /**
+   * Get the settings of an index.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   default IndexSettings getSettings() {
     return LaunderThrowable.unwrap(getSettingsAsync(null));
   }
@@ -124,8 +170,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default IndexSettings getSettings(RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getSettingsAsync(requestOptions));
@@ -136,8 +181,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    *
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<IndexSettings> getSettingsAsync() {
     return getSettingsAsync(null);
@@ -149,8 +193,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<IndexSettings> getSettingsAsync(RequestOptions requestOptions) {
     return getTransport()

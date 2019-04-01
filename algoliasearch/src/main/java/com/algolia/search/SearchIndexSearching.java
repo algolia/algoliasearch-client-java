@@ -29,8 +29,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @param query The search query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<T> search(@Nonnull Query query) {
     return LaunderThrowable.unwrap(searchAsync(query));
@@ -45,8 +44,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<T> search(@Nonnull Query query, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(searchAsync(query, requestOptions));
@@ -60,8 +58,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @param query The search query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SearchResult<T>> searchAsync(@Nonnull Query query) {
     return searchAsync(query, null);
@@ -76,8 +73,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   @SuppressWarnings("unchecked")
   default CompletableFuture<SearchResult<T>> searchAsync(
@@ -111,8 +107,37 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @param query Search for facet query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SearchForFacetResponse searchForFacetValues(@Nonnull SearchForFacetRequest query) {
+    return LaunderThrowable.unwrap(searchForFacetValuesAsync(query));
+  }
+
+  /**
+   * Search for a set of values within a given facet attribute. Can be combined with a query. This
+   * method enables you to search through the values of a facet attribute, selecting only a subset
+   * of those values that meet a given criteria.
+   *
+   * @param query Search for facet query
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SearchForFacetResponse searchForFacetValues(
+      @Nonnull SearchForFacetRequest query, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(searchForFacetValuesAsync(query, requestOptions));
+  }
+
+  /**
+   * Search for a set of values within a given facet attribute. Can be combined with a query. This
+   * method enables you to search through the values of a facet attribute, selecting only a subset
+   * of those values that meet a given criteria.
+   *
+   * @param query Search for facet query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SearchForFacetResponse> searchForFacetValuesAsync(
       @Nonnull SearchForFacetRequest query) {
@@ -128,8 +153,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SearchForFacetResponse> searchForFacetValuesAsync(
       @Nonnull SearchForFacetRequest query, RequestOptions requestOptions) {
