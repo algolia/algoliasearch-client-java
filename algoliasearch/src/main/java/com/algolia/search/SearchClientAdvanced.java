@@ -78,6 +78,62 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
+  default List<Log> getLogs() {
+    return LaunderThrowable.unwrap(getLogsAsync(0, 10, null));
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default List<Log> getLogs(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getLogsAsync(requestOptions));
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+   * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
+   *     allowed value: 1,000.
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default List<Log> getLogs(int offset, int length) {
+    return LaunderThrowable.unwrap(getLogsAsync(offset, length, null));
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+   * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
+   *     allowed value: 1,000.
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default List<Log> getLogs(int offset, int length, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getLogsAsync(offset, length, requestOptions));
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   default CompletableFuture<List<Log>> getLogsAsync() {
     return getLogsAsync(0, 10, null);
   }
