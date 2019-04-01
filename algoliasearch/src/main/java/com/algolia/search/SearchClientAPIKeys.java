@@ -134,6 +134,31 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
+  default AddApiKeyResponse addApiKey(@Nonnull ApiKey acl) {
+    return LaunderThrowable.unwrap(addApiKeyAsync(acl));
+  }
+
+  /**
+   * Add a new API Key with specific permissions/restrictions
+   *
+   * @param acl The api with the restrictions/permissions to add
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default AddApiKeyResponse addApiKey(@Nonnull ApiKey acl, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(addApiKeyAsync(acl, requestOptions));
+  }
+
+  /**
+   * Add a new API Key with specific permissions/restrictions
+   *
+   * @param acl The api with the restrictions/permissions to add
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   default CompletableFuture<AddApiKeyResponse> addApiKeyAsync(@Nonnull ApiKey acl) {
     return addApiKeyAsync(acl, null);
   }
@@ -165,6 +190,31 @@ public interface SearchClientAPIKeys extends SearchClientBase {
               return resp;
             },
             getConfig().getExecutor());
+  }
+
+  /**
+   * Delete an existing API Key
+   *
+   * @param apiKey The API Key to delete
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteApiKeyResponse deleteApiKey(@Nonnull String apiKey) {
+    return LaunderThrowable.unwrap(deleteApiKeyAsync(apiKey));
+  }
+
+  /**
+   * Delete an existing API Key
+   *
+   * @param apiKey The API Key to delete
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteApiKeyResponse deleteApiKey(@Nonnull String apiKey, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(deleteApiKeyAsync(apiKey, requestOptions));
   }
 
   /**
@@ -220,6 +270,32 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
+  default UpdateApiKeyResponse updateApiKey(@Nonnull ApiKey request) {
+    return LaunderThrowable.unwrap(updateApiKeyAsync(request, null));
+  }
+
+  /**
+   * Update the permissions of an existing API Key.
+   *
+   * @param request The API key to update
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default UpdateApiKeyResponse updateApiKey(
+      @Nonnull ApiKey request, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(updateApiKeyAsync(request, requestOptions));
+  }
+
+  /**
+   * Update the permissions of an existing API Key.
+   *
+   * @param request The API key to update
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   default CompletableFuture<UpdateApiKeyResponse> updateApiKeyAsync(@Nonnull ApiKey request) {
     return updateApiKeyAsync(request, null);
   }
@@ -256,6 +332,33 @@ public interface SearchClientAPIKeys extends SearchClientBase {
               return resp;
             },
             getConfig().getExecutor());
+  }
+
+  /**
+   * Restore the given API Key
+   *
+   * @param apiKey The given API Key
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization or
+   *     deserialization
+   */
+  default RestoreApiKeyResponse restoreApiKey(@Nonnull String apiKey) {
+    return LaunderThrowable.unwrap(restoreApiKeyAsync(apiKey));
+  }
+
+  /**
+   * Restore the given API Key
+   *
+   * @param apiKey The given API Key
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default RestoreApiKeyResponse restoreApiKey(
+      @Nonnull String apiKey, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(restoreApiKeyAsync(apiKey, requestOptions));
   }
 
   /**
