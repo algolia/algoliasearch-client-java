@@ -7,8 +7,7 @@ import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.personalization.EventScoring;
 import com.algolia.search.models.personalization.FacetScoring;
 import com.algolia.search.models.personalization.SetStrategyRequest;
-import com.algolia.search.models.rules.AutomaticFacetFilter;
-import com.algolia.search.models.rules.ConsequenceParams;
+import com.algolia.search.models.rules.*;
 import com.algolia.search.models.settings.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
@@ -99,6 +98,21 @@ class JacksonParserTest {
   }
 
   @Test
+  void deserializeLegacySettings() throws IOException {
+    IndexSettings settings;
+
+    settings =
+        Defaults.getObjectMapper()
+            .readValue(
+                "{ \"attributesToIndex\":[\"attr1\", \"attr2\"],\"numericAttributesToIndex\": [\"attr1\", \"attr2\"],\"slaves\":[\"index1\", \"index2\"]}",
+                IndexSettings.class);
+
+    assertThat(settings.getReplicas()).isEqualTo(Arrays.asList("index1", "index2"));
+    assertThat(settings.getSearchableAttributes()).isEqualTo(Arrays.asList("attr1", "attr2"));
+    assertThat(settings.getNumericAttributesForFiltering()).isEqualTo(Arrays.asList("attr1", "attr2"));
+  }
+
+  @Test
   void deserializeIgnorePlurals() throws IOException {
     IgnorePlurals ignorePlurals;
 
@@ -156,6 +170,19 @@ class JacksonParserTest {
             automaticFacetFilters.stream()
                 .anyMatch(r -> r.getFacet().equals("firstname") && !r.getDisjunctive()))
         .isTrue();
+  }
+
+  @Test
+  void deserializeLegacyEdit() throws IOException {
+    List<Edit> edits = Defaults.getObjectMapper().readValue("[\"lastname\",\"firstname\"]", ConsequenceQuery.class).getEdits();
+
+    assertThat(edits.get(0).getType()).isEqualTo(EditType.REMOVE);
+    assertThat(edits.get(0).getDelete()).isEqualTo("lastname");
+    assertThat(edits.get(0).getInsert()).isNull();
+
+    assertThat(edits.get(1).getType()).isEqualTo(EditType.REMOVE);
+    assertThat(edits.get(1).getDelete()).isEqualTo("firstname");
+    assertThat(edits.get(1).getInsert()).isNull();
   }
 
   @Test
