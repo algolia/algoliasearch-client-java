@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 public final class InsightsConfig extends AlgoliaConfigBase {
 
   /**
-   * Creates an Insight client configuration with the default region ("us").
+   * Creates an {@link InsightsConfig} with the default region ("us").
    *
    * @param applicationID The ApplicationID
    * @param apiKey The API Key
@@ -38,8 +38,8 @@ public final class InsightsConfig extends AlgoliaConfigBase {
   }
 
   /**
-   * Creates a configuration for the search client with custom {@link StatefulHost}. Warning:
-   * Defaults hosts are not set when setting custom {@link StatefulHost}.
+   * Creates an {@link InsightsConfig} for the search client with custom {@link StatefulHost}.
+   * Warning: Defaults hosts are not set when setting custom {@link StatefulHost}.
    *
    * @param applicationID The ApplicationID
    * @param apiKey The API Key

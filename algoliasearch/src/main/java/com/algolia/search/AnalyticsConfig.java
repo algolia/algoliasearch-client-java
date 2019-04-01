@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 public final class AnalyticsConfig extends AlgoliaConfigBase {
 
   /**
-   * Creates an analytic client configuration with the default host
+   * Creates an {@link AnalyticsConfig} with the default host
    *
    * @param applicationID The Application ID
    * @param apiKey The API Key
@@ -26,8 +26,8 @@ public final class AnalyticsConfig extends AlgoliaConfigBase {
   }
 
   /**
-   * Creates a configuration for the search client with custom {@link StatefulHost}. Warning:
-   * Defaults hosts are not set when setting custom {@link StatefulHost}.
+   * Creates a {@link AnalyticsConfig} for the search client with custom {@link StatefulHost}.
+   * Warning: Defaults hosts are not set when setting custom {@link StatefulHost}.
    *
    * @param applicationID The ApplicationID
    * @param apiKey The API Key

@@ -28,6 +28,9 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * Get the specified rule by its objectID
    *
    * @param objectID Algolia's objectID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default Rule getRule(@Nonnull String objectID) {
     return LaunderThrowable.unwrap(getRuleAsync(objectID));
@@ -40,8 +43,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default Rule getRule(@Nonnull String objectID, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(getRuleAsync(objectID, requestOptions));
@@ -53,8 +55,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param objectID Algolia's objectID
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<Rule> getRuleAsync(@Nonnull String objectID) {
     return getRuleAsync(objectID, null);
@@ -67,8 +68,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<Rule> getRuleAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
@@ -93,8 +93,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param query The search rule query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<Rule> searchRules(@Nonnull RuleQuery query) {
     return LaunderThrowable.unwrap(searchRulesAsync(query, null));
@@ -107,8 +106,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<Rule> searchRules(@Nonnull RuleQuery query, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(searchRulesAsync(query, requestOptions));
@@ -120,8 +118,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param query The search rule query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SearchResult<Rule>> searchRulesAsync(@Nonnull RuleQuery query) {
     return searchRulesAsync(query, null);
@@ -134,8 +131,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   @SuppressWarnings("unchecked")
   default CompletableFuture<SearchResult<Rule>> searchRulesAsync(
@@ -167,8 +163,61 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param rule A query rule
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse saveRule(@Nonnull Rule rule) {
+    return LaunderThrowable.unwrap(saveRuleAsync(rule));
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param rule A query rule
+   * @param forwardToReplicas Forward the request to the replicas
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse saveRule(@Nonnull Rule rule, @Nonnull Boolean forwardToReplicas) {
+    return LaunderThrowable.unwrap(saveRuleAsync(rule, forwardToReplicas));
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param rule A query rule
+   * @param forwardToReplicas Forward the request to the replicas
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse saveRule(
+      @Nonnull Rule rule,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveRuleAsync(rule, forwardToReplicas, requestOptions));
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param rule A query rule
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse saveRule(@Nonnull Rule rule, @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveRuleAsync(rule, requestOptions));
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param rule A query rule
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRuleAsync(@Nonnull Rule rule) {
     return saveRuleAsync(rule, new RequestOptions());
@@ -181,8 +230,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas Forward the request to the replicas
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRuleAsync(
       @Nonnull Rule rule, @Nonnull Boolean forwardToReplicas) {
@@ -197,8 +245,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRuleAsync(
       @Nonnull Rule rule,
@@ -219,8 +266,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param rule A query rule
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRuleAsync(
       @Nonnull Rule rule, @Nonnull RequestOptions requestOptions) {
@@ -257,6 +303,69 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
+  default SaveRuleResponse saveRules(@Nonnull List<Rule> rules) {
+    return LaunderThrowable.unwrap(saveRulesAsync(rules));
+  }
+
+  /**
+   * Create or update a specified set of rules, or all rules.
+   *
+   * @param rules List of rules
+   * @param forwardToReplicas Forward to the replicas the request
+   * @param clearExistingRules Clear all existing rules
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse saveRules(
+      @Nonnull List<Rule> rules,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull Boolean clearExistingRules) {
+    return LaunderThrowable.unwrap(saveRulesAsync(rules, forwardToReplicas, clearExistingRules));
+  }
+
+  /**
+   * Create or update a specified set of rules, or all rules.
+   *
+   * @param rules List of rules
+   * @param forwardToReplicas Forward to the replicas the request
+   * @param clearExistingRules Clear all existing rules
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse saveRules(
+      @Nonnull List<Rule> rules,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull Boolean clearExistingRules,
+      @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        saveRulesAsync(rules, forwardToReplicas, clearExistingRules, requestOptions));
+  }
+
+  /**
+   * Create or update a specified set of rules, or all rules.
+   *
+   * @param rules List of rules
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse saveRules(@Nonnull List<Rule> rules, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveRulesAsync(rules, requestOptions));
+  }
+
+  /**
+   * Create or update a specified set of rules, or all rules.
+   *
+   * @param rules List of rules
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(@Nonnull List<Rule> rules) {
     return saveRulesAsync(rules, new RequestOptions());
   }
@@ -269,8 +378,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param clearExistingRules Clear all existing rules
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
       @Nonnull List<Rule> rules,
@@ -289,8 +397,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
       @Nonnull List<Rule> rules,
@@ -316,8 +423,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
       @Nonnull List<Rule> rules, RequestOptions requestOptions) {
@@ -346,8 +452,32 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param objectID The rule objectID
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse deleteRule(@Nonnull String objectID) {
+    return LaunderThrowable.unwrap(deleteRuleAsync(objectID));
+  }
+
+  /**
+   * Delete the rule for the given ruleId
+   *
+   * @param objectID The rule objectID
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse deleteRule(@Nonnull String objectID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(deleteRuleAsync(objectID, requestOptions));
+  }
+
+  /**
+   * Delete the rule for the given ruleId
+   *
+   * @param objectID The rule objectID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<DeleteResponse> deleteRuleAsync(@Nonnull String objectID) {
     return deleteRuleAsync(objectID, null);
@@ -360,8 +490,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<DeleteResponse> deleteRuleAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
@@ -394,8 +523,53 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param rules List of rules
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse replaceAllRules(@Nonnull List<Rule> rules) {
+    return LaunderThrowable.unwrap(replaceAllRulesAsync(rules));
+  }
+
+  /**
+   * Push a new set of rules and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing rules are deleted and replaced with the new ones, in a
+   * single, atomic operation
+   *
+   * @param rules List of rules
+   * @param forwardToReplicas Forward to the replicas the request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse replaceAllRules(
+      @Nonnull List<Rule> rules, @Nonnull Boolean forwardToReplicas) {
+    return LaunderThrowable.unwrap(replaceAllRulesAsync(rules, forwardToReplicas));
+  }
+
+  /**
+   * Push a new set of rules and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing rules are deleted and replaced with the new ones, in a
+   * single, atomic operation
+   *
+   * @param rules List of rules
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveRuleResponse replaceAllRules(
+      @Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(replaceAllRulesAsync(rules, requestOptions));
+  }
+
+  /**
+   * Push a new set of rules and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing rules are deleted and replaced with the new ones, in a
+   * single, atomic operation
+   *
+   * @param rules List of rules
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(@Nonnull List<Rule> rules) {
     return saveRulesAsync(rules, false, true, new RequestOptions());
@@ -410,8 +584,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas Forward to the replicas the request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
       @Nonnull List<Rule> rules, @Nonnull Boolean forwardToReplicas) {
@@ -427,15 +600,69 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
       @Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
     return saveRulesAsync(rules, false, true, requestOptions);
   }
 
-  /** Delete all rules in an index. */
+  /**
+   * Delete all rules in an index.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse clearRules() {
+    return LaunderThrowable.unwrap(clearRulesAsync());
+  }
+
+  /**
+   * Delete all rules in an index.
+   *
+   * @param forwardToReplicas Forward the request to the replicas if so
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse clearRules(@Nonnull Boolean forwardToReplicas) {
+    return LaunderThrowable.unwrap(clearRulesAsync(forwardToReplicas));
+  }
+
+  /**
+   * Delete all rules in an index.
+   *
+   * @param forwardToReplicas Forward the request to the replicas if so
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse clearRules(
+      @Nonnull Boolean forwardToReplicas, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(clearRulesAsync(forwardToReplicas, requestOptions));
+  }
+
+  /**
+   * Delete all rules in an index.
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse clearRules(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(clearRulesAsync(requestOptions));
+  }
+
+  /**
+   * Delete all rules in an index.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   default CompletableFuture<DeleteResponse> clearRulesAsync() {
     return clearRulesAsync(false);
   }
@@ -446,8 +673,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas Forward the request to the replicas if so
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<DeleteResponse> clearRulesAsync(@Nonnull Boolean forwardToReplicas) {
     Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
@@ -464,8 +690,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<DeleteResponse> clearRulesAsync(
       @Nonnull Boolean forwardToReplicas, RequestOptions requestOptions) {
@@ -480,8 +705,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<DeleteResponse> clearRulesAsync(RequestOptions requestOptions) {
 

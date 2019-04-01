@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 public final class SearchConfig extends AlgoliaConfigBase {
 
   /**
-   * Creates a search config with the default hosts
+   * Creates a {@link SearchConfig} with the default hosts
    *
    * @param applicationID The ApplicationID
    * @param apiKey The API Key
@@ -44,7 +44,7 @@ public final class SearchConfig extends AlgoliaConfigBase {
   }
 
   /**
-   * Creates a configuration for the search client with custom {@link StatefulHost}. Warning:
+   * Creates a {@link SearchConfig} for the search client with custom {@link StatefulHost}. Warning:
    * Defaults hosts are not set when setting custom {@link StatefulHost}.
    *
    * @param applicationID The ApplicationID

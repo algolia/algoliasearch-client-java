@@ -28,6 +28,9 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * Get all synonyms that match a query.
    *
    * @param query Synonym query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<Synonym> searchSynonyms(SynonymQuery query) {
     return LaunderThrowable.unwrap(searchSynonymsAsync(query, null));
@@ -40,8 +43,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<Synonym> searchSynonyms(SynonymQuery query, RequestOptions requestOptions) {
     return LaunderThrowable.unwrap(searchSynonymsAsync(query, requestOptions));
@@ -53,8 +55,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param query Synonym query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SearchResult<Synonym>> searchSynonymsAsync(SynonymQuery query) {
     return searchSynonymsAsync(query, null);
@@ -67,8 +68,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   @SuppressWarnings("unchecked")
   default CompletableFuture<SearchResult<Synonym>> searchSynonymsAsync(
@@ -100,8 +100,32 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param objectID Algolia's objectID
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default Synonym getSynonym(@Nonnull String objectID) {
+    return LaunderThrowable.unwrap(getSynonymAsync(objectID));
+  }
+
+  /**
+   * Get a single synonym using its object id.
+   *
+   * @param objectID Algolia's objectID
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default Synonym getSynonym(@Nonnull String objectID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getSynonymAsync(objectID, requestOptions));
+  }
+
+  /**
+   * Get a single synonym using its object id.
+   *
+   * @param objectID Algolia's objectID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<Synonym> getSynonymAsync(@Nonnull String objectID) {
     return getSynonymAsync(objectID, null);
@@ -114,8 +138,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<Synonym> getSynonymAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
@@ -140,8 +163,64 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param synonym Algolia's synonym
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse saveSynonym(@Nonnull Synonym synonym) {
+    return LaunderThrowable.unwrap(saveSynonymAsync(synonym));
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param synonym Algolia's synonym
+   * @param forwardToReplicas Forward the request to the replicas
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse saveSynonym(
+      @Nonnull Synonym synonym, @Nonnull Boolean forwardToReplicas) {
+    return LaunderThrowable.unwrap(saveSynonymAsync(synonym, forwardToReplicas));
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param synonym Algolia's synonym
+   * @param forwardToReplicas Forward the request to the replicas
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse saveSynonym(
+      @Nonnull Synonym synonym,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveSynonymAsync(synonym, forwardToReplicas, requestOptions));
+  }
+
+  /**
+   * Create or update a single synonym on an index.
+   *
+   * @param synonym Algolia's synonym
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse saveSynonym(
+      @Nonnull Synonym synonym, @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveSynonymAsync(synonym, requestOptions));
+  }
+
+  /**
+   * Create or update a single rule.
+   *
+   * @param synonym Algolia's synonym
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymAsync(@Nonnull Synonym synonym) {
     return saveSynonymAsync(synonym, false, new RequestOptions());
@@ -154,8 +233,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas Forward the request to the replicas
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymAsync(
       @Nonnull Synonym synonym, @Nonnull Boolean forwardToReplicas) {
@@ -170,8 +248,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymAsync(
       @Nonnull Synonym synonym,
@@ -193,8 +270,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymAsync(
       @Nonnull Synonym synonym, @Nonnull RequestOptions requestOptions) {
@@ -228,8 +304,71 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param synonyms List of synonyms
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse saveSynonyms(@Nonnull List<Synonym> synonyms) {
+    return LaunderThrowable.unwrap(saveSynonymsAsync(synonyms));
+  }
+
+  /**
+   * Create or update multiple synonyms.
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward to the replicas the request
+   * @param replaceExistingSynonyms Replace all existing synonyms
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse saveSynonyms(
+      @Nonnull List<Synonym> synonyms,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull Boolean replaceExistingSynonyms) {
+    return LaunderThrowable.unwrap(
+        saveSynonymsAsync(synonyms, forwardToReplicas, replaceExistingSynonyms));
+  }
+
+  /**
+   * Create or update multiple synonyms.
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward to the replicas the request
+   * @param replaceExistingSynonyms Replace all existing synonyms
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse saveSynonyms(
+      @Nonnull List<Synonym> synonyms,
+      @Nonnull Boolean forwardToReplicas,
+      @Nonnull Boolean replaceExistingSynonyms,
+      @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        saveSynonymsAsync(synonyms, forwardToReplicas, replaceExistingSynonyms, requestOptions));
+  }
+
+  /**
+   * Create or update multiple synonyms.
+   *
+   * @param synonyms List of synonyms
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse saveSynonyms(
+      @Nonnull List<Synonym> synonyms, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveSynonymsAsync(synonyms, requestOptions));
+  }
+
+  /**
+   * Create or update multiple synonyms.
+   *
+   * @param synonyms List of synonyms
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
       @Nonnull List<Synonym> synonyms) {
@@ -244,8 +383,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param replaceExistingSynonyms Replace all existing synonyms
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
       @Nonnull List<Synonym> synonyms,
@@ -264,8 +402,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
       @Nonnull List<Synonym> synonyms,
@@ -291,8 +428,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
       @Nonnull List<Synonym> synonyms, RequestOptions requestOptions) {
@@ -321,8 +457,46 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param objectID The synonym objectID
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse deleteSynonym(@Nonnull String objectID) {
+    return LaunderThrowable.unwrap(deleteSynonymAsync(objectID));
+  }
+
+  /**
+   * Remove a single synonym from an index using its object id.
+   *
+   * @param objectID The synonym objectID
+   * @param forwardToReplicas Forward the request to the replicas
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse deleteSynonym(
+      @Nonnull String objectID, @Nonnull Boolean forwardToReplicas) {
+    return LaunderThrowable.unwrap(deleteSynonymAsync(objectID, forwardToReplicas));
+  }
+
+  /**
+   * Remove a single synonym from an index using its object id.
+   *
+   * @param objectID The synonym objectID
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default DeleteResponse deleteSynonym(@Nonnull String objectID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(deleteSynonymAsync(objectID, requestOptions));
+  }
+
+  /**
+   * Remove a single synonym from an index using its object id.
+   *
+   * @param objectID The synonym objectID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<DeleteResponse> deleteSynonymAsync(@Nonnull String objectID) {
     return deleteSynonymAsync(objectID, false);
@@ -335,8 +509,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas Forward the request to the replicas
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<DeleteResponse> deleteSynonymAsync(
       @Nonnull String objectID, @Nonnull Boolean forwardToReplicas) {
@@ -355,8 +528,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<DeleteResponse> deleteSynonymAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
@@ -381,7 +553,48 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
             getConfig().getExecutor());
   }
 
-  /** Remove all synonyms from an index. */
+  /**
+   * Remove all synonyms from an index.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default ClearSynonymsResponse clearSynonyms() {
+    return LaunderThrowable.unwrap(clearSynonymsAsync());
+  }
+
+  /**
+   * Remove all synonyms from an index.
+   *
+   * @param forwardToReplicas Forward the request to the replicas
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default ClearSynonymsResponse clearSynonyms(@Nonnull Boolean forwardToReplicas) {
+    return LaunderThrowable.unwrap(clearSynonymsAsync(forwardToReplicas));
+  }
+
+  /**
+   * Remove all synonyms from an index.
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default ClearSynonymsResponse clearSynonyms(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(clearSynonymsAsync(requestOptions));
+  }
+
+  /**
+   * Remove all synonyms from an index.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   default CompletableFuture<ClearSynonymsResponse> clearSynonymsAsync() {
     return clearSynonymsAsync(new RequestOptions());
   }
@@ -392,8 +605,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas Forward the request to the replicas
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<ClearSynonymsResponse> clearSynonymsAsync(
       @Nonnull Boolean forwardToReplicas) {
@@ -411,8 +623,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<ClearSynonymsResponse> clearSynonymsAsync(
       RequestOptions requestOptions) {
@@ -440,8 +651,53 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param synonyms List of synonyms
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse replaceAllSynonyms(@Nonnull List<Synonym> synonyms) {
+    return LaunderThrowable.unwrap(replaceAllSynonymsAsync(synonyms));
+  }
+
+  /**
+   * Push a new set of synonyms and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing synonyms are deleted and replaced with the new ones, in
+   * a single, atomic operation
+   *
+   * @param synonyms List of synonyms
+   * @param forwardToReplicas Forward to the replicas the request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse replaceAllSynonyms(
+      @Nonnull List<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
+    return LaunderThrowable.unwrap(replaceAllSynonymsAsync(synonyms, forwardToReplicas));
+  }
+
+  /**
+   * Push a new set of synonyms and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing synonyms are deleted and replaced with the new ones, in
+   * a single, atomic operation
+   *
+   * @param synonyms List of synonyms
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SaveSynonymResponse replaceAllSynonyms(
+      @Nonnull List<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(replaceAllSynonymsAsync(synonyms, requestOptions));
+  }
+
+  /**
+   * Push a new set of synonyms and erase all previous ones. This method, like replaceAllObjects,
+   * guarantees zero downtime. All existing synonyms are deleted and replaced with the new ones, in
+   * a single, atomic operation
+   *
+   * @param synonyms List of synonyms
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
       @Nonnull List<Synonym> synonyms) {
@@ -457,8 +713,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param forwardToReplicas Forward to the replicas the request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
       @Nonnull List<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
@@ -474,8 +729,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
       @Nonnull List<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {

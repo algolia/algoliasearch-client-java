@@ -79,6 +79,49 @@ public final class SearchIndex<T>
    * @param objectID ID of the object within that index
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public T getObject(@Nonnull String objectID) {
+    return LaunderThrowable.unwrap(getObjectAsync(objectID));
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectID ID of the object within that index
+   * @param attributesToRetrieve List of attributes to retrieve. By default, all retrievable
+   *     attributes are returned.
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public T getObject(
+      @Nonnull String objectID,
+      @Nonnull List<String> attributesToRetrieve,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getObjectAsync(objectID, attributesToRetrieve, requestOptions));
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectID ID of the object within that index
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public T getObject(@Nonnull String objectID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getObjectAsync(objectID, requestOptions));
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectID ID of the object within that index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
@@ -95,8 +138,7 @@ public final class SearchIndex<T>
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<T> getObjectAsync(
       @Nonnull String objectID,
@@ -128,8 +170,7 @@ public final class SearchIndex<T>
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization)
    */
   public CompletableFuture<T> getObjectAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
@@ -154,8 +195,65 @@ public final class SearchIndex<T>
    * @param objectIDs ID of the object within that index
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public List<T> getObjects(@Nonnull List<String> objectIDs) {
+    return LaunderThrowable.unwrap(getObjectsAsync(objectIDs));
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectIDs ID of the object within that index
+   * @param attributesToRetrieve List of attributes to retrieve. By default, all retrievable
+   *     attributes are returned.
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public List<T> getObjects(@Nonnull List<String> objectIDs, List<String> attributesToRetrieve) {
+    return LaunderThrowable.unwrap(getObjectsAsync(objectIDs, attributesToRetrieve));
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectIDs ID of the object within that index
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public List<T> getObjects(@Nonnull List<String> objectIDs, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getObjectsAsync(objectIDs, requestOptions));
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectIDs ID of the object within that index
+   * @param attributesToRetrieve List of attributes to retrieve. By default, all retrievable
+   *     attributes are returned.
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public List<T> getObjects(
+      @Nonnull List<String> objectIDs,
+      List<String> attributesToRetrieve,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        getObjectsAsync(objectIDs, attributesToRetrieve, requestOptions));
+  }
+
+  /**
+   * Retrieve one or more objects, potentially from the index, in a single API call.
+   *
+   * @param objectIDs ID of the object within that index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<List<T>> getObjectsAsync(@Nonnull List<String> objectIDs) {
     return getObjectsAsync(objectIDs, null, null);
@@ -169,8 +267,7 @@ public final class SearchIndex<T>
    *     attributes are returned.
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<List<T>> getObjectsAsync(
       @Nonnull List<String> objectIDs, List<String> attributesToRetrieve) {
@@ -238,6 +335,78 @@ public final class SearchIndex<T>
               return r;
             },
             config.getExecutor());
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data Data to update
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public UpdateObjectResponse partialUpdateObject(@Nonnull T data) {
+    return LaunderThrowable.unwrap(partialUpdateObjectAsync(data));
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data Data to update
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+   *     annotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   */
+  public UpdateObjectResponse partialUpdateObject(@Nonnull T data, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(partialUpdateObjectAsync(data, requestOptions));
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data Data to update
+   * @param createIfNotExists When true, a partial update on a nonexistent object will create the
+   *     object (generating the objectID and using the attributes as defined in the object). WHen
+   *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
+   *     back).
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+   *     annotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   */
+  public UpdateObjectResponse partialUpdateObject(
+      @Nonnull T data, @Nonnull Boolean createIfNotExists) {
+    return LaunderThrowable.unwrap(partialUpdateObjectAsync(data, createIfNotExists));
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data Data to update
+   * @param createIfNotExists When true, a partial update on a nonexistent object will create the
+   *     object (generating the objectID and using the attributes as defined in the object). WHen
+   *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
+   *     back).
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+   *     annotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   */
+  public UpdateObjectResponse partialUpdateObject(
+      @Nonnull T data, @Nonnull Boolean createIfNotExists, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        partialUpdateObjectAsync(data, createIfNotExists, requestOptions));
   }
 
   /**
@@ -348,6 +517,80 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
+  public BatchIndexingResponse partialUpdateObjects(@Nonnull Iterable<T> data) {
+    return LaunderThrowable.unwrap(partialUpdateObjectsAsync(data));
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data The data to send to the API
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse partialUpdateObjects(
+      @Nonnull Iterable<T> data, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(partialUpdateObjectsAsync(data, requestOptions));
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data The data to send to the API
+   * @param createIfNotExists When true, a partial update on a nonexistent object will create the
+   *     object (generating the objectID and using the attributes as defined in the object). WHen
+   *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
+   *     back).
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse partialUpdateObjects(
+      @Nonnull Iterable<T> data, boolean createIfNotExists) {
+    return LaunderThrowable.unwrap(partialUpdateObjectsAsync(data, createIfNotExists));
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data The data to send to the API
+   * @param createIfNotExists When true, a partial update on a nonexistent object will create the
+   *     object (generating the objectID and using the attributes as defined in the object). WHen
+   *     false, a partial update on a nonexistent object will be ignored (but no error will be sent
+   *     back).
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse partialUpdateObjects(
+      @Nonnull Iterable<T> data, boolean createIfNotExists, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        partialUpdateObjectsAsync(data, createIfNotExists, requestOptions));
+  }
+
+  /**
+   * Update one or more attributes of an existing object. This method enables you to update only a
+   * part of an object by singling out one or more attributes of an existing object and performing
+   * the following actions:
+   *
+   * @param data The data to send to the API
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
   public CompletableFuture<BatchIndexingResponse> partialUpdateObjectsAsync(
       @Nonnull Iterable<T> data) {
     return partialUpdateObjectsAsync(data, false, null);
@@ -428,6 +671,69 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
+  public BatchIndexingResponse saveObject(@Nonnull T data) {
+    return LaunderThrowable.unwrap(saveObjectAsync(data));
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param autoGenerateObjectID If set to true, the method will perform "ADD_OBJECT", otherwise
+   *     will perform an "UpdateObject"
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse saveObject(@Nonnull T data, boolean autoGenerateObjectID) {
+    return LaunderThrowable.unwrap(saveObjectAsync(data, autoGenerateObjectID));
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse saveObject(@Nonnull T data, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveObjectAsync(data, requestOptions));
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param autoGenerateObjectID If set to true, the method will perform "ADD_OBJECT", otherwise
+   *     will perform an "UpdateObject"
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse saveObject(
+      @Nonnull T data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveObjectAsync(data, autoGenerateObjectID, requestOptions));
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
   public CompletableFuture<BatchIndexingResponse> saveObjectAsync(@Nonnull T data) {
     return saveObjectAsync(data, false, null);
   }
@@ -484,6 +790,71 @@ public final class SearchIndex<T>
     Objects.requireNonNull(data, "Data are required.");
 
     return saveObjectsAsync(Collections.singletonList(data), autoGenerateObjectID, requestOptions);
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse saveObjects(@Nonnull Iterable<T> data) {
+    return LaunderThrowable.unwrap(saveObjectsAsync(data));
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param autoGenerateObjectID If set to true, the method will perform "ADD_OBJECT", otherwise
+   *     will perform an "UpdateObject"
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse saveObjects(
+      @Nonnull Iterable<T> data, boolean autoGenerateObjectID) {
+    return LaunderThrowable.unwrap(saveObjectsAsync(data, autoGenerateObjectID));
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse saveObjects(
+      @Nonnull Iterable<T> data, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveObjectsAsync(data, requestOptions));
+  }
+
+  /**
+   * This method allows you to create records on your index by sending one or more objects Each
+   * object contains a set of attributes and values, which represents a full record on an index.
+   *
+   * @param data The data to send
+   * @param autoGenerateObjectID If set to true, the method will perform "ADD_OBJECT", otherwise
+   *     will perform an "UpdateObject"
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
+   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   */
+  public BatchIndexingResponse saveObjects(
+      @Nonnull Iterable<T> data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(saveObjectsAsync(data, autoGenerateObjectID, requestOptions));
   }
 
   /**
@@ -763,6 +1134,32 @@ public final class SearchIndex<T>
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
+  public BatchIndexingResponse deleteObjects(@Nonnull List<String> objectIDs) {
+    return LaunderThrowable.unwrap(deleteObjectsAsync(objectIDs));
+  }
+
+  /**
+   * Remove objects from an index using their object ids.
+   *
+   * @param objectIDs List of objectIDs to delete
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public BatchIndexingResponse deleteObjects(
+      @Nonnull List<String> objectIDs, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(deleteObjectsAsync(objectIDs, requestOptions));
+  }
+
+  /**
+   * Remove objects from an index using their object ids.
+   *
+   * @param objectIDs List of objectIDs to delete
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   public CompletableFuture<BatchIndexingResponse> deleteObjectsAsync(
       @Nonnull List<String> objectIDs) {
     return deleteObjectsAsync(objectIDs, null);
@@ -773,6 +1170,9 @@ public final class SearchIndex<T>
    *
    * @param objectIDs List of objectIDs to delete
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<BatchIndexingResponse> deleteObjectsAsync(
       @Nonnull List<String> objectIDs, RequestOptions requestOptions) {
@@ -862,6 +1262,49 @@ public final class SearchIndex<T>
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
+  public MultiResponse replaceAllObjects(Iterable<T> data) {
+    return LaunderThrowable.unwrap(replaceAllObjectsAsync(data));
+  }
+
+  /**
+   * Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are
+   * untouched. Replace all records in an index without any downtime.
+   *
+   * @param data The data to send
+   * @param safe Run all API calls synchronously
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public MultiResponse replaceAllObjects(Iterable<T> data, boolean safe) {
+    return LaunderThrowable.unwrap(replaceAllObjectsAsync(data, safe));
+  }
+
+  /**
+   * Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are
+   * untouched. Replace all records in an index without any downtime.
+   *
+   * @param data The data to send
+   * @param requestOptions Options to pass to this request
+   * @param safe Run all API calls synchronously
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public MultiResponse replaceAllObjects(
+      Iterable<T> data, RequestOptions requestOptions, boolean safe) {
+    return LaunderThrowable.unwrap(replaceAllObjectsAsync(data, requestOptions, safe));
+  }
+
+  /**
+   * Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are
+   * untouched. Replace all records in an index without any downtime.
+   *
+   * @param data The data to send
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   public CompletableFuture<MultiResponse> replaceAllObjectsAsync(Iterable<T> data) {
     return replaceAllObjectsAsync(data, null, false);
   }
@@ -939,6 +1382,31 @@ public final class SearchIndex<T>
               return CompletableFuture.completedFuture(new MultiResponse().setResponses(resp));
             },
             config.getExecutor());
+  }
+
+  /**
+   * Rename an index. Normally used to reindex your data atomically, without any down time.
+   *
+   * @param sourceIndex The source to move
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public MoveIndexResponse moveFrom(@Nonnull String sourceIndex) {
+    return LaunderThrowable.unwrap(moveFromAsync(sourceIndex));
+  }
+
+  /**
+   * Rename an index. Normally used to reindex your data atomically, without any down time.
+   *
+   * @param sourceIndex The source to move
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public MoveIndexResponse moveFrom(@Nonnull String sourceIndex, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(moveFromAsync(sourceIndex, requestOptions));
   }
 
   /**
@@ -1049,6 +1517,9 @@ public final class SearchIndex<T>
    * search query
    *
    * @param query The browse query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public BrowseIndexResponse<T> browseFrom(@Nonnull BrowseIndexQuery query) {
     return LaunderThrowable.unwrap(browseFromAsync(query, null));
@@ -1119,7 +1590,36 @@ public final class SearchIndex<T>
             config.getExecutor());
   }
 
-  /** Delete the index and all its settings, including links to its replicas. */
+  /**
+   * Delete the index and all its settings, including links to its replicas.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public DeleteResponse delete() {
+    return LaunderThrowable.unwrap(deleteAsync());
+  }
+
+  /**
+   * Delete the index and all its settings, including links to its replicas.
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public DeleteResponse delete(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(deleteAsync(requestOptions));
+  }
+
+  /**
+   * Delete the index and all its settings, including links to its replicas.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   public CompletableFuture<DeleteResponse> deleteAsync() {
     return deleteAsync(null);
   }
@@ -1139,6 +1639,35 @@ public final class SearchIndex<T>
         CallType.WRITE,
         DeleteResponse.class,
         requestOptions);
+  }
+
+  /**
+   * Remove all objects matching a filter (including geo filters). This method enables you to delete
+   * one or more objects based on filters (numeric, facet, tag or geo queries). It does not accept
+   * empty filters or a query.
+   *
+   * @param query The query used to select objects to delete
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public DeleteResponse deleteBy(@Nonnull Query query) {
+    return LaunderThrowable.unwrap(deleteByAsync(query));
+  }
+
+  /**
+   * Remove all objects matching a filter (including geo filters). This method enables you to delete
+   * one or more objects based on filters (numeric, facet, tag or geo queries). It does not accept
+   * empty filters or a query.
+   *
+   * @param query The query used to select objects to delete
+   * @param requestOptions requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public DeleteResponse deleteBy(@Nonnull Query query, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(deleteByAsync(query, requestOptions));
   }
 
   /**
@@ -1190,8 +1719,32 @@ public final class SearchIndex<T>
    * @param taskID The Algolia taskID
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public TaskStatusResponse getTask(long taskID) {
+    return LaunderThrowable.unwrap(getTaskAsync(taskID));
+  }
+
+  /**
+   * Get the status of the given task
+   *
+   * @param taskID The Algolia taskID
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public TaskStatusResponse getTask(long taskID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getTaskAsync(taskID, requestOptions));
+  }
+
+  /**
+   * Get the status of the given task
+   *
+   * @param taskID The Algolia taskID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<TaskStatusResponse> getTaskAsync(long taskID) {
     return getTaskAsync(taskID, null);
@@ -1202,6 +1755,9 @@ public final class SearchIndex<T>
    *
    * @param taskID The Algolia taskID
    * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<TaskStatusResponse> getTaskAsync(
       long taskID, RequestOptions requestOptions) {
@@ -1220,8 +1776,7 @@ public final class SearchIndex<T>
    * @param taskId The Algolia taskID
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public void waitTask(long taskId) {
     waitTask(taskId, 100, null);
@@ -1236,8 +1791,7 @@ public final class SearchIndex<T>
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public void waitTask(long taskId, long timeToWait, RequestOptions requestOptions) {
     while (true) {
