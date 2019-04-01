@@ -52,7 +52,7 @@ public abstract class TypoTolerance implements Serializable, CompoundType {
 @JsonDeserialize(as = TypoToleranceAsString.class)
 class TypoToleranceAsString extends TypoTolerance {
 
-  private String insideValue;
+  private final String insideValue;
 
   TypoToleranceAsString(String insideValue) {
     this.insideValue = insideValue;
@@ -73,7 +73,7 @@ class TypoToleranceAsString extends TypoTolerance {
 @JsonDeserialize(as = TypoToleranceAsBoolean.class)
 class TypoToleranceAsBoolean extends TypoTolerance {
 
-  private Boolean insideValue;
+  private final Boolean insideValue;
 
   TypoToleranceAsBoolean(Boolean insideValue) {
     this.insideValue = insideValue;

@@ -9,9 +9,11 @@ import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.indexing.SearchResult;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -19,15 +21,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class InsightsTest {
   private SearchIndex<AlgoliaObject> index;
   private String indexName;
+  private static InsightsClient insightsClient;
 
   InsightsTest() {
     indexName = getTestIndexName("insights");
     index = searchClient.initIndex(indexName, AlgoliaObject.class);
   }
 
+  @AfterAll
+  static void close() throws IOException {
+    insightsClient.close();
+  }
+
   @Test
   void testInsights() throws ExecutionException, InterruptedException {
-    InsightsClient insightsClient = new InsightsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
+    insightsClient = new InsightsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
     UserInsightsClient insights = insightsClient.user("test");
 
     // Click

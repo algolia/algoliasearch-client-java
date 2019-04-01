@@ -4,7 +4,6 @@ import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
-import com.algolia.search.models.common.Log;
 import com.algolia.search.models.indexing.IndicesResponse;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -21,13 +20,12 @@ class LogsTest {
     CompletableFuture<List<IndicesResponse>> listIndices2 = searchClient.listIndicesAsync();
 
     CompletableFuture.allOf(listIndices1, listIndices2).get();
-    CompletableFuture<List<Log>> logs =
-        searchClient
-            .getLogsAsync(0, 2)
-            .thenApply(
-                r -> {
-                  assertThat(r).hasSize(2);
-                  return r;
-                });
+    searchClient
+        .getLogsAsync(0, 2)
+        .thenApply(
+            r -> {
+              assertThat(r).hasSize(2);
+              return r;
+            });
   }
 }

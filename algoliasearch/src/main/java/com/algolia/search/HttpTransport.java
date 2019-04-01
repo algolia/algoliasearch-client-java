@@ -20,7 +20,7 @@ import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
 /**
- * The transport layer is responsible of the serialization/deserizalition and the retry strategy.
+ * The transport layer is responsible of the serialization/deserialization and the retry strategy.
  */
 class HttpTransport {
 

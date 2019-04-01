@@ -13,8 +13,6 @@ import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.TaskStatusResponse;
 import com.algolia.search.models.indexing.*;
-import com.algolia.search.models.indexing.BatchRequest;
-import com.algolia.search.models.indexing.BatchResponse;
 import com.algolia.search.utils.AlgoliaUtils;
 import com.algolia.search.utils.QueryStringUtils;
 import java.util.*;

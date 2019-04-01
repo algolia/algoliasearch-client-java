@@ -52,7 +52,7 @@ public abstract class Distinct implements Serializable, CompoundType {
 @JsonDeserialize(as = DistinctAsInteger.class)
 class DistinctAsInteger extends Distinct {
 
-  private Integer insideValue;
+  private final Integer insideValue;
 
   DistinctAsInteger(Integer insideValue) {
     this.insideValue = insideValue;
@@ -73,7 +73,7 @@ class DistinctAsInteger extends Distinct {
 @JsonDeserialize(as = DistinctAsBoolean.class)
 class DistinctAsBoolean extends Distinct {
 
-  private Boolean insideValue;
+  private final Boolean insideValue;
 
   DistinctAsBoolean(Boolean insideValue) {
     this.insideValue = insideValue;

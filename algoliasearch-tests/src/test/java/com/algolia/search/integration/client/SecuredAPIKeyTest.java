@@ -10,16 +10,19 @@ import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.Query;
+import java.io.IOException;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({AlgoliaIntegrationTestExtension.class})
 class SecuredAPIKeyTest {
 
+  private static SearchClient clientWithRestriction;
   private SearchIndex<AlgoliaObject> index1;
   private SearchIndex<AlgoliaObject> index2;
   private String index1Name;
@@ -30,6 +33,11 @@ class SecuredAPIKeyTest {
     index2Name = getTestIndexName("secured_api_keys_dev");
     index1 = searchClient.initIndex(index1Name, AlgoliaObject.class);
     index2 = searchClient2.initIndex(index2Name, AlgoliaObject.class);
+  }
+
+  @AfterAll
+  static void after() throws IOException {
+    clientWithRestriction.close();
   }
 
   @Test
@@ -49,7 +57,7 @@ class SecuredAPIKeyTest {
 
     String key = searchClient.generateSecuredAPIKey(ALGOLIA_SEARCH_KEY_1, restriction);
 
-    SearchClient clientWithRestriction = new SearchClient(ALGOLIA_APPLICATION_ID_1, key);
+    clientWithRestriction = new SearchClient(ALGOLIA_APPLICATION_ID_1, key);
 
     SearchIndex<AlgoliaObject> index1WithoutRestriction =
         clientWithRestriction.initIndex(index1Name, AlgoliaObject.class);

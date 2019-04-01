@@ -4,9 +4,6 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.RequestOptions;
-import com.algolia.search.models.apikeys.*;
-import com.algolia.search.models.indexing.*;
-import com.algolia.search.models.mcm.*;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Objects;
@@ -194,7 +191,7 @@ public final class SearchClient
 
     Objects.requireNonNull(indexName, "The index name is required.");
 
-    SearchIndex indexToWait = initIndex(indexName);
+    SearchIndex<?> indexToWait = initIndex(indexName);
     indexToWait.waitTask(taskID, timeToWait, requestOptions);
   }
 }

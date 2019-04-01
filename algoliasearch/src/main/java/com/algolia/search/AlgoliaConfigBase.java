@@ -119,7 +119,7 @@ public abstract class AlgoliaConfigBase {
   private final String clientVersion = "3.0.0.0";
   private final String applicationID;
   private final String apiKey;
-  private HashMap<String, String> defaultHeaders;
+  private final HashMap<String, String> defaultHeaders;
   private int batchSize;
   private Integer readTimeOut;
   private Integer writeTimeOut;

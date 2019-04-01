@@ -41,7 +41,7 @@ class MultiClusterManagementTest {
     String userID = getMcmUserId();
     String clusterName = listClusters.getClusters().get(0).getClusterName();
 
-    AssignUserIdResponse assignResponse = mcmClient.assignUserIDAsync(userID, clusterName).get();
+    mcmClient.assignUserIDAsync(userID, clusterName).get();
     waitUserID(userID);
 
     SearchResult<UserId> searchResponse =

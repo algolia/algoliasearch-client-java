@@ -117,7 +117,7 @@ class AnalyticsTest {
     assertThat(result.get().getEndAt()).isEqualTo(abtest.getEndAt());
     assertThat(result.get().getName()).isEqualTo(abtest.getName());
 
-    StopAbTestResponse stopAbTestResponse = analyticsClient.stopABTestAsync(abTestID).get();
+    analyticsClient.stopABTestAsync(abTestID).get();
 
     // Assert that the ABTest was stopped
     ABTestResponse stoppedAbTest = analyticsClient.getABTestAsync(abTestID).get();
