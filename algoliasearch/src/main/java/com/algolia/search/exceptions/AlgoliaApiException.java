@@ -1,5 +1,6 @@
 package com.algolia.search.exceptions;
 
+/** Exception thrown in case of API failure such as 4XX, 5XX error. */
 public class AlgoliaApiException extends AlgoliaRuntimeException {
 
   public int getHttpErrorCode() {

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+/** Class holding shared objects between all clients. */
 public class Defaults {
 
   public Defaults() {}
@@ -38,6 +39,7 @@ public class Defaults {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
   }
 
+  /** Instance of the ObjectMapper shared between all clients. */
   public static ObjectMapper getObjectMapper() {
     return Holder.DEFAULT_OBJECT_MAPPER;
   }

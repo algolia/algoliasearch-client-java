@@ -11,6 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Algolia Search Query
+ *
+ * @see <a href="https://www.algolia.com/doc/api-reference/api-parameters/query/">Algolia.com</a>
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Query implements Serializable {

@@ -8,7 +8,7 @@ import com.algolia.search.models.rules.RuleQuery;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings("WeakerAccess")
-public class RulesIterator extends AlgoliaIterator<Rule> {
+public class RulesIterator extends AlgoliaBaseIterator<Rule> {
 
   private RuleQuery query;
 

@@ -1,5 +1,6 @@
 package com.algolia.search.exceptions;
 
+/** Exception thrown when an error occurs during the Serialization/Deserialization process */
 public class AlgoliaRuntimeException extends RuntimeException {
 
   public AlgoliaRuntimeException(String message, Throwable cause) {

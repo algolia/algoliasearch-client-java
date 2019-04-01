@@ -6,6 +6,12 @@ import java.util.concurrent.ExecutionException;
 @SuppressWarnings("WeakerAccess")
 public class LaunderThrowable {
 
+  /**
+   * Performs a get() on the asynchronous method. Launders both Interrupted and Execution exception
+   * to business exception
+   *
+   * @param f The CompletableFuture to wait On
+   */
   public static <T> T unwrap(CompletableFuture<T> f) {
     try {
       return f.get();
@@ -14,6 +20,7 @@ public class LaunderThrowable {
     }
   }
 
+  /** Launders both Interrupted and Execution exception to business exception */
   public static RuntimeException launderThrowable(Throwable t) {
 
     if (t.getCause() != null) {

@@ -5,6 +5,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Algolia Index settings
+ *
+ * @see <a href="https://www.algolia.com/doc/api-reference/settings-api-parameters/">Algolia.com</a>
+ */
 @SuppressWarnings({"unused", "WeakerAccess"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -433,12 +438,32 @@ public class IndexSettings implements Serializable {
     return this;
   }
 
+  // Here for legacy purposes
+  @JsonSetter("slaves")
+  public IndexSettings setSlaves(List<String> slaves) {
+    if (this.replicas == null && slaves != null) {
+      setReplicas(slaves);
+    }
+
+    return this;
+  }
+
   public List<String> getSearchableAttributes() {
     return searchableAttributes;
   }
 
   public IndexSettings setSearchableAttributes(List<String> searchableAttributes) {
     this.searchableAttributes = searchableAttributes;
+    return this;
+  }
+
+  // Here for legacy purposes
+  @JsonSetter("attributesToIndex")
+  public IndexSettings setAttributesToIndex(List<String> attributesToIndex) {
+    if (this.searchableAttributes == null && attributesToIndex != null) {
+      setSearchableAttributes(attributesToIndex);
+    }
+
     return this;
   }
 
@@ -491,6 +516,16 @@ public class IndexSettings implements Serializable {
   public IndexSettings setNumericAttributesForFiltering(
       List<String> numericAttributesForFiltering) {
     this.numericAttributesForFiltering = numericAttributesForFiltering;
+    return this;
+  }
+
+  // Here for legacy purposes
+  @JsonSetter("numericAttributesToIndex")
+  public IndexSettings setNumericAttributesToIndex(List<String> numericAttributesToIndex) {
+    if (this.numericAttributesForFiltering == null && numericAttributesToIndex != null) {
+      setNumericAttributesForFiltering(numericAttributesToIndex);
+    }
+
     return this;
   }
 

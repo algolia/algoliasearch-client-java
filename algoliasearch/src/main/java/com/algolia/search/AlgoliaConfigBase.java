@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 
-/** * Algolia's clients configuration */
+/** * Algolia's clients common configuration */
 @SuppressWarnings("WeakerAccess")
 public abstract class AlgoliaConfigBase {
 

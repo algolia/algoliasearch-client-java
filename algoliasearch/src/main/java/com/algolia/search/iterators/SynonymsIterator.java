@@ -8,7 +8,7 @@ import com.algolia.search.models.synonyms.SynonymQuery;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings("WeakerAccess")
-public class SynonymsIterator extends AlgoliaIterator<Synonym> {
+public class SynonymsIterator extends AlgoliaBaseIterator<Synonym> {
 
   private SynonymQuery query;
 

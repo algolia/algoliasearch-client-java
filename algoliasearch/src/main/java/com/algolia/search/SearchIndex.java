@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 /**
  * This class holds all endpoints for an Index.
  *
- * @param <T>
+ * @see <a href="https://www.algolia.com/doc/rest-api/search/">Algolia.com</a>
  */
 @SuppressWarnings("WeakerAccess")
 public final class SearchIndex<T>

@@ -12,7 +12,6 @@ import com.algolia.search.models.settings.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.util.*;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class JacksonParserTest {
@@ -109,7 +108,8 @@ class JacksonParserTest {
 
     assertThat(settings.getReplicas()).isEqualTo(Arrays.asList("index1", "index2"));
     assertThat(settings.getSearchableAttributes()).isEqualTo(Arrays.asList("attr1", "attr2"));
-    assertThat(settings.getNumericAttributesForFiltering()).isEqualTo(Arrays.asList("attr1", "attr2"));
+    assertThat(settings.getNumericAttributesForFiltering())
+        .isEqualTo(Arrays.asList("attr1", "attr2"));
   }
 
   @Test
@@ -174,7 +174,10 @@ class JacksonParserTest {
 
   @Test
   void deserializeLegacyEdit() throws IOException {
-    List<Edit> edits = Defaults.getObjectMapper().readValue("[\"lastname\",\"firstname\"]", ConsequenceQuery.class).getEdits();
+    List<Edit> edits =
+        Defaults.getObjectMapper()
+            .readValue("[\"lastname\",\"firstname\"]", ConsequenceQuery.class)
+            .getEdits();
 
     assertThat(edits.get(0).getType()).isEqualTo(EditType.REMOVE);
     assertThat(edits.get(0).getDelete()).isEqualTo("lastname");
@@ -292,13 +295,33 @@ class JacksonParserTest {
   @Test
   void queryWithDistinct() {
     Query query = new Query("").setDistinct(Distinct.of(0));
-    assertThat(query.toParam()).isEqualTo("distinct=0&query=");
+    assertThat(query.toParam()).isEqualTo("query=&distinct=0");
   }
 
-  @Disabled
+  @Test
   void queryWithMultipleParams() {
     Query query = new Query("é®„").setTagFilters(Collections.singletonList("(attribute)"));
     assertThat(query.toParam()).isEqualTo("tagFilters=%28attribute%29&query=%C3%A9%C2%AE%E2%80%9E");
+  }
+
+  @Test
+  void queryWithBooleanParams() {
+    Query query = new Query("").setAroundLatLngViaIP(true);
+    assertThat(query.toParam()).contains("aroundLatLngViaIP=true");
+  }
+
+  @Test
+  void queryWithNestedLists() {
+    Query query =
+        new Query("").setFacetFilters(Collections.singletonList(Arrays.asList("facet1", "facet2")));
+    assertThat(query.toParam()).isEqualTo("facetFilters=facet1%2Cfacet2&query=");
+
+    Query query2 =
+        new Query("")
+            .setFacetFilters(
+                Arrays.asList(
+                    Collections.singletonList("facet1"), Collections.singletonList("facet2")));
+    assertThat(query2.toParam()).contains("facetFilters=facet1%2Cfacet2&query=");
   }
 
   @Test
