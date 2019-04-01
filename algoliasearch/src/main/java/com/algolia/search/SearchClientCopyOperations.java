@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
@@ -25,6 +26,37 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
+  default CopyResponse copySettings(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex));
+  }
+
+  /**
+   * Make a copy of the settings of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CopyResponse copySettings(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        copySettingsAsync(sourceIndex, destinationIndex, requestOptions));
+  }
+
+  /**
+   * Make a copy of the settings of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   default CompletableFuture<CopyResponse> copySettingsAsync(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
     return copyIndexAsync(
@@ -58,6 +90,36 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
+  default CopyResponse copyRules(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return LaunderThrowable.unwrap(copyRulesAsync(sourceIndex, destinationIndex));
+  }
+
+  /**
+   * Make a copy of the rules of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CopyResponse copyRules(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(copyRulesAsync(sourceIndex, destinationIndex, requestOptions));
+  }
+
+  /**
+   * Make a copy of the rules of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
   default CompletableFuture<CopyResponse> copyRulesAsync(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
     return copyIndexAsync(
@@ -80,6 +142,37 @@ public interface SearchClientCopyOperations extends SearchClientBase {
       RequestOptions requestOptions) {
     return copyIndexAsync(
         sourceIndex, destinationIndex, Collections.singletonList(CopyScope.RULES), null);
+  }
+
+  /**
+   * Make a copy of the synonyms of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CopyResponse copySynonyms(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return LaunderThrowable.unwrap(copySynonymsAsync(sourceIndex, destinationIndex));
+  }
+
+  /**
+   * Make a copy of the synonyms of an index
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CopyResponse copySynonyms(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        copySynonymsAsync(sourceIndex, destinationIndex, requestOptions));
   }
 
   /**
@@ -116,6 +209,54 @@ public interface SearchClientCopyOperations extends SearchClientBase {
         destinationIndex,
         Collections.singletonList(CopyScope.SYNONYMS),
         requestOptions);
+  }
+
+  /**
+   * Make a copy of an index, in the given scope.
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CopyResponse copyIndex(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex));
+  }
+
+  /**
+   * Make a copy of an index, in the given scope.
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param scopes Scope of the copy
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CopyResponse copyIndex(
+      @Nonnull String sourceIndex, @Nonnull String destinationIndex, List<String> scopes) {
+    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex, scopes));
+  }
+
+  /**
+   * Make a copy of an index in the given scope.
+   *
+   * @param sourceIndex The source index to copy from
+   * @param destinationIndex the destination index
+   * @param scopes Scope of the copy
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CopyResponse copyIndex(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      List<String> scopes,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(
+        copyIndexAsync(sourceIndex, destinationIndex, scopes, requestOptions));
   }
 
   /**
@@ -187,6 +328,31 @@ public interface SearchClientCopyOperations extends SearchClientBase {
               return resp;
             },
             getConfig().getExecutor());
+  }
+
+  /**
+   * Rename an index. Normally used to reindex your data atomically, without any down time.
+   *
+   * @param sourceIndex The source index. Should not be null or empty.
+   * @param destinationIndex The destination destination. Should not be null or empty.
+   */
+  default MoveIndexResponse moveIndex(
+      @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
+    return LaunderThrowable.unwrap(moveIndexAsync(sourceIndex, destinationIndex));
+  }
+
+  /**
+   * Rename an index. Normally used to reindex your data atomically, without any down time.
+   *
+   * @param sourceIndex The source index. Should not be null or empty.
+   * @param destinationIndex The destination destination. Should not be null or empty.
+   * @param requestOptions Options to pass to this request
+   */
+  default MoveIndexResponse moveIndex(
+      @Nonnull String sourceIndex,
+      @Nonnull String destinationIndex,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(moveIndexAsync(sourceIndex, destinationIndex, requestOptions));
   }
 
   /**
