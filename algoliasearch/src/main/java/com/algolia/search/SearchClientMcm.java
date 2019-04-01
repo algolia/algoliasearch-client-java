@@ -17,6 +17,23 @@ import javax.annotation.Nonnull;
 public interface SearchClientMcm extends SearchClientBase {
 
   /** List the clusters available in a multi-clusters setup for a single appID */
+  default ListClustersResponse listClusters() {
+    return LaunderThrowable.unwrap(listClustersAsync());
+  }
+
+  /**
+   * List the clusters available in a multi-clusters setup for a single appID
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default ListClustersResponse listClusters(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(listClustersAsync(requestOptions));
+  }
+
+  /** List the clusters available in a multi-clusters setup for a single appID */
   default CompletableFuture<ListClustersResponse> listClustersAsync() {
     return listClustersAsync(null);
   }
@@ -37,6 +54,34 @@ public interface SearchClientMcm extends SearchClientBase {
             CallType.READ,
             ListClustersResponse.class,
             requestOptions);
+  }
+
+  /**
+   * Search for userIDs The data returned will usually be a few seconds behind real-time, because
+   * userID usage may take up to a few seconds propagate to the different cluster
+   *
+   * @param query The query to search for userIDs
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SearchResult<UserId> searchUserIDs(@Nonnull SearchUserIdsRequest query) {
+    return LaunderThrowable.unwrap(searchUserIDsAsync(query));
+  }
+
+  /**
+   * Search for userIDs The data returned will usually be a few seconds behind real-time, because
+   * userID usage may take up to a few seconds propagate to the different cluster
+   *
+   * @param query The query to search for userIDs
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default SearchResult<UserId> searchUserIDs(
+      @Nonnull SearchUserIdsRequest query, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(searchUserIDsAsync(query, requestOptions));
   }
 
   /**
@@ -85,6 +130,44 @@ public interface SearchClientMcm extends SearchClientBase {
               return r;
             },
             getConfig().getExecutor());
+  }
+
+  /**
+   * List the userIDs assigned to a multi-clusters appID.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default ListUserIdsResponse listUserIDs() {
+    return LaunderThrowable.unwrap(listUserIDsAsync());
+  }
+
+  /**
+   * List the userIDs assigned to a multi-clusters appID.
+   *
+   * @param page The page number to request
+   * @param hitsPerPage Number of hits per page
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default ListUserIdsResponse listUserIDs(
+      int page, int hitsPerPage, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(listUserIDsAsync(page, hitsPerPage, requestOptions));
+  }
+
+  /**
+   * List the userIDs assigned to a multi-clusters appID.
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default ListUserIdsResponse listUserIDs(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(listUserIDsAsync(requestOptions));
   }
 
   /**
@@ -152,6 +235,19 @@ public interface SearchClientMcm extends SearchClientBase {
    * Returns the userID data stored in the mapping.
    *
    * @param userID The userID in the mapping
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default UserId getUserID(@Nonnull String userID, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getUserIDAsync(userID, requestOptions));
+  }
+
+  /**
+   * Returns the userID data stored in the mapping.
+   *
+   * @param userID The userID in the mapping
    */
   default CompletableFuture<UserId> getUserIDAsync(@Nonnull String userID) {
     Objects.requireNonNull(userID, "The userID is required.");
@@ -182,6 +278,33 @@ public interface SearchClientMcm extends SearchClientBase {
             CallType.READ,
             UserId.class,
             requestOptions);
+  }
+
+  /**
+   * Get the top 10 userIDs with the highest number of records per cluster. The data returned will
+   * usually be a few seconds behind real-time, because userID usage may take up to a few seconds to
+   * propagate to the different clusters.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default TopUserIdResponse getTopUserID() {
+    return LaunderThrowable.unwrap(getTopUserIDAsync());
+  }
+
+  /**
+   * Get the top 10 userIDs with the highest number of records per cluster. The data returned will
+   * usually be a few seconds behind real-time, because userID usage may take up to a few seconds to
+   * propagate to the different clusters.
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default TopUserIdResponse getTopUserID(RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(getTopUserIDAsync(requestOptions));
   }
 
   /**
@@ -233,6 +356,19 @@ public interface SearchClientMcm extends SearchClientBase {
    * Remove a userID and its associated data from the multi-clusters.
    *
    * @param userId userID
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default RemoveUserIdResponse removeUserID(@Nonnull String userId, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(removeUserIDAsync(userId, requestOptions));
+  }
+
+  /**
+   * Remove a userID and its associated data from the multi-clusters.
+   *
+   * @param userId userID
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
@@ -271,6 +407,36 @@ public interface SearchClientMcm extends SearchClientBase {
             CallType.WRITE,
             RemoveUserIdResponse.class,
             requestOptions);
+  }
+
+  /**
+   * Assign or Move a userID to a cluster. The time it takes to migrate (move) a user is
+   * proportional to the amount of data linked to the userID.
+   *
+   * @param userId The userID
+   * @param clusterName The name of the cluster
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default AssignUserIdResponse assignUserID(@Nonnull String userId, @Nonnull String clusterName) {
+    return LaunderThrowable.unwrap(assignUserIDAsync(userId, clusterName));
+  }
+
+  /**
+   * Assign or Move a userID to a cluster. The time it takes to migrate (move) a user is
+   * proportional to the amount of data linked to the userID.
+   *
+   * @param userId The userID
+   * @param clusterName The name of the cluster
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default AssignUserIdResponse assignUserID(
+      @Nonnull String userId, @Nonnull String clusterName, RequestOptions requestOptions) {
+    return LaunderThrowable.unwrap(assignUserIDAsync(userId, clusterName, requestOptions));
   }
 
   /**
