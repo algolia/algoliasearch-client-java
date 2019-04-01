@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 
-abstract class AlgoliaIterator<E> implements Iterator<E> {
+abstract class AlgoliaBaseIterator<E> implements Iterator<E> {
 
   final SearchIndex<?> index;
   private final RequestOptions requestOptions;
@@ -19,15 +19,15 @@ abstract class AlgoliaIterator<E> implements Iterator<E> {
 
   abstract SearchResult<E> doQuery(Integer page, RequestOptions requestOptions);
 
-  AlgoliaIterator(@Nonnull SearchIndex<?> index) {
+  AlgoliaBaseIterator(@Nonnull SearchIndex<?> index) {
     this(index, 1000, null);
   }
 
-  AlgoliaIterator(@Nonnull SearchIndex<?> index, @Nonnull Integer hitsPerPage) {
+  AlgoliaBaseIterator(@Nonnull SearchIndex<?> index, @Nonnull Integer hitsPerPage) {
     this(index, hitsPerPage, null);
   }
 
-  AlgoliaIterator(
+  AlgoliaBaseIterator(
       @Nonnull SearchIndex<?> index, @Nonnull Integer hitsPerPage, RequestOptions requestOptions) {
 
     Objects.requireNonNull(index, "Index is required");

@@ -4,6 +4,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Synonyms
+ *
+ * <p>* @see <a
+ * href="https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/">Algolia.com</a>
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @SuppressWarnings("WeakerAccess")
 public class Synonym implements Serializable {

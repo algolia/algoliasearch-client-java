@@ -6,10 +6,8 @@ import com.algolia.search.models.indexing.Query;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class QueryStringUtils {
 
@@ -46,10 +44,48 @@ public class QueryStringUtils {
     return buildString(map).map(s -> "?" + s).orElse("");
   }
 
+  @SuppressWarnings("unchecked")
   public static String buildQueryAsQueryParams(Query query) {
-    Map<String, String> map =
-        Defaults.getObjectMapper().convertValue(query, new TypeReference<Map<String, String>>() {});
-    return buildQueryString(map, true);
+
+    // This could be improved
+    // We need to create a Map<String, Object> to keep track of the List<List<?>>
+    Map<String, Object> map =
+        Defaults.getObjectMapper().convertValue(query, new TypeReference<Map<String, Object>>() {});
+
+    // Then creating a Map<String, String> to send query String builder
+    Map<String, String> newMap =
+        map.entrySet().stream()
+            .collect(
+                Collectors.toMap(
+                    Map.Entry::getKey,
+                    e -> {
+                      if (e.getValue() instanceof List<?>) {
+
+                        List<Object> tmpList = (List) e.getValue();
+
+                        // Work around for nested List<List<?>> could be improved
+                        if (tmpList.get(0) != null && tmpList.get(0) instanceof List<?>) {
+
+                          List<List<?>> listOfList = (List) e.getValue();
+
+                          List<?> flat =
+                              listOfList.stream()
+                                  .flatMap(List::stream)
+                                  .collect(Collectors.toList());
+
+                          return String.join(",", (List) flat);
+
+                        } else {
+                          // Handling List<?>
+                          return String.join(",", (List) e.getValue());
+                        }
+                      } else {
+                        // Handling other types Int,Float,String,Boolean etc..
+                        return String.valueOf(e.getValue());
+                      }
+                    }));
+
+    return buildQueryString(newMap, true);
   }
 
   static String buildRestrictionQueryString(SecuredApiKeyRestriction restriction) {

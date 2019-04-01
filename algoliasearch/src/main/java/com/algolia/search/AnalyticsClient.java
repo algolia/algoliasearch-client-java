@@ -19,6 +19,8 @@ import javax.annotation.Nonnull;
  * which wraps the Apache Http Client in {@link AlgoliaHttpRequester} This client allows to build
  * typed requests and read typed responses. Requests are made under the Algolia's retry-strategy.
  * This client is intended to be reused and it's thread-safe.
+ *
+ * @see <a href="https://www.algolia.com/doc/rest-api/analytics/">Algolia.com</a>
  */
 @SuppressWarnings("WeakerAccess")
 public final class AnalyticsClient implements Closeable {
@@ -74,7 +76,11 @@ public final class AnalyticsClient implements Closeable {
     this.transport = new HttpTransport(config, httpRequester);
   }
 
-  /** Close the underlying Http Client */
+  /**
+   * Close the underlying Http Client
+   *
+   * @throws IOException if an I/O error occurs
+   */
   @Override
   public void close() throws IOException {
     transport.close();
