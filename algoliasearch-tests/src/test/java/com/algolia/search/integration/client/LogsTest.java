@@ -26,6 +26,7 @@ class LogsTest {
             r -> {
               assertThat(r).hasSize(2);
               return r;
-            });
+            })
+        .get();
   }
 }
