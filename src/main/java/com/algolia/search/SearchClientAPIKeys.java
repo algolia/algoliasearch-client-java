@@ -8,7 +8,7 @@ import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.apikeys.*;
 import com.algolia.search.models.common.CallType;
-import com.algolia.search.utils.HmacShaUtils;
+import com.algolia.search.util.HmacShaUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;

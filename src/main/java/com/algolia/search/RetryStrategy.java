@@ -2,7 +2,7 @@ package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.RetryOutcome;
-import com.algolia.search.utils.HttpStatusCodeUtils;
+import com.algolia.search.util.HttpStatusCodeUtils;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

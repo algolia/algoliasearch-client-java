@@ -1,7 +1,7 @@
 package com.algolia.search.models.indexing;
 
 import com.algolia.search.Defaults;
-import com.algolia.search.utils.QueryStringUtils;
+import com.algolia.search.util.QueryStringUtils;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.SerializerProvider;
