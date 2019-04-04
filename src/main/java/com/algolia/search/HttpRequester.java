@@ -30,13 +30,13 @@ import org.apache.http.util.EntityUtils;
  * implementation of {@link IHttpRequester} It takes an {@link AlgoliaHttpRequest} as input. It
  * returns an {@link AlgoliaHttpResponse}.
  */
-class AlgoliaHttpRequester implements IHttpRequester {
+class HttpRequester implements IHttpRequester {
 
   private final CloseableHttpAsyncClient asyncHttpClient;
   private final RequestConfig requestConfig;
   private final AlgoliaConfigBase config;
 
-  AlgoliaHttpRequester(@Nonnull AlgoliaConfigBase config) {
+  HttpRequester(@Nonnull AlgoliaConfigBase config) {
 
     this.config = config;
 
