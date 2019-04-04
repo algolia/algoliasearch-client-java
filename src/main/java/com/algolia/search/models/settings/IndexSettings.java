@@ -2,6 +2,7 @@ package com.algolia.search.models.settings;
 
 import com.fasterxml.jackson.annotation.*;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,9 @@ public class IndexSettings implements Serializable {
   private List<String> disableTypoToleranceOnAttributes;
   private List<String> disableTypoToleranceOnWords;
   private String separatorsToIndex;
+
+  /* custom */
+  private Map<String, Object> customSettings = new HashMap<>();
 
   public List<String> getAttributesForFaceting() {
     return attributesForFaceting;
@@ -602,8 +606,20 @@ public class IndexSettings implements Serializable {
     return this;
   }
 
-  public IndexSettings setVersion(Integer version) {
-    /* custom */
+  @JsonAnySetter
+  public IndexSettings setCustomSetting(String key, Object value) {
+    this.customSettings.put(key, value);
+    return this;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getCustomSettings() {
+    return customSettings;
+  }
+
+  @JsonAnySetter
+  public IndexSettings setCustomSettings(Map<String, Object> customSettings) {
+    this.customSettings = customSettings;
     return this;
   }
 
