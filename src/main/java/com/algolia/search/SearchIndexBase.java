@@ -14,7 +14,7 @@ public interface SearchIndexBase<T> {
 
   SearchConfig getConfig();
 
-  Class<T> getKlass();
+  Class<T> getClazz();
 
   void waitTask(long taskId, long timeToWait, RequestOptions requestOptions);
 
