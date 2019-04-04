@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 
 /**
  * Algolia's REST analytics client that wraps an instance of the transporter {@link HttpTransport}
- * which wraps the Apache Http Client in {@link HttpRequester} This client allows to build typed
+ * which wraps the Apache Http Client in {@link ApacheHttpRequester} This client allows to build typed
  * requests and read typed responses. Requests are made under the Algolia's retry-strategy. This
  * client is intended to be reused and it's thread-safe.
  *
@@ -48,7 +48,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws NullPointerException if Config is null
    */
   public AnalyticsClient(@Nonnull AnalyticsConfig config) {
-    this(config, new HttpRequester(config));
+    this(config, new ApacheHttpRequester(config));
   }
 
   /**
@@ -59,7 +59,7 @@ public final class AnalyticsClient implements Closeable {
    * @param httpRequester Another HTTP Client than the default one.
    * @throws NullPointerException if ApplicationID/ApiKey/Config/Requester is null
    */
-  public AnalyticsClient(@Nonnull AnalyticsConfig config, @Nonnull IHttpRequester httpRequester) {
+  public AnalyticsClient(@Nonnull AnalyticsConfig config, @Nonnull HttpRequester httpRequester) {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
