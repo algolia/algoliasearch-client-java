@@ -185,7 +185,7 @@ public final class SearchIndex<T>
         HttpMethod.GET,
         "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
         CallType.READ,
-            clazz,
+        clazz,
         requestOptions);
   }
 
@@ -326,7 +326,7 @@ public final class SearchIndex<T>
             CallType.READ,
             request,
             MultipleGetObjectsResponse.class,
-                clazz,
+            clazz,
             requestOptions)
         .thenComposeAsync(
             resp -> {
@@ -1579,7 +1579,7 @@ public final class SearchIndex<T>
             CallType.READ,
             query,
             BrowseIndexResponse.class,
-                clazz,
+            clazz,
             requestOptions)
         .thenComposeAsync(
             resp -> {
