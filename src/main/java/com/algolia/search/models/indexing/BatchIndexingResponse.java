@@ -1,10 +1,10 @@
 package com.algolia.search.models.indexing;
 
-import com.algolia.search.models.IAlgoliaWaitableResponse;
+import com.algolia.search.models.WaitableResponse;
 import java.io.Serializable;
 import java.util.List;
 
-public class BatchIndexingResponse implements IAlgoliaWaitableResponse, Serializable {
+public class BatchIndexingResponse implements WaitableResponse, Serializable {
 
   public BatchIndexingResponse(List<BatchResponse> responses) {
     this.responses = responses;

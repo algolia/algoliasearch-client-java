@@ -1,13 +1,13 @@
 package com.algolia.search.models.apikeys;
 
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.models.IAlgoliaWaitableResponse;
+import com.algolia.search.models.WaitableResponse;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.function.Function;
 
 @SuppressWarnings("WeakerAccess")
-public class RestoreApiKeyResponse implements IAlgoliaWaitableResponse, Serializable {
+public class RestoreApiKeyResponse implements WaitableResponse, Serializable {
 
   public String getKey() {
     return key;

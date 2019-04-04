@@ -1,13 +1,13 @@
 package com.algolia.search.models.indexing;
 
-import com.algolia.search.models.IAlgoliaWaitableResponse;
+import com.algolia.search.models.WaitableResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.function.BiConsumer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CopyResponse implements Serializable, IAlgoliaWaitableResponse {
+public class CopyResponse implements Serializable, WaitableResponse {
 
   public Long getTaskID() {
     return taskID;

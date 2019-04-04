@@ -1,12 +1,12 @@
 package com.algolia.search.models.apikeys;
 
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.models.IAlgoliaWaitableResponse;
+import com.algolia.search.models.WaitableResponse;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.function.Function;
 
-public class AddApiKeyResponse implements IAlgoliaWaitableResponse, Serializable {
+public class AddApiKeyResponse implements WaitableResponse, Serializable {
 
   public String getKey() {
     return key;
