@@ -42,7 +42,7 @@ public final class AccountClient {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    */
-  public <T> MultiResponse copyIndex(
+  public static <T> MultiResponse copyIndex(
       @Nonnull SearchIndex<T> sourceIndex, @Nonnull SearchIndex<T> destinationIndex) {
     return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex));
   }
@@ -59,7 +59,7 @@ public final class AccountClient {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    */
-  public <T> MultiResponse copyIndex(
+  public static <T> MultiResponse copyIndex(
       @Nonnull SearchIndex<T> sourceIndex,
       @Nonnull SearchIndex<T> destinationIndex,
       RequestOptions requestOptions) {
@@ -77,7 +77,7 @@ public final class AccountClient {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    */
-  public <T> CompletableFuture<MultiResponse> copyIndexAsync(
+  public static <T> CompletableFuture<MultiResponse> copyIndexAsync(
       @Nonnull SearchIndex<T> sourceIndex, @Nonnull SearchIndex<T> destinationIndex) {
     return copyIndexAsync(sourceIndex, destinationIndex, null);
   }
@@ -94,7 +94,7 @@ public final class AccountClient {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    */
-  public <T> CompletableFuture<MultiResponse> copyIndexAsync(
+  public static <T> CompletableFuture<MultiResponse> copyIndexAsync(
       @Nonnull SearchIndex<T> sourceIndex,
       @Nonnull SearchIndex<T> destinationIndex,
       RequestOptions requestOptions) {

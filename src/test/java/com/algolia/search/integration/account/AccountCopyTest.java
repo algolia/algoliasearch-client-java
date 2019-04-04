@@ -33,17 +33,13 @@ class AccountCopyTest {
     SearchIndex<AlgoliaObject> index1 = searchClient.initIndex(indexOneName, AlgoliaObject.class);
     SearchIndex<AlgoliaObject> index2 = searchClient.initIndex(indexTwoName, AlgoliaObject.class);
 
-    AccountClient accountClient = new AccountClient();
-
-    assertThatThrownBy(() -> accountClient.copyIndexAsync(index1, index2).get())
+    assertThatThrownBy(() -> AccountClient.copyIndexAsync(index1, index2).get())
         .hasMessageContaining(
             "Source and Destination indices should not be on the same application.");
   }
 
   @Test
   void testAccountCopyIndex() throws ExecutionException, InterruptedException {
-    AccountClient accountClient = new AccountClient();
-
     String indexOneName = getTestIndexName("copy_index");
     String indexTwoName = getTestIndexName("copy_index_2");
 
@@ -92,7 +88,7 @@ class AccountCopyTest {
     saveSynonymFuture.join().waitTask();
     setSettingsFuture.get().waitTask();
 
-    accountClient.copyIndexAsync(index1, index2).get().waitTask();
+    AccountClient.copyIndexAsync(index1, index2).get().waitTask();
 
     CompletableFuture<AlgoliaObject> getObjectFuture =
         index2.getObjectAsync(objectToAdd.getObjectID());
