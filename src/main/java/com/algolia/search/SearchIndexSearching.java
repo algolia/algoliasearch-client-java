@@ -88,7 +88,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
             CallType.READ,
             query,
             SearchResult.class,
-            getKlass(),
+            getClazz(),
             requestOptions)
         .thenComposeAsync(
             resp -> {

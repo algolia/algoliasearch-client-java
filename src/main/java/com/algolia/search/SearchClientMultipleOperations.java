@@ -19,22 +19,22 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    * Retrieve one or more objects, potentially from different indices, in a single API call.
    *
    * @param queries The query object
-   * @param klass Class of the data to retrieve
+   * @param clazz Class of the data to retrieve
    * @param <T> Type of the data to retrieve
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default <T> MultipleGetObjectsResponse<T> multipleGetObjects(
-      List<MultipleGetObject> queries, Class<T> klass) throws AlgoliaRuntimeException {
-    return multipleGetObjects(queries, klass, null);
+      List<MultipleGetObject> queries, Class<T> clazz) throws AlgoliaRuntimeException {
+    return multipleGetObjects(queries, clazz, null);
   }
 
   /**
    * Retrieve one or more objects, potentially from different indices, in a single API call.
    *
    * @param queries The query object
-   * @param klass Class of the data to retrieve
+   * @param clazz Class of the data to retrieve
    * @param requestOptions Options to pass to this request
    * @param <T> Type of the data to retrieve
    * @throws AlgoliaRetryException When the retry has failed on all hosts
@@ -42,28 +42,28 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default <T> MultipleGetObjectsResponse<T> multipleGetObjects(
-      List<MultipleGetObject> queries, Class<T> klass, RequestOptions requestOptions)
+      List<MultipleGetObject> queries, Class<T> clazz, RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(multipleGetObjectsAsync(queries, klass, requestOptions));
+    return LaunderThrowable.unwrap(multipleGetObjectsAsync(queries, clazz, requestOptions));
   }
 
   /**
    * Retrieve one or more objects, potentially from different indices, in a single API call.
    *
    * @param queries The query object
-   * @param klass Class of the data to retrieve
+   * @param clazz Class of the data to retrieve
    * @param <T> Type of the data to retrieve
    */
   default <T> CompletableFuture<MultipleGetObjectsResponse<T>> multipleGetObjectsAsync(
-      List<MultipleGetObject> queries, Class<T> klass) {
-    return multipleGetObjectsAsync(queries, klass, null);
+      List<MultipleGetObject> queries, Class<T> clazz) {
+    return multipleGetObjectsAsync(queries, clazz, null);
   }
 
   /**
    * Retrieve one or more objects, potentially from different indices, in a single API call.
    *
    * @param queries The query object
-   * @param klass Class of the data to retrieve
+   * @param clazz Class of the data to retrieve
    * @param requestOptions Options to pass to this request
    * @param <T> Type of the data to retrieve
    * @throws AlgoliaRetryException When the retry has failed on all hosts
@@ -72,10 +72,10 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    */
   @SuppressWarnings("unchecked")
   default <T> CompletableFuture<MultipleGetObjectsResponse<T>> multipleGetObjectsAsync(
-      List<MultipleGetObject> queries, Class<T> klass, RequestOptions requestOptions) {
+      List<MultipleGetObject> queries, Class<T> clazz, RequestOptions requestOptions) {
 
     Objects.requireNonNull(queries, "Queries is required");
-    Objects.requireNonNull(klass, "Class is required");
+    Objects.requireNonNull(clazz, "Class is required");
 
     MultipleGetObjectsRequest request = new MultipleGetObjectsRequest(queries);
 
@@ -86,7 +86,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
             CallType.READ,
             request,
             MultipleGetObjectsResponse.class,
-            klass,
+            clazz,
             requestOptions)
         .thenComposeAsync(
             resp -> {
@@ -182,15 +182,15 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    * a single API call.
    *
    * @param request The request
-   * @param klass The class of the expected results
+   * @param clazz The class of the expected results
    * @param <T> Type of the expected results
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default <T> MultipleQueriesResponse<T> multipleQueries(
-      @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> klass) {
-    return LaunderThrowable.unwrap(multipleQueriesAsync(request, klass, null));
+      @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> clazz) {
+    return LaunderThrowable.unwrap(multipleQueriesAsync(request, clazz, null));
   }
 
   /**
@@ -198,7 +198,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    * a single API call.
    *
    * @param request The request
-   * @param klass The class of the expected results
+   * @param clazz The class of the expected results
    * @param requestOptions Options to pass to this request
    * @param <T> Type of the expected results
    * @throws AlgoliaRetryException When the retry has failed on all hosts
@@ -207,9 +207,9 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    */
   default <T> MultipleQueriesResponse<T> multipleQueries(
       @Nonnull MultipleQueriesRequest request,
-      @Nonnull Class<T> klass,
+      @Nonnull Class<T> clazz,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(multipleQueriesAsync(request, klass, requestOptions));
+    return LaunderThrowable.unwrap(multipleQueriesAsync(request, clazz, requestOptions));
   }
 
   /**
@@ -217,15 +217,15 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    * a single API call.
    *
    * @param request The request
-   * @param klass The class of the expected results
+   * @param clazz The class of the expected results
    * @param <T> Type of the expected results
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default <T> CompletableFuture<MultipleQueriesResponse<T>> multipleQueriesAsync(
-      @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> klass) {
-    return multipleQueriesAsync(request, klass, null);
+      @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> clazz) {
+    return multipleQueriesAsync(request, clazz, null);
   }
 
   /**
@@ -233,7 +233,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    * a single API call.
    *
    * @param request The request
-   * @param klass The class of the expected results
+   * @param clazz The class of the expected results
    * @param requestOptions Options to pass to this request
    * @param <T> Type of the expected results
    * @throws AlgoliaRetryException When the retry has failed on all hosts
@@ -243,11 +243,11 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
   @SuppressWarnings("unchecked")
   default <T> CompletableFuture<MultipleQueriesResponse<T>> multipleQueriesAsync(
       @Nonnull MultipleQueriesRequest request,
-      @Nonnull Class<T> klass,
+      @Nonnull Class<T> clazz,
       RequestOptions requestOptions) {
 
     Objects.requireNonNull(request, "Request is required");
-    Objects.requireNonNull(klass, "A Class is required");
+    Objects.requireNonNull(clazz, "A Class is required");
 
     return getTransport()
         .executeRequestAsync(
@@ -256,7 +256,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
             CallType.READ,
             request,
             MultipleQueriesResponse.class,
-            klass,
+            clazz,
             requestOptions)
         .thenComposeAsync(
             resp -> {

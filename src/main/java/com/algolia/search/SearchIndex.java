@@ -36,7 +36,7 @@ public final class SearchIndex<T>
   private final SearchConfig config;
   private final String urlEncodedIndexName;
   private final String indexName;
-  private final Class<T> klass;
+  private final Class<T> clazz;
 
   /**
    * Create an instance of {@link SearchIndex}. It doesn't perform an API call.
@@ -44,14 +44,14 @@ public final class SearchIndex<T>
    * @param transport The transport layer.
    * @param config The related client's configuration.
    * @param indexName The non-encoded index name.
-   * @param klass The class held by the index. Could be your business object or {@link Object}
+   * @param clazz The class held by the index. Could be your business object or {@link Object}
    */
-  SearchIndex(HttpTransport transport, AlgoliaConfigBase config, String indexName, Class<T> klass) {
+  SearchIndex(HttpTransport transport, AlgoliaConfigBase config, String indexName, Class<T> clazz) {
     this.transport = transport;
     this.config = (SearchConfig) config;
     this.indexName = indexName;
     this.urlEncodedIndexName = QueryStringUtils.urlEncodeUTF8(indexName);
-    this.klass = klass;
+    this.clazz = clazz;
   }
 
   public SearchConfig getConfig() {
@@ -59,8 +59,8 @@ public final class SearchIndex<T>
   }
 
   @Override
-  public Class<T> getKlass() {
-    return klass;
+  public Class<T> getClazz() {
+    return clazz;
   }
 
   @Override
@@ -185,7 +185,7 @@ public final class SearchIndex<T>
         HttpMethod.GET,
         "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
         CallType.READ,
-        klass,
+            clazz,
         requestOptions);
   }
 
@@ -326,7 +326,7 @@ public final class SearchIndex<T>
             CallType.READ,
             request,
             MultipleGetObjectsResponse.class,
-            klass,
+                clazz,
             requestOptions)
         .thenComposeAsync(
             resp -> {
@@ -482,7 +482,7 @@ public final class SearchIndex<T>
     Objects.requireNonNull(data, "Data is required.");
     Objects.requireNonNull(createIfNotExists, "createIfNotExists is required.");
 
-    String objectID = AlgoliaUtils.getObjectID(data, klass);
+    String objectID = AlgoliaUtils.getObjectID(data, clazz);
 
     if (requestOptions == null) {
       requestOptions = new RequestOptions();
@@ -1340,7 +1340,7 @@ public final class SearchIndex<T>
 
     Random rnd = new Random();
     String tmpIndexName = indexName + "_tmp_" + rnd.nextInt(100);
-    SearchIndex<T> tmpIndex = new SearchIndex<>(transport, config, tmpIndexName, klass);
+    SearchIndex<T> tmpIndex = new SearchIndex<>(transport, config, tmpIndexName, clazz);
 
     List<String> scopes = Arrays.asList(CopyScope.RULES, CopyScope.SETTINGS, CopyScope.SYNONYMS);
 
@@ -1579,7 +1579,7 @@ public final class SearchIndex<T>
             CallType.READ,
             query,
             BrowseIndexResponse.class,
-            klass,
+                clazz,
             requestOptions)
         .thenComposeAsync(
             resp -> {

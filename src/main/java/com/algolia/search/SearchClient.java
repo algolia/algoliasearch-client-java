@@ -121,19 +121,19 @@ public final class SearchClient
    * Get the index object initialized (no server call needed for initialization)
    *
    * @param indexName The name of the Algolia index
-   * @param klass class of the object in this index
+   * @param clazz class of the object in this index
    * @param <T> the type of the objects in this index
    * @throws NullPointerException When indexName is null or empty
    */
-  public <T> SearchIndex<T> initIndex(@Nonnull String indexName, @Nonnull Class<T> klass) {
+  public <T> SearchIndex<T> initIndex(@Nonnull String indexName, @Nonnull Class<T> clazz) {
 
     if (indexName == null || indexName.trim().length() == 0) {
       throw new NullPointerException("The index name is required");
     }
 
-    Objects.requireNonNull(klass, "A class is required.");
+    Objects.requireNonNull(clazz, "A class is required.");
 
-    return new SearchIndex<>(transport, config, indexName, klass);
+    return new SearchIndex<>(transport, config, indexName, clazz);
   }
 
   /**

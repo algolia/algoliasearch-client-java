@@ -19,21 +19,21 @@ public class AlgoliaUtils {
    * Ensure that the objectID field or the @JsonProperty(\"objectID\")" is present in the given
    * class
    *
-   * @param klass The class to scan
+   * @param clazz The class to scan
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
    *     annotation @JsonProperty(\"objectID\"")
    */
-  public static <T> void ensureObjectID(@Nonnull Class<T> klass) {
+  public static <T> void ensureObjectID(@Nonnull Class<T> clazz) {
     // Try to find the objectID field
-    Field objectIDField = getField(klass, "objectID");
+    Field objectIDField = getField(clazz, "objectID");
 
     // If objectID field doesn't exist, let's check for Jackson annotations in all the fields
-    Optional<Field> optObjectIDField = findObjectIDInAnnotation(klass);
+    Optional<Field> optObjectIDField = findObjectIDInAnnotation(clazz);
 
     if (objectIDField == null && !optObjectIDField.isPresent()) {
       throw new AlgoliaRuntimeException(
           "The "
-              + klass
+              + clazz
               + "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
     }
   }
@@ -41,17 +41,17 @@ public class AlgoliaUtils {
   /**
    * Get the objectID of the given class at runtime
    *
-   * @param klass The class to scan
+   * @param clazz The class to scan
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
    *     annotation @JsonProperty(\"objectID\"")
    */
-  public static <T> String getObjectID(@Nonnull T data, @Nonnull Class<T> klass) {
+  public static <T> String getObjectID(@Nonnull T data, @Nonnull Class<T> clazz) {
 
     String objectID = null;
 
     // Try to find the objectID field
     try {
-      Field objectIDField = getField(klass, "objectID");
+      Field objectIDField = getField(clazz, "objectID");
       if (objectIDField != null) {
         objectID = (String) objectIDField.get(data);
       }
@@ -65,7 +65,7 @@ public class AlgoliaUtils {
     }
 
     // If objectID field doesn't exist, let's check for Jackson annotations in all the fields
-    Optional<Field> optObjectIDField = findObjectIDInAnnotation(klass);
+    Optional<Field> optObjectIDField = findObjectIDInAnnotation(clazz);
 
     if (optObjectIDField.isPresent()) {
       Field objectIDField = optObjectIDField.get();
@@ -79,7 +79,7 @@ public class AlgoliaUtils {
     // If non of the both above the method fails
     throw new AlgoliaRuntimeException(
         "The "
-            + klass
+            + clazz
             + "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
   }
 
@@ -107,8 +107,8 @@ public class AlgoliaUtils {
     return promise;
   }
 
-  private static Optional<Field> findObjectIDInAnnotation(@Nonnull Class<?> klass) {
-    List<Field> fields = getFields(klass);
+  private static Optional<Field> findObjectIDInAnnotation(@Nonnull Class<?> clazz) {
+    List<Field> fields = getFields(clazz);
     return fields.stream()
         .filter(
             f ->
@@ -120,11 +120,11 @@ public class AlgoliaUtils {
   /**
    * Recursively search for the given field in the given class
    *
-   * @param klass The class to reflect on
+   * @param clazz The class to reflect on
    * @param fieldName The field to reach
    */
-  private static Field getField(@Nonnull Class<?> klass, @Nonnull String fieldName) {
-    Class<?> tmpClass = klass;
+  private static Field getField(@Nonnull Class<?> clazz, @Nonnull String fieldName) {
+    Class<?> tmpClass = clazz;
     do {
       try {
         Field f = tmpClass.getDeclaredField(fieldName);
@@ -141,11 +141,11 @@ public class AlgoliaUtils {
   /**
    * Recursively search for all fields in the given class
    *
-   * @param klass The class to reflect on
+   * @param clazz The class to reflect on
    */
-  private static List<Field> getFields(@Nonnull Class<?> klass) {
+  private static List<Field> getFields(@Nonnull Class<?> clazz) {
     List<Field> result = new ArrayList<>();
-    Class<?> i = klass;
+    Class<?> i = clazz;
 
     while (i != null && i != Object.class) {
       Collections.addAll(result, i.getDeclaredFields());

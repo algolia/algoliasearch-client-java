@@ -68,7 +68,7 @@ class HttpTransport {
    * @param path The path of the API endpoint
    * @param callType The Algolia call type of the request : read or write
    * @param data The data to send if any
-   * @param returnClass The type that will be returned
+   * @param returnClazz The type that will be returned
    * @param requestOptions Requests options to add to the request (if so)
    * @param <TResult> The type of the result
    * @param <TData> The type of the data to send (if so)
@@ -81,10 +81,10 @@ class HttpTransport {
       @Nonnull String path,
       @Nonnull CallType callType,
       TData data,
-      Class<TResult> returnClass,
+      Class<TResult> returnClazz,
       RequestOptions requestOptions) {
 
-    return executeRequestAsync(method, path, callType, data, returnClass, null, requestOptions);
+    return executeRequestAsync(method, path, callType, data, returnClazz, null, requestOptions);
   }
 
   /**
@@ -94,7 +94,7 @@ class HttpTransport {
    * @param path The path of the API endpoint
    * @param callType The Algolia call type of the request : read or write
    * @param data The data to send if any
-   * @param returnClass The type that will be returned
+   * @param returnClazz The type that will be returned
    * @param requestOptions Requests options to add to the request (if so)
    * @param <TResult> The type of the result
    * @param <TInnerResult> The type of the nested class
@@ -108,8 +108,8 @@ class HttpTransport {
       @Nonnull String path,
       @Nonnull CallType callType,
       TData data,
-      Class<TResult> returnClass,
-      Class<TInnerResult> innerClass,
+      Class<TResult> returnClazz,
+      Class<TInnerResult> innerClazz,
       RequestOptions requestOptions) {
 
     Iterator<StatefulHost> hosts = retryStrategy.getTryableHosts(callType).iterator();
@@ -117,11 +117,11 @@ class HttpTransport {
     AlgoliaHttpRequest request = buildRequest(method, path, callType, requestOptions, data);
 
     JavaType type =
-        innerClass == null
-            ? Defaults.getObjectMapper().getTypeFactory().constructType(returnClass)
+        innerClazz == null
+            ? Defaults.getObjectMapper().getTypeFactory().constructType(returnClazz)
             : Defaults.getObjectMapper()
                 .getTypeFactory()
-                .constructParametricType(returnClass, innerClass);
+                .constructParametricType(returnClazz, innerClazz);
 
     return executeWithRetry(hosts, request, type);
   }
