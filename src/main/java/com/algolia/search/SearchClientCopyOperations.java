@@ -8,7 +8,7 @@ import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.indexing.*;
-import com.algolia.search.utils.QueryStringUtils;
+import com.algolia.search.util.QueryStringUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;

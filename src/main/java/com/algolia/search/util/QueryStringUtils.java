@@ -1,4 +1,4 @@
-package com.algolia.search.utils;
+package com.algolia.search.util;
 
 import com.algolia.search.Defaults;
 import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;

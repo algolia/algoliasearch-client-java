@@ -1,4 +1,4 @@
-package com.algolia.search.utils;
+package com.algolia.search.util;
 
 public class HttpStatusCodeUtils {
 

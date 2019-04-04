@@ -9,7 +9,7 @@ import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
-import com.algolia.search.utils.QueryStringUtils;
+import com.algolia.search.util.QueryStringUtils;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;

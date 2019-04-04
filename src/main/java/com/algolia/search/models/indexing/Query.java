@@ -4,7 +4,7 @@ import com.algolia.search.models.settings.Distinct;
 import com.algolia.search.models.settings.IgnorePlurals;
 import com.algolia.search.models.settings.RemoveStopWords;
 import com.algolia.search.models.settings.TypoTolerance;
-import com.algolia.search.utils.QueryStringUtils;
+import com.algolia.search.util.QueryStringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
