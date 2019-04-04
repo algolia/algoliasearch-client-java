@@ -32,7 +32,7 @@ public final class UserInsightsClient {
    */
   public InsightsResult clickedFilters(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
-    return LaunderThrowable.unwrap(clickedFiltersAsync(eventName, indexName, filters));
+    return LaunderThrowable.await(clickedFiltersAsync(eventName, indexName, filters));
   }
 
   /**
@@ -49,7 +49,7 @@ public final class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> filters,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         clickedFiltersAsync(eventName, indexName, filters, requestOptions));
   }
 
@@ -102,7 +102,7 @@ public final class UserInsightsClient {
    */
   public InsightsResult clickedObjectIDs(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
-    return LaunderThrowable.unwrap(clickedObjectIDsAsync(eventName, indexName, objectIDs));
+    return LaunderThrowable.await(clickedObjectIDsAsync(eventName, indexName, objectIDs));
   }
 
   /**
@@ -119,7 +119,7 @@ public final class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         clickedObjectIDsAsync(eventName, indexName, objectIDs, requestOptions));
   }
 
@@ -178,7 +178,7 @@ public final class UserInsightsClient {
       @Nonnull List<String> objectIDs,
       @Nonnull List<Long> positions,
       @Nonnull String queryID) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         clickedObjectIDsAfterSearchAsync(eventName, indexName, objectIDs, positions, queryID));
   }
 
@@ -200,7 +200,7 @@ public final class UserInsightsClient {
       @Nonnull List<Long> positions,
       @Nonnull String queryID,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         clickedObjectIDsAfterSearchAsync(
             eventName, indexName, objectIDs, positions, queryID, requestOptions));
   }
@@ -267,7 +267,7 @@ public final class UserInsightsClient {
    */
   public InsightsResult convertedObjectIDs(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
-    return LaunderThrowable.unwrap(convertedObjectIDsAsync(eventName, indexName, objectIDs));
+    return LaunderThrowable.await(convertedObjectIDsAsync(eventName, indexName, objectIDs));
   }
 
   /**
@@ -284,7 +284,7 @@ public final class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         convertedObjectIDsAsync(eventName, indexName, objectIDs, requestOptions));
   }
 
@@ -340,7 +340,7 @@ public final class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
       @Nonnull String queryID) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         convertedObjectIDsAfterSearchAsync(eventName, indexName, objectIDs, queryID));
   }
 
@@ -360,7 +360,7 @@ public final class UserInsightsClient {
       @Nonnull List<String> objectIDs,
       @Nonnull String queryID,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         convertedObjectIDsAfterSearchAsync(
             eventName, indexName, objectIDs, queryID, requestOptions));
   }
@@ -420,7 +420,7 @@ public final class UserInsightsClient {
    */
   public InsightsResult convertedFilters(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
-    return LaunderThrowable.unwrap(convertedFiltersAsync(eventName, indexName, filters));
+    return LaunderThrowable.await(convertedFiltersAsync(eventName, indexName, filters));
   }
 
   /**
@@ -437,7 +437,7 @@ public final class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> filters,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         convertedFiltersAsync(eventName, indexName, filters, requestOptions));
   }
 
@@ -497,7 +497,7 @@ public final class UserInsightsClient {
    */
   public InsightsResult viewedFilters(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> filters) {
-    return LaunderThrowable.unwrap(viewedFiltersAsync(eventName, indexName, filters));
+    return LaunderThrowable.await(viewedFiltersAsync(eventName, indexName, filters));
   }
 
   /**
@@ -514,7 +514,7 @@ public final class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> filters,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         viewedFiltersAsync(eventName, indexName, filters, requestOptions));
   }
 
@@ -566,7 +566,7 @@ public final class UserInsightsClient {
    */
   public InsightsResult viewedObjectIDs(
       @Nonnull String eventName, @Nonnull String indexName, @Nonnull List<String> objectIDs) {
-    return LaunderThrowable.unwrap(viewedObjectIDsAsync(eventName, indexName, objectIDs));
+    return LaunderThrowable.await(viewedObjectIDsAsync(eventName, indexName, objectIDs));
   }
 
   /**
@@ -583,7 +583,7 @@ public final class UserInsightsClient {
       @Nonnull String indexName,
       @Nonnull List<String> objectIDs,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         viewedObjectIDsAsync(eventName, indexName, objectIDs, requestOptions));
   }
 

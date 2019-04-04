@@ -33,7 +33,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<T> search(@Nonnull Query query) {
-    return LaunderThrowable.unwrap(searchAsync(query));
+    return LaunderThrowable.await(searchAsync(query));
   }
 
   /**
@@ -48,7 +48,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<T> search(@Nonnull Query query, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(searchAsync(query, requestOptions));
+    return LaunderThrowable.await(searchAsync(query, requestOptions));
   }
 
   /**
@@ -111,7 +111,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchForFacetResponse searchForFacetValues(@Nonnull SearchForFacetRequest query) {
-    return LaunderThrowable.unwrap(searchForFacetValuesAsync(query));
+    return LaunderThrowable.await(searchForFacetValuesAsync(query));
   }
 
   /**
@@ -127,7 +127,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    */
   default SearchForFacetResponse searchForFacetValues(
       @Nonnull SearchForFacetRequest query, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(searchForFacetValuesAsync(query, requestOptions));
+    return LaunderThrowable.await(searchForFacetValuesAsync(query, requestOptions));
   }
 
   /**

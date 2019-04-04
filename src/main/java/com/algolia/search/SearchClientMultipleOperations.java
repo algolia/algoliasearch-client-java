@@ -44,7 +44,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
   default <T> MultipleGetObjectsResponse<T> multipleGetObjects(
       List<MultipleGetObject> queries, Class<T> clazz, RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(multipleGetObjectsAsync(queries, clazz, requestOptions));
+    return LaunderThrowable.await(multipleGetObjectsAsync(queries, clazz, requestOptions));
   }
 
   /**
@@ -109,7 +109,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    */
   default <T> MultipleIndexBatchIndexingResponse multipleBatch(
       @Nonnull List<BatchOperation<T>> operations) {
-    return LaunderThrowable.unwrap(multipleBatchAsync(operations, null));
+    return LaunderThrowable.await(multipleBatchAsync(operations, null));
   }
 
   /**
@@ -125,7 +125,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    */
   default <T> MultipleIndexBatchIndexingResponse multipleBatch(
       @Nonnull List<BatchOperation<T>> operations, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(multipleBatchAsync(operations, requestOptions));
+    return LaunderThrowable.await(multipleBatchAsync(operations, requestOptions));
   }
 
   /**
@@ -190,7 +190,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    */
   default <T> MultipleQueriesResponse<T> multipleQueries(
       @Nonnull MultipleQueriesRequest request, @Nonnull Class<T> clazz) {
-    return LaunderThrowable.unwrap(multipleQueriesAsync(request, clazz, null));
+    return LaunderThrowable.await(multipleQueriesAsync(request, clazz, null));
   }
 
   /**
@@ -209,7 +209,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
       @Nonnull MultipleQueriesRequest request,
       @Nonnull Class<T> clazz,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(multipleQueriesAsync(request, clazz, requestOptions));
+    return LaunderThrowable.await(multipleQueriesAsync(request, clazz, requestOptions));
   }
 
   /**

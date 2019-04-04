@@ -37,7 +37,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default List<ApiKey> listApiKeys(RequestOptions requestOptions) throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(listApiKeysAsync(requestOptions));
+    return LaunderThrowable.await(listApiKeysAsync(requestOptions));
   }
 
   /**
@@ -75,7 +75,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default ApiKey getApiKey(@Nonnull String apiKey) throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(getApiKeyAsync(apiKey, null));
+    return LaunderThrowable.await(getApiKeyAsync(apiKey, null));
   }
 
   /**
@@ -89,7 +89,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    */
   default ApiKey getApiKey(@Nonnull String apiKey, RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(getApiKeyAsync(apiKey, requestOptions));
+    return LaunderThrowable.await(getApiKeyAsync(apiKey, requestOptions));
   }
 
   /**
@@ -136,7 +136,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default AddApiKeyResponse addApiKey(@Nonnull ApiKey acl) {
-    return LaunderThrowable.unwrap(addApiKeyAsync(acl));
+    return LaunderThrowable.await(addApiKeyAsync(acl));
   }
 
   /**
@@ -149,7 +149,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default AddApiKeyResponse addApiKey(@Nonnull ApiKey acl, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(addApiKeyAsync(acl, requestOptions));
+    return LaunderThrowable.await(addApiKeyAsync(acl, requestOptions));
   }
 
   /**
@@ -202,7 +202,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteApiKeyResponse deleteApiKey(@Nonnull String apiKey) {
-    return LaunderThrowable.unwrap(deleteApiKeyAsync(apiKey));
+    return LaunderThrowable.await(deleteApiKeyAsync(apiKey));
   }
 
   /**
@@ -215,7 +215,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteApiKeyResponse deleteApiKey(@Nonnull String apiKey, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(deleteApiKeyAsync(apiKey, requestOptions));
+    return LaunderThrowable.await(deleteApiKeyAsync(apiKey, requestOptions));
   }
 
   /**
@@ -272,7 +272,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default UpdateApiKeyResponse updateApiKey(@Nonnull ApiKey request) {
-    return LaunderThrowable.unwrap(updateApiKeyAsync(request, null));
+    return LaunderThrowable.await(updateApiKeyAsync(request, null));
   }
 
   /**
@@ -286,7 +286,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    */
   default UpdateApiKeyResponse updateApiKey(
       @Nonnull ApiKey request, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(updateApiKeyAsync(request, requestOptions));
+    return LaunderThrowable.await(updateApiKeyAsync(request, requestOptions));
   }
 
   /**
@@ -345,7 +345,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    *     deserialization
    */
   default RestoreApiKeyResponse restoreApiKey(@Nonnull String apiKey) {
-    return LaunderThrowable.unwrap(restoreApiKeyAsync(apiKey));
+    return LaunderThrowable.await(restoreApiKeyAsync(apiKey));
   }
 
   /**
@@ -359,7 +359,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    */
   default RestoreApiKeyResponse restoreApiKey(
       @Nonnull String apiKey, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(restoreApiKeyAsync(apiKey, requestOptions));
+    return LaunderThrowable.await(restoreApiKeyAsync(apiKey, requestOptions));
   }
 
   /**

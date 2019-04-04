@@ -28,7 +28,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CopyResponse copySettings(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
-    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex));
+    return LaunderThrowable.await(copyIndexAsync(sourceIndex, destinationIndex));
   }
 
   /**
@@ -45,8 +45,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
       @Nonnull String sourceIndex,
       @Nonnull String destinationIndex,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
-        copySettingsAsync(sourceIndex, destinationIndex, requestOptions));
+    return LaunderThrowable.await(copySettingsAsync(sourceIndex, destinationIndex, requestOptions));
   }
 
   /**
@@ -92,7 +91,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CopyResponse copyRules(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
-    return LaunderThrowable.unwrap(copyRulesAsync(sourceIndex, destinationIndex));
+    return LaunderThrowable.await(copyRulesAsync(sourceIndex, destinationIndex));
   }
 
   /**
@@ -109,7 +108,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
       @Nonnull String sourceIndex,
       @Nonnull String destinationIndex,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(copyRulesAsync(sourceIndex, destinationIndex, requestOptions));
+    return LaunderThrowable.await(copyRulesAsync(sourceIndex, destinationIndex, requestOptions));
   }
 
   /**
@@ -155,7 +154,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CopyResponse copySynonyms(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
-    return LaunderThrowable.unwrap(copySynonymsAsync(sourceIndex, destinationIndex));
+    return LaunderThrowable.await(copySynonymsAsync(sourceIndex, destinationIndex));
   }
 
   /**
@@ -172,8 +171,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
       @Nonnull String sourceIndex,
       @Nonnull String destinationIndex,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
-        copySynonymsAsync(sourceIndex, destinationIndex, requestOptions));
+    return LaunderThrowable.await(copySynonymsAsync(sourceIndex, destinationIndex, requestOptions));
   }
 
   /**
@@ -222,7 +220,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CopyResponse copyIndex(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
-    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex));
+    return LaunderThrowable.await(copyIndexAsync(sourceIndex, destinationIndex));
   }
 
   /**
@@ -237,7 +235,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    */
   default CopyResponse copyIndex(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex, List<String> scopes) {
-    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex, scopes));
+    return LaunderThrowable.await(copyIndexAsync(sourceIndex, destinationIndex, scopes));
   }
 
   /**
@@ -256,7 +254,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
       @Nonnull String destinationIndex,
       List<String> scopes,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         copyIndexAsync(sourceIndex, destinationIndex, scopes, requestOptions));
   }
 
@@ -339,7 +337,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    */
   default MoveIndexResponse moveIndex(
       @Nonnull String sourceIndex, @Nonnull String destinationIndex) {
-    return LaunderThrowable.unwrap(moveIndexAsync(sourceIndex, destinationIndex));
+    return LaunderThrowable.await(moveIndexAsync(sourceIndex, destinationIndex));
   }
 
   /**
@@ -353,7 +351,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
       @Nonnull String sourceIndex,
       @Nonnull String destinationIndex,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(moveIndexAsync(sourceIndex, destinationIndex, requestOptions));
+    return LaunderThrowable.await(moveIndexAsync(sourceIndex, destinationIndex, requestOptions));
   }
 
   /**

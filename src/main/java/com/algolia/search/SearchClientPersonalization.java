@@ -24,7 +24,7 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default GetStrategyResponse getPersonalizationStrategy() {
-    return LaunderThrowable.unwrap(getPersonalizationStrategyAsync());
+    return LaunderThrowable.await(getPersonalizationStrategyAsync());
   }
 
   /**
@@ -36,7 +36,7 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default GetStrategyResponse getPersonalizationStrategy(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getPersonalizationStrategyAsync(requestOptions));
+    return LaunderThrowable.await(getPersonalizationStrategyAsync(requestOptions));
   }
 
   /**
@@ -78,7 +78,7 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SetStrategyResponse setPersonalizationStrategy(@Nonnull SetStrategyRequest request) {
-    return LaunderThrowable.unwrap(setPersonalizationStrategyAsync(request));
+    return LaunderThrowable.await(setPersonalizationStrategyAsync(request));
   }
 
   /**
@@ -92,7 +92,7 @@ public interface SearchClientPersonalization extends SearchClientBase {
    */
   default SetStrategyResponse setPersonalizationStrategy(
       @Nonnull SetStrategyRequest request, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(setPersonalizationStrategyAsync(request, requestOptions));
+    return LaunderThrowable.await(setPersonalizationStrategyAsync(request, requestOptions));
   }
 
   /**

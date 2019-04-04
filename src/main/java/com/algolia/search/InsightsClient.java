@@ -105,7 +105,7 @@ public final class InsightsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public InsightsResult sendEvent(@Nonnull InsightsEvent event) {
-    return LaunderThrowable.unwrap(sendEventAsync(event));
+    return LaunderThrowable.await(sendEventAsync(event));
   }
 
   /**
@@ -118,7 +118,7 @@ public final class InsightsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public InsightsResult sendEvent(@Nonnull InsightsEvent event, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(sendEventAsync(event, requestOptions));
+    return LaunderThrowable.await(sendEventAsync(event, requestOptions));
   }
 
   /**
@@ -158,7 +158,7 @@ public final class InsightsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public InsightsResult sendEvents(@Nonnull List<InsightsEvent> events) {
-    return LaunderThrowable.unwrap(sendEventsAsync(events));
+    return LaunderThrowable.await(sendEventsAsync(events));
   }
 
   /**
@@ -172,7 +172,7 @@ public final class InsightsClient implements Closeable {
    */
   public InsightsResult sendEvents(
       @Nonnull List<InsightsEvent> events, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(sendEventsAsync(events, requestOptions));
+    return LaunderThrowable.await(sendEventsAsync(events, requestOptions));
   }
 
   /**

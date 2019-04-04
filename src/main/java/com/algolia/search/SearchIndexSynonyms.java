@@ -34,7 +34,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<Synonym> searchSynonyms(SynonymQuery query) {
-    return LaunderThrowable.unwrap(searchSynonymsAsync(query, null));
+    return LaunderThrowable.await(searchSynonymsAsync(query, null));
   }
 
   /**
@@ -47,7 +47,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<Synonym> searchSynonyms(SynonymQuery query, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(searchSynonymsAsync(query, requestOptions));
+    return LaunderThrowable.await(searchSynonymsAsync(query, requestOptions));
   }
 
   /**
@@ -104,7 +104,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default Synonym getSynonym(@Nonnull String objectID) {
-    return LaunderThrowable.unwrap(getSynonymAsync(objectID));
+    return LaunderThrowable.await(getSynonymAsync(objectID));
   }
 
   /**
@@ -117,7 +117,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default Synonym getSynonym(@Nonnull String objectID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getSynonymAsync(objectID, requestOptions));
+    return LaunderThrowable.await(getSynonymAsync(objectID, requestOptions));
   }
 
   /**
@@ -167,7 +167,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveSynonymResponse saveSynonym(@Nonnull Synonym synonym) {
-    return LaunderThrowable.unwrap(saveSynonymAsync(synonym));
+    return LaunderThrowable.await(saveSynonymAsync(synonym));
   }
 
   /**
@@ -181,7 +181,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    */
   default SaveSynonymResponse saveSynonym(
       @Nonnull Synonym synonym, @Nonnull Boolean forwardToReplicas) {
-    return LaunderThrowable.unwrap(saveSynonymAsync(synonym, forwardToReplicas));
+    return LaunderThrowable.await(saveSynonymAsync(synonym, forwardToReplicas));
   }
 
   /**
@@ -198,7 +198,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
       @Nonnull Synonym synonym,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveSynonymAsync(synonym, forwardToReplicas, requestOptions));
+    return LaunderThrowable.await(saveSynonymAsync(synonym, forwardToReplicas, requestOptions));
   }
 
   /**
@@ -212,7 +212,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    */
   default SaveSynonymResponse saveSynonym(
       @Nonnull Synonym synonym, @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveSynonymAsync(synonym, requestOptions));
+    return LaunderThrowable.await(saveSynonymAsync(synonym, requestOptions));
   }
 
   /**
@@ -308,7 +308,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveSynonymResponse saveSynonyms(@Nonnull List<Synonym> synonyms) {
-    return LaunderThrowable.unwrap(saveSynonymsAsync(synonyms));
+    return LaunderThrowable.await(saveSynonymsAsync(synonyms));
   }
 
   /**
@@ -325,7 +325,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
       @Nonnull List<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean replaceExistingSynonyms) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         saveSynonymsAsync(synonyms, forwardToReplicas, replaceExistingSynonyms));
   }
 
@@ -345,7 +345,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean replaceExistingSynonyms,
       @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         saveSynonymsAsync(synonyms, forwardToReplicas, replaceExistingSynonyms, requestOptions));
   }
 
@@ -360,7 +360,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    */
   default SaveSynonymResponse saveSynonyms(
       @Nonnull List<Synonym> synonyms, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveSynonymsAsync(synonyms, requestOptions));
+    return LaunderThrowable.await(saveSynonymsAsync(synonyms, requestOptions));
   }
 
   /**
@@ -461,7 +461,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteResponse deleteSynonym(@Nonnull String objectID) {
-    return LaunderThrowable.unwrap(deleteSynonymAsync(objectID));
+    return LaunderThrowable.await(deleteSynonymAsync(objectID));
   }
 
   /**
@@ -475,7 +475,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    */
   default DeleteResponse deleteSynonym(
       @Nonnull String objectID, @Nonnull Boolean forwardToReplicas) {
-    return LaunderThrowable.unwrap(deleteSynonymAsync(objectID, forwardToReplicas));
+    return LaunderThrowable.await(deleteSynonymAsync(objectID, forwardToReplicas));
   }
 
   /**
@@ -488,7 +488,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteResponse deleteSynonym(@Nonnull String objectID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(deleteSynonymAsync(objectID, requestOptions));
+    return LaunderThrowable.await(deleteSynonymAsync(objectID, requestOptions));
   }
 
   /**
@@ -563,7 +563,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default ClearSynonymsResponse clearSynonyms() {
-    return LaunderThrowable.unwrap(clearSynonymsAsync());
+    return LaunderThrowable.await(clearSynonymsAsync());
   }
 
   /**
@@ -575,7 +575,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default ClearSynonymsResponse clearSynonyms(@Nonnull Boolean forwardToReplicas) {
-    return LaunderThrowable.unwrap(clearSynonymsAsync(forwardToReplicas));
+    return LaunderThrowable.await(clearSynonymsAsync(forwardToReplicas));
   }
 
   /**
@@ -587,7 +587,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default ClearSynonymsResponse clearSynonyms(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(clearSynonymsAsync(requestOptions));
+    return LaunderThrowable.await(clearSynonymsAsync(requestOptions));
   }
 
   /**
@@ -656,7 +656,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveSynonymResponse replaceAllSynonyms(@Nonnull List<Synonym> synonyms) {
-    return LaunderThrowable.unwrap(replaceAllSynonymsAsync(synonyms));
+    return LaunderThrowable.await(replaceAllSynonymsAsync(synonyms));
   }
 
   /**
@@ -672,7 +672,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    */
   default SaveSynonymResponse replaceAllSynonyms(
       @Nonnull List<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
-    return LaunderThrowable.unwrap(replaceAllSynonymsAsync(synonyms, forwardToReplicas));
+    return LaunderThrowable.await(replaceAllSynonymsAsync(synonyms, forwardToReplicas));
   }
 
   /**
@@ -688,7 +688,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    */
   default SaveSynonymResponse replaceAllSynonyms(
       @Nonnull List<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(replaceAllSynonymsAsync(synonyms, requestOptions));
+    return LaunderThrowable.await(replaceAllSynonymsAsync(synonyms, requestOptions));
   }
 
   /**

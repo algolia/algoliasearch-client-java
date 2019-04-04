@@ -39,7 +39,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    */
   default List<IndicesResponse> listIndices(RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(listIndicesAsync(requestOptions));
+    return LaunderThrowable.await(listIndicesAsync(requestOptions));
   }
 
   /**
@@ -79,7 +79,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default List<Log> getLogs() {
-    return LaunderThrowable.unwrap(getLogsAsync(0, 10, null));
+    return LaunderThrowable.await(getLogsAsync(0, 10, null));
   }
 
   /**
@@ -92,7 +92,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default List<Log> getLogs(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getLogsAsync(requestOptions));
+    return LaunderThrowable.await(getLogsAsync(requestOptions));
   }
 
   /**
@@ -107,7 +107,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default List<Log> getLogs(int offset, int length) {
-    return LaunderThrowable.unwrap(getLogsAsync(offset, length, null));
+    return LaunderThrowable.await(getLogsAsync(offset, length, null));
   }
 
   /**
@@ -123,7 +123,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default List<Log> getLogs(int offset, int length, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getLogsAsync(offset, length, requestOptions));
+    return LaunderThrowable.await(getLogsAsync(offset, length, requestOptions));
   }
 
   /**

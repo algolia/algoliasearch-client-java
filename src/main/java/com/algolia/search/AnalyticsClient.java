@@ -89,7 +89,7 @@ public final class AnalyticsClient implements Closeable {
 
   /** Get an A/B test information and results. */
   public ABTests getABTests() {
-    return LaunderThrowable.unwrap(getABTestsAsync(0, 10, null));
+    return LaunderThrowable.await(getABTestsAsync(0, 10, null));
   }
 
   /**
@@ -101,7 +101,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public ABTests getABTests(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getABTestsAsync(0, 10, requestOptions));
+    return LaunderThrowable.await(getABTestsAsync(0, 10, requestOptions));
   }
 
   /**
@@ -114,7 +114,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public ABTests getABTests(int offset, int limit) {
-    return LaunderThrowable.unwrap(getABTestsAsync(offset, limit, null));
+    return LaunderThrowable.await(getABTestsAsync(offset, limit, null));
   }
 
   /**
@@ -128,7 +128,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public ABTests getABTests(int offset, int limit, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getABTestsAsync(offset, limit, requestOptions));
+    return LaunderThrowable.await(getABTestsAsync(offset, limit, requestOptions));
   }
 
   /**
@@ -200,7 +200,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public ABTestResponse getABTest(long id) {
-    return LaunderThrowable.unwrap(getABTestAsync(id, null));
+    return LaunderThrowable.await(getABTestAsync(id, null));
   }
 
   /**
@@ -213,7 +213,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public ABTestResponse getABTest(long id, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getABTestAsync(id, requestOptions));
+    return LaunderThrowable.await(getABTestAsync(id, requestOptions));
   }
 
   /**
@@ -253,7 +253,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public StopAbTestResponse stopABTest(long id) {
-    return LaunderThrowable.unwrap(stopABTestAsync(id, null));
+    return LaunderThrowable.await(stopABTestAsync(id, null));
   }
 
   /**
@@ -268,7 +268,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public StopAbTestResponse stopABTest(long id, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(stopABTestAsync(id, requestOptions));
+    return LaunderThrowable.await(stopABTestAsync(id, requestOptions));
   }
 
   /**
@@ -315,7 +315,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteAbTestResponse deleteABTest(long id) {
-    return LaunderThrowable.unwrap(deleteABTestAsync(id, null));
+    return LaunderThrowable.await(deleteABTestAsync(id, null));
   }
 
   /**
@@ -328,7 +328,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteAbTestResponse deleteABTest(long id, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(deleteABTestAsync(id, requestOptions));
+    return LaunderThrowable.await(deleteABTestAsync(id, requestOptions));
   }
 
   /**
@@ -371,7 +371,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public AddABTestResponse addABTest(@Nonnull ABTest abTest) throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(addABTestAsync(abTest, null));
+    return LaunderThrowable.await(addABTestAsync(abTest, null));
   }
 
   /**
@@ -385,7 +385,7 @@ public final class AnalyticsClient implements Closeable {
    */
   public AddABTestResponse addABTest(@Nonnull ABTest abTest, RequestOptions requestOptions)
       throws AlgoliaRuntimeException {
-    return LaunderThrowable.unwrap(addABTestAsync(abTest, requestOptions));
+    return LaunderThrowable.await(addABTestAsync(abTest, requestOptions));
   }
 
   /**
