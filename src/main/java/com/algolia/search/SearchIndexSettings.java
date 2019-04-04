@@ -196,6 +196,13 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<IndexSettings> getSettingsAsync(RequestOptions requestOptions) {
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    requestOptions.addExtraQueryParameters("getVersion", "2");
+
     return getTransport()
         .executeRequestAsync(
             HttpMethod.GET,

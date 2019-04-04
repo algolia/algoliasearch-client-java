@@ -24,7 +24,7 @@ class SecuredAPIKeyTest {
 
   private static SearchClient clientWithRestriction;
   private SearchIndex<AlgoliaObject> index1;
-  private SearchIndex<AlgoliaObject> index2;
+  private static SearchIndex<AlgoliaObject> index2;
   private String index1Name;
   private String index2Name;
 
@@ -38,6 +38,7 @@ class SecuredAPIKeyTest {
   @AfterAll
   static void after() throws IOException {
     clientWithRestriction.close();
+    index2.deleteAsync();
   }
 
   @Test
