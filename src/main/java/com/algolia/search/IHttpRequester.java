@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * This contact allows you to inject your own HttpClient to any clients of this package. The default
- * implementation is {@link AlgoliaHttpRequester} which wraps the Apache async http client.
+ * implementation is {@link HttpRequester} which wraps the Apache async http client.
  */
 public interface IHttpRequester {
 
