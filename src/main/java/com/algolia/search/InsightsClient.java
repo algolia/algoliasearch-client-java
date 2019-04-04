@@ -10,6 +10,7 @@ import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.insights.InsightsEvent;
 import com.algolia.search.models.insights.InsightsRequest;
 import com.algolia.search.models.insights.InsightsResult;
+import com.algolia.search.util.AlgoliaUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Collections;
@@ -69,11 +70,11 @@ public final class InsightsClient implements Closeable {
     Objects.requireNonNull(config.getApplicationID(), "An ApplicationID is required.");
     Objects.requireNonNull(config.getApiKey(), "An API key is required.");
 
-    if (config.getApplicationID().trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApplicationID())) {
       throw new NullPointerException("ApplicationID can't be empty.");
     }
 
-    if (config.getApiKey().trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApiKey())) {
       throw new NullPointerException("APIKey can't be empty.");
     }
 

@@ -8,6 +8,7 @@ import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.indexing.*;
+import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.QueryStringUtils;
 import java.util.Collections;
 import java.util.List;
@@ -404,12 +405,12 @@ public interface SearchClientCopyOperations extends SearchClientBase {
     Objects.requireNonNull(sourceIndex, "The source index is required.");
     Objects.requireNonNull(destinationIndex, "The destination index is required.");
 
-    if (sourceIndex.trim().length() == 0) {
-      throw new AlgoliaRuntimeException("destination index must not be empty.");
+    if (AlgoliaUtils.isEmptyWhiteSpace(sourceIndex)) {
+      throw new AlgoliaRuntimeException("Source index must not be empty or white spaces.");
     }
 
-    if (destinationIndex.trim().length() == 0) {
-      throw new AlgoliaRuntimeException("destination index must not be empty.");
+    if (AlgoliaUtils.isEmptyWhiteSpace(destinationIndex)) {
+      throw new AlgoliaRuntimeException("Destination index must not be empty or white spaces.");
     }
   }
 }

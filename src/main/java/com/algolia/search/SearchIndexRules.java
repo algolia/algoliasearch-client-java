@@ -12,6 +12,7 @@ import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.rules.Rule;
 import com.algolia.search.models.rules.RuleQuery;
 import com.algolia.search.models.rules.SaveRuleResponse;
+import com.algolia.search.util.AlgoliaUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -74,7 +75,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
       @Nonnull String objectID, RequestOptions requestOptions) {
     Objects.requireNonNull(objectID, "The rule ID is required.");
 
-    if (objectID.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(objectID)) {
       throw new AlgoliaRuntimeException("objectID must not be empty.");
     }
 
@@ -274,8 +275,8 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
     Objects.requireNonNull(rule, "A rule is required.");
     Objects.requireNonNull(requestOptions, "RequestOptions are required.");
 
-    if (rule.getObjectID().trim().length() == 0) {
-      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(rule.getObjectID())) {
+      throw new AlgoliaRuntimeException("objectID must not be null, empty or white spaces.");
     }
 
     return getTransport()
@@ -496,7 +497,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
       @Nonnull String objectID, RequestOptions requestOptions) {
     Objects.requireNonNull(objectID, "The objectID is required.");
 
-    if (objectID.trim().length() == 0) {
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(objectID)) {
       throw new AlgoliaRuntimeException("objectID must not be empty.");
     }
 

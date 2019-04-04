@@ -8,6 +8,7 @@ import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.apikeys.*;
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.HmacShaUtils;
 import java.util.List;
 import java.util.Objects;
@@ -117,7 +118,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
 
     Objects.requireNonNull(apiKey, "An API key is required.");
 
-    if (apiKey.trim().length() == 0) {
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(apiKey)) {
       throw new AlgoliaRuntimeException("objectID must not be empty.");
     }
 
@@ -242,7 +243,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
       @Nonnull String apiKey, RequestOptions requestOptions) {
     Objects.requireNonNull(apiKey, "An API key is required.");
 
-    if (apiKey.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(apiKey)) {
       throw new AlgoliaRuntimeException("API key must not be empty.");
     }
 
@@ -313,7 +314,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
       @Nonnull ApiKey request, RequestOptions requestOptions) {
     Objects.requireNonNull(request, "An API key is required.");
 
-    if (request == null || request.getValue().trim().length() == 0) {
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(request.getValue())) {
       throw new AlgoliaRuntimeException("objectID must not be empty.");
     }
 
@@ -388,7 +389,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
 
     Objects.requireNonNull(apiKey, "An API Key is required.");
 
-    if (apiKey.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(apiKey)) {
       throw new AlgoliaRuntimeException("API Key must not be empty.");
     }
 
