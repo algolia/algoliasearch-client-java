@@ -2,19 +2,19 @@ package com.algolia.search.models;
 
 import java.io.InputStream;
 
-public class AlgoliaHttpResponse {
+public class HttpResponse {
 
-  public AlgoliaHttpResponse(int httpStatusCode, InputStream body) {
+  public HttpResponse(int httpStatusCode, InputStream body) {
     this.httpStatusCode = httpStatusCode;
     this.body = body;
   }
 
-  public AlgoliaHttpResponse(int httpStatusCode, String error) {
+  public HttpResponse(int httpStatusCode, String error) {
     this.httpStatusCode = httpStatusCode;
     this.error = error;
   }
 
-  public AlgoliaHttpResponse(boolean isTimedOut) {
+  public HttpResponse(boolean isTimedOut) {
     this.isTimedOut = isTimedOut;
   }
 
@@ -22,7 +22,7 @@ public class AlgoliaHttpResponse {
     return httpStatusCode;
   }
 
-  public AlgoliaHttpResponse setHttpStatusCode(int httpStatusCode) {
+  public HttpResponse setHttpStatusCode(int httpStatusCode) {
     this.httpStatusCode = httpStatusCode;
     return this;
   }
@@ -31,7 +31,7 @@ public class AlgoliaHttpResponse {
     return body;
   }
 
-  public AlgoliaHttpResponse setBody(InputStream body) {
+  public HttpResponse setBody(InputStream body) {
     this.body = body;
     return this;
   }
@@ -40,7 +40,7 @@ public class AlgoliaHttpResponse {
     return error;
   }
 
-  public AlgoliaHttpResponse setError(String error) {
+  public HttpResponse setError(String error) {
     this.error = error;
     return this;
   }
@@ -49,7 +49,7 @@ public class AlgoliaHttpResponse {
     return isTimedOut;
   }
 
-  public AlgoliaHttpResponse setTimedOut(boolean timedOut) {
+  public HttpResponse setTimedOut(boolean timedOut) {
     isTimedOut = timedOut;
     return this;
   }

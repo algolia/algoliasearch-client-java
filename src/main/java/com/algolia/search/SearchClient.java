@@ -12,9 +12,9 @@ import javax.annotation.Nonnull;
 
 /**
  * Algolia's REST search client that wraps an instance of the transporter {@link HttpTransport}
- * which wraps the Apache Http Client in {@link ApacheHttpRequester} This client allows to build typed
- * requests and read typed responses. Requests are made under the Algolia's retry-strategy. This
- * client is intended to be reused and it's thread-safe.
+ * which wraps the Apache Http Client in {@link ApacheHttpRequester} This client allows to build
+ * typed requests and read typed responses. Requests are made under the Algolia's retry-strategy.
+ * This client is intended to be reused and it's thread-safe.
  *
  * @see <a href="https://www.algolia.com/doc/rest-api/search/">Algolia.com</a>
  */
