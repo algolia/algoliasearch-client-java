@@ -7,7 +7,7 @@ import java.util.concurrent.ForkJoinPool;
 
 /** * Algolia's clients common configuration */
 @SuppressWarnings("WeakerAccess")
-public abstract class AlgoliaConfigBase {
+public abstract class ConfigBase {
 
   /**
    * Creates an default configuration with the forkJoinPool.
@@ -15,7 +15,7 @@ public abstract class AlgoliaConfigBase {
    * @param applicationID The Application ID
    * @param apiKey The API Key.
    */
-  AlgoliaConfigBase(String applicationID, String apiKey) {
+  ConfigBase(String applicationID, String apiKey) {
     this(applicationID, apiKey, ForkJoinPool.commonPool());
   }
 
@@ -26,7 +26,7 @@ public abstract class AlgoliaConfigBase {
    * @param apiKey The API Key
    * @param executor The Executor service
    */
-  AlgoliaConfigBase(String applicationID, String apiKey, ExecutorService executor) {
+  ConfigBase(String applicationID, String apiKey, ExecutorService executor) {
     this.applicationID = applicationID;
     this.apiKey = apiKey;
     this.executor = executor;
@@ -58,7 +58,7 @@ public abstract class AlgoliaConfigBase {
   }
 
   /** Overrides the default batch size for save methods. Default = 1000 objects per chunk. */
-  public AlgoliaConfigBase setBatchSize(int batchSize) {
+  public ConfigBase setBatchSize(int batchSize) {
     this.batchSize = batchSize;
     return this;
   }
@@ -68,7 +68,7 @@ public abstract class AlgoliaConfigBase {
   }
 
   /** Overrides the default read timeout. Default = 1000ms In milliseconds */
-  public AlgoliaConfigBase setReadTimeOut(Integer readTimeOut) {
+  public ConfigBase setReadTimeOut(Integer readTimeOut) {
     this.readTimeOut = readTimeOut;
     return this;
   }
@@ -78,7 +78,7 @@ public abstract class AlgoliaConfigBase {
   }
 
   /** Overrides the default write timeout. Default = 30000ms In milliseconds */
-  public AlgoliaConfigBase setWriteTimeOut(Integer writeTimeOut) {
+  public ConfigBase setWriteTimeOut(Integer writeTimeOut) {
     this.writeTimeOut = writeTimeOut;
     return this;
   }
@@ -88,7 +88,7 @@ public abstract class AlgoliaConfigBase {
   }
 
   /** Overrides the default connect timeout. Default = 2000ms In milliseconds */
-  public AlgoliaConfigBase setConnectTimeOut(Integer connectTimeOut) {
+  public ConfigBase setConnectTimeOut(Integer connectTimeOut) {
     this.connectTimeOut = connectTimeOut;
     return this;
   }
@@ -106,7 +106,7 @@ public abstract class AlgoliaConfigBase {
   }
 
   /** Sets a list of specific host to target. Default hosts will be overridden. */
-  public AlgoliaConfigBase setCustomHosts(List<StatefulHost> customHosts) {
+  public ConfigBase setCustomHosts(List<StatefulHost> customHosts) {
     this.customHosts = customHosts;
     return this;
   }

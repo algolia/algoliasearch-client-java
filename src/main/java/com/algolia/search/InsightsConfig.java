@@ -7,7 +7,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class InsightsConfig extends AlgoliaConfigBase {
+public final class InsightsConfig extends ConfigBase {
 
   /**
    * Creates an {@link InsightsConfig} with the default region ("us").

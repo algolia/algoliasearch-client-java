@@ -46,7 +46,7 @@ public final class SearchIndex<T>
    * @param indexName The non-encoded index name.
    * @param clazz The class held by the index. Could be your business object or {@link Object}
    */
-  SearchIndex(HttpTransport transport, AlgoliaConfigBase config, String indexName, Class<T> clazz) {
+  SearchIndex(HttpTransport transport, ConfigBase config, String indexName, Class<T> clazz) {
     this.transport = transport;
     this.config = (SearchConfig) config;
     this.indexName = indexName;
