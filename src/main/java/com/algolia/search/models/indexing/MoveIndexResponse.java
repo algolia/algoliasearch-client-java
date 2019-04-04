@@ -1,6 +1,6 @@
 package com.algolia.search.models.indexing;
 
-import com.algolia.search.models.IAlgoliaWaitableResponse;
+import com.algolia.search.models.WaitableResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -8,7 +8,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MoveIndexResponse implements Serializable, IAlgoliaWaitableResponse {
+public class MoveIndexResponse implements Serializable, WaitableResponse {
   public OffsetDateTime getUpdatedAt() {
     return updatedAt;
   }

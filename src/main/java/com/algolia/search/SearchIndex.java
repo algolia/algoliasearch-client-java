@@ -8,7 +8,7 @@ import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.models.HttpMethod;
-import com.algolia.search.models.IAlgoliaWaitableResponse;
+import com.algolia.search.models.WaitableResponse;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.TaskStatusResponse;
@@ -1343,7 +1343,7 @@ public final class SearchIndex<T>
 
     List<String> scopes = Arrays.asList(CopyScope.RULES, CopyScope.SETTINGS, CopyScope.SYNONYMS);
 
-    List<CompletableFuture<? extends IAlgoliaWaitableResponse>> futures = new ArrayList<>();
+    List<CompletableFuture<? extends WaitableResponse>> futures = new ArrayList<>();
 
     // Copy index resources
     CompletableFuture<CopyToResponse> copyResponseFuture =
@@ -1375,7 +1375,7 @@ public final class SearchIndex<T>
     return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
         .thenComposeAsync(
             v -> {
-              List<IAlgoliaWaitableResponse> resp =
+              List<WaitableResponse> resp =
                   futures.stream().map(CompletableFuture::join).collect(toList());
 
               return CompletableFuture.completedFuture(new MultiResponse().setResponses(resp));

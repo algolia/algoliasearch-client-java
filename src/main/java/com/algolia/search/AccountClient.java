@@ -7,7 +7,7 @@ import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.iterators.RulesIterable;
 import com.algolia.search.iterators.SynonymsIterable;
-import com.algolia.search.models.IAlgoliaWaitableResponse;
+import com.algolia.search.models.WaitableResponse;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.MultiResponse;
@@ -126,7 +126,7 @@ public final class AccountClient {
       }
     }
 
-    List<CompletableFuture<? extends IAlgoliaWaitableResponse>> futures = new ArrayList<>();
+    List<CompletableFuture<? extends WaitableResponse>> futures = new ArrayList<>();
 
     // Save settings
     CompletableFuture<SetSettingsResponse> destinationSettingsFuture =
@@ -171,7 +171,7 @@ public final class AccountClient {
     return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
         .thenComposeAsync(
             v -> {
-              List<IAlgoliaWaitableResponse> resp =
+              List<WaitableResponse> resp =
                   futures.stream().map(CompletableFuture::join).collect(Collectors.toList());
 
               return CompletableFuture.completedFuture(new MultiResponse().setResponses(resp));
