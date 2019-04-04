@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+/**
+ * ABTest
+ *
+ * <p>* @see <a
+ * href="https://www.algolia.com/doc/api-reference/api-methods/add-ab-test">Algolia.com</a>
+ */
 @SuppressWarnings("WeakerAccess")
 public class ABTest implements Serializable {
 

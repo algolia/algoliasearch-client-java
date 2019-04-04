@@ -3,6 +3,11 @@ package com.algolia.search.models.rules;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
+/**
+ * Edit parameter. More information:
+ *
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Edit implements Serializable {
 

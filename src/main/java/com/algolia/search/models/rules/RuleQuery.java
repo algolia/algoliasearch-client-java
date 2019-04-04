@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
 
+/**
+ * Query Rules allows performing pre- and post-processing on queries matching specific patterns.
+ *
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ */
 @SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RuleQuery implements Serializable {

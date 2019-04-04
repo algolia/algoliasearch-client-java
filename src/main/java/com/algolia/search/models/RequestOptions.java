@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
 
+/**
+ * Request options are used to pass extra parameters, headers, timeout to the request. Parameters
+ * set in the request option will override default parameter.
+ */
 public class RequestOptions implements Serializable {
 
   private final Map<String, String> headers = new HashMap<>();

@@ -12,6 +12,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Consequence parameter. More information:
+ *
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = ConsequenceQueryDeserializer.class)
 public class ConsequenceQuery implements Serializable {

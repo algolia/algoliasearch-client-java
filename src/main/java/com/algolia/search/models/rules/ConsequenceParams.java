@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.List;
 
+/**
+ * Consequence parameter. More information:
+ *
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ */
 @SuppressWarnings({"unused"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConsequenceParams extends Query {
