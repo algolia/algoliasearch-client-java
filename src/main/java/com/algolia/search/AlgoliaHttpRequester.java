@@ -11,6 +11,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeoutException;
 import javax.annotation.Nonnull;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
@@ -69,7 +70,8 @@ class AlgoliaHttpRequester implements IHttpRequester {
             t -> {
               if (t.getCause() instanceof ConnectTimeoutException
                   || t.getCause() instanceof SocketTimeoutException
-                  || t.getCause() instanceof ConnectException) {
+                  || t.getCause() instanceof ConnectException
+                  || t.getCause() instanceof TimeoutException) {
                 return new AlgoliaHttpResponse(true);
               }
               throw new AlgoliaRuntimeException(t);

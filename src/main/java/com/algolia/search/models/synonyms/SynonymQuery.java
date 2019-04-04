@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Synonym query. More information
+ *
+ * <p>* @see <a href="https://www.algolia.com/doc/api-client/methods/synonyms/">Algolia.com</a>
+ */
 @SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

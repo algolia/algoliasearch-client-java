@@ -1,5 +1,10 @@
 package com.algolia.search.models.indexing;
 
+/**
+ * Actions that need to be performed.
+ *
+ * @see <a href="https://www.algolia.com/doc/api-reference/api-methods/batch>Algolia.com</a>
+ */
 public class ActionEnum {
   public static final String ADD_OBJECT = "addObject";
   public static final String UPDATE_OBJECT = "updateObject";

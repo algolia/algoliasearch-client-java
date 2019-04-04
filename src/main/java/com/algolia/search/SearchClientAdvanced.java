@@ -190,7 +190,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
 
     return getTransport()
         .executeRequestAsync(
-            HttpMethod.GET, "/1/logs", CallType.READ, null, Logs.class, requestOptions)
+            HttpMethod.GET, "/1/logs", CallType.READ, Logs.class, requestOptions)
         .thenApplyAsync(Logs::getLogs, getConfig().getExecutor());
   }
 }

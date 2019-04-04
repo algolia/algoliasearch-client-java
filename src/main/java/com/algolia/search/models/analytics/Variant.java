@@ -7,6 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.annotation.Nonnull;
 
+/**
+ * Variant
+ *
+ * <p>* @see <a
+ * href="https://www.algolia.com/doc/api-reference/api-methods/add-ab-test">Algolia.com</a>
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Variant implements Serializable {

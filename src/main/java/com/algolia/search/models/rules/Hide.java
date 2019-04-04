@@ -2,6 +2,11 @@ package com.algolia.search.models.rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * Hide parameter. More information:
+ *
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ */
 @SuppressWarnings("WeakerAccess")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Hide {

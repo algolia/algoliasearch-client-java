@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Algolia Index settings
+ * Here is the list of parameters you can use with the set settings method. Parameters that can be
+ * overridden at search time also have the search scope. More information:
  *
  * @see <a href="https://www.algolia.com/doc/api-reference/settings-api-parameters/">Algolia.com</a>
  */

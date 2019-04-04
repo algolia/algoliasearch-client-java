@@ -5,10 +5,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Synonyms
+ * Synonyms tell the engine which words and expressions should be considered equal - for example,
+ * pants ⇔ trousers or mad ⇔ angry. A search for “trousers” will find “pants”, and “pants” will find
+ * “trousers”.
  *
- * <p>* @see <a
- * href="https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/">Algolia.com</a>
+ * <p>* @see <a href="https://www.algolia.com/doc/api-client/methods/synonyms/">Algolia.com</a>
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @SuppressWarnings("WeakerAccess")
