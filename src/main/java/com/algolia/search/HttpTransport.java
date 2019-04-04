@@ -114,7 +114,7 @@ class HttpTransport {
 
     Iterator<StatefulHost> hosts = retryStrategy.getTryableHosts(callType).iterator();
 
-    AlgoliaHttpRequest request = buildRequest(method, path, callType, requestOptions, data);
+    HttpRequest request = buildRequest(method, path, callType, requestOptions, data);
 
     JavaType type =
         innerClazz == null
@@ -141,9 +141,7 @@ class HttpTransport {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization.
    */
   private <TResult> CompletableFuture<TResult> executeWithRetry(
-      @Nonnull Iterator<StatefulHost> hosts,
-      @Nonnull AlgoliaHttpRequest request,
-      @Nonnull JavaType type) {
+      @Nonnull Iterator<StatefulHost> hosts, @Nonnull HttpRequest request, @Nonnull JavaType type) {
 
     // If no more hosts to request the retry has failed
     if (!hosts.hasNext()) {
@@ -187,8 +185,8 @@ class HttpTransport {
   }
 
   /**
-   * Builds the AlgoliaHttpRequest object Builds the headers Builds the queryParameters Serialize
-   * the data if so
+   * Builds the HttpRequest object Builds the headers Builds the queryParameters Serialize the data
+   * if so
    *
    * @param method The HTTP method (GET,POST,PUT,DELETE)
    * @param methodPath The API method path
@@ -197,7 +195,7 @@ class HttpTransport {
    * @param data Data to send to the API (if so)
    * @param <TData> The type of the data (if so)
    */
-  private <TData> AlgoliaHttpRequest buildRequest(
+  private <TData> HttpRequest buildRequest(
       @Nonnull HttpMethod method,
       @Nonnull String methodPath,
       @Nonnull CallType callType,
@@ -217,7 +215,7 @@ class HttpTransport {
             ? requestOptions.getTimeout()
             : getTimeOut(callType);
 
-    AlgoliaHttpRequest request = new AlgoliaHttpRequest(method, fullPath, headersToSend, timeout);
+    HttpRequest request = new HttpRequest(method, fullPath, headersToSend, timeout);
 
     if (data != null) {
       try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {

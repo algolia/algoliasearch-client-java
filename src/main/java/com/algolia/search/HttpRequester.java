@@ -1,7 +1,7 @@
 package com.algolia.search;
 
-import com.algolia.search.models.AlgoliaHttpRequest;
-import com.algolia.search.models.AlgoliaHttpResponse;
+import com.algolia.search.models.HttpRequest;
+import com.algolia.search.models.HttpResponse;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
@@ -14,10 +14,10 @@ public interface HttpRequester {
   /**
    * Perform a request to the Algolia API.
    *
-   * @param request The {@link AlgoliaHttpRequest} to send.
-   * @return A completable future of a {@link AlgoliaHttpResponse}.
+   * @param request The {@link HttpRequest} to send.
+   * @return A completable future of a {@link HttpResponse}.
    */
-  CompletableFuture<AlgoliaHttpResponse> performRequestAsync(AlgoliaHttpRequest request);
+  CompletableFuture<HttpResponse> performRequestAsync(HttpRequest request);
 
   /** Closes the resource. */
   void close() throws IOException;

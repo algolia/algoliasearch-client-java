@@ -5,9 +5,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AlgoliaHttpRequest {
+public class HttpRequest {
 
-  public AlgoliaHttpRequest(
+  public HttpRequest(
       HttpMethod method, String methodPath, Map<String, String> headers, int timeout) {
     this.method = method;
     this.methodPath = methodPath;
@@ -19,7 +19,7 @@ public class AlgoliaHttpRequest {
     return method;
   }
 
-  public AlgoliaHttpRequest setMethod(HttpMethod method) {
+  public HttpRequest setMethod(HttpMethod method) {
     this.method = method;
     return this;
   }
@@ -28,7 +28,7 @@ public class AlgoliaHttpRequest {
     return uri;
   }
 
-  public AlgoliaHttpRequest setUri(URL uri) {
+  public HttpRequest setUri(URL uri) {
     this.uri = uri;
     return this;
   }
@@ -37,7 +37,7 @@ public class AlgoliaHttpRequest {
     return methodPath;
   }
 
-  public AlgoliaHttpRequest setMethodPath(String methodPath) {
+  public HttpRequest setMethodPath(String methodPath) {
     this.methodPath = methodPath;
     return this;
   }
@@ -46,7 +46,7 @@ public class AlgoliaHttpRequest {
     return headers;
   }
 
-  public AlgoliaHttpRequest setHeaders(HashMap<String, String> headers) {
+  public HttpRequest setHeaders(HashMap<String, String> headers) {
     this.headers = headers;
     return this;
   }
@@ -55,7 +55,7 @@ public class AlgoliaHttpRequest {
     return body;
   }
 
-  public AlgoliaHttpRequest setBody(InputStream body) {
+  public HttpRequest setBody(InputStream body) {
     this.body = body;
     return this;
   }
@@ -64,7 +64,7 @@ public class AlgoliaHttpRequest {
     return timeout;
   }
 
-  public AlgoliaHttpRequest setTimeout(int timeout) {
+  public HttpRequest setTimeout(int timeout) {
     this.timeout = timeout;
     return this;
   }

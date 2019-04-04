@@ -1,8 +1,8 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
-import com.algolia.search.models.AlgoliaHttpRequest;
-import com.algolia.search.models.AlgoliaHttpResponse;
+import com.algolia.search.models.HttpRequest;
+import com.algolia.search.models.HttpResponse;
 import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.HttpStatusCodeUtils;
 import java.io.IOException;
@@ -27,8 +27,8 @@ import org.apache.http.util.EntityUtils;
 
 /**
  * The Algolia http requester is a wrapper on top of the HttpAsyncClient of Apache. It's an
- * implementation of {@link HttpRequester} It takes an {@link AlgoliaHttpRequest} as input. It
- * returns an {@link AlgoliaHttpResponse}.
+ * implementation of {@link HttpRequester} It takes an {@link HttpRequest} as input. It returns an
+ * {@link HttpResponse}.
  */
 class ApacheHttpRequester implements HttpRequester {
 
@@ -62,7 +62,7 @@ class ApacheHttpRequester implements HttpRequester {
    * @param request the request to send
    * @throws AlgoliaRuntimeException When an error occurred while sending the request
    */
-  public CompletableFuture<AlgoliaHttpResponse> performRequestAsync(AlgoliaHttpRequest request) {
+  public CompletableFuture<HttpResponse> performRequestAsync(HttpRequest request) {
     HttpRequestBase requestToSend = buildRequest(request);
     return AlgoliaUtils.toCompletableFuture(fc -> asyncHttpClient.execute(requestToSend, fc))
         .thenApplyAsync(this::buildResponse, config.getExecutor())
@@ -72,7 +72,7 @@ class ApacheHttpRequester implements HttpRequester {
                   || t.getCause() instanceof SocketTimeoutException
                   || t.getCause() instanceof ConnectException
                   || t.getCause() instanceof TimeoutException) {
-                return new AlgoliaHttpResponse(true);
+                return new HttpResponse(true);
               }
               throw new AlgoliaRuntimeException(t);
             });
@@ -88,16 +88,15 @@ class ApacheHttpRequester implements HttpRequester {
    *
    * @param response The server response
    */
-  private AlgoliaHttpResponse buildResponse(HttpResponse response) {
+  private HttpResponse buildResponse(org.apache.http.HttpResponse response) {
     try {
       if (HttpStatusCodeUtils.isSuccess(response.getStatusLine().getStatusCode())) {
 
         HttpEntity entity = handleCompressedEntity(response.getEntity());
 
-        return new AlgoliaHttpResponse(
-            response.getStatusLine().getStatusCode(), entity.getContent());
+        return new HttpResponse(response.getStatusLine().getStatusCode(), entity.getContent());
       }
-      return new AlgoliaHttpResponse(
+      return new HttpResponse(
           response.getStatusLine().getStatusCode(), EntityUtils.toString(response.getEntity()));
     } catch (IOException e) {
       throw new AlgoliaRuntimeException(e);
@@ -105,11 +104,11 @@ class ApacheHttpRequester implements HttpRequester {
   }
 
   /**
-   * Builds an http request from an AlgoliaRequest object
+   * Builds an Apache HttpRequest from an Algolia Request object
    *
    * @param algoliaRequest The Algolia request object
    */
-  private HttpRequestBase buildRequest(AlgoliaHttpRequest algoliaRequest) {
+  private HttpRequestBase buildRequest(HttpRequest algoliaRequest) {
 
     switch (algoliaRequest.getMethod().toString()) {
       case HttpGet.METHOD_NAME:
@@ -146,11 +145,12 @@ class ApacheHttpRequester implements HttpRequester {
     }
   }
 
-  private RequestConfig buildRequestConfig(AlgoliaHttpRequest algoliaRequest) {
+  private RequestConfig buildRequestConfig(HttpRequest algoliaRequest) {
     return RequestConfig.copy(requestConfig).setSocketTimeout(algoliaRequest.getTimeout()).build();
   }
 
-  private HttpRequestBase addHeaders(HttpRequestBase request, Map<String, String> headers) {
+  private HttpRequestBase addHeaders(
+      org.apache.http.client.methods.HttpRequestBase request, Map<String, String> headers) {
     headers.forEach(request::addHeader);
     return request;
   }
@@ -162,8 +162,10 @@ class ApacheHttpRequester implements HttpRequester {
         .build();
   }
 
-  private static HttpEntity handleCompressedEntity(HttpEntity entity) {
+  private static HttpEntity handleCompressedEntity(org.apache.http.HttpEntity entity) {
+
     Header contentEncoding = entity.getContentEncoding();
+
     if (contentEncoding != null)
       for (HeaderElement e : contentEncoding.getElements()) {
         if (Defaults.CONTENT_ENCODING_GZIP.equalsIgnoreCase(e.getName())) {
