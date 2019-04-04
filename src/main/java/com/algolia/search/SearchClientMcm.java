@@ -9,6 +9,7 @@ import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
+import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.QueryStringUtils;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -267,7 +268,7 @@ public interface SearchClientMcm extends SearchClientBase {
       @Nonnull String userID, RequestOptions requestOptions) {
     Objects.requireNonNull(userID, "The userID is required.");
 
-    if (userID.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(userID)) {
       throw new AlgoliaRuntimeException("userID must not be empty.");
     }
 
@@ -390,8 +391,8 @@ public interface SearchClientMcm extends SearchClientBase {
       @Nonnull String userId, RequestOptions requestOptions) {
     Objects.requireNonNull(userId, "userId key is required.");
 
-    if (userId.trim().length() == 0) {
-      throw new AlgoliaRuntimeException("userId must not be empty.");
+    if (AlgoliaUtils.isEmptyWhiteSpace(userId)) {
+      throw new AlgoliaRuntimeException("userId must not be empty or white spaces.");
     }
 
     if (requestOptions == null) {
@@ -470,11 +471,11 @@ public interface SearchClientMcm extends SearchClientBase {
     Objects.requireNonNull(userId, "userId key is required.");
     Objects.requireNonNull(clusterName, "clusterName key is required.");
 
-    if (userId.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(userId)) {
       throw new AlgoliaRuntimeException("userId must not be empty.");
     }
 
-    if (clusterName.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(clusterName)) {
       throw new AlgoliaRuntimeException("clusterName must not be empty.");
     }
 

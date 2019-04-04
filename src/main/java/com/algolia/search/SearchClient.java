@@ -4,6 +4,7 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.RequestOptions;
+import com.algolia.search.util.AlgoliaUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Objects;
@@ -70,11 +71,11 @@ public final class SearchClient
     Objects.requireNonNull(config.getApplicationID(), "An ApplicationID is required.");
     Objects.requireNonNull(config.getApiKey(), "An API key is required.");
 
-    if (config.getApplicationID().trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApplicationID())) {
       throw new NullPointerException("ApplicationID can't be empty.");
     }
 
-    if (config.getApiKey().trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApiKey())) {
       throw new NullPointerException("APIKey can't be empty.");
     }
 
@@ -110,7 +111,9 @@ public final class SearchClient
    */
   public SearchIndex<?> initIndex(@Nonnull String indexName) {
 
-    if (indexName == null || indexName.trim().length() == 0) {
+    Objects.requireNonNull(indexName, "indexName can't be null.");
+
+    if (AlgoliaUtils.isEmptyWhiteSpace(indexName)) {
       throw new NullPointerException("The index name is required");
     }
 
@@ -127,11 +130,12 @@ public final class SearchClient
    */
   public <T> SearchIndex<T> initIndex(@Nonnull String indexName, @Nonnull Class<T> clazz) {
 
-    if (indexName == null || indexName.trim().length() == 0) {
+    Objects.requireNonNull(indexName, "indexName can't be null.");
+    Objects.requireNonNull(clazz, "A class is required.");
+
+    if (AlgoliaUtils.isEmptyWhiteSpace(indexName)) {
       throw new NullPointerException("The index name is required");
     }
-
-    Objects.requireNonNull(clazz, "A class is required.");
 
     return new SearchIndex<>(transport, config, indexName, clazz);
   }

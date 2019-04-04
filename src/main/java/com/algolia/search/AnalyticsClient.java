@@ -8,6 +8,7 @@ import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.analytics.*;
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.util.AlgoliaUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Objects;
@@ -65,11 +66,11 @@ public final class AnalyticsClient implements Closeable {
     Objects.requireNonNull(config.getApplicationID(), "An ApplicationID is required.");
     Objects.requireNonNull(config.getApiKey(), "An API key is required.");
 
-    if (config.getApplicationID().trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApplicationID())) {
       throw new NullPointerException("ApplicationID can't be empty.");
     }
 
-    if (config.getApiKey().trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApiKey())) {
       throw new NullPointerException("APIKey can't be empty.");
     }
 

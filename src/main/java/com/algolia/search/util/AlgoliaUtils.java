@@ -15,6 +15,16 @@ import org.apache.http.concurrent.FutureCallback;
 
 public class AlgoliaUtils {
 
+  /** Checks if the given string is empty or white spaces */
+  public static Boolean isEmptyWhiteSpace(final String stringToCheck) {
+    return stringToCheck.trim().length() == 0;
+  }
+
+  /** Checks if the given string is null, empty or white spaces */
+  public static Boolean isNullOrEmptyWhiteSpace(final String stringToCheck) {
+    return stringToCheck == null || stringToCheck.trim().length() == 0;
+  }
+
   /**
    * Ensure that the objectID field or the @JsonProperty(\"objectID\")" is present in the given
    * class

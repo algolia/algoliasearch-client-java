@@ -11,6 +11,7 @@ import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.indexing.SearchForFacetRequest;
 import com.algolia.search.models.indexing.SearchForFacetResponse;
 import com.algolia.search.models.indexing.SearchResult;
+import com.algolia.search.util.AlgoliaUtils;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
@@ -159,12 +160,12 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
       @Nonnull SearchForFacetRequest query, RequestOptions requestOptions) {
     Objects.requireNonNull(query, "query is required.");
 
-    if (query.getFacetName() == null || query.getFacetName().trim().length() == 0) {
-      throw new AlgoliaRuntimeException("facetName is required.");
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(query.getFacetName())) {
+      throw new AlgoliaRuntimeException("facetName must not be null, empty or white spaces.");
     }
 
-    if (query.getFacetQuery() == null || query.getFacetQuery().trim().length() == 0) {
-      throw new AlgoliaRuntimeException("facetQuery is required.");
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(query.getFacetQuery())) {
+      throw new AlgoliaRuntimeException("facetQuery must not be null, empty or white spaces.");
     }
 
     return getTransport()

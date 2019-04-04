@@ -148,7 +148,7 @@ public final class SearchIndex<T>
     Objects.requireNonNull(attributesToRetrieve, "AttributesToRetrieve are required.");
     Objects.requireNonNull(objectID, "objectID is required.");
 
-    if (objectID.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(objectID)) {
       throw new AlgoliaRuntimeException("objectID must not be empty.");
     }
 
@@ -177,7 +177,7 @@ public final class SearchIndex<T>
 
     Objects.requireNonNull(objectID, "objectID is required.");
 
-    if (objectID.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(objectID)) {
       throw new AlgoliaRuntimeException("objectID must not be empty.");
     }
 
@@ -1107,7 +1107,7 @@ public final class SearchIndex<T>
       @Nonnull String objectID, RequestOptions requestOptions) {
     Objects.requireNonNull(objectID, "The objectID is required.");
 
-    if (objectID.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(objectID)) {
       throw new AlgoliaRuntimeException("objectID must not be empty.");
     }
 
@@ -1435,7 +1435,7 @@ public final class SearchIndex<T>
 
     Objects.requireNonNull(sourceIndex, "sourceIndex can't be null.");
 
-    if (sourceIndex.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(sourceIndex)) {
       throw new AlgoliaRuntimeException("sourceIndex is required.");
     }
 
@@ -1471,7 +1471,7 @@ public final class SearchIndex<T>
   CompletableFuture<CopyToResponse> copyToAsync(
       @Nonnull String destinationIndex, List<String> scope, RequestOptions requestOptions) {
 
-    if (destinationIndex == null || destinationIndex.trim().length() == 0) {
+    if (AlgoliaUtils.isEmptyWhiteSpace(destinationIndex)) {
       throw new AlgoliaRuntimeException("destinationIndex is required.");
     }
 

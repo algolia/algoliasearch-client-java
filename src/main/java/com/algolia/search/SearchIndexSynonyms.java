@@ -13,6 +13,7 @@ import com.algolia.search.models.synonyms.ClearSynonymsResponse;
 import com.algolia.search.models.synonyms.SaveSynonymResponse;
 import com.algolia.search.models.synonyms.Synonym;
 import com.algolia.search.models.synonyms.SynonymQuery;
+import com.algolia.search.util.AlgoliaUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -144,8 +145,8 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
       @Nonnull String objectID, RequestOptions requestOptions) {
     Objects.requireNonNull(objectID, "The synonym ID is required.");
 
-    if (objectID.trim().length() == 0) {
-      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    if (AlgoliaUtils.isEmptyWhiteSpace(objectID)) {
+      throw new AlgoliaRuntimeException("objectID must not be empty or white spaces.");
     }
 
     return getTransport()
@@ -278,8 +279,8 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
     Objects.requireNonNull(synonym, "A synonym is required.");
     Objects.requireNonNull(requestOptions, "RequestOptions are required.");
 
-    if (synonym.getObjectID().trim().length() == 0) {
-      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(synonym.getObjectID())) {
+      throw new AlgoliaRuntimeException("objectID must not be null, empty or white spaces.");
     }
 
     return getTransport()
@@ -532,10 +533,11 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    */
   default CompletableFuture<DeleteResponse> deleteSynonymAsync(
       @Nonnull String objectID, RequestOptions requestOptions) {
+
     Objects.requireNonNull(objectID, "The objectID is required.");
 
-    if (objectID.trim().length() == 0) {
-      throw new AlgoliaRuntimeException("objectID must not be empty.");
+    if (AlgoliaUtils.isEmptyWhiteSpace(objectID)) {
+      throw new AlgoliaRuntimeException("objectID must not be empty or white spaces.");
     }
 
     return getTransport()
