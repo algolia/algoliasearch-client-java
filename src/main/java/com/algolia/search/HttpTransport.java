@@ -24,11 +24,11 @@ import javax.annotation.Nonnull;
  */
 class HttpTransport {
 
-  private final IHttpRequester httpRequester;
+  private final HttpRequester httpRequester;
   private final RetryStrategy retryStrategy;
   private final AlgoliaConfigBase config;
 
-  HttpTransport(@Nonnull AlgoliaConfigBase config, @Nonnull IHttpRequester httpRequester) {
+  HttpTransport(@Nonnull AlgoliaConfigBase config, @Nonnull HttpRequester httpRequester) {
     this.config = config;
     this.httpRequester = httpRequester;
     this.retryStrategy = new RetryStrategy(config);
