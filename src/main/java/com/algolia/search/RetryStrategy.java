@@ -19,7 +19,7 @@ class RetryStrategy {
    * Creates a new instance of the retry strategy. If custom hosts are provided in the configuration
    * it will override the default hosts.
    */
-  RetryStrategy(AlgoliaConfigBase config) {
+  RetryStrategy(ConfigBase config) {
     hosts = (config.getCustomHosts() != null) ? config.getCustomHosts() : config.getDefaultHosts();
   }
 

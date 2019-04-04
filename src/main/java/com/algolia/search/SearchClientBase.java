@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 public interface SearchClientBase {
   HttpTransport getTransport();
 
-  AlgoliaConfigBase getConfig();
+  ConfigBase getConfig();
 
   void waitTask(
       @Nonnull String indexName, long taskId, long timeToWait, RequestOptions requestOptions);

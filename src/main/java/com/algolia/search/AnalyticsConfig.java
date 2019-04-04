@@ -7,7 +7,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class AnalyticsConfig extends AlgoliaConfigBase {
+public final class AnalyticsConfig extends ConfigBase {
 
   /**
    * Creates an {@link AnalyticsConfig} with the default host

@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
 @SuppressWarnings({"unused"})
-public final class SearchConfig extends AlgoliaConfigBase {
+public final class SearchConfig extends ConfigBase {
 
   /**
    * Creates a {@link SearchConfig} with the default hosts

@@ -32,7 +32,7 @@ public final class SearchClient
   private final HttpTransport transport;
 
   /** Client's configuration */
-  private final AlgoliaConfigBase config;
+  private final ConfigBase config;
 
   /**
    * Creates a {@link SearchClient} with the given credentials
@@ -99,7 +99,7 @@ public final class SearchClient
   }
 
   @Override
-  public AlgoliaConfigBase getConfig() {
+  public ConfigBase getConfig() {
     return config;
   }
 

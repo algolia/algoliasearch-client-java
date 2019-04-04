@@ -34,9 +34,9 @@ class ApacheHttpRequester implements HttpRequester {
 
   private final CloseableHttpAsyncClient asyncHttpClient;
   private final RequestConfig requestConfig;
-  private final AlgoliaConfigBase config;
+  private final ConfigBase config;
 
-  ApacheHttpRequester(@Nonnull AlgoliaConfigBase config) {
+  ApacheHttpRequester(@Nonnull ConfigBase config) {
 
     this.config = config;
 
