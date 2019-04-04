@@ -19,7 +19,7 @@ public interface SearchClientMcm extends SearchClientBase {
 
   /** List the clusters available in a multi-clusters setup for a single appID */
   default ListClustersResponse listClusters() {
-    return LaunderThrowable.unwrap(listClustersAsync());
+    return LaunderThrowable.await(listClustersAsync());
   }
 
   /**
@@ -31,7 +31,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default ListClustersResponse listClusters(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(listClustersAsync(requestOptions));
+    return LaunderThrowable.await(listClustersAsync(requestOptions));
   }
 
   /** List the clusters available in a multi-clusters setup for a single appID */
@@ -67,7 +67,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<UserId> searchUserIDs(@Nonnull SearchUserIdsRequest query) {
-    return LaunderThrowable.unwrap(searchUserIDsAsync(query));
+    return LaunderThrowable.await(searchUserIDsAsync(query));
   }
 
   /**
@@ -82,7 +82,7 @@ public interface SearchClientMcm extends SearchClientBase {
    */
   default SearchResult<UserId> searchUserIDs(
       @Nonnull SearchUserIdsRequest query, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(searchUserIDsAsync(query, requestOptions));
+    return LaunderThrowable.await(searchUserIDsAsync(query, requestOptions));
   }
 
   /**
@@ -141,7 +141,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default ListUserIdsResponse listUserIDs() {
-    return LaunderThrowable.unwrap(listUserIDsAsync());
+    return LaunderThrowable.await(listUserIDsAsync());
   }
 
   /**
@@ -156,7 +156,7 @@ public interface SearchClientMcm extends SearchClientBase {
    */
   default ListUserIdsResponse listUserIDs(
       int page, int hitsPerPage, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(listUserIDsAsync(page, hitsPerPage, requestOptions));
+    return LaunderThrowable.await(listUserIDsAsync(page, hitsPerPage, requestOptions));
   }
 
   /**
@@ -168,7 +168,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default ListUserIdsResponse listUserIDs(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(listUserIDsAsync(requestOptions));
+    return LaunderThrowable.await(listUserIDsAsync(requestOptions));
   }
 
   /**
@@ -229,7 +229,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default UserId getUserID(@Nonnull String userID) {
-    return LaunderThrowable.unwrap(getUserIDAsync(userID));
+    return LaunderThrowable.await(getUserIDAsync(userID));
   }
 
   /**
@@ -242,7 +242,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default UserId getUserID(@Nonnull String userID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getUserIDAsync(userID, requestOptions));
+    return LaunderThrowable.await(getUserIDAsync(userID, requestOptions));
   }
 
   /**
@@ -291,7 +291,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default TopUserIdResponse getTopUserID() {
-    return LaunderThrowable.unwrap(getTopUserIDAsync());
+    return LaunderThrowable.await(getTopUserIDAsync());
   }
 
   /**
@@ -305,7 +305,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default TopUserIdResponse getTopUserID(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getTopUserIDAsync(requestOptions));
+    return LaunderThrowable.await(getTopUserIDAsync(requestOptions));
   }
 
   /**
@@ -350,7 +350,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default RemoveUserIdResponse removeUserID(@Nonnull String userId) {
-    return LaunderThrowable.unwrap(removeUserIDAsync(userId, null));
+    return LaunderThrowable.await(removeUserIDAsync(userId, null));
   }
 
   /**
@@ -363,7 +363,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default RemoveUserIdResponse removeUserID(@Nonnull String userId, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(removeUserIDAsync(userId, requestOptions));
+    return LaunderThrowable.await(removeUserIDAsync(userId, requestOptions));
   }
 
   /**
@@ -421,7 +421,7 @@ public interface SearchClientMcm extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default AssignUserIdResponse assignUserID(@Nonnull String userId, @Nonnull String clusterName) {
-    return LaunderThrowable.unwrap(assignUserIDAsync(userId, clusterName));
+    return LaunderThrowable.await(assignUserIDAsync(userId, clusterName));
   }
 
   /**
@@ -437,7 +437,7 @@ public interface SearchClientMcm extends SearchClientBase {
    */
   default AssignUserIdResponse assignUserID(
       @Nonnull String userId, @Nonnull String clusterName, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(assignUserIDAsync(userId, clusterName, requestOptions));
+    return LaunderThrowable.await(assignUserIDAsync(userId, clusterName, requestOptions));
   }
 
   /**

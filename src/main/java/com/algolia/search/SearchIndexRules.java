@@ -34,7 +34,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default Rule getRule(@Nonnull String objectID) {
-    return LaunderThrowable.unwrap(getRuleAsync(objectID));
+    return LaunderThrowable.await(getRuleAsync(objectID));
   }
 
   /**
@@ -47,7 +47,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default Rule getRule(@Nonnull String objectID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getRuleAsync(objectID, requestOptions));
+    return LaunderThrowable.await(getRuleAsync(objectID, requestOptions));
   }
 
   /**
@@ -97,7 +97,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<Rule> searchRules(@Nonnull RuleQuery query) {
-    return LaunderThrowable.unwrap(searchRulesAsync(query, null));
+    return LaunderThrowable.await(searchRulesAsync(query, null));
   }
 
   /**
@@ -110,7 +110,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SearchResult<Rule> searchRules(@Nonnull RuleQuery query, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(searchRulesAsync(query, requestOptions));
+    return LaunderThrowable.await(searchRulesAsync(query, requestOptions));
   }
 
   /**
@@ -167,7 +167,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse saveRule(@Nonnull Rule rule) {
-    return LaunderThrowable.unwrap(saveRuleAsync(rule));
+    return LaunderThrowable.await(saveRuleAsync(rule));
   }
 
   /**
@@ -180,7 +180,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse saveRule(@Nonnull Rule rule, @Nonnull Boolean forwardToReplicas) {
-    return LaunderThrowable.unwrap(saveRuleAsync(rule, forwardToReplicas));
+    return LaunderThrowable.await(saveRuleAsync(rule, forwardToReplicas));
   }
 
   /**
@@ -197,7 +197,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
       @Nonnull Rule rule,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveRuleAsync(rule, forwardToReplicas, requestOptions));
+    return LaunderThrowable.await(saveRuleAsync(rule, forwardToReplicas, requestOptions));
   }
 
   /**
@@ -209,7 +209,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse saveRule(@Nonnull Rule rule, @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveRuleAsync(rule, requestOptions));
+    return LaunderThrowable.await(saveRuleAsync(rule, requestOptions));
   }
 
   /**
@@ -305,7 +305,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   default SaveRuleResponse saveRules(@Nonnull List<Rule> rules) {
-    return LaunderThrowable.unwrap(saveRulesAsync(rules));
+    return LaunderThrowable.await(saveRulesAsync(rules));
   }
 
   /**
@@ -322,7 +322,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
       @Nonnull List<Rule> rules,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean clearExistingRules) {
-    return LaunderThrowable.unwrap(saveRulesAsync(rules, forwardToReplicas, clearExistingRules));
+    return LaunderThrowable.await(saveRulesAsync(rules, forwardToReplicas, clearExistingRules));
   }
 
   /**
@@ -341,7 +341,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean clearExistingRules,
       @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         saveRulesAsync(rules, forwardToReplicas, clearExistingRules, requestOptions));
   }
 
@@ -355,7 +355,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse saveRules(@Nonnull List<Rule> rules, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveRulesAsync(rules, requestOptions));
+    return LaunderThrowable.await(saveRulesAsync(rules, requestOptions));
   }
 
   /**
@@ -456,7 +456,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteResponse deleteRule(@Nonnull String objectID) {
-    return LaunderThrowable.unwrap(deleteRuleAsync(objectID));
+    return LaunderThrowable.await(deleteRuleAsync(objectID));
   }
 
   /**
@@ -469,7 +469,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteResponse deleteRule(@Nonnull String objectID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(deleteRuleAsync(objectID, requestOptions));
+    return LaunderThrowable.await(deleteRuleAsync(objectID, requestOptions));
   }
 
   /**
@@ -527,7 +527,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse replaceAllRules(@Nonnull List<Rule> rules) {
-    return LaunderThrowable.unwrap(replaceAllRulesAsync(rules));
+    return LaunderThrowable.await(replaceAllRulesAsync(rules));
   }
 
   /**
@@ -543,7 +543,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    */
   default SaveRuleResponse replaceAllRules(
       @Nonnull List<Rule> rules, @Nonnull Boolean forwardToReplicas) {
-    return LaunderThrowable.unwrap(replaceAllRulesAsync(rules, forwardToReplicas));
+    return LaunderThrowable.await(replaceAllRulesAsync(rules, forwardToReplicas));
   }
 
   /**
@@ -559,7 +559,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    */
   default SaveRuleResponse replaceAllRules(
       @Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(replaceAllRulesAsync(rules, requestOptions));
+    return LaunderThrowable.await(replaceAllRulesAsync(rules, requestOptions));
   }
 
   /**
@@ -616,7 +616,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteResponse clearRules() {
-    return LaunderThrowable.unwrap(clearRulesAsync());
+    return LaunderThrowable.await(clearRulesAsync());
   }
 
   /**
@@ -628,7 +628,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteResponse clearRules(@Nonnull Boolean forwardToReplicas) {
-    return LaunderThrowable.unwrap(clearRulesAsync(forwardToReplicas));
+    return LaunderThrowable.await(clearRulesAsync(forwardToReplicas));
   }
 
   /**
@@ -642,7 +642,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    */
   default DeleteResponse clearRules(
       @Nonnull Boolean forwardToReplicas, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(clearRulesAsync(forwardToReplicas, requestOptions));
+    return LaunderThrowable.await(clearRulesAsync(forwardToReplicas, requestOptions));
   }
 
   /**
@@ -654,7 +654,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default DeleteResponse clearRules(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(clearRulesAsync(requestOptions));
+    return LaunderThrowable.await(clearRulesAsync(requestOptions));
   }
 
   /**

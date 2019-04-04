@@ -26,7 +26,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @param settings the settings to set
    */
   default SetSettingsResponse setSettings(@Nonnull IndexSettings settings) {
-    return LaunderThrowable.unwrap(setSettingsAsync(settings));
+    return LaunderThrowable.await(setSettingsAsync(settings));
   }
 
   /**
@@ -40,7 +40,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    */
   default SetSettingsResponse setSettings(
       @Nonnull IndexSettings settings, @Nonnull Boolean forwardToReplicas) {
-    return LaunderThrowable.unwrap(setSettingsAsync(settings, forwardToReplicas));
+    return LaunderThrowable.await(setSettingsAsync(settings, forwardToReplicas));
   }
 
   /**
@@ -57,7 +57,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
       @Nonnull IndexSettings settings,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(setSettingsAsync(settings, forwardToReplicas, requestOptions));
+    return LaunderThrowable.await(setSettingsAsync(settings, forwardToReplicas, requestOptions));
   }
 
   /**
@@ -71,7 +71,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    */
   default SetSettingsResponse setSettings(
       @Nonnull IndexSettings settings, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(setSettingsAsync(settings, requestOptions));
+    return LaunderThrowable.await(setSettingsAsync(settings, requestOptions));
   }
 
   /**
@@ -161,7 +161,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default IndexSettings getSettings() {
-    return LaunderThrowable.unwrap(getSettingsAsync(null));
+    return LaunderThrowable.await(getSettingsAsync(null));
   }
 
   /**
@@ -173,7 +173,7 @@ public interface SearchIndexSettings<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default IndexSettings getSettings(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getSettingsAsync(requestOptions));
+    return LaunderThrowable.await(getSettingsAsync(requestOptions));
   }
 
   /**

@@ -44,7 +44,7 @@ public final class AccountClient {
    */
   public static <T> MultiResponse copyIndex(
       @Nonnull SearchIndex<T> sourceIndex, @Nonnull SearchIndex<T> destinationIndex) {
-    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex));
+    return LaunderThrowable.await(copyIndexAsync(sourceIndex, destinationIndex));
   }
 
   /**
@@ -63,7 +63,7 @@ public final class AccountClient {
       @Nonnull SearchIndex<T> sourceIndex,
       @Nonnull SearchIndex<T> destinationIndex,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(copyIndexAsync(sourceIndex, destinationIndex, requestOptions));
+    return LaunderThrowable.await(copyIndexAsync(sourceIndex, destinationIndex, requestOptions));
   }
 
   /**

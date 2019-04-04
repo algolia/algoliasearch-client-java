@@ -82,7 +82,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public T getObject(@Nonnull String objectID) {
-    return LaunderThrowable.unwrap(getObjectAsync(objectID));
+    return LaunderThrowable.await(getObjectAsync(objectID));
   }
 
   /**
@@ -100,7 +100,7 @@ public final class SearchIndex<T>
       @Nonnull String objectID,
       @Nonnull List<String> attributesToRetrieve,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getObjectAsync(objectID, attributesToRetrieve, requestOptions));
+    return LaunderThrowable.await(getObjectAsync(objectID, attributesToRetrieve, requestOptions));
   }
 
   /**
@@ -113,7 +113,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public T getObject(@Nonnull String objectID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getObjectAsync(objectID, requestOptions));
+    return LaunderThrowable.await(getObjectAsync(objectID, requestOptions));
   }
 
   /**
@@ -198,7 +198,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public List<T> getObjects(@Nonnull List<String> objectIDs) {
-    return LaunderThrowable.unwrap(getObjectsAsync(objectIDs));
+    return LaunderThrowable.await(getObjectsAsync(objectIDs));
   }
 
   /**
@@ -212,7 +212,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public List<T> getObjects(@Nonnull List<String> objectIDs, List<String> attributesToRetrieve) {
-    return LaunderThrowable.unwrap(getObjectsAsync(objectIDs, attributesToRetrieve));
+    return LaunderThrowable.await(getObjectsAsync(objectIDs, attributesToRetrieve));
   }
 
   /**
@@ -225,7 +225,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public List<T> getObjects(@Nonnull List<String> objectIDs, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getObjectsAsync(objectIDs, requestOptions));
+    return LaunderThrowable.await(getObjectsAsync(objectIDs, requestOptions));
   }
 
   /**
@@ -243,8 +243,7 @@ public final class SearchIndex<T>
       @Nonnull List<String> objectIDs,
       List<String> attributesToRetrieve,
       RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
-        getObjectsAsync(objectIDs, attributesToRetrieve, requestOptions));
+    return LaunderThrowable.await(getObjectsAsync(objectIDs, attributesToRetrieve, requestOptions));
   }
 
   /**
@@ -348,7 +347,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public UpdateObjectResponse partialUpdateObject(@Nonnull T data) {
-    return LaunderThrowable.unwrap(partialUpdateObjectAsync(data));
+    return LaunderThrowable.await(partialUpdateObjectAsync(data));
   }
 
   /**
@@ -364,7 +363,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaApiException When the API sends an http error code
    */
   public UpdateObjectResponse partialUpdateObject(@Nonnull T data, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(partialUpdateObjectAsync(data, requestOptions));
+    return LaunderThrowable.await(partialUpdateObjectAsync(data, requestOptions));
   }
 
   /**
@@ -384,7 +383,7 @@ public final class SearchIndex<T>
    */
   public UpdateObjectResponse partialUpdateObject(
       @Nonnull T data, @Nonnull Boolean createIfNotExists) {
-    return LaunderThrowable.unwrap(partialUpdateObjectAsync(data, createIfNotExists));
+    return LaunderThrowable.await(partialUpdateObjectAsync(data, createIfNotExists));
   }
 
   /**
@@ -405,7 +404,7 @@ public final class SearchIndex<T>
    */
   public UpdateObjectResponse partialUpdateObject(
       @Nonnull T data, @Nonnull Boolean createIfNotExists, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         partialUpdateObjectAsync(data, createIfNotExists, requestOptions));
   }
 
@@ -518,7 +517,7 @@ public final class SearchIndex<T>
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public BatchIndexingResponse partialUpdateObjects(@Nonnull Iterable<T> data) {
-    return LaunderThrowable.unwrap(partialUpdateObjectsAsync(data));
+    return LaunderThrowable.await(partialUpdateObjectsAsync(data));
   }
 
   /**
@@ -535,7 +534,7 @@ public final class SearchIndex<T>
    */
   public BatchIndexingResponse partialUpdateObjects(
       @Nonnull Iterable<T> data, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(partialUpdateObjectsAsync(data, requestOptions));
+    return LaunderThrowable.await(partialUpdateObjectsAsync(data, requestOptions));
   }
 
   /**
@@ -555,7 +554,7 @@ public final class SearchIndex<T>
    */
   public BatchIndexingResponse partialUpdateObjects(
       @Nonnull Iterable<T> data, boolean createIfNotExists) {
-    return LaunderThrowable.unwrap(partialUpdateObjectsAsync(data, createIfNotExists));
+    return LaunderThrowable.await(partialUpdateObjectsAsync(data, createIfNotExists));
   }
 
   /**
@@ -576,7 +575,7 @@ public final class SearchIndex<T>
    */
   public BatchIndexingResponse partialUpdateObjects(
       @Nonnull Iterable<T> data, boolean createIfNotExists, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(
+    return LaunderThrowable.await(
         partialUpdateObjectsAsync(data, createIfNotExists, requestOptions));
   }
 
@@ -672,7 +671,7 @@ public final class SearchIndex<T>
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public BatchIndexingResponse saveObject(@Nonnull T data) {
-    return LaunderThrowable.unwrap(saveObjectAsync(data));
+    return LaunderThrowable.await(saveObjectAsync(data));
   }
 
   /**
@@ -688,7 +687,7 @@ public final class SearchIndex<T>
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public BatchIndexingResponse saveObject(@Nonnull T data, boolean autoGenerateObjectID) {
-    return LaunderThrowable.unwrap(saveObjectAsync(data, autoGenerateObjectID));
+    return LaunderThrowable.await(saveObjectAsync(data, autoGenerateObjectID));
   }
 
   /**
@@ -703,7 +702,7 @@ public final class SearchIndex<T>
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public BatchIndexingResponse saveObject(@Nonnull T data, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveObjectAsync(data, requestOptions));
+    return LaunderThrowable.await(saveObjectAsync(data, requestOptions));
   }
 
   /**
@@ -721,7 +720,7 @@ public final class SearchIndex<T>
    */
   public BatchIndexingResponse saveObject(
       @Nonnull T data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveObjectAsync(data, autoGenerateObjectID, requestOptions));
+    return LaunderThrowable.await(saveObjectAsync(data, autoGenerateObjectID, requestOptions));
   }
 
   /**
@@ -803,7 +802,7 @@ public final class SearchIndex<T>
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
   public BatchIndexingResponse saveObjects(@Nonnull Iterable<T> data) {
-    return LaunderThrowable.unwrap(saveObjectsAsync(data));
+    return LaunderThrowable.await(saveObjectsAsync(data));
   }
 
   /**
@@ -820,7 +819,7 @@ public final class SearchIndex<T>
    */
   public BatchIndexingResponse saveObjects(
       @Nonnull Iterable<T> data, boolean autoGenerateObjectID) {
-    return LaunderThrowable.unwrap(saveObjectsAsync(data, autoGenerateObjectID));
+    return LaunderThrowable.await(saveObjectsAsync(data, autoGenerateObjectID));
   }
 
   /**
@@ -836,7 +835,7 @@ public final class SearchIndex<T>
    */
   public BatchIndexingResponse saveObjects(
       @Nonnull Iterable<T> data, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveObjectsAsync(data, requestOptions));
+    return LaunderThrowable.await(saveObjectsAsync(data, requestOptions));
   }
 
   /**
@@ -854,7 +853,7 @@ public final class SearchIndex<T>
    */
   public BatchIndexingResponse saveObjects(
       @Nonnull Iterable<T> data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(saveObjectsAsync(data, autoGenerateObjectID, requestOptions));
+    return LaunderThrowable.await(saveObjectsAsync(data, autoGenerateObjectID, requestOptions));
   }
 
   /**
@@ -999,7 +998,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <E> BatchResponse batch(@Nonnull BatchRequest<E> request) {
-    return LaunderThrowable.unwrap(batchAsync(request, null));
+    return LaunderThrowable.await(batchAsync(request, null));
   }
 
   /**
@@ -1012,7 +1011,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public <E> BatchResponse batch(@Nonnull BatchRequest<E> request, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(batchAsync(request, requestOptions));
+    return LaunderThrowable.await(batchAsync(request, requestOptions));
   }
 
   /**
@@ -1066,7 +1065,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteResponse deleteObject(@Nonnull String objectID) {
-    return LaunderThrowable.unwrap(deleteObjectAsync(objectID, null));
+    return LaunderThrowable.await(deleteObjectAsync(objectID, null));
   }
 
   /**
@@ -1079,7 +1078,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteResponse deleteObject(@Nonnull String objectID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(deleteObjectAsync(objectID, requestOptions));
+    return LaunderThrowable.await(deleteObjectAsync(objectID, requestOptions));
   }
 
   /**
@@ -1135,7 +1134,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public BatchIndexingResponse deleteObjects(@Nonnull List<String> objectIDs) {
-    return LaunderThrowable.unwrap(deleteObjectsAsync(objectIDs));
+    return LaunderThrowable.await(deleteObjectsAsync(objectIDs));
   }
 
   /**
@@ -1149,7 +1148,7 @@ public final class SearchIndex<T>
    */
   public BatchIndexingResponse deleteObjects(
       @Nonnull List<String> objectIDs, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(deleteObjectsAsync(objectIDs, requestOptions));
+    return LaunderThrowable.await(deleteObjectsAsync(objectIDs, requestOptions));
   }
 
   /**
@@ -1202,7 +1201,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteResponse clearObjects() {
-    return LaunderThrowable.unwrap(clearObjectsAsync(null));
+    return LaunderThrowable.await(clearObjectsAsync(null));
   }
 
   /**
@@ -1212,7 +1211,7 @@ public final class SearchIndex<T>
    * @param requestOptions Options to pass to this request
    */
   public DeleteResponse clearObjects(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(clearObjectsAsync(requestOptions));
+    return LaunderThrowable.await(clearObjectsAsync(requestOptions));
   }
 
   /**
@@ -1263,7 +1262,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public MultiResponse replaceAllObjects(Iterable<T> data) {
-    return LaunderThrowable.unwrap(replaceAllObjectsAsync(data));
+    return LaunderThrowable.await(replaceAllObjectsAsync(data));
   }
 
   /**
@@ -1277,7 +1276,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public MultiResponse replaceAllObjects(Iterable<T> data, boolean safe) {
-    return LaunderThrowable.unwrap(replaceAllObjectsAsync(data, safe));
+    return LaunderThrowable.await(replaceAllObjectsAsync(data, safe));
   }
 
   /**
@@ -1293,7 +1292,7 @@ public final class SearchIndex<T>
    */
   public MultiResponse replaceAllObjects(
       Iterable<T> data, RequestOptions requestOptions, boolean safe) {
-    return LaunderThrowable.unwrap(replaceAllObjectsAsync(data, requestOptions, safe));
+    return LaunderThrowable.await(replaceAllObjectsAsync(data, requestOptions, safe));
   }
 
   /**
@@ -1393,7 +1392,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public MoveIndexResponse moveFrom(@Nonnull String sourceIndex) {
-    return LaunderThrowable.unwrap(moveFromAsync(sourceIndex));
+    return LaunderThrowable.await(moveFromAsync(sourceIndex));
   }
 
   /**
@@ -1406,7 +1405,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public MoveIndexResponse moveFrom(@Nonnull String sourceIndex, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(moveFromAsync(sourceIndex, requestOptions));
+    return LaunderThrowable.await(moveFromAsync(sourceIndex, requestOptions));
   }
 
   /**
@@ -1522,7 +1521,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public BrowseIndexResponse<T> browseFrom(@Nonnull BrowseIndexQuery query) {
-    return LaunderThrowable.unwrap(browseFromAsync(query, null));
+    return LaunderThrowable.await(browseFromAsync(query, null));
   }
 
   /**
@@ -1538,7 +1537,7 @@ public final class SearchIndex<T>
    */
   public BrowseIndexResponse<T> browseFrom(
       @Nonnull BrowseIndexQuery query, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(browseFromAsync(query, requestOptions));
+    return LaunderThrowable.await(browseFromAsync(query, requestOptions));
   }
 
   /**
@@ -1598,7 +1597,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteResponse delete() {
-    return LaunderThrowable.unwrap(deleteAsync());
+    return LaunderThrowable.await(deleteAsync());
   }
 
   /**
@@ -1610,7 +1609,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteResponse delete(RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(deleteAsync(requestOptions));
+    return LaunderThrowable.await(deleteAsync(requestOptions));
   }
 
   /**
@@ -1652,7 +1651,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteResponse deleteBy(@Nonnull Query query) {
-    return LaunderThrowable.unwrap(deleteByAsync(query));
+    return LaunderThrowable.await(deleteByAsync(query));
   }
 
   /**
@@ -1667,7 +1666,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeleteResponse deleteBy(@Nonnull Query query, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(deleteByAsync(query, requestOptions));
+    return LaunderThrowable.await(deleteByAsync(query, requestOptions));
   }
 
   /**
@@ -1722,7 +1721,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public TaskStatusResponse getTask(long taskID) {
-    return LaunderThrowable.unwrap(getTaskAsync(taskID));
+    return LaunderThrowable.await(getTaskAsync(taskID));
   }
 
   /**
@@ -1735,7 +1734,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public TaskStatusResponse getTask(long taskID, RequestOptions requestOptions) {
-    return LaunderThrowable.unwrap(getTaskAsync(taskID, requestOptions));
+    return LaunderThrowable.await(getTaskAsync(taskID, requestOptions));
   }
 
   /**
