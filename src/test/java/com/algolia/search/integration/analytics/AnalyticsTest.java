@@ -1,13 +1,13 @@
 package com.algolia.search.integration.analytics;
 
-import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.algolia.search.AnalyticsClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.analytics.*;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-@ExtendWith({AlgoliaIntegrationTestExtension.class})
+@ExtendWith({IntegrationTestExtension.class})
 class AnalyticsTest {
 
   private SearchIndex<AlgoliaObject> index1;

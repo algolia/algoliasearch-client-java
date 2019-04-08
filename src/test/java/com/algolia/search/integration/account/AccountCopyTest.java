@@ -1,12 +1,12 @@
 package com.algolia.search.integration.account;
 
-import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.AccountClient;
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.rules.*;
@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({AlgoliaIntegrationTestExtension.class})
+@ExtendWith({IntegrationTestExtension.class})
 class AccountCopyTest {
 
   @Test

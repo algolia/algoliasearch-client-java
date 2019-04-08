@@ -1,10 +1,10 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.ObjectToBatch;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-@ExtendWith({AlgoliaIntegrationTestExtension.class})
+@ExtendWith({IntegrationTestExtension.class})
 class BatchingTest {
 
   private SearchIndex<ObjectToBatch> index;

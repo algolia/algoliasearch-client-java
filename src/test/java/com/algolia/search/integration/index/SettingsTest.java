@@ -1,10 +1,10 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.settings.IndexSettings;
@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({AlgoliaIntegrationTestExtension.class})
+@ExtendWith({IntegrationTestExtension.class})
 class SettingsTest {
 
   private SearchIndex<AlgoliaObject> index;
@@ -137,7 +137,7 @@ class SettingsTest {
     IndexSettings settingsAfterSave = getSettingsFuture.get();
     assertThat(settings)
         .usingRecursiveComparison()
-        .ignoringFields("alternativesAsExact", "typoTolerance")
+        .ignoringFields("alternativesAsExact", "customSettings")
         .isEqualTo(settingsAfterSave);
 
     assertThat(settingsAfterSave.getTypoTolerance()).isEqualTo(TypoTolerance.of(false));
@@ -158,7 +158,7 @@ class SettingsTest {
     IndexSettings settingsAfterChanges = getSettingsAfterChangesFuture.get();
     assertThat(settings)
         .usingRecursiveComparison()
-        .ignoringFields("alternativesAsExact", "typoTolerance")
+        .ignoringFields("alternativesAsExact", "customSettings")
         .isEqualTo(settingsAfterChanges);
 
     assertThat(settingsAfterChanges.getTypoTolerance()).isEqualTo(TypoTolerance.of("min"));
