@@ -79,7 +79,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default List<Log> getLogs() {
-    return LaunderThrowable.await(getLogsAsync(0, 10, null));
+    return LaunderThrowable.await(getLogsAsync(0, 10));
   }
 
   /**
