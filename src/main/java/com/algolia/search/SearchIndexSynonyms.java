@@ -14,6 +14,7 @@ import com.algolia.search.models.synonyms.SaveSynonymResponse;
 import com.algolia.search.models.synonyms.Synonym;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.algolia.search.util.AlgoliaUtils;
+import com.algolia.search.util.QueryStringUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -543,7 +544,10 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
     return getTransport()
         .executeRequestAsync(
             HttpMethod.DELETE,
-            "/1/indexes/" + getUrlEncodedIndexName() + "/synonyms/" + objectID,
+            "/1/indexes/"
+                + getUrlEncodedIndexName()
+                + "/synonyms/"
+                + QueryStringUtils.urlEncodeUTF8(objectID),
             CallType.WRITE,
             DeleteResponse.class,
             requestOptions)
