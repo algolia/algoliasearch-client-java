@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-public class AlgoliaIntegrationTestExtension
+public class IntegrationTestExtension
     implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
 
   public static SearchClient searchClient;

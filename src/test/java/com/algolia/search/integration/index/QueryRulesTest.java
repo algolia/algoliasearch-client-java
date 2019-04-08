@@ -1,10 +1,10 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.iterators.RulesIterable;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.SearchResult;
@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-@ExtendWith({AlgoliaIntegrationTestExtension.class})
+@ExtendWith({IntegrationTestExtension.class})
 class QueryRulesTest {
 
   private SearchIndex<AlgoliaRule> index;

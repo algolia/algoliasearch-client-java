@@ -1,11 +1,11 @@
 package com.algolia.search.integration.client;
 
-import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({AlgoliaIntegrationTestExtension.class})
+@ExtendWith({IntegrationTestExtension.class})
 class SecuredAPIKeyTest {
 
   private static SearchClient clientWithRestriction;

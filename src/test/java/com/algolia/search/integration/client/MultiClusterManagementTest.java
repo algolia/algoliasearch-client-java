@@ -1,11 +1,11 @@
 package com.algolia.search.integration.client;
 
-import static com.algolia.search.integration.AlgoliaIntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchClient;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.integration.AlgoliaIntegrationTestExtension;
+import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({AlgoliaIntegrationTestExtension.class})
+@ExtendWith({IntegrationTestExtension.class})
 class MultiClusterManagementTest {
 
   private static SearchClient mcmClient;
