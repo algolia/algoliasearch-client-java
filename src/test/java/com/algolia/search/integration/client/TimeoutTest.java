@@ -16,10 +16,10 @@ class TimeoutTest {
   void testUnreachableHostExceptions() {
     try (SearchClient client =
         new SearchClient(
-            (SearchConfig)
-                new SearchConfig(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1)
-                    .setConnectTimeOut(2)
-                    .setReadTimeOut(2))) {
+            new SearchConfig.Builder(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1)
+                .setConnectTimeOut(2)
+                .setReadTimeOut(2)
+                .build())) {
       assertThatThrownBy(() -> client.getLogsAsync().get())
           .hasCauseInstanceOf(AlgoliaRetryException.class);
     } catch (IOException e) {

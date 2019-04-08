@@ -15,7 +15,7 @@ class RetryStrategyTest {
   @ParameterizedTest
   @CsvSource({"500, READ", "500, WRITE", "300, READ", "500, WRITE"})
   void testRetryStrategyRetryableFailure(int httpCode, CallType callType) {
-    SearchConfig config = new SearchConfig("appID", "apiKEY");
+    SearchConfig config = new SearchConfig.Builder("appID", "apiKEY").build();
     RetryStrategy retryStrategy = new RetryStrategy(config);
 
     List<StatefulHost> hosts = retryStrategy.getTryableHosts(callType);
@@ -31,7 +31,7 @@ class RetryStrategyTest {
   @ParameterizedTest
   @CsvSource({"400, READ", "400, WRITE", "404, READ", "404, WRITE"})
   void testRetryStrategyFailureDecision(int httpCode, CallType callType) {
-    SearchConfig config = new SearchConfig("appID", "apiKEY");
+    SearchConfig config = new SearchConfig.Builder("appID", "apiKEY").build();
     RetryStrategy retryStrategy = new RetryStrategy(config);
 
     List<StatefulHost> hosts = retryStrategy.getTryableHosts(callType);
@@ -44,7 +44,7 @@ class RetryStrategyTest {
   @ParameterizedTest
   @CsvSource({"READ", "WRITE"})
   void testTimeOutCome(CallType callType) {
-    SearchConfig config = new SearchConfig("appID", "apiKEY");
+    SearchConfig config = new SearchConfig.Builder("appID", "apiKEY").build();
     RetryStrategy retryStrategy = new RetryStrategy(config);
 
     List<StatefulHost> hosts = retryStrategy.getTryableHosts(callType);
@@ -57,10 +57,11 @@ class RetryStrategyTest {
   @ParameterizedTest
   @CsvSource({"READ", "WRITE"})
   void testResetExpiredHost(CallType callType) {
-    SearchConfig config = new SearchConfig("appID", "apiKEY");
-
-    config.setCustomHosts(
-        Collections.singletonList(new StatefulHost("Algolia", EnumSet.of(CallType.READ))));
+    SearchConfig config =
+        new SearchConfig.Builder("appID", "apiKEY")
+            .setCustomHosts(
+                Collections.singletonList(new StatefulHost("Algolia", EnumSet.of(CallType.READ))))
+            .build();
 
     RetryStrategy retryStrategy = new RetryStrategy(config);
 
