@@ -13,6 +13,7 @@ import com.algolia.search.models.rules.Rule;
 import com.algolia.search.models.rules.RuleQuery;
 import com.algolia.search.models.rules.SaveRuleResponse;
 import com.algolia.search.util.AlgoliaUtils;
+import com.algolia.search.util.QueryStringUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -82,7 +83,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
     return getTransport()
         .executeRequestAsync(
             HttpMethod.GET,
-            "/1/indexes/" + getUrlEncodedIndexName() + "/rules/" + objectID,
+            "/1/indexes/"
+                + getUrlEncodedIndexName()
+                + "/rules/"
+                + QueryStringUtils.urlEncodeUTF8(objectID),
             CallType.READ,
             Rule.class,
             requestOptions);
@@ -282,7 +286,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
     return getTransport()
         .executeRequestAsync(
             HttpMethod.PUT,
-            "/1/indexes/" + getUrlEncodedIndexName() + "/rules/" + rule.getObjectID(),
+            "/1/indexes/"
+                + getUrlEncodedIndexName()
+                + "/rules/"
+                + QueryStringUtils.urlEncodeUTF8(rule.getObjectID()),
             CallType.WRITE,
             rule,
             SaveRuleResponse.class,
@@ -504,7 +511,10 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
     return getTransport()
         .executeRequestAsync(
             HttpMethod.DELETE,
-            "/1/indexes/" + getUrlEncodedIndexName() + "/rules/" + objectID,
+            "/1/indexes/"
+                + getUrlEncodedIndexName()
+                + "/rules/"
+                + QueryStringUtils.urlEncodeUTF8(objectID),
             CallType.WRITE,
             DeleteResponse.class,
             requestOptions)
