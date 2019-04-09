@@ -29,7 +29,7 @@ public final class InsightsConfig extends ConfigBase {
      * @param apiKey The API Key
      */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
-      super(applicationID, apiKey, createDefaultHosts(applicationID, apiKey, region));
+      super(applicationID, apiKey, createDefaultHosts(region));
     }
 
     @Override
@@ -42,8 +42,7 @@ public final class InsightsConfig extends ConfigBase {
     }
 
     /** Create default hosts for the insights configuration */
-    private static List<StatefulHost> createDefaultHosts(
-        @Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
+    private static List<StatefulHost> createDefaultHosts(@Nonnull String region) {
 
       if (AlgoliaUtils.isEmptyWhiteSpace(region)) {
         throw new NullPointerException("The region can't be empty.");

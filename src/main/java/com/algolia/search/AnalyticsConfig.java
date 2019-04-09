@@ -16,7 +16,7 @@ public final class AnalyticsConfig extends ConfigBase {
      * @param apiKey The API Key
      */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
-      super(applicationID, apiKey, createHosts(applicationID, apiKey));
+      super(applicationID, apiKey, createDefaultHosts());
     }
 
     @Override
@@ -29,8 +29,7 @@ public final class AnalyticsConfig extends ConfigBase {
     }
 
     /** Create default hosts for the analytics configuration */
-    private static List<StatefulHost> createHosts(
-        @Nonnull String applicationID, @Nonnull String apiKey) {
+    private static List<StatefulHost> createDefaultHosts() {
 
       return Collections.singletonList(
           new StatefulHost("analytics.algolia.com", EnumSet.of(CallType.READ, CallType.WRITE)));
