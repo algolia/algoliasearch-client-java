@@ -59,7 +59,7 @@ class RetryStrategyTest {
   void testResetExpiredHost(CallType callType) {
     SearchConfig config =
         new SearchConfig.Builder("appID", "apiKEY")
-            .setCustomHosts(
+            .setHosts(
                 Collections.singletonList(new StatefulHost("Algolia", EnumSet.of(CallType.READ))))
             .build();
 

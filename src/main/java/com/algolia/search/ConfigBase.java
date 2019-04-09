@@ -106,7 +106,7 @@ abstract class ConfigBase {
     }
 
     /** Sets a list of specific host to target. Default hosts will be overridden. */
-    public T setCustomHosts(List<StatefulHost> customHosts) {
+    public T setHosts(List<StatefulHost> customHosts) {
       this.customHosts = customHosts;
       return getThis();
     }
