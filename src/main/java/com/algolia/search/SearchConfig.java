@@ -13,7 +13,7 @@ public final class SearchConfig extends ConfigBase {
 
     /** Builds a {@link SearchConfig} with the default hosts */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
-      super(applicationID, apiKey, createDefaultHosts(applicationID, apiKey));
+      super(applicationID, apiKey, createDefaultHosts(applicationID));
     }
 
     @Override
@@ -26,8 +26,7 @@ public final class SearchConfig extends ConfigBase {
     }
 
     /** Create default hosts for the search configuration */
-    private static List<StatefulHost> createDefaultHosts(
-        @Nonnull String applicationID, @Nonnull String apiKey) {
+    private static List<StatefulHost> createDefaultHosts(@Nonnull String applicationID) {
 
       List<StatefulHost> hosts =
           Arrays.asList(
