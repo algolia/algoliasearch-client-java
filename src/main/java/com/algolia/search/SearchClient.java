@@ -42,7 +42,7 @@ public final class SearchClient
    * @throws NullPointerException if ApplicationID/ApiKey is null
    */
   public SearchClient(@Nonnull String applicationID, @Nonnull String apiKey) {
-    this(new SearchConfig(applicationID, apiKey));
+    this(new SearchConfig.Builder(applicationID, apiKey).build());
   }
 
   /**
@@ -68,16 +68,6 @@ public final class SearchClient
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
-    Objects.requireNonNull(config.getApplicationID(), "An ApplicationID is required.");
-    Objects.requireNonNull(config.getApiKey(), "An API key is required.");
-
-    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApplicationID())) {
-      throw new NullPointerException("ApplicationID can't be empty.");
-    }
-
-    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApiKey())) {
-      throw new NullPointerException("APIKey can't be empty.");
-    }
 
     this.config = config;
     this.transport = new HttpTransport(config, httpRequester);

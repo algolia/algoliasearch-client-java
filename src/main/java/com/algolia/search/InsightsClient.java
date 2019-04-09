@@ -10,7 +10,6 @@ import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.insights.InsightsEvent;
 import com.algolia.search.models.insights.InsightsRequest;
 import com.algolia.search.models.insights.InsightsResult;
-import com.algolia.search.util.AlgoliaUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Collections;
@@ -41,7 +40,7 @@ public final class InsightsClient implements Closeable {
    * @throws NullPointerException if ApplicationID/ApiKey is null
    */
   public InsightsClient(@Nonnull String applicationID, @Nonnull String apiKey) {
-    this(new InsightsConfig(applicationID, apiKey));
+    this(new InsightsConfig.Builder(applicationID, apiKey).build());
   }
 
   /**
@@ -67,16 +66,6 @@ public final class InsightsClient implements Closeable {
 
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
-    Objects.requireNonNull(config.getApplicationID(), "An ApplicationID is required.");
-    Objects.requireNonNull(config.getApiKey(), "An API key is required.");
-
-    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApplicationID())) {
-      throw new NullPointerException("ApplicationID can't be empty.");
-    }
-
-    if (AlgoliaUtils.isEmptyWhiteSpace(config.getApiKey())) {
-      throw new NullPointerException("APIKey can't be empty.");
-    }
 
     this.transport = new HttpTransport(config, httpRequester);
   }

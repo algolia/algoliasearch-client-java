@@ -9,54 +9,51 @@ import javax.annotation.Nonnull;
 @SuppressWarnings({"unused"})
 public final class SearchConfig extends ConfigBase {
 
-  /**
-   * Creates a {@link SearchConfig} with the default hosts
-   *
-   * @param applicationID The ApplicationID
-   * @param apiKey The API Key
-   */
-  public SearchConfig(@Nonnull String applicationID, @Nonnull String apiKey) {
-    super(applicationID, apiKey);
+  public static class Builder extends ConfigBase.Builder<Builder> {
 
-    List<StatefulHost> hosts =
-        Arrays.asList(
-            new StatefulHost(
-                String.format("%s-dsn.algolia.net", applicationID), EnumSet.of(CallType.READ)),
-            new StatefulHost(
-                String.format("%s.algolia.net", applicationID), EnumSet.of(CallType.WRITE)));
+    /** Builds a {@link SearchConfig} with the default hosts */
+    public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
+      super(applicationID, apiKey, createDefaultHosts(applicationID));
+    }
 
-    List<StatefulHost> commonHosts =
-        Arrays.asList(
-            new StatefulHost(
-                String.format("%s-1.algolianet.com", applicationID),
-                EnumSet.of(CallType.READ, CallType.WRITE)),
-            new StatefulHost(
-                String.format("%s-2.algolianet.com", applicationID),
-                EnumSet.of(CallType.READ, CallType.WRITE)),
-            new StatefulHost(
-                String.format("%s-3.algolianet.com", applicationID),
-                EnumSet.of(CallType.READ, CallType.WRITE)));
+    @Override
+    public Builder getThis() {
+      return this;
+    }
 
-    Collections.shuffle(commonHosts, new Random());
+    public SearchConfig build() {
+      return new SearchConfig(this);
+    }
 
-    this.setDefaultHosts(
-        Stream.concat(hosts.stream(), commonHosts.stream()).collect(Collectors.toList()));
+    /** Create default hosts for the search configuration */
+    private static List<StatefulHost> createDefaultHosts(@Nonnull String applicationID) {
+
+      List<StatefulHost> hosts =
+          Arrays.asList(
+              new StatefulHost(
+                  String.format("%s-dsn.algolia.net", applicationID), EnumSet.of(CallType.READ)),
+              new StatefulHost(
+                  String.format("%s.algolia.net", applicationID), EnumSet.of(CallType.WRITE)));
+
+      List<StatefulHost> commonHosts =
+          Arrays.asList(
+              new StatefulHost(
+                  String.format("%s-1.algolianet.com", applicationID),
+                  EnumSet.of(CallType.READ, CallType.WRITE)),
+              new StatefulHost(
+                  String.format("%s-2.algolianet.com", applicationID),
+                  EnumSet.of(CallType.READ, CallType.WRITE)),
+              new StatefulHost(
+                  String.format("%s-3.algolianet.com", applicationID),
+                  EnumSet.of(CallType.READ, CallType.WRITE)));
+
+      Collections.shuffle(commonHosts, new Random());
+
+      return Stream.concat(hosts.stream(), commonHosts.stream()).collect(Collectors.toList());
+    }
   }
 
-  /**
-   * Creates a {@link SearchConfig} for the search client with custom {@link StatefulHost}. Warning:
-   * Defaults hosts are not set when setting custom {@link StatefulHost}.
-   *
-   * @param applicationID The ApplicationID
-   * @param apiKey The API Key
-   * @param customHosts List of custom hosts
-   */
-  public SearchConfig(
-      @Nonnull String applicationID,
-      @Nonnull String apiKey,
-      @Nonnull List<StatefulHost> customHosts) {
-    super(applicationID, apiKey);
-
-    this.setCustomHosts(customHosts);
+  private SearchConfig(Builder builder) {
+    super(builder);
   }
 }
