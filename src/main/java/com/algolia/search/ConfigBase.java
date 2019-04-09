@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 
 /** Algolia's clients common configuration */
 @SuppressWarnings("WeakerAccess")
-class ConfigBase {
+abstract class ConfigBase {
 
   private static final String javaVersion = System.getProperty("java.version");
   private static final String clientVersion = "3.0.0.0";
@@ -100,18 +100,15 @@ class ConfigBase {
       return getThis();
     }
 
-    void setDefaultHosts(List<StatefulHost> defaultHosts) {
+    T setDefaultHosts(List<StatefulHost> defaultHosts) {
       this.defaultHosts = defaultHosts;
+      return getThis();
     }
 
     /** Sets a list of specific host to target. Default hosts will be overridden. */
     public T setCustomHosts(List<StatefulHost> customHosts) {
       this.customHosts = customHosts;
       return getThis();
-    }
-
-    public ConfigBase build() {
-      return new ConfigBase(this);
     }
   }
 
