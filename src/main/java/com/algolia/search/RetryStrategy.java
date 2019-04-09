@@ -20,7 +20,7 @@ class RetryStrategy {
    * it will override the default hosts.
    */
   RetryStrategy(ConfigBase config) {
-    hosts = (config.getCustomHosts() != null) ? config.getCustomHosts() : config.getDefaultHosts();
+    hosts = config.getHosts();
   }
 
   /**

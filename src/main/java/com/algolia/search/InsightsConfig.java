@@ -29,18 +29,7 @@ public final class InsightsConfig extends ConfigBase {
      * @param apiKey The API Key
      */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
-      super(applicationID, apiKey);
-
-      if (AlgoliaUtils.isEmptyWhiteSpace(region)) {
-        throw new NullPointerException("The region can't be empty.");
-      }
-
-      List<StatefulHost> hosts =
-          Collections.singletonList(
-              new StatefulHost(
-                  "insights." + region + ".algolia.io", EnumSet.of(CallType.READ, CallType.WRITE)));
-
-      this.setDefaultHosts(hosts);
+      super(applicationID, apiKey, createDefaultHosts(applicationID, apiKey, region));
     }
 
     @Override
@@ -50,6 +39,19 @@ public final class InsightsConfig extends ConfigBase {
 
     public InsightsConfig build() {
       return new InsightsConfig(this);
+    }
+
+    /** Create default hosts for the insights configuration */
+    private static List<StatefulHost> createDefaultHosts(
+        @Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
+
+      if (AlgoliaUtils.isEmptyWhiteSpace(region)) {
+        throw new NullPointerException("The region can't be empty.");
+      }
+
+      return Collections.singletonList(
+          new StatefulHost(
+              "insights." + region + ".algolia.io", EnumSet.of(CallType.READ, CallType.WRITE)));
     }
   }
 

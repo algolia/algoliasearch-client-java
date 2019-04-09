@@ -21,8 +21,7 @@ abstract class ConfigBase {
   private final Integer readTimeOut;
   private final Integer writeTimeOut;
   private final Integer connectTimeOut;
-  private final List<StatefulHost> defaultHosts;
-  private final List<StatefulHost> customHosts;
+  private final List<StatefulHost> hosts;
   private final ExecutorService executor;
 
   /** Config base builder to ensure the immutability of the configuration. */
@@ -35,8 +34,7 @@ abstract class ConfigBase {
     private Integer readTimeOut;
     private Integer writeTimeOut;
     private Integer connectTimeOut;
-    private List<StatefulHost> defaultHosts;
-    private List<StatefulHost> customHosts;
+    private List<StatefulHost> hosts;
     private final ExecutorService executor;
 
     /**
@@ -46,22 +44,14 @@ abstract class ConfigBase {
      * @param apiKey The API Key: could be Admin API Key or Search API Key
      * @throws NullPointerException if ApplicationID/ApiKey/Config/Requester is null
      */
-    public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
-
-      Objects.requireNonNull(applicationID, "An ApplicationID is required.");
-      Objects.requireNonNull(apiKey, "An API key is required.");
-
-      if (AlgoliaUtils.isEmptyWhiteSpace(applicationID)) {
-        throw new NullPointerException("The ApplicationID can't be empty.");
-      }
-
-      if (AlgoliaUtils.isEmptyWhiteSpace(apiKey)) {
-        throw new NullPointerException("The APIKey can't be empty.");
-      }
-
+    public Builder(
+        @Nonnull String applicationID,
+        @Nonnull String apiKey,
+        @Nonnull List<StatefulHost> defaultHosts) {
       this.applicationID = applicationID;
       this.apiKey = apiKey;
       this.batchSize = 1000;
+      this.hosts = defaultHosts;
       this.defaultHeaders = new HashMap<>();
       this.defaultHeaders.put(Defaults.ALGOLIA_APPLICATION_HEADER, applicationID);
       this.defaultHeaders.put(Defaults.ALGOLIA_KEY_HEADER, apiKey);
@@ -100,19 +90,27 @@ abstract class ConfigBase {
       return getThis();
     }
 
-    T setDefaultHosts(List<StatefulHost> defaultHosts) {
-      this.defaultHosts = defaultHosts;
-      return getThis();
-    }
-
     /** Sets a list of specific host to target. Default hosts will be overridden. */
-    public T setHosts(List<StatefulHost> customHosts) {
-      this.customHosts = customHosts;
+    public T setHosts(@Nonnull List<StatefulHost> customHosts) {
+      this.hosts = customHosts;
       return getThis();
     }
   }
 
   protected ConfigBase(Builder<?> builder) {
+
+    Objects.requireNonNull(builder.applicationID, "An ApplicationID is required.");
+    Objects.requireNonNull(builder.apiKey, "An API key is required.");
+    Objects.requireNonNull(builder.hosts, "Default hosts are required.");
+
+    if (AlgoliaUtils.isEmptyWhiteSpace(builder.applicationID)) {
+      throw new NullPointerException("The ApplicationID can't be empty.");
+    }
+
+    if (AlgoliaUtils.isEmptyWhiteSpace(builder.apiKey)) {
+      throw new NullPointerException("The APIKey can't be empty.");
+    }
+
     this.apiKey = builder.apiKey;
     this.applicationID = builder.applicationID;
     this.defaultHeaders = builder.defaultHeaders;
@@ -120,8 +118,7 @@ abstract class ConfigBase {
     this.readTimeOut = builder.readTimeOut;
     this.writeTimeOut = builder.writeTimeOut;
     this.connectTimeOut = builder.connectTimeOut;
-    this.defaultHosts = builder.defaultHosts;
-    this.customHosts = builder.customHosts;
+    this.hosts = builder.hosts;
     this.executor = builder.executor;
   }
 
@@ -161,12 +158,8 @@ abstract class ConfigBase {
     return connectTimeOut;
   }
 
-  public List<StatefulHost> getDefaultHosts() {
-    return defaultHosts;
-  }
-
-  public List<StatefulHost> getCustomHosts() {
-    return customHosts;
+  public List<StatefulHost> getHosts() {
+    return hosts;
   }
 
   public ExecutorService getExecutor() {

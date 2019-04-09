@@ -13,7 +13,21 @@ public final class SearchConfig extends ConfigBase {
 
     /** Builds a {@link SearchConfig} with the default hosts */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
-      super(applicationID, apiKey);
+      super(applicationID, apiKey, createDefaultHosts(applicationID, apiKey));
+    }
+
+    @Override
+    public Builder getThis() {
+      return this;
+    }
+
+    public SearchConfig build() {
+      return new SearchConfig(this);
+    }
+
+    /** Create default hosts for the search configuration */
+    private static List<StatefulHost> createDefaultHosts(
+        @Nonnull String applicationID, @Nonnull String apiKey) {
 
       List<StatefulHost> hosts =
           Arrays.asList(
@@ -36,17 +50,7 @@ public final class SearchConfig extends ConfigBase {
 
       Collections.shuffle(commonHosts, new Random());
 
-      this.setDefaultHosts(
-          Stream.concat(hosts.stream(), commonHosts.stream()).collect(Collectors.toList()));
-    }
-
-    @Override
-    public Builder getThis() {
-      return this;
-    }
-
-    public SearchConfig build() {
-      return new SearchConfig(this);
+      return Stream.concat(hosts.stream(), commonHosts.stream()).collect(Collectors.toList());
     }
   }
 
