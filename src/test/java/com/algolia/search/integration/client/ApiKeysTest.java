@@ -1,18 +1,22 @@
 package com.algolia.search.integration.client;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.algolia.search.integration.IntegrationTestExtension;
+import com.algolia.search.SearchClient;
 import com.algolia.search.models.apikeys.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({IntegrationTestExtension.class})
-class ApiKeysTest {
+public abstract class ApiKeysTest {
+
+  protected final SearchClient searchClient;
+
+  protected ApiKeysTest(SearchClient searchClient) {
+    this.searchClient = searchClient;
+  }
+
   @Test
   void testApiKeys() {
 
