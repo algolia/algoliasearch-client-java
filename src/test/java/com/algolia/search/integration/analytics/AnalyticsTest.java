@@ -1,19 +1,19 @@
 package com.algolia.search.integration.analytics;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
+import static com.algolia.search.integration.IntegrationTestExtension.userName;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.algolia.search.AnalyticsClient;
+import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.analytics.*;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.settings.IgnorePlurals;
-import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -25,23 +25,17 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-@ExtendWith({IntegrationTestExtension.class})
-class AnalyticsTest {
+public abstract class AnalyticsTest {
 
-  private static AnalyticsClient analyticsClient;
+  protected final SearchClient searchClient;
+  protected final AnalyticsClient analyticsClient;
 
-  AnalyticsTest() {
-    analyticsClient = new AnalyticsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
-  }
-
-  @AfterAll
-  static void afterAll() throws IOException {
-    analyticsClient.close();
+  protected AnalyticsTest(SearchClient searchClient, AnalyticsClient analyticsClient) {
+    this.searchClient = searchClient;
+    this.analyticsClient = analyticsClient;
   }
 
   @Test
