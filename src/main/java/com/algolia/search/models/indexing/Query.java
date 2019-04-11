@@ -44,20 +44,20 @@ public class Query implements Serializable {
     return this;
   }
 
-  public List<String> getNumericFilters() {
+  public List<List<String>> getNumericFilters() {
     return numericFilters;
   }
 
-  public Query setNumericFilters(List<String> numericFilters) {
+  public Query setNumericFilters(List<List<String>> numericFilters) {
     this.numericFilters = numericFilters;
     return this;
   }
 
-  public List<String> getTagFilters() {
+  public List<List<String>> getTagFilters() {
     return tagFilters;
   }
 
-  public Query setTagFilters(List<String> tagFilters) {
+  public Query setTagFilters(List<List<String>> tagFilters) {
     this.tagFilters = tagFilters;
     return this;
   }
@@ -80,11 +80,11 @@ public class Query implements Serializable {
     return this;
   }
 
-  public String getAnalyticsTags() {
+  public List<String> getAnalyticsTags() {
     return analyticsTags;
   }
 
-  public Query setAnalyticsTags(String analyticsTags) {
+  public Query setAnalyticsTags(List<String> analyticsTags) {
     this.analyticsTags = analyticsTags;
     return this;
   }
@@ -584,6 +584,24 @@ public class Query implements Serializable {
     return this;
   }
 
+  public List<List<String>> getOptionalFilters() {
+    return optionalFilters;
+  }
+
+  public Query setOptionalFilters(List<List<String>> optionalFilters) {
+    this.optionalFilters = optionalFilters;
+    return this;
+  }
+
+  public Boolean getSumOrFiltersScores() {
+    return sumOrFiltersScores;
+  }
+
+  public Query setSumOrFiltersScores(Boolean sumOrFiltersScores) {
+    this.sumOrFiltersScores = sumOrFiltersScores;
+    return this;
+  }
+
   public String toParam() {
     return QueryStringUtils.buildQueryAsQueryParams(this);
   }
@@ -595,11 +613,11 @@ public class Query implements Serializable {
   /* advanced */
   private Distinct distinct;
   private Boolean getRankingInfo;
-  private List<String> numericFilters;
-  private List<String> tagFilters;
+  private List<List<String>> numericFilters;
+  private List<List<String>> tagFilters;
   private Boolean clickAnalytics;
   private Boolean analytics;
-  private String analyticsTags;
+  private List<String> analyticsTags;
   private Boolean synonyms;
   private Boolean replaceSynonymsInHighlight;
   private Integer minProximity;
@@ -617,6 +635,7 @@ public class Query implements Serializable {
   private List<String> facets;
   private Long maxValuesPerFacet;
   private List<List<String>> facetFilters;
+  private List<List<String>> optionalFilters;
   private Boolean facetingAfterDistinct;
   private String sortFacetValuesBy;
 
@@ -660,6 +679,7 @@ public class Query implements Serializable {
   private List<String> disableExactOnAttributes;
   private String exactOnSingleWordQuery;
   private List<String> alternativesAsExact;
+  private Boolean sumOrFiltersScores;
 
   /* ranking */
   // Nothing in Query

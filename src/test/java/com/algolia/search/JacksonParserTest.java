@@ -300,7 +300,9 @@ class JacksonParserTest {
 
   @Test
   void queryWithMultipleParams() {
-    Query query = new Query("é®„").setTagFilters(Collections.singletonList("(attribute)"));
+    Query query =
+        new Query("é®„")
+            .setTagFilters(Collections.singletonList(Collections.singletonList("(attribute)")));
     assertThat(query.toParam()).isEqualTo("tagFilters=%28attribute%29&query=%C3%A9%C2%AE%E2%80%9E");
   }
 
