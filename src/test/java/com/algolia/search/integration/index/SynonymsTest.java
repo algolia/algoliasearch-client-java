@@ -25,16 +25,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @ExtendWith({IntegrationTestExtension.class})
 class SynonymsTest {
-
-  private SearchIndex<SynonymTestObject> index;
-
-  SynonymsTest() {
-    String indexName = getTestIndexName("synonyms");
-    index = searchClient.initIndex(indexName, SynonymTestObject.class);
-  }
-
   @Test
   void testSynonyms() {
+    String indexName = getTestIndexName("synonyms");
+    SearchIndex<SynonymTestObject> index =
+        searchClient.initIndex(indexName, SynonymTestObject.class);
 
     List<SynonymTestObject> objectsToSave =
         Arrays.asList(
