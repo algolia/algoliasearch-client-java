@@ -1,4 +1,4 @@
-package com.algolia.search.integration;
+package com.algolia.search.apache;
 
 import com.algolia.search.SearchClient;
 import com.algolia.search.models.indexing.ActionEnum;

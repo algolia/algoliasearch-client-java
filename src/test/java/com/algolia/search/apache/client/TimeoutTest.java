@@ -1,7 +1,7 @@
 package com.algolia.search.apache.client;
 
-import static com.algolia.search.integration.IntegrationTestExtension.ALGOLIA_API_KEY_1;
-import static com.algolia.search.integration.IntegrationTestExtension.ALGOLIA_APPLICATION_ID_1;
+import static com.algolia.search.apache.IntegrationTestExtension.ALGOLIA_API_KEY_1;
+import static com.algolia.search.apache.IntegrationTestExtension.ALGOLIA_APPLICATION_ID_1;
 
 import com.algolia.search.ApacheHttpRequester;
 import com.algolia.search.SearchClient;

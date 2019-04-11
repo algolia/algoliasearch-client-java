@@ -1,9 +1,9 @@
 package com.algolia.search.apache.client;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
+import static com.algolia.search.apache.IntegrationTestExtension.*;
 
 import com.algolia.search.SearchClient;
-import com.algolia.search.integration.IntegrationTestExtension;
+import com.algolia.search.apache.IntegrationTestExtension;
 import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;
 import org.junit.jupiter.api.extension.ExtendWith;
 
