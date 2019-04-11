@@ -13,8 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})
 class ApiKeysTest {
-  private String apiKey;
-
   @Test
   void testApiKeys() {
 
@@ -32,7 +30,7 @@ class ApiKeysTest {
     CompletableFuture<AddApiKeyResponse> addApiKeyFuture =
         searchClient.addApiKeyAsync(apiKeyToSend);
     AddApiKeyResponse addKeyResponse = addApiKeyFuture.join();
-    apiKey = addKeyResponse.getKey();
+    String apiKey = addKeyResponse.getKey();
     apiKeyToSend.setValue(apiKey);
     addKeyResponse.waitTask();
 
