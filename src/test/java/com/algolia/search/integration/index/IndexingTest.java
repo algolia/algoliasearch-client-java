@@ -1,10 +1,10 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaIndexingObject;
 import com.algolia.search.integration.models.DeleteByObject;
 import com.algolia.search.models.indexing.*;
@@ -14,10 +14,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({IntegrationTestExtension.class})
-class IndexingTest {
+public abstract class IndexingTest {
+
+  private final SearchClient searchClient;
+
+  protected IndexingTest(SearchClient searchClient) {
+    this.searchClient = searchClient;
+  }
+
   @Test
   void testIndexingOperations() throws ExecutionException, InterruptedException {
     String indexName = getTestIndexName("indexing");
