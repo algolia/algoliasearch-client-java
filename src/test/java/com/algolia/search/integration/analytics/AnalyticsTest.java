@@ -1,7 +1,7 @@
 package com.algolia.search.integration.analytics;
 
-import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
-import static com.algolia.search.integration.IntegrationTestExtension.userName;
+import static com.algolia.search.integration.TestHelpers.getTestIndexName;
+import static com.algolia.search.integration.TestHelpers.userName;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 

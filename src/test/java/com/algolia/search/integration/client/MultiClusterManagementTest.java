@@ -1,6 +1,6 @@
 package com.algolia.search.integration.client;
 
-import static com.algolia.search.integration.IntegrationTestExtension.getMcmUserId;
+import static com.algolia.search.integration.TestHelpers.getMcmUserId;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchClient;
