@@ -9,6 +9,10 @@ public class MultipleQueriesRequest implements Serializable {
 
   public MultipleQueriesRequest() {}
 
+  public MultipleQueriesRequest(List<MultipleQueries> requests) {
+    this.requests = requests;
+  }
+
   public MultipleQueriesRequest(String strategy, List<MultipleQueries> requests) {
     this.strategy = strategy;
     this.requests = requests;

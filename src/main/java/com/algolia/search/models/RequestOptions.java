@@ -15,8 +15,9 @@ public class RequestOptions implements Serializable {
   private final Map<String, String> queryParams = new HashMap<>();
   private Integer timeout = null;
 
-  public void addExtraHeader(@Nonnull String key, @Nonnull String value) {
+  public RequestOptions addExtraHeader(@Nonnull String key, @Nonnull String value) {
     headers.put(key, value);
+    return this;
   }
 
   public RequestOptions addExtraQueryParameters(@Nonnull String key, @Nonnull String value) {

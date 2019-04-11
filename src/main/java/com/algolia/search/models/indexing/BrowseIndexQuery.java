@@ -5,6 +5,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BrowseIndexQuery extends Query {
 
+  public BrowseIndexQuery() {}
+
+  public BrowseIndexQuery(String query) {
+    super(query);
+  }
+
   public String getCursor() {
     return cursor;
   }

@@ -195,7 +195,8 @@ class IndexingTest {
     assertThat(searchAfterDelete.getHits()).hasSize(9);
 
     indexDeleteBy
-        .deleteByAsync(new Query().setTagFilters(Collections.singletonList("car")))
+        .deleteByAsync(
+            new Query().setTagFilters(Collections.singletonList(Collections.singletonList("car"))))
         .get()
         .waitTask();
 
