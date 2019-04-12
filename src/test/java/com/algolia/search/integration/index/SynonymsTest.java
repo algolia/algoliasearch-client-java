@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.integration.IntegrationTestExtension;
-import com.algolia.search.iterators.SynonymsIterable;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.synonyms.SaveSynonymResponse;
@@ -106,7 +105,7 @@ class SynonymsTest {
     // and check that those collected synonyms are the same as the 5 originally saved
     List<Synonym> synonymsFromIterator = new ArrayList<>();
 
-    for (Synonym synonym : new SynonymsIterable(index)) {
+    for (Synonym synonym : index.browseSynonyms()) {
       synonymsFromIterator.add(synonym);
     }
 

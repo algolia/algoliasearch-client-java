@@ -4,6 +4,7 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
+import com.algolia.search.iterators.RulesIterable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
@@ -160,6 +161,38 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
               return r;
             },
             getConfig().getExecutor());
+  }
+
+  /**
+   * Retrieve an index’s full list of rules using an iterator. The list contains the rule name, plus
+   * the complete details of its conditions and consequences. The list includes all rules, whether
+   * created on the dashboard or pushed by the API.
+   */
+  default RulesIterable browseRules() {
+    return browseRules(1000, null);
+  }
+
+  /**
+   * Retrieve an index’s full list of rules using an iterator. The list contains the rule name, plus
+   * the complete details of its conditions and consequences. The list includes all rules, whether
+   * created on the dashboard or pushed by the API.
+   *
+   * @param hitsPerPage Number of hits per page to retrieve default = 1000
+   */
+  default RulesIterable browseRules(int hitsPerPage) {
+    return browseRules(hitsPerPage, null);
+  }
+
+  /**
+   * Retrieve an index’s full list of rules using an iterator. The list contains the rule name, plus
+   * the complete details of its conditions and consequences. The list includes all rules, whether
+   * created on the dashboard or pushed by the API.
+   *
+   * @param hitsPerPage Number of hits per page to retrieve default = 1000
+   * @param requestOptions Options to pass to this request
+   */
+  default RulesIterable browseRules(int hitsPerPage, RequestOptions requestOptions) {
+    return new RulesIterable((SearchIndex) this, hitsPerPage, requestOptions);
   }
 
   /**
