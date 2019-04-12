@@ -13,10 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith({IntegrationTestExtension.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class InsightsTest extends com.algolia.search.integration.insights.InsightsTest {
+
+  private static InsightsClient insightsClient =
+      new InsightsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
+
   InsightsTest() {
-    super(
-        IntegrationTestExtension.searchClient,
-        new InsightsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1));
+    super(IntegrationTestExtension.searchClient, insightsClient);
   }
 
   @AfterAll
