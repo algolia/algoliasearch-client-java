@@ -24,23 +24,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @ExtendWith({IntegrationTestExtension.class})
 class QueryRulesTest {
-
-  private SearchIndex<AlgoliaRule> index;
-  private List<AlgoliaRule> objectsToSave;
-
-  QueryRulesTest() {
-    index = searchClient.initIndex(getTestIndexName("rules"), AlgoliaRule.class);
-    objectsToSave =
+  @Test
+  void RulesTest() {
+    SearchIndex<AlgoliaRule> index =
+        searchClient.initIndex(getTestIndexName("rules"), AlgoliaRule.class);
+    List<AlgoliaRule> objectsToSave =
         Arrays.asList(
             new AlgoliaRule("iphone_7", "Apple", "7"),
             new AlgoliaRule("iphone_8", "Apple", "8"),
             new AlgoliaRule("iphone_X", "Apple", "X"),
             new AlgoliaRule("one_plus_one", "OnePlus", "One"),
             new AlgoliaRule("one_plus_two", "OnePlus", "Two"));
-  }
-
-  @Test
-  void RulesTest() {
 
     CompletableFuture<BatchIndexingResponse> saveObjectsFuture =
         index.saveObjectsAsync(objectsToSave);

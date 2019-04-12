@@ -15,26 +15,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})
 class MultiClusterManagementTest {
-
-  private static SearchClient mcmClient;
-
-  MultiClusterManagementTest() {
-    mcmClient = new SearchClient(ALGOLIA_APPLICATION_ID_MCM, ALGOLIA_ADMIN_KEY_MCM);
-  }
-
-  @AfterAll
-  static void afterAll() throws IOException {
-    mcmClient.close();
-  }
-
   @Test
-  void mcmTest() throws ExecutionException, InterruptedException {
+  void mcmTest() throws ExecutionException, InterruptedException, IOException {
+    SearchClient mcmClient = new SearchClient(ALGOLIA_APPLICATION_ID_MCM, ALGOLIA_ADMIN_KEY_MCM);
+
     ListClustersResponse listClusters = mcmClient.listClustersAsync().get();
     assertThat(listClusters.getClusters().size()).isEqualTo(2);
 
@@ -42,7 +31,7 @@ class MultiClusterManagementTest {
     String clusterName = listClusters.getClusters().get(0).getClusterName();
 
     mcmClient.assignUserIDAsync(userID, clusterName).get();
-    waitUserID(userID);
+    waitUserID(mcmClient, userID);
 
     SearchResult<UserId> searchResponse =
         mcmClient
@@ -56,7 +45,7 @@ class MultiClusterManagementTest {
     TopUserIdResponse topUserIds = mcmClient.getTopUserIDAsync().get();
     assertThat(topUserIds.getTopUsers()).hasSizeGreaterThan(0);
 
-    removeUserId(userID);
+    removeUserId(mcmClient, userID);
 
     ListUserIdsResponse listUserIds2 = mcmClient.listUserIDsAsync().get();
 
@@ -70,29 +59,31 @@ class MultiClusterManagementTest {
             .collect(Collectors.toList());
 
     userIDsToRemove.forEach(r -> mcmClient.removeUserID(r.getUserID()));
+
+    mcmClient.close();
   }
 
-  void waitUserID(String userID) throws InterruptedException {
+  void waitUserID(SearchClient client, String userID) throws InterruptedException {
     try {
-      mcmClient.getUserID(userID);
+      client.getUserID(userID);
     } catch (AlgoliaApiException e) {
       if (e.getHttpErrorCode() == 404
           && e.getMessage().contains("Mapping does not exist for this userID")) {
         Thread.sleep(1000);
-        waitUserID(userID);
+        waitUserID(client, userID);
       }
     }
   }
 
-  void removeUserId(String userID) throws InterruptedException {
+  void removeUserId(SearchClient client, String userID) throws InterruptedException {
     try {
-      mcmClient.removeUserID(userID);
+      client.removeUserID(userID);
     } catch (AlgoliaApiException e) {
       if (e.getHttpErrorCode() == 400
           && e.getMessage()
               .contains("Another mapping operation is already running for this userID")) {
         Thread.sleep(1000);
-        removeUserId(userID);
+        removeUserId(client, userID);
       }
     }
   }

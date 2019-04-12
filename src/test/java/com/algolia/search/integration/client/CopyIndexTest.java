@@ -23,35 +23,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})
 class CopyIndexTest {
-
-  private String sourceIndexName;
-  private String settingsIndexName;
-  private String rulesIndexName;
-  private String synonymsIndexName;
-  private String fullIndexName;
-
-  private SearchIndex<CopyIndexTestObject> sourceIndex;
-  private SearchIndex<CopyIndexTestObject> settingsIndex;
-  private SearchIndex<CopyIndexTestObject> rulesIndex;
-  private SearchIndex<CopyIndexTestObject> syonymsIndex;
-  private SearchIndex<CopyIndexTestObject> fullIndex;
-
-  CopyIndexTest() {
-    sourceIndexName = getTestIndexName("source_index");
-    settingsIndexName = getTestIndexName("copy_index_settings");
-    rulesIndexName = getTestIndexName("copy_index_rules");
-    synonymsIndexName = getTestIndexName("copy_index_synonyms");
-    fullIndexName = getTestIndexName("copy_index_full");
-
-    sourceIndex = searchClient.initIndex(sourceIndexName, CopyIndexTestObject.class);
-    settingsIndex = searchClient.initIndex(settingsIndexName, CopyIndexTestObject.class);
-    rulesIndex = searchClient.initIndex(rulesIndexName, CopyIndexTestObject.class);
-    syonymsIndex = searchClient.initIndex(synonymsIndexName, CopyIndexTestObject.class);
-    fullIndex = searchClient.initIndex(fullIndexName, CopyIndexTestObject.class);
-  }
-
   @Test
   void testCopyIndex() throws ExecutionException, InterruptedException {
+    String sourceIndexName = getTestIndexName("source_index");
+    String settingsIndexName = getTestIndexName("copy_index_settings");
+    String rulesIndexName = getTestIndexName("copy_index_rules");
+    String synonymsIndexName = getTestIndexName("copy_index_synonyms");
+    String fullIndexName = getTestIndexName("copy_index_full");
+
+    SearchIndex<CopyIndexTestObject> sourceIndex =
+        searchClient.initIndex(sourceIndexName, CopyIndexTestObject.class);
+    SearchIndex<CopyIndexTestObject> settingsIndex =
+        searchClient.initIndex(settingsIndexName, CopyIndexTestObject.class);
+    SearchIndex<CopyIndexTestObject> rulesIndex =
+        searchClient.initIndex(rulesIndexName, CopyIndexTestObject.class);
+    SearchIndex<CopyIndexTestObject> syonymsIndex =
+        searchClient.initIndex(synonymsIndexName, CopyIndexTestObject.class);
+    SearchIndex<CopyIndexTestObject> fullIndex =
+        searchClient.initIndex(fullIndexName, CopyIndexTestObject.class);
+
     List<CopyIndexTestObject> objectsToAdd =
         Arrays.asList(
             new CopyIndexTestObject("one", "apple"), new CopyIndexTestObject("two", "algolia"));

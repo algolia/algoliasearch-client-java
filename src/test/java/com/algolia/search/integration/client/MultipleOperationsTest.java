@@ -16,17 +16,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})
 class MultipleOperationsTest {
-
-  private String index1Name;
-  private String index2Name;
-
-  MultipleOperationsTest() {
-    index1Name = getTestIndexName("multiple_operations");
-    index2Name = getTestIndexName("multiple_operations_dev");
-  }
-
   @Test
   void testMultipleOperation() {
+    String index1Name = getTestIndexName("multiple_operations");
+    String index2Name = getTestIndexName("multiple_operations_dev");
 
     List<BatchOperation<AlgoliaMultipleOpObject>> objectsToSave =
         Arrays.asList(
