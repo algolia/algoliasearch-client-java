@@ -33,18 +33,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith({IntegrationTestExtension.class})
 class AnalyticsTest {
 
-  private SearchIndex<AlgoliaObject> index1;
-  private SearchIndex<AlgoliaObject> index2;
-  private String index1Name;
-  private String index2Name;
   private static AnalyticsClient analyticsClient;
 
   AnalyticsTest() {
     analyticsClient = new AnalyticsClient(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
-    index1Name = getTestIndexName("ab_testing");
-    index2Name = getTestIndexName("ab_testing_dev");
-    index1 = searchClient.initIndex(index1Name, AlgoliaObject.class);
-    index2 = searchClient.initIndex(index2Name, AlgoliaObject.class);
   }
 
   @AfterAll
@@ -54,6 +46,11 @@ class AnalyticsTest {
 
   @Test
   void abTestingTest() throws ExecutionException, InterruptedException {
+    String index1Name = getTestIndexName("ab_testing");
+    String index2Name = getTestIndexName("ab_testing_dev");
+    SearchIndex<AlgoliaObject> index1 = searchClient.initIndex(index1Name, AlgoliaObject.class);
+    SearchIndex<AlgoliaObject> index2 = searchClient.initIndex(index2Name, AlgoliaObject.class);
+
     String now =
         ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     String testName = String.format("java-%s-%s", now, userName);

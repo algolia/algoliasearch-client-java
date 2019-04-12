@@ -21,17 +21,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})
 class SettingsTest {
-
-  private SearchIndex<AlgoliaObject> index;
-  private String indexName;
-
-  SettingsTest() {
-    indexName = getTestIndexName("settings");
-    index = searchClient.initIndex(indexName, AlgoliaObject.class);
-  }
-
   @Test
   void testSettings() throws ExecutionException, InterruptedException {
+    String indexName = getTestIndexName("settings");
+    SearchIndex<AlgoliaObject> index = searchClient.initIndex(indexName, AlgoliaObject.class);
 
     CompletableFuture<BatchIndexingResponse> saveObjectFuture =
         index.saveObjectAsync(new AlgoliaObject("one", "value"));

@@ -18,16 +18,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})
 class IndexingTest {
-
-  private SearchIndex<AlgoliaIndexingObject> index;
-
-  IndexingTest() {
-    String indexName = getTestIndexName("indexing");
-    index = searchClient.initIndex(indexName, AlgoliaIndexingObject.class);
-  }
-
   @Test
   void testIndexingOperations() throws ExecutionException, InterruptedException {
+    String indexName = getTestIndexName("indexing");
+    SearchIndex<AlgoliaIndexingObject> index =
+        searchClient.initIndex(indexName, AlgoliaIndexingObject.class);
 
     // AddObject with ID
     AlgoliaIndexingObject objectOne = new AlgoliaIndexingObject("one");

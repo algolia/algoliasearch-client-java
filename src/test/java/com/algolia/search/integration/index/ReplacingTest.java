@@ -23,15 +23,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})
 class ReplacingTest {
-
-  private SearchIndex<AlgoliaObject> index;
-
-  ReplacingTest() {
-    index = searchClient.initIndex(getTestIndexName("replacing"), AlgoliaObject.class);
-  }
-
   @Test
   void testReplacing() throws ExecutionException, InterruptedException {
+    SearchIndex<AlgoliaObject> index =
+        searchClient.initIndex(getTestIndexName("replacing"), AlgoliaObject.class);
 
     CompletableFuture<BatchIndexingResponse> addObjectFuture =
         index.saveObjectAsync(new AlgoliaObject().setObjectID("one"));

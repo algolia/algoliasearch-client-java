@@ -19,13 +19,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})
 class SearchTest {
-
-  private SearchIndex<Employee> index;
-  private List<Employee> employees;
-
-  SearchTest() {
-    index = searchClient.initIndex(getTestIndexName("search"), Employee.class);
-    employees =
+  @Test
+  void testSearch() throws ExecutionException, InterruptedException {
+    SearchIndex<Employee> index =
+        searchClient.initIndex(getTestIndexName("search"), Employee.class);
+    List<Employee> employees =
         Arrays.asList(
             new Employee("Algolia", "Julien Lemoine"),
             new Employee("Algolia", "Julien Lemoine"),
@@ -40,10 +38,6 @@ class SearchTest {
             new Employee("SpaceX", "Elon Musk"),
             new Employee("Tesla", "Elon Musk"),
             new Employee("Yahoo", "Marissa Mayer"));
-  }
-
-  @Test
-  void testSearch() throws ExecutionException, InterruptedException {
 
     CompletableFuture<BatchIndexingResponse> saveObjectsFuture =
         index.saveObjectsAsync(employees, true);

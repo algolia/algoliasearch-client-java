@@ -23,15 +23,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @ExtendWith({IntegrationTestExtension.class})
 class BatchingTest {
-
-  private SearchIndex<ObjectToBatch> index;
-
-  BatchingTest() {
-    index = searchClient.initIndex("index_batching", ObjectToBatch.class);
-  }
-
   @Test
   void testBatching() throws ExecutionException, InterruptedException {
+    SearchIndex<ObjectToBatch> index =
+        searchClient.initIndex("index_batching", ObjectToBatch.class);
 
     List<ObjectToBatch> batchOne =
         Arrays.asList(
