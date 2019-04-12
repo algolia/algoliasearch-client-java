@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.algolia.search.util.AlgoliaUtils;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -16,7 +17,7 @@ abstract class ConfigBase {
   private static final String clientVersion = "3.0.0.0";
   private final String applicationID;
   private final String apiKey;
-  private final HashMap<String, String> defaultHeaders;
+  private final Map<String, String> defaultHeaders;
   private final int batchSize;
   private final Integer readTimeOut;
   private final Integer writeTimeOut;
@@ -29,7 +30,7 @@ abstract class ConfigBase {
 
     private final String applicationID;
     private final String apiKey;
-    private final HashMap<String, String> defaultHeaders;
+    private final Map<String, String> defaultHeaders;
     private int batchSize;
     private Integer readTimeOut;
     private Integer writeTimeOut;
@@ -95,6 +96,24 @@ abstract class ConfigBase {
       this.hosts = customHosts;
       return getThis();
     }
+
+    /**
+     * Associates the specified value with the specified key in this map. If the map previously
+     * contained a mapping for the key, the old value is replaced.
+     */
+    public T addExtraHeaders(@Nonnull String headerKey, @Nonnull String headerValue) {
+      this.defaultHeaders.put(headerKey, headerValue);
+      return getThis();
+    }
+
+    /**
+     * Copies all of the mappings from the specified map to this map. These mappings will replace
+     * any mappings that this map had for any of the keys currently in the specified map.
+     */
+    public T addExtraHeaders(Map<String, String> headers) {
+      this.defaultHeaders.putAll(headers);
+      return getThis();
+    }
   }
 
   protected ConfigBase(Builder<?> builder) {
@@ -138,7 +157,7 @@ abstract class ConfigBase {
     return apiKey;
   }
 
-  public HashMap<String, String> getDefaultHeaders() {
+  public Map<String, String> getDefaultHeaders() {
     return defaultHeaders;
   }
 
