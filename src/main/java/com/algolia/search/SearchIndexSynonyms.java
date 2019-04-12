@@ -4,6 +4,7 @@ import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
+import com.algolia.search.iterators.SynonymsIterable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
@@ -157,6 +158,35 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
             CallType.READ,
             Synonym.class,
             requestOptions);
+  }
+
+  /**
+   * Retrieve an index’s complete list of synonyms The list includes all synonyms - whether created
+   * on the dashboard or pushed by the API. The method returns an iterator.
+   */
+  default SynonymsIterable browseSynonyms() {
+    return browseSynonyms(1000, null);
+  }
+
+  /**
+   * Retrieve an index’s complete list of synonyms The list includes all synonyms - whether created
+   * on the dashboard or pushed by the API. The method returns an iterator.
+   *
+   * @param hitsPerPage Number of hits per page to retrieve default = 1000
+   */
+  default SynonymsIterable browseSynonyms(int hitsPerPage) {
+    return browseSynonyms(hitsPerPage, null);
+  }
+
+  /**
+   * Retrieve an index’s complete list of synonyms The list includes all synonyms - whether created
+   * on the dashboard or pushed by the API. The method returns an iterator.
+   *
+   * @param hitsPerPage Number of hits per page to retrieve default = 1000
+   * @param requestOptions Options to pass to this request
+   */
+  default SynonymsIterable browseSynonyms(int hitsPerPage, RequestOptions requestOptions) {
+    return new SynonymsIterable((SearchIndex) this, hitsPerPage, requestOptions);
   }
 
   /**

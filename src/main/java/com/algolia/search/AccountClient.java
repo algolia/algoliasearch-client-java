@@ -140,7 +140,7 @@ public final class AccountClient {
         CompletableFuture.supplyAsync(
                 () -> {
                   List<Synonym> synonyms = new ArrayList<>();
-                  SynonymsIterable sourceSynonyms = new SynonymsIterable(sourceIndex);
+                  SynonymsIterable sourceSynonyms = sourceIndex.browseSynonyms();
                   sourceSynonyms.forEach(synonyms::add);
                   return synonyms;
                 })
@@ -153,7 +153,7 @@ public final class AccountClient {
         CompletableFuture.supplyAsync(
                 () -> {
                   List<Rule> rules = new ArrayList<>();
-                  RulesIterable sourceRules = new RulesIterable(sourceIndex);
+                  RulesIterable sourceRules = sourceIndex.browseRules();
                   sourceRules.forEach(rules::add);
                   return rules;
                 })
