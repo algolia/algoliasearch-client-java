@@ -1,10 +1,10 @@
 package com.algolia.search.integration.client;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.CopyIndexTestObject;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.CopyResponse;
@@ -19,10 +19,15 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({IntegrationTestExtension.class})
-class CopyIndexTest {
+public abstract class CopyIndexTest {
+
+  protected final SearchClient searchClient;
+
+  protected CopyIndexTest(SearchClient searchClient) {
+    this.searchClient = searchClient;
+  }
+
   @Test
   void testCopyIndex() throws ExecutionException, InterruptedException {
     String sourceIndexName = getTestIndexName("source_index");

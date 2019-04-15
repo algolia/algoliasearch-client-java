@@ -1,14 +1,12 @@
 package com.algolia.search.integration.client;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.getMcmUserId;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchClient;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
-import java.io.IOException;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,14 +14,17 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({IntegrationTestExtension.class})
-class MultiClusterManagementTest {
+public abstract class MultiClusterManagementTest {
+
+  protected final SearchClient mcmClient;
+
+  protected MultiClusterManagementTest(SearchClient mcmClient) {
+    this.mcmClient = mcmClient;
+  }
+
   @Test
-  void mcmTest() throws ExecutionException, InterruptedException, IOException {
-    SearchClient mcmClient = new SearchClient(ALGOLIA_APPLICATION_ID_MCM, ALGOLIA_ADMIN_KEY_MCM);
-
+  void mcmTest() throws ExecutionException, InterruptedException {
     ListClustersResponse listClusters = mcmClient.listClustersAsync().get();
     assertThat(listClusters.getClusters().size()).isEqualTo(2);
 
@@ -59,8 +60,6 @@ class MultiClusterManagementTest {
             .collect(Collectors.toList());
 
     userIDsToRemove.forEach(r -> mcmClient.removeUserID(r.getUserID()));
-
-    mcmClient.close();
   }
 
   void waitUserID(SearchClient client, String userID) throws InterruptedException {

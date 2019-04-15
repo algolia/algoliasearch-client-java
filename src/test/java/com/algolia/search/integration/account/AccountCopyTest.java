@@ -1,12 +1,12 @@
 package com.algolia.search.integration.account;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.AccountClient;
+import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.rules.*;
@@ -20,10 +20,16 @@ import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({IntegrationTestExtension.class})
-class AccountCopyTest {
+public abstract class AccountCopyTest {
+
+  private final SearchClient searchClient;
+  private final SearchClient searchClient2;
+
+  protected AccountCopyTest(SearchClient searchClient, SearchClient searchClient2) {
+    this.searchClient = searchClient;
+    this.searchClient2 = searchClient2;
+  }
 
   @Test
   void accountCopyIndexSameApp() {

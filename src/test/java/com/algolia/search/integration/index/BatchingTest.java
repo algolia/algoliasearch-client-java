@@ -1,10 +1,9 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.ObjectToBatch;
 import com.algolia.search.iterators.IndexIterable;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
@@ -18,11 +17,16 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-@ExtendWith({IntegrationTestExtension.class})
-class BatchingTest {
+public abstract class BatchingTest {
+
+  protected final SearchClient searchClient;
+
+  protected BatchingTest(SearchClient searchClient) {
+    this.searchClient = searchClient;
+  }
+
   @Test
   void testBatching() throws ExecutionException, InterruptedException {
     SearchIndex<ObjectToBatch> index =

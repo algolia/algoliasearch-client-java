@@ -1,29 +1,35 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
+import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.synonyms.SaveSynonymResponse;
 import com.algolia.search.models.synonyms.Synonym;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
+import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-@ExtendWith({IntegrationTestExtension.class})
-class SynonymsTest {
+public abstract class SynonymsTest {
+
+  protected SearchClient searchClient;
+
+  protected SynonymsTest(SearchClient searchClient) {
+    this.searchClient = searchClient;
+  }
+
   @Test
   void testSynonyms() {
     String indexName = getTestIndexName("synonyms");
