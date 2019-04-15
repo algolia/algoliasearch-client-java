@@ -1,12 +1,12 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.MultiResponse;
@@ -19,10 +19,15 @@ import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({IntegrationTestExtension.class})
-class ReplacingTest {
+public abstract class ReplacingTest {
+
+  protected SearchClient searchClient;
+
+  protected ReplacingTest(SearchClient searchClient) {
+    this.searchClient = searchClient;
+  }
+
   @Test
   void testReplacing() throws ExecutionException, InterruptedException {
     SearchIndex<AlgoliaObject> index =

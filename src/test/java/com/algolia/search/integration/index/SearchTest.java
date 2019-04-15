@@ -1,10 +1,10 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
+import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
-import com.algolia.search.integration.IntegrationTestExtension;
 import com.algolia.search.integration.models.Employee;
 import com.algolia.search.models.indexing.*;
 import com.algolia.search.models.settings.IndexSettings;
@@ -15,10 +15,15 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({IntegrationTestExtension.class})
-class SearchTest {
+public abstract class SearchTest {
+
+  protected final SearchClient searchClient;
+
+  protected SearchTest(SearchClient searchClient) {
+    this.searchClient = searchClient;
+  }
+
   @Test
   void testSearch() throws ExecutionException, InterruptedException {
     SearchIndex<Employee> index =

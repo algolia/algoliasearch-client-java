@@ -30,13 +30,13 @@ import org.apache.http.util.EntityUtils;
  * implementation of {@link HttpRequester} It takes an {@link HttpRequest} as input. It returns an
  * {@link HttpResponse}.
  */
-class ApacheHttpRequester implements HttpRequester {
+public class ApacheHttpRequester implements HttpRequester {
 
   private final CloseableHttpAsyncClient asyncHttpClient;
   private final RequestConfig requestConfig;
   private final ConfigBase config;
 
-  ApacheHttpRequester(@Nonnull ConfigBase config) {
+  public ApacheHttpRequester(@Nonnull ConfigBase config) {
 
     this.config = config;
 
