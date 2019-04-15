@@ -1,5 +1,9 @@
 package com.algolia.search.integration.index;
 
+import static com.algolia.search.integration.TestHelpers.getTestIndexName;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.exceptions.AlgoliaApiException;
@@ -9,17 +13,12 @@ import com.algolia.search.models.synonyms.SaveSynonymResponse;
 import com.algolia.search.models.synonyms.Synonym;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
-import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public abstract class SynonymsTest {

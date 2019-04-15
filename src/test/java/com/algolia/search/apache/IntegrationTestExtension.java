@@ -1,4 +1,4 @@
-package com.algolia.search.integration;
+package com.algolia.search.apache;
 
 import com.algolia.search.SearchClient;
 import com.algolia.search.models.indexing.ActionEnum;
@@ -7,8 +7,6 @@ import com.algolia.search.models.indexing.IndicesResponse;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -28,10 +26,6 @@ public class IntegrationTestExtension
   public static String ALGOLIA_APPLICATION_ID_MCM = System.getenv("ALGOLIA_APPLICATION_ID_MCM");
   public static String ALGOLIA_ADMIN_KEY_MCM = System.getenv("ALGOLIA_ADMIN_KEY_MCM");
 
-  private static String osName = System.getProperty("os.name").trim();
-  public static String userName = System.getProperty("user.name");
-  private static String javaVersion = System.getProperty("java.version");
-
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
     checkEnvironmentVariable();
@@ -47,17 +41,6 @@ public class IntegrationTestExtension
       searchClient.close();
     } catch (IOException ignored) {
     }
-  }
-
-  public static String getTestIndexName(String indexName) {
-    ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
-    return String.format("java_jvm_%s_%s_%s_%s_%s", javaVersion, utc, osName, userName, indexName);
-  }
-
-  public static String getMcmUserId() {
-    ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
-    return String.format(
-        "java-%s-%s", DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss").format(utc), userName);
   }
 
   private void cleanPreviousIndices() {

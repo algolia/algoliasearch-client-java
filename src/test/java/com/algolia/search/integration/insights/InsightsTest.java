@@ -1,11 +1,10 @@
 package com.algolia.search.integration.insights;
 
-import static com.algolia.search.integration.IntegrationTestExtension.*;
-
 import com.algolia.search.InsightsClient;
 import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.UserInsightsClient;
+import com.algolia.search.integration.TestHelpers;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.indexing.SearchResult;
@@ -25,7 +24,7 @@ public abstract class InsightsTest {
 
   @Test
   void testInsights() throws ExecutionException, InterruptedException {
-    String indexName = getTestIndexName("insights");
+    String indexName = TestHelpers.getTestIndexName("insights");
     SearchIndex<AlgoliaObject> index = searchClient.initIndex(indexName, AlgoliaObject.class);
 
     UserInsightsClient insights = insightsClient.user("test");
