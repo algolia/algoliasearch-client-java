@@ -1,6 +1,6 @@
 package com.algolia.search.integration.index;
 
-import static com.algolia.search.integration.IntegrationTestExtension.getTestIndexName;
+import static com.algolia.search.integration.TestHelpers.getTestIndexName;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.algolia.search.SearchClient;

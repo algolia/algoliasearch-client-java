@@ -1,10 +1,10 @@
 package com.algolia.search.apache.client;
 
-import static com.algolia.search.integration.IntegrationTestExtension.ALGOLIA_ADMIN_KEY_MCM;
-import static com.algolia.search.integration.IntegrationTestExtension.ALGOLIA_APPLICATION_ID_MCM;
+import static com.algolia.search.apache.IntegrationTestExtension.ALGOLIA_ADMIN_KEY_MCM;
+import static com.algolia.search.apache.IntegrationTestExtension.ALGOLIA_APPLICATION_ID_MCM;
 
 import com.algolia.search.SearchClient;
-import com.algolia.search.integration.IntegrationTestExtension;
+import com.algolia.search.apache.IntegrationTestExtension;
 import java.io.IOException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.TestInstance;
