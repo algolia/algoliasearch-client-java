@@ -521,6 +521,15 @@ public class Query implements Serializable {
     return this;
   }
 
+  public Integer getPersonalizationImpact() {
+    return personalizationImpact;
+  }
+
+  public Query setPersonalizationImpact(Integer personalizationImpact) {
+    this.personalizationImpact = personalizationImpact;
+    return this;
+  }
+
   public List<List<String>> getFacetFilters() {
     return facetFilters;
   }
@@ -700,4 +709,5 @@ public class Query implements Serializable {
 
   /* Personalization */
   private Boolean enablePersonalization;
+  private Integer personalizationImpact;
 }
