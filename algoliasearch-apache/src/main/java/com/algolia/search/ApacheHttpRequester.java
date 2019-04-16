@@ -1,8 +1,5 @@
-package com.algolia.search.apache;
+package com.algolia.search;
 
-import com.algolia.search.ConfigBase;
-import com.algolia.search.Defaults;
-import com.algolia.search.HttpRequester;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.HttpRequest;
 import com.algolia.search.models.HttpResponse;
@@ -36,7 +33,7 @@ import org.apache.http.util.EntityUtils;
  * implementation of {@link HttpRequester} It takes an {@link HttpRequest} as input. It returns an
  * {@link HttpResponse}.
  */
-public class ApacheHttpRequester implements HttpRequester {
+final class ApacheHttpRequester implements HttpRequester {
 
   private final CloseableHttpAsyncClient asyncHttpClient;
   private final RequestConfig requestConfig;

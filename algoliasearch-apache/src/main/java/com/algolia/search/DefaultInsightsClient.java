@@ -1,7 +1,5 @@
-package com.algolia.search.apache;
+package com.algolia.search;
 
-import com.algolia.search.InsightsClient;
-import com.algolia.search.InsightsConfig;
 import javax.annotation.Nonnull;
 
 /**
@@ -12,7 +10,7 @@ import javax.annotation.Nonnull;
  * @see <a href="https://www.algolia.com/doc/rest-api/insights/">Algolia.com</a>
  */
 @SuppressWarnings("WeakerAccess")
-public class ApacheInsightsClient {
+public class DefaultInsightsClient {
 
   /**
    * Creates a {@link InsightsClient} with the given credentials
