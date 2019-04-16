@@ -4,18 +4,17 @@
     <parent>
         <artifactId>algoliasearch</artifactId>
         <groupId>com.algolia</groupId>
-        <version>3.0.0-beta-1</version>
+        <version>${algoliasearch-parent.version}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>algoliasearch-apache</artifactId>
-    <version>3.0.0-beta-1</version>
     <packaging>jar</packaging>
 
     <properties>
         <async-http-client.version>4.1.4</async-http-client.version>
         <jsr305.version>3.0.2</jsr305.version>
-        <algoliasearch-core-version>3.0.0-beta-1</algoliasearch-core-version>
+        <algoliasearch-apache.version>${algoliasearch-parent.version}</algoliasearch-apache.version>
     </properties>
 
     <dependencies>
@@ -30,13 +29,13 @@
         <dependency>
             <groupId>com.algolia</groupId>
             <artifactId>algoliasearch-core</artifactId>
-            <version>${algoliasearch-core-version}</version>
+            <version>${algoliasearch-apache.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.algolia</groupId>
             <artifactId>algoliasearch-core</artifactId>
-            <version>${algoliasearch-core-version}</version>
+            <version>${algoliasearch-apache.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
