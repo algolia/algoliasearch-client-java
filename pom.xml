@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.algolia</groupId>
     <artifactId>algoliasearch</artifactId>
-    <version>3.0.0-beta-1</version>
+    <version>${algoliasearch-parent.version}</version>
     <packaging>pom</packaging>
 
     <properties>
         <junit.version>5.4.0</junit.version>
         <assertj-core.version>3.12.1</assertj-core.version>
         <logback.version>1.2.3</logback.version>
-        <algoliasearch.version>3.0.0-beta-1</algoliasearch.version>
+        <algoliasearch-parent.version>3.0.0-beta-1</algoliasearch-parent.version>
     </properties>
 
     <name>Algolia Search</name>
