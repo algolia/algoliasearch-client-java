@@ -1,7 +1,5 @@
-package com.algolia.search.apache;
+package com.algolia.search;
 
-import com.algolia.search.SearchClient;
-import com.algolia.search.SearchConfig;
 import javax.annotation.Nonnull;
 
 /**
@@ -12,10 +10,10 @@ import javax.annotation.Nonnull;
  * @see <a href="https://www.algolia.com/doc/rest-api/search/">Algolia.com</a>
  */
 @SuppressWarnings("WeakerAccess")
-public class ApacheSearchClient {
+public class DefaultSearchClient {
 
   /**
-   * Creates a {@link ApacheSearchClient} with the given credentials
+   * Creates a {@link DefaultSearchClient} with the given credentials
    *
    * @param applicationID The Algolia Application ID
    * @param apiKey The Algolia API Key
@@ -26,7 +24,7 @@ public class ApacheSearchClient {
   }
 
   /**
-   * Creates a {@link ApacheSearchClient} with the given {@link SearchConfig}
+   * Creates a {@link DefaultSearchClient} with the given {@link SearchConfig}
    *
    * @param config The configuration allows you to advanced configuration of the clients such as
    *     batch size or custom hosts.

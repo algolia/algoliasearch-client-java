@@ -1,10 +1,7 @@
-package com.algolia.search.apache.client;
+package com.algolia.search.client;
 
-import static com.algolia.search.apache.IntegrationTestExtension.ALGOLIA_ADMIN_KEY_MCM;
-import static com.algolia.search.apache.IntegrationTestExtension.ALGOLIA_APPLICATION_ID_MCM;
-
-import com.algolia.search.apache.ApacheSearchClient;
-import com.algolia.search.apache.IntegrationTestExtension;
+import com.algolia.search.DefaultSearchClient;
+import com.algolia.search.IntegrationTestExtension;
 import java.io.IOException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.TestInstance;
@@ -16,7 +13,10 @@ class MultiClusterManagementTest
     extends com.algolia.search.integration.client.MultiClusterManagementTest {
 
   MultiClusterManagementTest() {
-    super(ApacheSearchClient.create(ALGOLIA_APPLICATION_ID_MCM, ALGOLIA_ADMIN_KEY_MCM));
+    super(
+        DefaultSearchClient.create(
+            IntegrationTestExtension.ALGOLIA_APPLICATION_ID_MCM,
+            IntegrationTestExtension.ALGOLIA_ADMIN_KEY_MCM));
   }
 
   @AfterAll

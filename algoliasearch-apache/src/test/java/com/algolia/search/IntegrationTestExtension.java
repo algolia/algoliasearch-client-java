@@ -1,6 +1,5 @@
-package com.algolia.search.apache;
+package com.algolia.search;
 
-import com.algolia.search.SearchClient;
 import com.algolia.search.models.indexing.ActionEnum;
 import com.algolia.search.models.indexing.BatchOperation;
 import com.algolia.search.models.indexing.IndicesResponse;
@@ -29,8 +28,8 @@ public class IntegrationTestExtension
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
     checkEnvironmentVariable();
-    searchClient = ApacheSearchClient.create(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
-    searchClient2 = ApacheSearchClient.create(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2);
+    searchClient = DefaultSearchClient.create(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
+    searchClient2 = DefaultSearchClient.create(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2);
     cleanPreviousIndices();
   }
 

@@ -1,6 +1,6 @@
-package com.algolia.search.apache.account;
+package com.algolia.search.account;
 
-import com.algolia.search.apache.IntegrationTestExtension;
+import com.algolia.search.IntegrationTestExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({IntegrationTestExtension.class})

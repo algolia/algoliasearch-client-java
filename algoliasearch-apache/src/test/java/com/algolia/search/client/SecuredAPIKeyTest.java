@@ -1,10 +1,10 @@
-package com.algolia.search.apache.client;
+package com.algolia.search.client;
 
-import static com.algolia.search.apache.IntegrationTestExtension.*;
+import static com.algolia.search.IntegrationTestExtension.*;
 
+import com.algolia.search.DefaultSearchClient;
+import com.algolia.search.IntegrationTestExtension;
 import com.algolia.search.SearchClient;
-import com.algolia.search.apache.ApacheSearchClient;
-import com.algolia.search.apache.IntegrationTestExtension;
 import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -19,6 +19,6 @@ class SecuredAPIKeyTest extends com.algolia.search.integration.client.SecuredAPI
   protected SearchClient createClientWithRestriction(SecuredApiKeyRestriction restriction)
       throws Exception {
     String key = searchClient.generateSecuredAPIKey(ALGOLIA_SEARCH_KEY_1, restriction);
-    return ApacheSearchClient.create(ALGOLIA_APPLICATION_ID_1, key);
+    return DefaultSearchClient.create(ALGOLIA_APPLICATION_ID_1, key);
   }
 }
