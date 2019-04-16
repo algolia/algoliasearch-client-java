@@ -72,7 +72,7 @@ public interface SearchClientPersonalization extends SearchClientBase {
   /**
    * This command configures the personalization strategy
    *
-   * @param request The personalization strategy>
+   * @param request The personalization strategy
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
@@ -84,7 +84,7 @@ public interface SearchClientPersonalization extends SearchClientBase {
   /**
    * This command configures the personalization strategy
    *
-   * @param request The personalization strategy>
+   * @param request The personalization strategy
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
@@ -98,7 +98,7 @@ public interface SearchClientPersonalization extends SearchClientBase {
   /**
    * This command configures the personalization strategy
    *
-   * @param request The personalization strategy>
+   * @param request The personalization strategy
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
@@ -111,7 +111,7 @@ public interface SearchClientPersonalization extends SearchClientBase {
   /**
    * This command configures the personalization strategy
    *
-   * @param request The personalization strategy>
+   * @param request The personalization strategy
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code

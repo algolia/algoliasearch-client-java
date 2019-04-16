@@ -3,7 +3,7 @@ package com.algolia.search.models.rules;
 /**
  * Edit type. More information:
  *
- * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules">Algolia.com</a>
  */
 @SuppressWarnings("WeakerAccess")
 public class EditType {
