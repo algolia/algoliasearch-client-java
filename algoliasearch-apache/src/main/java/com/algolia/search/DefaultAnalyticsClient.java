@@ -1,7 +1,5 @@
-package com.algolia.search.apache;
+package com.algolia.search;
 
-import com.algolia.search.AnalyticsClient;
-import com.algolia.search.AnalyticsConfig;
 import javax.annotation.Nonnull;
 
 /**
@@ -12,7 +10,7 @@ import javax.annotation.Nonnull;
  * @see <a href="https://www.algolia.com/doc/rest-api/analytics/">Algolia.com</a>
  */
 @SuppressWarnings("WeakerAccess")
-public class ApacheAnalyticsClient {
+public class DefaultAnalyticsClient {
 
   /**
    * Creates a {@link AnalyticsClient} with the given credentials

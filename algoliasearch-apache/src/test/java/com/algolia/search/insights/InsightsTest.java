@@ -1,11 +1,8 @@
-package com.algolia.search.apache.insights;
+package com.algolia.search.insights;
 
-import static com.algolia.search.apache.IntegrationTestExtension.ALGOLIA_API_KEY_1;
-import static com.algolia.search.apache.IntegrationTestExtension.ALGOLIA_APPLICATION_ID_1;
-
+import com.algolia.search.DefaultInsightsClient;
 import com.algolia.search.InsightsClient;
-import com.algolia.search.apache.ApacheInsightsClient;
-import com.algolia.search.apache.IntegrationTestExtension;
+import com.algolia.search.IntegrationTestExtension;
 import java.io.IOException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.TestInstance;
@@ -16,7 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class InsightsTest extends com.algolia.search.integration.insights.InsightsTest {
 
   private static InsightsClient insightsClient =
-      ApacheInsightsClient.create(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
+      DefaultInsightsClient.create(
+          IntegrationTestExtension.ALGOLIA_APPLICATION_ID_1,
+          IntegrationTestExtension.ALGOLIA_API_KEY_1);
 
   InsightsTest() {
     super(IntegrationTestExtension.searchClient, insightsClient);
