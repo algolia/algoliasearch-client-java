@@ -23,13 +23,13 @@
         <dependency>
             <groupId>com.algolia</groupId>
             <artifactId>algoliasearch-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.algolia</groupId>
             <artifactId>algoliasearch-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
             <classifier>tests</classifier>
