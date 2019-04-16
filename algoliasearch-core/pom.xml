@@ -3,19 +3,16 @@
     <parent>
         <artifactId>algoliasearch</artifactId>
         <groupId>com.algolia</groupId>
-        <version>${algoliasearch-parent.version}</version>
+        <version>3.0.0-beta-1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>algoliasearch-core</artifactId>
-    <version>${algoliasearch-core.version}</version>
     <packaging>jar</packaging>
 
     <properties>
         <jackson.version>2.9.8</jackson.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <algoliasearch-core.version>${algoliasearch-parent.version}</algoliasearch-core.version>
     </properties>
 
     <dependencies>
