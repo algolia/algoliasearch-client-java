@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Consequence parameter. More information:
  *
- * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules">Algolia.com</a>
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Consequence implements Serializable {

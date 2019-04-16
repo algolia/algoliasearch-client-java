@@ -27,16 +27,18 @@ public class QueryStringUtils {
   }
 
   /**
-   * Build a query string from a map Encodes the key and the value of the map Output a=3&b=2
+   * Build a query string from its input
    *
    * @param map The map to convert to a query string
+   * @param withoutLeadingMark Tells whether or not the leading interrogation mark should be used as
+   *     a prefix of the query string.
    */
   public static String buildQueryString(Map<String, String> map, boolean withoutLeadingMark) {
     return withoutLeadingMark ? buildString(map).orElse("") : buildQueryString(map);
   }
 
   /**
-   * Build a query string from a map Encodes the key and the value of the map Output ?a=3&b=2
+   * Build a query string from its input
    *
    * @param map The map to convert to a query string
    */

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Automatic facet filters parameter. More information:
  *
- * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules">Algolia.com</a>
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Facet filters More information:
  *
- * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules>Algolia.com</a>
+ * @see <a href="https://www.algolia.com/doc/api-client/methods/query-rules">Algolia.com</a>
  */
 @JsonDeserialize(using = FacetFiltersJsonDeserializer.class)
 @JsonSerialize(using = FacetFiltersJsonSerializer.class)
