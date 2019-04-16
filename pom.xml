@@ -7,11 +7,17 @@
     <version>3.0.0-beta-1</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <junit.version>5.4.0</junit.version>
+        <assertj-core.version>3.12.1</assertj-core.version>
+        <logback.version>1.2.3</logback.version>
+        <algoliasearch.version>3.0.0-beta-1</algoliasearch.version>
+    </properties>
+
     <name>Algolia Search</name>
     <description>Java client for Algolia Search API</description>
     <url>https://github.com/algolia/algoliasearch-client-java-2</url>
 
-    <!-- sub modules -->
     <modules>
         <module>algoliasearch-core</module>
         <module>algoliasearch-apache</module>
@@ -108,46 +114,7 @@
             </plugin>
         </plugins>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
-                    <executions>
-                        <execution>
-                            <id>sign-artifacts</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
-                    <configuration>
-                        <tagNameFormat>@{project.version}</tagNameFormat>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.maven.scm</groupId>
-                            <artifactId>maven-scm-provider-gitexe</artifactId>
-                            <version>1.9.4</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
-
-    <properties>
-        <junit.version>5.4.0</junit.version>
-        <assertj-core.version>3.12.1</assertj-core.version>
-        <logback.version>1.2.3</logback.version>
-    </properties>
 
     <dependencies>
         <dependency>
