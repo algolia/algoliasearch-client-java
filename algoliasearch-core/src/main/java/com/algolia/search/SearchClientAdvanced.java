@@ -234,4 +234,189 @@ public interface SearchClientAdvanced extends SearchClientBase {
         .executeRequestAsync(HttpMethod.GET, "/1/logs", CallType.READ, Logs.class, requestOptions)
         .thenApplyAsync(Logs::getLogs, getConfig().getExecutor());
   }
+
+  /**
+   * Executes a custom to the Algolia API under the retry strategy.
+   *
+   * @param data The data to send to the API
+   * @param returnClazz The return class
+   * @param httpMethod The http method. {@link HttpMethod}
+   * @param path The path to the Algolia REST API method
+   * @param callType The CallType. {@link CallType}
+   * @param <U> The return class
+   * @param <T> The data class
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default <T, U> U customRequest(
+      T data,
+      Class<U> returnClazz,
+      @Nonnull HttpMethod httpMethod,
+      @Nonnull String path,
+      @Nonnull CallType callType) {
+    return LaunderThrowable.await(
+        customRequestAsync(data, returnClazz, httpMethod, path, callType));
+  }
+
+  /**
+   * Executes a custom to the Algolia API under the retry strategy.
+   *
+   * @param data The data to send to the API
+   * @param returnClazz The return class
+   * @param httpMethod The http method. {@link HttpMethod}
+   * @param path The path to the Algolia REST API method
+   * @param callType The CallType. {@link CallType}
+   * @param requestOptions Options to pass to this request
+   * @param <U> The return class
+   * @param <T> The data class
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default <T, U> U customRequest(
+      T data,
+      Class<U> returnClazz,
+      @Nonnull HttpMethod httpMethod,
+      @Nonnull String path,
+      @Nonnull CallType callType,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.await(
+        customRequestAsync(data, returnClazz, httpMethod, path, callType, requestOptions));
+  }
+
+  /**
+   * Executes a custom to the Algolia API under the retry strategy.
+   *
+   * @param returnClazz The return class
+   * @param httpMethod The http method. {@link HttpMethod}
+   * @param path The path to the Algolia REST API method
+   * @param callType The CallType. {@link CallType}
+   * @param <U> The return class
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default <U> U customRequest(
+      Class<U> returnClazz,
+      @Nonnull HttpMethod httpMethod,
+      @Nonnull String path,
+      @Nonnull CallType callType) {
+    return LaunderThrowable.await(customRequestAsync(returnClazz, httpMethod, path, callType));
+  }
+
+  /**
+   * Executes a custom to the Algolia API under the retry strategy.
+   *
+   * @param returnClazz The return class
+   * @param httpMethod The http method. {@link HttpMethod}
+   * @param path The path to the Algolia REST API method
+   * @param callType The CallType. {@link CallType}
+   * @param requestOptions Options to pass to this request
+   * @param <U> The return class
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default <U> U customRequest(
+      Class<U> returnClazz,
+      @Nonnull HttpMethod httpMethod,
+      @Nonnull String path,
+      @Nonnull CallType callType,
+      RequestOptions requestOptions) {
+    return LaunderThrowable.await(
+        customRequestAsync(returnClazz, httpMethod, path, callType, requestOptions));
+  }
+
+  /**
+   * Executes a custom to the Algolia API under the retry strategy.
+   *
+   * @param data The data to send to the API
+   * @param returnClazz The return class
+   * @param httpMethod The http method. {@link HttpMethod}
+   * @param path The path to the Algolia REST API method
+   * @param callType The CallType. {@link CallType}
+   * @param <U> The return class
+   * @param <T> The data class
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default <T, U> CompletableFuture<U> customRequestAsync(
+      T data,
+      Class<U> returnClazz,
+      @Nonnull HttpMethod httpMethod,
+      @Nonnull String path,
+      @Nonnull CallType callType) {
+    return customRequestAsync(data, returnClazz, httpMethod, path, callType, null);
+  }
+
+  /**
+   * Executes a custom to the Algolia API under the retry strategy.
+   *
+   * @param data The data to send to the API
+   * @param returnClazz The return class
+   * @param httpMethod The http method. {@link HttpMethod}
+   * @param path The path to the Algolia REST API method
+   * @param callType The CallType. {@link CallType}
+   * @param requestOptions Options to pass to this request
+   * @param <U> The return class
+   * @param <T> The data class
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default <T, U> CompletableFuture<U> customRequestAsync(
+      T data,
+      Class<U> returnClazz,
+      @Nonnull HttpMethod httpMethod,
+      @Nonnull String path,
+      @Nonnull CallType callType,
+      RequestOptions requestOptions) {
+    return getTransport()
+        .executeRequestAsync(httpMethod, path, callType, data, returnClazz, requestOptions);
+  }
+
+  /**
+   * Executes a custom to the Algolia API under the retry strategy.
+   *
+   * @param returnClazz The return class
+   * @param httpMethod The http method. {@link HttpMethod}
+   * @param path The path to the Algolia REST API method
+   * @param callType The CallType. {@link CallType}
+   * @param <U> The return class
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default <U> CompletableFuture<U> customRequestAsync(
+      Class<U> returnClazz,
+      @Nonnull HttpMethod httpMethod,
+      @Nonnull String path,
+      @Nonnull CallType callType) {
+    return customRequestAsync(returnClazz, httpMethod, path, callType, null);
+  }
+
+  /**
+   * Executes a custom to the Algolia API under the retry strategy.
+   *
+   * @param returnClazz The return class
+   * @param httpMethod The http method. {@link HttpMethod}
+   * @param path The path to the Algolia REST API method
+   * @param callType The CallType. {@link CallType}
+   * @param requestOptions Options to pass to this request
+   * @param <U> The return class
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default <U> CompletableFuture<U> customRequestAsync(
+      Class<U> returnClazz,
+      @Nonnull HttpMethod httpMethod,
+      @Nonnull String path,
+      @Nonnull CallType callType,
+      RequestOptions requestOptions) {
+    return getTransport()
+        .executeRequestAsync(httpMethod, path, callType, returnClazz, requestOptions);
+  }
 }
