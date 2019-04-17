@@ -17,7 +17,8 @@ public class DefaultAnalyticsClient {
    *
    * @param applicationID The Algolia Application ID
    * @param apiKey The Algolia API Key
-   * @throws NullPointerException if ApplicationID/ApiKey is null
+   * @throws NullPointerException If one of the following ApplicationID/ApiKey is null
+   * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
    */
   public static AnalyticsClient create(@Nonnull String applicationID, @Nonnull String apiKey) {
     return create(new AnalyticsConfig.Builder(applicationID, apiKey).build());
@@ -28,7 +29,8 @@ public class DefaultAnalyticsClient {
    *
    * @param config The configuration allows you to advanced configuration of the clients such as
    *     batch size or custom hosts.
-   * @throws NullPointerException if Config is null
+   * @throws NullPointerException If one of the following ApplicationID/ApiKey/Config is null
+   * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
    */
   public static AnalyticsClient create(@Nonnull AnalyticsConfig config) {
     return new AnalyticsClient(config, new ApacheHttpRequester(config));

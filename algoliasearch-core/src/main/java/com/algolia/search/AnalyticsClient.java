@@ -34,7 +34,9 @@ public final class AnalyticsClient implements Closeable {
    * @param config The configuration allows you to advanced configuration of the clients such as
    *     batch size or custom hosts.
    * @param httpRequester Another HTTP Client than the default one.
-   * @throws NullPointerException if ApplicationID/ApiKey/Config/Requester is null
+   * @throws NullPointerException If one of the following
+   *     ApplicationID/ApiKey/Configuration/Requester is null
+   * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
    */
   public AnalyticsClient(@Nonnull AnalyticsConfig config, @Nonnull HttpRequester httpRequester) {
 

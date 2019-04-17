@@ -43,7 +43,8 @@ public abstract class ConfigBase {
      *
      * @param applicationID The Algolia Application ID
      * @param apiKey The API Key: could be Admin API Key or Search API Key
-     * @throws NullPointerException if ApplicationID/ApiKey/Config/Requester is null
+     * @throws NullPointerException If the ApplicationID or the APIKey or the hosts are null
+     * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
      */
     public Builder(
         @Nonnull String applicationID,
@@ -99,7 +100,7 @@ public abstract class ConfigBase {
     }
 
     /** Sets a custom executor service. Default ForkJoinPool will be overridden. */
-    public T setExecutorService(ExecutorService executorService){
+    public T setExecutorService(ExecutorService executorService) {
       this.executor = executorService;
       return getThis();
     }
@@ -130,11 +131,11 @@ public abstract class ConfigBase {
     Objects.requireNonNull(builder.hosts, "Default hosts are required.");
 
     if (AlgoliaUtils.isEmptyWhiteSpace(builder.applicationID)) {
-      throw new NullPointerException("The ApplicationID can't be empty.");
+      throw new IllegalArgumentException("The ApplicationID can't be empty.");
     }
 
     if (AlgoliaUtils.isEmptyWhiteSpace(builder.apiKey)) {
-      throw new NullPointerException("The APIKey can't be empty.");
+      throw new IllegalArgumentException("The APIKey can't be empty.");
     }
 
     this.apiKey = builder.apiKey;
