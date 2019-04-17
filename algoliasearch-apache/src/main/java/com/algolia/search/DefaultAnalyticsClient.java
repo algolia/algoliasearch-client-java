@@ -13,7 +13,8 @@ import javax.annotation.Nonnull;
 public class DefaultAnalyticsClient {
 
   /**
-   * Creates a {@link AnalyticsClient} with the given credentials
+   * Creates a default {@link AnalyticsClient} with the given credentials. The default HttpClient
+   * implementation is {@link ApacheHttpRequester}
    *
    * @param applicationID The Algolia Application ID
    * @param apiKey The Algolia API Key
@@ -25,10 +26,11 @@ public class DefaultAnalyticsClient {
   }
 
   /**
-   * Creates a {@link AnalyticsClient} with the given {@link AnalyticsConfig}
+   * Creates a default {@link AnalyticsClient} with the given {@link AnalyticsConfig}. The default
+   * HttpClient implementation is {@link ApacheHttpRequester}
    *
    * @param config The configuration allows you to advanced configuration of the clients such as
-   *     batch size or custom hosts.
+   *     batch size or custom hosts and timeout.
    * @throws NullPointerException If one of the following ApplicationID/ApiKey/Config is null
    * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
    */

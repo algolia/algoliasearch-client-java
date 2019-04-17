@@ -29,11 +29,13 @@ public final class AnalyticsClient implements Closeable {
   private final HttpTransport transport;
 
   /**
-   * Creates a {@link AnalyticsClient} with the given {@link AnalyticsConfig}
+   * Creates a custom {@link AnalyticsClient} with the given {@link AnalyticsConfig} and the given
+   * {@link HttpRequester}
    *
    * @param config The configuration allows you to advanced configuration of the clients such as
-   *     batch size or custom hosts.
-   * @param httpRequester Another HTTP Client than the default one.
+   *     batch size or custom hosts and timeout.
+   * @param httpRequester Another HTTP Client than the default one. Must be an implementation of
+   *     {@link HttpRequester}.
    * @throws NullPointerException If one of the following
    *     ApplicationID/ApiKey/Configuration/Requester is null
    * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
