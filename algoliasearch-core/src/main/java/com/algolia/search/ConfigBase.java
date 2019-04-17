@@ -14,7 +14,6 @@ import javax.annotation.Nonnull;
 public abstract class ConfigBase {
 
   private static final String javaVersion = System.getProperty("java.version");
-  private static final String clientVersion = "3.0.0.0";
   private final String applicationID;
   private final String apiKey;
   private final Map<String, String> defaultHeaders;
@@ -52,17 +51,21 @@ public abstract class ConfigBase {
         @Nonnull List<StatefulHost> defaultHosts) {
       this.applicationID = applicationID;
       this.apiKey = apiKey;
+
       this.batchSize = 1000;
       this.hosts = defaultHosts;
       this.connectTimeOut = Defaults.CONNECT_TIMEOUT_MS;
+
       this.defaultHeaders = new HashMap<>();
       this.defaultHeaders.put(Defaults.ALGOLIA_APPLICATION_HEADER, applicationID);
       this.defaultHeaders.put(Defaults.ALGOLIA_KEY_HEADER, apiKey);
+      String clientVersion = this.getClass().getPackage().getImplementationVersion();
       this.defaultHeaders.put(
           Defaults.USER_AGENT_HEADER,
           String.format("Algolia for Java (%s); JVM (%s)", clientVersion, javaVersion));
       this.defaultHeaders.put(Defaults.ACCEPT_HEADER, Defaults.APPLICATION_JSON);
       this.defaultHeaders.put(Defaults.ACCEPT_ENCODING_HEADER, Defaults.CONTENT_ENCODING_GZIP);
+
       this.executor = ForkJoinPool.commonPool();
     }
 
@@ -147,14 +150,6 @@ public abstract class ConfigBase {
     this.connectTimeOut = builder.connectTimeOut;
     this.hosts = builder.hosts;
     this.executor = builder.executor;
-  }
-
-  public static String getJavaVersion() {
-    return javaVersion;
-  }
-
-  public static String getClientVersion() {
-    return clientVersion;
   }
 
   public String getApplicationID() {
