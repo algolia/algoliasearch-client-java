@@ -40,7 +40,9 @@ public final class SearchClient
    * @param config The configuration allows you to advanced configuration of the clients such as
    *     batch size or custom hosts.
    * @param httpRequester Another HTTP Client than the default one.
-   * @throws NullPointerException if ApplicationID/ApiKey/Config/Requester is null
+   * @throws NullPointerException If one of the following ApplicationID/ApiKey/Config/Requester is
+   *     null
+   * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
    */
   public SearchClient(@Nonnull SearchConfig config, @Nonnull HttpRequester httpRequester) {
 
@@ -75,14 +77,14 @@ public final class SearchClient
    * Get the index object initialized (no server call needed for initialization)
    *
    * @param indexName The name of the Algolia index
-   * @throws NullPointerException When indexName is null or empty
+   * @throws IllegalArgumentException When indexName is null or empty
    */
   public SearchIndex<?> initIndex(@Nonnull String indexName) {
 
     Objects.requireNonNull(indexName, "indexName can't be null.");
 
     if (AlgoliaUtils.isEmptyWhiteSpace(indexName)) {
-      throw new NullPointerException("The index name is required");
+      throw new IllegalArgumentException("The index name is required. It can't be empty.");
     }
 
     return new SearchIndex<>(transport, config, indexName, Object.class);
@@ -94,7 +96,7 @@ public final class SearchClient
    * @param indexName The name of the Algolia index
    * @param clazz class of the object in this index
    * @param <T> the type of the objects in this index
-   * @throws NullPointerException When indexName is null or empty
+   * @throws IllegalArgumentException When indexName is null or empty
    */
   public <T> SearchIndex<T> initIndex(@Nonnull String indexName, @Nonnull Class<T> clazz) {
 
@@ -102,7 +104,7 @@ public final class SearchClient
     Objects.requireNonNull(clazz, "A class is required.");
 
     if (AlgoliaUtils.isEmptyWhiteSpace(indexName)) {
-      throw new NullPointerException("The index name is required");
+      throw new IllegalArgumentException("The index name is required. It can't be empty.");
     }
 
     return new SearchIndex<>(transport, config, indexName, clazz);
