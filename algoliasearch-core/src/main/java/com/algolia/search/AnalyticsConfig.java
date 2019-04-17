@@ -10,7 +10,7 @@ public final class AnalyticsConfig extends ConfigBase {
   public static class Builder extends ConfigBase.Builder<Builder> {
 
     /**
-     * Creates an {@link AnalyticsConfig} with the default host
+     * Creates an {@link AnalyticsConfig} with the default hosts
      *
      * @param applicationID The Application ID
      * @param apiKey The API Key

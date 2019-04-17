@@ -31,15 +31,17 @@ public final class SearchClient
   /** The transport layer. Must be reused. */
   private final HttpTransport transport;
 
-  /** Client's configuration */
+  /** Client's configuration. Must be reused. */
   private final ConfigBase config;
 
   /**
-   * Creates a {@link SearchClient} with the given {@link SearchConfig}
+   * Creates a custom {@link SearchClient} with the given {@link SearchConfig} and the given {@link
+   * HttpRequester}
    *
    * @param config The configuration allows you to advanced configuration of the clients such as
-   *     batch size or custom hosts.
-   * @param httpRequester Another HTTP Client than the default one.
+   *     batch size or custom hosts and timeout.
+   * @param httpRequester Another HTTP Client than the default one. Must be an implementation of
+   *     {@link HttpRequester}.
    * @throws NullPointerException If one of the following ApplicationID/ApiKey/Config/Requester is
    *     null
    * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
@@ -54,7 +56,7 @@ public final class SearchClient
   }
 
   /**
-   * Close the underlying Http Client
+   * Close the underlying HttpClient and resources.
    *
    * @throws IOException if an I/O error occurs
    */
