@@ -45,7 +45,9 @@ public class DeleteApiKeyResponse implements WaitableResponse, Serializable {
 
         try {
           Thread.sleep(1000);
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException e) {
+          // Restore interrupted state...
+          Thread.currentThread().interrupt();
         }
       }
     }

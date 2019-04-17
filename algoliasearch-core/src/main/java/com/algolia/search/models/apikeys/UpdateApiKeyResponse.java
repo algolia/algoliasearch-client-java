@@ -58,7 +58,9 @@ public class UpdateApiKeyResponse implements WaitableResponse, Serializable {
 
       try {
         Thread.sleep(1000);
-      } catch (InterruptedException ignored) {
+      } catch (InterruptedException ex) {
+        // Restore interrupted state...
+        Thread.currentThread().interrupt();
       }
     }
   }

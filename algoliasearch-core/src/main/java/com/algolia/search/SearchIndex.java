@@ -1813,6 +1813,8 @@ public final class SearchIndex<T>
       try {
         Thread.sleep(timeToWait);
       } catch (InterruptedException ignored) {
+        // Restore interrupted state...
+        Thread.currentThread().interrupt();
       }
 
       timeToWait *= 2;
