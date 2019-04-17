@@ -8,11 +8,14 @@ import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.Log;
+import com.algolia.search.models.common.LogType;
 import com.algolia.search.models.common.Logs;
 import com.algolia.search.models.indexing.IndicesResponse;
 import com.algolia.search.models.indexing.ListIndicesResponse;
+import com.algolia.search.util.AlgoliaUtils;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import javax.annotation.Nonnull;
 
 public interface SearchClientAdvanced extends SearchClientBase {
 
@@ -107,7 +110,23 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default List<Log> getLogs(int offset, int length) {
-    return LaunderThrowable.await(getLogsAsync(offset, length, null));
+    return LaunderThrowable.await(getLogsAsync(offset, length));
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+   * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
+   *     allowed value: 1,000.
+   * @param logType Log type values can be found in {@link LogType}
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default List<Log> getLogs(int offset, int length, @Nonnull String logType) {
+    return LaunderThrowable.await(getLogsAsync(offset, length, logType));
   }
 
   /**
@@ -123,7 +142,8 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default List<Log> getLogs(int offset, int length, RequestOptions requestOptions) {
-    return LaunderThrowable.await(getLogsAsync(offset, length, requestOptions));
+    return LaunderThrowable.await(
+        getLogsAsync(offset, length, LogType.LOG_ALL.getName(), requestOptions));
   }
 
   /**
@@ -135,7 +155,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<List<Log>> getLogsAsync() {
-    return getLogsAsync(0, 10, null);
+    return getLogsAsync(0, 10);
   }
 
   /**
@@ -150,7 +170,24 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<List<Log>> getLogsAsync(int offset, int length) {
-    return getLogsAsync(offset, length, null);
+    return getLogsAsync(offset, length, LogType.LOG_ALL.getName());
+  }
+
+  /**
+   * Get the logs of the latest search and indexing operations You can retrieve the logs of your
+   * last 1,000 API calls. It is designed for immediate, real-time debugging.
+   *
+   * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+   * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
+   *     allowed value: 1,000.
+   * @param logType Log type values can be found in {@link LogType}
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CompletableFuture<List<Log>> getLogsAsync(
+      int offset, int length, @Nonnull String logType) {
+    return getLogsAsync(offset, length, logType, null);
   }
 
   /**
@@ -163,7 +200,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<List<Log>> getLogsAsync(RequestOptions requestOptions) {
-    return getLogsAsync(0, 10, requestOptions);
+    return getLogsAsync(0, 10, LogType.LOG_ALL.getName(), requestOptions);
   }
 
   /**
@@ -173,13 +210,18 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @param offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
    * @param length Specify the maximum number of entries to retrieve starting at the offset. Maximum
    *     allowed value: 1,000.
+   * @param logType Log type values can be found in {@link LogType}
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<List<Log>> getLogsAsync(
-      int offset, int length, RequestOptions requestOptions) {
+      int offset, int length, @Nonnull String logType, RequestOptions requestOptions) {
+
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(logType)) {
+      throw new AlgoliaRuntimeException("logType can't be null, empty or whitespaces");
+    }
 
     if (requestOptions == null) {
       requestOptions = new RequestOptions();
