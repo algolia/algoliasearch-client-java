@@ -684,7 +684,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   *     Jacksonannotation @JsonProperty(\"objectID\"") and autoGenerateObjectID = false
    */
   public BatchIndexingResponse saveObject(@Nonnull T data, boolean autoGenerateObjectID) {
     return LaunderThrowable.await(saveObjectAsync(data, autoGenerateObjectID));
@@ -716,7 +716,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   *     Jacksonannotation @JsonProperty(\"objectID\"") and autoGenerateObjectID = false
    */
   public BatchIndexingResponse saveObject(
       @Nonnull T data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
@@ -747,7 +747,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   *     Jacksonannotation @JsonProperty(\"objectID\"") and autoGenerateObjectID = false
    */
   public CompletableFuture<BatchIndexingResponse> saveObjectAsync(
       @Nonnull T data, boolean autoGenerateObjectID) {
@@ -781,7 +781,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   *     Jacksonannotation @JsonProperty(\"objectID\"") and autoGenerateObjectID = false
    */
   public CompletableFuture<BatchIndexingResponse> saveObjectAsync(
       @Nonnull T data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
@@ -815,7 +815,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   *     Jacksonannotation @JsonProperty(\"objectID\"") and autoGenerateObjectID = false
    */
   public BatchIndexingResponse saveObjects(
       @Nonnull Iterable<T> data, boolean autoGenerateObjectID) {
@@ -849,7 +849,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   *     Jacksonannotation @JsonProperty(\"objectID\"") and autoGenerateObjectID = false
    */
   public BatchIndexingResponse saveObjects(
       @Nonnull Iterable<T> data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
@@ -880,7 +880,7 @@ public final class SearchIndex<T>
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   *     Jacksonannotation @JsonProperty(\"objectID\"") and autoGenerateObjectID = false
    */
   public CompletableFuture<BatchIndexingResponse> saveObjectsAsync(
       @Nonnull Iterable<T> data, boolean autoGenerateObjectID) {
@@ -914,15 +914,20 @@ public final class SearchIndex<T>
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
-   *     Jacksonannotation @JsonProperty(\"objectID\"")
+   *     Jacksonannotation @JsonProperty(\"objectID\"") and autoGenerateObjectID = false
    */
   public CompletableFuture<BatchIndexingResponse> saveObjectsAsync(
       @Nonnull Iterable<T> data, boolean autoGenerateObjectID, RequestOptions requestOptions) {
+
     Objects.requireNonNull(data, "Data are required.");
 
     if (autoGenerateObjectID) {
       return splitIntoBatchesAsync(data, ActionEnum.ADD_OBJECT, requestOptions);
     }
+
+    // If we are not auto generating objectIDS we must make sure clazz has an objectID or Jackson
+    // annotation with objectID
+    AlgoliaUtils.ensureObjectID(clazz);
 
     return splitIntoBatchesAsync(data, ActionEnum.UPDATE_OBJECT, requestOptions);
   }

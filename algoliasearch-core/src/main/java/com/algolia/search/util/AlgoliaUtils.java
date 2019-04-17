@@ -40,7 +40,7 @@ public class AlgoliaUtils {
       throw new AlgoliaRuntimeException(
           "The "
               + clazz
-              + "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
+              + " must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
     }
   }
 
@@ -77,8 +77,15 @@ public class AlgoliaUtils {
       Field objectIDField = optObjectIDField.get();
       try {
         objectIDField.setAccessible(true);
-        return (String) objectIDField.get(data);
+
+        objectID = (String) objectIDField.get(data);
+
+        if (objectID != null) {
+          return objectID;
+        }
+
       } catch (IllegalAccessException ignored) {
+        throw new AlgoliaRuntimeException("Can't access the ObjectID field.");
       }
     }
 
@@ -86,7 +93,7 @@ public class AlgoliaUtils {
     throw new AlgoliaRuntimeException(
         "The "
             + clazz
-            + "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
+            + " must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
   }
 
   private static Optional<Field> findObjectIDInAnnotation(@Nonnull Class<?> clazz) {
