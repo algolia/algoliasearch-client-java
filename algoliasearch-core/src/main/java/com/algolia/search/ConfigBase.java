@@ -36,7 +36,7 @@ public abstract class ConfigBase {
     private Integer writeTimeOut;
     private Integer connectTimeOut;
     private List<StatefulHost> hosts;
-    private final ExecutorService executor;
+    private ExecutorService executor;
 
     /**
      * Builds a base configuration
@@ -95,6 +95,12 @@ public abstract class ConfigBase {
     /** Sets a list of specific host to target. Default hosts will be overridden. */
     public T setHosts(@Nonnull List<StatefulHost> customHosts) {
       this.hosts = customHosts;
+      return getThis();
+    }
+
+    /** Sets a custom executor service. Default ForkJoinPool will be overridden. */
+    public T setExecutorService(ExecutorService executorService){
+      this.executor = executorService;
       return getThis();
     }
 
