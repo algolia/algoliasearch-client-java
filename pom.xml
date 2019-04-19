@@ -21,7 +21,9 @@
 
     <modules>
         <module>algoliasearch-core</module>
+        <module>algoliasearch-core-uber</module>
         <module>algoliasearch-apache</module>
+        <module>algoliasearch-apache-uber</module>
     </modules>
 
     <licenses>
@@ -178,5 +180,58 @@
             </dependencies>
         </profile>
     </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.2.1</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <shadedClassifierName>uber</shadedClassifierName>
+                                <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+                                <artifactSet>
+                                    <excludes>
+                                        <exclude>org.slf4j:slf4j-api</exclude>
+                                    </excludes>
+                                </artifactSet>
+                                <filters>
+                                    <filter>
+                                        <artifact>*:*</artifact>
+                                        <excludes>
+                                            <exclude>META-INF/maven/**</exclude>
+                                            <exclude>META-INF/services/**</exclude>
+                                        </excludes>
+                                    </filter>
+                                    <filter>
+                                        <artifact>com.fasterxml.*:*</artifact>
+                                        <excludes>
+                                            <exclude>META-INF/**</exclude>
+                                        </excludes>
+                                    </filter>
+                                </filters>
+                                <relocations>
+                                    <relocation>
+                                        <pattern>com.fasterxml.jackson</pattern>
+                                        <shadedPattern>com.algolia.search.com.fasterxml.jackson</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>javax.annotation</pattern>
+                                        <shadedPattern>com.algolia.search.javax.annotation</shadedPattern>
+                                    </relocation>
+                                </relocations>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
