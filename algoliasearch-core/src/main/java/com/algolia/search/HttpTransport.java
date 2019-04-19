@@ -7,17 +7,17 @@ import com.algolia.search.models.*;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.util.CompletableFutureUtils;
 import com.algolia.search.util.QueryStringUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The transport layer is responsible of the serialization/deserialization and the retry strategy.
@@ -27,6 +27,7 @@ class HttpTransport {
   private final HttpRequester httpRequester;
   private final RetryStrategy retryStrategy;
   private final ConfigBase config;
+  private static final Logger logger = LoggerFactory.getLogger("algoliasearch");
 
   HttpTransport(@Nonnull ConfigBase config, @Nonnull HttpRequester httpRequester) {
     this.config = config;
@@ -35,6 +36,7 @@ class HttpTransport {
   }
 
   void close() throws IOException {
+    logger.debug("Closing the http client");
     httpRequester.close();
   }
 
@@ -165,8 +167,9 @@ class HttpTransport {
                   currentHost, resp.getHttpStatusCode(), resp.isTimedOut())) {
                 case SUCCESS:
                   try (InputStream dataStream = resp.getBody()) {
-                    return CompletableFuture.completedFuture(
-                        Defaults.getObjectMapper().readValue(dataStream, type));
+                    TResult result = Defaults.getObjectMapper().readValue(dataStream, type);
+                    logResponse(result);
+                    return CompletableFuture.completedFuture(result);
                   } catch (IOException e) {
                     return CompletableFutureUtils.failedFuture(new AlgoliaRuntimeException(e));
                   }
@@ -224,6 +227,7 @@ class HttpTransport {
 
         ByteArrayInputStream content = new ByteArrayInputStream(out.toByteArray());
 
+        logRequest(request, data);
         request.setBody(content);
 
       } catch (IOException e) {
@@ -317,6 +321,28 @@ class HttpTransport {
             : config.getWriteTimeOut();
       default:
         return Defaults.WRITE_TIMEOUT_MS;
+    }
+  }
+
+  private <T> void logRequest(HttpRequest request, T data) throws JsonProcessingException {
+    if (logger.isDebugEnabled()) {
+      logger.debug(
+          "\n Method: {} \n Path: {} \n Headers: {}",
+          request.getMethod().toString(),
+          request.getMethodPath(),
+          request.getHeaders());
+
+      logger.debug(
+          "Request body: \n {}",
+          Defaults.getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(data));
+    }
+  }
+
+  private <TResult> void logResponse(TResult result) throws IOException {
+    if (logger.isDebugEnabled()) {
+      logger.debug(
+          "Response body: \n {}",
+          Defaults.getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(result));
     }
   }
 }
