@@ -341,7 +341,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public AddABTestResponse addABTest(@Nonnull ABTest abTest) throws AlgoliaRuntimeException {
+  public AddABTestResponse addABTest(@Nonnull ABTest abTest) {
     return LaunderThrowable.await(addABTestAsync(abTest, null));
   }
 
@@ -354,8 +354,7 @@ public final class AnalyticsClient implements Closeable {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public AddABTestResponse addABTest(@Nonnull ABTest abTest, RequestOptions requestOptions)
-      throws AlgoliaRuntimeException {
+  public AddABTestResponse addABTest(@Nonnull ABTest abTest, RequestOptions requestOptions) {
     return LaunderThrowable.await(addABTestAsync(abTest, requestOptions));
   }
 

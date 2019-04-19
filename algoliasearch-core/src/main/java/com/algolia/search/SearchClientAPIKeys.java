@@ -24,7 +24,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default List<ApiKey> listApiKeys() throws AlgoliaRuntimeException {
+  default List<ApiKey> listApiKeys() {
     return listApiKeys(null);
   }
 
@@ -36,7 +36,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default List<ApiKey> listApiKeys(RequestOptions requestOptions) throws AlgoliaRuntimeException {
+  default List<ApiKey> listApiKeys(RequestOptions requestOptions) {
     return LaunderThrowable.await(listApiKeysAsync(requestOptions));
   }
 
@@ -74,7 +74,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default ApiKey getApiKey(@Nonnull String apiKey) throws AlgoliaRuntimeException {
+  default ApiKey getApiKey(@Nonnull String apiKey) {
     return LaunderThrowable.await(getApiKeyAsync(apiKey, null));
   }
 
@@ -87,8 +87,7 @@ public interface SearchClientAPIKeys extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default ApiKey getApiKey(@Nonnull String apiKey, RequestOptions requestOptions)
-      throws AlgoliaRuntimeException {
+  default ApiKey getApiKey(@Nonnull String apiKey, RequestOptions requestOptions) {
     return LaunderThrowable.await(getApiKeyAsync(apiKey, requestOptions));
   }
 
