@@ -26,7 +26,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default <T> MultipleGetObjectsResponse<T> multipleGetObjects(
-      List<MultipleGetObject> queries, Class<T> clazz) throws AlgoliaRuntimeException {
+      List<MultipleGetObject> queries, Class<T> clazz) {
     return multipleGetObjects(queries, clazz, null);
   }
 
@@ -42,8 +42,7 @@ public interface SearchClientMultipleOperations extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default <T> MultipleGetObjectsResponse<T> multipleGetObjects(
-      List<MultipleGetObject> queries, Class<T> clazz, RequestOptions requestOptions)
-      throws AlgoliaRuntimeException {
+      List<MultipleGetObject> queries, Class<T> clazz, RequestOptions requestOptions) {
     return LaunderThrowable.await(multipleGetObjectsAsync(queries, clazz, requestOptions));
   }
 

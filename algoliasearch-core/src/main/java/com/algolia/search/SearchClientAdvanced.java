@@ -27,7 +27,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default List<IndicesResponse> listIndices() throws AlgoliaRuntimeException {
+  default List<IndicesResponse> listIndices() {
     return listIndices(null);
   }
 
@@ -40,8 +40,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default List<IndicesResponse> listIndices(RequestOptions requestOptions)
-      throws AlgoliaRuntimeException {
+  default List<IndicesResponse> listIndices(RequestOptions requestOptions) {
     return LaunderThrowable.await(listIndicesAsync(requestOptions));
   }
 
