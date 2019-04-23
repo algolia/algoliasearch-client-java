@@ -11,12 +11,10 @@ import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.WaitableResponse;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.MultiResponse;
-import com.algolia.search.models.rules.Rule;
 import com.algolia.search.models.rules.SaveRuleResponse;
 import com.algolia.search.models.settings.IndexSettings;
 import com.algolia.search.models.settings.SetSettingsResponse;
 import com.algolia.search.models.synonyms.SaveSynonymResponse;
-import com.algolia.search.models.synonyms.Synonym;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -136,29 +134,15 @@ public final class AccountClient {
     futures.add(destinationSettingsFuture);
 
     // Save synonyms
+    SynonymsIterable sourceSynonyms = new SynonymsIterable(sourceIndex);
     CompletableFuture<SaveSynonymResponse> destinationSynonymsFuture =
-        CompletableFuture.supplyAsync(
-                () -> {
-                  List<Synonym> synonyms = new ArrayList<>();
-                  SynonymsIterable sourceSynonyms = sourceIndex.browseSynonyms();
-                  sourceSynonyms.forEach(synonyms::add);
-                  return synonyms;
-                })
-            .thenCompose(s -> destinationIndex.saveSynonymsAsync(s, requestOptions));
-
+        destinationIndex.saveSynonymsAsync(sourceSynonyms, requestOptions);
     futures.add(destinationSynonymsFuture);
 
     // Save rules
+    RulesIterable sourceRules = new RulesIterable(sourceIndex);
     CompletableFuture<SaveRuleResponse> destinationRulesFuture =
-        CompletableFuture.supplyAsync(
-                () -> {
-                  List<Rule> rules = new ArrayList<>();
-                  RulesIterable sourceRules = sourceIndex.browseRules();
-                  sourceRules.forEach(rules::add);
-                  return rules;
-                })
-            .thenCompose(r -> destinationIndex.saveRulesAsync(r, requestOptions));
-
+        destinationIndex.saveRulesAsync(sourceRules, requestOptions);
     futures.add(destinationRulesFuture);
 
     // Save objects
@@ -173,7 +157,6 @@ public final class AccountClient {
             v -> {
               List<WaitableResponse> resp =
                   futures.stream().map(CompletableFuture::join).collect(Collectors.toList());
-
               return CompletableFuture.completedFuture(new MultiResponse().setResponses(resp));
             });
   }

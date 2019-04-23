@@ -16,7 +16,6 @@ import com.algolia.search.models.synonyms.Synonym;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.QueryStringUtils;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
@@ -338,7 +337,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default SaveSynonymResponse saveSynonyms(@Nonnull List<Synonym> synonyms) {
+  default SaveSynonymResponse saveSynonyms(@Nonnull Iterable<Synonym> synonyms) {
     return LaunderThrowable.await(saveSynonymsAsync(synonyms));
   }
 
@@ -353,7 +352,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveSynonymResponse saveSynonyms(
-      @Nonnull List<Synonym> synonyms,
+      @Nonnull Iterable<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean replaceExistingSynonyms) {
     return LaunderThrowable.await(
@@ -372,7 +371,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveSynonymResponse saveSynonyms(
-      @Nonnull List<Synonym> synonyms,
+      @Nonnull Iterable<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean replaceExistingSynonyms,
       @Nonnull RequestOptions requestOptions) {
@@ -390,7 +389,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveSynonymResponse saveSynonyms(
-      @Nonnull List<Synonym> synonyms, RequestOptions requestOptions) {
+      @Nonnull Iterable<Synonym> synonyms, RequestOptions requestOptions) {
     return LaunderThrowable.await(saveSynonymsAsync(synonyms, requestOptions));
   }
 
@@ -403,7 +402,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
-      @Nonnull List<Synonym> synonyms) {
+      @Nonnull Iterable<Synonym> synonyms) {
     return saveSynonymsAsync(synonyms, false, false, new RequestOptions());
   }
 
@@ -418,7 +417,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
-      @Nonnull List<Synonym> synonyms,
+      @Nonnull Iterable<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean replaceExistingSynonyms) {
     return saveSynonymsAsync(
@@ -437,7 +436,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
-      @Nonnull List<Synonym> synonyms,
+      @Nonnull Iterable<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean replaceExistingSynonyms,
       @Nonnull RequestOptions requestOptions) {
@@ -463,7 +462,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
-      @Nonnull List<Synonym> synonyms, RequestOptions requestOptions) {
+      @Nonnull Iterable<Synonym> synonyms, RequestOptions requestOptions) {
 
     Objects.requireNonNull(synonyms, "synonyms are required.");
 
@@ -689,7 +688,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default SaveSynonymResponse replaceAllSynonyms(@Nonnull List<Synonym> synonyms) {
+  default SaveSynonymResponse replaceAllSynonyms(@Nonnull Iterable<Synonym> synonyms) {
     return LaunderThrowable.await(replaceAllSynonymsAsync(synonyms));
   }
 
@@ -705,7 +704,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveSynonymResponse replaceAllSynonyms(
-      @Nonnull List<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
+      @Nonnull Iterable<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
     return LaunderThrowable.await(replaceAllSynonymsAsync(synonyms, forwardToReplicas));
   }
 
@@ -721,7 +720,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveSynonymResponse replaceAllSynonyms(
-      @Nonnull List<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
+      @Nonnull Iterable<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
     return LaunderThrowable.await(replaceAllSynonymsAsync(synonyms, requestOptions));
   }
 
@@ -736,7 +735,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
-      @Nonnull List<Synonym> synonyms) {
+      @Nonnull Iterable<Synonym> synonyms) {
     return saveSynonymsAsync(synonyms, false, true, new RequestOptions());
   }
 
@@ -752,7 +751,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
-      @Nonnull List<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
+      @Nonnull Iterable<Synonym> synonyms, @Nonnull Boolean forwardToReplicas) {
     return saveSynonymsAsync(synonyms, forwardToReplicas, true, new RequestOptions());
   }
 
@@ -768,7 +767,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveSynonymResponse> replaceAllSynonymsAsync(
-      @Nonnull List<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
+      @Nonnull Iterable<Synonym> synonyms, @Nonnull RequestOptions requestOptions) {
     return saveSynonymsAsync(synonyms, false, true, requestOptions);
   }
 }
