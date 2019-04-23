@@ -23,6 +23,11 @@ public class RemoveUserIdResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "RemoveUserIdResponse{" + "userId='" + userId + '\'' + ", deletedAt=" + deletedAt + '}';
+  }
+
   private String userId;
   private ZonedDateTime deletedAt;
 }

@@ -639,6 +639,11 @@ public class IndexSettings implements Serializable {
         + responseFields
         + ", maxFacetHits="
         + maxFacetHits
+        + ", keepDiacriticsOnCharacters='"
+        + keepDiacriticsOnCharacters
+        + '\''
+        + ", queryLanguages="
+        + queryLanguages
         + ", searchableAttributes="
         + searchableAttributes
         + ", attributesForFaceting="
@@ -653,8 +658,9 @@ public class IndexSettings implements Serializable {
         + decompoundedAttributes
         + ", maxValuesPerFacet="
         + maxValuesPerFacet
-        + ", sortFacetValuesBy="
+        + ", sortFacetValuesBy='"
         + sortFacetValuesBy
+        + '\''
         + ", attributesToHighlight="
         + attributesToHighlight
         + ", attributesToSnippet="
@@ -726,11 +732,8 @@ public class IndexSettings implements Serializable {
         + ", separatorsToIndex='"
         + separatorsToIndex
         + '\''
-        + ", keepDiacriticsOnCharacters='"
-        + keepDiacriticsOnCharacters
-        + '\''
-        + ", queryLanguages="
-        + queryLanguages
+        + ", customSettings="
+        + customSettings
         + '}';
   }
 }

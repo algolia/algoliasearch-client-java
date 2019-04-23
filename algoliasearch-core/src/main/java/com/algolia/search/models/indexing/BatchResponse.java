@@ -14,5 +14,10 @@ public class BatchResponse extends IndexingResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "BatchResponse{" + "objectIDs=" + objectIDs + '}';
+  }
+
   private List<String> objectIDs;
 }

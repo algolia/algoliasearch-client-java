@@ -55,4 +55,16 @@ public class ConsequenceParams extends Query {
     this.automaticOptionalFacetFilters = automaticOptionalFacetFilters;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "ConsequenceParams{"
+        + "query="
+        + query
+        + ", automaticFacetFilters="
+        + automaticFacetFilters
+        + ", automaticOptionalFacetFilters="
+        + automaticOptionalFacetFilters
+        + '}';
+  }
 }

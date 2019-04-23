@@ -25,4 +25,9 @@ public class AssignUserIdResponse implements Serializable {
     this.createdAt = createdAt;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "AssignUserIdResponse{" + "userId='" + userId + '\'' + ", createdAt=" + createdAt + '}';
+  }
 }

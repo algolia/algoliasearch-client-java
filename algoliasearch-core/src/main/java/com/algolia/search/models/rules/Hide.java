@@ -26,4 +26,9 @@ public class Hide {
   public void setObjectID(String objectID) {
     this.objectID = objectID;
   }
+
+  @Override
+  public String toString() {
+    return "Hide{" + "objectID='" + objectID + '\'' + '}';
+  }
 }

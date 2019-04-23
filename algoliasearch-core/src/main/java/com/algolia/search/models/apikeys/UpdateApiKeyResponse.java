@@ -64,4 +64,17 @@ public class UpdateApiKeyResponse implements WaitableResponse, Serializable {
       }
     }
   }
+
+  @Override
+  public String toString() {
+    return "UpdateApiKeyResponse{"
+        + "key='"
+        + key
+        + '\''
+        + ", updatedAt="
+        + updatedAt
+        + ", pendingKey="
+        + pendingKey
+        + '}';
+  }
 }

@@ -36,4 +36,9 @@ public class TimeRange implements Serializable {
   public void setUntil(OffsetDateTime until) {
     this.until = until;
   }
+
+  @Override
+  public String toString() {
+    return "TimeRange{" + "from=" + from + ", until=" + until + '}';
+  }
 }

@@ -44,4 +44,9 @@ public class RestoreApiKeyResponse implements WaitableResponse, Serializable {
       break;
     }
   }
+
+  @Override
+  public String toString() {
+    return "RestoreApiKeyResponse{" + "key='" + key + '\'' + ", createdAt=" + createdAt + '}';
+  }
 }

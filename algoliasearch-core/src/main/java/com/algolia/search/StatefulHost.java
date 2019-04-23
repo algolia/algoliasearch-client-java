@@ -67,4 +67,21 @@ public class StatefulHost {
   private int retryCount;
   private OffsetDateTime lastUse = OffsetDateTime.now(ZoneOffset.UTC);
   private EnumSet<CallType> accept;
+
+  @Override
+  public String toString() {
+    return "StatefulHost{"
+        + "url='"
+        + url
+        + '\''
+        + ", up="
+        + up
+        + ", retryCount="
+        + retryCount
+        + ", lastUse="
+        + lastUse
+        + ", accept="
+        + accept
+        + '}';
+  }
 }

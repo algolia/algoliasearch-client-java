@@ -22,6 +22,11 @@ public class DeleteAbTestResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "DeleteAbTestResponse{" + "taskID=" + taskID + ", index='" + index + '\'' + '}';
+  }
+
   private Long taskID;
   private String index;
 }

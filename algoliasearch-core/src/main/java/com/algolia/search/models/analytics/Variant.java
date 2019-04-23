@@ -74,4 +74,20 @@ public class Variant implements Serializable {
   public void setCustomSearchParameters(Query customSearchParameters) {
     this.customSearchParameters = customSearchParameters;
   }
+
+  @Override
+  public String toString() {
+    return "Variant{"
+        + "index='"
+        + index
+        + '\''
+        + ", trafficPercentage="
+        + trafficPercentage
+        + ", description='"
+        + description
+        + '\''
+        + ", customSearchParameters="
+        + customSearchParameters
+        + '}';
+  }
 }

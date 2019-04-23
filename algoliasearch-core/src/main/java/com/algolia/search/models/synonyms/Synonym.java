@@ -128,6 +128,33 @@ public class Synonym implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "Synonym{"
+        + "objectID='"
+        + objectID
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", synonyms="
+        + synonyms
+        + ", input='"
+        + input
+        + '\''
+        + ", word='"
+        + word
+        + '\''
+        + ", corrections="
+        + corrections
+        + ", placeholder='"
+        + placeholder
+        + '\''
+        + ", replacements="
+        + replacements
+        + '}';
+  }
+
   private String objectID;
   private String type;
   private List<String> synonyms;

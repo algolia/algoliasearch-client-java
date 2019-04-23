@@ -34,6 +34,20 @@ public class CopyToRequest implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "CopyToRequest{"
+        + "operation='"
+        + operation
+        + '\''
+        + ", scope="
+        + scope
+        + ", destination='"
+        + destination
+        + '\''
+        + '}';
+  }
+
   private String operation;
   private List<String> scope;
   private String destination;

@@ -23,6 +23,11 @@ public class SaveSynonymResponse extends IndexingResponse {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "SaveSynonymResponse{" + "id='" + id + '\'' + ", updatedAt=" + updatedAt + '}';
+  }
+
   private String id;
   private OffsetDateTime updatedAt;
 }

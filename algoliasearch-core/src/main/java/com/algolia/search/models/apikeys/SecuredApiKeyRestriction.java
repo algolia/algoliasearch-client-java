@@ -67,4 +67,21 @@ public class SecuredApiKeyRestriction {
   private List<String> restrictSources;
 
   private String userToken;
+
+  @Override
+  public String toString() {
+    return "SecuredApiKeyRestriction{"
+        + "query="
+        + query
+        + ", validUntil="
+        + validUntil
+        + ", restrictIndices="
+        + restrictIndices
+        + ", restrictSources="
+        + restrictSources
+        + ", userToken='"
+        + userToken
+        + '\''
+        + '}';
+  }
 }

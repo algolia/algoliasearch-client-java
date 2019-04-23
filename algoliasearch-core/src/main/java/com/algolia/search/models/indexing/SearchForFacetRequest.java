@@ -36,8 +36,21 @@ public class SearchForFacetRequest implements Serializable {
     return this;
   }
 
-  @JsonIgnore private String facetName;
+  @Override
+  public String toString() {
+    return "SearchForFacetRequest{"
+        + "facetName='"
+        + facetName
+        + '\''
+        + ", facetQuery='"
+        + facetQuery
+        + '\''
+        + ", searchParameters="
+        + searchParameters
+        + '}';
+  }
 
+  @JsonIgnore private String facetName;
   private String facetQuery;
 
   @JsonProperty("params")

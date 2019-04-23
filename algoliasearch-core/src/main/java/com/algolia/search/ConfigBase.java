@@ -187,4 +187,20 @@ public abstract class ConfigBase {
   public ExecutorService getExecutor() {
     return executor;
   }
+
+  @Override
+  public String toString() {
+    return "ConfigBase{"
+        + "batchSize="
+        + batchSize
+        + ", readTimeOut="
+        + readTimeOut
+        + ", writeTimeOut="
+        + writeTimeOut
+        + ", connectTimeOut="
+        + connectTimeOut
+        + ", hosts="
+        + hosts
+        + '}';
+  }
 }

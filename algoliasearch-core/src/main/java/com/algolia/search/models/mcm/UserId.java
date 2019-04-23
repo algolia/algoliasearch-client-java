@@ -39,6 +39,22 @@ public class UserId implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "UserId{"
+        + "userID='"
+        + userID
+        + '\''
+        + ", clusterName='"
+        + clusterName
+        + '\''
+        + ", nbRecords="
+        + nbRecords
+        + ", dataSize="
+        + dataSize
+        + '}';
+  }
+
   private String userID;
   private String clusterName;
   private Integer nbRecords;

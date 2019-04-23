@@ -30,6 +30,19 @@ public class AddABTestResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "AddABTestResponse{"
+        + "abTestID="
+        + abTestID
+        + ", taskID="
+        + taskID
+        + ", index='"
+        + index
+        + '\''
+        + '}';
+  }
+
   private long abTestID;
   private long taskID;
   private String index;

@@ -50,4 +50,9 @@ public class ABTest implements Serializable {
   public void setEndAt(OffsetDateTime endAt) {
     this.endAt = endAt;
   }
+
+  @Override
+  public String toString() {
+    return "ABTest{" + "name='" + name + '\'' + ", variants=" + variants + ", endAt=" + endAt + '}';
+  }
 }

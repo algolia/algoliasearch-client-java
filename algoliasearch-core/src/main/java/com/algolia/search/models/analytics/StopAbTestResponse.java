@@ -21,6 +21,11 @@ public class StopAbTestResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "StopAbTestResponse{" + "taskID=" + taskID + ", index='" + index + '\'' + '}';
+  }
+
   private Long taskID;
   private String index;
 }

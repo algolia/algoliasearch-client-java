@@ -14,5 +14,10 @@ public class ClearSynonymsResponse extends IndexingResponse {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "ClearSynonymsResponse{" + "updatedAt=" + updatedAt + '}';
+  }
+
   private OffsetDateTime updatedAt;
 }

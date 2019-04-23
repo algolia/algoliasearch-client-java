@@ -22,6 +22,17 @@ public class UpdateObjectResponse extends IndexingResponse {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "UpdateObjectResponse{"
+        + "objectID='"
+        + objectID
+        + '\''
+        + ", updatedAt="
+        + updatedAt
+        + '}';
+  }
+
   private String objectID;
   private ZonedDateTime updatedAt;
 }

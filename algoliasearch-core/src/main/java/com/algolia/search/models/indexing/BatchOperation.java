@@ -75,6 +75,18 @@ public class BatchOperation<T> implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "BatchOperation{"
+        + "action='"
+        + action
+        + '\''
+        + ", indexName='"
+        + indexName
+        + '\''
+        + '}';
+  }
+
   private String action;
   private String indexName;
   private T body;

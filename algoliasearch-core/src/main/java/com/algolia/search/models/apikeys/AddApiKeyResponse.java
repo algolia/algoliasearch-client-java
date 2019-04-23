@@ -52,4 +52,9 @@ public class AddApiKeyResponse implements WaitableResponse, Serializable {
       break;
     }
   }
+
+  @Override
+  public String toString() {
+    return "AddApiKeyResponse{" + "key='" + key + '\'' + ", createdAt=" + createdAt + '}';
+  }
 }

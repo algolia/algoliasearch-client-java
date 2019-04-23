@@ -17,5 +17,10 @@ public class SetSettingsResponse extends IndexingResponse
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "SetSettingsResponse{" + "updatedAt=" + updatedAt + '}';
+  }
+
   private ZonedDateTime updatedAt;
 }

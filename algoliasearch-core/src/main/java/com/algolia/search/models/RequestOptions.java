@@ -44,6 +44,13 @@ public class RequestOptions implements Serializable {
 
   @Override
   public String toString() {
-    return "RequestOptions{" + "headers=" + headers + ", queryParams=" + queryParams + '\'' + '}';
+    return "RequestOptions{"
+        + "headers="
+        + headers
+        + ", queryParams="
+        + queryParams
+        + ", timeout="
+        + timeout
+        + '}';
   }
 }

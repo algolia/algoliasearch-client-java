@@ -47,6 +47,19 @@ public class MoveIndexResponse implements Serializable, WaitableResponse {
   private Long taskID;
 
   @Override
+  public String toString() {
+    return "MoveIndexResponse{"
+        + "updatedAt="
+        + updatedAt
+        + ", indexName='"
+        + indexName
+        + '\''
+        + ", taskID="
+        + taskID
+        + '}';
+  }
+
+  @Override
   public void waitTask() {
     if (waitBiConsumer != null) {
       waitBiConsumer.accept(indexName, taskID);

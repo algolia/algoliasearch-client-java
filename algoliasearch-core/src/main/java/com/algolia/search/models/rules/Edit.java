@@ -57,4 +57,19 @@ public class Edit implements Serializable {
     this.type = type;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Edit{"
+        + "type='"
+        + type
+        + '\''
+        + ", delete='"
+        + delete
+        + '\''
+        + ", insert='"
+        + insert
+        + '\''
+        + '}';
+  }
 }

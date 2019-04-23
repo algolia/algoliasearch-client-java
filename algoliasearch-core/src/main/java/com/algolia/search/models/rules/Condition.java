@@ -42,4 +42,19 @@ public class Condition implements Serializable {
     this.context = context;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Condition{"
+        + "pattern='"
+        + pattern
+        + '\''
+        + ", anchoring='"
+        + anchoring
+        + '\''
+        + ", context='"
+        + context
+        + '\''
+        + '}';
+  }
 }

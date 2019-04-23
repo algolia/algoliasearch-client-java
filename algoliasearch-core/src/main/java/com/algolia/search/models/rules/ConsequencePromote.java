@@ -32,4 +32,9 @@ public class ConsequencePromote implements Serializable {
     this.position = position;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "ConsequencePromote{" + "objectID='" + objectID + '\'' + ", position=" + position + '}';
+  }
 }

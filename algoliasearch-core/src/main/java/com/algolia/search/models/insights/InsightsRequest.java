@@ -15,5 +15,10 @@ public class InsightsRequest implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "InsightsRequest{" + "events=" + events + '}';
+  }
+
   private List<InsightsEvent> events;
 }

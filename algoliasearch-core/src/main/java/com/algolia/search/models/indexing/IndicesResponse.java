@@ -85,6 +85,31 @@ public class IndicesResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "IndicesResponse{"
+        + "name='"
+        + name
+        + '\''
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + ", entries="
+        + entries
+        + ", dataSize="
+        + dataSize
+        + ", fileSize="
+        + fileSize
+        + ", lastBuildTimes="
+        + lastBuildTimes
+        + ", numberOfPendingTasks="
+        + numberOfPendingTasks
+        + ", pendingTask="
+        + pendingTask
+        + '}';
+  }
+
   private String name;
   private OffsetDateTime createdAt;
   private OffsetDateTime updatedAt;

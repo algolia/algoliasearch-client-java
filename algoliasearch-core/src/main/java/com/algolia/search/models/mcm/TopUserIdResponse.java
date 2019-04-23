@@ -16,4 +16,9 @@ public class TopUserIdResponse implements Serializable {
     this.topUsers = topUsers;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "TopUserIdResponse{" + "topUsers=" + topUsers + '}';
+  }
 }

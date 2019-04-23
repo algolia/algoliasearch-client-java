@@ -75,4 +75,24 @@ public class Rule implements Serializable {
     this.validity = validity;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "Rule{"
+        + "objectID='"
+        + objectID
+        + '\''
+        + ", condition="
+        + condition
+        + ", consequence="
+        + consequence
+        + ", description='"
+        + description
+        + '\''
+        + ", enabled="
+        + enabled
+        + ", validity="
+        + validity
+        + '}';
+  }
 }

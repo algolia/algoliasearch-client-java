@@ -54,6 +54,19 @@ public class HttpResponse {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "HttpResponse{"
+        + "httpStatusCode="
+        + httpStatusCode
+        + ", error='"
+        + error
+        + '\''
+        + ", isTimedOut="
+        + isTimedOut
+        + '}';
+  }
+
   private int httpStatusCode;
   private InputStream body;
   private String error;

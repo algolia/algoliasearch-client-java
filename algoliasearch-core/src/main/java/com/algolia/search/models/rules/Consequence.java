@@ -50,6 +50,20 @@ public class Consequence implements Serializable {
     this.hide = hide;
   }
 
+  @Override
+  public String toString() {
+    return "Consequence{"
+        + "params="
+        + params
+        + ", promote="
+        + promote
+        + ", userData="
+        + userData
+        + ", hide="
+        + hide
+        + '}';
+  }
+
   private ConsequenceParams params;
   private List<ConsequencePromote> promote;
   private Map<String, Object> userData;

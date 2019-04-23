@@ -97,4 +97,33 @@ public class InsightsEvent implements Serializable {
     this.positions = positions;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "InsightsEvent{"
+        + "eventType='"
+        + eventType
+        + '\''
+        + ", eventName='"
+        + eventName
+        + '\''
+        + ", index='"
+        + index
+        + '\''
+        + ", userToken='"
+        + userToken
+        + '\''
+        + ", timestamp="
+        + timestamp
+        + ", queryID='"
+        + queryID
+        + '\''
+        + ", objectIDs="
+        + objectIDs
+        + ", filters="
+        + filters
+        + ", positions="
+        + positions
+        + '}';
+  }
 }

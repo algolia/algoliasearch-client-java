@@ -21,6 +21,11 @@ public class InsightsResult implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "InsightsResult{" + "status=" + status + ", message='" + message + '\'' + '}';
+  }
+
   private int status;
   private String message;
 }

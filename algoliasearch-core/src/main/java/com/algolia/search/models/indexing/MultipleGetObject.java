@@ -47,6 +47,20 @@ public class MultipleGetObject implements Serializable {
     return objectID;
   }
 
+  @Override
+  public String toString() {
+    return "MultipleGetObject{"
+        + "indexName='"
+        + indexName
+        + '\''
+        + ", objectID='"
+        + objectID
+        + '\''
+        + ", attributesToRetrieve="
+        + attributesToRetrieve
+        + '}';
+  }
+
   private String indexName;
   private String objectID;
   private List<String> attributesToRetrieve;

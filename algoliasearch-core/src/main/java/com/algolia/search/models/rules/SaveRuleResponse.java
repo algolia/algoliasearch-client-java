@@ -13,5 +13,10 @@ public class SaveRuleResponse extends IndexingResponse {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "SaveRuleResponse{" + "updatedAt=" + updatedAt + '}';
+  }
+
   private OffsetDateTime updatedAt;
 }

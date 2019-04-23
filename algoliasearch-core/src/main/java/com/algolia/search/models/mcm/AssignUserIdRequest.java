@@ -18,4 +18,9 @@ public class AssignUserIdRequest implements Serializable {
     this.cluster = cluster;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "AssignUserIdRequest{" + "cluster='" + cluster + '\'' + '}';
+  }
 }

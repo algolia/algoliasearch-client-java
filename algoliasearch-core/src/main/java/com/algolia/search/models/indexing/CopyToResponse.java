@@ -13,5 +13,10 @@ public class CopyToResponse extends IndexingResponse {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "CopyToResponse{" + "updatedAt=" + updatedAt + '}';
+  }
+
   private OffsetDateTime updatedAt;
 }

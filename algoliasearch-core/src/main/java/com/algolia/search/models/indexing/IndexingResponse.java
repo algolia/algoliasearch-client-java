@@ -28,6 +28,11 @@ public class IndexingResponse implements WaitableResponse, Serializable {
   }
 
   @Override
+  public String toString() {
+    return "IndexingResponse{" + "taskID=" + taskID + '}';
+  }
+
+  @Override
   public void waitTask() {
     waitConsumer.accept(getTaskID());
   }

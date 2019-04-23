@@ -615,6 +615,153 @@ public class Query implements Serializable {
     return QueryStringUtils.buildQueryAsQueryParams(this);
   }
 
+  @Override
+  public String toString() {
+    return "Query{"
+        + "query='"
+        + query
+        + '\''
+        + ", distinct="
+        + distinct
+        + ", getRankingInfo="
+        + getRankingInfo
+        + ", numericFilters="
+        + numericFilters
+        + ", tagFilters="
+        + tagFilters
+        + ", clickAnalytics="
+        + clickAnalytics
+        + ", analytics="
+        + analytics
+        + ", analyticsTags="
+        + analyticsTags
+        + ", synonyms="
+        + synonyms
+        + ", replaceSynonymsInHighlight="
+        + replaceSynonymsInHighlight
+        + ", minProximity="
+        + minProximity
+        + ", responseFields="
+        + responseFields
+        + ", maxFacetHits="
+        + maxFacetHits
+        + ", percentileComputation="
+        + percentileComputation
+        + ", queryLanguages="
+        + queryLanguages
+        + ", attributesToRetrieve="
+        + attributesToRetrieve
+        + ", restrictSearchableAttributes="
+        + restrictSearchableAttributes
+        + ", filters='"
+        + filters
+        + '\''
+        + ", facets="
+        + facets
+        + ", maxValuesPerFacet="
+        + maxValuesPerFacet
+        + ", facetFilters="
+        + facetFilters
+        + ", optionalFilters="
+        + optionalFilters
+        + ", facetingAfterDistinct="
+        + facetingAfterDistinct
+        + ", sortFacetValuesBy='"
+        + sortFacetValuesBy
+        + '\''
+        + ", aroundLatLng='"
+        + aroundLatLng
+        + '\''
+        + ", aroundLatLngViaIP="
+        + aroundLatLngViaIP
+        + ", aroundRadius="
+        + aroundRadius
+        + ", aroundPrecision="
+        + aroundPrecision
+        + ", minimumAroundRadius="
+        + minimumAroundRadius
+        + ", insideBoundingBox="
+        + insideBoundingBox
+        + ", insidePolygon="
+        + insidePolygon
+        + ", attributesToHighlight="
+        + attributesToHighlight
+        + ", attributesToSnippet="
+        + attributesToSnippet
+        + ", highlightPreTag='"
+        + highlightPreTag
+        + '\''
+        + ", highlightPostTag='"
+        + highlightPostTag
+        + '\''
+        + ", snippetEllipsisText='"
+        + snippetEllipsisText
+        + '\''
+        + ", restrictHighlightAndSnippetArrays="
+        + restrictHighlightAndSnippetArrays
+        + ", page="
+        + page
+        + ", hitsPerPage="
+        + hitsPerPage
+        + ", offset="
+        + offset
+        + ", length="
+        + length
+        + ", enableRules="
+        + enableRules
+        + ", ruleContexts="
+        + ruleContexts
+        + ", queryType='"
+        + queryType
+        + '\''
+        + ", removeWordsIfNoResults="
+        + removeWordsIfNoResults
+        + ", advancedSyntax="
+        + advancedSyntax
+        + ", advancedSyntaxFeatures="
+        + advancedSyntaxFeatures
+        + ", optionalWords="
+        + optionalWords
+        + ", removeStopWords="
+        + removeStopWords
+        + ", disableExactOnAttributes="
+        + disableExactOnAttributes
+        + ", exactOnSingleWordQuery='"
+        + exactOnSingleWordQuery
+        + '\''
+        + ", alternativesAsExact="
+        + alternativesAsExact
+        + ", sumOrFiltersScores="
+        + sumOrFiltersScores
+        + ", minWordSizefor1Typo="
+        + minWordSizefor1Typo
+        + ", minWordSizefor2Typos="
+        + minWordSizefor2Typos
+        + ", typoTolerance="
+        + typoTolerance
+        + ", allowTyposOnNumericTokens="
+        + allowTyposOnNumericTokens
+        + ", ignorePlurals="
+        + ignorePlurals
+        + ", disableTypoToleranceOnAttributes="
+        + disableTypoToleranceOnAttributes
+        + ", userToken='"
+        + userToken
+        + '\''
+        + ", validUntil="
+        + validUntil
+        + ", restrictIndices="
+        + restrictIndices
+        + ", restrictSources='"
+        + restrictSources
+        + '\''
+        + ", enablePersonalization="
+        + enablePersonalization
+        + ", personalizationImpact="
+        + personalizationImpact
+        + '}';
+  }
+
   /* search */
   @JsonProperty("query")
   private String query;

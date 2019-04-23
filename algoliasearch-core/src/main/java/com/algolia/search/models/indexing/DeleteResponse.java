@@ -14,5 +14,10 @@ public class DeleteResponse extends IndexingResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "DeleteResponse{" + "updatedAt=" + updatedAt + '}';
+  }
+
   private ZonedDateTime updatedAt;
 }

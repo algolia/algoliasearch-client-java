@@ -46,6 +46,19 @@ public class CopyResponse implements Serializable, WaitableResponse {
   private String indexName;
 
   @Override
+  public String toString() {
+    return "CopyResponse{"
+        + "updatedAt="
+        + updatedAt
+        + ", taskID="
+        + taskID
+        + ", indexName='"
+        + indexName
+        + '\''
+        + '}';
+  }
+
+  @Override
   public void waitTask() {
     waitConsumer.accept(indexName, taskID);
   }

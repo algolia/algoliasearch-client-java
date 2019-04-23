@@ -24,6 +24,18 @@ public class MoveIndexRequest implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "MoveIndexRequest{"
+        + "operation='"
+        + operation
+        + '\''
+        + ", destination='"
+        + destination
+        + '\''
+        + '}';
+  }
+
   private String operation;
   private String destination;
 }

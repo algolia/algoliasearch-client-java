@@ -73,6 +73,23 @@ public class HttpRequest {
     this.timeout *= (retryCount + 1);
   }
 
+  @Override
+  public String toString() {
+    return "HttpRequest{"
+        + "method="
+        + method
+        + ", uri="
+        + uri
+        + ", methodPath='"
+        + methodPath
+        + '\''
+        + ", headers="
+        + headers
+        + ", timeout="
+        + timeout
+        + '}';
+  }
+
   private HttpMethod method;
   private URL uri;
   private String methodPath;

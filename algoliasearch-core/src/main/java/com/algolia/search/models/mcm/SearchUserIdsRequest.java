@@ -41,6 +41,22 @@ public class SearchUserIdsRequest implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "SearchUserIdsRequest{"
+        + "query='"
+        + query
+        + '\''
+        + ", cluster='"
+        + cluster
+        + '\''
+        + ", page="
+        + page
+        + ", hitsPerPage="
+        + hitsPerPage
+        + '}';
+  }
+
   private String query;
   private String cluster;
   private Integer page;

@@ -53,6 +53,23 @@ public class ABTestResponse extends ABTest {
     this.status = status;
   }
 
+  @Override
+  public String toString() {
+    return "ABTestResponse{"
+        + "abTestID="
+        + abTestID
+        + ", clickSignificance="
+        + clickSignificance
+        + ", conversionSignificance="
+        + conversionSignificance
+        + ", createdAt="
+        + createdAt
+        + ", status='"
+        + status
+        + '\''
+        + '}';
+  }
+
   // Properties set by the AB Testing API
   private long abTestID;
   private int clickSignificance;

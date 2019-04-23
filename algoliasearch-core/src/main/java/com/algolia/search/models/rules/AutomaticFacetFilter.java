@@ -68,6 +68,19 @@ public class AutomaticFacetFilter implements Serializable {
     this.score = score;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "AutomaticFacetFilter{"
+        + "facet='"
+        + facet
+        + '\''
+        + ", disjunctive="
+        + disjunctive
+        + ", score="
+        + score
+        + '}';
+  }
 }
 
 class AutomaticFacetFilterDeserializer extends JsonDeserializer {

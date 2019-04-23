@@ -52,4 +52,9 @@ public class DeleteApiKeyResponse implements WaitableResponse, Serializable {
       }
     }
   }
+
+  @Override
+  public String toString() {
+    return "DeleteApiKeyResponse{" + "key='" + key + '\'' + ", deletedAt=" + deletedAt + '}';
+  }
 }

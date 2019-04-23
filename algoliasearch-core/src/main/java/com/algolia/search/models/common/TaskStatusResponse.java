@@ -22,6 +22,17 @@ public class TaskStatusResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "TaskStatusResponse{"
+        + "status='"
+        + status
+        + '\''
+        + ", pendingTask="
+        + pendingTask
+        + '}';
+  }
+
   private String status;
   private boolean pendingTask;
 }

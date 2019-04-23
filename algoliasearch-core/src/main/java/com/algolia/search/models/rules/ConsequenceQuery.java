@@ -31,6 +31,11 @@ public class ConsequenceQuery implements Serializable {
     this.edits = edits;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "ConsequenceQuery{" + "edits=" + edits + '}';
+  }
 }
 
 class ConsequenceQueryDeserializer extends JsonDeserializer<ConsequenceQuery> {

@@ -32,6 +32,18 @@ public class SearchForFacetResponse implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "SearchForFacetResponse{"
+        + "facetHits="
+        + facetHits
+        + ", ExhaustiveFacetsCount="
+        + ExhaustiveFacetsCount
+        + ", processingTimeMS="
+        + processingTimeMS
+        + '}';
+  }
+
   private List<FacetHit> facetHits;
   private Boolean ExhaustiveFacetsCount;
   private Integer processingTimeMS;

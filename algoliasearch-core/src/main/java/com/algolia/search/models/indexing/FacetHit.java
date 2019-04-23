@@ -31,6 +31,20 @@ public class FacetHit implements Serializable {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "FacetHit{"
+        + "value='"
+        + value
+        + '\''
+        + ", highlighted='"
+        + highlighted
+        + '\''
+        + ", count="
+        + count
+        + '}';
+  }
+
   private String value;
   private String highlighted;
   private Long count;

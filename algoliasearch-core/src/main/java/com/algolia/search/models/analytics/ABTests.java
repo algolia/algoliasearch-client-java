@@ -21,4 +21,9 @@ public class ABTests implements Serializable {
   public int getTotal() {
     return total;
   }
+
+  @Override
+  public String toString() {
+    return "ABTests{" + "abtests=" + abtests + ", count=" + count + ", total=" + total + '}';
+  }
 }
