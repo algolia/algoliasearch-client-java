@@ -15,7 +15,6 @@ import com.algolia.search.models.rules.RuleQuery;
 import com.algolia.search.models.rules.SaveRuleResponse;
 import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.QueryStringUtils;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
@@ -344,7 +343,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
-  default SaveRuleResponse saveRules(@Nonnull List<Rule> rules) {
+  default SaveRuleResponse saveRules(@Nonnull Iterable<Rule> rules) {
     return LaunderThrowable.await(saveRulesAsync(rules));
   }
 
@@ -359,7 +358,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse saveRules(
-      @Nonnull List<Rule> rules,
+      @Nonnull Iterable<Rule> rules,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean clearExistingRules) {
     return LaunderThrowable.await(saveRulesAsync(rules, forwardToReplicas, clearExistingRules));
@@ -377,7 +376,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse saveRules(
-      @Nonnull List<Rule> rules,
+      @Nonnull Iterable<Rule> rules,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean clearExistingRules,
       @Nonnull RequestOptions requestOptions) {
@@ -394,7 +393,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default SaveRuleResponse saveRules(@Nonnull List<Rule> rules, RequestOptions requestOptions) {
+  default SaveRuleResponse saveRules(@Nonnull Iterable<Rule> rules, RequestOptions requestOptions) {
     return LaunderThrowable.await(saveRulesAsync(rules, requestOptions));
   }
 
@@ -407,7 +406,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a
    *     Jacksonannotation @JsonProperty(\"objectID\"")
    */
-  default CompletableFuture<SaveRuleResponse> saveRulesAsync(@Nonnull List<Rule> rules) {
+  default CompletableFuture<SaveRuleResponse> saveRulesAsync(@Nonnull Iterable<Rule> rules) {
     return saveRulesAsync(rules, new RequestOptions());
   }
 
@@ -422,7 +421,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
-      @Nonnull List<Rule> rules,
+      @Nonnull Iterable<Rule> rules,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean clearExistingRules) {
 
@@ -441,7 +440,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
-      @Nonnull List<Rule> rules,
+      @Nonnull Iterable<Rule> rules,
       @Nonnull Boolean forwardToReplicas,
       @Nonnull Boolean clearExistingRules,
       @Nonnull RequestOptions requestOptions) {
@@ -467,7 +466,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> saveRulesAsync(
-      @Nonnull List<Rule> rules, RequestOptions requestOptions) {
+      @Nonnull Iterable<Rule> rules, RequestOptions requestOptions) {
 
     Objects.requireNonNull(rules, "Rules are required.");
 
@@ -569,7 +568,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default SaveRuleResponse replaceAllRules(@Nonnull List<Rule> rules) {
+  default SaveRuleResponse replaceAllRules(@Nonnull Iterable<Rule> rules) {
     return LaunderThrowable.await(replaceAllRulesAsync(rules));
   }
 
@@ -585,7 +584,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse replaceAllRules(
-      @Nonnull List<Rule> rules, @Nonnull Boolean forwardToReplicas) {
+      @Nonnull Iterable<Rule> rules, @Nonnull Boolean forwardToReplicas) {
     return LaunderThrowable.await(replaceAllRulesAsync(rules, forwardToReplicas));
   }
 
@@ -601,7 +600,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default SaveRuleResponse replaceAllRules(
-      @Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
+      @Nonnull Iterable<Rule> rules, @Nonnull RequestOptions requestOptions) {
     return LaunderThrowable.await(replaceAllRulesAsync(rules, requestOptions));
   }
 
@@ -615,7 +614,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(@Nonnull List<Rule> rules) {
+  default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(@Nonnull Iterable<Rule> rules) {
     return saveRulesAsync(rules, false, true, new RequestOptions());
   }
 
@@ -631,7 +630,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
-      @Nonnull List<Rule> rules, @Nonnull Boolean forwardToReplicas) {
+      @Nonnull Iterable<Rule> rules, @Nonnull Boolean forwardToReplicas) {
     return saveRulesAsync(rules, forwardToReplicas, true, new RequestOptions());
   }
 
@@ -647,7 +646,7 @@ public interface SearchIndexRules<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CompletableFuture<SaveRuleResponse> replaceAllRulesAsync(
-      @Nonnull List<Rule> rules, @Nonnull RequestOptions requestOptions) {
+      @Nonnull Iterable<Rule> rules, @Nonnull RequestOptions requestOptions) {
     return saveRulesAsync(rules, false, true, requestOptions);
   }
 
