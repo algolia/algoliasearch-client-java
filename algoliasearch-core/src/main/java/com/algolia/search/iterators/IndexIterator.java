@@ -19,7 +19,7 @@ public class IndexIterator<E> implements Iterator<E> {
   private boolean isFirstRequest = true;
 
   public IndexIterator(@Nonnull SearchIndex<E> index) {
-    this(index, (BrowseIndexQuery) new BrowseIndexQuery().setHitsPerPage(1000));
+    this(index, new BrowseIndexQuery().setHitsPerPage(1000));
   }
 
   public IndexIterator(@Nonnull SearchIndex<E> index, @Nonnull BrowseIndexQuery query) {
@@ -64,8 +64,7 @@ public class IndexIterator<E> implements Iterator<E> {
   }
 
   private void browseAndSetInnerState() {
-    BrowseIndexResponse<E> result =
-        doQuery((BrowseIndexQuery) query.setPage(currentPage), requestOptions);
+    BrowseIndexResponse<E> result = doQuery(query.setPage(currentPage), requestOptions);
     currentIterator = result.getHits().iterator();
 
     if (result.getCursor() != null) {
