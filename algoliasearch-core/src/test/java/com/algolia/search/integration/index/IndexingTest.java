@@ -115,7 +115,7 @@ public abstract class IndexingTest {
     // Browse all index to assert that we have 1006 objects
     List<AlgoliaIndexingObject> objectsBrowsed = new ArrayList<>();
 
-    for (AlgoliaIndexingObject object : index.browse(new BrowseIndexQuery())) {
+    for (AlgoliaIndexingObject object : index.browseObjects(new BrowseIndexQuery())) {
       objectsBrowsed.add(object);
     }
 
@@ -160,7 +160,7 @@ public abstract class IndexingTest {
     // Browse all index to assert that we have 1006 objects
     List<AlgoliaIndexingObject> objectsBrowsedAfterDelete = new ArrayList<>();
 
-    for (AlgoliaIndexingObject object : index.browse(new BrowseIndexQuery())) {
+    for (AlgoliaIndexingObject object : index.browseObjects(new BrowseIndexQuery())) {
       objectsBrowsedAfterDelete.add(object);
     }
 

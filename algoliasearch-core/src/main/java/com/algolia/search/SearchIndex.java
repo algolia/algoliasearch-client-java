@@ -1506,12 +1506,12 @@ public final class SearchIndex<T>
    * call and supports full text search and filters. You can use the same query parameters as for a
    * search query
    *
-   * @param query The browse query
+   * @param query The browseObjects query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public IndexIterable<T> browse(@Nonnull BrowseIndexQuery query) {
+  public IndexIterable<T> browseObjects(@Nonnull BrowseIndexQuery query) {
     return new IndexIterable<>(this, query);
   }
 
@@ -1520,7 +1520,7 @@ public final class SearchIndex<T>
    * call and supports full text search and filters. You can use the same query parameters as for a
    * search query
    *
-   * @param query The browse query
+   * @param query The browseObjects query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
@@ -1534,7 +1534,7 @@ public final class SearchIndex<T>
    * call and supports full text search and filters. You can use the same query parameters as for a
    * search query
    *
-   * @param query The browse query
+   * @param query The browseObjects query
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
@@ -1550,7 +1550,7 @@ public final class SearchIndex<T>
    * call and supports full text search and filters. You can use the same query parameters as for a
    * search query
    *
-   * @param query The browse query
+   * @param query The browseObjects query
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
@@ -1565,7 +1565,7 @@ public final class SearchIndex<T>
    * call and supports full text search and filters. You can use the same query parameters as for a
    * search query
    *
-   * @param query The browse query
+   * @param query The browseObjects query
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
