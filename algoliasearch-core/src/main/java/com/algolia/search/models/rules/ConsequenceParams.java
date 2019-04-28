@@ -1,6 +1,7 @@
 package com.algolia.search.models.rules;
 
-import com.algolia.search.models.indexing.Query;
+import com.algolia.search.models.indexing.QueryBase;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @SuppressWarnings({"unused"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ConsequenceParams extends Query {
+public class ConsequenceParams extends QueryBase<ConsequenceParams> {
 
   private ConsequenceQuery query;
 
@@ -53,6 +54,12 @@ public class ConsequenceParams extends Query {
   public ConsequenceParams setAutomaticOptionalFacetFilters(
       List<AutomaticFacetFilter> automaticOptionalFacetFilters) {
     this.automaticOptionalFacetFilters = automaticOptionalFacetFilters;
+    return this;
+  }
+
+  @Override
+  @JsonIgnore
+  public ConsequenceParams getThis() {
     return this;
   }
 }
