@@ -9,9 +9,11 @@ if [ -z "$VERSION" ]; then
 fi
 
 mvn versions:set -DnewVersion="$1" -DgenerateBackupPoms=false
-mvn clean deploy
+mvn clean
+mvn package
+mvn deploy -DskipTests
 
-git add pom.xml algoliasearch-core/pom.xml algoliasearch-apache/pom.xml
+git add pom.xml algoliasearch-core/pom.xml algoliasearch-apache/pom.xml algoliasearch-core-uber/pom.xml algoliasearch-apache-uber/pom.xml
 git commit -m "chore: Update version to $VERSION [skip ci]"
 git tag "$VERSION"
 git push
