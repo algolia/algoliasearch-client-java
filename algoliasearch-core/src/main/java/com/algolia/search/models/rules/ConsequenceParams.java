@@ -1,6 +1,6 @@
 package com.algolia.search.models.rules;
 
-import com.algolia.search.models.indexing.QueryBase;
+import com.algolia.search.models.indexing.SearchParameters;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 @SuppressWarnings({"unused"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ConsequenceParams extends QueryBase<ConsequenceParams> {
+public class ConsequenceParams extends SearchParameters<ConsequenceParams> {
 
   private ConsequenceQuery query;
 
