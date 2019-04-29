@@ -14,7 +14,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class QueryBase<T extends QueryBase<T>> implements Serializable {
+public abstract class SearchParameters<T extends SearchParameters<T>> implements Serializable {
 
   /** To prevent unchecked cast warning. */
   @JsonIgnore

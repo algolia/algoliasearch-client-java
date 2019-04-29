@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  * @see <a href="https://www.algolia.com/doc/api-reference/api-parameters/query/">Algolia.com</a>
  */
-public class Query extends QueryBase<Query> {
+public class Query extends SearchParameters<Query> {
 
   public Query() {}
 
