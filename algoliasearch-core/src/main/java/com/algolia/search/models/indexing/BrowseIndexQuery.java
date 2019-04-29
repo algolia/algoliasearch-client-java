@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BrowseIndexQuery extends QueryBase<BrowseIndexQuery> {
+public class BrowseIndexQuery extends SearchParameters<BrowseIndexQuery> {
 
   public BrowseIndexQuery() {}
 
