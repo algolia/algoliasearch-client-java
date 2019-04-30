@@ -47,7 +47,7 @@
         <repository>
             <id>bintray-algolia-maven</id>
             <name>algolia-maven</name>
-            <url>https://api.bintray.com/maven/algolia/maven/algoliasearch/;publish=1</url>
+            <url>https://api.bintray.com/maven/algolia/maven/algoliasearch-client-java/;publish=1</url>
         </repository>
     </distributionManagement>
 
