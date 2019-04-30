@@ -213,6 +213,7 @@
                                         <exclude>org.slf4j:slf4j-api</exclude>
                                     </excludes>
                                 </artifactSet>
+                                <createSourcesJar>true</createSourcesJar>
                                 <filters>
                                     <filter>
                                         <artifact>*:*</artifact>
