@@ -15,9 +15,9 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Nonnull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The transport layer is responsible of the serialization/deserialization and the retry strategy.
@@ -27,7 +27,7 @@ class HttpTransport {
   private final HttpRequester httpRequester;
   private final RetryStrategy retryStrategy;
   private final ConfigBase config;
-  private static final Logger logger = LoggerFactory.getLogger("algoliasearch");
+  private static final Logger LOGGER = Logger.getLogger(HttpTransport.class.getName());
 
   HttpTransport(@Nonnull ConfigBase config, @Nonnull HttpRequester httpRequester) {
     this.config = config;
@@ -36,7 +36,6 @@ class HttpTransport {
   }
 
   void close() throws IOException {
-    logger.debug("Closing the http client");
     httpRequester.close();
   }
 
@@ -325,24 +324,29 @@ class HttpTransport {
   }
 
   private <T> void logRequest(HttpRequest request, T data) throws JsonProcessingException {
-    if (logger.isDebugEnabled()) {
-      logger.debug(
-          "\n Method: {} \n Path: {} \n Headers: {}",
-          request.getMethod().toString(),
-          request.getMethodPath(),
-          request.getHeaders());
+    if (LOGGER.isLoggable(Level.FINEST)) {
+      LOGGER.finest(
+          String.format(
+              "\n Method: %s \n Path: %s \n Headers: %s",
+              request.getMethod().toString(), request.getMethodPath(), request.getHeaders()));
 
-      logger.debug(
-          "Request body: \n {}",
-          Defaults.getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(data));
+      LOGGER.finest(
+          String.format(
+              "Request body: \n %s ",
+              Defaults.getObjectMapper()
+                  .writerWithDefaultPrettyPrinter()
+                  .writeValueAsString(data)));
     }
   }
 
   private <TResult> void logResponse(TResult result) throws IOException {
-    if (logger.isDebugEnabled()) {
-      logger.debug(
-          "Response body: \n {}",
-          Defaults.getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(result));
+    if (LOGGER.isLoggable(Level.FINEST)) {
+      LOGGER.finest(
+          String.format(
+              "Response body: %s \n",
+              Defaults.getObjectMapper()
+                  .writerWithDefaultPrettyPrinter()
+                  .writeValueAsString(result)));
     }
   }
 }
