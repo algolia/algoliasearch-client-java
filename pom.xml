@@ -20,6 +20,13 @@
     <description>Java client for Algolia Search API</description>
     <url>https://github.com/algolia/algoliasearch-client-java-2</url>
 
+    <scm>
+        <connection>scm:git:git@github.com:algolia/algoliasearch-client-java-2.git</connection>
+        <url>scm:git:git@github.com:algolia/algoliasearch-client-java-2.git</url>
+        <developerConnection>scm:git:git@github.com:algolia/algoliasearch-client-java-2.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <modules>
         <module>algoliasearch-core</module>
         <module>algoliasearch-core-uber</module>
