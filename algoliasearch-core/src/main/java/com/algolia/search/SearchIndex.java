@@ -183,7 +183,7 @@ public final class SearchIndex<T>
 
     return transport.executeRequestAsync(
         HttpMethod.GET,
-        "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
+        "/1/indexes/" + urlEncodedIndexName + "/" + QueryStringUtils.urlEncodeUTF8(objectID),
         CallType.READ,
         clazz,
         requestOptions);
