@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 @SuppressWarnings("WeakerAccess")
 public abstract class ConfigBase {
 
-  private static final String javaVersion = System.getProperty("java.version");
+  private static final String JAVA_VERSION = System.getProperty("java.version");
   private final String applicationID;
   private final String apiKey;
   private final Map<String, String> defaultHeaders;
@@ -62,7 +62,7 @@ public abstract class ConfigBase {
       String clientVersion = this.getClass().getPackage().getImplementationVersion();
       this.defaultHeaders.put(
           Defaults.USER_AGENT_HEADER,
-          String.format("Algolia for Java (%s); JVM (%s)", clientVersion, javaVersion));
+          String.format("Algolia for Java (%s); JVM (%s)", clientVersion, JAVA_VERSION));
       this.defaultHeaders.put(Defaults.ACCEPT_HEADER, Defaults.APPLICATION_JSON);
       this.defaultHeaders.put(Defaults.ACCEPT_ENCODING_HEADER, Defaults.CONTENT_ENCODING_GZIP);
 
