@@ -69,7 +69,7 @@ With [Maven](https://maven.apache.org/), add the following dependency to your `p
 <dependency>
   <groupId>com.algolia</groupId>
   <artifactId>algoliasearch</artifactId>
-  <version>[2,]</version>
+  <version>2.22.0</version>
 </dependency>
 ```
 
@@ -79,7 +79,7 @@ Then, for the asynchronous version, use:
 <dependency>
   <groupId>com.algolia</groupId>
   <artifactId>algoliasearch-async</artifactId>
-  <version>[2,]</version>
+  <version>2.22.0</version>
 </dependency>
 ```
 
@@ -89,7 +89,7 @@ Or on `Google AppEngine`, use:
 <dependency>
   <groupId>com.algolia</groupId>
   <artifactId>algoliasearch-appengine</artifactId>
-  <version>[2,]</version>
+  <version>2.22.0</version>
 </dependency>
 ```
 
