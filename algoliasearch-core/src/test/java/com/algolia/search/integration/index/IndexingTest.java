@@ -41,7 +41,7 @@ public abstract class IndexingTest {
     // Save two objects with objectID
     List<AlgoliaIndexingObject> objectsWithIds =
         Arrays.asList(new AlgoliaIndexingObject("two"), new AlgoliaIndexingObject("three"));
-    index.saveObjectsAsync(objectsWithIds, true);
+    CompletableFuture<BatchIndexingResponse> objectsWithIdsFuture = index.saveObjectsAsync(objectsWithIds, true);
 
     // Save two objects w/o objectIDs
     List<AlgoliaIndexingObject> objectsWoIds =
@@ -64,7 +64,7 @@ public abstract class IndexingTest {
     CompletableFuture<BatchIndexingResponse> batchFuture = index.saveObjectsAsync(objectsToBatch);
 
     List<CompletableFuture<BatchIndexingResponse>> futures =
-        Arrays.asList(addObjectOneFuture, addObjectWoIdFuture, addObjectsWoIdsFuture, batchFuture);
+        Arrays.asList(addObjectOneFuture, addObjectWoIdFuture, objectsWithIdsFuture, addObjectsWoIdsFuture, batchFuture);
 
     // Wait for futures to finish
     CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
