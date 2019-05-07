@@ -227,11 +227,11 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
-  public Integer getAroundPrecision() {
+  public List<AroundPrecision> getAroundPrecision() {
     return aroundPrecision;
   }
 
-  public T setAroundPrecision(Integer aroundPrecision) {
+  public T setAroundPrecision(List<AroundPrecision> aroundPrecision) {
     this.aroundPrecision = aroundPrecision;
     return getThis();
   }
@@ -646,7 +646,7 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   protected String aroundLatLng;
   protected Boolean aroundLatLngViaIP;
   protected AroundRadius aroundRadius;
-  protected Integer aroundPrecision;
+  protected List<AroundPrecision> aroundPrecision;
   protected Integer minimumAroundRadius;
   protected List<List<Float>> insideBoundingBox;
   protected List<List<Float>> insidePolygon;
