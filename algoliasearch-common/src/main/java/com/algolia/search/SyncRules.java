@@ -123,6 +123,17 @@ public interface SyncRules<T> extends SyncBaseIndex<T> {
    *
    * @param ruleId the id of the query rule
    * @param forwardToReplicas should this request be forwarded to replicas
+   * @return the associated task
+   */
+  default Task deleteRule(@Nonnull String ruleId, boolean forwardToReplicas) throws AlgoliaException {
+    return getApiClient().deleteRule(getName(), ruleId, forwardToReplicas, new RequestOptions());
+  }
+
+  /**
+   * Deletes a query rule
+   *
+   * @param ruleId the id of the query rule
+   * @param forwardToReplicas should this request be forwarded to replicas
    * @param requestOptions Options to pass to this request
    * @return the associated task
    */

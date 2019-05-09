@@ -1,4 +1,4 @@
-package com.algolia.search.objects;
+package com.algolia.search.inputs.query_rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -17,7 +17,8 @@ public class Hide {
     return objectID;
   }
 
-  public void setObjectID(String objectID) {
+  public Hide setObjectID(String objectID) {
     this.objectID = objectID;
+    return this;
   }
 }
