@@ -8,7 +8,10 @@ your Java code.
 
 
 
-**WARNING:**
+
+  ## Contributing
+
+  **WARNING:**
 The JVM has an infinite cache on successful DNS resolution. As our hostnames points to multiple IPs, the load could be not evenly spread among our machines, and you might also target a dead machine.
 
 You should change this TTL by setting the property `networkaddress.cache.ttl`. For example to set the cache to 60 seconds:
@@ -18,6 +21,7 @@ java.security.Security.setProperty("networkaddress.cache.ttl", "60");
 
 For debug purposes you can enable debug logging on the API client. It's using [slf4j](https://www.slf4j.org) so it should be compatible with most java logger.
 The logger is named `algoliasearch`.
+
 
 
 
@@ -52,6 +56,12 @@ You can find the full reference on [Algolia's website](https://www.algolia.com/d
 1. **[List of available methods](#list-of-available-methods)**
 
 
+1. **[Getting Help](#getting-help)**
+
+
+1. **[List of available methods](#list-of-available-methods)**
+
+
 # Getting Started
 
 
@@ -69,7 +79,7 @@ With [Maven](https://maven.apache.org/), add the following dependency to your `p
 <dependency>
   <groupId>com.algolia</groupId>
   <artifactId>algoliasearch</artifactId>
-  <version>2.22.0</version>
+  <version>2.22</version>
 </dependency>
 ```
 
@@ -79,7 +89,7 @@ Then, for the asynchronous version, use:
 <dependency>
   <groupId>com.algolia</groupId>
   <artifactId>algoliasearch-async</artifactId>
-  <version>2.22.0</version>
+  <version>2.22</version>
 </dependency>
 ```
 
@@ -89,7 +99,7 @@ Or on `Google AppEngine`, use:
 <dependency>
   <groupId>com.algolia</groupId>
   <artifactId>algoliasearch-appengine</artifactId>
-  <version>2.22.0</version>
+  <version>2.22</version>
 </dependency>
 ```
 
@@ -156,7 +166,7 @@ You can find both on [your Algolia account](https://www.algolia.com/api-keys).
 
 ```java
 APIClient client =
-  new ApacheAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
+  new ApacheAPIClientBuilder("YourApplicationID", "YourAdminAPIKey").build();
 
 Index<Contact> index = client.initIndex("your_index_name", Contact.class);
 ```
@@ -165,7 +175,7 @@ For the asynchronous version:
 
 ```java
 AsyncAPIClient client =
-  new AsyncHttpAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
+  new AsyncHttpAPIClientBuilder("YourApplicationID", "YourAdminAPIKey").build();
 
 AsyncIndex<Contact> index = client.initIndex("your_index_name", Contact.class);
 ```
@@ -174,7 +184,7 @@ For `Google AppEngine`:
 
 ```java
 APIClient client =
-  new AppEngineAPIClientBuilder("YourApplicationID", "YourAPIKey").build();
+  new AppEngineAPIClientBuilder("YourApplicationID", "YourAdminAPIKey").build();
 
 Index<Contact> index = client.initIndex("your_index_name", Contact.class);
 ```
@@ -290,15 +300,13 @@ The following example shows how to quickly build a front-end search using
 <!doctype html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.0/themes/algolia.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/algolia.css" integrity="sha256-4SlodglhMbXjGQfNWiCBLSGNiq90FUw3Mtre9u4vLG8=" crossorigin="anonymous">
 </head>
 <body>
   <header>
-    <div>
-       <input id="search-input" placeholder="Search for products">
-       <!-- We use a specific placeholder in the input to guide users in their search. -->
     
   </header>
+
   <main>
       
       
@@ -313,7 +321,8 @@ The following example shows how to quickly build a front-end search using
     
   </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@3.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/algoliasearch@3.32.1/dist/algoliasearchLite.min.js" integrity="sha256-NSTRUP9bvh8kBKi7IHQSmOrMAdVEoSJFBbTA+LoRr3A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@3.2.0" integrity="sha256-/8usMtTwZ01jujD7KAZctG0UMk2S2NDNirGFVBbBZCM=" crossorigin="anonymous"></script>
   <script src="app.js"></script>
 </body>
 ```
@@ -322,23 +331,27 @@ The following example shows how to quickly build a front-end search using
 
 ```js
 // Replace with your own values
-var searchClient = algoliasearch(
+const searchClient = algoliasearch(
   'YourApplicationID',
-  'YourAPIKey' // search only API key, no ADMIN key
+  'YourSearchOnlyAPIKey' // search only API key, not admin API key
 );
 
-var search = instantsearch({
+const search = instantsearch({
   indexName: 'instant_search',
-  searchClient: searchClient,
+  searchClient,
   routing: true,
-  searchParameters: {
-    hitsPerPage: 10
-  }
 });
 
 search.addWidget(
+  instantsearch.widgets.configure({
+    hitsPerPage: 10,
+  })
+);
+
+search.addWidget(
   instantsearch.widgets.searchBox({
-    container: '#search-input'
+    container: '#search-box',
+    placeholder: 'Search for products',
   })
 );
 
@@ -347,8 +360,8 @@ search.addWidget(
     container: '#hits',
     templates: {
       item: document.getElementById('hit-template').innerHTML,
-      empty: "We didn't find any results for the search <em>\"{{query}}\"</em>"
-    }
+      empty: `We didn't find any results for the search <em>"{{query}}"</em>`,
+    },
   })
 );
 
@@ -422,6 +435,7 @@ search.start();
 - [Add API Key](https://algolia.com/doc/api-reference/api-methods/add-api-key/?language=java)
 - [Update API Key](https://algolia.com/doc/api-reference/api-methods/update-api-key/?language=java)
 - [Delete API Key](https://algolia.com/doc/api-reference/api-methods/delete-api-key/?language=java)
+- [Restore API Key](https://algolia.com/doc/api-reference/api-methods/restore-api-key/?language=java)
 - [Get API Key permissions](https://algolia.com/doc/api-reference/api-methods/get-api-key/?language=java)
 - [List API Keys](https://algolia.com/doc/api-reference/api-methods/list-api-keys/?language=java)
 
@@ -502,6 +516,12 @@ search.start();
 - [Configuring timeouts](https://algolia.com/doc/api-reference/api-methods/configuring-timeouts/?language=java)
 - [Set extra header](https://algolia.com/doc/api-reference/api-methods/set-extra-header/?language=java)
 - [Wait for operations](https://algolia.com/doc/api-reference/api-methods/wait-task/?language=java)
+
+
+
+
+### Vault
+
 
 
 
