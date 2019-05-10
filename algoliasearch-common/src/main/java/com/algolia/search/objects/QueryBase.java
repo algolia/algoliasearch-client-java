@@ -326,7 +326,7 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   }
 
   @JsonAnySetter
-  public T addCustomParameter(String key, String value) {
+  public T addCustomParameter(String key, Object value) {
     this.customParameters.put(key, value);
     return (T) this;
   }
