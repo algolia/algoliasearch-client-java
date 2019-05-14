@@ -18,7 +18,3 @@ before_script:
 
 script:
   - ./.run-travis.sh
-
-#deploy snapshots
-after_success:
-  - "mvn clean deploy -DskipTests --settings settings-for-travis.xml"
