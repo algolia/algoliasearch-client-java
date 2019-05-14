@@ -46,8 +46,9 @@ public class Consequence implements Serializable {
     return hide;
   }
 
-  public void setHide(List<Hide> hide) {
+  public Consequence setHide(List<Hide> hide) {
     this.hide = hide;
+    return this;
   }
 
   private ConsequenceParams params;
