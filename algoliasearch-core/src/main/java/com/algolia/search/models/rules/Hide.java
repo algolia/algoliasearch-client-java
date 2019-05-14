@@ -23,7 +23,8 @@ public class Hide {
     return objectID;
   }
 
-  public void setObjectID(String objectID) {
+  public Hide setObjectID(String objectID) {
     this.objectID = objectID;
+    return this;
   }
 }
