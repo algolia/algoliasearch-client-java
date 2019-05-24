@@ -90,6 +90,7 @@ public abstract class SettingsTest {
     settings.setDisableTypoToleranceOnAttributes(Arrays.asList("attribute1", "attribute2"));
     settings.setDisableTypoToleranceOnWords(Arrays.asList("word1", "word2"));
     settings.setSeparatorsToIndex("()[]");
+    settings.setAlternativesAsExact(Collections.singletonList("ignorePlurals"));
 
     // Query
     settings.setQueryType("prefixNone");
@@ -100,6 +101,8 @@ public abstract class SettingsTest {
     settings.setDisablePrefixOnAttributes(Arrays.asList("attribute1", "attribute2"));
     settings.setDisableExactOnAttributes(Arrays.asList("attribute1", "attribute2"));
     settings.setExactOnSingleWordQuery("word");
+    settings.setQueryLanguages(Arrays.asList("fr", "en"));
+    settings.setAdvancedSyntaxFeatures(Collections.singletonList("exactPhrase"));
 
     // Query rules
     settings.setEnableRules(true);
@@ -135,7 +138,7 @@ public abstract class SettingsTest {
     IndexSettings settingsAfterSave = getSettingsFuture.get();
     assertThat(settings)
         .usingRecursiveComparison()
-        .ignoringFields("alternativesAsExact", "customSettings")
+        .ignoringFields("customSettings")
         .isEqualTo(settingsAfterSave);
 
     assertThat(settingsAfterSave.getTypoTolerance()).isEqualTo(TypoTolerance.of(false));
@@ -156,7 +159,7 @@ public abstract class SettingsTest {
     IndexSettings settingsAfterChanges = getSettingsAfterChangesFuture.get();
     assertThat(settings)
         .usingRecursiveComparison()
-        .ignoringFields("alternativesAsExact", "customSettings")
+        .ignoringFields("customSettings")
         .isEqualTo(settingsAfterChanges);
 
     assertThat(settingsAfterChanges.getTypoTolerance()).isEqualTo(TypoTolerance.of("min"));
