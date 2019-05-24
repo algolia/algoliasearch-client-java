@@ -25,6 +25,107 @@ public class SearchResult<T> implements Serializable {
   private List<Map<String, Object>> userData;
   private List<Map<String, Object>> appliedRules;
 
+  public Long getOffset() {
+    return offset;
+  }
+
+  public SearchResult<T> setOffset(Long offset) {
+    this.offset = offset;
+    return this;
+  }
+
+  public Long getLength() {
+    return length;
+  }
+
+  public SearchResult<T> setLength(Long length) {
+    this.length = length;
+    return this;
+  }
+
+  public String getParsedQuery() {
+    return parsedQuery;
+  }
+
+  public SearchResult<T> setParsedQuery(String parsedQuery) {
+    this.parsedQuery = parsedQuery;
+    return this;
+  }
+
+  public Long getAbTestVariantID() {
+    return abTestVariantID;
+  }
+
+  public SearchResult<T> setAbTestVariantID(Long abTestVariantID) {
+    this.abTestVariantID = abTestVariantID;
+    return this;
+  }
+
+  public String getIndexUsed() {
+    return indexUsed;
+  }
+
+  public SearchResult<T> setIndexUsed(String indexUsed) {
+    this.indexUsed = indexUsed;
+    return this;
+  }
+
+  public String getServerUsed() {
+    return serverUsed;
+  }
+
+  public SearchResult<T> setServerUsed(String serverUsed) {
+    this.serverUsed = serverUsed;
+    return this;
+  }
+
+  public String getAutomaticRadius() {
+    return automaticRadius;
+  }
+
+  public SearchResult<T> setAutomaticRadius(String automaticRadius) {
+    this.automaticRadius = automaticRadius;
+    return this;
+  }
+
+  public String getAroundLatLng() {
+    return aroundLatLng;
+  }
+
+  public SearchResult<T> setAroundLatLng(String aroundLatLng) {
+    this.aroundLatLng = aroundLatLng;
+    return this;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public SearchResult<T> setMessage(String message) {
+    this.message = message;
+    return this;
+  }
+
+  public String getQueryAfterRemoval() {
+    return queryAfterRemoval;
+  }
+
+  public SearchResult<T> setQueryAfterRemoval(String queryAfterRemoval) {
+    this.queryAfterRemoval = queryAfterRemoval;
+    return this;
+  }
+
+  private Long offset;
+  private Long length;
+  private String parsedQuery;
+  private Long abTestVariantID;
+  private String indexUsed;
+  private String serverUsed;
+  private String automaticRadius;
+  private String aroundLatLng;
+  private String message;
+  private String queryAfterRemoval;
+
   public List<Map<String, Object>> getAppliedRules() {
     return appliedRules;
   }
