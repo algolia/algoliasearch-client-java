@@ -22,8 +22,6 @@ public class ApiKey implements Serializable {
 
   private String description;
 
-  private String restrictSources;
-
   private List<String> acl;
 
   private List<String> indexes;
@@ -118,15 +116,6 @@ public class ApiKey implements Serializable {
     return this;
   }
 
-  public String getRestrictSources() {
-    return restrictSources;
-  }
-
-  public ApiKey setRestrictSources(String restrictSources) {
-    this.restrictSources = restrictSources;
-    return this;
-  }
-
   @Override
   public String toString() {
     return "ApiKey{"
@@ -141,9 +130,6 @@ public class ApiKey implements Serializable {
         + '\''
         + ", description='"
         + description
-        + '\''
-        + ", restrictSources='"
-        + restrictSources
         + '\''
         + ", acl="
         + String.join(",", acl)
