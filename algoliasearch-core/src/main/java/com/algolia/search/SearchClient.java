@@ -70,6 +70,7 @@ public final class SearchClient
     return transport;
   }
 
+  /** Get Client's configuration */
   @Override
   public ConfigBase getConfig() {
     return config;

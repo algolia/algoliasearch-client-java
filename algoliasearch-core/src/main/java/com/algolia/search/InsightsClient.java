@@ -32,6 +32,9 @@ public final class InsightsClient implements Closeable {
   /** The transport layer. Should be reused. */
   private final HttpTransport transport;
 
+  /** Client's configuration. Must be reused. */
+  private final ConfigBase config;
+
   /**
    * Creates a custom {@link InsightsClient} with the given {@link InsightsConfig} and the given
    * {@link HttpRequester}
@@ -49,6 +52,7 @@ public final class InsightsClient implements Closeable {
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
 
+    this.config = config;
     this.transport = new HttpTransport(config, httpRequester);
   }
 
@@ -60,6 +64,11 @@ public final class InsightsClient implements Closeable {
   @Override
   public void close() throws IOException {
     transport.close();
+  }
+
+  /** Get Client's configuration */
+  public ConfigBase getConfig() {
+    return config;
   }
 
   /** @param userToken the user config */

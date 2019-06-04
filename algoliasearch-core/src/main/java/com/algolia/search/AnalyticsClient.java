@@ -28,6 +28,9 @@ public final class AnalyticsClient implements Closeable {
   /** The transport layer. Must be reused. */
   private final HttpTransport transport;
 
+  /** Client's configuration. Must be reused. */
+  private final ConfigBase config;
+
   /**
    * Creates a custom {@link AnalyticsClient} with the given {@link AnalyticsConfig} and the given
    * {@link HttpRequester}
@@ -45,6 +48,7 @@ public final class AnalyticsClient implements Closeable {
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
 
+    this.config = config;
     this.transport = new HttpTransport(config, httpRequester);
   }
 
@@ -56,6 +60,11 @@ public final class AnalyticsClient implements Closeable {
   @Override
   public void close() throws IOException {
     transport.close();
+  }
+
+  /** Get Client's configuration */
+  public ConfigBase getConfig() {
+    return config;
   }
 
   /** Get an A/B test information and results. */
