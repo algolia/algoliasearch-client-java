@@ -4,8 +4,8 @@ matrix:
   include:
   - jdk: oraclejdk8
     env: JAVA_VERSION=8
-  - jdk: oraclejdk9
-    env: JAVA_VERSION=9
+  - jdk: oraclejdk11
+    env: JAVA_VERSION=11
 
 cache:
   directories:
