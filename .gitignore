@@ -21,3 +21,7 @@ hs_err_pid*
 *.logQueryTest
 
 .factorypath
+*.versionsBackup
+
+algoliasearch-apache-uber/dependency-reduced-pom.xml
+algoliasearch-core-uber/dependency-reduced-pom.xml
