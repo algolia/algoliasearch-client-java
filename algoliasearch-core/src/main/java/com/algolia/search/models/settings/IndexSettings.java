@@ -22,6 +22,7 @@ public class IndexSettings implements Serializable {
   private Distinct distinct;
   private Boolean replaceSynonymsInHighlight;
   private Integer minProximity;
+  private Boolean attributeCriteriaComputedByMinProximity;
   private List<String> responseFields;
   private Integer maxFacetHits;
   private String keepDiacriticsOnCharacters;
@@ -267,6 +268,16 @@ public class IndexSettings implements Serializable {
 
   public IndexSettings setMinProximity(Integer minProximity) {
     this.minProximity = minProximity;
+    return this;
+  }
+
+  public Boolean getAttributeCriteriaComputedByMinProximity() {
+    return attributeCriteriaComputedByMinProximity;
+  }
+
+  public IndexSettings setAttributeCriteriaComputedByMinProximity(
+      Boolean attributeCriteriaComputedByMinProximity) {
+    this.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity;
     return this;
   }
 
