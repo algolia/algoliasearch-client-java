@@ -35,6 +35,7 @@ public class IndexSettings implements Serializable {
   private List<String> camelCaseAttributes;
   private Map<String, List<String>> decompoundedAttributes;
   private String primary;
+  private Map<String, Object> userData;
 
   /* filtering-faceting */
   private Long maxValuesPerFacet;
@@ -238,6 +239,15 @@ public class IndexSettings implements Serializable {
 
   public String getPrimary() {
     return primary;
+  }
+
+  public Map<String, Object> getUserData() {
+    return userData;
+  }
+
+  public IndexSettings setUserData(Map<String, Object> userData) {
+    this.userData = userData;
+    return this;
   }
 
   public List<String> getAttributesToHighlight() {

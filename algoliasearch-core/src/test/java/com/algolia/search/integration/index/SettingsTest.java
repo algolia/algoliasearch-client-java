@@ -127,6 +127,12 @@ public abstract class SettingsTest {
             put("fi", Collections.singletonList("attribute3"));
           }
         });
+    settings.setUserData(
+        new HashMap<String, Object>() {
+          {
+            put("UserData", "Custom Data");
+          }
+        });
     settings.setKeepDiacriticsOnCharacters("øé");
 
     // Wait for the save object task to finish on the API Side
