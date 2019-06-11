@@ -116,6 +116,7 @@ public abstract class SettingsTest {
     settings.setDistinct(2);
     settings.setReplaceSynonymsInHighlight(false);
     settings.setMinProximity(7);
+    settings.setAttributeCriteriaComputedByMinProximity(true);
     settings.setResponseFields(Arrays.asList("hits", "hitsPerPage"));
     settings.setMaxFacetHits(100);
     settings.setCamelCaseAttributes(Arrays.asList("attribute1", "attribute2"));
