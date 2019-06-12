@@ -33,6 +33,7 @@ public class IndexSettings implements Serializable {
   private List<String> attributesToRetrieve;
   private List<String> camelCaseAttributes;
   private Map<String, List<String>> decompoundedAttributes;
+  private String primary;
 
   /* filtering-faceting */
   private Long maxValuesPerFacet;
@@ -232,6 +233,10 @@ public class IndexSettings implements Serializable {
   public IndexSettings setDecompoundedAttributes(Map<String, List<String>> decompoundedAttributes) {
     this.decompoundedAttributes = decompoundedAttributes;
     return this;
+  }
+
+  public String getPrimary() {
+    return primary;
   }
 
   public List<String> getAttributesToHighlight() {
