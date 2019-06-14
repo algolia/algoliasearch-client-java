@@ -68,14 +68,19 @@ public class QueryStringUtils {
                         // Work around for nested List<List<?>> could be improved
                         if (tmpList.get(0) != null && tmpList.get(0) instanceof List<?>) {
 
-                          List<List<?>> listOfList = (List) e.getValue();
+                          List<List<Object>> listOfList = (List) e.getValue();
 
-                          List<?> flat =
-                              listOfList.stream()
-                                  .flatMap(List::stream)
-                                  .collect(Collectors.toList());
-
-                          return String.join(",", (List) flat);
+                          return "["
+                              + listOfList.stream()
+                                  .map(
+                                      arr ->
+                                          "["
+                                              + arr.stream()
+                                                  .map(QueryStringUtils::formatParameters)
+                                                  .collect(Collectors.joining(","))
+                                              + "]")
+                                  .collect(Collectors.joining(","))
+                              + "]";
 
                         } else {
                           // Handling List<?>
@@ -95,6 +100,15 @@ public class QueryStringUtils {
         Defaults.getObjectMapper()
             .convertValue(restriction, new TypeReference<Map<String, String>>() {});
     return buildQueryString(map, true);
+  }
+
+  private static String formatParameters(Object parameter) {
+
+    if (parameter instanceof Float) {
+      return parameter.toString();
+    }
+
+    return "\"" + parameter.toString() + "\"";
   }
 
   private static Optional<String> buildString(Map<String, String> map) {

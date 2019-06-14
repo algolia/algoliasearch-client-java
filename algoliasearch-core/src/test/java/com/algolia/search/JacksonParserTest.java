@@ -303,7 +303,33 @@ class JacksonParserTest {
     Query query =
         new Query("é®„")
             .setTagFilters(Collections.singletonList(Collections.singletonList("(attribute)")));
-    assertThat(query.toParam()).isEqualTo("tagFilters=%28attribute%29&query=%C3%A9%C2%AE%E2%80%9E");
+
+    assertThat(query.toParam())
+        .isEqualTo("tagFilters=%5B%5B%22%28attribute%29%22%5D%5D&query=%C3%A9%C2%AE%E2%80%9E");
+
+    Query query2 =
+        new Query("")
+            .setTagFilters(Arrays.asList(Arrays.asList("a", "b"), Collections.singletonList("c")));
+
+    assertThat(query2.toParam())
+        .isEqualTo("tagFilters=%5B%5B%22a%22%2C%22b%22%5D%2C%5B%22c%22%5D%5D&query=");
+  }
+
+  @Test
+  void queryWithList() {
+
+    Query query = new Query("").setFacets(Collections.singletonList("(attribute)"));
+
+    assertThat(query.toParam()).isEqualTo("query=&facets=%28attribute%29");
+
+    Query query2 = new Query("").setFacets(Arrays.asList("a", "b"));
+
+    assertThat(query2.toParam()).isEqualTo("query=&facets=a%2Cb");
+
+    Query query3 =
+        new Query("").setRestrictSearchableAttributes(Collections.singletonList("attr1"));
+
+    assertThat(query3.toParam()).isEqualTo("query=&restrictSearchableAttributes=attr1");
   }
 
   @Test
@@ -314,16 +340,67 @@ class JacksonParserTest {
 
   @Test
   void queryWithNestedLists() {
-    Query query =
-        new Query("").setFacetFilters(Collections.singletonList(Arrays.asList("facet1", "facet2")));
-    assertThat(query.toParam()).isEqualTo("facetFilters=facet1%2Cfacet2&query=");
 
-    Query query2 =
+    // Expected: query=&facetFilters=[["facet1:true"],["facet2:true"]]
+    Query query =
         new Query("")
             .setFacetFilters(
                 Arrays.asList(
-                    Collections.singletonList("facet1"), Collections.singletonList("facet2")));
-    assertThat(query2.toParam()).contains("facetFilters=facet1%2Cfacet2&query=");
+                    Collections.singletonList("facet1:true"),
+                    Collections.singletonList("facet2:true")));
+
+    assertThat(query.toParam())
+        .isEqualTo(
+            "facetFilters=%5B%5B%22facet1%3Atrue%22%5D%2C%5B%22facet2%3Atrue%22%5D%5D&query=");
+
+    // Expected: query=&facetFilters=[["facet1:true","facet2:true"]]
+    Query query2 =
+        new Query("")
+            .setFacetFilters(
+                Collections.singletonList(Arrays.asList("facet1:true", "facet2:true")));
+
+    assertThat(query2.toParam())
+        .isEqualTo("facetFilters=%5B%5B%22facet1%3Atrue%22%2C%22facet2%3Atrue%22%5D%5D&query=");
+
+    // Expected: query=&facetFilters=[["facet1:true","facet2:true"],["facet3:true"]]
+    Query query3 =
+        new Query("")
+            .setFacetFilters(
+                Arrays.asList(
+                    Arrays.asList("facet1:true", "facet2:true"),
+                    Collections.singletonList("facet3:true")));
+
+    assertThat(query3.toParam())
+        .isEqualTo(
+            "facetFilters=%5B%5B%22facet1%3Atrue%22%2C%22facet2%3Atrue%22%5D%2C%5B%22facet3%3Atrue%22%5D%5D&query=");
+
+    // Expected: query=&facetFilters=[["facet1:true"]]
+    Query query4 =
+        new Query("")
+            .setFacetFilters(Collections.singletonList(Collections.singletonList("facet1:true")));
+
+    assertThat(query4.toParam()).isEqualTo("facetFilters=%5B%5B%22facet1%3Atrue%22%5D%5D&query=");
+
+    // Expected: insideBoundingBox=[[47.3165,4.9665,47.3424,5.0201],[40.9234,2.1185,38.643,1.9916]]
+    Query query5 =
+        new Query("")
+            .setInsideBoundingBox(
+                Arrays.asList(
+                    Arrays.asList(47.3165f, 4.9665f, 47.3424f, 5.0201f),
+                    Arrays.asList(40.9234f, 2.1185f, 38.643f, 1.9916f)));
+
+    assertThat(query5.toParam())
+        .isEqualTo(
+            "query=&insideBoundingBox=%5B%5B47.3165%2C4.9665%2C47.3424%2C5.0201%5D%2C%5B40.9234%2C2.1185%2C38.643%2C1.9916%5D%5D");
+
+    // Expected:insideBoundingBox=[[47.3165,4.9665,47.3424,5.0201]]
+    Query query6 =
+        new Query("")
+            .setInsideBoundingBox(
+                Collections.singletonList(Arrays.asList(47.3165f, 4.9665f, 47.3424f, 5.0201f)));
+
+    assertThat(query6.toParam())
+        .isEqualTo("query=&insideBoundingBox=%5B%5B47.3165%2C4.9665%2C47.3424%2C5.0201%5D%5D");
   }
 
   @Test
