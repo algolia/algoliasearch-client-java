@@ -29,6 +29,15 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
+  public String getSimilarQuery() {
+    return similarQuery;
+  }
+
+  public T setSimilarQuery(String similarQuery) {
+    this.similarQuery = similarQuery;
+    return getThis();
+  }
+
   public Boolean getGetRankingInfo() {
     return getRankingInfo;
   }
@@ -612,6 +621,8 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   /* search */
   @JsonProperty("query")
   protected String query;
+
+  protected String similarQuery;
 
   /* advanced */
   protected Distinct distinct;
