@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.algolia.com">
-    <img alt="Algolia for Java" src="https://raw.githubusercontent.com/algolia/algoliasearch-client-common/master/readme-banner.png" >
+    <img alt="Algolia for Java" src="https://user-images.githubusercontent.com/22633119/59595532-4c6bd280-90f6-11e9-9d83-9afda3c85e96.png" >
   </a>
 
   <h4 align="center">The perfect starting point to integrate <a href="https://algolia.com" target="_blank">Algolia</a> within your Java project</h4>
