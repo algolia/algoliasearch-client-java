@@ -351,6 +351,21 @@ class JacksonParserTest {
     assertThat(serialized).isEqualTo("{\"aroundRadius\":1,\"query\":\"\"}");
   }
 
+  @Test
+  void queryWithCustomParameters() throws JsonProcessingException {
+    Query query = new Query("algolia").setCustomParameter("newParameter", 10);
+    String serialized = Defaults.getObjectMapper().writeValueAsString(query);
+    assertThat(serialized).isEqualTo("{\"query\":\"algolia\",\"newParameter\":10}");
+  }
+
+  @Test
+  void settingsWithCustomSettings() throws JsonProcessingException {
+    IndexSettings settings =
+        new IndexSettings().setEnableRules(true).setCustomSetting("newSettings", true);
+    String serialized = Defaults.getObjectMapper().writeValueAsString(settings);
+    assertThat(serialized).isEqualTo("{\"enableRules\":true,\"newSettings\":true}");
+  }
+
   private IndexSettings serializeDeserialize(IndexSettings obj) throws IOException {
     String serialized = Defaults.getObjectMapper().writeValueAsString(obj);
     return Defaults.getObjectMapper()

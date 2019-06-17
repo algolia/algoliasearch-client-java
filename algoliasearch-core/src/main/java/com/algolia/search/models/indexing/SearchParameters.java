@@ -5,12 +5,11 @@ import com.algolia.search.models.settings.IgnorePlurals;
 import com.algolia.search.models.settings.RemoveStopWords;
 import com.algolia.search.models.settings.TypoTolerance;
 import com.algolia.search.util.QueryStringUtils;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -614,6 +613,23 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
+  @JsonAnyGetter
+  public Map<String, Object> getCustomParameters() {
+    return customParameters;
+  }
+
+  @JsonAnySetter
+  public T setCustomParameters(Map<String, Object> customSettings) {
+    this.customParameters = customSettings;
+    return getThis();
+  }
+
+  @JsonAnySetter
+  public T setCustomParameter(String key, Object value) {
+    this.customParameters.put(key, value);
+    return getThis();
+  }
+
   public String toParam() {
     return QueryStringUtils.buildQueryAsQueryParams(this);
   }
@@ -715,4 +731,7 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   /* Personalization */
   protected Boolean enablePersonalization;
   protected Integer personalizationImpact;
+
+  /* Custom Parameters */
+  protected Map<String, Object> customParameters = new HashMap<>();
 }
