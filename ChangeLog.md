@@ -1,5 +1,11 @@
 # ChangeLog
 
+# [3.0.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.22.0...3.0.0) (2019-10-06)
+
+New major version of the Java client! For more information check out:
+- [Our upgrade guide](https://www.algolia.com/doc/api-client/getting-started/upgrade-guides/java/)
+- [Our discourse post](https://discourse.algolia.com/t/java-api-client-v3-is-released/7898)
+
 # [2.22.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.21.1...2.22.0) (2019-01-15)
 
 ### Change
