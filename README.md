@@ -87,7 +87,7 @@ class Contact {
   // Getters/setters ommitted
 }
 
-SearchIndex<Contact> index = SearchIndex.initIndex("contacts", Contact.class);
+SearchIndex<Contact> index = client.initIndex("contacts", Contact.class);
 
 index.saveObject(new Contact()
    .setObjectID("one")
