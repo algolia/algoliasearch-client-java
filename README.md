@@ -63,47 +63,6 @@ With [Maven](https://maven.apache.org/), add the following dependency to your `p
   </dependency>
   ```
 
-#### POJO, JSON & Jackson2
-
-The `SearchIndex` class is parametrized with a Java class. If you specify one, it lets you have type safe method results.
-This parametrized Java class should follow the POJO convention:
-  * A constructor without parameters
-  * Getters & setters for every field you want to (de)serialize
-
-All the serialization/deserialization is done with [Jackson2](https://github.com/FasterXML/jackson-core/wiki).
-
-Example:
-
-```java
-public class Contact {
-
-  private String name;
-  private int age;
-
-  public Contact() {}
-
-  public String getName() {
-    return name;
-  }
-
-  public Contact setName(String name) {
-    this.name = name;
-    return this;
-  }
-
-  public int getAge() {
-    return age;
-  }
-
-  public Contact setAge(int age) {
-    this.age = age;
-    return this;
-  }
-}
-```
-
-In 30 seconds, this quick start tutorial will show you how to index and search objects.
-
 ### Initialize the client
 
 To start, you need to initialize the client. To do this, you need your **Application ID** and **API Key**.
@@ -136,71 +95,21 @@ index.saveObject(new Contact()
    .setLastname("Barninger")
    .setFollowers(93)
    .setCompany("California Paint"));
-
-index.saveObject(new JSONObject()
-   .setObjectID("one")
-   .setFirstname("Warren")
-   .setLastname("Speach")
-   .setFollowers(42)
-   .setCompany("Norwalk Crmc"));
 ```
-
-### Configure
-
-You can customize settings to fine tune the search behavior. For example, you can add a custom ranking by number of followers to further enhance the built-in relevance:
-
-  ```java
-  index.setSettings(new IndexSettings().setCustomRanking(Collections.singletonList("desc(followers)")));
-
-  // Async
-  index.setSettingsAsync(new IndexSettings().setCustomRanking(Collections.singletonList("desc(followers)")));
-  ```
-
-You can also configure the list of attributes you want to index by order of importance (most important first).
-
-**Note:** Algolia is designed to suggest results as you type, which means you'll generally search by prefix.
-In this case, the order of attributes is crucial to decide which hit is the best.
-
-  ```java
-  index.setSettings(new IndexSettings().setSearchableAttributes(
-    Arrays.asList("lastname", "firstname", "company")
-  );
-
-  // Asynchronous
-  index.setSettingsAsync(new IndexSettings().setSearchableAttributes(
-      Arrays.asList("lastname", "firstname", "company")
-  );
-  ```
 
 ### Search
 
 You can now search for contacts by `firstname`, `lastname`, `company`, etc. (even with typos):
 
   ```java
-  // Sync version
-
-  // Search for a first name
+  // Synchronous search
   index.search(new Query("jimmie"));
-  // Search for a first name with typo
-  index.search(new Query("jimie"));
-  // Search for a company
-  index.search(new Query("california paint"));
-  // Search for a first name and a company
-  index.search(new Query("jimmie paint"));
-  ```
-
-  ```java
-  // Async version
-
-  // Search for a first name
+  
+  // Asynchronous search
   index.searchAsync(new Query("jimmie"));
-  // Search for a first name with typo
-  index.searchAsync(new Query("jimie"));
-  // Search for a company
-  index.searchAsync(new Query("california paint"));
-  // Search for a first name and a company
-  index.searchAsync(new Query("jimmie paint"));
   ```
+
+For full documentation, visit the [Algolia Java API Client's documentation](https://www.algolia.com/doc/api-client/getting-started/install/java/).
 
 ## 📝 Examples
 
