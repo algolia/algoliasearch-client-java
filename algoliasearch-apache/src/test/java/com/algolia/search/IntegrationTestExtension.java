@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.models.common.CompressionType;
 import com.algolia.search.models.indexing.ActionEnum;
 import com.algolia.search.models.indexing.BatchOperation;
 import com.algolia.search.models.indexing.IndicesResponse;
@@ -29,7 +30,12 @@ public class IntegrationTestExtension
   public void beforeAll(ExtensionContext context) throws Exception {
     checkEnvironmentVariable();
     searchClient = DefaultSearchClient.create(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
-    searchClient2 = DefaultSearchClient.create(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2);
+    // Disabling gzip for client2 because GZip not is not enabled yet on the server
+    SearchConfig client2Config =
+        new SearchConfig.Builder(ALGOLIA_APPLICATION_ID_2, ALGOLIA_API_KEY_2)
+            .setCompressionType(CompressionType.NONE)
+            .build();
+    searchClient2 = DefaultSearchClient.create(client2Config);
     cleanPreviousIndices();
   }
 

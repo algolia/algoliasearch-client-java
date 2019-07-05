@@ -1,6 +1,7 @@
 package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.models.common.CompressionType;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -13,7 +14,7 @@ public final class SearchConfig extends ConfigBase {
 
     /** Builds a {@link SearchConfig} with the default hosts */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
-      super(applicationID, apiKey, createDefaultHosts(applicationID));
+      super(applicationID, apiKey, createDefaultHosts(applicationID), CompressionType.GZIP);
     }
 
     @Override
@@ -50,6 +51,12 @@ public final class SearchConfig extends ConfigBase {
       Collections.shuffle(commonHosts, new Random());
 
       return Stream.concat(hosts.stream(), commonHosts.stream()).collect(Collectors.toList());
+    }
+
+    /** Enables compression for the SearchClient. See {@link CompressionType} */
+    public Builder setCompressionType(@Nonnull CompressionType compressionType) {
+      this.compressionType = compressionType;
+      return this;
     }
   }
 

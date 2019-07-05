@@ -1,11 +1,22 @@
 package com.algolia.search.models;
 
+import com.algolia.search.models.common.CompressionType;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HttpRequest {
+
+  public HttpRequest(
+      HttpMethod method,
+      String methodPath,
+      Map<String, String> headers,
+      int timeout,
+      CompressionType compressionType) {
+    this(method, methodPath, headers, timeout);
+    this.compressionType = compressionType;
+  }
 
   public HttpRequest(
       HttpMethod method, String methodPath, Map<String, String> headers, int timeout) {
@@ -69,6 +80,31 @@ public class HttpRequest {
     return this;
   }
 
+  public CompressionType getCompressionType() {
+    return compressionType;
+  }
+
+  public HttpRequest setCompressionType(CompressionType compressionType) {
+    this.compressionType = compressionType;
+    return this;
+  }
+
+  /**
+   * Tells if any compression can be enabled for a request or not. Compression is enabled only for
+   * POST/PUT methods on the Search API (not on Analytics and Insights).
+   */
+  public boolean canCompress() {
+    if (this.compressionType == null || this.method == null) {
+      return false;
+    }
+
+    boolean isMethodValid =
+        this.method.equals(HttpMethod.POST) || this.method.equals(HttpMethod.PUT);
+    boolean isCompressionEnabled = this.compressionType.equals(CompressionType.GZIP);
+
+    return isMethodValid && isCompressionEnabled;
+  }
+
   public void incrementTimeout(int retryCount) {
     this.timeout *= (retryCount + 1);
   }
@@ -79,4 +115,5 @@ public class HttpRequest {
   private Map<String, String> headers;
   private InputStream body;
   private int timeout;
+  private CompressionType compressionType;
 }
