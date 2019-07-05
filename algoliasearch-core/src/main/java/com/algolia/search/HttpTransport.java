@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.GZIPOutputStream;
 import javax.annotation.Nonnull;
 
 /**
@@ -217,24 +218,38 @@ class HttpTransport {
             ? requestOptions.getTimeout()
             : getTimeOut(callType);
 
-    HttpRequest request = new HttpRequest(method, fullPath, headersToSend, timeout);
+    HttpRequest request =
+        new HttpRequest(method, fullPath, headersToSend, timeout, config.getCompressionType());
 
     if (data != null) {
+      request.setBody(serializeJSON(data, request));
+      logRequest(request, data);
+    }
+
+    return request;
+  }
+
+  private <TData> InputStream serializeJSON(TData data, HttpRequest request) {
+    if (request.canCompress()) {
+      try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+          GZIPOutputStream gzipOS = new GZIPOutputStream(bos)) {
+
+        Defaults.getObjectMapper().writeValue(gzipOS, data);
+        return new ByteArrayInputStream(bos.toByteArray());
+
+      } catch (IOException e) {
+        throw new AlgoliaRuntimeException("Error while serializing the request", e);
+      }
+    } else {
       try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
         Defaults.getObjectMapper().writeValue(out, data);
-
-        ByteArrayInputStream content = new ByteArrayInputStream(out.toByteArray());
-
-        logRequest(request, data);
-        request.setBody(content);
+        return new ByteArrayInputStream(out.toByteArray());
 
       } catch (IOException e) {
         throw new AlgoliaRuntimeException("Error while serializing the request", e);
       }
     }
-
-    return request;
   }
 
   /**
@@ -323,19 +338,23 @@ class HttpTransport {
     }
   }
 
-  private <T> void logRequest(HttpRequest request, T data) throws JsonProcessingException {
+  private <T> void logRequest(HttpRequest request, T data) {
     if (LOGGER.isLoggable(Level.FINEST)) {
       LOGGER.finest(
           String.format(
               "\n Method: %s \n Path: %s \n Headers: %s",
               request.getMethod().toString(), request.getMethodPath(), request.getHeaders()));
 
-      LOGGER.finest(
-          String.format(
-              "Request body: \n %s ",
-              Defaults.getObjectMapper()
-                  .writerWithDefaultPrettyPrinter()
-                  .writeValueAsString(data)));
+      try {
+        LOGGER.finest(
+            String.format(
+                "Request body: \n %s ",
+                Defaults.getObjectMapper()
+                    .writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(data)));
+      } catch (JsonProcessingException e) {
+        throw new AlgoliaRuntimeException("Error while serializing the request", e);
+      }
     }
   }
 

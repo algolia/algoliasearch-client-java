@@ -5,7 +5,6 @@ import com.algolia.search.models.HttpRequest;
 import com.algolia.search.models.HttpResponse;
 import com.algolia.search.util.HttpStatusCodeUtils;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.Map;
@@ -18,12 +17,12 @@ import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.DeflateDecompressingEntity;
-import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.util.EntityUtils;
@@ -121,19 +120,19 @@ final class ApacheHttpRequester implements HttpRequester {
 
       case HttpPost.METHOD_NAME:
         HttpPost post = new HttpPost(algoliaRequest.getUri().toString());
-        if (algoliaRequest.getBody() != null) post.setEntity(addEntity(algoliaRequest.getBody()));
+        if (algoliaRequest.getBody() != null) post.setEntity(addEntity(algoliaRequest));
         post.setConfig(buildRequestConfig(algoliaRequest));
         return addHeaders(post, algoliaRequest.getHeaders());
 
       case HttpPut.METHOD_NAME:
         HttpPut put = new HttpPut(algoliaRequest.getUri().toString());
-        if (algoliaRequest.getBody() != null) put.setEntity(addEntity(algoliaRequest.getBody()));
+        if (algoliaRequest.getBody() != null) put.setEntity(addEntity(algoliaRequest));
         put.setConfig(buildRequestConfig(algoliaRequest));
         return addHeaders(put, algoliaRequest.getHeaders());
 
       case HttpPatch.METHOD_NAME:
         HttpPatch patch = new HttpPatch(algoliaRequest.getUri().toString());
-        if (algoliaRequest.getBody() != null) patch.setEntity(addEntity(algoliaRequest.getBody()));
+        if (algoliaRequest.getBody() != null) patch.setEntity(addEntity(algoliaRequest));
         patch.setConfig(buildRequestConfig(algoliaRequest));
         return addHeaders(patch, algoliaRequest.getHeaders());
 
@@ -153,11 +152,20 @@ final class ApacheHttpRequester implements HttpRequester {
     return request;
   }
 
-  private HttpEntity addEntity(InputStream data) {
-    return EntityBuilder.create()
-        .setStream(data)
-        .setContentType(ContentType.APPLICATION_JSON)
-        .build();
+  private HttpEntity addEntity(@Nonnull HttpRequest request) {
+    try {
+      InputStreamEntity entity =
+          new InputStreamEntity(
+              request.getBody(), request.getBody().available(), ContentType.APPLICATION_JSON);
+
+      if (request.canCompress()) {
+        entity.setContentEncoding(Defaults.CONTENT_ENCODING_GZIP);
+      }
+
+      return entity;
+    } catch (IOException e) {
+      throw new AlgoliaRuntimeException("Error while getting body's content length.", e);
+    }
   }
 
   private static HttpEntity handleCompressedEntity(org.apache.http.HttpEntity entity) {

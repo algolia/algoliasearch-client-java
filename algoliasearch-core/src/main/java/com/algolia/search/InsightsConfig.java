@@ -1,6 +1,7 @@
 package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.models.common.CompressionType;
 import com.algolia.search.util.AlgoliaUtils;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -29,7 +30,7 @@ public final class InsightsConfig extends ConfigBase {
      * @param apiKey The API Key
      */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
-      super(applicationID, apiKey, createDefaultHosts(region));
+      super(applicationID, apiKey, createDefaultHosts(region), CompressionType.NONE);
     }
 
     @Override

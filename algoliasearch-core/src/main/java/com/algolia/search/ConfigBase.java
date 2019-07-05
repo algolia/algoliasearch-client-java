@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.models.common.CompressionType;
 import com.algolia.search.util.AlgoliaUtils;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ public abstract class ConfigBase {
   private final Integer connectTimeOut;
   private final List<StatefulHost> hosts;
   private final ExecutorService executor;
+  private final CompressionType compressionType;
 
   /** Config base builder to ensure the immutability of the configuration. */
   public abstract static class Builder<T extends Builder<T>> {
@@ -36,6 +38,7 @@ public abstract class ConfigBase {
     private Integer connectTimeOut;
     private List<StatefulHost> hosts;
     private ExecutorService executor;
+    protected CompressionType compressionType;
 
     /**
      * Builds a base configuration
@@ -48,13 +51,16 @@ public abstract class ConfigBase {
     public Builder(
         @Nonnull String applicationID,
         @Nonnull String apiKey,
-        @Nonnull List<StatefulHost> defaultHosts) {
+        @Nonnull List<StatefulHost> defaultHosts,
+        @Nonnull CompressionType compressionType) {
+
       this.applicationID = applicationID;
       this.apiKey = apiKey;
 
       this.batchSize = 1000;
       this.hosts = defaultHosts;
       this.connectTimeOut = Defaults.CONNECT_TIMEOUT_MS;
+      this.compressionType = compressionType;
 
       this.defaultHeaders = new HashMap<>();
       this.defaultHeaders.put(Defaults.ALGOLIA_APPLICATION_HEADER, applicationID);
@@ -145,6 +151,7 @@ public abstract class ConfigBase {
     this.applicationID = builder.applicationID;
     this.defaultHeaders = builder.defaultHeaders;
     this.batchSize = builder.batchSize;
+    this.compressionType = builder.compressionType;
     this.readTimeOut = builder.readTimeOut;
     this.writeTimeOut = builder.writeTimeOut;
     this.connectTimeOut = builder.connectTimeOut;
@@ -166,6 +173,10 @@ public abstract class ConfigBase {
 
   public int getBatchSize() {
     return batchSize;
+  }
+
+  public CompressionType getCompressionType() {
+    return compressionType;
   }
 
   public Integer getReadTimeOut() {

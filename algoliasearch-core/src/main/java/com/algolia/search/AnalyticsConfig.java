@@ -1,6 +1,7 @@
 package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.models.common.CompressionType;
 import java.util.*;
 import javax.annotation.Nonnull;
 
@@ -16,7 +17,7 @@ public final class AnalyticsConfig extends ConfigBase {
      * @param apiKey The API Key
      */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
-      super(applicationID, apiKey, createDefaultHosts());
+      super(applicationID, apiKey, createDefaultHosts(), CompressionType.NONE);
     }
 
     @Override
