@@ -100,6 +100,7 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   protected List<String> disableExactOnAttributes;
   protected String exactOnSingleWordQuery;
   protected List<String> alternativesAsExact;
+  protected Boolean sumOrFiltersScores;
 
   /* ranking */
   // Nothing in Query
@@ -931,6 +932,15 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
 
   public T setSortFacetValuesBy(String sortFacetValuesBy) {
     this.sortFacetValuesBy = sortFacetValuesBy;
+    return (T) this;
+  }
+
+  public Boolean getSumOrFiltersScores() {
+    return sumOrFiltersScores;
+  }
+
+  public T setSumOrFiltersScores(Boolean sumOrFiltersScores) {
+    this.sumOrFiltersScores = sumOrFiltersScores;
     return (T) this;
   }
 
