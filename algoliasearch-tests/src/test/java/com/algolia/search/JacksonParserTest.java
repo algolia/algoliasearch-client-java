@@ -27,13 +27,31 @@ public class JacksonParserTest {
 
     synonym =
         DEFAULT_OBJECT_MAPPER.readValue(
+            "{\"type\":\"altcorrection1\",\"objectID\":\"synonymID\",\"corrections\":[\"1\", \"2\"],\"word\":\"word\"}",
+            AbstractSynonym.class);
+    assertThat(synonym).isInstanceOf(AltCorrection1.class);
+
+    synonym =
+        DEFAULT_OBJECT_MAPPER.readValue(
             "{\"type\":\"altCorrection2\",\"objectID\":\"synonymID\",\"corrections\":[\"1\", \"2\"],\"word\":\"word\"}",
             AbstractSynonym.class);
     assertThat(synonym).isInstanceOf(AltCorrection2.class);
 
     synonym =
         DEFAULT_OBJECT_MAPPER.readValue(
+            "{\"type\":\"altcorrection2\",\"objectID\":\"synonymID\",\"corrections\":[\"1\", \"2\"],\"word\":\"word\"}",
+            AbstractSynonym.class);
+    assertThat(synonym).isInstanceOf(AltCorrection2.class);
+
+    synonym =
+        DEFAULT_OBJECT_MAPPER.readValue(
             "{\"type\":\"oneWaySynonym\",\"objectID\":\"synonymID\",\"synonyms\":[\"1\", \"2\"],\"input\":\"input\"}",
+            AbstractSynonym.class);
+    assertThat(synonym).isInstanceOf(OneWaySynonym.class);
+
+    synonym =
+        DEFAULT_OBJECT_MAPPER.readValue(
+            "{\"type\":\"onewaysynonym\",\"objectID\":\"synonymID\",\"synonyms\":[\"1\", \"2\"],\"input\":\"input\"}",
             AbstractSynonym.class);
     assertThat(synonym).isInstanceOf(OneWaySynonym.class);
 
