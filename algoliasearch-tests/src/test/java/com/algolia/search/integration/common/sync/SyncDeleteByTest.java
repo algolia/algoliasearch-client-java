@@ -74,7 +74,9 @@ public abstract class SyncDeleteByTest extends SyncAlgoliaIntegrationTest {
             .collect(Collectors.toList());
     waitForCompletion(index.addObjects(objects));
 
-    waitForCompletion(index.deleteBy(new Query().setTagFilters(Collections.singletonList("a"))));
+    waitForCompletion(
+        index.deleteBy(
+            new Query().setTagFilters(Collections.singletonList(Collections.singletonList("a")))));
 
     assertThat(index.search(new Query("")).getHits()).hasSize(10);
   }

@@ -48,8 +48,11 @@ public class QueryTest {
 
   @Test
   public void queryWithMultipleParams() {
-    Query query = new Query("é®„").setTagFilters(Collections.singletonList("(attribute)"));
-    assertThat(query.toParam()).isEqualTo("tagFilters=%28attribute%29&query=%C3%A9%C2%AE%E2%80%9E");
+    Query query =
+        new Query("é®„")
+            .setTagFilters(Collections.singletonList(Collections.singletonList("(attribute)")));
+    assertThat(query.toParam())
+        .isEqualTo("tagFilters=%5B%5B%22%28attribute%29%22%5D%5D&query=%C3%A9%C2%AE%E2%80%9E");
   }
 
   @Test

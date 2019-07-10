@@ -4,10 +4,7 @@ import static com.algolia.search.Defaults.DEFAULT_OBJECT_MAPPER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.inputs.synonym.*;
-import com.algolia.search.objects.Distinct;
-import com.algolia.search.objects.IgnorePlurals;
-import com.algolia.search.objects.IndexSettings;
-import com.algolia.search.objects.RemoveStopWords;
+import com.algolia.search.objects.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -147,5 +144,72 @@ public class JacksonParserTest {
             .readValue("{\"ignorePlurals\":[\"en\",\"fr\"]}", IndexSettings.class)
             .getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Arrays.asList("en", "fr")));
+  }
+
+  @Test
+  public void queryWithNestedLists() {
+
+    // Expected: query=&optionalFilters=[["facet1:true"],["facet2:true"]]
+    Query query =
+        new Query("")
+            .setOptionalFilters(
+                Arrays.asList(
+                    Collections.singletonList("facet1:true"),
+                    Collections.singletonList("facet2:true")));
+
+    assertThat(query.toParam())
+        .isEqualTo(
+            "optionalFilters=%5B%5B%22facet1%3Atrue%22%5D%2C%5B%22facet2%3Atrue%22%5D%5D&query=");
+
+    // Expected: query=&optionalFilters=[["facet1:true","facet2:true"]]
+    Query query2 =
+        new Query("")
+            .setOptionalFilters(
+                Collections.singletonList(Arrays.asList("facet1:true", "facet2:true")));
+
+    assertThat(query2.toParam())
+        .isEqualTo("optionalFilters=%5B%5B%22facet1%3Atrue%22%2C%22facet2%3Atrue%22%5D%5D&query=");
+
+    // Expected: query=&optionalFilters=[["facet1:true","facet2:true"],["facet3:true"]]
+    Query query3 =
+        new Query("")
+            .setOptionalFilters(
+                Arrays.asList(
+                    Arrays.asList("facet1:true", "facet2:true"),
+                    Collections.singletonList("facet3:true")));
+
+    assertThat(query3.toParam())
+        .isEqualTo(
+            "optionalFilters=%5B%5B%22facet1%3Atrue%22%2C%22facet2%3Atrue%22%5D%2C%5B%22facet3%3Atrue%22%5D%5D&query=");
+
+    // Expected: query=&optionalFilters=[["facet1:true"]]
+    Query query4 =
+        new Query("")
+            .setOptionalFilters(
+                Collections.singletonList(Collections.singletonList("facet1:true")));
+
+    assertThat(query4.toParam())
+        .isEqualTo("optionalFilters=%5B%5B%22facet1%3Atrue%22%5D%5D&query=");
+
+    // Expected: insideBoundingBox=[[47.3165,4.9665,47.3424,5.0201],[40.9234,2.1185,38.643,1.9916]]
+    Query query5 =
+        new Query("")
+            .setInsideBoundingBox(
+                Arrays.asList(
+                    Arrays.asList(47.3165f, 4.9665f, 47.3424f, 5.0201f),
+                    Arrays.asList(40.9234f, 2.1185f, 38.643f, 1.9916f)));
+
+    assertThat(query5.toParam())
+        .isEqualTo(
+            "insideBoundingBox=%5B%5B47.3165%2C4.9665%2C47.3424%2C5.0201%5D%2C%5B40.9234%2C2.1185%2C38.643%2C1.9916%5D%5D&query=");
+
+    // Expected:insideBoundingBox=[[47.3165,4.9665,47.3424,5.0201]]
+    Query query6 =
+        new Query("")
+            .setInsideBoundingBox(
+                Collections.singletonList(Arrays.asList(47.3165f, 4.9665f, 47.3424f, 5.0201f)));
+
+    assertThat(query6.toParam())
+        .isEqualTo("insideBoundingBox=%5B%5B47.3165%2C4.9665%2C47.3424%2C5.0201%5D%5D&query=");
   }
 }

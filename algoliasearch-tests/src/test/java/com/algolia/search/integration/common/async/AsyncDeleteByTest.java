@@ -25,7 +25,10 @@ public abstract class AsyncDeleteByTest extends AsyncAlgoliaIntegrationTest {
             .collect(Collectors.toList());
     waitForCompletion(index.addObjects(objects));
 
-    waitForCompletion(index.deleteBy(new Query().setTagFilters(Collections.singletonList("a"))));
+    waitForCompletion(
+        index.deleteBy(
+            new Query()
+                .setTagFilters(Collections.singletonList((Collections.singletonList("a"))))));
 
     SearchResult<AlgoliaObject> search = index.search(new Query("")).get();
 
