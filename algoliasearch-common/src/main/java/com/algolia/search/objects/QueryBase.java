@@ -56,6 +56,7 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   protected String facets;
   protected Long maxValuesPerFacet;
   protected FacetFilters facetFilters;
+  protected List<List<String>> optionalFilters;
   protected Boolean facetingAfterDistinct;
   protected String sortFacetValuesBy;
 
@@ -169,8 +170,6 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     builder = add(builder, "aroundRadius", aroundRadius);
     builder = add(builder, "aroundPrecision", aroundPrecision);
     builder = add(builder, "minimumAroundRadius", minimumAroundRadius);
-    builder = add(builder, "insideBoundingBox", insideBoundingBox);
-    builder = add(builder, "insidePolygon", insidePolygon);
 
     /* highlighting-snippeting */
     builder = add(builder, "attributesToHighlight", attributesToHighlight);
@@ -525,6 +524,15 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   @JsonSetter
   public T setFacetFilters(FacetFilters facetFilters) {
     this.facetFilters = facetFilters;
+    return (T) this;
+  }
+
+  public List<List<String>> getOptionalFilters() {
+    return optionalFilters;
+  }
+
+  public T setOptionalFilters(List<List<String>> optionalFilters) {
+    this.optionalFilters = optionalFilters;
     return (T) this;
   }
 
