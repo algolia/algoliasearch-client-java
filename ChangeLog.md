@@ -1,5 +1,39 @@
 # ChangeLog
 
+## [2.23.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.22.0...2.23.0) (2019-07-10)
+
+### Added
+
+- similarQuery ([3c54335](https://github.com/algolia/algoliasearch-client-java-2/commit/3c54335))
+- sumOrFiltersScores ([b26c259](https://github.com/algolia/algoliasearch-client-java-2/commit/b26c259))
+- optional Filters ([b822774](https://github.com/algolia/algoliasearch-client-java-2/commit/b822774))
+- Restore API Key ([4e63598](https://github.com/algolia/algoliasearch-client-java-2/commit/4e63598))
+- AATesting ([a7192a5](https://github.com/algolia/algoliasearch-client-java-2/commit/a7192a5))
+
+### Fixed
+
+- Legacy type parameters ([e64c69d](https://github.com/algolia/algoliasearch-client-java-2/commit/e64c69d))
+- **synonym**: handle deserialization of lowercase variant of synonym types ([37d16de](https://github.com/algolia/algoliasearch-client-java-2/commit/37d16de))
+- Use correct type for serializatoin/deserialization of ignorePlurals ([b283600](https://github.com/algolia/algoliasearch-client-java-2/commit/b283600))
+
+### Updated
+
+- jackson 2.9.8 > 2.9.9 ([cadb6eb](https://github.com/algolia/algoliasearch-client-java-2/commit/cadb6eb))
+
+### Tests
+
+- Updated with new parameters ([d661784](https://github.com/algolia/algoliasearch-client-java-2/commit/d661784))
+- **jackson**: add test to ensure both oneWaySynonym/onewaysynonym types are deserialized into OneWaySynonym ([4c15d46](https://github.com/algolia/algoliasearch-client-java-2/commit/4c15d46))
+
+### Misc
+
+- [maven-release-plugin] prepare release 2.23.0 ([bed8530](https://github.com/algolia/algoliasearch-client-java-2/commit/bed8530))
+- Update README.md ([cdfb59b](https://github.com/algolia/algoliasearch-client-java-2/commit/cdfb59b))
+- Update README [skip ci] ([8374457](https://github.com/algolia/algoliasearch-client-java-2/commit/8374457))
+- [maven-release-plugin] prepare for next development iteration ([94b4a47](https://github.com/algolia/algoliasearch-client-java-2/commit/94b4a47))
+
+
+
 # [2.22.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.21.1...2.22.0) (2019-01-15)
 
 ### Change
