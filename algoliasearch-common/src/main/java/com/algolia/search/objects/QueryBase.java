@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * QueryBase contains all the members of a Query and their associated getters and setters used for
@@ -35,11 +36,11 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
   protected String similarQuery;
   protected Distinct distinct;
   protected Boolean getRankingInfo;
-  protected List<String> numericFilters;
-  protected List<String> tagFilters;
+  protected List<List<String>> numericFilters;
+  protected List<List<String>> tagFilters;
   protected Boolean clickAnalytics;
   protected Boolean analytics;
-  protected String analyticsTags;
+  protected List<String> analyticsTags;
   protected Boolean synonyms;
   protected Boolean replaceSynonymsInHighlight;
   protected Integer minProximity;
@@ -141,8 +142,11 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
       builder = add(builder, "distinct", distinct.getInsideValue());
     }
     builder = add(builder, "getRankingInfo", getRankingInfo);
-    builder = add(builder, "numericFilters", numericFilters);
-    builder = add(builder, "tagFilters", tagFilters);
+    builder = addListString(builder, "numericFilters", numericFilters);
+    builder = addListString(builder, "tagFilters", tagFilters);
+    builder = addListString(builder, "optionalFilters", optionalFilters);
+    builder = addListFloat(builder, "insideBoundingBox", insideBoundingBox);
+    builder = addListFloat(builder, "insidePolygon", insidePolygon);
     builder = add(builder, "analytics", analytics);
     builder = add(builder, "analyticsTags", analyticsTags);
     builder = add(builder, "clickAnalytics", clickAnalytics);
@@ -299,6 +303,63 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     return builder.put(name, String.join(",", attributes));
   }
 
+  private ImmutableMap.Builder<String, String> addListString(
+      ImmutableMap.Builder<String, String> builder, String name, List<List<String>> attributes) {
+
+    if (attributes == null) {
+      return builder;
+    }
+
+    String values =
+        "["
+            + attributes
+                .stream()
+                .map(
+                    arr ->
+                        "["
+                            + arr.stream()
+                                .map(QueryBase::formatParameters)
+                                .collect(Collectors.joining(","))
+                            + "]")
+                .collect(Collectors.joining(","))
+            + "]";
+
+    return builder.put(name, values);
+  }
+
+  private ImmutableMap.Builder<String, String> addListFloat(
+      ImmutableMap.Builder<String, String> builder, String name, List<List<Float>> attributes) {
+
+    if (attributes == null) {
+      return builder;
+    }
+
+    String values =
+        "["
+            + attributes
+                .stream()
+                .map(
+                    arr ->
+                        "["
+                            + arr.stream()
+                                .map(QueryBase::formatParameters)
+                                .collect(Collectors.joining(","))
+                            + "]")
+                .collect(Collectors.joining(","))
+            + "]";
+
+    return builder.put(name, values);
+  }
+
+  private static String formatParameters(Object parameter) {
+
+    if (parameter instanceof Float) {
+      return parameter.toString();
+    }
+
+    return "\"" + parameter.toString() + "\"";
+  }
+
   public String toParam() {
     StringBuilder builder = new StringBuilder();
     boolean firstOne = true;
@@ -359,20 +420,20 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     return (T) this;
   }
 
-  public List<String> getNumericFilters() {
+  public List<List<String>> getNumericFilters() {
     return numericFilters;
   }
 
-  public T setNumericFilters(List<String> numericFilters) {
+  public T setNumericFilters(List<List<String>> numericFilters) {
     this.numericFilters = numericFilters;
     return (T) this;
   }
 
-  public List<String> getTagFilters() {
+  public List<List<String>> getTagFilters() {
     return tagFilters;
   }
 
-  public T setTagFilters(List<String> tagFilters) {
+  public T setTagFilters(List<List<String>> tagFilters) {
     this.tagFilters = tagFilters;
     return (T) this;
   }
@@ -395,11 +456,11 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     return (T) this;
   }
 
-  public String getAnalyticsTags() {
+  public List<String> getAnalyticsTags() {
     return analyticsTags;
   }
 
-  public T setAnalyticsTags(String analyticsTags) {
+  public T setAnalyticsTags(List<String> analyticsTags) {
     this.analyticsTags = analyticsTags;
     return (T) this;
   }
