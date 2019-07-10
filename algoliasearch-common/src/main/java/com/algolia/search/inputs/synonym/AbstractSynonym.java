@@ -11,8 +11,11 @@ import java.io.Serializable;
 )
 @JsonSubTypes({
   @JsonSubTypes.Type(value = AltCorrection1.class, name = SynonymType.ALT_CORRECTION_1),
+  @JsonSubTypes.Type(value = AltCorrection1.class, name = SynonymTypeLowerCase.ALT_CORRECTION_1),
   @JsonSubTypes.Type(value = AltCorrection2.class, name = SynonymType.ALT_CORRECTION_2),
+  @JsonSubTypes.Type(value = AltCorrection2.class, name = SynonymTypeLowerCase.ALT_CORRECTION_2),
   @JsonSubTypes.Type(value = OneWaySynonym.class, name = SynonymType.ONE_WAY_SYNONYM),
+  @JsonSubTypes.Type(value = OneWaySynonym.class, name = SynonymTypeLowerCase.ONE_WAY_SYNONYM),
   @JsonSubTypes.Type(value = Placeholder.class, name = SynonymType.PLACEHOLDER),
   @JsonSubTypes.Type(value = Synonym.class, name = SynonymType.SYNONYM),
 })
