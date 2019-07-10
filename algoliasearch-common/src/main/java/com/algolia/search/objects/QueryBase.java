@@ -32,6 +32,7 @@ import java.util.Map;
 public abstract class QueryBase<T extends QueryBase<?>> implements Serializable {
 
   /* advanced */
+  protected String similarQuery;
   protected Distinct distinct;
   protected Boolean getRankingInfo;
   protected List<String> numericFilters;
@@ -318,6 +319,15 @@ public abstract class QueryBase<T extends QueryBase<?>> implements Serializable 
     }
 
     return builder.toString();
+  }
+
+  public String getSimilarQuery() {
+    return similarQuery;
+  }
+
+  public T setSimilarQuery(String similarQuery) {
+    this.similarQuery = similarQuery;
+    return (T) this;
   }
 
   public T setAroundRadius(AroundRadius aroundRadius) {
