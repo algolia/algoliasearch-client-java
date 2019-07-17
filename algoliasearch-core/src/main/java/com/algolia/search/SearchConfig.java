@@ -14,7 +14,7 @@ public final class SearchConfig extends ConfigBase {
 
     /** Builds a {@link SearchConfig} with the default hosts */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
-      super(applicationID, apiKey, createDefaultHosts(applicationID), CompressionType.GZIP);
+      super(applicationID, apiKey, createDefaultHosts(applicationID), CompressionType.NONE);
     }
 
     @Override
