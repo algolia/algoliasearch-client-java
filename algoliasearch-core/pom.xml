@@ -11,6 +11,7 @@
     <packaging>jar</packaging>
 
     <properties>
+        <jackson-databind.version>2.9.9.1</jackson-databind.version>
         <jackson.version>2.9.9</jackson.version>
     </properties>
 
@@ -23,7 +24,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
+            <version>${jackson-databind.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
