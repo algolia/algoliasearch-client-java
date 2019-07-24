@@ -2,6 +2,7 @@ package com.algolia.search;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.models.HttpResponse;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.RetryOutcome;
 import java.util.Collections;
@@ -21,11 +22,16 @@ class RetryStrategyTest {
     List<StatefulHost> hosts = retryStrategy.getTryableHosts(callType);
     assertThat(hosts).filteredOn(StatefulHost::isUp).hasSize(4);
 
-    RetryOutcome decision = retryStrategy.decide(hosts.get(0), httpCode, false);
+    RetryOutcome decision =
+        retryStrategy.decide(hosts.get(0), new HttpResponse(false).setHttpStatusCode(httpCode));
     assertThat(decision).isEqualTo(RetryOutcome.RETRY);
 
     List<StatefulHost> updatedHosts = retryStrategy.getTryableHosts(callType);
     assertThat(updatedHosts).filteredOn(StatefulHost::isUp).hasSize(3);
+
+    RetryOutcome decisionAfterNetworkError =
+        retryStrategy.decide(hosts.get(0), new HttpResponse().setNetworkError(true));
+    assertThat(decisionAfterNetworkError).isEqualTo(RetryOutcome.RETRY);
   }
 
   @ParameterizedTest
@@ -37,7 +43,8 @@ class RetryStrategyTest {
     List<StatefulHost> hosts = retryStrategy.getTryableHosts(callType);
     assertThat(hosts).filteredOn(StatefulHost::isUp).hasSize(4);
 
-    RetryOutcome decision = retryStrategy.decide(hosts.get(0), httpCode, false);
+    RetryOutcome decision =
+        retryStrategy.decide(hosts.get(0), new HttpResponse(false).setHttpStatusCode(httpCode));
     assertThat(decision).isEqualTo(RetryOutcome.FAILURE);
   }
 
@@ -50,7 +57,7 @@ class RetryStrategyTest {
     List<StatefulHost> hosts = retryStrategy.getTryableHosts(callType);
     assertThat(hosts).filteredOn(StatefulHost::isUp).hasSize(4);
 
-    RetryOutcome decision = retryStrategy.decide(hosts.get(0), 0, true);
+    RetryOutcome decision = retryStrategy.decide(hosts.get(0), new HttpResponse(true));
     assertThat(decision).isEqualTo(RetryOutcome.RETRY);
   }
 

@@ -163,8 +163,7 @@ class HttpTransport {
         .performRequestAsync(request)
         .thenComposeAsync(
             resp -> {
-              switch (retryStrategy.decide(
-                  currentHost, resp.getHttpStatusCode(), resp.isTimedOut())) {
+              switch (retryStrategy.decide(currentHost, resp)) {
                 case SUCCESS:
                   try (InputStream dataStream = resp.getBody()) {
                     TResult result = Defaults.getObjectMapper().readValue(dataStream, type);

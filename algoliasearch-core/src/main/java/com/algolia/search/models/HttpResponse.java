@@ -4,6 +4,8 @@ import java.io.InputStream;
 
 public class HttpResponse {
 
+  public HttpResponse() {}
+
   public HttpResponse(int httpStatusCode, InputStream body) {
     this.httpStatusCode = httpStatusCode;
     this.body = body;
@@ -54,8 +56,18 @@ public class HttpResponse {
     return this;
   }
 
+  public boolean isNetworkError() {
+    return isNetworkError;
+  }
+
+  public HttpResponse setNetworkError(boolean networkError) {
+    isNetworkError = networkError;
+    return this;
+  }
+
   private int httpStatusCode;
   private InputStream body;
   private String error;
   private boolean isTimedOut;
+  private boolean isNetworkError;
 }
