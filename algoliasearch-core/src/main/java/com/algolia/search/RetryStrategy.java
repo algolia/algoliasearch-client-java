@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.models.HttpResponse;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.RetryOutcome;
 import com.algolia.search.util.HttpStatusCodeUtils;
@@ -49,18 +50,18 @@ class RetryStrategy {
   }
 
   /** Retry logic. Decide if an host is retryable or not regarding the following parameters. */
-  RetryOutcome decide(StatefulHost tryableHost, int httpResponseCode, boolean isTimedOut) {
+  RetryOutcome decide(StatefulHost tryableHost, HttpResponse response) {
 
     synchronized (this) {
-      if (!isTimedOut && HttpStatusCodeUtils.isSuccess(httpResponseCode)) {
+      if (!response.isTimedOut() && HttpStatusCodeUtils.isSuccess(response)) {
         tryableHost.setUp(true);
         tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
         return RetryOutcome.SUCCESS;
-      } else if (!isTimedOut && isRetryable(httpResponseCode)) {
+      } else if (!response.isTimedOut() && isRetryable(response)) {
         tryableHost.setUp(false);
         tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
         return RetryOutcome.RETRY;
-      } else if (isTimedOut) {
+      } else if (response.isTimedOut()) {
         tryableHost.setUp(true);
         tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
         tryableHost.incrementRetryCount();
@@ -74,10 +75,13 @@ class RetryStrategy {
   /**
    * Tells if the response is retryable or not depending on the http status code
    *
-   * @param httpStatusCode The http status code
+   * @param response Algolia's API response
    */
-  private boolean isRetryable(int httpStatusCode) {
-    return httpStatusCode / 100 != 2 && httpStatusCode / 100 != 4;
+  private boolean isRetryable(HttpResponse response) {
+    boolean isRetryableHttpCode =
+        response.getHttpStatusCode() / 100 != 2 && response.getHttpStatusCode() / 100 != 4;
+
+    return isRetryableHttpCode || response.isNetworkError();
   }
 
   /**

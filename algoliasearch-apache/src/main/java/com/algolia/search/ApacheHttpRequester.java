@@ -12,15 +12,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import javax.annotation.Nonnull;
-import org.apache.http.Header;
-import org.apache.http.HeaderElement;
-import org.apache.http.HttpEntity;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.DeflateDecompressingEntity;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.ConnectionPoolTimeoutException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
@@ -68,8 +67,12 @@ final class ApacheHttpRequester implements HttpRequester {
               if (t.getCause() instanceof ConnectTimeoutException
                   || t.getCause() instanceof SocketTimeoutException
                   || t.getCause() instanceof ConnectException
-                  || t.getCause() instanceof TimeoutException) {
+                  || t.getCause() instanceof TimeoutException
+                  || t.getCause() instanceof ConnectionPoolTimeoutException
+                  || t.getCause() instanceof NoHttpResponseException) {
                 return new HttpResponse(true);
+              } else if (t.getCause() instanceof HttpException) {
+                return new HttpResponse().setNetworkError(true);
               }
               throw new AlgoliaRuntimeException(t);
             });
