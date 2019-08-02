@@ -116,10 +116,4 @@ public class QueryStringUtils {
         .map(p -> urlEncodeUTF8(p.getKey()) + "=" + urlEncodeUTF8(p.getValue()))
         .reduce((p1, p2) -> p1 + "&" + p2);
   }
-
-  private static String buildString(Map<String, String> map, String... ignoreList) {
-    HashMap<String, String> copy = new HashMap<>(map);
-    copy.keySet().removeAll(Arrays.asList(ignoreList));
-    return buildQueryString(copy);
-  }
 }
