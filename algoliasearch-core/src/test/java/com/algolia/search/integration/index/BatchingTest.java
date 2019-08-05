@@ -1,5 +1,6 @@
 package com.algolia.search.integration.index;
 
+import static com.algolia.search.integration.TestHelpers.getTestIndexName;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchClient;
@@ -30,7 +31,7 @@ public abstract class BatchingTest {
   @Test
   void testBatching() throws ExecutionException, InterruptedException {
     SearchIndex<ObjectToBatch> index =
-        searchClient.initIndex("index_batching", ObjectToBatch.class);
+        searchClient.initIndex(getTestIndexName("index_batching"), ObjectToBatch.class);
 
     List<ObjectToBatch> batchOne =
         Arrays.asList(
