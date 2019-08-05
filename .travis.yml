@@ -2,9 +2,9 @@ language: java
 
 matrix:
   include:
-  - jdk: oraclejdk8
+  - jdk: openjdk8
     env: JAVA_VERSION=8
-  - jdk: oraclejdk11
+  - jdk: openjdk11
     env: JAVA_VERSION=11
 
 cache:
