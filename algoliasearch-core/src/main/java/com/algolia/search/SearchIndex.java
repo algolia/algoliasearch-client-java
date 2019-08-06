@@ -1774,6 +1774,36 @@ public final class SearchIndex<T>
   }
 
   /**
+   * Return whether an index exists or not
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public boolean exists() {
+    return LaunderThrowable.await(existsAsync());
+  }
+
+  /**
+   * Return whether an index exists or not
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<Boolean> existsAsync() {
+    try {
+      this.getSettings();
+    } catch (AlgoliaApiException ex) {
+      if (ex.getHttpErrorCode() == 404) {
+        return CompletableFuture.completedFuture(false);
+      }
+      throw ex;
+    }
+    return CompletableFuture.completedFuture(true);
+  }
+
+  /**
    * Wait for a task to complete before executing the next line of code, to synchronize index
    * updates. All write operations in Algolia are asynchronous by design.
    *
