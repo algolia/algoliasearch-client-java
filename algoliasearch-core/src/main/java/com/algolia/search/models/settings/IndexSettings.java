@@ -27,6 +27,7 @@ public class IndexSettings implements Serializable {
   private Integer maxFacetHits;
   private String keepDiacriticsOnCharacters;
   private List<String> queryLanguages;
+  private List<String> indexLanguages;
 
   private List<String> searchableAttributes;
   private List<String> attributesForFaceting;
@@ -629,6 +630,15 @@ public class IndexSettings implements Serializable {
 
   public IndexSettings setQueryLanguages(List<String> queryLanguages) {
     this.queryLanguages = queryLanguages;
+    return this;
+  }
+
+  public List<String> getIndexLanguages() {
+    return indexLanguages;
+  }
+
+  public IndexSettings setIndexLanguages(List<String> indexLanguages) {
+    this.indexLanguages = indexLanguages;
     return this;
   }
 
