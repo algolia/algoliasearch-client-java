@@ -102,6 +102,7 @@ public abstract class SettingsTest {
     settings.setDisableExactOnAttributes(Arrays.asList("attribute1", "attribute2"));
     settings.setExactOnSingleWordQuery("word");
     settings.setQueryLanguages(Arrays.asList("fr", "en"));
+    settings.setIndexLanguages(Collections.singletonList("ja"));
     settings.setAdvancedSyntaxFeatures(Collections.singletonList("exactPhrase"));
 
     // Query rules
