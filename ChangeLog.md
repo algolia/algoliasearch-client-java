@@ -1,5 +1,38 @@
 # ChangeLog
 
+## [3.1.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.0.0...3.1.0) (2019-08-07)
+
+### Bug fix
+
+- Missing catch clauses in the httpRequest ([c587d9f](https://github.com/algolia/algoliasearch-client-java-2/commit/c587d9f))
+
+    The requester was not catching correctly all exceptions, making the
+    retry strategy to fail instead of retrying for network related issues.
+    
+- Query serializer with nested Arrays ([b2f87f0](https://github.com/algolia/algoliasearch-client-java-2/commit/b2f87f0))
+
+### Addition
+
+- GZip compression feature ([e13ad77](https://github.com/algolia/algoliasearch-client-java-2/commit/e13ad77))
+
+    Adds the possibility to compress POST/PUT requests for SearchClient.
+    For the moment only GZIP compression is available.
+    
+- `indexExists` method ([b79300d](https://github.com/algolia/algoliasearch-client-java-2/commit/b79300d))
+    
+    Exists method: Return whether an index exists or not.
+        
+-  `userData` in IndexSettings ([1a4c815](https://github.com/algolia/algoliasearch-client-java-2/commit/1a4c815))
+- `attributeCriteriaComputedByMinProximity` ([9ebfb28](https://github.com/algolia/algoliasearch-client-java-2/commit/9ebfb28))
+- `customSearchParameters` ([08b5a85](https://github.com/algolia/algoliasearch-client-java-2/commit/08b5a85))
+- `primary` in IndexSettings ([147705a](https://github.com/algolia/algoliasearch-client-java-2/commit/147705a))
+- `similarQuery` in SearchParameters ([6ff1210](https://github.com/algolia/algoliasearch-client-java-2/commit/6ff1210))
+
+
+### Updates
+
+- jackson-databind to 2.9.9.2 ([42bf61a](https://github.com/algolia/algoliasearch-client-java-2/commit/42bf61a))
+
 # [3.0.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.22.0...3.0.0) (2019-10-06)
 
 New major version of the Java client! For more information check out:
