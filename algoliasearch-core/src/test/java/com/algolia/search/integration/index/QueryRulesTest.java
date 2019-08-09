@@ -94,7 +94,11 @@ public abstract class QueryRulesTest {
     Rule ruleToSave2 =
         new Rule()
             .setObjectID("query_edits")
-            .setCondition(new Condition().setAnchoring("is").setPattern("mobile phone"))
+            .setCondition(
+                new Condition()
+                    .setAnchoring("is")
+                    .setPattern("mobile phone")
+                    .setAlternatives(Alternatives.of(true)))
             .setConsequence(consequenceToBatch);
 
     // Sending rules request
