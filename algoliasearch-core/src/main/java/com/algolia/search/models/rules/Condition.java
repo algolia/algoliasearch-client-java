@@ -13,6 +13,7 @@ public class Condition implements Serializable {
   private String pattern;
   private String anchoring;
   private String context;
+  private Alternatives alternatives;
 
   public Condition() {}
 
@@ -40,6 +41,15 @@ public class Condition implements Serializable {
 
   public Condition setContext(String context) {
     this.context = context;
+    return this;
+  }
+
+  public Alternatives getAlternatives() {
+    return alternatives;
+  }
+
+  public Condition setAlternatives(Alternatives alternatives) {
+    this.alternatives = alternatives;
     return this;
   }
 }
