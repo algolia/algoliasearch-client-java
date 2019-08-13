@@ -10,9 +10,13 @@ import com.algolia.search.models.apikeys.*;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.HmacShaUtils;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.*;
 import javax.annotation.Nonnull;
 
 public interface SearchClientAPIKeys extends SearchClientBase {
@@ -421,5 +425,36 @@ public interface SearchClientAPIKeys extends SearchClientBase {
   default String generateSecuredAPIKey(
       @Nonnull String parentAPIKey, SecuredApiKeyRestriction restriction) throws Exception {
     return HmacShaUtils.generateSecuredApiKey(parentAPIKey, restriction);
+  }
+
+  /**
+   * Gets how many seconds are left before the secured API key expires.
+   *
+   * @param securedAPIKey The secured API Key to check
+   * @throws AlgoliaRuntimeException if <code>securedAPIKey</code> is null, empty or whitespaces.
+   * @throws AlgoliaRuntimeException if <code>securedAPIKey</code> doesn't have a <code>validUntil
+   *     </code> parameter.
+   */
+  default Duration getSecuredApiKeyRemainingValidity(@Nonnull String securedAPIKey) {
+
+    if (AlgoliaUtils.isNullOrEmptyWhiteSpace(securedAPIKey)) {
+      throw new AlgoliaRuntimeException("securedAPIKey must not be empty, null or whitespaces");
+    }
+
+    byte[] decodedBytes = Base64.getDecoder().decode(securedAPIKey);
+    String decodedString = new String(decodedBytes);
+
+    Pattern pattern = Pattern.compile("validUntil=\\d+");
+    Matcher matcher = pattern.matcher(decodedString);
+
+    if (!matcher.find()) {
+      throw new AlgoliaRuntimeException("The Secured API Key doesn't have a validUntil parameter.");
+    }
+
+    String validUntilMatch = matcher.group(0);
+
+    long timeStamp = Long.parseLong(validUntilMatch.replace("validUntil=", ""));
+
+    return Duration.ofSeconds(timeStamp - Instant.now().getEpochSecond());
   }
 }
