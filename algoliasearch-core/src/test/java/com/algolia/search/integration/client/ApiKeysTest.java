@@ -1,9 +1,13 @@
 package com.algolia.search.integration.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.SearchClient;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.apikeys.*;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -65,5 +69,45 @@ public abstract class ApiKeysTest {
         .getApiKeyAsync(apiKey)
         .thenApply(r -> searchClient.deleteApiKeyAsync(apiKey))
         .join();
+  }
+
+  @Test
+  void testExpiredKey() throws Exception {
+    SecuredApiKeyRestriction restriction =
+        new SecuredApiKeyRestriction()
+            .setValidUntil(Instant.now().getEpochSecond() - 600)
+            .setRestrictIndices(Collections.singletonList("index"));
+
+    String expiredKey = searchClient.generateSecuredAPIKey("parentKey", restriction);
+
+    Duration remainingValidity = searchClient.getSecuredApiKeyRemainingValidity(expiredKey);
+
+    assertThat(remainingValidity.getSeconds()).isLessThan(0);
+  }
+
+  @Test
+  void testValidKey() throws Exception {
+    SecuredApiKeyRestriction restriction =
+        new SecuredApiKeyRestriction()
+            .setValidUntil(Instant.now().getEpochSecond() + 600)
+            .setRestrictIndices(Collections.singletonList("index"));
+
+    String expiredKey = searchClient.generateSecuredAPIKey("parentKey", restriction);
+
+    Duration remainingValidity = searchClient.getSecuredApiKeyRemainingValidity(expiredKey);
+
+    assertThat(remainingValidity.getSeconds()).isGreaterThan(0);
+  }
+
+  @Test
+  void testRemainingValidityParameters() throws Exception {
+    SecuredApiKeyRestriction restriction =
+        new SecuredApiKeyRestriction().setRestrictIndices(Collections.singletonList("index"));
+
+    String expiredKey = searchClient.generateSecuredAPIKey("parentKey", restriction);
+
+    assertThatThrownBy(() -> searchClient.getSecuredApiKeyRemainingValidity(expiredKey))
+        .isInstanceOf(AlgoliaRuntimeException.class)
+        .hasMessageContaining("The Secured API Key doesn't have a validUntil parameter");
   }
 }
