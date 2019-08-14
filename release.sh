@@ -8,7 +8,7 @@ if [ -z "$VERSION" ]; then
   exit 1
 fi
 
-mvn versions:set -DnewVersion="$1" -DgenerateBackupPoms=false
+mvn versions:set -DnewVersion="$VERSION" -DgenerateBackupPoms=false
 mvn clean
 mvn package
 mvn deploy -DskipTests
