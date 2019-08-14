@@ -31,47 +31,47 @@ public class IndicesResponse implements Serializable {
     return this;
   }
 
-  public int getEntries() {
+  public long getEntries() {
     return entries;
   }
 
-  public IndicesResponse setEntries(int entries) {
+  public IndicesResponse setEntries(long entries) {
     this.entries = entries;
     return this;
   }
 
-  public int getDataSize() {
+  public long getDataSize() {
     return dataSize;
   }
 
-  public IndicesResponse setDataSize(int dataSize) {
+  public IndicesResponse setDataSize(long dataSize) {
     this.dataSize = dataSize;
     return this;
   }
 
-  public int getFileSize() {
+  public long getFileSize() {
     return fileSize;
   }
 
-  public IndicesResponse setFileSize(int fileSize) {
+  public IndicesResponse setFileSize(long fileSize) {
     this.fileSize = fileSize;
     return this;
   }
 
-  public int getLastBuildTimes() {
+  public long getLastBuildTimes() {
     return lastBuildTimes;
   }
 
-  public IndicesResponse setLastBuildTimes(int lastBuildTimes) {
+  public IndicesResponse setLastBuildTimes(long lastBuildTimes) {
     this.lastBuildTimes = lastBuildTimes;
     return this;
   }
 
-  public int getNumberOfPendingTasks() {
+  public long getNumberOfPendingTasks() {
     return numberOfPendingTasks;
   }
 
-  public IndicesResponse setNumberOfPendingTasks(int numberOfPendingTasks) {
+  public IndicesResponse setNumberOfPendingTasks(long numberOfPendingTasks) {
     this.numberOfPendingTasks = numberOfPendingTasks;
     return this;
   }
@@ -88,10 +88,10 @@ public class IndicesResponse implements Serializable {
   private String name;
   private OffsetDateTime createdAt;
   private OffsetDateTime updatedAt;
-  private int entries;
-  private int dataSize;
-  private int fileSize;
-  private int lastBuildTimes;
-  private int numberOfPendingTasks;
+  private long entries;
+  private long dataSize;
+  private long fileSize;
+  private long lastBuildTimes;
+  private long numberOfPendingTasks;
   private boolean pendingTask;
 }
