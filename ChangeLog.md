@@ -1,5 +1,26 @@
 # ChangeLog
 
+## [3.2.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.1.0...3.2.0) (2019-08-14)
+
+### Feat
+
+- GetSecuredApiKeyRemainingValidity ([6e3cf85](https://github.com/algolia/algoliasearch-client-java-2/commit/6e3cf85))
+
+    New SearchClient method to get the remaining validity (seconds)
+    of a securedAPIKey
+- alternatives in QueryRules conditions ([cb4fb3e](https://github.com/algolia/algoliasearch-client-java-2/commit/cb4fb3e))
+- indexLanguages settings properties ([8109045](https://github.com/algolia/algoliasearch-client-java-2/commit/8109045))
+
+### Fix
+
+- wrong size of integers in IndicesResponse ([b73bfe7](https://github.com/algolia/algoliasearch-client-java-2/commit/b73bfe7))
+
+    Fix the size of integers in IndicesResponse. It must be int64
+    instead of int32.
+- improves ActionEnum documentation ([383c7a0](https://github.com/algolia/algoliasearch-client-java-2/commit/383c7a0))
+
+
+
 ## [3.1.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.0.0...3.1.0) (2019-08-07)
 
 ### Bug fix
