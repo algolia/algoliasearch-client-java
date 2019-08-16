@@ -1,9 +1,12 @@
 package com.algolia.search.models.indexing;
 
+import com.algolia.search.util.AlgoliaUtils;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
+import javax.annotation.Nonnull;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class SearchResult<T> implements Serializable {
@@ -291,6 +294,13 @@ public class SearchResult<T> implements Serializable {
   public SearchResult<T> setFacets_stats(Map<String, FacetStats> facets_stats) {
     this.facets_stats = facets_stats;
     return this;
+  }
+
+  public int getObjectIDPosition(@Nonnull String objectID, @Nonnull Class<T> clazz) {
+    return IntStream.range(0, hits.size())
+        .filter(i -> objectID.equals(AlgoliaUtils.getObjectID(hits.get(i), clazz)))
+        .findFirst()
+        .orElse(-1);
   }
 
   @Override
