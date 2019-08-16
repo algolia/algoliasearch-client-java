@@ -1,7 +1,9 @@
 package com.algolia.search.integration.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Employee implements Serializable {
 
   public Employee() {}
@@ -9,6 +11,12 @@ public class Employee implements Serializable {
   public Employee(String company, String name) {
     this.company = company;
     this.name = name;
+  }
+
+  public Employee(String company, String name, String objectID) {
+    this.company = company;
+    this.name = name;
+    this.objectID = objectID;
   }
 
   public String getCompany() {
@@ -38,7 +46,17 @@ public class Employee implements Serializable {
     return this;
   }
 
+  public String getObjectID() {
+    return objectID;
+  }
+
+  public Employee setObjectID(String objectID) {
+    this.objectID = objectID;
+    return this;
+  }
+
   private String company;
   private String name;
   private String queryID;
+  private String objectID;
 }

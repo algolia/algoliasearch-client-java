@@ -30,8 +30,8 @@ public abstract class SearchTest {
         searchClient.initIndex(getTestIndexName("search"), Employee.class);
     List<Employee> employees =
         Arrays.asList(
-            new Employee("Algolia", "Julien Lemoine"),
-            new Employee("Algolia", "Julien Lemoine"),
+            new Employee("Algolia", "Julien Lemoine", "julien-lemoine"),
+            new Employee("Algolia", "Nicolas Dessaigne", "nicolas-dessaigne"),
             new Employee("Amazon", "Jeff Bezos"),
             new Employee("Apple", "Steve Jobs"),
             new Employee("Apple", "Steve Wozniak"),
@@ -87,6 +87,12 @@ public abstract class SearchTest {
         searchFacetFuture);
 
     assertThat(searchAlgoliaFuture.get().getHits()).hasSize(2);
+    assertThat(searchAlgoliaFuture.get().getObjectIDPosition("nicolas-dessaigne", Employee.class))
+        .isEqualTo(0);
+    assertThat(searchAlgoliaFuture.get().getObjectIDPosition("julien-lemoine", Employee.class))
+        .isEqualTo(1);
+    assertThat(searchAlgoliaFuture.get().getObjectIDPosition("unknown", Employee.class))
+        .isEqualTo(-1);
     assertThat(searchElonFuture.get().getQueryID()).isNotNull();
     assertThat(searchElonFuture1.get().getHits()).hasSize(1);
     assertThat(searchElonFuture2.get().getHits()).hasSize(2);
@@ -102,5 +108,24 @@ public abstract class SearchTest {
     assertThat(searchFacetFuture.get().getFacetHits())
         .extracting(FacetHit::getValue)
         .contains("Arista Networks");
+
+    assertThat(index.findFirstObject(x -> false, new Query(""))).isNull();
+
+    HitsWithPosition<Employee> alwaysTrue = index.findFirstObject(x -> true, new Query(""));
+    assertThat(alwaysTrue.getPage()).isEqualTo(0);
+    assertThat(alwaysTrue.getPosition()).isEqualTo(0);
+
+    assertThat(index.findFirstObject(x -> x.getCompany().equals("Apple"), new Query("Algolia")))
+        .isNull();
+
+    assertThat(
+            index.findFirstObject(
+                x -> x.getCompany().equals("Apple"), new Query("Algolia").setHitsPerPage(5), true))
+        .isNull();
+
+    HitsWithPosition<Employee> foundObject =
+        index.findFirstObject(x -> x.getCompany().equals("Apple"), new Query("").setHitsPerPage(5));
+    assertThat(foundObject.getPosition()).isEqualTo(0);
+    assertThat(foundObject.getPage()).isEqualTo(2);
   }
 }
