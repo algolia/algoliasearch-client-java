@@ -7,13 +7,11 @@ import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
-import com.algolia.search.models.indexing.Query;
-import com.algolia.search.models.indexing.SearchForFacetRequest;
-import com.algolia.search.models.indexing.SearchForFacetResponse;
-import com.algolia.search.models.indexing.SearchResult;
+import com.algolia.search.models.indexing.*;
 import com.algolia.search.util.AlgoliaUtils;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 import javax.annotation.Nonnull;
 
 /**
@@ -176,5 +174,104 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
             query,
             SearchForFacetResponse.class,
             requestOptions);
+  }
+
+  /**
+   * FindFirstObject searches iteratively through the search response `Hits` field to find the first
+   * response hit that would match against the given `filterFunc` function.
+   *
+   * <p>If no object has been found within the first result set, the function will perform a new
+   * search operation on the next page of results, if any, until a matching object is found or the
+   * end of results, whichever happens first.
+   *
+   * <p>To prevent the iteration through pages of results, `doNotPaginate` parameter can be set to
+   * true. This will stop the function at the end of the first page of search results even if no
+   * object does match.
+   *
+   * <p>If no result found `null` will be returned
+   *
+   * @param match The predicate to match
+   * @param query The search Query
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @return HitsWithPosition
+   */
+  default HitsWithPosition<T> findFirstObject(Predicate<T> match, Query query) {
+    return findFirstObject(match, query, false, null);
+  }
+
+  /**
+   * FindFirstObject searches iteratively through the search response `Hits` field to find the first
+   * response hit that would match against the given `filterFunc` function.
+   *
+   * <p>If no object has been found within the first result set, the function will perform a new
+   * search operation on the next page of results, if any, until a matching object is found or the
+   * end of results, whichever happens first.
+   *
+   * <p>To prevent the iteration through pages of results, `doNotPaginate` parameter can be set to
+   * true. This will stop the function at the end of the first page of search results even if no
+   * object does match.
+   *
+   * <p>If no result found `null` will be returned
+   *
+   * @param match The predicate to match
+   * @param query The search Query
+   * @param doNotPaginate Should the method paginate or not
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @return HitsWithPosition
+   */
+  default HitsWithPosition<T> findFirstObject(
+      Predicate<T> match, Query query, boolean doNotPaginate) {
+    return findFirstObject(match, query, doNotPaginate, null);
+  }
+
+  /**
+   * FindFirstObject searches iteratively through the search response `Hits` field to find the first
+   * response hit that would match against the given `filterFunc` function.
+   *
+   * <p>If no object has been found within the first result set, the function will perform a new
+   * search operation on the next page of results, if any, until a matching object is found or the
+   * end of results, whichever happens first.
+   *
+   * <p>To prevent the iteration through pages of results, `doNotPaginate` parameter can be set to
+   * true. This will stop the function at the end of the first page of search results even if no
+   * object does match.
+   *
+   * <p>If no result found `null` will be returned
+   *
+   * @param match The predicate to match
+   * @param query The search Query
+   * @param doNotPaginate Should the method paginate or not
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @return HitsWithPosition
+   */
+  default HitsWithPosition<T> findFirstObject(
+      Predicate<T> match, Query query, boolean doNotPaginate, RequestOptions requestOptions) {
+
+    SearchResult<T> res = search(query, requestOptions);
+
+    if (res.getHits().stream().anyMatch(match)) {
+      return res.getHits().stream()
+          .filter(match)
+          .findFirst()
+          .map(x -> new HitsWithPosition<>(x, res.getPage(), res.getHits().indexOf(x)))
+          .orElse(null);
+    }
+
+    boolean hasNextPage = res.getPage() + 1 < res.getNbPages();
+
+    if (doNotPaginate || !hasNextPage) {
+      return null;
+    }
+
+    query.setPage(res.getPage().intValue() + 1);
+
+    return findFirstObject(match, query, doNotPaginate, requestOptions);
   }
 }
