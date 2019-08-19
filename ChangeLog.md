@@ -1,5 +1,23 @@
 # ChangeLog
 
+## [3.2.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.2.0...3.2.1) (2019-08-19)
+
+### Feat
+
+- useSystemProxy in the config builder ([c87e6f2](https://github.com/algolia/algoliasearch-client-java-2/commit/c87e6f2))
+
+    Adds the possibility for the underlying HTTPClient to use JVM settings
+    for proxy such as:
+    
+    ```
+    System.setProperty("http.proxyHost", getHTTPHost());
+    System.setProperty("http.proxyPort", getHTTPPort());
+    System.setProperty("https.proxyHost", getHTTPHost());
+    System.setProperty("https.proxyPort", getHTTPPort());
+    System.setProperty("https.proxyUser", getAuthUser());
+    System.setProperty("https.proxyPassword", getAuthPassword());
+    ```
+
 ## [3.2.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.1.0...3.2.0) (2019-08-14)
 
 ### Feat
