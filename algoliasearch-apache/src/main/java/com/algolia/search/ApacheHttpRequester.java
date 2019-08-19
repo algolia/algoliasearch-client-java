@@ -47,7 +47,11 @@ final class ApacheHttpRequester implements HttpRequester {
             .setContentCompressionEnabled(true)
             .build();
 
-    asyncHttpClient = HttpAsyncClients.createDefault();
+    asyncHttpClient =
+        config.getUseSystemProxy()
+            ? HttpAsyncClients.createSystem()
+            : HttpAsyncClients.createDefault();
+
     asyncHttpClient.start();
   }
 

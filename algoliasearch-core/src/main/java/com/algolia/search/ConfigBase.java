@@ -19,6 +19,7 @@ public abstract class ConfigBase {
   private final String apiKey;
   private final Map<String, String> defaultHeaders;
   private final int batchSize;
+  private final boolean useSystemProxy;
   private final Integer readTimeOut;
   private final Integer writeTimeOut;
   private final Integer connectTimeOut;
@@ -33,6 +34,7 @@ public abstract class ConfigBase {
     private final String apiKey;
     private final Map<String, String> defaultHeaders;
     private int batchSize;
+    private boolean useSystemProxy;
     private Integer readTimeOut;
     private Integer writeTimeOut;
     private Integer connectTimeOut;
@@ -57,6 +59,7 @@ public abstract class ConfigBase {
       this.applicationID = applicationID;
       this.apiKey = apiKey;
 
+      this.useSystemProxy = false;
       this.batchSize = 1000;
       this.hosts = defaultHosts;
       this.connectTimeOut = Defaults.CONNECT_TIMEOUT_MS;
@@ -77,6 +80,12 @@ public abstract class ConfigBase {
 
     /** To prevent unchecked cast warning. */
     public abstract T getThis();
+
+    /** Makes the underlying HTTP Client to use JVM/System settings for the proxy */
+    public T setUseSystemProxy(boolean useSystemProxy) {
+      this.useSystemProxy = useSystemProxy;
+      return getThis();
+    }
 
     /** Overrides the default batch size for save methods. Default = 1000 objects per chunk. */
     public T setBatchSize(int batchSize) {
@@ -150,6 +159,7 @@ public abstract class ConfigBase {
     this.apiKey = builder.apiKey;
     this.applicationID = builder.applicationID;
     this.defaultHeaders = builder.defaultHeaders;
+    this.useSystemProxy = builder.useSystemProxy;
     this.batchSize = builder.batchSize;
     this.compressionType = builder.compressionType;
     this.readTimeOut = builder.readTimeOut;
@@ -169,6 +179,10 @@ public abstract class ConfigBase {
 
   public Map<String, String> getDefaultHeaders() {
     return defaultHeaders;
+  }
+
+  public boolean getUseSystemProxy() {
+    return useSystemProxy;
   }
 
   public int getBatchSize() {
