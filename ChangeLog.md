@@ -72,7 +72,7 @@
 
 - jackson-databind to 2.9.9.2 ([42bf61a](https://github.com/algolia/algoliasearch-client-java-2/commit/42bf61a))
 
-# [3.0.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.22.0...3.0.0) (2019-10-06)
+# [3.0.0](https://github.com/algolia/algoliasearch-client-java-2/compare/2.22.0...3.0.0) (2019-06-10)
 
 New major version of the Java client! For more information check out:
 - [Our upgrade guide](https://www.algolia.com/doc/api-client/getting-started/upgrade-guides/java/)
