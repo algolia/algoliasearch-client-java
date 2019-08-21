@@ -51,7 +51,7 @@ With [Maven](https://maven.apache.org/), add the following dependency to your `p
   <dependency>
         <groupId>com.algolia</groupId>
         <artifactId>algoliasearch-core</artifactId>
-        <version>3.0.0</version>
+        <version>3.2.1</version>
   </dependency>
   ```
 
@@ -59,7 +59,7 @@ With [Maven](https://maven.apache.org/), add the following dependency to your `p
   <dependency>
         <groupId>com.algolia</groupId>
         <artifactId>algoliasearch-apache</artifactId>
-        <version>3.0.0</version>
+        <version>3.2.1</version>
   </dependency>
   ```
 
