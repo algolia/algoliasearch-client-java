@@ -4,11 +4,11 @@ public enum RemoveWordsType {
   // when a query does not return any result, the final word will be
   // removed until there is results. This option is useful on
   // e-commerce websites
-  REMOVE_LAST_WORDS("LastWords"),
+  REMOVE_LAST_WORDS("lastWords"),
   // when a query does not return any result, the first word will be
   // removed until there is results. This option is useful on address
   // search.
-  REMOVE_FIRST_WORDS("FirstWords"),
+  REMOVE_FIRST_WORDS("firstWords"),
   // No specific processing is done when a query does not return any
   // result.
   REMOVE_NONE("none"),
