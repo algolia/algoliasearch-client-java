@@ -109,22 +109,22 @@ public abstract class SearchTest {
         .extracting(FacetHit::getValue)
         .contains("Arista Networks");
 
-    assertThat(index.findFirstObject(x -> false, new Query(""))).isNull();
+    assertThat(index.findObject(x -> false, new Query(""))).isNull();
 
-    HitsWithPosition<Employee> alwaysTrue = index.findFirstObject(x -> true, new Query(""));
+    HitsWithPosition<Employee> alwaysTrue = index.findObject(x -> true, new Query(""));
     assertThat(alwaysTrue.getPage()).isEqualTo(0);
     assertThat(alwaysTrue.getPosition()).isEqualTo(0);
 
-    assertThat(index.findFirstObject(x -> x.getCompany().equals("Apple"), new Query("Algolia")))
+    assertThat(index.findObject(x -> x.getCompany().equals("Apple"), new Query("Algolia")))
         .isNull();
 
     assertThat(
-            index.findFirstObject(
-                x -> x.getCompany().equals("Apple"), new Query("Algolia").setHitsPerPage(5), true))
+            index.findObject(
+                x -> x.getCompany().equals("Apple"), new Query("Algolia").setHitsPerPage(5), false))
         .isNull();
 
     HitsWithPosition<Employee> foundObject =
-        index.findFirstObject(x -> x.getCompany().equals("Apple"), new Query("").setHitsPerPage(5));
+        index.findObject(x -> x.getCompany().equals("Apple"), new Query("").setHitsPerPage(5));
     assertThat(foundObject.getPosition()).isEqualTo(0);
     assertThat(foundObject.getPage()).isEqualTo(2);
   }

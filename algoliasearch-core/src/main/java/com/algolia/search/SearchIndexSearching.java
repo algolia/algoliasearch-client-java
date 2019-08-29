@@ -197,8 +197,8 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    * @return HitsWithPosition
    */
-  default HitsWithPosition<T> findFirstObject(Predicate<T> match, Query query) {
-    return findFirstObject(match, query, false, null);
+  default HitsWithPosition<T> findObject(Predicate<T> match, Query query) {
+    return findObject(match, query, true, null);
   }
 
   /**
@@ -217,15 +217,15 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    *
    * @param match The predicate to match
    * @param query The search Query
-   * @param doNotPaginate Should the method paginate or not
+   * @param paginate Should the method paginate or not
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    * @return HitsWithPosition
    */
-  default HitsWithPosition<T> findFirstObject(
-      Predicate<T> match, Query query, boolean doNotPaginate) {
-    return findFirstObject(match, query, doNotPaginate, null);
+  default HitsWithPosition<T> findObject(
+      Predicate<T> match, Query query, boolean paginate) {
+    return findObject(match, query, paginate, null);
   }
 
   /**
@@ -244,15 +244,15 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    *
    * @param match The predicate to match
    * @param query The search Query
-   * @param doNotPaginate Should the method paginate or not
+   * @param paginate Should the method paginate or not
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    * @return HitsWithPosition
    */
-  default HitsWithPosition<T> findFirstObject(
-      Predicate<T> match, Query query, boolean doNotPaginate, RequestOptions requestOptions) {
+  default HitsWithPosition<T> findObject(
+      Predicate<T> match, Query query, boolean paginate, RequestOptions requestOptions) {
 
     SearchResult<T> res = search(query, requestOptions);
 
@@ -266,12 +266,12 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
 
     boolean hasNextPage = res.getPage() + 1 < res.getNbPages();
 
-    if (doNotPaginate || !hasNextPage) {
+    if (!paginate || !hasNextPage) {
       return null;
     }
 
     query.setPage(res.getPage().intValue() + 1);
 
-    return findFirstObject(match, query, doNotPaginate, requestOptions);
+    return findObject(match, query, paginate, requestOptions);
   }
 }
