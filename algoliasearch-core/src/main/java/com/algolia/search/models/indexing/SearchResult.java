@@ -296,7 +296,7 @@ public class SearchResult<T> implements Serializable {
     return this;
   }
 
-  public int getObjectIDPosition(@Nonnull String objectID, @Nonnull Class<T> clazz) {
+  public int getObjectPosition(@Nonnull String objectID, @Nonnull Class<T> clazz) {
     return IntStream.range(0, hits.size())
         .filter(i -> objectID.equals(AlgoliaUtils.getObjectID(hits.get(i), clazz)))
         .findFirst()
