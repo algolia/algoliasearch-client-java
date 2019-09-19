@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -30,7 +32,7 @@ public abstract class QueryRulesTest {
   }
 
   @Test
-  void RulesTest() {
+  void RulesTest() throws ExecutionException, InterruptedException {
     SearchIndex<AlgoliaRule> index =
         searchClient.initIndex(getTestIndexName("rules"), AlgoliaRule.class);
     List<AlgoliaRule> objectsToSave =
@@ -107,22 +109,22 @@ public abstract class QueryRulesTest {
         index.saveRulesAsync(Collections.singletonList(ruleToSave2));
 
     // Wait for the settings to be complete before saving
-    saveObjectsFuture.join().waitTask();
-    settingsFuture.join().waitTask();
-    saveRuleFuture.join().waitTask();
-    batchRuleFuture.join().waitTask();
+    saveObjectsFuture.get().waitTask();
+    settingsFuture.get().waitTask();
+    saveRuleFuture.get().waitTask();
+    batchRuleFuture.get().waitTask();
 
     CompletableFuture<Rule> getRuleFuture = index.getRuleAsync(ruleToSave.getObjectID());
     CompletableFuture<Rule> getBatchedRuleFuture = index.getRuleAsync(ruleToSave2.getObjectID());
 
-    Rule retrievedRule = getRuleFuture.join();
-    Rule retrievedRule2 = getBatchedRuleFuture.join();
+    Rule retrievedRule = getRuleFuture.get();
+    Rule retrievedRule2 = getBatchedRuleFuture.get();
 
     assertThat(retrievedRule).usingRecursiveComparison().isEqualTo(ruleToSave);
 
     assertThat(retrievedRule2).usingRecursiveComparison().isEqualTo(ruleToSave2);
 
-    SearchResult<Rule> searchRules = index.searchRulesAsync(new RuleQuery("")).join();
+    SearchResult<Rule> searchRules = index.searchRulesAsync(new RuleQuery("")).get();
     assertThat(searchRules.getHits()).hasSize(2);
 
     assertThat(
@@ -163,17 +165,17 @@ public abstract class QueryRulesTest {
         .usingRecursiveComparison()
         .isEqualTo(retrievedRule2);
 
-    index.deleteRuleAsync(ruleToSave.getObjectID()).join().waitTask();
+    index.deleteRuleAsync(ruleToSave.getObjectID()).get().waitTask();
 
-    SearchResult<Rule> searchRulesAfterDelete = index.searchRulesAsync(new RuleQuery("")).join();
+    SearchResult<Rule> searchRulesAfterDelete = index.searchRulesAsync(new RuleQuery("")).get();
     assertThat(searchRulesAfterDelete.getHits()).hasSize(1);
     assertThat(searchRulesAfterDelete.getHits())
         .extracting(Rule::getObjectID)
         .containsExactly(retrievedRule2.getObjectID());
 
-    index.clearRulesAsync().join().waitTask();
+    index.clearRulesAsync().get().waitTask();
 
-    SearchResult<Rule> searchRulesAfterClear = index.searchRulesAsync(new RuleQuery("")).join();
+    SearchResult<Rule> searchRulesAfterClear = index.searchRulesAsync(new RuleQuery("")).get();
     assertThat(searchRulesAfterClear.getHits()).hasSize(0);
   }
 
