@@ -223,8 +223,7 @@ public interface SearchIndexSearching<T> extends SearchIndexBase<T> {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    * @return HitsWithPosition
    */
-  default HitsWithPosition<T> findObject(
-      Predicate<T> match, Query query, boolean paginate) {
+  default HitsWithPosition<T> findObject(Predicate<T> match, Query query, boolean paginate) {
     return findObject(match, query, paginate, null);
   }
 
