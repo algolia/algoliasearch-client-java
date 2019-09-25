@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <jackson-databind.version>2.9.9.2</jackson-databind.version>
+        <jackson-databind.version>2.9.10</jackson-databind.version>
         <jackson.version>2.9.10</jackson.version>
     </properties>
 
