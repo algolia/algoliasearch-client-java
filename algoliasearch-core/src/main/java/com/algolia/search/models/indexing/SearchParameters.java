@@ -6,6 +6,7 @@ import com.algolia.search.models.settings.RemoveStopWords;
 import com.algolia.search.models.settings.TypoTolerance;
 import com.algolia.search.util.QueryStringUtils;
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -643,8 +644,13 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   /* advanced */
   protected Distinct distinct;
   protected Boolean getRankingInfo;
+
+  @JsonDeserialize(using = FiltersJsonDeserializer.class)
   protected List<List<String>> numericFilters;
+
+  @JsonDeserialize(using = FiltersJsonDeserializer.class)
   protected List<List<String>> tagFilters;
+
   protected Boolean clickAnalytics;
   protected Boolean analytics;
   protected List<String> analyticsTags;
@@ -664,8 +670,13 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   protected String filters;
   protected List<String> facets;
   protected Long maxValuesPerFacet;
+
+  @JsonDeserialize(using = FiltersJsonDeserializer.class)
   protected List<List<String>> facetFilters;
+
+  @JsonDeserialize(using = FiltersJsonDeserializer.class)
   protected List<List<String>> optionalFilters;
+
   protected Boolean facetingAfterDistinct;
   protected String sortFacetValuesBy;
 
