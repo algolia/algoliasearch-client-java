@@ -13,6 +13,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.util.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class JacksonParserTest {
 
@@ -170,6 +172,130 @@ class JacksonParserTest {
             automaticFacetFilters.stream()
                 .anyMatch(r -> r.getFacet().equals("firstname") && !r.getDisjunctive()))
         .isTrue();
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"facetFilters", "optionalFilters", "tagFilters", "numericFilters"})
+  void testLegacyFiltersFormat(String input) throws IOException {
+
+    // Testing "one string" legacy filters => should be converted to "ORED" nested filters
+    // [["color:green","color:yellow"]]
+    String stringFilters = String.format("{\"%s\":\"color:green,color:yellow\"}", input);
+
+    assertOREDResult(
+        extractFilters(
+            Defaults.getObjectMapper().readValue(stringFilters, ConsequenceParams.class), input));
+
+    // Testing "one array" legacy filters => should be converted to "ORED" nested filters
+    // [["color:green","color:yellow"]]
+    String arrayFilters = String.format("{\"%s\":[\"color:green\",\"color:yellow\"]}", input);
+    assertOREDResult(
+        extractFilters(
+            Defaults.getObjectMapper().readValue(arrayFilters, ConsequenceParams.class), input));
+
+    String nestedArrayFilters =
+        String.format("{\"%s\":[[\"color:green\",\"color:yellow\"]]}", input);
+    assertOREDResult(
+        extractFilters(
+            Defaults.getObjectMapper().readValue(nestedArrayFilters, ConsequenceParams.class),
+            input));
+
+    // Testing the latest format of filters i.e nested arrays
+    String nestedAndedArrayFilters =
+        String.format("{\"%s\":[[\"color:green\",\"color:yellow\"],[\"color:blue\"]]}", input);
+
+    List<List<String>> deserialized =
+        extractFilters(
+            Defaults.getObjectMapper().readValue(nestedAndedArrayFilters, ConsequenceParams.class),
+            input);
+
+    assertThat(deserialized).hasSize(2);
+    assertThat(deserialized.get(0)).hasSize(2);
+    assertThat(deserialized.get(0).get(0)).containsSubsequence("color:green");
+    assertThat(deserialized.get(0).get(1)).containsSubsequence("color:yellow");
+    assertThat(deserialized.get(1)).hasSize(1);
+    assertThat(deserialized.get(1).get(0)).containsSubsequence("color:blue");
+  }
+
+  List<List<String>> extractFilters(ConsequenceParams consequenceParams, String input) {
+    List<List<String>> result = null;
+
+    switch (input) {
+      case "facetFilters":
+        result = consequenceParams.getFacetFilters();
+        break;
+      case "optionalFilters":
+        result = consequenceParams.getOptionalFilters();
+        break;
+      case "tagFilters":
+        result = consequenceParams.getTagFilters();
+        break;
+      case "numericFilters":
+        result = consequenceParams.getNumericFilters();
+        break;
+    }
+
+    return result;
+  }
+
+  void assertOREDResult(List<List<String>> result) {
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0)).hasSize(2);
+    assertThat(result.get(0)).containsSequence("color:green");
+    assertThat(result.get(0)).containsSequence("color:yellow");
+  }
+
+  @Test
+  void testFiltersJSONDeserializerNonRegression() throws IOException {
+
+    // Finally, testing that the custom deserializer is not breaking current implementation
+    Rule ruleWithFilters =
+        new Rule()
+            .setConsequence(
+                new Consequence()
+                    .setParams(
+                        new ConsequenceParams()
+                            .setOptionalFilters(
+                                Collections.singletonList(Collections.singletonList("a:b")))
+                            .setTagFilters(
+                                Arrays.asList(
+                                    Arrays.asList("a:b", "c:d"), Collections.singletonList("d:e")))
+                            .setFacetFilters(
+                                Arrays.asList(
+                                    Collections.singletonList("a:b"),
+                                    Collections.singletonList("c:d")))
+                            .setNumericFilters(
+                                Collections.singletonList(Collections.singletonList("a=100")))));
+
+    // Json "sent" to the API
+    String json = Defaults.getObjectMapper().writeValueAsString(ruleWithFilters);
+
+    // Json "retrieved" by the client
+    Rule retrievedRule = Defaults.getObjectMapper().readValue(json, Rule.class);
+
+    assertThat(retrievedRule.getConsequence().getParams().getOptionalFilters()).hasSize(1);
+    assertThat(retrievedRule.getConsequence().getParams().getOptionalFilters().get(0)).hasSize(1);
+    assertThat(retrievedRule.getConsequence().getParams().getOptionalFilters().get(0).get(0))
+        .containsSubsequence("a:b");
+
+    assertThat(retrievedRule.getConsequence().getParams().getTagFilters()).hasSize(2);
+    assertThat(retrievedRule.getConsequence().getParams().getTagFilters().get(0)).hasSize(2);
+    assertThat(retrievedRule.getConsequence().getParams().getTagFilters().get(0).get(0))
+        .containsSubsequence("a:b");
+    assertThat(retrievedRule.getConsequence().getParams().getTagFilters().get(0).get(1))
+        .containsSubsequence("c:d");
+    assertThat(retrievedRule.getConsequence().getParams().getTagFilters().get(1)).hasSize(1);
+    assertThat(retrievedRule.getConsequence().getParams().getTagFilters().get(1).get(0))
+        .containsSubsequence("d:e");
+
+    assertThat(retrievedRule.getConsequence().getParams().getFacetFilters()).hasSize(2);
+    assertThat(retrievedRule.getConsequence().getParams().getFacetFilters().get(0)).hasSize(1);
+    assertThat(retrievedRule.getConsequence().getParams().getFacetFilters().get(1)).hasSize(1);
+
+    assertThat(retrievedRule.getConsequence().getParams().getNumericFilters()).hasSize(1);
+    assertThat(retrievedRule.getConsequence().getParams().getNumericFilters().get(0)).hasSize(1);
+    assertThat(retrievedRule.getConsequence().getParams().getNumericFilters().get(0))
+        .containsSubsequence("a=100");
   }
 
   @Test
