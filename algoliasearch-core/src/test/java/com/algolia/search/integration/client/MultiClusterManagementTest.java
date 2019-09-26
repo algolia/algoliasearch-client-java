@@ -10,6 +10,7 @@ import com.algolia.search.models.mcm.*;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public abstract class MultiClusterManagementTest {
             .get();
     assertThat(searchResponse.getHits()).hasSize(1);
 
-    ListUserIdsResponse listUserIds = mcmClient.listUserIDsAsync().get();
+    ListUserIdsResponse listUserIds = mcmClient.listUserIDsAsync(0, 1000, null).get();
     assertThat(listUserIds.getUserIDs()).extracting(UserId::getUserID).contains(userID);
 
     TopUserIdResponse topUserIds = mcmClient.getTopUserIDAsync().get();
@@ -48,16 +49,33 @@ public abstract class MultiClusterManagementTest {
 
     removeUserId(mcmClient, userID);
 
-    ListUserIdsResponse listUserIds2 = mcmClient.listUserIDsAsync().get();
+    removePastUserIDs(mcmClient);
+  }
 
-    String yesterday =
-        DateTimeFormatter.ofPattern("yyyy-MM-dd-HH")
-            .format(ZonedDateTime.now(ZoneOffset.UTC).minusDays(1));
+  void removePastUserIDs(SearchClient mcmClient) throws ExecutionException, InterruptedException {
 
-    List<UserId> userIDsToRemove =
-        listUserIds2.getUserIDs().stream()
-            .filter(r -> r.getUserID().contains("java-" + yesterday))
-            .collect(Collectors.toList());
+    int page = 0;
+    final int hitsPerPage = 100;
+    List<UserId> userIDsToRemove = new ArrayList<>();
+
+    while (true) {
+      ListUserIdsResponse listUserIds = mcmClient.listUserIDsAsync(page, hitsPerPage, null).get();
+
+      String today =
+          DateTimeFormatter.ofPattern("yyyy-MM-dd-HH").format(ZonedDateTime.now(ZoneOffset.UTC));
+
+      List<UserId> userIDsTemp =
+          listUserIds.getUserIDs().stream()
+              .filter(
+                  r -> r.getUserID().contains("java-") && !r.getUserID().contains("java-" + today))
+              .collect(Collectors.toList());
+
+      userIDsToRemove.addAll(userIDsTemp);
+
+      if (listUserIds.getUserIDs().size() < hitsPerPage) break;
+
+      page++;
+    }
 
     userIDsToRemove.forEach(r -> mcmClient.removeUserID(r.getUserID()));
   }
