@@ -11,6 +11,7 @@ import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
 import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.QueryStringUtils;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
@@ -494,6 +495,93 @@ public interface SearchClientMcm extends SearchClientBase {
             CallType.WRITE,
             request,
             AssignUserIdResponse.class,
+            requestOptions);
+  }
+
+  /**
+   * Assign or Move a userIDs to a cluster. The time it takes to migrate (move) a user is
+   * proportional to the amount of data linked to each userID.
+   *
+   * @param userIds List of UserIDs to map
+   * @param clusterName The name of the cluster
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default AssignUserIdsResponse assignUserIDs(
+      @Nonnull List<String> userIds, @Nonnull String clusterName) {
+    return LaunderThrowable.await(assignUserIDsAsync(userIds, clusterName));
+  }
+
+  /**
+   * Assign or Move a userIDs to a cluster. The time it takes to migrate (move) a user is
+   * proportional to the amount of data linked to each userID.
+   *
+   * @param userIds List of UserIDs to map
+   * @param clusterName The name of the cluster
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default AssignUserIdsResponse assignUserIDs(
+      @Nonnull List<String> userIds, @Nonnull String clusterName, RequestOptions requestOptions) {
+    return LaunderThrowable.await(assignUserIDsAsync(userIds, clusterName, requestOptions));
+  }
+
+  /**
+   * Assign or Move a userIDs to a cluster. The time it takes to migrate (move) a user is
+   * proportional to the amount of data linked to each userID.
+   *
+   * @param userIds List of UserIDs to map
+   * @param clusterName The name of the cluster
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CompletableFuture<AssignUserIdsResponse> assignUserIDsAsync(
+      @Nonnull List<String> userIds, @Nonnull String clusterName) {
+    return assignUserIDsAsync(userIds, clusterName, null);
+  }
+
+  /**
+   * Assign or Move a userIDs to a cluster. The time it takes to migrate (move) a user is
+   * proportional to the amount of data linked to each userID.
+   *
+   * @param userIds List of UserIDs to map
+   * @param clusterName The name of the cluster
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CompletableFuture<AssignUserIdsResponse> assignUserIDsAsync(
+      @Nonnull List<String> userIds, @Nonnull String clusterName, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(userIds, "userIds are required required.");
+    Objects.requireNonNull(clusterName, "clusterName key is required.");
+
+    if (userIds.stream().anyMatch(AlgoliaUtils::isEmptyWhiteSpace)) {
+      throw new AlgoliaRuntimeException("userId must not be empty.");
+    }
+
+    if (AlgoliaUtils.isEmptyWhiteSpace(clusterName)) {
+      throw new AlgoliaRuntimeException("clusterName must not be empty.");
+    }
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    AssignUserIdsRequest request = new AssignUserIdsRequest(clusterName, userIds);
+
+    return getTransport()
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/clusters/mapping/batch",
+            CallType.WRITE,
+            request,
+            AssignUserIdsResponse.class,
             requestOptions);
   }
 }
