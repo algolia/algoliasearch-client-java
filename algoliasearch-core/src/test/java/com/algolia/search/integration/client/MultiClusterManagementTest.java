@@ -11,6 +11,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -29,25 +30,39 @@ public abstract class MultiClusterManagementTest {
     ListClustersResponse listClusters = mcmClient.listClustersAsync().get();
     assertThat(listClusters.getClusters().size()).isEqualTo(2);
 
-    String userID = getMcmUserId();
+    String userID = getMcmUserId() + "-0";
+    String userID1 = getMcmUserId() + "-1";
+    String userID2 = getMcmUserId() + "-2";
+
+    List<String> userIDs = Arrays.asList(userID, userID1, userID2);
     String clusterName = listClusters.getClusters().get(0).getClusterName();
 
     mcmClient.assignUserIDAsync(userID, clusterName).get();
-    waitUserID(mcmClient, userID);
+    mcmClient.assignUserIDsAsync(Arrays.asList(userID1, userID2), clusterName).get();
 
-    SearchResult<UserId> searchResponse =
-        mcmClient
-            .searchUserIDsAsync(new SearchUserIdsRequest().setQuery(userID).setCluster(clusterName))
-            .get();
-    assertThat(searchResponse.getHits()).hasSize(1);
+    for (String user : userIDs) {
+      waitUserID(mcmClient, user);
+    }
+
+    for (String user : userIDs) {
+      SearchResult<UserId> searchResponse =
+          mcmClient
+              .searchUserIDsAsync(new SearchUserIdsRequest().setQuery(user).setCluster(clusterName))
+              .get();
+      assertThat(searchResponse.getHits()).hasSize(1);
+    }
 
     ListUserIdsResponse listUserIds = mcmClient.listUserIDsAsync(0, 1000, null).get();
-    assertThat(listUserIds.getUserIDs()).extracting(UserId::getUserID).contains(userID);
+    for (String user : userIDs) {
+      assertThat(listUserIds.getUserIDs()).extracting(UserId::getUserID).contains(user);
+    }
 
     TopUserIdResponse topUserIds = mcmClient.getTopUserIDAsync().get();
     assertThat(topUserIds.getTopUsers()).hasSizeGreaterThan(0);
 
-    removeUserId(mcmClient, userID);
+    for (String user : userIDs) {
+      removeUserId(mcmClient, user);
+    }
 
     removePastUserIDs(mcmClient);
   }
