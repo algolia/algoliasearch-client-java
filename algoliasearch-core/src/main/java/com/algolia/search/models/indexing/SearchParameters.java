@@ -614,6 +614,15 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
+  public Boolean getEnableABTest() {
+    return enableABTest;
+  }
+
+  public T setEnableABTest(Boolean enableABTest) {
+    this.enableABTest = enableABTest;
+    return getThis();
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getCustomParameters() {
     return customParameters;
@@ -742,6 +751,9 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   /* Personalization */
   protected Boolean enablePersonalization;
   protected Integer personalizationImpact;
+
+  /* Analytics */
+  protected Boolean enableABTest;
 
   /* Custom Parameters */
   protected Map<String, Object> customParameters = new HashMap<>();
