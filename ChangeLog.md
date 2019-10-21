@@ -1,5 +1,28 @@
 # ChangeLog
 
+## [3.3.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.3.0...3.2.1) (2019-10-21)
+
+### Feat
+
+- feat(MCM): adds assignUserIDS()
+
+- feat: adds index.findObject()  
+
+- feat: adds SearchResult.getObjectIDPosition()
+
+### Fix
+
+- fix: deserialization of legacy filters
+
+    ```
+    one string legacy filters "color:green,color:yellow" are converted
+    to "ORED" nested filters [["color:green","color:yellow"]]
+    
+    array legacy filters ["color:green","color:yellow"] are converted
+    to "ORED" nested filters [["color:green","color:yellow"]] 
+    ```
+- fix: updated Jackson version to 2.9.10 
+  
 ## [3.2.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.2.0...3.2.1) (2019-08-19)
 
 ### Feat
