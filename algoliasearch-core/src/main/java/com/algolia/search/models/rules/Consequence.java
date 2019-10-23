@@ -51,8 +51,18 @@ public class Consequence implements Serializable {
     return this;
   }
 
+  public Boolean getFilterPromotes() {
+    return filterPromotes;
+  }
+
+  public Consequence setFilterPromotes(Boolean filterPromotes) {
+    this.filterPromotes = filterPromotes;
+    return this;
+  }
+
   private ConsequenceParams params;
   private List<ConsequencePromote> promote;
   private Map<String, Object> userData;
   private List<Hide> hide;
+  private Boolean filterPromotes;
 }
