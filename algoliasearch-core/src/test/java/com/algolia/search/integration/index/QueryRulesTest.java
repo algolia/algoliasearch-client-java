@@ -84,6 +84,7 @@ public abstract class QueryRulesTest {
     // Second rule to save
     Consequence consequenceToBatch =
         new Consequence()
+            .setFilterPromotes(false)
             .setParams(
                 new ConsequenceParams()
                     .setConsequenceQuery(
