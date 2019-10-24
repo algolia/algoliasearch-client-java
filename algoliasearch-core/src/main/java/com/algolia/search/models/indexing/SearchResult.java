@@ -25,8 +25,18 @@ public class SearchResult<T> implements Serializable {
   private String index;
   private Boolean processed;
   private String queryID;
+  private Explain explain;
   private List<Map<String, Object>> userData;
   private List<Map<String, Object>> appliedRules;
+
+  public Explain getExplain() {
+    return explain;
+  }
+
+  public SearchResult<T> setExplain(Explain explain) {
+    this.explain = explain;
+    return this;
+  }
 
   public Long getOffset() {
     return offset;
