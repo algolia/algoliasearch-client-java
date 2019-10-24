@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [3.4.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.4.0...3.3.0) (2019-10-24)
+
+### Feat
+
+- feat: adds filterPromotes in QueryRules([b90b21a](https://github.com/algolia/algoliasearch-client-java-2/commit/b90b21a4043cce856edf1bf89ec637d363d94609))
+
+- feat: add enableABTest ([93ced62](https://github.com/algolia/algoliasearch-client-java-2/commit/93ced6277ea2b57ca4821f812ba96ef4f8423175))
+
 ## [3.3.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.3.0...3.2.1) (2019-10-21)
 
 ### Feat
