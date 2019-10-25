@@ -16,7 +16,7 @@ public class RuleQuery implements Serializable {
   private String query;
   private String anchoring = null;
   private String context = null;
-
+  private Boolean enabled;
   private Long page = null;
   private Long hitsPerPage = null;
 
@@ -84,6 +84,15 @@ public class RuleQuery implements Serializable {
   /** Set the number of hits per page. Defaults to 10. */
   public RuleQuery setHitsPerPage(Integer hitsPerPage) {
     return this.setHitsPerPage(hitsPerPage.longValue());
+  }
+
+  public Boolean getEnabled() {
+    return enabled;
+  }
+
+  public RuleQuery setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+    return this;
   }
 
   @Override
