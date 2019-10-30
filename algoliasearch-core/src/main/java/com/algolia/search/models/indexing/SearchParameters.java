@@ -47,11 +47,11 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
-  public String getExplain() {
+  public List<String> getExplain() {
     return explain;
   }
 
-  public T setExplain(String explain) {
+  public T setExplain(List<String> explain) {
     this.explain = explain;
     return getThis();
   }
@@ -662,7 +662,7 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   /* advanced */
   protected Distinct distinct;
   protected Boolean getRankingInfo;
-  protected String explain;
+  protected List<String> explain;
 
   @JsonDeserialize(using = FiltersJsonDeserializer.class)
   protected List<List<String>> numericFilters;
