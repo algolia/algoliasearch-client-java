@@ -14,11 +14,11 @@ import java.io.Serializable;
 public class RuleQuery implements Serializable {
 
   private String query;
-  private String anchoring = null;
-  private String context = null;
+  private String anchoring;
+  private String context;
   private Boolean enabled;
-  private Long page = null;
-  private Long hitsPerPage = null;
+  private Long page;
+  private Long hitsPerPage;
 
   public RuleQuery(String query) {
     this.query = query;
