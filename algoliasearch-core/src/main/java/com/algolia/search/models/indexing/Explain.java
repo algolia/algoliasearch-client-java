@@ -2,6 +2,8 @@ package com.algolia.search.models.indexing;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Map;
+
 public class Explain {
 
   public QueryMatch getQueryMatch() {
@@ -13,6 +15,16 @@ public class Explain {
     return this;
   }
 
+  public Map<String, Object> getParams() {
+    return params;
+  }
+
+  public Explain setParams(Map<String, Object> params) {
+    this.params = params;
+    return this;
+  }
+
   @JsonProperty("match")
   private QueryMatch queryMatch;
+  private Map<String,Object> params;
 }
