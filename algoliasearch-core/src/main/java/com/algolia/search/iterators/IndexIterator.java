@@ -14,7 +14,7 @@ public class IndexIterator<E> implements Iterator<E> {
   private final SearchIndex<E> index;
   private final RequestOptions requestOptions;
   private final BrowseIndexQuery query;
-  private Integer currentPage = 0;
+  private String currentCursor;
   private Iterator<E> currentIterator = null;
   private boolean isFirstRequest = true;
 
@@ -47,7 +47,7 @@ public class IndexIterator<E> implements Iterator<E> {
       isFirstRequest = false;
     }
 
-    if (currentPage != null && !currentIterator.hasNext()) {
+    if (currentCursor != null && !currentIterator.hasNext()) {
       browseAndSetInnerState();
     }
 
@@ -64,15 +64,10 @@ public class IndexIterator<E> implements Iterator<E> {
   }
 
   private void browseAndSetInnerState() {
-    BrowseIndexResponse<E> result =
-        doQuery((BrowseIndexQuery) query.setPage(currentPage), requestOptions);
+    BrowseIndexResponse<E> result = doQuery(query, requestOptions);
     currentIterator = result.getHits().iterator();
-
-    if (result.getCursor() != null) {
-      currentPage++;
-    } else {
-      currentPage = null;
-    }
+    currentCursor = result.getCursor();
+    query.setCursor(result.getCursor());
   }
 
   BrowseIndexResponse<E> doQuery(BrowseIndexQuery query, RequestOptions requestOptions) {
