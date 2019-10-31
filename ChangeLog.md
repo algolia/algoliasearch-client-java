@@ -2,7 +2,15 @@
 
 ## [3.5.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.4.0...3.5.0) (2019-10-31)
 
+### Feat
 
+- feat: decompounding at query time - explain field & parameter ([88046f1](https://github.com/algolia/algoliasearch-client-java-2/commit/88046f1bd666bd47cb5b843cd88d37adf014b1e4))
+- feat: adds Explains.params response object ([008ac56](https://github.com/algolia/algoliasearch-client-java-2/commit/a61916b8302c674bae6bda3cd98720fb4ed31719))
+- feat: adds missing enabled parameter in RuleQuery ([ee12fee](https://github.com/algolia/algoliasearch-client-java-2/commit/ee12feea0e15f3979b5ce16734902567d6f905ed))
+
+### Fix
+
+- fix: cursor in browseIndex ([e55ab41](https://github.com/algolia/algoliasearch-client-java-2/commit/e55ab416f5d1884e872f0ee5cc1a1e0614cfda92))
 
 ## [3.4.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.4.0...3.3.0) (2019-10-24)
 
