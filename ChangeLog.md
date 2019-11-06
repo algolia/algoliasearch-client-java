@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [3.6.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.5.0...3.6.0) (2019-11-06)
+
+
+
 ## [3.5.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.4.0...3.5.0) (2019-10-31)
 
 ### Feat
