@@ -28,6 +28,7 @@ public class IndexSettings implements Serializable {
   private String keepDiacriticsOnCharacters;
   private List<String> queryLanguages;
   private List<String> indexLanguages;
+  private Map<String, Map<String, String>> customNormalization;
 
   private List<String> searchableAttributes;
   private List<String> attributesForFaceting;
@@ -630,6 +631,16 @@ public class IndexSettings implements Serializable {
 
   public IndexSettings setQueryLanguages(List<String> queryLanguages) {
     this.queryLanguages = queryLanguages;
+    return this;
+  }
+
+  public Map<String, Map<String, String>> getCustomNormalization() {
+    return customNormalization;
+  }
+
+  public IndexSettings setCustomNormalization(
+      Map<String, Map<String, String>> customNormalization) {
+    this.customNormalization = customNormalization;
     return this;
   }
 
