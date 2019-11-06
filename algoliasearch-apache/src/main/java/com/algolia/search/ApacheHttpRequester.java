@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
@@ -36,6 +37,7 @@ final class ApacheHttpRequester implements HttpRequester {
   private final CloseableHttpAsyncClient asyncHttpClient;
   private final RequestConfig requestConfig;
   private final ConfigBase config;
+  private final boolean isSelfManagedClient;
 
   ApacheHttpRequester(@Nonnull ConfigBase config) {
 
@@ -52,7 +54,24 @@ final class ApacheHttpRequester implements HttpRequester {
             ? HttpAsyncClients.createSystem()
             : HttpAsyncClients.createDefault();
 
+    isSelfManagedClient = true;
+
     asyncHttpClient.start();
+  }
+
+  ApacheHttpRequester(@Nonnull ConfigBase config, @Nonnull CloseableHttpAsyncClient externalClient) {
+
+    this.config = config;
+
+    requestConfig =
+            RequestConfig.custom()
+                    .setConnectTimeout(config.getConnectTimeOut())
+                    .setContentCompressionEnabled(true)
+                    .build();
+
+    asyncHttpClient = Objects.requireNonNull(externalClient);
+
+    isSelfManagedClient = false;
   }
 
   /**
@@ -84,7 +103,9 @@ final class ApacheHttpRequester implements HttpRequester {
 
   /** Closes the http client. */
   public void close() throws IOException {
-    asyncHttpClient.close();
+    if (isSelfManagedClient) {
+      asyncHttpClient.close();
+    }
   }
 
   /**
