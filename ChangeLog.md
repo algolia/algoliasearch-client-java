@@ -2,7 +2,10 @@
 
 ## [3.6.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.5.0...3.6.0) (2019-11-06)
 
+### Feat
 
+- feat: adds customNormalization in IndexSettings ([059b388](https://github.com/algolia/algoliasearch-client-java-2/tree/059b388cf98d81a2b86285a0087e1474bac5ebbe))
+- update: jackson-databind to 2.9.10.1 ([91814c9](https://github.com/algolia/algoliasearch-client-java-2/tree/91814c93dc4cd74492125b9e0d3ffa79d8601040))
 
 ## [3.5.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.4.0...3.5.0) (2019-10-31)
 
