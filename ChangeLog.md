@@ -1,5 +1,11 @@
 # ChangeLog
 
+## 3.6.1
+
+### Feat
+
+- feat: add alternate constructor to ApacheHttpRequester to permit external management of the client
+
 ## [3.6.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.5.0...3.6.0) (2019-11-06)
 
 ### Feat
