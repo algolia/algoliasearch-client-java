@@ -34,8 +34,6 @@ public abstract class AbstractApacheHttpRequester implements HttpRequester {
 
   protected abstract CloseableHttpAsyncClient getAsyncHttpClient();
 
-  protected abstract boolean getIsSelfManagedClient();
-
   protected abstract ConfigBase getConfig();
 
   protected abstract RequestConfig getRequestConfig();
@@ -68,11 +66,7 @@ public abstract class AbstractApacheHttpRequester implements HttpRequester {
   }
 
   /** Closes the http client. */
-  public void close() throws IOException {
-    if (getIsSelfManagedClient()) {
-      getAsyncHttpClient().close();
-    }
-  }
+  public abstract void close() throws IOException;
 
   /**
    * Builds an Algolia response from the server response

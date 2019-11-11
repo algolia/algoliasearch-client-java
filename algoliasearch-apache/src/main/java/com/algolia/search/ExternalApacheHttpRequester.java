@@ -3,23 +3,24 @@ package com.algolia.search;
 import com.algolia.search.models.HttpRequest;
 import com.algolia.search.models.HttpResponse;
 import java.io.IOException;
+import java.util.Objects;
 import javax.annotation.Nonnull;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClients;
 
 /**
  * The Algolia http requester is a wrapper on top of the HttpAsyncClient of Apache. It's an
  * implementation of {@link HttpRequester} It takes an {@link HttpRequest} as input. It returns an
  * {@link HttpResponse}.
  */
-final class ApacheHttpRequester extends AbstractApacheHttpRequester {
+public class ExternalApacheHttpRequester extends AbstractApacheHttpRequester {
 
   private final CloseableHttpAsyncClient asyncHttpClient;
   private final RequestConfig requestConfig;
   private final ConfigBase config;
 
-  ApacheHttpRequester(@Nonnull ConfigBase config) {
+  public ExternalApacheHttpRequester(
+      @Nonnull ConfigBase config, @Nonnull CloseableHttpAsyncClient client) {
 
     this.config = config;
 
@@ -29,17 +30,12 @@ final class ApacheHttpRequester extends AbstractApacheHttpRequester {
             .setContentCompressionEnabled(true)
             .build();
 
-    asyncHttpClient =
-        config.getUseSystemProxy()
-            ? HttpAsyncClients.createSystem()
-            : HttpAsyncClients.createDefault();
-
-    asyncHttpClient.start();
+    asyncHttpClient = Objects.requireNonNull(client);
   }
 
   @Override
   public void close() throws IOException {
-    getAsyncHttpClient().close();
+    // noop
   }
 
   @Override
