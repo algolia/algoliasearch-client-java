@@ -1,6 +1,7 @@
 package com.algolia.search.integration.client;
 
 import static com.algolia.search.integration.TestHelpers.getTestIndexName;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.SearchClient;
@@ -11,6 +12,8 @@ import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.Query;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.Test;
@@ -60,5 +63,25 @@ public abstract class SecuredAPIKeyTest {
     } finally {
       index2.deleteAsync();
     }
+  }
+
+  @Test
+  void securedAPIKeyWithQuery() throws Exception {
+
+    final Query query =
+        new Query()
+            .setTagFilters(Collections.singletonList(Arrays.asList("87", "1033", "1052", "1534")))
+            .setUserToken("70");
+
+    final SecuredApiKeyRestriction restrictions =
+        new SecuredApiKeyRestriction().setQuery(query).setValidUntil(1000L);
+
+    String securedAPIKey = searchClient.generateSecuredAPIKey("ALGOLIA_SEARCH_KEY_1", restrictions);
+    byte[] decodedBytes = Base64.getDecoder().decode(securedAPIKey);
+    String decodedString = new String(decodedBytes);
+
+    assertThat(decodedString)
+        .containsSubsequence(
+            "validUntil=1000&userToken=70&tagFilters=%5B%5B%2287%22%2C%221033%22%2C%221052%22%2C%221534%22%5D%5D");
   }
 }
