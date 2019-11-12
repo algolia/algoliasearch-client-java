@@ -9,17 +9,6 @@
     The securedAPIKey was not written correctly when used with a query
     parameter. `buildRestrictionQueryString` was writing "query" as
     a nested object but it should be at the same level as "restriction".
-    
-    Reproducible code snippet:
-    
-    ```java
-    final Query query = new Query()
-        .setTagFilters(Arrays.asList("(87,1033,1052,1534)"))
-        .setUserToken("70");
-    return client.generateSecuredApiKey(searchApiKey, query);
-    ```
-
-
 
 ## [3.6.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.5.0...3.6.0) (2019-11-06)
 
