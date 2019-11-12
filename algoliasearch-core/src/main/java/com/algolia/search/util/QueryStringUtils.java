@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 
 public class QueryStringUtils {
 
@@ -95,11 +96,20 @@ public class QueryStringUtils {
     return buildQueryString(newMap, true);
   }
 
-  static String buildRestrictionQueryString(SecuredApiKeyRestriction restriction) {
-    Map<String, String> map =
+  static String buildRestrictionQueryString(@Nonnull final SecuredApiKeyRestriction restriction) {
+
+    Map<String, String> restrictionMap =
         Defaults.getObjectMapper()
             .convertValue(restriction, new TypeReference<Map<String, String>>() {});
-    return buildQueryString(map, true);
+
+    if (restriction.getQuery() != null) {
+      restrictionMap.remove("query");
+      return buildQueryString(restrictionMap, true)
+          + "&"
+          + buildQueryAsQueryParams(restriction.getQuery());
+    }
+
+    return buildQueryString(restrictionMap, true);
   }
 
   private static String formatParameters(Object parameter) {
