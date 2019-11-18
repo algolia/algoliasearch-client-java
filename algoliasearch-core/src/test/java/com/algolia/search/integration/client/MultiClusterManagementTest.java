@@ -65,6 +65,10 @@ public abstract class MultiClusterManagementTest {
     }
 
     removePastUserIDs(mcmClient);
+
+    HasPendingMappingsResponse hasPendingMapping = mcmClient.hasPendingMappings(true);
+
+    assertThat(hasPendingMapping).isNotNull();
   }
 
   void removePastUserIDs(SearchClient mcmClient) throws ExecutionException, InterruptedException {
