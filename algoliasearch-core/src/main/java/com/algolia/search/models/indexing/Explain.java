@@ -1,7 +1,6 @@
 package com.algolia.search.models.indexing;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Map;
 
 public class Explain {
@@ -26,5 +25,6 @@ public class Explain {
 
   @JsonProperty("match")
   private QueryMatch queryMatch;
-  private Map<String,Object> params;
+
+  private Map<String, Object> params;
 }
