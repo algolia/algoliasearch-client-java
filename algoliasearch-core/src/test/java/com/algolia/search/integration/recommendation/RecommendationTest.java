@@ -1,0 +1,54 @@
+package com.algolia.search.integration.recommendation;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.algolia.search.Defaults;
+import com.algolia.search.RecommendationClient;
+import com.algolia.search.models.recommendation.EventsScoring;
+import com.algolia.search.models.recommendation.FacetsScoring;
+import com.algolia.search.models.recommendation.GetStrategyResponse;
+import com.algolia.search.models.recommendation.SetStrategyRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.ThrowingSupplier;
+
+public abstract class RecommendationTest {
+
+  private final RecommendationClient recommendationClient;
+
+  protected RecommendationTest(RecommendationClient recommendationClient) {
+    this.recommendationClient = recommendationClient;
+  }
+
+  @Test
+  void testRecommendationClient() {
+    Assertions.assertDoesNotThrow(
+        (ThrowingSupplier<GetStrategyResponse>) recommendationClient::getPersonalizationStrategy);
+  }
+
+  /*
+   * The payload are tested locally because the strategy is set at application level.
+   * Multiple tests running in // on the same application could lead to a flaky test suite.
+   */
+  @Test
+  void testSetStrategyPayload() throws JsonProcessingException {
+
+    // test valid JSON strategy
+    List<EventsScoring> events =
+        Arrays.asList(
+            new EventsScoring("buy", "conversion", 10),
+            new EventsScoring("add to cart", "conversion", 20));
+
+    List<FacetsScoring> facets =
+        Arrays.asList(new FacetsScoring("brand", 10), new FacetsScoring("category", 20));
+
+    SetStrategyRequest validStrategy = new SetStrategyRequest(events, facets, 75);
+
+    assertThat(Defaults.getObjectMapper().writeValueAsString(validStrategy))
+        .isEqualTo(
+            "{\"eventsScoring\":[{\"eventName\":\"buy\",\"eventType\":\"conversion\",\"score\":10},{\"eventName\":\"add to cart\",\"eventType\":\"conversion\",\"score\":20}],\"facetsScoring\":[{\"facetName\":\"brand\",\"score\":10},{\"facetName\":\"category\",\"score\":20}],\"personalizationImpact\":75}");
+  }
+}
