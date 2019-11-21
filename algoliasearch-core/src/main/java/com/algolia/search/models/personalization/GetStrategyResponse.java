@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Deprecated
 public class GetStrategyResponse implements Serializable {
 
   public GetStrategyResponse() {}
