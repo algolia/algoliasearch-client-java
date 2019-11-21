@@ -22,7 +22,9 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @deprecated Endpoint will be deprecated. Please use {@link RecommendationConfig} instead.
    */
+  @Deprecated
   default GetStrategyResponse getPersonalizationStrategy() {
     return LaunderThrowable.await(getPersonalizationStrategyAsync());
   }
@@ -34,7 +36,9 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @deprecated Endpoint will be deprecated. Please use {@link RecommendationConfig} instead.
    */
+  @Deprecated
   default GetStrategyResponse getPersonalizationStrategy(RequestOptions requestOptions) {
     return LaunderThrowable.await(getPersonalizationStrategyAsync(requestOptions));
   }
@@ -45,7 +49,9 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @deprecated Endpoint will be deprecated. Please use {@link RecommendationConfig} instead.
    */
+  @Deprecated
   default CompletableFuture<GetStrategyResponse> getPersonalizationStrategyAsync() {
     return getPersonalizationStrategyAsync(null);
   }
@@ -57,7 +63,9 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @deprecated Endpoint will be deprecated. Please use {@link RecommendationConfig} instead.
    */
+  @Deprecated
   default CompletableFuture<GetStrategyResponse> getPersonalizationStrategyAsync(
       RequestOptions requestOptions) {
     return getTransport()
@@ -76,7 +84,9 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @deprecated Endpoint will be deprecated. Please use {@link RecommendationConfig} instead.
    */
+  @Deprecated
   default SetStrategyResponse setPersonalizationStrategy(@Nonnull SetStrategyRequest request) {
     return LaunderThrowable.await(setPersonalizationStrategyAsync(request));
   }
@@ -89,7 +99,9 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @deprecated Endpoint will be deprecated. Please use {@link RecommendationConfig} instead.
    */
+  @Deprecated
   default SetStrategyResponse setPersonalizationStrategy(
       @Nonnull SetStrategyRequest request, RequestOptions requestOptions) {
     return LaunderThrowable.await(setPersonalizationStrategyAsync(request, requestOptions));
@@ -102,7 +114,9 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @deprecated Endpoint will be deprecated. Please use {@link RecommendationConfig} instead.
    */
+  @Deprecated
   default CompletableFuture<SetStrategyResponse> setPersonalizationStrategyAsync(
       @Nonnull SetStrategyRequest request) {
     return setPersonalizationStrategyAsync(request, null);
@@ -116,7 +130,9 @@ public interface SearchClientPersonalization extends SearchClientBase {
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   * @deprecated Endpoint will be deprecated. Please use {@link RecommendationConfig} instead.
    */
+  @Deprecated
   default CompletableFuture<SetStrategyResponse> setPersonalizationStrategyAsync(
       @Nonnull SetStrategyRequest request, RequestOptions requestOptions) {
     Objects.requireNonNull(request, "request key is required.");

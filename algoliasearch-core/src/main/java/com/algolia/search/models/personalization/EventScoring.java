@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Deprecated
 public class EventScoring implements Serializable {
 
   public EventScoring() {}

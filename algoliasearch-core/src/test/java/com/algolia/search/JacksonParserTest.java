@@ -4,9 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.models.indexing.AroundRadius;
 import com.algolia.search.models.indexing.Query;
-import com.algolia.search.models.personalization.EventScoring;
-import com.algolia.search.models.personalization.FacetScoring;
-import com.algolia.search.models.personalization.SetStrategyRequest;
 import com.algolia.search.models.rules.*;
 import com.algolia.search.models.settings.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -135,24 +132,6 @@ class JacksonParserTest {
             .readValue("{\"ignorePlurals\":[\"en\",\"fr\"]}", IndexSettings.class)
             .getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Arrays.asList("en", "fr")));
-  }
-
-  @Test
-  void serializePersonalization() throws JsonProcessingException {
-
-    HashMap<String, EventScoring> eventScoring = new HashMap<>();
-    eventScoring.put("Add to cart", new EventScoring(50, "conversion"));
-    eventScoring.put("Purchase", new EventScoring(100, "conversion"));
-
-    HashMap<String, FacetScoring> facetScoring = new HashMap<>();
-    facetScoring.put("brand", new FacetScoring(100));
-    facetScoring.put("categories", new FacetScoring(10));
-
-    SetStrategyRequest strategyTosave = new SetStrategyRequest(eventScoring, facetScoring);
-
-    assertThat(Defaults.getObjectMapper().writeValueAsString(strategyTosave))
-        .isEqualTo(
-            "{\"eventsScoring\":{\"Purchase\":{\"score\":100,\"type\":\"conversion\"},\"Add to cart\":{\"score\":50,\"type\":\"conversion\"}},\"facetsScoring\":{\"categories\":{\"score\":10},\"brand\":{\"score\":100}}}");
   }
 
   @Test
