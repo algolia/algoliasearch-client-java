@@ -53,12 +53,8 @@ public class ConsequenceParams extends SearchParameters<ConsequenceParams> {
   @Override
   @JsonIgnore
   public ConsequenceParams setQuery(String query) {
-
-    if (this.query == null) {
-      this.query = new ConsequenceQuery();
-      this.query.setQueryString(query);
-    }
-
+    this.query = new ConsequenceQuery();
+    this.query.setQueryString(query);
     return this;
   }
 
