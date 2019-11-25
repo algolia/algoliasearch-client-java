@@ -299,11 +299,66 @@ class JacksonParserTest {
   }
 
   @Test
-  void deserializeLegacyEdit() throws IOException {
-    List<Edit> edits =
-        Defaults.getObjectMapper()
-            .readValue("[\"lastname\",\"firstname\"]", ConsequenceQuery.class)
-            .getEdits();
+  void testConsequenceQueryAsString() throws IOException {
+    String payload =
+        "{\n"
+            + "  \"objectID\": \"rule-2\",\n"
+            + "  \"condition\": {\n"
+            + "    \"pattern\": \"toto\",\n"
+            + "    \"anchoring\": \"is\"\n"
+            + "  },\n"
+            + "  \"consequence\": {\n"
+            + "    \"params\": {\n"
+            + "        \"query\": \"tata\",\n"
+            + "        \"facetFilters\": [[\"facet\"]]\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
+
+    Rule rule = Defaults.getObjectMapper().readValue(payload, Rule.class);
+
+    assertThat(rule).isNotNull();
+    assertThat(rule.getObjectID()).isEqualTo("rule-2");
+
+    assertThat(rule.getCondition().getPattern()).isEqualTo("toto");
+    assertThat(rule.getCondition().getAnchoring()).isEqualTo("is");
+
+    assertThat(rule.getConsequence().getParams().getQuery()).isEqualTo("tata");
+    assertThat(rule.getConsequence().getParams().getFacetFilters()).hasSize(1);
+    assertThat(rule.getConsequence().getParams().getFacetFilters().get(0))
+        .containsSubsequence("facet");
+  }
+
+  @Test
+  void testConsequenceQueryAsRemove() throws IOException {
+    String payload =
+        "{\n"
+            + "  \"objectID\": \"rule-2\",\n"
+            + "  \"condition\": {\n"
+            + "    \"pattern\": \"toto\",\n"
+            + "    \"anchoring\": \"is\"\n"
+            + "  },\n"
+            + "  \"consequence\": {\n"
+            + "    \"params\": {\n"
+            + "        \"query\": {\"remove\":[\"lastname\",\"firstname\"]},\n"
+            + "        \"facetFilters\": [[\"facet\"]]\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
+
+    Rule rule = Defaults.getObjectMapper().readValue(payload, Rule.class);
+
+    assertThat(rule).isNotNull();
+    assertThat(rule.getObjectID()).isEqualTo("rule-2");
+
+    assertThat(rule.getCondition().getPattern()).isEqualTo("toto");
+    assertThat(rule.getCondition().getAnchoring()).isEqualTo("is");
+
+    assertThat(rule.getConsequence().getParams().getFacetFilters()).hasSize(1);
+    assertThat(rule.getConsequence().getParams().getFacetFilters().get(0))
+        .containsSubsequence("facet");
+
+    List<Edit> edits = rule.getConsequence().getParams().getConsequenceQuery().getEdits();
 
     assertThat(edits.get(0).getType()).isEqualTo(EditType.REMOVE);
     assertThat(edits.get(0).getDelete()).isEqualTo("lastname");
@@ -312,6 +367,191 @@ class JacksonParserTest {
     assertThat(edits.get(1).getType()).isEqualTo(EditType.REMOVE);
     assertThat(edits.get(1).getDelete()).isEqualTo("firstname");
     assertThat(edits.get(1).getInsert()).isNull();
+  }
+
+  @Test
+  void testConsequenceQueryAsEdits() throws IOException {
+    String payload =
+        "{\n"
+            + "  \"objectID\": \"rule-2\",\n"
+            + "  \"condition\": {\n"
+            + "    \"pattern\": \"toto\",\n"
+            + "    \"anchoring\": \"is\"\n"
+            + "  },\n"
+            + "  \"consequence\": {\n"
+            + "    \"params\": {\n"
+            + "        \"query\":{\n"
+            + "    \"edits\": [\n"
+            + "       { \"type\": \"remove\", \"delete\": \"old\" },\n"
+            + "       { \"type\": \"replace\", \"delete\": \"new\", \"insert\": \"newer\" }\n"
+            + "    ]\n"
+            + "},"
+            + "        \"facetFilters\": [[\"facet\"]]\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
+
+    Rule rule = Defaults.getObjectMapper().readValue(payload, Rule.class);
+
+    assertThat(rule).isNotNull();
+    assertThat(rule.getObjectID()).isEqualTo("rule-2");
+
+    assertThat(rule.getCondition().getPattern()).isEqualTo("toto");
+    assertThat(rule.getCondition().getAnchoring()).isEqualTo("is");
+
+    assertThat(rule.getConsequence().getParams().getFacetFilters()).hasSize(1);
+    assertThat(rule.getConsequence().getParams().getFacetFilters().get(0))
+        .containsSubsequence("facet");
+
+    List<Edit> edits = rule.getConsequence().getParams().getConsequenceQuery().getEdits();
+
+    assertThat(edits.get(0).getType()).isEqualTo(EditType.REMOVE);
+    assertThat(edits.get(0).getDelete()).isEqualTo("old");
+    assertThat(edits.get(0).getInsert()).isNull();
+
+    assertThat(edits.get(1).getType()).isEqualTo(EditType.REPLACE);
+    assertThat(edits.get(1).getDelete()).isEqualTo("new");
+    assertThat(edits.get(1).getInsert()).isEqualTo("newer");
+  }
+
+  @Test
+  void testConsequenceQueryEditsAndRemove() throws IOException {
+    String payload =
+        "{\n"
+            + "  \"objectID\": \"rule-2\",\n"
+            + "  \"condition\": {\n"
+            + "    \"pattern\": \"toto\",\n"
+            + "    \"anchoring\": \"is\"\n"
+            + "  },\n"
+            + "  \"consequence\": {\n"
+            + "    \"params\": {\n"
+            + "        \"query\":{\"remove\": [\"term1\", \"term2\"], \"edits\": [{\"type\": \"remove\", \"delete\": \"term3\"}]},"
+            + "        \"facetFilters\": [[\"facet\"]]\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
+
+    Rule rule = Defaults.getObjectMapper().readValue(payload, Rule.class);
+
+    assertThat(rule).isNotNull();
+    assertThat(rule.getObjectID()).isEqualTo("rule-2");
+    assertThat(rule.getCondition().getPattern()).isEqualTo("toto");
+    assertThat(rule.getCondition().getAnchoring()).isEqualTo("is");
+    assertThat(rule.getConsequence().getParams().getFacetFilters()).hasSize(1);
+    assertThat(rule.getConsequence().getParams().getFacetFilters().get(0))
+        .containsSubsequence("facet");
+
+    List<Edit> edits = rule.getConsequence().getParams().getConsequenceQuery().getEdits();
+
+    assertThat(edits.get(0).getType()).isEqualTo(EditType.REMOVE);
+    assertThat(edits.get(0).getDelete()).isEqualTo("term1");
+    assertThat(edits.get(0).getInsert()).isNull();
+
+    assertThat(edits.get(1).getType()).isEqualTo(EditType.REMOVE);
+    assertThat(edits.get(1).getDelete()).isEqualTo("term2");
+    assertThat(edits.get(1).getInsert()).isNull();
+
+    assertThat(edits.get(2).getType()).isEqualTo(EditType.REMOVE);
+    assertThat(edits.get(2).getDelete()).isEqualTo("term3");
+    assertThat(edits.get(2).getInsert()).isNull();
+  }
+
+  @Test
+  void consequenceQueryTestQueryStringOverride() throws IOException {
+
+    /*
+     The consequence query edits will override regular "query" - both can't be set at the same time
+     https://www.algolia.com/doc/api-reference/api-methods/save-rule/#method-param-query
+    */
+    Consequence consequence =
+        new Consequence()
+            .setParams(
+                new ConsequenceParams()
+                    .setQuery("test")
+                    .setConsequenceQuery(
+                        new ConsequenceQuery()
+                            .setEdits(
+                                Arrays.asList(
+                                    Edit.createDelete("mobile"),
+                                    Edit.createReplace("phone", "iphone")))));
+
+    Rule rule =
+        new Rule()
+            .setObjectID("rule-1")
+            .setCondition(new Condition().setAnchoring("is").setPattern("word"))
+            .setConsequence(consequence);
+
+    String payload = Defaults.getObjectMapper().writeValueAsString(rule);
+
+    Rule deserializedRule = Defaults.getObjectMapper().readValue(payload, Rule.class);
+
+    List<Edit> edits =
+        deserializedRule.getConsequence().getParams().getConsequenceQuery().getEdits();
+
+    assertThat(edits.get(0).getType()).isEqualTo(EditType.REMOVE);
+    assertThat(edits.get(0).getDelete()).isEqualTo("mobile");
+    assertThat(edits.get(0).getInsert()).isNull();
+
+    assertThat(edits.get(1).getType()).isEqualTo(EditType.REPLACE);
+    assertThat(edits.get(1).getDelete()).isEqualTo("phone");
+    assertThat(edits.get(1).getInsert()).isEqualTo("iphone");
+  }
+
+  @Test
+  void ruleSerializationCycle() throws IOException {
+
+    {
+      Consequence consequenceToBatch =
+          new Consequence()
+              .setFilterPromotes(false)
+              .setParams(
+                  new ConsequenceParams()
+                      .setConsequenceQuery(
+                          new ConsequenceQuery()
+                              .setEdits(
+                                  Arrays.asList(
+                                      Edit.createDelete("mobile"),
+                                      Edit.createReplace("phone", "iphone")))));
+
+      Rule rule =
+          new Rule()
+              .setObjectID("query_edits")
+              .setCondition(
+                  new Condition()
+                      .setAnchoring("is")
+                      .setPattern("mobile phone")
+                      .setAlternatives(Alternatives.of(true)))
+              .setConsequence(consequenceToBatch);
+
+      String payload = Defaults.getObjectMapper().writeValueAsString(rule);
+
+      Rule deserializedRule = Defaults.getObjectMapper().readValue(payload, Rule.class);
+
+      assertThat(deserializedRule).isEqualToComparingFieldByFieldRecursively(rule);
+    }
+
+    {
+      Consequence consequenceToBatch =
+          new Consequence()
+              .setFilterPromotes(false)
+              .setParams(new ConsequenceParams().setQuery("test"));
+
+      Rule rule =
+          new Rule()
+              .setObjectID("query_edits")
+              .setCondition(
+                  new Condition()
+                      .setAnchoring("is")
+                      .setPattern("mobile phone")
+                      .setAlternatives(Alternatives.of(true)))
+              .setConsequence(consequenceToBatch);
+
+      String payload = Defaults.getObjectMapper().writeValueAsString(rule);
+
+      Rule deserializedRule = Defaults.getObjectMapper().readValue(payload, Rule.class);
+
+      assertThat(deserializedRule).isEqualToComparingFieldByFieldRecursively(rule);
+    }
   }
 
   @Test
