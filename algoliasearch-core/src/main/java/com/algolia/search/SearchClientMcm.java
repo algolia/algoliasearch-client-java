@@ -584,4 +584,127 @@ public interface SearchClientMcm extends SearchClientBase {
             AssignUserIdsResponse.class,
             requestOptions);
   }
+
+  /**
+   * Get cluster pending (migrating, creating, deleting) mapping state. Query cluster pending
+   * mapping status and get cluster mappings.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default HasPendingMappingsResponse hasPendingMappings() {
+    return LaunderThrowable.await(hasPendingMappingsAsync());
+  }
+
+  /**
+   * Get cluster pending (migrating, creating, deleting) mapping state. Query cluster pending
+   * mapping status, and optionally get cluster mappings.
+   *
+   * @param retrieveMappings Whether or not the cluster mappings should be retrieved
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default HasPendingMappingsResponse hasPendingMappings(@Nonnull Boolean retrieveMappings) {
+    return LaunderThrowable.await(hasPendingMappingsAsync(retrieveMappings));
+  }
+
+  /**
+   * Get cluster pending (migrating, creating, deleting) mapping state. Query cluster pending
+   * mapping status and get cluster mappings.
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default HasPendingMappingsResponse hasPendingMappings(RequestOptions requestOptions) {
+    return LaunderThrowable.await(hasPendingMappingsAsync(requestOptions));
+  }
+
+  /**
+   * Get cluster pending (migrating, creating, deleting) mapping state. Query cluster pending
+   * mapping status, and optionally get cluster mappings.
+   *
+   * @param retrieveMappings Whether or not the cluster mappings should be retrieved
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default HasPendingMappingsResponse hasPendingMappings(
+      @Nonnull Boolean retrieveMappings, RequestOptions requestOptions) {
+    return LaunderThrowable.await(hasPendingMappingsAsync(retrieveMappings, requestOptions));
+  }
+
+  /**
+   * Get cluster pending (migrating, creating, deleting) mapping state. Query cluster pending
+   * mapping status and get cluster mappings.
+   *
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CompletableFuture<HasPendingMappingsResponse> hasPendingMappingsAsync() {
+    return hasPendingMappingsAsync(false, null);
+  }
+
+  /**
+   * Get cluster pending (migrating, creating, deleting) mapping state. Query cluster pending
+   * mapping status, and optionally get cluster mappings.
+   *
+   * @param retrieveMappings Whether or not the cluster mappings should be retrieved
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CompletableFuture<HasPendingMappingsResponse> hasPendingMappingsAsync(
+      @Nonnull Boolean retrieveMappings) {
+    return hasPendingMappingsAsync(retrieveMappings, null);
+  }
+
+  /**
+   * Get cluster pending (migrating, creating, deleting) mapping state. Query cluster pending
+   * mapping status and get cluster mappings.
+   *
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CompletableFuture<HasPendingMappingsResponse> hasPendingMappingsAsync(
+      RequestOptions requestOptions) {
+    return hasPendingMappingsAsync(false, requestOptions);
+  }
+
+  /**
+   * Get cluster pending (migrating, creating, deleting) mapping state. Query cluster pending
+   * mapping status, and optionally get cluster mappings.
+   *
+   * @param retrieveMappings Whether or not the cluster mappings should be retrieved
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  default CompletableFuture<HasPendingMappingsResponse> hasPendingMappingsAsync(
+      @Nonnull Boolean retrieveMappings, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(retrieveMappings, "retrieveMappings is required.");
+
+    if (requestOptions == null) {
+      requestOptions = new RequestOptions();
+    }
+
+    requestOptions.addExtraQueryParameters("getClusters", retrieveMappings.toString());
+
+    return getTransport()
+        .executeRequestAsync(
+            HttpMethod.GET,
+            "/1/clusters/mapping/pending",
+            CallType.READ,
+            HasPendingMappingsResponse.class,
+            requestOptions);
+  }
 }
