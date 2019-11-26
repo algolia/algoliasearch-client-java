@@ -25,7 +25,7 @@
        { "type": "replace", "delete": "new", "insert": "newer" }
        ]
     }}
-    ```json
+    ```
 
 
 
