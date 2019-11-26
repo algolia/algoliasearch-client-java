@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.algolia</groupId>
     <artifactId>algoliasearch</artifactId>
-    <version>3.6.1</version>
+    <version>3.6.2</version>
     <packaging>pom</packaging>
 
     <properties>

@@ -1,5 +1,34 @@
 # ChangeLog
 
+## [3.6.2](https://github.com/algolia/algoliasearch-client-java-2/compare/3.6.1...3.6.2) (2019-11-26)
+
+### Misc
+
+- serialization/deserialization of ConsequenceQuery (#664) ([1a9e1b4](https://github.com/algolia/algoliasearch-client-java-2/commit/1a9e1b4))
+
+    Fixed: Custom serializer to handle polymorphism of "query" attribute
+    in ConsequenceQuery
+    
+    Example:
+    
+    ```json
+    // query string
+    "query": "some query string"
+    
+    // remove attribute (deprecated)
+    "query": {"remove": ["query1", "query2"]}
+    
+    // edits attribute
+    "query": {
+       "edits": [
+       { "type": "remove", "delete": "old" },
+       { "type": "replace", "delete": "new", "insert": "newer" }
+       ]
+    }}
+    ```json
+
+
+
 ## [3.6.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.6.0...3.6.1) (2019-11-12)
 
 ### Misc
