@@ -57,4 +57,6 @@ public class Defaults {
   static final String ALGOLIA_KEY_HEADER = "X-Algolia-API-Key";
   static final String ALGOLIA_USER_ID_HEADER = "X-Algolia-USER-ID";
   static final String USER_AGENT_HEADER = "User-Agent";
+  static final String CONTENT_TYPE_HEADER = "Content-Type";
+  static final String CONTENT_ENCODING_HEADER = "Content-Encoding";
 }
