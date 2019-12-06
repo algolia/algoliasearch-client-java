@@ -1,6 +1,8 @@
 package com.algolia.search.client;
 
 import static com.algolia.search.IntegrationTestExtension.*;
+import static com.algolia.search.integration.TestHelpers.ALGOLIA_APPLICATION_ID_1;
+import static com.algolia.search.integration.TestHelpers.ALGOLIA_SEARCH_KEY_1;
 
 import com.algolia.search.DefaultSearchClient;
 import com.algolia.search.IntegrationTestExtension;

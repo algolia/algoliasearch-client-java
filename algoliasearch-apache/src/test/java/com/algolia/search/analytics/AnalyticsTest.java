@@ -1,7 +1,7 @@
 package com.algolia.search.analytics;
 
-import static com.algolia.search.IntegrationTestExtension.ALGOLIA_API_KEY_1;
-import static com.algolia.search.IntegrationTestExtension.ALGOLIA_APPLICATION_ID_1;
+import static com.algolia.search.integration.TestHelpers.ALGOLIA_API_KEY_1;
+import static com.algolia.search.integration.TestHelpers.ALGOLIA_APPLICATION_ID_1;
 
 import com.algolia.search.AnalyticsClient;
 import com.algolia.search.DefaultAnalyticsClient;
