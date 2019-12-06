@@ -1,5 +1,6 @@
 package com.algolia.search;
 
+import com.algolia.search.integration.TestHelpers;
 import com.algolia.search.models.common.CompressionType;
 import java.io.IOException;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -21,7 +22,7 @@ public class IntegrationTestExtension
 
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
-    checkEnvironmentVariable();
+    TestHelpers.checkEnvironmentVariable();
     searchClient = DefaultSearchClient.create(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
     // Disabling gzip for client2 because GZip not is not enabled yet on the server
     SearchConfig client2Config =
@@ -37,36 +38,6 @@ public class IntegrationTestExtension
       searchClient2.close();
       searchClient.close();
     } catch (IOException ignored) {
-    }
-  }
-
-  private static void checkEnvironmentVariable() throws Exception {
-    if (ALGOLIA_APPLICATION_ID_1 == null || ALGOLIA_APPLICATION_ID_1.isEmpty()) {
-      throw new Exception("ALGOLIA_APPLICATION_ID is not defined or empty");
-    }
-
-    if (ALGOLIA_API_KEY_1 == null || ALGOLIA_API_KEY_1.isEmpty()) {
-      throw new Exception("ALGOLIA_API_KEY is not defined or empty");
-    }
-
-    if (ALGOLIA_SEARCH_KEY_1 == null || ALGOLIA_SEARCH_KEY_1.isEmpty()) {
-      throw new Exception("ALGOLIA_SEARCH_KEY_1 is not defined or empty");
-    }
-
-    if (ALGOLIA_APPLICATION_ID_2 == null || ALGOLIA_APPLICATION_ID_2.isEmpty()) {
-      throw new Exception("ALGOLIA_APPLICATION_ID_2 is not defined or empty");
-    }
-
-    if (ALGOLIA_API_KEY_2 == null || ALGOLIA_API_KEY_2.isEmpty()) {
-      throw new Exception("ALGOLIA_API_KEY_2 is not defined or empty");
-    }
-
-    if (ALGOLIA_APPLICATION_ID_MCM == null || ALGOLIA_APPLICATION_ID_MCM.isEmpty()) {
-      throw new Exception("ALGOLIA_APPLICATION_ID_MCM is not defined or empty");
-    }
-
-    if (ALGOLIA_ADMIN_KEY_MCM == null || ALGOLIA_ADMIN_KEY_MCM.isEmpty()) {
-      throw new Exception("ALGOLIA_ADMIN_KEY_MCM is not defined or empty");
     }
   }
 }
