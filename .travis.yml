@@ -6,10 +6,11 @@ matrix:
     env: JAVA_VERSION=8
   - jdk: openjdk11
     env: JAVA_VERSION=11
-
 cache:
   directories:
   - $HOME/.m2
+
+install: skip # skipping default travis setup to support both JDK8 and JDK11 build. Default build would fail.
 
 #check coverage
 before_script:
