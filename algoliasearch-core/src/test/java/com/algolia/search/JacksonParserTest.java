@@ -2,6 +2,7 @@ package com.algolia.search;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.models.indexing.AroundPrecision;
 import com.algolia.search.models.indexing.AroundRadius;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.rules.*;
@@ -746,6 +747,16 @@ class JacksonParserTest {
 
     assertThat(query6.toParam())
         .isEqualTo("query=&insideBoundingBox=%5B%5B47.3165%2C4.9665%2C47.3424%2C5.0201%5D%5D");
+  }
+
+  @Test
+  void queryWithAroundPrecision() throws JsonProcessingException {
+    List<AroundPrecision> aroundPrecisionFar =
+        Arrays.asList(new AroundPrecision(0, 10000), new AroundPrecision(0, 100000));
+    Query query = new Query("barcelona").setAroundPrecision(aroundPrecisionFar);
+    assertThat(query.toParam())
+        .isEqualTo(
+            "aroundPrecision=%5B%7B%22from%22%3A0%2C%22value%22%3A10000%7D%2C%7B%22from%22%3A0%2C%22value%22%3A100000%7D%5D&query=barcelona");
   }
 
   @Test
