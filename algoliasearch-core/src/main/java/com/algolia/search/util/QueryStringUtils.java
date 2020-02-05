@@ -1,8 +1,10 @@
 package com.algolia.search.util;
 
 import com.algolia.search.Defaults;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.apikeys.SecuredApiKeyRestriction;
 import com.algolia.search.models.indexing.SearchParameters;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -84,6 +86,17 @@ public class QueryStringUtils {
                               + "]";
 
                         } else {
+
+                          // Handling around precision special case
+                          if (e.getKey().equals("aroundPrecision")) {
+                            try {
+                              return Defaults.getObjectMapper().writeValueAsString(e.getValue());
+                            } catch (JsonProcessingException ex) {
+                              throw new AlgoliaRuntimeException(
+                                  "Error while serializing the request", ex);
+                            }
+                          }
+
                           // Handling List<?>
                           return String.join(",", (List) e.getValue());
                         }
