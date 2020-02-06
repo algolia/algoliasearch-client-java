@@ -226,6 +226,7 @@ public interface SearchClientAdvanced extends SearchClientBase {
       requestOptions = new RequestOptions();
     }
 
+    requestOptions.addExtraQueryParameters("type", logType);
     requestOptions.addExtraQueryParameters("offset", Integer.toString(offset));
     requestOptions.addExtraQueryParameters("length", Integer.toString(length));
 

@@ -3,6 +3,7 @@ package com.algolia.search.integration.client;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchClient;
+import com.algolia.search.models.common.LogType;
 import com.algolia.search.models.indexing.IndicesResponse;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -23,7 +24,7 @@ public abstract class LogsTest {
 
     CompletableFuture.allOf(listIndices1, listIndices2).get();
     searchClient
-        .getLogsAsync(0, 2)
+        .getLogsAsync(0, 2, LogType.LOG_ALL.getName())
         .thenApply(
             r -> {
               assertThat(r).hasSize(2);
