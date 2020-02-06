@@ -1,5 +1,33 @@
 # ChangeLog
 
+## [3.7.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.6.2...3.7.0) (2020-02-06)
+
+### Fix
+
+- AroundPrecision serialization in multipleQueries ([42d46ba](https://github.com/algolia/algoliasearch-client-java-2/commit/42d46ba))
+
+    using aroundPrecision in multipleQueries would cause
+    java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to java.lang.CharSequence
+- add missing log type in getLogs ([2162d81](https://github.com/algolia/algoliasearch-client-java-2/commit/2162d81))
+
+    fix #667
+
+### Feat
+
+- adds RecommendationClient ([7ca071a](https://github.com/algolia/algoliasearch-client-java-2/commit/7ca071a))
+
+    The personalization strategy endpoint is migrating from the Search API
+    to the Recommendation API.
+    
+    To use the Recommendation API, one must now use RecommendationClient
+    instead of SearchClient
+- **mcm**: has pending mappings (#660) ([edfc92e](https://github.com/algolia/algoliasearch-client-java-2/commit/edfc92e))
+
+    Get cluster pending (migrating, creating, deleting) mapping state.
+    Query cluster pending mapping status, and optionally get cluster mappings.
+
+
+
 ## [3.6.2](https://github.com/algolia/algoliasearch-client-java-2/compare/3.6.1...3.6.2) (2019-11-26)
 
 ### Misc
