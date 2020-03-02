@@ -49,22 +49,6 @@ public abstract class AnalyticsTest {
         ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     String testName = String.format("java-%s-%s", now, userName);
 
-    ABTests abTests = analyticsClient.getABTestsAsync().get();
-
-    if (abTests.getAbtests() != null) {
-      List<ABTestResponse> abTestsToDelte =
-          abTests.getAbtests().stream()
-              .filter(
-                  x ->
-                      x.getName().contains("java-")
-                          && !x.getName().contains(String.format("java-%s", now)))
-              .collect(Collectors.toList());
-
-      for (ABTestResponse abtest : abTestsToDelte) {
-        analyticsClient.deleteABTestAsync(abtest.getAbTestID());
-      }
-    }
-
     CompletableFuture<BatchIndexingResponse> saveObjectFuture1 =
         index1.saveObjectAsync(new AlgoliaObject("one", "value"));
     CompletableFuture<BatchIndexingResponse> saveObjectFuture2 =
@@ -131,22 +115,6 @@ public abstract class AnalyticsTest {
     String now =
         ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     String testName = String.format("java-AA-%s-%s", now, userName);
-
-    ABTests abTests = analyticsClient.getABTestsAsync().join();
-
-    if (abTests.getAbtests() != null) {
-      List<ABTestResponse> abTestsToDelte =
-          abTests.getAbtests().stream()
-              .filter(
-                  x ->
-                      x.getName().contains("java-AA")
-                          && !x.getName().contains(String.format("java-%s", now)))
-              .collect(Collectors.toList());
-
-      for (ABTestResponse abtest : abTestsToDelte) {
-        analyticsClient.deleteABTestAsync(abtest.getAbTestID());
-      }
-    }
 
     CompletableFuture<BatchIndexingResponse> saveObjectFuture1 =
         index.saveObjectAsync(new AlgoliaObject("one", "value"));

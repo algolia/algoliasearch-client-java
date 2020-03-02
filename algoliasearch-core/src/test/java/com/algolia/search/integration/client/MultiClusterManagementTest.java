@@ -64,39 +64,9 @@ public abstract class MultiClusterManagementTest {
       removeUserId(mcmClient, user);
     }
 
-    removePastUserIDs(mcmClient);
-
     HasPendingMappingsResponse hasPendingMapping = mcmClient.hasPendingMappings(true);
 
     assertThat(hasPendingMapping).isNotNull();
-  }
-
-  void removePastUserIDs(SearchClient mcmClient) throws ExecutionException, InterruptedException {
-
-    int page = 0;
-    final int hitsPerPage = 100;
-    List<UserId> userIDsToRemove = new ArrayList<>();
-
-    while (true) {
-      ListUserIdsResponse listUserIds = mcmClient.listUserIDsAsync(page, hitsPerPage, null).get();
-
-      String today =
-          DateTimeFormatter.ofPattern("yyyy-MM-dd-HH").format(ZonedDateTime.now(ZoneOffset.UTC));
-
-      List<UserId> userIDsTemp =
-          listUserIds.getUserIDs().stream()
-              .filter(
-                  r -> r.getUserID().contains("java-") && !r.getUserID().contains("java-" + today))
-              .collect(Collectors.toList());
-
-      userIDsToRemove.addAll(userIDsTemp);
-
-      if (listUserIds.getUserIDs().size() < hitsPerPage) break;
-
-      page++;
-    }
-
-    userIDsToRemove.forEach(r -> mcmClient.removeUserID(r.getUserID()));
   }
 
   void waitUserID(SearchClient client, String userID) throws InterruptedException {

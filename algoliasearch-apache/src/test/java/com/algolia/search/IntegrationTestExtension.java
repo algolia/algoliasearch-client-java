@@ -36,7 +36,6 @@ public class IntegrationTestExtension
             .setCompressionType(CompressionType.NONE)
             .build();
     searchClient2 = DefaultSearchClient.create(client2Config);
-    cleanPreviousIndices();
   }
 
   @Override
@@ -45,34 +44,6 @@ public class IntegrationTestExtension
       searchClient2.close();
       searchClient.close();
     } catch (IOException ignored) {
-    }
-  }
-
-  private void cleanPreviousIndices() {
-    List<IndicesResponse> indices = searchClient.listIndices();
-
-    if (indices != null && !indices.isEmpty()) {
-      OffsetDateTime today =
-          OffsetDateTime.now(ZoneOffset.UTC).withHour(0).withMinute(0).withNano(0).withSecond(0);
-
-      List<IndicesResponse> indicesToDelete =
-          indices.stream()
-              .filter(
-                  i ->
-                      i.getName().contains("java_jvm")
-                          && i.getCreatedAt() != null
-                          && i.getCreatedAt().isBefore(today))
-              .collect(Collectors.toList());
-
-      if (!indicesToDelete.isEmpty()) {
-
-        List<BatchOperation<Object>> operations =
-            indicesToDelete.stream()
-                .map(i -> new BatchOperation<>(i.getName(), ActionEnum.DELETE))
-                .collect(Collectors.toList());
-
-        searchClient.multipleBatch(operations);
-      }
     }
   }
 
