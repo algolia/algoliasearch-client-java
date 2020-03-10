@@ -114,7 +114,7 @@ public final class AccountClient {
 
       if (destinationSettings != null) {
         throw new AlgoliaRuntimeException(
-            "Source and Destination indices should not be on the same application.");
+            "Destination index should not exist. Make sure the destination index does not exist or copy to another index.");
       }
     } catch (AlgoliaApiException ex) {
       // We want to catch an non existing index exception (404) and continue
