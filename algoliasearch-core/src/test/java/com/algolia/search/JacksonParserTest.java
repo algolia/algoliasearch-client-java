@@ -1,5 +1,7 @@
 package com.algolia.search;
 
+import static com.algolia.search.models.synonyms.SynonymType.ALT_CORRECTION_1;
+import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.models.indexing.AroundPrecision;
@@ -7,6 +9,7 @@ import com.algolia.search.models.indexing.AroundRadius;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.rules.*;
 import com.algolia.search.models.settings.*;
+import com.algolia.search.models.synonyms.SynonymQuery;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.util.*;
@@ -805,5 +808,13 @@ class JacksonParserTest {
         .readValue(
             serialized,
             Defaults.getObjectMapper().getTypeFactory().constructType(IndexSettings.class));
+  }
+
+  @Test
+  void searchSynonymsQueryWithType() throws JsonProcessingException {
+    SynonymQuery query =
+        new SynonymQuery("q").setType(Arrays.asList(ONE_WAY_SYNONYM, ALT_CORRECTION_1));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(query);
+    assertThat(serialized).isEqualTo("{\"query\":\"q\",\"type\":\"oneWaySynonym,altCorrection1\"}");
   }
 }
