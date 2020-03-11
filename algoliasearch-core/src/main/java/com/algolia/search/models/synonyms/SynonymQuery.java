@@ -1,8 +1,10 @@
 package com.algolia.search.models.synonyms;
 
+import com.algolia.search.models.indexing.FlatListSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,8 +19,12 @@ import java.util.List;
 public class SynonymQuery implements Serializable {
 
   private String query;
+
+  @JsonSerialize(using = FlatListSerializer.class)
   private List<String> type;
+
   private Long page;
+
   private Long hitsPerPage;
 
   public SynonymQuery(String query) {
