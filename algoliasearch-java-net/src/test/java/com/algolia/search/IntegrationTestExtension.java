@@ -14,11 +14,15 @@ public class IntegrationTestExtension implements BeforeAllCallback {
     TestHelpers.checkEnvironmentVariable();
 
     SearchConfig clientConfig =
-        new SearchConfig.Builder(ALGOLIA_APPLICATION_ID_1, ALGOLIA_ADMIN_KEY_1).build();
+        new SearchConfig.Builder(
+                TestHelpers.ALGOLIA_APPLICATION_ID_1, TestHelpers.ALGOLIA_ADMIN_KEY_1)
+            .build();
     searchClient = new SearchClient(clientConfig, new JavaNetHttpRequester(clientConfig));
 
     SearchConfig client2Config =
-        new SearchConfig.Builder(ALGOLIA_APPLICATION_ID_2, ALGOLIA_ADMIN_KEY_2).build();
+        new SearchConfig.Builder(
+                TestHelpers.ALGOLIA_APPLICATION_ID_2, TestHelpers.ALGOLIA_ADMIN_KEY_2)
+            .build();
     searchClient2 = new SearchClient(client2Config, new JavaNetHttpRequester(client2Config));
   }
 }
