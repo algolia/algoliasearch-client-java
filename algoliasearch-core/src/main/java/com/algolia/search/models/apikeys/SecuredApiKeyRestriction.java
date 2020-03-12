@@ -37,11 +37,11 @@ public class SecuredApiKeyRestriction {
     return this;
   }
 
-  public List<String> getRestrictSources() {
+  public String getRestrictSources() {
     return restrictSources;
   }
 
-  public SecuredApiKeyRestriction setRestrictSources(List<String> restrictSources) {
+  public SecuredApiKeyRestriction setRestrictSources(String restrictSources) {
     this.restrictSources = restrictSources;
     return this;
   }
@@ -63,8 +63,7 @@ public class SecuredApiKeyRestriction {
   @JsonSerialize(using = FlatListSerializer.class)
   private List<String> restrictIndices;
 
-  @JsonSerialize(using = FlatListSerializer.class)
-  private List<String> restrictSources;
+  private String restrictSources;
 
   private String userToken;
 }
