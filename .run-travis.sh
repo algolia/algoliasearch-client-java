@@ -18,7 +18,7 @@ if [[ "${JAVA_VERSION}" = "11" ]]; then
     eval $(./algolia-keys export) && mvn clean compile && mvn clean test;
     exit $?
   else
-    mvn clean compile & mvn clean test;
+    mvn clean compile && mvn clean test;
     exit $?
   fi
 fi
