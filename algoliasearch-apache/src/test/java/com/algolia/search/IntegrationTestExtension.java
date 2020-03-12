@@ -1,14 +1,7 @@
 package com.algolia.search;
 
 import com.algolia.search.models.common.CompressionType;
-import com.algolia.search.models.indexing.ActionEnum;
-import com.algolia.search.models.indexing.BatchOperation;
-import com.algolia.search.models.indexing.IndicesResponse;
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
