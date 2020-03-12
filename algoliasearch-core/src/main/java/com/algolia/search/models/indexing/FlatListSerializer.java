@@ -20,6 +20,6 @@ public class FlatListSerializer extends StdSerializer<List<String>> {
   public void serialize(List<String> value, JsonGenerator gen, SerializerProvider provider)
       throws IOException {
 
-    gen.writeString(String.join(";", value));
+    gen.writeString(String.join(",", value));
   }
 }
