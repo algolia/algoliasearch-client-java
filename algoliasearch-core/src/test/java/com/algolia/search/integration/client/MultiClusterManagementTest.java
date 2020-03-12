@@ -7,14 +7,9 @@ import com.algolia.search.SearchClient;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.models.indexing.SearchResult;
 import com.algolia.search.models.mcm.*;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 public abstract class MultiClusterManagementTest {
