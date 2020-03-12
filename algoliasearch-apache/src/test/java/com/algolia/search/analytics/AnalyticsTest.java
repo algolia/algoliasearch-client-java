@@ -1,6 +1,6 @@
 package com.algolia.search.analytics;
 
-import static com.algolia.search.integration.TestHelpers.ALGOLIA_API_KEY_1;
+import static com.algolia.search.integration.TestHelpers.ALGOLIA_ADMIN_KEY_1;
 import static com.algolia.search.integration.TestHelpers.ALGOLIA_APPLICATION_ID_1;
 
 import com.algolia.search.AnalyticsClient;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class AnalyticsTest extends com.algolia.search.integration.analytics.AnalyticsTest {
 
   private static AnalyticsClient analyticsClient =
-      DefaultAnalyticsClient.create(ALGOLIA_APPLICATION_ID_1, ALGOLIA_API_KEY_1);
+      DefaultAnalyticsClient.create(ALGOLIA_APPLICATION_ID_1, ALGOLIA_ADMIN_KEY_1);
 
   AnalyticsTest() {
     super(IntegrationTestExtension.searchClient, analyticsClient);
