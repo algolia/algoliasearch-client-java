@@ -1,12 +1,10 @@
 package com.algolia.search;
 
+import static com.algolia.search.integration.TestHelpers.*;
 
 import com.algolia.search.integration.TestHelpers;
 import com.algolia.search.models.common.CompressionType;
 import java.io.IOException;
-
-import static com.algolia.search.integration.TestHelpers.*;
-
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
@@ -36,5 +34,4 @@ public class IntegrationTestExtension
     } catch (IOException ignored) {
     }
   }
-
 }
