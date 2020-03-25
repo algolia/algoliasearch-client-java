@@ -1,5 +1,32 @@
 # ChangeLog
 
+## [3.8.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.7.0...3.8.0) (2020-03-25)
+
+### Feat
+
+- JDK11 java-net requester module ([266fa67](https://github.com/algolia/algoliasearch-client-java-2/commit/266fa67))
+
+### Misc
+
+- update readme [skip ci] ([4301f3b](https://github.com/algolia/algoliasearch-client-java-2/commit/4301f3b))
+
+### Fix
+
+- pom.xml version ([05be38f](https://github.com/algolia/algoliasearch-client-java-2/commit/05be38f))
+- run-travis.sh ([7357b27](https://github.com/algolia/algoliasearch-client-java-2/commit/7357b27))
+- **serializer**: correctly serialize arrays to coma-separated list ([4a8e356](https://github.com/algolia/algoliasearch-client-java-2/commit/4a8e356))
+- **api-key**: use correct string type for restrictSources API key parameter ([66ac9fb](https://github.com/algolia/algoliasearch-client-java-2/commit/66ac9fb))
+- **synonym**: correctly serialize SynonymQuery's type attribute ([29d6b87](https://github.com/algolia/algoliasearch-client-java-2/commit/29d6b87))
+- **account**: use correct AlgoliaRuntimeException message when copying an index to an already existing destination ([b892ef3](https://github.com/algolia/algoliasearch-client-java-2/commit/b892ef3))
+
+### Refactor
+
+- run-travis.sh ([49f5295](https://github.com/algolia/algoliasearch-client-java-2/commit/49f5295))
+- apache test suite ([bface34](https://github.com/algolia/algoliasearch-client-java-2/commit/bface34))
+- clean some imports ([f70c9cd](https://github.com/algolia/algoliasearch-client-java-2/commit/f70c9cd))
+
+
+
 ## [3.7.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.6.2...3.7.0) (2020-02-06)
 
 ### Fix
