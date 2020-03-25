@@ -55,10 +55,24 @@ With [Maven](https://maven.apache.org/), add the following dependency to your `p
   </dependency>
   ```
 
+Concerning the HTTP layer, the library can be used with one of the modules below depending on your needs.
+
+The Apache HTTP Client for users supporting Java 8:
+
    ```xml
   <dependency>
         <groupId>com.algolia</groupId>
         <artifactId>algoliasearch-apache</artifactId>
+        <version>LATEST</version>
+  </dependency>
+  ```
+
+The Java native HTTP Client for users supporting Java 11 or above:
+
+   ```xml
+  <dependency>
+        <groupId>com.algolia</groupId>
+        <artifactId>algoliasearch-java-net</artifactId>
         <version>LATEST</version>
   </dependency>
   ```
