@@ -42,9 +42,14 @@ public abstract class MultiClusterManagementTest {
     for (String user : userIDs) {
       SearchResult<UserId> searchResponse =
           mcmClient
-              .searchUserIDsAsync(new SearchUserIdsRequest().setQuery(user).setCluster(clusterName))
+              .searchUserIDsAsync(
+                  new SearchUserIdsRequest()
+                      .setQuery(user)
+                      .setCluster(clusterName)
+                      .setHitsPerPage(1))
               .get();
       assertThat(searchResponse.getHits()).hasSize(1);
+      assertThat(searchResponse.getHits().get(0).getUserID()).isEqualTo(user);
     }
 
     ListUserIdsResponse listUserIds = mcmClient.listUserIDsAsync(0, 1000, null).get();
