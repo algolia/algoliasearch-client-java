@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [3.8.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.8.0...3.8.1) (2020-03-26)
+
+### Misc
+
+- Update readme with new Java net requester ([a60b9b0](https://github.com/algolia/algoliasearch-client-java-2/commit/a60b9b0))
+
+### Refactor
+
+- Memory optimization of ZoneRules usage (#684) ([4d6dae6](https://github.com/algolia/algoliasearch-client-java-2/commit/4d6dae6))
+
+
+
 ## [3.8.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.7.0...3.8.0) (2020-03-25)
 
 ### Feat
