@@ -1,8 +1,8 @@
 package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.util.AlgoliaUtils;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.EnumSet;
 
 @SuppressWarnings("WeakerAccess")
@@ -65,6 +65,6 @@ public class StatefulHost {
   private String url;
   private boolean up = true;
   private int retryCount;
-  private OffsetDateTime lastUse = OffsetDateTime.now(ZoneOffset.UTC);
+  private OffsetDateTime lastUse = AlgoliaUtils.nowUTC();
   private EnumSet<CallType> accept;
 }

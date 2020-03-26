@@ -3,6 +3,11 @@ package com.algolia.search.util;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.reflect.Field;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.zone.ZoneRules;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +24,17 @@ public class AlgoliaUtils {
   /** Checks if the given string is null, empty or white spaces */
   public static Boolean isNullOrEmptyWhiteSpace(final String stringToCheck) {
     return stringToCheck == null || stringToCheck.trim().length() == 0;
+  }
+
+  private static final ZoneRules ZONE_RULES_UTC = ZoneOffset.UTC.getRules();
+
+  /**
+   * Memory optimization for getZoneRules with the same ZoneOffset (UTC). ZoneRules is immutable and
+   * threadsafe, but getRules method consumes a lot of memory during load testing.
+   */
+  public static OffsetDateTime nowUTC() {
+    final Instant now = Clock.system(ZoneOffset.UTC).instant();
+    return OffsetDateTime.ofInstant(now, ZONE_RULES_UTC.getOffset(now));
   }
 
   /**
