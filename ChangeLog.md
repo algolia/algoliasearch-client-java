@@ -45,7 +45,7 @@
 
     The personalization strategy endpoint is migrating from the Search API
     to the Recommendation API.
-    
+
     To use the Recommendation API, one must now use RecommendationClient
     instead of SearchClient
 - **mcm**: has pending mappings (#660) ([edfc92e](https://github.com/algolia/algoliasearch-client-java-2/commit/edfc92e))
@@ -63,16 +63,16 @@
 
     Fixed: Custom serializer to handle polymorphism of "query" attribute
     in ConsequenceQuery
-    
+
     Example:
-    
+
     ```json
     // query string
     "query": "some query string"
-    
+
     // remove attribute (deprecated)
     "query": {"remove": ["query1", "query2"]}
-    
+
     // edits attribute
     "query": {
        "edits": [
@@ -127,7 +127,7 @@
 
 - feat(MCM): adds assignUserIDS()
 
-- feat: adds index.findObject()  
+- feat: adds index.findObject()
 
 - feat: adds SearchResult.getObjectIDPosition()
 
@@ -138,12 +138,12 @@
     ```
     one string legacy filters "color:green,color:yellow" are converted
     to "ORED" nested filters [["color:green","color:yellow"]]
-    
+
     array legacy filters ["color:green","color:yellow"] are converted
-    to "ORED" nested filters [["color:green","color:yellow"]] 
+    to "ORED" nested filters [["color:green","color:yellow"]]
     ```
-- fix: updated Jackson version to 2.9.10 
-  
+- fix: updated Jackson version to 2.9.10
+
 ## [3.2.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.2.0...3.2.1) (2019-08-19)
 
 ### Feat
@@ -152,7 +152,7 @@
 
     Adds the possibility for the underlying HTTPClient to use JVM settings
     for proxy such as:
-    
+
     ```
     System.setProperty("http.proxyHost", getHTTPHost());
     System.setProperty("http.proxyPort", getHTTPPort());
@@ -191,7 +191,7 @@
 
     The requester was not catching correctly all exceptions, making the
     retry strategy to fail instead of retrying for network related issues.
-    
+
 - Query serializer with nested Arrays ([b2f87f0](https://github.com/algolia/algoliasearch-client-java-2/commit/b2f87f0))
 
 ### Addition
@@ -200,11 +200,11 @@
 
     Adds the possibility to compress POST/PUT requests for SearchClient.
     For the moment only GZIP compression is available.
-    
+
 - `indexExists` method ([b79300d](https://github.com/algolia/algoliasearch-client-java-2/commit/b79300d))
-    
+
     Exists method: Return whether an index exists or not.
-        
+
 -  `userData` in IndexSettings ([1a4c815](https://github.com/algolia/algoliasearch-client-java-2/commit/1a4c815))
 - `attributeCriteriaComputedByMinProximity` ([9ebfb28](https://github.com/algolia/algoliasearch-client-java-2/commit/9ebfb28))
 - `customSearchParameters` ([08b5a85](https://github.com/algolia/algoliasearch-client-java-2/commit/08b5a85))
