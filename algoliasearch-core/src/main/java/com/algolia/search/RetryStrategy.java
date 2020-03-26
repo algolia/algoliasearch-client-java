@@ -3,10 +3,9 @@ package com.algolia.search;
 import com.algolia.search.models.HttpResponse;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.RetryOutcome;
+import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.HttpStatusCodeUtils;
 import java.time.Duration;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,15 +54,15 @@ class RetryStrategy {
     synchronized (this) {
       if (!response.isTimedOut() && HttpStatusCodeUtils.isSuccess(response)) {
         tryableHost.setUp(true);
-        tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
+        tryableHost.setLastUse(AlgoliaUtils.nowUTC());
         return RetryOutcome.SUCCESS;
       } else if (!response.isTimedOut() && isRetryable(response)) {
         tryableHost.setUp(false);
-        tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
+        tryableHost.setLastUse(AlgoliaUtils.nowUTC());
         return RetryOutcome.RETRY;
       } else if (response.isTimedOut()) {
         tryableHost.setUp(true);
-        tryableHost.setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
+        tryableHost.setLastUse(AlgoliaUtils.nowUTC());
         tryableHost.incrementRetryCount();
         return RetryOutcome.RETRY;
       }
@@ -90,7 +89,7 @@ class RetryStrategy {
    * @param host The host to reset
    */
   private void reset(StatefulHost host) {
-    host.setUp(true).setRetryCount(0).setLastUse(OffsetDateTime.now(ZoneOffset.UTC));
+    host.setUp(true).setRetryCount(0).setLastUse(AlgoliaUtils.nowUTC());
   }
 
   /** Reset all hosts down for more than 5 minutes. */
@@ -98,7 +97,7 @@ class RetryStrategy {
     for (StatefulHost host : hosts) {
       if (!host.isUp()
           && Math.abs(
-                  Duration.between(OffsetDateTime.now(ZoneOffset.UTC), host.getLastUse())
+                  Duration.between(AlgoliaUtils.nowUTC(), host.getLastUse())
                       .getSeconds())
               > 5 * 60) {
         reset(host);

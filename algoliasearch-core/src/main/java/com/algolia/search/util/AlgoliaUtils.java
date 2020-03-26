@@ -3,6 +3,11 @@ package com.algolia.search.util;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.reflect.Field;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.zone.ZoneRules;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +16,10 @@ import javax.annotation.Nonnull;
 
 public class AlgoliaUtils {
 
+
+  // ZoneRules is immutable and threadsafe, but getRules method consumes a lot of memory during load testing.
+  private static final ZoneRules ZONE_RULES_UTC = ZoneOffset.UTC.getRules();
+	  
   /** Checks if the given string is empty or white spaces */
   public static Boolean isEmptyWhiteSpace(final String stringToCheck) {
     return stringToCheck.trim().length() == 0;
@@ -21,6 +30,15 @@ public class AlgoliaUtils {
     return stringToCheck == null || stringToCheck.trim().length() == 0;
   }
 
+  /**
+   * Memory optimization for geZoneRules with the same ZoneOffset (UTC).
+   * 
+   */
+  public static OffsetDateTime nowUTC() {		
+	final Instant now = Clock.system(ZoneOffset.UTC).instant();
+	return OffsetDateTime.ofInstant(now, ZONE_RULES_UTC.getOffset(now));
+  }
+  
   /**
    * Ensure that the objectID field or the @JsonProperty(\"objectID\")" is present in the given
    * class
@@ -143,4 +161,5 @@ public class AlgoliaUtils {
 
     return result;
   }
+  
 }
