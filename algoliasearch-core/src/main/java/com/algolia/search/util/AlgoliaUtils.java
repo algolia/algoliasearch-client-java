@@ -16,10 +16,6 @@ import javax.annotation.Nonnull;
 
 public class AlgoliaUtils {
 
-
-  // ZoneRules is immutable and threadsafe, but getRules method consumes a lot of memory during load testing.
-  private static final ZoneRules ZONE_RULES_UTC = ZoneOffset.UTC.getRules();
-	  
   /** Checks if the given string is empty or white spaces */
   public static Boolean isEmptyWhiteSpace(final String stringToCheck) {
     return stringToCheck.trim().length() == 0;
@@ -30,15 +26,17 @@ public class AlgoliaUtils {
     return stringToCheck == null || stringToCheck.trim().length() == 0;
   }
 
+  private static final ZoneRules ZONE_RULES_UTC = ZoneOffset.UTC.getRules();
+
   /**
-   * Memory optimization for geZoneRules with the same ZoneOffset (UTC).
-   * 
+   * Memory optimization for getZoneRules with the same ZoneOffset (UTC). ZoneRules is immutable and
+   * threadsafe, but getRules method consumes a lot of memory during load testing.
    */
-  public static OffsetDateTime nowUTC() {		
-	final Instant now = Clock.system(ZoneOffset.UTC).instant();
-	return OffsetDateTime.ofInstant(now, ZONE_RULES_UTC.getOffset(now));
+  public static OffsetDateTime nowUTC() {
+    final Instant now = Clock.system(ZoneOffset.UTC).instant();
+    return OffsetDateTime.ofInstant(now, ZONE_RULES_UTC.getOffset(now));
   }
-  
+
   /**
    * Ensure that the objectID field or the @JsonProperty(\"objectID\")" is present in the given
    * class
@@ -161,5 +159,4 @@ public class AlgoliaUtils {
 
     return result;
   }
-  
 }

@@ -2,7 +2,6 @@ package com.algolia.search;
 
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.util.AlgoliaUtils;
-
 import java.time.OffsetDateTime;
 import java.util.EnumSet;
 

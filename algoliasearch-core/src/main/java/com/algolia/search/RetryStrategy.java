@@ -96,9 +96,7 @@ class RetryStrategy {
   private void resetExpiredHosts() {
     for (StatefulHost host : hosts) {
       if (!host.isUp()
-          && Math.abs(
-                  Duration.between(AlgoliaUtils.nowUTC(), host.getLastUse())
-                      .getSeconds())
+          && Math.abs(Duration.between(AlgoliaUtils.nowUTC(), host.getLastUse()).getSeconds())
               > 5 * 60) {
         reset(host);
       }
