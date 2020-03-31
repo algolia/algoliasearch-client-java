@@ -17,7 +17,17 @@ public final class AnalyticsConfig extends ConfigBase {
      * @param apiKey The API Key
      */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey) {
-      super(applicationID, apiKey, createDefaultHosts(), CompressionType.NONE);
+      super(applicationID, apiKey, createDefaultHosts("us"), CompressionType.NONE);
+    }
+    /**
+     * Creates an {@link AnalyticsConfig} with the default hosts
+     *
+     * @param applicationID The Application ID
+     * @param apiKey The API Key
+     * @param region The region of the Analytics cluster
+     */
+    public Builder(@Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
+      super(applicationID, apiKey, createDefaultHosts(region), CompressionType.NONE);
     }
 
     @Override
@@ -30,10 +40,11 @@ public final class AnalyticsConfig extends ConfigBase {
     }
 
     /** Create default hosts for the analytics configuration */
-    private static List<StatefulHost> createDefaultHosts() {
-
+    private static List<StatefulHost> createDefaultHosts(@Nonnull String region) {
       return Collections.singletonList(
-          new StatefulHost("analytics.algolia.com", EnumSet.of(CallType.READ, CallType.WRITE)));
+          new StatefulHost(
+              String.format("analytics.%s.algolia.com", region),
+              EnumSet.of(CallType.READ, CallType.WRITE)));
     }
   }
 

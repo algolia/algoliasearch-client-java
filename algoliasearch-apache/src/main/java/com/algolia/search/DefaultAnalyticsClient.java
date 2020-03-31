@@ -22,7 +22,22 @@ public class DefaultAnalyticsClient {
    * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
    */
   public static AnalyticsClient create(@Nonnull String applicationID, @Nonnull String apiKey) {
-    return create(new AnalyticsConfig.Builder(applicationID, apiKey).build());
+    return create(applicationID, apiKey, "us");
+  }
+
+  /**
+   * Creates a default {@link AnalyticsClient} with the given credentials. The default HttpClient
+   * implementation is {@link ApacheHttpRequester}
+   *
+   * @param applicationID The Algolia Application ID
+   * @param apiKey The Algolia API Key
+   * @param region The region of the Analytics cluster
+   * @throws NullPointerException If one of the following ApplicationID/ApiKey is null
+   * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
+   */
+  public static AnalyticsClient create(
+      @Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
+    return create(new AnalyticsConfig.Builder(applicationID, apiKey, region).build());
   }
 
   /**
