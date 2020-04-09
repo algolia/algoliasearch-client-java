@@ -56,6 +56,15 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
+  public List<String> getNaturalLanguages() {
+    return naturalLanguages;
+  }
+
+  public T setNaturalLanguages(List<String> naturalLanguages) {
+    this.naturalLanguages = naturalLanguages;
+    return getThis();
+  }
+
   public List<List<String>> getNumericFilters() {
     return numericFilters;
   }
@@ -663,6 +672,7 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   protected Distinct distinct;
   protected Boolean getRankingInfo;
   protected List<String> explain;
+  protected List<String> naturalLanguages;
 
   @JsonDeserialize(using = FiltersJsonDeserializer.class)
   protected List<List<String>> numericFilters;
