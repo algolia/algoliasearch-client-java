@@ -81,7 +81,12 @@ public abstract class ConfigBase {
     /** To prevent unchecked cast warning. */
     public abstract T getThis();
 
-    /** Makes the underlying HTTP Client to use JVM/System settings for the proxy */
+    /**
+     * Makes the underlying Apache HTTP Client to use JVM/System settings for the proxy.
+     *
+     * @deprecated Please use a custom HttpAsyncClientBuilder when instantiating the
+     *     ApacheHttpRequester instead.
+     */
     public T setUseSystemProxy(boolean useSystemProxy) {
       this.useSystemProxy = useSystemProxy;
       return getThis();
@@ -181,6 +186,13 @@ public abstract class ConfigBase {
     return defaultHeaders;
   }
 
+  /**
+   * Retrieve the settings which instructs the underlying Apache HTTP Client to use JVM/System
+   * settings for the proxy.
+   *
+   * @deprecated Please use a custom HttpAsyncClientBuilder when instantiating the
+   *     ApacheHttpRequester instead.
+   */
   public boolean getUseSystemProxy() {
     return useSystemProxy;
   }
