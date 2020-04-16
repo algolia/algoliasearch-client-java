@@ -23,7 +23,7 @@ import org.apache.http.conn.ConnectionPoolTimeoutException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClients;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -38,21 +38,25 @@ public final class ApacheHttpRequester implements HttpRequester {
   private final ConfigBase config;
 
   public ApacheHttpRequester(@Nonnull ConfigBase config) {
+    this(
+        config,
+        config.getUseSystemProxy()
+            ? HttpAsyncClientBuilder.create().useSystemProperties()
+            : HttpAsyncClientBuilder.create());
+  }
 
+  public ApacheHttpRequester(@Nonnull ConfigBase config, @Nonnull HttpAsyncClientBuilder builder) {
     this.config = config;
 
-    requestConfig =
+    this.requestConfig =
         RequestConfig.custom()
             .setConnectTimeout(config.getConnectTimeOut())
             .setContentCompressionEnabled(true)
             .build();
 
-    asyncHttpClient =
-        config.getUseSystemProxy()
-            ? HttpAsyncClients.createSystem()
-            : HttpAsyncClients.createDefault();
+    this.asyncHttpClient = builder.build();
 
-    asyncHttpClient.start();
+    this.asyncHttpClient.start();
   }
 
   /**
