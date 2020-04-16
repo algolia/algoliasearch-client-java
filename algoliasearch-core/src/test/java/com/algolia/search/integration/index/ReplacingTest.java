@@ -33,10 +33,10 @@ public abstract class ReplacingTest {
     SearchIndex<AlgoliaObject> index =
         searchClient.initIndex(getTestIndexName("replacing"), AlgoliaObject.class);
 
-    CompletableFuture<BatchIndexingResponse> addObjectFuture =
-        index.saveObjectAsync(new AlgoliaObject().setObjectID("one"));
+    AlgoliaObject objectToSave = new AlgoliaObject().setObjectID("one");
 
-    // Second rule to save
+    CompletableFuture<BatchIndexingResponse> addObjectFuture = index.saveObjectAsync(objectToSave);
+
     Consequence consequenceToBatch =
         new Consequence()
             .setParams(
@@ -68,12 +68,11 @@ public abstract class ReplacingTest {
     saveRuleFuture.get().waitTask();
     saveSynonymFuture.get().waitTask();
 
-    CompletableFuture<MultiResponse> replaceAllFuture =
-        index.replaceAllObjectsAsync(Collections.singleton(new AlgoliaObject().setObjectID("two")));
+    AlgoliaObject objectToSave2 = new AlgoliaObject().setObjectID("two");
 
-    replaceAllFuture.get().waitTask();
+    CompletableFuture<MultiResponse> replaceAllObjectsFuture =
+        index.replaceAllObjectsAsync(Collections.singleton(objectToSave2), true);
 
-    // Second rule to save
     Rule ruleToSave2 =
         new Rule()
             .setObjectID("two")
@@ -92,8 +91,11 @@ public abstract class ReplacingTest {
     CompletableFuture<SaveSynonymResponse> replaceAllSynonymsFuture =
         index.replaceAllSynonymsAsync(Collections.singletonList(synonymToSave2));
 
-    CompletableFuture.allOf(replaceAllRulesFuture, replaceAllSynonymsFuture);
+    CompletableFuture.allOf(
+            replaceAllObjectsFuture, replaceAllRulesFuture, replaceAllSynonymsFuture)
+        .get();
 
+    replaceAllObjectsFuture.get().waitTask();
     replaceAllRulesFuture.get().waitTask();
     replaceAllSynonymsFuture.get().waitTask();
 
@@ -109,11 +111,15 @@ public abstract class ReplacingTest {
         .hasCauseInstanceOf(AlgoliaApiException.class)
         .hasMessageContaining("Synonym set does not exist");
 
+    CompletableFuture<AlgoliaObject> objectAfterReplaceFuture = index.getObjectAsync("two");
     CompletableFuture<Rule> ruleAfterReplaceFuture = index.getRuleAsync("two");
     CompletableFuture<Synonym> synonymAfterReplaceFuture = index.getSynonymAsync("two");
 
-    CompletableFuture.allOf(ruleAfterReplaceFuture, synonymAfterReplaceFuture);
+    CompletableFuture.allOf(
+            objectAfterReplaceFuture, ruleAfterReplaceFuture, synonymAfterReplaceFuture)
+        .get();
 
+    assertThat(objectAfterReplaceFuture.get()).usingRecursiveComparison().isEqualTo(objectToSave2);
     assertThat(ruleAfterReplaceFuture.get()).usingRecursiveComparison().isEqualTo(ruleToSave2);
     assertThat(synonymAfterReplaceFuture.get())
         .usingRecursiveComparison()
