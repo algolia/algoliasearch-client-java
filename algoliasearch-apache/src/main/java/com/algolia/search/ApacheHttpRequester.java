@@ -42,7 +42,7 @@ public final class ApacheHttpRequester implements HttpRequester {
         config,
         config.getUseSystemProxy()
             ? HttpAsyncClientBuilder.create().useSystemProperties()
-            : HttpAsyncClientBuilder.create());
+            : HttpAsyncClientBuilder.create().setMaxConnPerRoute(100));
   }
 
   public ApacheHttpRequester(@Nonnull ConfigBase config, @Nonnull HttpAsyncClientBuilder builder) {
