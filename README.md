@@ -84,7 +84,22 @@ You can find both on [your Algolia account](https://www.algolia.com/api-keys).
 
 ```java
 SearchClient client = DefaultSearchClient.create("YourApplicationID", "YourAdminAPIKey");
-SearchIndex index = client.InitIndex("your_index_name");
+SearchIndex index = client.initIndex("your_index_name");
+```
+
+If you need to customize the configuration of the Apache HTTP client used
+internally by the Algolia API client, you can provide your own
+`HttpAsyncClientBuilder` when instantiating the Algolia `SearchClient` instance.
+
+```java
+SearchConfig config = new SearchConfig.Builder("YourApplicationID", "YourAdminAPIKey").build();
+HttpAsyncClientBuilder builder = HttpAsyncClientBuilder.create();
+
+builder.setMaxConnPerRoute(1);
+builder.setMaxConnTotal(1);
+
+SearchClient client = new SearchClient(config, new ApacheHttpRequester(config, builder));
+SearchIndex index = client.initIndex("your_index_name");
 ```
 
 ### Push data
