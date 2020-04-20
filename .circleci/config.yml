@@ -1,0 +1,70 @@
+version: 2.1
+
+commands:
+  credentials:
+    description: "Fetch temporary credentials if needed"
+    steps:
+      - run:
+          name: Retrieve temporary Algolia credentials if needed
+          command: |
+            if [ -z "ALGOLIA_APPLICATION_ID_MCM" ]; then
+              curl -s https://algoliasearch-client-keygen.herokuapp.com | sh >> $BASH_ENV
+            fi
+
+jobs:
+  format:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - restore_cache:
+          key: mvn-cache-8
+      - run:
+          name: "Check formatting"
+          command: mvn com.coveo:fmt-maven-plugin:check
+
+  test-java-8:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - restore_cache:
+          key: mvn-cache-8
+      - credentials
+      - run:
+          name: "Compile project"
+          command: mvn clean compile -pl algoliasearch-apache,algoliasearch-core
+      - run:
+          name: "Run the tests"
+          command: mvn clean test    -pl algoliasearch-apache,algoliasearch-core
+      - save_cache:
+          key: mvn-cache-8
+          paths:
+            - "~/.m2"
+
+  test-java-11:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - checkout
+      - restore_cache:
+          key: mvn-cache-11
+      - credentials
+      - run:
+          name: "Compile project"
+          command: mvn clean compile
+      - run:
+          name: "Run the tests"
+          command: mvn clean test
+      - save_cache:
+          key: mvn-cache-11
+          paths:
+            - "~/.m2"
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - format
+      - test-java-8
+      - test-java-11
