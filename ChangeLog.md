@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [3.9.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.8.1...3.9.0) (2020-04-21)
+
+### Feat
+
+- **apache**: improve performances by changing maxConnPerRoute from 2 to 100 ([7193a0d](https://github.com/algolia/algoliasearch-client-java-2/commit/7193a0d))
+- expose new constructor for the ApacheHttpRequester ([882b4f7](https://github.com/algolia/algoliasearch-client-java-2/commit/882b4f7))
+- deprecate ConfigBase Builder.setUseSystemProxy() method ([e49291e](https://github.com/algolia/algoliasearch-client-java-2/commit/e49291e))
+- make the ApacheHttpRequester public for easier reconfiguration (#689) ([ae3886b](https://github.com/algolia/algoliasearch-client-java-2/commit/ae3886b))
+- **analytics**: introduce the region parameter to instantiate the AnalyticsClient ([97a43f9](https://github.com/algolia/algoliasearch-client-java-2/commit/97a43f9))
+
+
+
 ## [3.8.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.8.0...3.8.1) (2020-03-26)
 
 ### Misc
