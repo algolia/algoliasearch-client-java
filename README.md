@@ -6,8 +6,8 @@
   <h4 align="center">The perfect starting point to integrate <a href="https://algolia.com" target="_blank">Algolia</a> within your Java project</h4>
 
   <p align="center">
-    <a href="https://search.maven.org/artifact/com.algolia/algoliasearch/"><img src="https://img.shields.io/maven-central/v/com.algolia/algoliasearch.svg" alt="Maven"></img></a>
-        <a href="https://travis-ci.org/algolia/algoliasearch-client-java-2"><img src="https://travis-ci.org/algolia/algoliasearch-client-java-2.svg?branch=master" alt="Travis"></img></a>
+    <a href="https://search.maven.org/artifact/com.algolia/algoliasearch/"><img src="https://img.shields.io/maven-central/v/com.algolia/algoliasearch.svg" alt="CircleCI"></img></a>
+        <a href="https://circleci.com/gh/algolia/algoliasearch-client-java-2"><img src="https://circleci.com/gh/algolia/algoliasearch-client-java-2.svg?style=shield" alt="CircleCI"></img></a>
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Licence"></img></a>
   </p>
 </p>
