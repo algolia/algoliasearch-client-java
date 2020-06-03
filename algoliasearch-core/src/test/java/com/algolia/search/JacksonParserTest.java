@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.models.indexing.AroundPrecision;
 import com.algolia.search.models.indexing.AroundRadius;
+import com.algolia.search.models.indexing.PartialUpdateOperation;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.rules.*;
 import com.algolia.search.models.settings.*;
@@ -816,5 +817,58 @@ class JacksonParserTest {
         new SynonymQuery("q").setType(Arrays.asList(ONE_WAY_SYNONYM, ALT_CORRECTION_1));
     String serialized = Defaults.getObjectMapper().writeValueAsString(query);
     assertThat(serialized).isEqualTo("{\"query\":\"q\",\"type\":\"oneWaySynonym,altCorrection1\"}");
+  }
+
+  @Test
+  void partialUpdateOperation_increment() throws JsonProcessingException {
+    RecordWithPartialUpdate record = new RecordWithPartialUpdate();
+    record.setObjectID("myID");
+    record.setUpdate(PartialUpdateOperation.increment(2));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(record);
+    assertThat(serialized)
+        .isEqualTo("{\"objectID\":\"myID\",\"update\":{\"_operation\":\"Increment\",\"value\":2}}");
+  }
+
+  @Test
+  void partialUpdateOperation_decrement() throws JsonProcessingException {
+    RecordWithPartialUpdate record = new RecordWithPartialUpdate();
+    record.setObjectID("myID");
+    record.setUpdate(PartialUpdateOperation.decrement(2));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(record);
+    assertThat(serialized)
+        .isEqualTo("{\"objectID\":\"myID\",\"update\":{\"_operation\":\"Decrement\",\"value\":2}}");
+  }
+
+  @Test
+  void partialUpdateOperation_add() throws JsonProcessingException {
+    RecordWithPartialUpdate record = new RecordWithPartialUpdate();
+    record.setObjectID("myID");
+    record.setUpdate(PartialUpdateOperation.add("something"));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(record);
+    assertThat(serialized)
+        .isEqualTo(
+            "{\"objectID\":\"myID\",\"update\":{\"_operation\":\"Add\",\"value\":\"something\"}}");
+  }
+
+  @Test
+  void partialUpdateOperation_addUnique() throws JsonProcessingException {
+    RecordWithPartialUpdate record = new RecordWithPartialUpdate();
+    record.setObjectID("myID");
+    record.setUpdate(PartialUpdateOperation.addUnique("something"));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(record);
+    assertThat(serialized)
+        .isEqualTo(
+            "{\"objectID\":\"myID\",\"update\":{\"_operation\":\"AddUnique\",\"value\":\"something\"}}");
+  }
+
+  @Test
+  void partialUpdateOperation_remove() throws JsonProcessingException {
+    RecordWithPartialUpdate record = new RecordWithPartialUpdate();
+    record.setObjectID("myID");
+    record.setUpdate(PartialUpdateOperation.remove("something"));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(record);
+    assertThat(serialized)
+        .isEqualTo(
+            "{\"objectID\":\"myID\",\"update\":{\"_operation\":\"Remove\",\"value\":\"something\"}}");
   }
 }
