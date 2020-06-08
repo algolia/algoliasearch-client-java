@@ -1,18 +1,22 @@
 package com.algolia.search.models.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InnerQuery implements Serializable {
 
+  @JsonProperty("index_name")
   private String indexName;
 
+  @JsonProperty("query_id")
   private String queryID;
 
   private Integer offset;
 
+  @JsonProperty("user_token")
   private String userToken;
 
   public String getIndexName() {
