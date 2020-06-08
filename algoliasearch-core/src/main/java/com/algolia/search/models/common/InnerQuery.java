@@ -1,7 +1,6 @@
 package com.algolia.search.models.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -50,12 +49,19 @@ public class InnerQuery implements Serializable {
 
   @Override
   public String toString() {
-    return "InnerQuery{" +
-        "indexName='" + indexName + '\'' +
-        ", QueryID='" + queryID + '\'' +
-        ", offset=" + offset +
-        ", userToken='" + userToken + '\'' +
-        '}';
+    return "InnerQuery{"
+        + "indexName='"
+        + indexName
+        + '\''
+        + ", QueryID='"
+        + queryID
+        + '\''
+        + ", offset="
+        + offset
+        + ", userToken='"
+        + userToken
+        + '\''
+        + '}';
   }
 
   @Override

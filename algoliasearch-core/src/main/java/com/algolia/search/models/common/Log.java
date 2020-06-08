@@ -3,7 +3,6 @@ package com.algolia.search.models.common;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -125,17 +124,36 @@ public class Log implements Serializable {
 
   @Override
   public String toString() {
-    return "Log{" +
-        "timestamp='" + timestamp + '\'' +
-        ", method='" + method + '\'' +
-        ", answerCode='" + answerCode + '\'' +
-        ", queryBody='" + queryBody + '\'' +
-        ", answer='" + answer + '\'' +
-        ", url='" + url + '\'' +
-        ", ip='" + ip + '\'' +
-        ", queryHeaders='" + queryHeaders + '\'' +
-        ", sha1='" + sha1 + '\'' +
-        ", innerQuery=" + innerQueries +
-        '}';
+    return "Log{"
+        + "timestamp='"
+        + timestamp
+        + '\''
+        + ", method='"
+        + method
+        + '\''
+        + ", answerCode='"
+        + answerCode
+        + '\''
+        + ", queryBody='"
+        + queryBody
+        + '\''
+        + ", answer='"
+        + answer
+        + '\''
+        + ", url='"
+        + url
+        + '\''
+        + ", ip='"
+        + ip
+        + '\''
+        + ", queryHeaders='"
+        + queryHeaders
+        + '\''
+        + ", sha1='"
+        + sha1
+        + '\''
+        + ", innerQuery="
+        + innerQueries
+        + '}';
   }
 }
