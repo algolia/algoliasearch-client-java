@@ -672,17 +672,12 @@ public class IndexSettings implements Serializable {
   }
 
   public Boolean getEnablePersonalization() {
-    return enablePersonalization != null && enablePersonalization;
+    return enablePersonalization;
   }
 
   public IndexSettings setEnablePersonalization(Boolean enablePersonalization) {
     this.enablePersonalization = enablePersonalization;
     return this;
-  }
-
-  @JsonProperty("enablePersonalization")
-  private Boolean internalEnablePersonalization() {
-    return enablePersonalization;
   }
 
   @Override

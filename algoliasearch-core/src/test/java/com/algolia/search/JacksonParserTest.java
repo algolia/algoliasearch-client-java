@@ -889,18 +889,10 @@ class JacksonParserTest {
   }
 
   @Test
-  void enablePersonalization_setTrue() throws IOException {
+  void enablePersonalization() throws IOException {
     IndexSettings settings = new IndexSettings().setEnablePersonalization(true);
     IndexSettings result = serializeDeserialize(settings);
     assertThat(result).isEqualToComparingFieldByField(settings);
     assertThat(result.getEnablePersonalization()).isEqualTo(true);
-  }
-
-  @Test
-  void enablePersonalization_default() throws IOException {
-    IndexSettings settings = new IndexSettings();
-    IndexSettings result = serializeDeserialize(settings);
-    assertThat(result).isEqualToComparingFieldByField(settings);
-    assertThat(result.getEnablePersonalization()).isEqualTo(false);
   }
 }
