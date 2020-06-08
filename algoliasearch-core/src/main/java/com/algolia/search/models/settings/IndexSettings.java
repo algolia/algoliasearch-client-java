@@ -29,6 +29,7 @@ public class IndexSettings implements Serializable {
   private List<String> queryLanguages;
   private List<String> indexLanguages;
   private Map<String, Map<String, String>> customNormalization;
+  private Boolean enablePersonalization;
 
   private List<String> searchableAttributes;
   private List<String> attributesForFaceting;
@@ -668,6 +669,20 @@ public class IndexSettings implements Serializable {
   public IndexSettings setCustomSettings(Map<String, Object> customSettings) {
     this.customSettings = customSettings;
     return this;
+  }
+
+  public Boolean getEnablePersonalization() {
+    return enablePersonalization != null && enablePersonalization;
+  }
+
+  public IndexSettings setEnablePersonalization(Boolean enablePersonalization) {
+    this.enablePersonalization = enablePersonalization;
+    return this;
+  }
+
+  @JsonProperty("enablePersonalization")
+  private Boolean internalEnablePersonalization() {
+    return enablePersonalization;
   }
 
   @Override
