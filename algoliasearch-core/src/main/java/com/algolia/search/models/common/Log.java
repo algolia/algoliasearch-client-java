@@ -152,8 +152,9 @@ public class Log implements Serializable {
         + ", sha1='"
         + sha1
         + '\''
-        + ", innerQuery="
+        + ", innerQueries='"
         + innerQueries
+        + '\''
         + '}';
   }
 }
