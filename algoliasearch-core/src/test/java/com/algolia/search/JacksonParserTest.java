@@ -15,6 +15,7 @@ import com.algolia.search.models.rules.AutomaticFacetFilter;
 import com.algolia.search.models.rules.Condition;
 import com.algolia.search.models.rules.Consequence;
 import com.algolia.search.models.rules.ConsequenceParams;
+import com.algolia.search.models.rules.ConsequencePromote;
 import com.algolia.search.models.rules.ConsequenceQuery;
 import com.algolia.search.models.rules.Edit;
 import com.algolia.search.models.rules.EditType;
@@ -261,7 +262,6 @@ class JacksonParserTest {
         new Rule()
             .setConsequence(
                 new Consequence()
-                    .setPromote(Arrays.asList(new ConsequencePromote.Single()))
                     .setParams(
                         new ConsequenceParams()
                             .setOptionalFilters(
@@ -929,5 +929,24 @@ class JacksonParserTest {
     String typeList = "{\"type\":[\"type1\",\"type2\"]}";
     Alternative altList = Defaults.getObjectMapper().readValue(typeList, Alternative.class);
     assertThat(altList.getType()).isEqualTo("type1,type2");
+  }
+
+  @Test
+  void testConsequencePromotion() throws IOException {
+    Consequence consequence =
+        new Consequence()
+            .setPromote(
+                Arrays.asList(
+                    ConsequencePromote.of("a", 0),
+                    ConsequencePromote.of(Arrays.asList("b", "c"), 1)));
+
+    String json = Defaults.getObjectMapper().writeValueAsString(consequence);
+    Consequence retrieveConsequence = Defaults.getObjectMapper().readValue(json, Consequence.class);
+
+    List<ConsequencePromote> promote = retrieveConsequence.getPromote();
+    assertThat(promote).hasSize(2);
+    assertThat(promote.get(0)).isInstanceOf(ConsequencePromote.Single.class);
+    assertThat(promote.get(1)).isInstanceOf(ConsequencePromote.Multiple.class);
+    assertThat(((ConsequencePromote.Multiple) promote.get(1)).getObjectIDs()).hasSize(2);
   }
 }
