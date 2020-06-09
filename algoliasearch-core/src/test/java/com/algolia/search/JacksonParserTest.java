@@ -4,6 +4,7 @@ import static com.algolia.search.models.synonyms.SynonymType.ALT_CORRECTION_1;
 import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algolia.search.models.common.InnerQuery;
 import com.algolia.search.models.indexing.AroundPrecision;
 import com.algolia.search.models.indexing.AroundRadius;
 import com.algolia.search.models.indexing.PartialUpdateOperation;
@@ -870,5 +871,20 @@ class JacksonParserTest {
     assertThat(serialized)
         .isEqualTo(
             "{\"objectID\":\"myID\",\"update\":{\"_operation\":\"Remove\",\"value\":\"something\"}}");
+  }
+
+  @Test
+  void innerQuery() throws IOException {
+    InnerQuery innerQuery =
+        new InnerQuery("index").setOffset(0).setUserToken("token").setQueryID("queryID");
+
+    String json = Defaults.getObjectMapper().writeValueAsString(innerQuery);
+    InnerQuery retrievedInnerQuery = Defaults.getObjectMapper().readValue(json, InnerQuery.class);
+
+    assertThat(json)
+        .isEqualTo(
+            "{\"indexName\":\"index\",\"offset\":0,\"query_id\":\"queryID\",\"user_token\":\"token\"}");
+
+    assertThat(retrievedInnerQuery.getIndexName()).isNotNull();
   }
 }
