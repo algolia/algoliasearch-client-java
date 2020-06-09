@@ -261,6 +261,7 @@ class JacksonParserTest {
         new Rule()
             .setConsequence(
                 new Consequence()
+                    .setPromote(Arrays.asList(new ConsequencePromote.Single()))
                     .setParams(
                         new ConsequenceParams()
                             .setOptionalFilters(
