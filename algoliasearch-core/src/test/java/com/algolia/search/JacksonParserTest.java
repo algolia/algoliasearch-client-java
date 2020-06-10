@@ -5,16 +5,33 @@ import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.models.common.InnerQuery;
+import com.algolia.search.models.indexing.Alternative;
 import com.algolia.search.models.indexing.AroundPrecision;
 import com.algolia.search.models.indexing.AroundRadius;
 import com.algolia.search.models.indexing.PartialUpdateOperation;
 import com.algolia.search.models.indexing.Query;
-import com.algolia.search.models.rules.*;
-import com.algolia.search.models.settings.*;
+import com.algolia.search.models.rules.Alternatives;
+import com.algolia.search.models.rules.AutomaticFacetFilter;
+import com.algolia.search.models.rules.Condition;
+import com.algolia.search.models.rules.Consequence;
+import com.algolia.search.models.rules.ConsequenceParams;
+import com.algolia.search.models.rules.ConsequenceQuery;
+import com.algolia.search.models.rules.Edit;
+import com.algolia.search.models.rules.EditType;
+import com.algolia.search.models.rules.Rule;
+import com.algolia.search.models.settings.Distinct;
+import com.algolia.search.models.settings.IgnorePlurals;
+import com.algolia.search.models.settings.IndexSettings;
+import com.algolia.search.models.settings.RemoveStopWords;
+import com.algolia.search.models.settings.TypoTolerance;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -900,5 +917,16 @@ class JacksonParserTest {
     IndexSettings result = serializeDeserialize(settings);
     assertThat(result).isEqualToComparingFieldByField(settings);
     assertThat(result.getEnablePersonalization()).isEqualTo(true);
+  }
+
+  @Test
+  void alternativeType() throws IOException {
+    String typeString = "{\"type\":\"type1,type2\"}";
+    Alternative altString = Defaults.getObjectMapper().readValue(typeString, Alternative.class);
+    assertThat(altString.getType()).isEqualTo("type1,type2");
+
+    String typeList = "{\"type\":[\"type1\",\"type2\"]}";
+    Alternative altList = Defaults.getObjectMapper().readValue(typeList, Alternative.class);
+    assertThat(altList.getType()).isEqualTo("type1,type2");
   }
 }
