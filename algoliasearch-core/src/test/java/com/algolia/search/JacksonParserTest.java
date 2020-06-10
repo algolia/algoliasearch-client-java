@@ -128,6 +128,12 @@ class JacksonParserTest {
 
     ignorePlurals =
         Defaults.getObjectMapper()
+            .readValue("{\"ignorePlurals\":\"true\"}", IndexSettings.class)
+            .getIgnorePlurals();
+    assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(true));
+
+    ignorePlurals =
+        Defaults.getObjectMapper()
             .readValue("{\"ignorePlurals\":[\"en\"]}", IndexSettings.class)
             .getIgnorePlurals();
     assertThat(ignorePlurals).isEqualTo(IgnorePlurals.of(Collections.singletonList("en")));
