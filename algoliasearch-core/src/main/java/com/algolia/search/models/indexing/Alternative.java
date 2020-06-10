@@ -1,5 +1,6 @@
 package com.algolia.search.models.indexing;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.List;
 
 public class Alternative {
@@ -48,7 +49,9 @@ public class Alternative {
     return this;
   }
 
+  @JsonDeserialize(using = FlatListDeserializer.class)
   private String type;
+
   private List<String> words;
   private Long typos;
   private Long offset;
