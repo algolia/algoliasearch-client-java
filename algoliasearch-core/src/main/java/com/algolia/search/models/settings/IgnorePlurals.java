@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.BooleanDeserializer;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -98,7 +99,8 @@ class IgnorePluralsDeserializer extends JsonDeserializer<IgnorePlurals> {
       return IgnorePlurals.of(languages);
     }
 
-    return IgnorePlurals.of(p.getBooleanValue());
+    BooleanDeserializer booleanDeserializer = new BooleanDeserializer(Boolean.TYPE, Boolean.FALSE);
+    return IgnorePlurals.of(booleanDeserializer.deserialize(p, ctxt));
   }
 }
 
