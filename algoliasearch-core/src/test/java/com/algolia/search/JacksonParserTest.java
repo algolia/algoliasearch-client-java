@@ -887,4 +887,12 @@ class JacksonParserTest {
 
     assertThat(retrievedInnerQuery.getIndexName()).isNotNull();
   }
+
+  @Test
+  void enablePersonalization() throws IOException {
+    IndexSettings settings = new IndexSettings().setEnablePersonalization(true);
+    IndexSettings result = serializeDeserialize(settings);
+    assertThat(result).isEqualToComparingFieldByField(settings);
+    assertThat(result.getEnablePersonalization()).isEqualTo(true);
+  }
 }
