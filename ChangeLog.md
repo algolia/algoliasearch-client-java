@@ -1,5 +1,27 @@
 # ChangeLog
 
+## [3.10.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.9.0...3.10.0) (2020-06-12)
+
+### Feat
+
+- **settings**: accept enablePersonalization boolean as a valid setting parameter ([c4b4649](https://github.com/algolia/algoliasearch-client-java-2/commit/c4b4649))
+- **logs**: specify properties serialization names ([61a8abc](https://github.com/algolia/algoliasearch-client-java-2/commit/61a8abc))
+- **logs**: add inner_queries response field ([4dca712](https://github.com/algolia/algoliasearch-client-java-2/commit/4dca712))
+- **build**: make Apache Uber JAR OSGi-compliant ([ee7fab7](https://github.com/algolia/algoliasearch-client-java-2/commit/ee7fab7))
+- **search**: expose built-in operations for partial updates with PartialUpdateOperation<T> ([949c83f](https://github.com/algolia/algoliasearch-client-java-2/commit/949c83f))
+- add naturalLanguages parameter ([77a039b](https://github.com/algolia/algoliasearch-client-java-2/commit/77a039b))
+
+### Fix
+
+- **search**: add support of quoted booleans in IgnorePlurals ([560d2f2](https://github.com/algolia/algoliasearch-client-java-2/commit/560d2f2))
+
+### Misc
+
+- Merge pull request #700 from algolia/feat/settings ([c3d9cc4](https://github.com/algolia/algoliasearch-client-java-2/commit/c3d9cc4))
+- chore(compiler) use `release` argument ([cdbc57b](https://github.com/algolia/algoliasearch-client-java-2/commit/cdbc57b))
+
+
+
 ## [3.9.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.8.1...3.9.0) (2020-04-21)
 
 ### Feat
