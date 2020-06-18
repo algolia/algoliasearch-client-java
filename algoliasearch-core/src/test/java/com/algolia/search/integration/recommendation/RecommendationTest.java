@@ -1,6 +1,6 @@
 package com.algolia.search.integration.recommendation;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.algolia.search.Defaults;
 import com.algolia.search.RecommendationClient;
@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.ThrowingSupplier;
 
 public abstract class RecommendationTest {
 
@@ -25,8 +24,28 @@ public abstract class RecommendationTest {
 
   @Test
   void testRecommendationClient() {
-    Assertions.assertDoesNotThrow(
-        (ThrowingSupplier<GetStrategyResponse>) recommendationClient::getPersonalizationStrategy);
+    SetStrategyRequest request =
+        new SetStrategyRequest()
+            .setEventsScoring(
+                Arrays.asList(
+                    new EventsScoring("Add to cart", "conversion", 50),
+                    new EventsScoring("Purchase", "conversion", 100)))
+            .setFacetsScoring(
+                Arrays.asList(new FacetsScoring("brand", 100), new FacetsScoring("categories", 10)))
+            .setPersonalizationImpact(0);
+    Assertions.assertDoesNotThrow(() -> recommendationClient.setPersonalizationStrategy(request));
+
+    GetStrategyResponse response = recommendationClient.getPersonalizationStrategy();
+
+    assertThat(response.getEventsScoring())
+        .usingRecursiveComparison()
+        .isEqualTo(request.getEventsScoring());
+
+    assertThat(response.getFacetsScoring())
+        .usingRecursiveComparison()
+        .isEqualTo(request.getFacetsScoring());
+
+    assertThat(response.getPersonalizationImpact()).isEqualTo(request.getPersonalizationImpact());
   }
 
   /*
