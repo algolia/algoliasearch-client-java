@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.algolia.search.SearchClient;
+import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.integration.TestHelpers;
 import com.algolia.search.models.apikeys.*;
 import java.time.Duration;
 import java.time.Instant;
@@ -22,7 +24,7 @@ public abstract class ApiKeysTest {
   }
 
   @Test
-  void testApiKeys() {
+  void testApiKeys() throws Exception {
 
     ApiKey apiKeyToSend =
         new ApiKey()
@@ -62,8 +64,21 @@ public abstract class ApiKeysTest {
     DeleteApiKeyResponse deleteApiKey = searchClient.deleteApiKeyAsync(apiKey).join();
     deleteApiKey.waitTask();
 
-    RestoreApiKeyResponse restoreApiKey = searchClient.restoreApiKeyAsync(apiKey).join();
-    restoreApiKey.waitTask();
+    TestHelpers.retry(
+        () -> {
+          boolean shouldRetry;
+          try {
+            RestoreApiKeyResponse restoreApiKey = searchClient.restoreApiKeyAsync(apiKey).join();
+            restoreApiKey.waitTask();
+            shouldRetry = false;
+          } catch (AlgoliaApiException e) {
+            shouldRetry =
+                e.getHttpErrorCode() == 404 && e.getMessage().equals("Key already exists");
+          }
+          return shouldRetry;
+        },
+        Duration.ofSeconds(1),
+        10);
 
     searchClient
         .getApiKeyAsync(apiKey)
