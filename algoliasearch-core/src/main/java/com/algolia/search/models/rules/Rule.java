@@ -14,6 +14,7 @@ public class Rule implements Serializable {
 
   private String objectID;
   private Condition condition;
+  private List<Condition> conditions;
   private Consequence consequence;
   private String description;
   private Boolean enabled;
@@ -31,12 +32,23 @@ public class Rule implements Serializable {
     return this;
   }
 
+  @Deprecated
   public Condition getCondition() {
     return condition;
   }
 
+  @Deprecated
   public Rule setCondition(Condition condition) {
     this.condition = condition;
+    return this;
+  }
+
+  public List<Condition> getConditions() {
+    return conditions;
+  }
+
+  public Rule setConditions(List<Condition> conditions) {
+    this.conditions = conditions;
     return this;
   }
 

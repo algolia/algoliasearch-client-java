@@ -97,11 +97,12 @@ public abstract class QueryRulesTest {
     Rule ruleToSave2 =
         new Rule()
             .setObjectID("query_edits")
-            .setCondition(
-                new Condition()
-                    .setAnchoring("is")
-                    .setPattern("mobile phone")
-                    .setAlternatives(Alternatives.of(true)))
+            .setConditions(
+                Collections.singletonList(
+                    new Condition()
+                        .setAnchoring("is")
+                        .setPattern("mobile phone")
+                        .setAlternatives(Alternatives.of(true))))
             .setConsequence(consequenceToBatch);
 
     // Third rule to save
