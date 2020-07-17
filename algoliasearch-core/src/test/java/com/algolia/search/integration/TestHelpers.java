@@ -1,5 +1,6 @@
 package com.algolia.search.integration;
 
+import java.time.Duration;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -57,5 +58,16 @@ public class TestHelpers {
     if (ALGOLIA_ADMIN_KEY_MCM == null || ALGOLIA_ADMIN_KEY_MCM.isEmpty()) {
       throw new Exception("ALGOLIA_ADMIN_KEY_MCM is not defined or empty");
     }
+  }
+
+  public static void retry(RetryableFunc f, Duration delay, int maxNbRetries) throws Exception {
+    for (int i = 0; i < maxNbRetries; i++) {
+      boolean shouldRetry = f.method();
+      if (!shouldRetry) {
+        return;
+      }
+      Thread.sleep(delay.toMillis());
+    }
+    throw new Exception("reached the maximum number of retries");
   }
 }
