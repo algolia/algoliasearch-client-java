@@ -1,5 +1,18 @@
 # ChangeLog
 
+## [3.11.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.10.0...3.11.0) (2020-07-17)
+
+### Feat
+
+- **rule**: implement multi-condition rules ([df05893](https://github.com/algolia/algoliasearch-client-java-2/commit/df05893))
+
+### Fix
+
+- **build**: make the algoliasearch-apache-uber JAR compliant with OSGi ([6ccd2dd](https://github.com/algolia/algoliasearch-client-java-2/commit/6ccd2dd))
+- **explain**: add support of `type` property as a List in `Alternative` ([249cac5](https://github.com/algolia/algoliasearch-client-java-2/commit/249cac5))
+
+
+
 ## [3.10.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.9.0...3.10.0) (2020-06-12)
 
 ### Feat
