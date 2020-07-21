@@ -17,6 +17,7 @@
   <a href="https://discourse.algolia.com" target="_blank">Community Forum</a>  •
   <a href="http://stackoverflow.com/questions/tagged/algolia" target="_blank">Stack Overflow</a>  •
   <a href="https://github.com/algolia/algoliasearch-client-java-2/issues" target="_blank">Report a bug</a>  •
+  <a href="https://www.algolia.com/doc/api-client/troubleshooting/faq/java/" target="_blank">FAQ</a>  •
   <a href="https://www.algolia.com/support" target="_blank">Support</a>
 </p>
 
@@ -143,6 +144,10 @@ For full documentation, visit the [Algolia Java API Client's documentation](http
 ## 📝 Examples
 
 You can find code samples in the [Algolia's API Clients playground](https://github.com/algolia/api-clients-playground/tree/master/java/src/main/java).
+
+## ❓ Troubleshooting
+
+Encountering an issue? Before reaching out to support, we recommend heading to our [FAQ](https://www.algolia.com/doc/api-client/troubleshooting/faq/java/) where you will find answers for the most common issues and gotchas with the client.
 
 ## 📄 License
 Algolia Java API Client is an open-sourced software licensed under the [MIT license](LICENSE.md).
