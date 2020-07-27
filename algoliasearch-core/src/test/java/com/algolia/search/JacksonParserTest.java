@@ -937,16 +937,19 @@ class JacksonParserTest {
         new Consequence()
             .setPromote(
                 Arrays.asList(
-                    ConsequencePromote.of("a", 0),
-                    ConsequencePromote.of(Arrays.asList("b", "c"), 1)));
+                    new ConsequencePromote().setObjectID("a").setPosition(0),
+                    new ConsequencePromote().setObjectIDs(Arrays.asList("b", "c")).setPosition(1)));
 
     String json = Defaults.getObjectMapper().writeValueAsString(consequence);
     Consequence retrieveConsequence = Defaults.getObjectMapper().readValue(json, Consequence.class);
-
     List<ConsequencePromote> promote = retrieveConsequence.getPromote();
+
     assertThat(promote).hasSize(2);
-    assertThat(promote.get(0)).isInstanceOf(ConsequencePromote.Single.class);
-    assertThat(promote.get(1)).isInstanceOf(ConsequencePromote.Multiple.class);
-    assertThat(((ConsequencePromote.Multiple) promote.get(1)).getObjectIDs()).hasSize(2);
+    // Single ObjectID case
+    assertThat(promote.get(0).getObjectID()).isEqualTo("a");
+    assertThat(promote.get(0).getObjectIDs()).isNull();
+    // Multiple ObjectIDs case
+    assertThat(promote.get(1).getObjectID()).isNull();
+    assertThat(promote.get(1).getObjectIDs()).isEqualTo(Arrays.asList("b", "c"));
   }
 }
