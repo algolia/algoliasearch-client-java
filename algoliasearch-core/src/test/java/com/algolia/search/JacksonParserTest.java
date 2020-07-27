@@ -854,6 +854,28 @@ class JacksonParserTest {
   }
 
   @Test
+  void partialUpdateOperation_increment_from() throws JsonProcessingException {
+    RecordWithPartialUpdate record = new RecordWithPartialUpdate();
+    record.setObjectID("myID");
+    record.setUpdate(PartialUpdateOperation.incrementFrom(2));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(record);
+    assertThat(serialized)
+        .isEqualTo(
+            "{\"objectID\":\"myID\",\"update\":{\"_operation\":\"IncrementFrom\",\"value\":2}}");
+  }
+
+  @Test
+  void partialUpdateOperation_increment_set() throws JsonProcessingException {
+    RecordWithPartialUpdate record = new RecordWithPartialUpdate();
+    record.setObjectID("myID");
+    record.setUpdate(PartialUpdateOperation.incrementSet(2));
+    String serialized = Defaults.getObjectMapper().writeValueAsString(record);
+    assertThat(serialized)
+        .isEqualTo(
+            "{\"objectID\":\"myID\",\"update\":{\"_operation\":\"IncrementSet\",\"value\":2}}");
+  }
+
+  @Test
   void partialUpdateOperation_decrement() throws JsonProcessingException {
     RecordWithPartialUpdate record = new RecordWithPartialUpdate();
     record.setObjectID("myID");
