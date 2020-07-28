@@ -1,5 +1,20 @@
 # ChangeLog
 
+## [3.12.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.11.0...3.12.0) (2020-07-28)
+
+### Feat
+
+- **indexing**: add 'IncrementFrom' and 'IncrementSet' operations ([da67171](https://github.com/algolia/algoliasearch-client-java-2/commit/da67171))
+- **rules**: apply code review sugguestions ([8733bd7](https://github.com/algolia/algoliasearch-client-java-2/commit/8733bd7))
+- **rules**: add custom serializer/deserializer ([1147494](https://github.com/algolia/algoliasearch-client-java-2/commit/1147494))
+- **rules**: expose rule.consequence.promote.objectIDs string array ([1a7b296](https://github.com/algolia/algoliasearch-client-java-2/commit/1a7b296))
+
+### Fix
+
+- **search**: add missing 'exhaustiveNbHits' ([d5a860f](https://github.com/algolia/algoliasearch-client-java-2/commit/d5a860f))
+
+
+
 ## [3.11.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.10.0...3.11.0) (2020-07-17)
 
 ### Feat
