@@ -35,6 +35,14 @@ public class PartialUpdateOperation<T> {
     return new PartialUpdateOperation<>(PartialUpdateOperationType.INCREMENT, value);
   }
 
+  public static PartialUpdateOperation<Integer> incrementFrom(Integer value) {
+    return new PartialUpdateOperation<>(PartialUpdateOperationType.INCREMENT_FROM, value);
+  }
+
+  public static PartialUpdateOperation<Integer> incrementSet(Integer value) {
+    return new PartialUpdateOperation<>(PartialUpdateOperationType.INCREMENT_SET, value);
+  }
+
   public static PartialUpdateOperation<Integer> decrement(Integer value) {
     return new PartialUpdateOperation<>(PartialUpdateOperationType.DECREMENT, value);
   }
