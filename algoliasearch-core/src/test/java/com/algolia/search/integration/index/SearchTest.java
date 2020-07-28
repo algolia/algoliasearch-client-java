@@ -2,6 +2,7 @@ package com.algolia.search.integration.index;
 
 import static com.algolia.search.integration.TestHelpers.getTestIndexName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
@@ -93,6 +94,7 @@ public abstract class SearchTest {
         .isEqualTo(1);
     assertThat(searchAlgoliaFuture.get().getObjectPosition("unknown", Employee.class))
         .isEqualTo(-1);
+    assertTrue(searchAlgoliaFuture.get().getExhaustiveNbHits());
     assertThat(searchElonFuture.get().getQueryID()).isNotNull();
     assertThat(searchElonFuture1.get().getHits()).hasSize(1);
     assertThat(searchElonFuture2.get().getHits()).hasSize(2);
