@@ -2,6 +2,7 @@ package com.algolia.search.models.rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Consequence parameter. More information:
@@ -12,6 +13,7 @@ import java.io.Serializable;
 public class ConsequencePromote implements Serializable {
   private String objectID;
   private Integer position;
+  private List<String> objectIDs;
 
   public ConsequencePromote() {}
 
@@ -30,6 +32,15 @@ public class ConsequencePromote implements Serializable {
 
   public ConsequencePromote setPosition(Integer position) {
     this.position = position;
+    return this;
+  }
+
+  public List<String> getObjectIDs() {
+    return objectIDs;
+  }
+
+  public ConsequencePromote setObjectIDs(List<String> objectIDs) {
+    this.objectIDs = objectIDs;
     return this;
   }
 }
