@@ -28,6 +28,7 @@ public class SearchResult<T> implements Serializable {
   private Explain explain;
   private List<Map<String, Object>> userData;
   private List<Map<String, Object>> appliedRules;
+  private Boolean exhaustiveNbHits;
 
   public Explain getExplain() {
     return explain;
@@ -313,6 +314,15 @@ public class SearchResult<T> implements Serializable {
         .orElse(-1);
   }
 
+  public Boolean getExhaustiveNbHits() {
+    return exhaustiveNbHits;
+  }
+
+  public SearchResult<T> setExhaustiveNbHits(Boolean exhaustiveNbHits) {
+    this.exhaustiveNbHits = exhaustiveNbHits;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "SearchResult{"
@@ -345,6 +355,9 @@ public class SearchResult<T> implements Serializable {
         + '\''
         + ", processed="
         + processed
+        + '\''
+        + ", exhaustiveNbHits="
+        + exhaustiveNbHits
         + '}';
   }
 }
