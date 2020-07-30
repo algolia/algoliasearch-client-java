@@ -61,6 +61,24 @@ jobs:
           paths:
             - "~/.m2"
 
+  release:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - checkout
+      - restore_cache:
+          key: mvn-cache-11
+      - run:
+          name: Release new version
+          command: |
+            if [[ -z "$BINTRAY_USER" ]];    then echo '$BINTRAY_USER is not set';     exit 1; fi
+            if [[ -z "$BINTRAY_API_KEY" ]]; then echo '$BINTRAY_API_KEY is not set';  exit 1; fi
+            mvn -s .circleci/settings.xml deploy -DskipTests
+      - save_cache:
+          key: mvn-cache-11
+          paths:
+            - "~/.m2"
+
 workflows:
   version: 2
   build:
@@ -68,3 +86,13 @@ workflows:
       - format
       - test-java-8
       - test-java-11
+      - release:
+          requires:
+            - format
+            - test-java-8
+            - test-java-11
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /^[1-9]+.[0-9]+.[0-9]+.*/
