@@ -28,17 +28,11 @@ public class Variant implements Serializable {
   // API.
   private String description;
 
-  // Average click position for the variant.
-  private Float averageClickPosition;
+  // Click through rate for the variant.
+  private Integer conversionCount;
 
   // Distinct click count for the variant.
   private Integer clickCount;
-
-  // Click through rate for the variant.
-  private Float clickThroughRate;
-
-  // Click through rate for the variant.
-  private Integer conversionCount;
 
   // Distinct conversion count for the variant.
   private Float conversionRate;
@@ -46,11 +40,20 @@ public class Variant implements Serializable {
   // No result count
   private Integer noResultCount;
 
+  // Average click position for the variant.
+  private Float averageClickPosition;
+
   // Search count
-  private Integer searchCount;
+  private Long searchCount;
+
+  // Tracked search count
+  private Long trackedSearchCount;
 
   // User Count
-  private Integer userCount;
+  private Long userCount;
+
+  // Click through rate for the variant.
+  private Float clickThroughRate;
 
   // Properties set by the AB Testing API
   private Query customSearchParameters;
@@ -95,36 +98,20 @@ public class Variant implements Serializable {
     this.description = description;
   }
 
-  public Float getAverageClickPosition() {
-    return averageClickPosition;
-  }
-
-  public void setAverageClickPosition(Float averageClickPosition) {
-    this.averageClickPosition = averageClickPosition;
-  }
-
-  public Integer getClickCount() {
-    return clickCount;
-  }
-
-  public void setClickCount(Integer clickCount) {
-    this.clickCount = clickCount;
-  }
-
-  public Float getClickThroughRate() {
-    return clickThroughRate;
-  }
-
-  public void setClickThroughRate(Float clickThroughRate) {
-    this.clickThroughRate = clickThroughRate;
-  }
-
   public Integer getConversionCount() {
     return conversionCount;
   }
 
   public void setConversionCount(Integer conversionCount) {
     this.conversionCount = conversionCount;
+  }
+
+  public int getClickCount() {
+    return clickCount;
+  }
+
+  public void setClickCount(int clickCount) {
+    this.clickCount = clickCount;
   }
 
   public Float getConversionRate() {
@@ -143,20 +130,44 @@ public class Variant implements Serializable {
     this.noResultCount = noResultCount;
   }
 
-  public Integer getSearchCount() {
+  public Float getAverageClickPosition() {
+    return averageClickPosition;
+  }
+
+  public void setAverageClickPosition(Float averageClickPosition) {
+    this.averageClickPosition = averageClickPosition;
+  }
+
+  public Long getSearchCount() {
     return searchCount;
   }
 
-  public void setSearchCount(Integer searchCount) {
+  public void setSearchCount(Long searchCount) {
     this.searchCount = searchCount;
   }
 
-  public Integer getUserCount() {
+  public Long getTrackedSearchCount() {
+    return trackedSearchCount;
+  }
+
+  public void setTrackedSearchCount(Long trackedSearchCount) {
+    this.trackedSearchCount = trackedSearchCount;
+  }
+
+  public Long getUserCount() {
     return userCount;
   }
 
-  public void setUserCount(Integer userCount) {
+  public void setUserCount(Long userCount) {
     this.userCount = userCount;
+  }
+
+  public Float getClickThroughRate() {
+    return clickThroughRate;
+  }
+
+  public void setClickThroughRate(Float clickThroughRate) {
+    this.clickThroughRate = clickThroughRate;
   }
 
   @JsonProperty
