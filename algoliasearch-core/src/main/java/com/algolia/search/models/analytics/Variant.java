@@ -28,12 +28,6 @@ public class Variant implements Serializable {
   // API.
   private String description;
 
-  // Click through rate for the variant.
-  private Integer conversionCount;
-
-  // Distinct click count for the variant.
-  private Integer clickCount;
-
   // Distinct conversion count for the variant.
   private Float conversionRate;
 
@@ -96,22 +90,6 @@ public class Variant implements Serializable {
 
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public Integer getConversionCount() {
-    return conversionCount;
-  }
-
-  public void setConversionCount(Integer conversionCount) {
-    this.conversionCount = conversionCount;
-  }
-
-  public int getClickCount() {
-    return clickCount;
-  }
-
-  public void setClickCount(int clickCount) {
-    this.clickCount = clickCount;
   }
 
   public Float getConversionRate() {
