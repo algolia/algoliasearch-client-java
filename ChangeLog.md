@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [3.12.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.12.0...3.12.1) (2020-11-03)
+
+### Fix
+
+- **ABTest**: add missing fields in Variant (#723)
+
+
+
 ## [3.12.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.11.0...3.12.0) (2020-07-28)
 
 ### Feat
