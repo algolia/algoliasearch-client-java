@@ -346,7 +346,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    *
    * @param synonyms List of synonyms
    * @param forwardToReplicas Forward to the replicas the request
-   * @param replaceExistingSynonyms Replace all existing synonyms
+   * @param clearExistingSynonyms Replace all existing synonyms
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
@@ -354,9 +354,9 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
   default SaveSynonymResponse saveSynonyms(
       @Nonnull Iterable<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
-      @Nonnull Boolean replaceExistingSynonyms) {
+      @Nonnull Boolean clearExistingSynonyms) {
     return LaunderThrowable.await(
-        saveSynonymsAsync(synonyms, forwardToReplicas, replaceExistingSynonyms));
+        saveSynonymsAsync(synonyms, forwardToReplicas, clearExistingSynonyms));
   }
 
   /**
@@ -364,7 +364,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    *
    * @param synonyms List of synonyms
    * @param forwardToReplicas Forward to the replicas the request
-   * @param replaceExistingSynonyms Replace all existing synonyms
+   * @param clearExistingSynonyms Replace all existing synonyms
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
@@ -373,10 +373,10 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
   default SaveSynonymResponse saveSynonyms(
       @Nonnull Iterable<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
-      @Nonnull Boolean replaceExistingSynonyms,
+      @Nonnull Boolean clearExistingSynonyms,
       @Nonnull RequestOptions requestOptions) {
     return LaunderThrowable.await(
-        saveSynonymsAsync(synonyms, forwardToReplicas, replaceExistingSynonyms, requestOptions));
+        saveSynonymsAsync(synonyms, forwardToReplicas, clearExistingSynonyms, requestOptions));
   }
 
   /**
@@ -411,7 +411,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    *
    * @param synonyms List of synonyms
    * @param forwardToReplicas Forward to the replicas the request
-   * @param replaceExistingSynonyms Replace all existing synonyms
+   * @param clearExistingSynonyms Replace all existing synonyms
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
@@ -419,9 +419,9 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
       @Nonnull Iterable<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
-      @Nonnull Boolean replaceExistingSynonyms) {
+      @Nonnull Boolean clearExistingSynonyms) {
     return saveSynonymsAsync(
-        synonyms, forwardToReplicas, replaceExistingSynonyms, new RequestOptions());
+        synonyms, forwardToReplicas, clearExistingSynonyms, new RequestOptions());
   }
 
   /**
@@ -429,7 +429,7 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
    *
    * @param synonyms List of synonyms
    * @param forwardToReplicas Forward to the replicas the request
-   * @param replaceExistingSynonyms Replace all existing synonyms
+   * @param clearExistingSynonyms Replace all existing synonyms
    * @param requestOptions Options to pass to this request
    * @throws AlgoliaRetryException When the retry has failed on all hosts
    * @throws AlgoliaApiException When the API sends an http error code
@@ -438,16 +438,16 @@ public interface SearchIndexSynonyms<T> extends SearchIndexBase<T> {
   default CompletableFuture<SaveSynonymResponse> saveSynonymsAsync(
       @Nonnull Iterable<Synonym> synonyms,
       @Nonnull Boolean forwardToReplicas,
-      @Nonnull Boolean replaceExistingSynonyms,
+      @Nonnull Boolean clearExistingSynonyms,
       @Nonnull RequestOptions requestOptions) {
 
     Objects.requireNonNull(requestOptions, "RequestOptions are required.");
     Objects.requireNonNull(forwardToReplicas, "ForwardToReplicas is required.");
-    Objects.requireNonNull(replaceExistingSynonyms, "replaceExistingSynonyms is required.");
+    Objects.requireNonNull(clearExistingSynonyms, "clearExistingSynonyms is required.");
 
     requestOptions
         .addExtraQueryParameters("forwardToReplicas", forwardToReplicas.toString())
-        .addExtraQueryParameters("replaceExistingSynonyms", replaceExistingSynonyms.toString());
+        .addExtraQueryParameters("replaceExistingSynonyms", clearExistingSynonyms.toString());
 
     return saveSynonymsAsync(synonyms, requestOptions);
   }
