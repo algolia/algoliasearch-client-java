@@ -1,8 +1,10 @@
 package com.algolia.search;
 
+import static com.algolia.search.integration.TestHelpers.ALGOLIA_APPLICATION_ID_1;
+import static com.algolia.search.integration.TestHelpers.ALGOLIA_SEARCH_KEY_1;
+import static com.algolia.search.integration.TestHelpers.getTestIndexName;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.algolia.search.integration.TestHelpers;
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.indexing.Query;
@@ -22,15 +24,14 @@ public abstract class RetryStrategyE2ETest {
 
   protected RetryStrategyE2ETest(SearchClient searchClient) {
     this.searchClient = searchClient;
-    ConfigBase searchConfig = searchClient.getConfig();
     this.customHosts =
         Arrays.asList(
             new StatefulHost("expired.badssl.com", EnumSet.of(CallType.READ)),
             new StatefulHost(
-                String.format("%s-dsn.algolia.net", searchConfig.getApplicationID()),
+                String.format("%s-dsn.algolia.net", ALGOLIA_APPLICATION_ID_1),
                 EnumSet.of(CallType.READ)));
     this.config =
-        new SearchConfig.Builder(searchConfig.getApplicationID(), searchConfig.getApiKey())
+        new SearchConfig.Builder(ALGOLIA_APPLICATION_ID_1, ALGOLIA_SEARCH_KEY_1)
             .setHosts(customHosts)
             .build();
   }
@@ -38,7 +39,7 @@ public abstract class RetryStrategyE2ETest {
   @Test
   void testSearch() {
     // Create a index with a valid client.
-    String indexName = TestHelpers.getTestIndexName("test_retry_e2e");
+    String indexName = getTestIndexName("test_retry_e2e");
     SearchIndex<AlgoliaObject> index = searchClient.initIndex(indexName, AlgoliaObject.class);
     index.saveObject(new AlgoliaObject("one", "exist")).waitTask();
 
