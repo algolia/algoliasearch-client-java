@@ -12,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import javax.annotation.Nonnull;
+import javax.net.ssl.SSLException;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.DeflateDecompressingEntity;
@@ -79,7 +80,8 @@ public final class ApacheHttpRequester implements HttpRequester {
                   || t.getCause() instanceof ConnectionPoolTimeoutException
                   || t.getCause() instanceof NoHttpResponseException) {
                 return new HttpResponse(true);
-              } else if (t.getCause() instanceof HttpException) {
+              } else if (t.getCause() instanceof HttpException
+                  || t.getCause() instanceof SSLException) {
                 return new HttpResponse().setNetworkError(true);
               }
               throw new AlgoliaRuntimeException(t);
