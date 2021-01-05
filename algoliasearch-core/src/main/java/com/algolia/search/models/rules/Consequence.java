@@ -60,9 +60,19 @@ public class Consequence implements Serializable {
     return this;
   }
 
+  public RenderingContent getRenderingContent() {
+    return renderingContent;
+  }
+
+  public Consequence setRenderingContent(RenderingContent renderingContent) {
+    this.renderingContent = renderingContent;
+    return this;
+  }
+
   private ConsequenceParams params;
   private List<ConsequencePromote> promote;
   private Map<String, Object> userData;
   private List<Hide> hide;
   private Boolean filterPromotes;
+  private RenderingContent renderingContent;
 }
