@@ -26,7 +26,8 @@ public final class SearchClient
         SearchClientMcm,
         SearchClientAPIKeys,
         SearchClientPersonalization,
-        SearchClientAdvanced {
+        SearchClientAdvanced,
+        SearchClientDictionary {
 
   /** The transport layer. Must be reused. */
   private final HttpTransport transport;
