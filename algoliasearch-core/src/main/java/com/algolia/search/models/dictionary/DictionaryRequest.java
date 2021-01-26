@@ -7,59 +7,91 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DictionaryRequest {
+public abstract class DictionaryRequest {
 
   public static DictionaryRequest add(
       Boolean clearExistingDictionaryEntries, List<DictionaryEntry> requests) {
-    return new DictionaryRequest(
-        clearExistingDictionaryEntries,
-        requests.stream()
-            .map(entry -> new RequestBody(entry, "addEntry"))
-            .collect(Collectors.toList()));
+    return new DictionaryRequestAdd(clearExistingDictionaryEntries, requests);
   }
 
-  public static DictionaryRequest delete(
-      Boolean clearExistingDictionaryEntries, List<DictionaryEntry> requests) {
-    return new DictionaryRequest(
-        clearExistingDictionaryEntries,
-        requests.stream()
-            .map(entry -> new RequestBody(entry, "deleteEntry"))
-            .collect(Collectors.toList()));
+  public static DictionaryRequest delete(List<String> objectIDs) {
+    return new DictionaryRequestDelete(false, objectIDs);
   }
 
   private final Boolean clearExistingDictionaryEntries;
 
-  private final List<RequestBody> requests;
-
-  public DictionaryRequest(Boolean clearExistingDictionaryEntries, List<RequestBody> requests) {
+  protected DictionaryRequest(Boolean clearExistingDictionaryEntries) {
     this.clearExistingDictionaryEntries = clearExistingDictionaryEntries;
-    this.requests = requests;
   }
 
   public Boolean getClearExistingDictionaryEntries() {
     return clearExistingDictionaryEntries;
   }
+}
 
-  public List<RequestBody> getRequests() {
+class DictionaryRequestAdd extends DictionaryRequest {
+
+  private final List<RequestBody<DictionaryEntry>> requests;
+
+  DictionaryRequestAdd(Boolean clearExistingDictionaryEntries, List<DictionaryEntry> requests) {
+    super(clearExistingDictionaryEntries);
+    this.requests =
+        requests.stream()
+            .map(entry -> new RequestBody<>(entry, "addEntry"))
+            .collect(Collectors.toList());
+  }
+
+  public List<RequestBody<DictionaryEntry>> getRequests() {
     return requests;
   }
 }
 
-class RequestBody implements Serializable {
+class DictionaryRequestDelete extends DictionaryRequest {
 
-  private final DictionaryEntry body;
+  private final List<RequestBody<RequestBodyDelete>> requests;
+
+  DictionaryRequestDelete(Boolean clearExistingDictionaryEntries, List<String> objectIDs) {
+    super(clearExistingDictionaryEntries);
+    this.requests =
+        objectIDs.stream()
+            .map(RequestBodyDelete::new)
+            .map(entry -> new RequestBody<>(entry, "deleteEntry"))
+            .collect(Collectors.toList());
+  }
+
+  public List<RequestBody<RequestBodyDelete>> getRequests() {
+    return requests;
+  }
+}
+
+class RequestBody<T> implements Serializable {
+
+  private final T body;
   private final String action;
 
-  public RequestBody(DictionaryEntry body, String action) {
+  RequestBody(T body, String action) {
     this.body = body;
     this.action = action;
   }
 
-  public DictionaryEntry getBody() {
+  public T getBody() {
     return body;
   }
 
   public String getAction() {
     return action;
+  }
+}
+
+class RequestBodyDelete {
+
+  private final String objectID;
+
+  RequestBodyDelete(String objectID) {
+    this.objectID = objectID;
+  }
+
+  public String getObjectID() {
+    return objectID;
   }
 }

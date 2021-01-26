@@ -20,7 +20,13 @@ public abstract class DictionaryTest {
   void testStopwordsDictionaries() {
     String objectID = UUID.randomUUID().toString();
     Stopword stopword = DictionaryEntry.stopword(objectID, "en", "upper", "enabled");
-    searchClient.saveDictionaryEntries(
-        Dictionary.STOPWORDS, Collections.singletonList(stopword), null, null);
+    searchClient
+        .saveDictionaryEntries(
+            Dictionary.STOPWORDS, Collections.singletonList(stopword), null, null)
+        .waitTask();
+
+    searchClient
+        .deleteDictionaryEntries(Dictionary.STOPWORDS, Collections.singletonList(objectID), null)
+        .waitTask();
   }
 }

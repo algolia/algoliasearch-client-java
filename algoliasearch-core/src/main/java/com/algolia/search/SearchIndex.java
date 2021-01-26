@@ -1828,33 +1828,6 @@ public final class SearchIndex<T>
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public void waitTask(long taskId, long timeToWait, RequestOptions requestOptions) {
-    while (true) {
-
-      TaskStatusResponse response;
-
-      try {
-        response = getTaskAsync(taskId, requestOptions).get();
-      } catch (InterruptedException | ExecutionException e) {
-        // If the future was cancelled or the thread was interrupted or future completed
-        // exceptionally
-        // We stop
-        break;
-      }
-
-      if (java.util.Objects.equals("published", response.getStatus())) {
-        return;
-      }
-
-      try {
-        Thread.sleep(timeToWait);
-      } catch (InterruptedException ignored) {
-        // Restore interrupted state...
-        Thread.currentThread().interrupt();
-      }
-
-      timeToWait *= 2;
-      timeToWait =
-          timeToWait > Defaults.MAX_TIME_MS_TO_WAIT ? Defaults.MAX_TIME_MS_TO_WAIT : timeToWait;
-    }
+    TaskUtils.waitTask(taskId, timeToWait, requestOptions, this::getTaskAsync);
   }
 }
