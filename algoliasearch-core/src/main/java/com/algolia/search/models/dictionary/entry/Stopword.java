@@ -1,12 +1,15 @@
 package com.algolia.search.models.dictionary.entry;
 
-import com.algolia.search.models.dictionary.entry.DictionaryEntry;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Stopword extends DictionaryEntry implements Serializable {
 
-  private final String word;
-  private final String state;
+  private String word;
+  private String state;
+
+  // dummy constructor for deserialization
+  protected Stopword() {}
 
   public Stopword(String objectID, String language, String word, String state) {
     super(objectID, language);
@@ -20,5 +23,19 @@ public class Stopword extends DictionaryEntry implements Serializable {
 
   public String getState() {
     return state;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Stopword)) return false;
+    if (!super.equals(o)) return false;
+    Stopword stopword = (Stopword) o;
+    return Objects.equals(word, stopword.word) && Objects.equals(state, stopword.state);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), word, state);
   }
 }

@@ -12,6 +12,8 @@ import com.algolia.search.models.dictionary.Dictionary;
 import com.algolia.search.models.dictionary.DictionaryRequest;
 import com.algolia.search.models.dictionary.DictionaryResponse;
 import com.algolia.search.models.dictionary.entry.DictionaryEntry;
+import com.algolia.search.models.indexing.Query;
+import com.algolia.search.models.indexing.SearchResult;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -137,6 +139,35 @@ public interface SearchClientDictionary extends SearchClientBase {
             resp -> {
               resp.setWaitConsumer(this::waitTask);
               return resp;
+            },
+            getConfig().getExecutor());
+  }
+
+  default <T> SearchResult<T> search(
+      @Nonnull Dictionary dictionary, @Nonnull Query query, RequestOptions requestOptions) {
+    return LaunderThrowable.await(searchAsync(dictionary, query, requestOptions));
+  }
+
+  default <T> CompletableFuture<SearchResult<T>> searchAsync(
+      @Nonnull Dictionary dictionary, @Nonnull Query query, RequestOptions requestOptions) {
+
+    Objects.requireNonNull(dictionary, "A dictionary is required.");
+    Objects.requireNonNull(query, "A query key is required.");
+
+    return getTransport()
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/dictionaries/" + dictionary + "/search",
+            CallType.READ,
+            query,
+            SearchResult.class,
+            dictionary.getEntryType(),
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<SearchResult<T>> r = new CompletableFuture<>();
+              r.complete(resp);
+              return r;
             },
             getConfig().getExecutor());
   }

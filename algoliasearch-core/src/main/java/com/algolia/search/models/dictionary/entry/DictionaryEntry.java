@@ -3,12 +3,12 @@ package com.algolia.search.models.dictionary.entry;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class DictionaryEntry implements Serializable {
 
-  public static Stopword stopword(
-      String objectID, String language, String word, String state) {
+  public static Stopword stopword(String objectID, String language, String word, String state) {
     return new Stopword(objectID, language, word, state);
   }
 
@@ -23,6 +23,9 @@ public abstract class DictionaryEntry implements Serializable {
 
   private String objectID;
   private String language;
+
+  // dummy constructor for deserialization
+  protected DictionaryEntry() {}
 
   protected DictionaryEntry(String objectID, String language) {
     this.objectID = objectID;
@@ -45,5 +48,22 @@ public abstract class DictionaryEntry implements Serializable {
   public DictionaryEntry setLanguage(String language) {
     this.language = language;
     return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof DictionaryEntry)) {
+      return false;
+    }
+    DictionaryEntry that = (DictionaryEntry) o;
+    return Objects.equals(objectID, that.objectID) && Objects.equals(language, that.language);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(objectID, language);
   }
 }

@@ -1,8 +1,8 @@
 package com.algolia.search.models.dictionary.entry;
 
-import com.algolia.search.models.dictionary.entry.DictionaryEntry;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public class Plural extends DictionaryEntry implements Serializable {
 
@@ -15,5 +15,19 @@ public class Plural extends DictionaryEntry implements Serializable {
 
   public List<String> getWords() {
     return words;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Plural)) return false;
+    if (!super.equals(o)) return false;
+    Plural plural = (Plural) o;
+    return Objects.equals(words, plural.words);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), words);
   }
 }

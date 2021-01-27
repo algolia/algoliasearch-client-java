@@ -2,6 +2,7 @@ package com.algolia.search.models.dictionary.entry;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public class Compound extends DictionaryEntry implements Serializable {
 
@@ -30,5 +31,20 @@ public class Compound extends DictionaryEntry implements Serializable {
   public Compound setDecomposition(List<String> decomposition) {
     this.decomposition = decomposition;
     return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Compound)) return false;
+    if (!super.equals(o)) return false;
+    Compound compound = (Compound) o;
+    return Objects.equals(words, compound.words)
+        && Objects.equals(decomposition, compound.decomposition);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), words, decomposition);
   }
 }
