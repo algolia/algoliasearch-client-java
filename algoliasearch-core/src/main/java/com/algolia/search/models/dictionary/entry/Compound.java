@@ -4,17 +4,21 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+/** Represents an entry for Compounds dictionary. */
 public class Compound implements DictionaryEntry, Serializable {
 
   private String objectID;
   private String language;
-  private String words;
+  private String word;
   private List<String> decomposition;
 
-  public Compound(String objectID, String language, String words, List<String> decomposition) {
+  // dummy constructor for deserialization
+  protected Compound() {}
+
+  public Compound(String objectID, String language, String word, List<String> decomposition) {
     this.objectID = objectID;
     this.language = language;
-    this.words = words;
+    this.word = word;
     this.decomposition = decomposition;
   }
 
@@ -38,12 +42,12 @@ public class Compound implements DictionaryEntry, Serializable {
     return this;
   }
 
-  public String getWords() {
-    return words;
+  public String getWord() {
+    return word;
   }
 
-  public Compound setWords(String words) {
-    this.words = words;
+  public Compound setWord(String word) {
+    this.word = word;
     return this;
   }
 
@@ -79,7 +83,7 @@ public class Compound implements DictionaryEntry, Serializable {
         + language
         + '\''
         + ", words='"
-        + words
+        + word
         + '\''
         + ", decomposition="
         + decomposition

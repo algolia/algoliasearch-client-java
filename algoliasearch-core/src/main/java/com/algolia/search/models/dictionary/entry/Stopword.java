@@ -3,6 +3,7 @@ package com.algolia.search.models.dictionary.entry;
 import java.io.Serializable;
 import java.util.Objects;
 
+/** Represents an entry for Stopword dictionary. */
 public class Stopword implements DictionaryEntry, Serializable {
 
   private String objectID;

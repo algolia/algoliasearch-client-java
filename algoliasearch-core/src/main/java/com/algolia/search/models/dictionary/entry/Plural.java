@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+/** Represents an entry for Plurals dictionary. */
 public class Plural implements DictionaryEntry, Serializable {
 
   private String objectID;
   private String language;
-  private final List<String> words;
+  private List<String> words;
+
+  // dummy constructor for deserialization
+  protected Plural() {}
 
   public Plural(String objectID, String language, List<String> words) {
     this.objectID = objectID;
@@ -40,17 +44,35 @@ public class Plural implements DictionaryEntry, Serializable {
     return words;
   }
 
+  public Plural setWords(List<String> words) {
+    this.words = words;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof Plural)) return false;
-    if (!super.equals(o)) return false;
     Plural plural = (Plural) o;
     return Objects.equals(objectID, plural.objectID);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), objectID);
+    return Objects.hash(objectID);
+  }
+
+  @Override
+  public String toString() {
+    return "Plural{"
+        + "objectID='"
+        + objectID
+        + '\''
+        + ", language='"
+        + language
+        + '\''
+        + ", words="
+        + words
+        + '}';
   }
 }
