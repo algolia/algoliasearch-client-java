@@ -1,10 +1,5 @@
 package com.algolia.search.models.dictionary;
 
-import com.algolia.search.models.dictionary.entry.Compound;
-import com.algolia.search.models.dictionary.entry.DictionaryEntry;
-import com.algolia.search.models.dictionary.entry.Plural;
-import com.algolia.search.models.dictionary.entry.Stopword;
-
 /** Represents a linguistic resources provided by Algolia. */
 public enum Dictionary {
   PLURALS("plurals", Plural.class),

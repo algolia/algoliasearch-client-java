@@ -1,4 +1,4 @@
-package com.algolia.search.models.dictionary.entry;
+package com.algolia.search.models.dictionary;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,7 +12,7 @@ public class Stopword implements DictionaryEntry, Serializable {
   private String state;
 
   // dummy constructor for deserialization
-  protected Stopword() {}
+  public Stopword() {}
 
   public Stopword(String objectID, String language, String word, String state) {
     this.objectID = objectID;

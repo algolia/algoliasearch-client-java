@@ -8,6 +8,12 @@ public class DisableStandardEntries implements Serializable {
 
   private Map<String, Boolean> stopwords;
 
+  public DisableStandardEntries() {}
+
+  public DisableStandardEntries(Map<String, Boolean> stopwords) {
+    this.stopwords = stopwords;
+  }
+
   public Map<String, Boolean> getStopwords() {
     return stopwords;
   }

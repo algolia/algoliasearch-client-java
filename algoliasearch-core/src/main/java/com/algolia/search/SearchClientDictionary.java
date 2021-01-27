@@ -12,7 +12,7 @@ import com.algolia.search.models.dictionary.Dictionary;
 import com.algolia.search.models.dictionary.DictionaryRequest;
 import com.algolia.search.models.dictionary.DictionaryResponse;
 import com.algolia.search.models.dictionary.DictionarySettings;
-import com.algolia.search.models.dictionary.entry.DictionaryEntry;
+import com.algolia.search.models.dictionary.DictionaryEntry;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.indexing.SearchResult;
 import java.util.List;

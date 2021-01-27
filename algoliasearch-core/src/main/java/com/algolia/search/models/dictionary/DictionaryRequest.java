@@ -1,6 +1,5 @@
 package com.algolia.search.models.dictionary;
 
-import com.algolia.search.models.dictionary.entry.DictionaryEntry;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.List;

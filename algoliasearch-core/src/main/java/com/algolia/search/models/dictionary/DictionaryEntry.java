@@ -1,4 +1,4 @@
-package com.algolia.search.models.dictionary.entry;
+package com.algolia.search.models.dictionary;
 
 import java.util.List;
 

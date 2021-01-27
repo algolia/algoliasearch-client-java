@@ -7,6 +7,12 @@ public class DictionarySettings implements Serializable {
 
   private DisableStandardEntries disableStandardEntries;
 
+  public DictionarySettings() {}
+
+  public DictionarySettings(DisableStandardEntries disableStandardEntries) {
+    this.disableStandardEntries = disableStandardEntries;
+  }
+
   public DisableStandardEntries getDisableStandardEntries() {
     return disableStandardEntries;
   }

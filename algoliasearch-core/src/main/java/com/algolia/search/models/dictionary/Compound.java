@@ -1,4 +1,4 @@
-package com.algolia.search.models.dictionary.entry;
+package com.algolia.search.models.dictionary;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Compound implements DictionaryEntry, Serializable {
   private List<String> decomposition;
 
   // dummy constructor for deserialization
-  protected Compound() {}
+  public Compound() {}
 
   public Compound(String objectID, String language, String word, List<String> decomposition) {
     this.objectID = objectID;

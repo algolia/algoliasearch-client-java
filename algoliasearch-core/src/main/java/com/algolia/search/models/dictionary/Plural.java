@@ -1,4 +1,4 @@
-package com.algolia.search.models.dictionary.entry;
+package com.algolia.search.models.dictionary;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +12,7 @@ public class Plural implements DictionaryEntry, Serializable {
   private List<String> words;
 
   // dummy constructor for deserialization
-  protected Plural() {}
+  public Plural() {}
 
   public Plural(String objectID, String language, List<String> words) {
     this.objectID = objectID;
