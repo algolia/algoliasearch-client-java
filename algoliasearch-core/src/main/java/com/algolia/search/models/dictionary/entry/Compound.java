@@ -4,15 +4,38 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Compound extends DictionaryEntry implements Serializable {
+public class Compound implements DictionaryEntry, Serializable {
 
+  private String objectID;
+  private String language;
   private String words;
   private List<String> decomposition;
 
   public Compound(String objectID, String language, String words, List<String> decomposition) {
-    super(objectID, language);
+    this.objectID = objectID;
+    this.language = language;
     this.words = words;
     this.decomposition = decomposition;
+  }
+
+  @Override
+  public String getObjectID() {
+    return objectID;
+  }
+
+  public Compound setObjectID(String objectID) {
+    this.objectID = objectID;
+    return this;
+  }
+
+  @Override
+  public String getLanguage() {
+    return language;
+  }
+
+  public Compound setLanguage(String language) {
+    this.language = language;
+    return this;
   }
 
   public String getWords() {
@@ -37,14 +60,29 @@ public class Compound extends DictionaryEntry implements Serializable {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof Compound)) return false;
-    if (!super.equals(o)) return false;
     Compound compound = (Compound) o;
-    return Objects.equals(words, compound.words)
-        && Objects.equals(decomposition, compound.decomposition);
+    return Objects.equals(objectID, compound.objectID);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), words, decomposition);
+    return Objects.hash(objectID);
+  }
+
+  @Override
+  public String toString() {
+    return "Compound{"
+        + "objectID='"
+        + objectID
+        + '\''
+        + ", language='"
+        + language
+        + '\''
+        + ", words='"
+        + words
+        + '\''
+        + ", decomposition="
+        + decomposition
+        + '}';
   }
 }

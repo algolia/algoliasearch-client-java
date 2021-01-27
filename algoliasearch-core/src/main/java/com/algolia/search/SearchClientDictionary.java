@@ -26,6 +26,33 @@ public interface SearchClientDictionary extends SearchClientBase {
    *
    * @param dictionary target dictionary.
    * @param dictionaryEntries dictionary entries to be saved.
+   */
+  default DictionaryResponse saveDictionaryEntries(
+      @Nonnull Dictionary dictionary, @Nonnull List<DictionaryEntry> dictionaryEntries) {
+    return saveDictionaryEntries(dictionary, dictionaryEntries, null);
+  }
+
+  /**
+   * Save dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param dictionaryEntries dictionary entries to be saved.
+   * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
+   *     entries from the dictionary.
+   */
+  default DictionaryResponse saveDictionaryEntries(
+      @Nonnull Dictionary dictionary,
+      @Nonnull List<DictionaryEntry> dictionaryEntries,
+      Boolean clearExistingDictionaryEntries) {
+    return saveDictionaryEntries(
+        dictionary, dictionaryEntries, clearExistingDictionaryEntries, null);
+  }
+
+  /**
+   * Save dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param dictionaryEntries dictionary entries to be saved.
    * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
    *     entries from the dictionary.
    * @param requestOptions Configure request locally with RequestOptions.
@@ -38,6 +65,33 @@ public interface SearchClientDictionary extends SearchClientBase {
     return LaunderThrowable.await(
         saveDictionaryEntriesAsync(
             dictionary, dictionaryEntries, clearExistingDictionaryEntries, requestOptions));
+  }
+
+  /**
+   * Save dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param dictionaryEntries dictionary entries to be saved.
+   */
+  default CompletableFuture<DictionaryResponse> saveDictionaryEntriesAsync(
+      @Nonnull Dictionary dictionary, @Nonnull List<DictionaryEntry> dictionaryEntries) {
+    return saveDictionaryEntriesAsync(dictionary, dictionaryEntries, null);
+  }
+
+  /**
+   * Save dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param dictionaryEntries dictionary entries to be saved.
+   * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
+   *     entries from the dictionary.
+   */
+  default CompletableFuture<DictionaryResponse> saveDictionaryEntriesAsync(
+      @Nonnull Dictionary dictionary,
+      @Nonnull List<DictionaryEntry> dictionaryEntries,
+      Boolean clearExistingDictionaryEntries) {
+    return saveDictionaryEntriesAsync(
+        dictionary, dictionaryEntries, clearExistingDictionaryEntries, null);
   }
 
   /**
@@ -82,6 +136,17 @@ public interface SearchClientDictionary extends SearchClientBase {
    *
    * @param dictionary target dictionary.
    * @param dictionaryEntries dictionary entries to be replaced.
+   */
+  default DictionaryResponse replaceDictionaryEntries(
+      @Nonnull Dictionary dictionary, @Nonnull List<DictionaryEntry> dictionaryEntries) {
+    return replaceDictionaryEntries(dictionary, dictionaryEntries, null);
+  }
+
+  /**
+   * Replace dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param dictionaryEntries dictionary entries to be replaced.
    * @param requestOptions Configure request locally with [RequestOptions].
    */
   default DictionaryResponse replaceDictionaryEntries(
@@ -89,6 +154,17 @@ public interface SearchClientDictionary extends SearchClientBase {
       @Nonnull List<DictionaryEntry> dictionaryEntries,
       RequestOptions requestOptions) {
     return saveDictionaryEntries(dictionary, dictionaryEntries, true, requestOptions);
+  }
+
+  /**
+   * Replace dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param dictionaryEntries dictionary entries to be replaced.
+   */
+  default CompletableFuture<DictionaryResponse> replaceDictionaryEntriesAsync(
+      @Nonnull Dictionary dictionary, @Nonnull List<DictionaryEntry> dictionaryEntries) {
+    return replaceDictionaryEntriesAsync(dictionary, dictionaryEntries, null);
   }
 
   /**
@@ -105,6 +181,24 @@ public interface SearchClientDictionary extends SearchClientBase {
     return saveDictionaryEntriesAsync(dictionary, dictionaryEntries, true, requestOptions);
   }
 
+  /**
+   * Delete dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param objectIDs list of entries' IDs to delete.
+   */
+  default DictionaryResponse deleteDictionaryEntries(
+      @Nonnull Dictionary dictionary, @Nonnull List<String> objectIDs) {
+    return deleteDictionaryEntries(dictionary, objectIDs, null);
+  }
+
+  /**
+   * Delete dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param objectIDs list of entries' IDs to delete.
+   * @param requestOptions Configure request locally with [RequestOptions].
+   */
   default DictionaryResponse deleteDictionaryEntries(
       @Nonnull Dictionary dictionary,
       @Nonnull List<String> objectIDs,
@@ -113,6 +207,24 @@ public interface SearchClientDictionary extends SearchClientBase {
         deleteDictionaryEntriesAsync(dictionary, objectIDs, requestOptions));
   }
 
+  /**
+   * Delete dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param objectIDs list of entries' IDs to delete.
+   */
+  default CompletableFuture<DictionaryResponse> deleteDictionaryEntriesAsync(
+      @Nonnull Dictionary dictionary, @Nonnull List<String> objectIDs) {
+    return deleteDictionaryEntriesAsync(dictionary, objectIDs, null);
+  }
+
+  /**
+   * Delete dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param objectIDs list of entries' IDs to delete.
+   * @param requestOptions Configure request locally with [RequestOptions].
+   */
   default CompletableFuture<DictionaryResponse> deleteDictionaryEntriesAsync(
       @Nonnull Dictionary dictionary,
       @Nonnull List<String> objectIDs,
@@ -143,12 +255,48 @@ public interface SearchClientDictionary extends SearchClientBase {
             getConfig().getExecutor());
   }
 
-  default <T> SearchResult<T> search(
-      @Nonnull Dictionary dictionary, @Nonnull Query query, RequestOptions requestOptions) {
-    return LaunderThrowable.await(searchAsync(dictionary, query, requestOptions));
+  /**
+   * Search the dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param query the [Query] used to search.
+   */
+  default <T> SearchResult<T> searchDictionaryEntries(
+      @Nonnull Dictionary dictionary, @Nonnull Query query) {
+    return searchDictionaryEntries(dictionary, query, null);
   }
 
-  default <T> CompletableFuture<SearchResult<T>> searchAsync(
+  /**
+   * Search the dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param query the [Query] used to search.
+   * @param requestOptions Configure request locally with [RequestOptions].
+   */
+  default <T> SearchResult<T> searchDictionaryEntries(
+      @Nonnull Dictionary dictionary, @Nonnull Query query, RequestOptions requestOptions) {
+    return LaunderThrowable.await(searchDictionaryEntriesAsync(dictionary, query, requestOptions));
+  }
+
+  /**
+   * Search the dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param query the [Query] used to search.
+   */
+  default <T> CompletableFuture<SearchResult<T>> searchDictionaryEntriesAsync(
+      @Nonnull Dictionary dictionary, @Nonnull Query query) {
+    return searchDictionaryEntriesAsync(dictionary, query, null);
+  }
+
+  /**
+   * Search the dictionary entries.
+   *
+   * @param dictionary target dictionary.
+   * @param query the [Query] used to search.
+   * @param requestOptions Configure request locally with [RequestOptions].
+   */
+  default <T> CompletableFuture<SearchResult<T>> searchDictionaryEntriesAsync(
       @Nonnull Dictionary dictionary, @Nonnull Query query, RequestOptions requestOptions) {
 
     Objects.requireNonNull(dictionary, "A dictionary is required.");
@@ -161,7 +309,7 @@ public interface SearchClientDictionary extends SearchClientBase {
             CallType.READ,
             query,
             SearchResult.class,
-            dictionary.getEntryType(),
+            dictionary.getEntry(),
             requestOptions)
         .thenComposeAsync(
             resp -> {

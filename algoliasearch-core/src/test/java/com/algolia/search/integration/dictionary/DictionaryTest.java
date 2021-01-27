@@ -23,29 +23,37 @@ public abstract class DictionaryTest {
   @Test
   void testStopwordsDictionaries() {
     String objectID = UUID.randomUUID().toString();
+    Query query = new Query(objectID);
 
     SearchResult<Stopword> search =
-        searchClient.search(Dictionary.STOPWORDS, new Query().setQuery(objectID), null);
+        searchClient.searchDictionaryEntries(Dictionary.STOPWORDS, query, null);
     assertThat(search.getNbHits()).isZero();
 
     Stopword stopword = DictionaryEntry.stopword(objectID, "en", "upper", "enabled");
 
     // Save entry
     searchClient
-        .saveDictionaryEntries(
-            Dictionary.STOPWORDS, Collections.singletonList(stopword), null, null)
+        .saveDictionaryEntries(Dictionary.STOPWORDS, Collections.singletonList(stopword))
         .waitTask();
-    SearchResult<Stopword> searchAfterSave =
-        searchClient.search(Dictionary.STOPWORDS, new Query().setQuery(objectID), null);
-    assertThat(searchAfterSave.getNbHits()).isEqualTo(1);
-    assertThat(searchAfterSave.getHits().get(0)).isEqualTo(stopword);
+    search = searchClient.searchDictionaryEntries(Dictionary.STOPWORDS, query);
+    assertThat(search.getNbHits()).isEqualTo(1);
+    assertThat(search.getHits().get(0)).isEqualTo(stopword);
+
+    // Replace entry
+    stopword.setWord("uppercase");
+    searchClient
+        .replaceDictionaryEntries(Dictionary.STOPWORDS, Collections.singletonList(stopword))
+        .waitTask();
+    search = searchClient.searchDictionaryEntries(Dictionary.STOPWORDS, query);
+    assertThat(search.getNbHits()).isEqualTo(1);
+    assertThat(search.getHits().get(0)).isEqualTo(stopword);
+    assertThat(search.getHits().get(0).getWord()).isEqualTo(stopword.getWord());
 
     // Delete entry
     searchClient
-        .deleteDictionaryEntries(Dictionary.STOPWORDS, Collections.singletonList(objectID), null)
+        .deleteDictionaryEntries(Dictionary.STOPWORDS, Collections.singletonList(objectID))
         .waitTask();
-    SearchResult<Stopword> searchAfterDelete =
-        searchClient.search(Dictionary.STOPWORDS, new Query().setQuery(objectID), null);
-    assertThat(searchAfterDelete.getNbHits()).isZero();
+    search = searchClient.searchDictionaryEntries(Dictionary.STOPWORDS, query);
+    assertThat(search.getNbHits()).isZero();
   }
 }

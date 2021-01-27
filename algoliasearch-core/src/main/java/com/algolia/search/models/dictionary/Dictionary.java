@@ -1,6 +1,7 @@
 package com.algolia.search.models.dictionary;
 
 import com.algolia.search.models.dictionary.entry.Compound;
+import com.algolia.search.models.dictionary.entry.DictionaryEntry;
 import com.algolia.search.models.dictionary.entry.Plural;
 import com.algolia.search.models.dictionary.entry.Stopword;
 
@@ -10,20 +11,20 @@ public enum Dictionary {
   STOPWORDS("stopwords", Stopword.class),
   COMPOUNDS("compounds", Compound.class);
 
-  private final String raw;
-  private final Class<?> entryType;
+  private final String name;
+  private final Class<? extends DictionaryEntry> entry;
 
-  Dictionary(String raw, Class<?> entryType) {
-    this.raw = raw;
-    this.entryType = entryType;
+  Dictionary(String name, Class<? extends DictionaryEntry> entryType) {
+    this.name = name;
+    this.entry = entryType;
   }
 
   @Override
   public String toString() {
-    return raw;
+    return name;
   }
 
-  public Class<?> getEntryType() {
-    return entryType;
+  public Class<?> getEntry() {
+    return entry;
   }
 }
