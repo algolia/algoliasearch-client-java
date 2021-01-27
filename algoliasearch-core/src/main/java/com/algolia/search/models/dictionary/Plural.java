@@ -9,6 +9,10 @@ public class Plural implements DictionaryEntry, Serializable {
 
   private String objectID;
   private String language;
+  /**
+   * List of word declensions. The entry overrides existing entries when any of these words are
+   * defined in the standard dictionary provided by Algolia.
+   */
   private List<String> words;
 
   // dummy constructor for deserialization

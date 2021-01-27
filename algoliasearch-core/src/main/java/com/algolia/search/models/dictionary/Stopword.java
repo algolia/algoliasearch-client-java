@@ -8,7 +8,12 @@ public class Stopword implements DictionaryEntry, Serializable {
 
   private String objectID;
   private String language;
+  /**
+   * The stop word being added or modified. When word already exists in the standard dictionary
+   * provided by Algolia, the entry can be overridden by the one provided by the user.
+   */
   private String word;
+  /** The state of the entry. Can be either "enabled" or "disabled". */
   private String state;
 
   // dummy constructor for deserialization

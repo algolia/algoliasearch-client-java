@@ -9,12 +9,13 @@ import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.common.TaskStatusResponse;
 import com.algolia.search.models.dictionary.Dictionary;
+import com.algolia.search.models.dictionary.DictionaryEntry;
 import com.algolia.search.models.dictionary.DictionaryRequest;
 import com.algolia.search.models.dictionary.DictionaryResponse;
 import com.algolia.search.models.dictionary.DictionarySettings;
-import com.algolia.search.models.dictionary.DictionaryEntry;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.indexing.SearchResult;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -25,7 +26,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Save dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be saved.
    */
   default DictionaryResponse saveDictionaryEntries(
@@ -36,7 +37,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Save dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be saved.
    * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
    *     entries from the dictionary.
@@ -52,7 +53,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Save dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be saved.
    * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
    *     entries from the dictionary.
@@ -71,7 +72,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Save dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be saved.
    */
   default CompletableFuture<DictionaryResponse> saveDictionaryEntriesAsync(
@@ -82,7 +83,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Save dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be saved.
    * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
    *     entries from the dictionary.
@@ -98,7 +99,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Save dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be saved.
    * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
    *     entries from the dictionary.
@@ -135,7 +136,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Replace dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be replaced.
    */
   default DictionaryResponse replaceDictionaryEntries(
@@ -146,9 +147,9 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Replace dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be replaced.
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default DictionaryResponse replaceDictionaryEntries(
       @Nonnull Dictionary dictionary,
@@ -160,7 +161,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Replace dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be replaced.
    */
   default CompletableFuture<DictionaryResponse> replaceDictionaryEntriesAsync(
@@ -171,9 +172,9 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Replace dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be replaced.
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default CompletableFuture<DictionaryResponse> replaceDictionaryEntriesAsync(
       @Nonnull Dictionary dictionary,
@@ -185,7 +186,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Delete dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param objectIDs list of entries' IDs to delete.
    */
   default DictionaryResponse deleteDictionaryEntries(
@@ -196,9 +197,9 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Delete dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param objectIDs list of entries' IDs to delete.
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default DictionaryResponse deleteDictionaryEntries(
       @Nonnull Dictionary dictionary,
@@ -211,7 +212,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Delete dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param objectIDs list of entries' IDs to delete.
    */
   default CompletableFuture<DictionaryResponse> deleteDictionaryEntriesAsync(
@@ -222,9 +223,9 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Delete dictionary entries.
    *
-   * @param dictionary target dictionary.
+   * @param dictionary Target dictionary.
    * @param objectIDs list of entries' IDs to delete.
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default CompletableFuture<DictionaryResponse> deleteDictionaryEntriesAsync(
       @Nonnull Dictionary dictionary,
@@ -257,10 +258,51 @@ public interface SearchClientDictionary extends SearchClientBase {
   }
 
   /**
+   * Clear all dictionary entries.
+   *
+   * @param dictionary Target dictionary.
+   */
+  default DictionaryResponse clearDictionaryEntries(@Nonnull Dictionary dictionary) {
+    return clearDictionaryEntries(dictionary, null);
+  }
+
+  /**
+   * Clear all dictionary entries.
+   *
+   * @param dictionary Target dictionary.
+   * @param requestOptions Configure request locally with RequestOptions.
+   */
+  default DictionaryResponse clearDictionaryEntries(
+      @Nonnull Dictionary dictionary, RequestOptions requestOptions) {
+    return LaunderThrowable.await(clearDictionaryEntriesAsync(dictionary, requestOptions));
+  }
+
+  /**
+   * Clear all dictionary entries.
+   *
+   * @param dictionary Target dictionary.
+   */
+  default CompletableFuture<DictionaryResponse> clearDictionaryEntriesAsync(
+      @Nonnull Dictionary dictionary) {
+    return clearDictionaryEntriesAsync(dictionary, null);
+  }
+
+  /**
+   * Clear all dictionary entries.
+   *
+   * @param dictionary Target dictionary.
+   * @param requestOptions Configure request locally with RequestOptions.
+   */
+  default CompletableFuture<DictionaryResponse> clearDictionaryEntriesAsync(
+      @Nonnull Dictionary dictionary, RequestOptions requestOptions) {
+    return replaceDictionaryEntriesAsync(dictionary, Collections.emptyList(), requestOptions);
+  }
+
+  /**
    * Search the dictionary entries.
    *
-   * @param dictionary target dictionary.
-   * @param query the [Query] used to search.
+   * @param dictionary Target dictionary.
+   * @param query the Query used to search.
    */
   default <T> SearchResult<T> searchDictionaryEntries(
       @Nonnull Dictionary dictionary, @Nonnull Query query) {
@@ -270,9 +312,9 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Search the dictionary entries.
    *
-   * @param dictionary target dictionary.
-   * @param query the [Query] used to search.
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param dictionary Target dictionary.
+   * @param query the Query used to search.
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default <T> SearchResult<T> searchDictionaryEntries(
       @Nonnull Dictionary dictionary, @Nonnull Query query, RequestOptions requestOptions) {
@@ -282,8 +324,8 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Search the dictionary entries.
    *
-   * @param dictionary target dictionary.
-   * @param query the [Query] used to search.
+   * @param dictionary Target dictionary.
+   * @param query the Query used to search.
    */
   default <T> CompletableFuture<SearchResult<T>> searchDictionaryEntriesAsync(
       @Nonnull Dictionary dictionary, @Nonnull Query query) {
@@ -293,9 +335,9 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Search the dictionary entries.
    *
-   * @param dictionary target dictionary.
-   * @param query the [Query] used to search.
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param dictionary Target dictionary.
+   * @param query the Query used to search.
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default <T> CompletableFuture<SearchResult<T>> searchDictionaryEntriesAsync(
       @Nonnull Dictionary dictionary, @Nonnull Query query, RequestOptions requestOptions) {
@@ -336,7 +378,7 @@ public interface SearchClientDictionary extends SearchClientBase {
    * left unchanged. Specifying `null` for a setting resets it to its default value.
    *
    * @param dictionarySettings settings to be applied.
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default DictionaryResponse setDictionarySettings(
       @Nonnull DictionarySettings dictionarySettings, RequestOptions requestOptions) {
@@ -359,7 +401,7 @@ public interface SearchClientDictionary extends SearchClientBase {
    * left unchanged. Specifying `null` for a setting resets it to its default value.
    *
    * @param dictionarySettings settings to be applied.
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default CompletableFuture<DictionaryResponse> setDictionarySettingsAsync(
       @Nonnull DictionarySettings dictionarySettings, RequestOptions requestOptions) {
@@ -389,7 +431,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Retrieve dictionaries settings.
    *
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default DictionarySettings getDictionarySettings(RequestOptions requestOptions) {
     return LaunderThrowable.await(getDictionarySettingsAsync(requestOptions));
@@ -403,7 +445,7 @@ public interface SearchClientDictionary extends SearchClientBase {
   /**
    * Retrieve dictionaries settings.
    *
-   * @param requestOptions Configure request locally with [RequestOptions].
+   * @param requestOptions Configure request locally with RequestOptions.
    */
   default CompletableFuture<DictionarySettings> getDictionarySettingsAsync(
       RequestOptions requestOptions) {

@@ -17,7 +17,9 @@ public interface DictionaryEntry {
     return new Compound(objectID, language, words, decomposition);
   }
 
+  /** Unique identifier of the entry to add or override. */
   String getObjectID();
 
+  /** Language ISO code supported by the dictionary. */
   String getLanguage();
 }

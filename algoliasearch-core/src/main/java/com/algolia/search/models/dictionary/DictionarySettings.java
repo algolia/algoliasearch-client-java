@@ -3,6 +3,7 @@ package com.algolia.search.models.dictionary;
 import java.io.Serializable;
 import java.util.Objects;
 
+/** Represents Dictionary settings. */
 public class DictionarySettings implements Serializable {
 
   private DisableStandardEntries disableStandardEntries;

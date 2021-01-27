@@ -9,7 +9,15 @@ public class Compound implements DictionaryEntry, Serializable {
 
   private String objectID;
   private String language;
+  /**
+   * The stop word being added or modified. When word already exists in the standard dictionary
+   * provided by Algolia, the entry can be overridden by the one provided by the user.
+   */
   private String word;
+  /**
+   * When empty, the key word is considered as a compound atom. Otherwise, it is the decomposition
+   * of word.
+   */
   private List<String> decomposition;
 
   // dummy constructor for deserialization
