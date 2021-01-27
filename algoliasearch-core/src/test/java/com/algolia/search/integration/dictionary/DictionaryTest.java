@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchClientDictionary;
 import com.algolia.search.models.dictionary.Dictionary;
+import com.algolia.search.models.dictionary.DictionarySettings;
+import com.algolia.search.models.dictionary.DisableStandardEntries;
 import com.algolia.search.models.dictionary.entry.DictionaryEntry;
 import com.algolia.search.models.dictionary.entry.Stopword;
 import com.algolia.search.models.indexing.Query;
@@ -55,5 +57,16 @@ public abstract class DictionaryTest {
         .waitTask();
     search = searchClient.searchDictionaryEntries(Dictionary.STOPWORDS, query);
     assertThat(search.getNbHits()).isZero();
+  }
+
+  @Test
+  void testSettings() {
+    DictionarySettings settings =
+        new DictionarySettings()
+            .setDisableStandardEntries(
+                new DisableStandardEntries().setStopwords(Collections.singletonMap("en", true)));
+
+    searchClient.setDictionarySettings(settings).waitTask();
+    assertThat(searchClient.getDictionarySettings()).isEqualTo(settings);
   }
 }

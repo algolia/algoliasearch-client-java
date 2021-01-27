@@ -11,6 +11,7 @@ import com.algolia.search.models.common.TaskStatusResponse;
 import com.algolia.search.models.dictionary.Dictionary;
 import com.algolia.search.models.dictionary.DictionaryRequest;
 import com.algolia.search.models.dictionary.DictionaryResponse;
+import com.algolia.search.models.dictionary.DictionarySettings;
 import com.algolia.search.models.dictionary.entry.DictionaryEntry;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.indexing.SearchResult;
@@ -318,6 +319,101 @@ public interface SearchClientDictionary extends SearchClientBase {
               return r;
             },
             getConfig().getExecutor());
+  }
+
+  /**
+   * Update dictionary settings. Only specified settings are overridden; unspecified settings are
+   * left unchanged. Specifying `null` for a setting resets it to its default value.
+   *
+   * @param dictionarySettings settings to be applied.
+   */
+  default DictionaryResponse setDictionarySettings(@Nonnull DictionarySettings dictionarySettings) {
+    return setDictionarySettings(dictionarySettings, null);
+  }
+
+  /**
+   * Update dictionary settings. Only specified settings are overridden; unspecified settings are
+   * left unchanged. Specifying `null` for a setting resets it to its default value.
+   *
+   * @param dictionarySettings settings to be applied.
+   * @param requestOptions Configure request locally with [RequestOptions].
+   */
+  default DictionaryResponse setDictionarySettings(
+      @Nonnull DictionarySettings dictionarySettings, RequestOptions requestOptions) {
+    return LaunderThrowable.await(setDictionarySettingsAsync(dictionarySettings, requestOptions));
+  }
+
+  /**
+   * Update dictionary settings. Only specified settings are overridden; unspecified settings are
+   * left unchanged. Specifying `null` for a setting resets it to its default value.
+   *
+   * @param dictionarySettings settings to be applied.
+   */
+  default CompletableFuture<DictionaryResponse> setDictionarySettingsAsync(
+      @Nonnull DictionarySettings dictionarySettings) {
+    return setDictionarySettingsAsync(dictionarySettings, null);
+  }
+
+  /**
+   * Update dictionary settings. Only specified settings are overridden; unspecified settings are
+   * left unchanged. Specifying `null` for a setting resets it to its default value.
+   *
+   * @param dictionarySettings settings to be applied.
+   * @param requestOptions Configure request locally with [RequestOptions].
+   */
+  default CompletableFuture<DictionaryResponse> setDictionarySettingsAsync(
+      @Nonnull DictionarySettings dictionarySettings, RequestOptions requestOptions) {
+    Objects.requireNonNull(dictionarySettings, "Dictionary settings is required.");
+
+    return getTransport()
+        .executeRequestAsync(
+            HttpMethod.PUT,
+            "/1/dictionaries/*/settings",
+            CallType.WRITE,
+            dictionarySettings,
+            DictionaryResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            getConfig().getExecutor());
+  }
+
+  /** Retrieve dictionaries settings. */
+  default DictionarySettings getDictionarySettings() {
+    return getDictionarySettings(null);
+  }
+
+  /**
+   * Retrieve dictionaries settings.
+   *
+   * @param requestOptions Configure request locally with [RequestOptions].
+   */
+  default DictionarySettings getDictionarySettings(RequestOptions requestOptions) {
+    return LaunderThrowable.await(getDictionarySettingsAsync(requestOptions));
+  }
+
+  /** Retrieve dictionaries settings. */
+  default CompletableFuture<DictionarySettings> getDictionarySettingsAsync() {
+    return getDictionarySettingsAsync(null);
+  }
+
+  /**
+   * Retrieve dictionaries settings.
+   *
+   * @param requestOptions Configure request locally with [RequestOptions].
+   */
+  default CompletableFuture<DictionarySettings> getDictionarySettingsAsync(
+      RequestOptions requestOptions) {
+    return getTransport()
+        .executeRequestAsync(
+            HttpMethod.GET,
+            "/1/dictionaries/*/settings",
+            CallType.READ,
+            DictionarySettings.class,
+            requestOptions);
   }
 
   /**
