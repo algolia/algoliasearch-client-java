@@ -10,8 +10,10 @@ public class Compound implements DictionaryEntry, Serializable {
   private String objectID;
   private String language;
   /**
-   * The stop word being added or modified. When word already exists in the standard dictionary
-   * provided by Algolia, the entry can be overridden by the one provided by the user.
+   * When decomposition is empty: adds word as a compound atom. For example, atom “kino” decomposes
+   * the query “kopfkino” into “kopf” and “kino”. When decomposition isn’t empty: creates a
+   * decomposition exception. For example, when decomposition is set to ["hund", "hutte"], exception
+   * “hundehutte” decomposes the word into “hund” and “hutte”, discarding the linking morpheme “e”.
    */
   private String word;
   /**
