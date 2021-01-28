@@ -17,7 +17,6 @@ import com.algolia.search.util.AlgoliaUtils;
 import com.algolia.search.util.QueryStringUtils;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 
 /**

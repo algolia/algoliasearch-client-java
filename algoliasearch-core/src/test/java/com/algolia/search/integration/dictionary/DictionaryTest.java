@@ -3,11 +3,11 @@ package com.algolia.search.integration.dictionary;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.SearchClientDictionary;
+import com.algolia.search.models.dictionary.Compound;
 import com.algolia.search.models.dictionary.Dictionary;
+import com.algolia.search.models.dictionary.DictionaryEntry;
 import com.algolia.search.models.dictionary.DictionarySettings;
 import com.algolia.search.models.dictionary.DisableStandardEntries;
-import com.algolia.search.models.dictionary.Compound;
-import com.algolia.search.models.dictionary.DictionaryEntry;
 import com.algolia.search.models.dictionary.Plural;
 import com.algolia.search.models.dictionary.Stopword;
 import com.algolia.search.models.indexing.Query;

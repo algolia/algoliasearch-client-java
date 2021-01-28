@@ -38,35 +38,15 @@ public interface SearchClientDictionary extends SearchClientBase {
    * Save dictionary entries.
    *
    * @param dictionary Target dictionary.
-   * @param dictionaryEntries dictionary entries to be saved.
-   * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
-   *     entries from the dictionary.
-   */
-  default DictionaryResponse saveDictionaryEntries(
-      @Nonnull Dictionary dictionary,
-      @Nonnull List<DictionaryEntry> dictionaryEntries,
-      Boolean clearExistingDictionaryEntries) {
-    return saveDictionaryEntries(
-        dictionary, dictionaryEntries, clearExistingDictionaryEntries, null);
-  }
-
-  /**
-   * Save dictionary entries.
-   *
-   * @param dictionary Target dictionary.
-   * @param dictionaryEntries dictionary entries to be saved.
-   * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
-   *     entries from the dictionary.
+   * @param dictionaryEntries dictionary entries to be saved. entries from the dictionary.
    * @param requestOptions Configure request locally with RequestOptions.
    */
   default DictionaryResponse saveDictionaryEntries(
       @Nonnull Dictionary dictionary,
       @Nonnull List<DictionaryEntry> dictionaryEntries,
-      Boolean clearExistingDictionaryEntries,
       RequestOptions requestOptions) {
     return LaunderThrowable.await(
-        saveDictionaryEntriesAsync(
-            dictionary, dictionaryEntries, clearExistingDictionaryEntries, requestOptions));
+        saveDictionaryEntriesAsync(dictionary, dictionaryEntries, requestOptions));
   }
 
   /**
@@ -85,37 +65,17 @@ public interface SearchClientDictionary extends SearchClientBase {
    *
    * @param dictionary Target dictionary.
    * @param dictionaryEntries dictionary entries to be saved.
-   * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
-   *     entries from the dictionary.
-   */
-  default CompletableFuture<DictionaryResponse> saveDictionaryEntriesAsync(
-      @Nonnull Dictionary dictionary,
-      @Nonnull List<DictionaryEntry> dictionaryEntries,
-      Boolean clearExistingDictionaryEntries) {
-    return saveDictionaryEntriesAsync(
-        dictionary, dictionaryEntries, clearExistingDictionaryEntries, null);
-  }
-
-  /**
-   * Save dictionary entries.
-   *
-   * @param dictionary Target dictionary.
-   * @param dictionaryEntries dictionary entries to be saved.
-   * @param clearExistingDictionaryEntries when `true`, start the batch by removing all the custom
-   *     entries from the dictionary.
    * @param requestOptions Configure request locally with RequestOptions.
    */
   default CompletableFuture<DictionaryResponse> saveDictionaryEntriesAsync(
       @Nonnull Dictionary dictionary,
       @Nonnull List<DictionaryEntry> dictionaryEntries,
-      Boolean clearExistingDictionaryEntries,
       RequestOptions requestOptions) {
 
     Objects.requireNonNull(dictionary, "A dictionary is required.");
     Objects.requireNonNull(dictionaryEntries, "Dictionary entries is required.");
 
-    DictionaryRequest request =
-        DictionaryRequest.add(clearExistingDictionaryEntries, dictionaryEntries);
+    DictionaryRequest request = DictionaryRequest.add(false, dictionaryEntries);
 
     return getTransport()
         .executeRequestAsync(
@@ -155,7 +115,8 @@ public interface SearchClientDictionary extends SearchClientBase {
       @Nonnull Dictionary dictionary,
       @Nonnull List<DictionaryEntry> dictionaryEntries,
       RequestOptions requestOptions) {
-    return saveDictionaryEntries(dictionary, dictionaryEntries, true, requestOptions);
+    return LaunderThrowable.await(
+        replaceDictionaryEntriesAsync(dictionary, dictionaryEntries, requestOptions));
   }
 
   /**
@@ -180,7 +141,26 @@ public interface SearchClientDictionary extends SearchClientBase {
       @Nonnull Dictionary dictionary,
       @Nonnull List<DictionaryEntry> dictionaryEntries,
       RequestOptions requestOptions) {
-    return saveDictionaryEntriesAsync(dictionary, dictionaryEntries, true, requestOptions);
+
+    Objects.requireNonNull(dictionary, "A dictionary is required.");
+    Objects.requireNonNull(dictionaryEntries, "Dictionary entries is required.");
+
+    DictionaryRequest request = DictionaryRequest.add(true, dictionaryEntries);
+
+    return getTransport()
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/dictionaries/" + dictionary + "/batch",
+            CallType.WRITE,
+            request,
+            DictionaryResponse.class,
+            requestOptions)
+        .thenApplyAsync(
+            resp -> {
+              resp.setWaitConsumer(this::waitTask);
+              return resp;
+            },
+            getConfig().getExecutor());
   }
 
   /**

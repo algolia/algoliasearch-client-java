@@ -3,16 +3,11 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
-import com.algolia.search.exceptions.LaunderThrowable;
-import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
-import com.algolia.search.models.common.CallType;
-import com.algolia.search.models.common.TaskStatusResponse;
 import com.algolia.search.util.AlgoliaUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
 /**
