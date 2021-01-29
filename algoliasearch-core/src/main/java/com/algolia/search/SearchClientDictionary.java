@@ -1,13 +1,9 @@
 package com.algolia.search;
 
-import com.algolia.search.exceptions.AlgoliaApiException;
-import com.algolia.search.exceptions.AlgoliaRetryException;
-import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
-import com.algolia.search.models.common.TaskStatusResponse;
 import com.algolia.search.models.dictionary.Dictionary;
 import com.algolia.search.models.dictionary.DictionaryEntry;
 import com.algolia.search.models.dictionary.DictionaryRequest;
@@ -87,7 +83,7 @@ public interface SearchClientDictionary extends SearchClientBase {
             requestOptions)
         .thenApplyAsync(
             resp -> {
-              resp.setWaitConsumer(this::waitTask);
+              resp.setWaitConsumer(this::waitAppTask);
               return resp;
             },
             getConfig().getExecutor());
@@ -157,7 +153,7 @@ public interface SearchClientDictionary extends SearchClientBase {
             requestOptions)
         .thenApplyAsync(
             resp -> {
-              resp.setWaitConsumer(this::waitTask);
+              resp.setWaitConsumer(this::waitAppTask);
               return resp;
             },
             getConfig().getExecutor());
@@ -231,7 +227,7 @@ public interface SearchClientDictionary extends SearchClientBase {
             requestOptions)
         .thenApplyAsync(
             resp -> {
-              resp.setWaitConsumer(this::waitTask);
+              resp.setWaitConsumer(this::waitAppTask);
               return resp;
             },
             getConfig().getExecutor());
@@ -397,7 +393,7 @@ public interface SearchClientDictionary extends SearchClientBase {
             requestOptions)
         .thenApplyAsync(
             resp -> {
-              resp.setWaitConsumer(this::waitTask);
+              resp.setWaitConsumer(this::waitAppTask);
               return resp;
             },
             getConfig().getExecutor());
@@ -435,105 +431,6 @@ public interface SearchClientDictionary extends SearchClientBase {
             "/1/dictionaries/*/settings",
             CallType.READ,
             DictionarySettings.class,
-            requestOptions);
-  }
-
-  /**
-   * Wait for a dictionary task to complete before executing the next line of code. All write
-   * operations in Algolia are asynchronous by design.
-   *
-   * @param taskID The Algolia taskID
-   * @throws AlgoliaRetryException When the retry has failed on all hosts
-   * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When an error occurred during the serialization
-   */
-  default void waitTask(long taskID) {
-    waitTask(taskID, 100, null);
-  }
-
-  /**
-   * Wait for a dictionary task to complete before executing the next line of code. All write
-   * operations in Algolia are asynchronous by design.
-   *
-   * @param taskID The Algolia taskID
-   * @param requestOptions Options to pass to this request
-   * @throws AlgoliaRetryException When the retry has failed on all hosts
-   * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When an error occurred during the serialization
-   */
-  default void waitTask(long taskID, RequestOptions requestOptions) {
-    waitTask(taskID, 100, requestOptions);
-  }
-
-  /**
-   * Wait for a dictionary task to complete before executing the next line of code. All write
-   * operations in Algolia are asynchronous by design.
-   *
-   * @param taskID The Algolia taskID
-   * @param timeToWait The time to wait between each call
-   * @param requestOptions Options to pass to this request
-   * @throws AlgoliaRetryException When the retry has failed on all hosts
-   * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When an error occurred during the serialization
-   */
-  default void waitTask(long taskID, long timeToWait, RequestOptions requestOptions) {
-    TaskUtils.waitTask(taskID, timeToWait, requestOptions, this::getTaskAsync);
-  }
-
-  /**
-   * Get the status of the given dictionary task.
-   *
-   * @param taskID The Algolia taskID
-   * @param requestOptions Options to pass to this request
-   * @throws AlgoliaRetryException When the retry has failed on all hosts
-   * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When an error occurred during the serialization
-   */
-  default TaskStatusResponse getTask(long taskID, RequestOptions requestOptions) {
-    return LaunderThrowable.await(getTaskAsync(taskID, requestOptions));
-  }
-
-  /**
-   * Get the status of the given dictionary task.
-   *
-   * @param taskID The Algolia taskID
-   * @throws AlgoliaRetryException When the retry has failed on all hosts
-   * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When an error occurred during the serialization
-   */
-  default TaskStatusResponse getTask(long taskID) {
-    return LaunderThrowable.await(getTaskAsync(taskID));
-  }
-
-  /**
-   * Get the status of the given dictionary task.
-   *
-   * @param taskID The Algolia taskID
-   * @throws AlgoliaRetryException When the retry has failed on all hosts
-   * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When an error occurred during the serialization
-   */
-  default CompletableFuture<TaskStatusResponse> getTaskAsync(long taskID) {
-    return getTaskAsync(taskID, null);
-  }
-
-  /**
-   * Get the status of the given dictionary task.
-   *
-   * @param taskID The Algolia taskID
-   * @param requestOptions Options to pass to this request
-   * @throws AlgoliaRetryException When the retry has failed on all hosts
-   * @throws AlgoliaApiException When the API sends an http error code
-   * @throws AlgoliaRuntimeException When an error occurred during the serialization
-   */
-  default CompletableFuture<TaskStatusResponse> getTaskAsync(
-      long taskID, RequestOptions requestOptions) {
-    return getTransport()
-        .executeRequestAsync(
-            HttpMethod.GET,
-            "/1/task/" + taskID,
-            CallType.READ,
-            TaskStatusResponse.class,
             requestOptions);
   }
 }
