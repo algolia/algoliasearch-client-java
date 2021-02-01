@@ -13,8 +13,8 @@ public interface DictionaryEntry {
   }
 
   static Compound compound(
-      String objectID, String language, String words, List<String> decomposition) {
-    return new Compound(objectID, language, words, decomposition);
+      String objectID, String language, String word, List<String> decomposition) {
+    return new Compound(objectID, language, word, decomposition);
   }
 
   /** Unique identifier of the entry to add or override. */
