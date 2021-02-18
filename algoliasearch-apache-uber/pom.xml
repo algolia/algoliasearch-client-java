@@ -50,7 +50,7 @@
                         <Bundle-Version>${project.version}</Bundle-Version>
                         <Export-Package>com.algolia.search.*,${relocated.org.apache}.http.impl.nio.client</Export-Package>
                         <Import-Package>
-                            javax.net.ssl,javax.naming,!org.apache.avalon.framework.logger,!org.apache.log,*
+                            javax.net.ssl,javax.naming,!org.apache.avalon.framework.logger,!org.apache.log,!javax.servlet,*
                         </Import-Package>
                         <Embed-Dependency>*;scope=compile|runtime;inline=true</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
