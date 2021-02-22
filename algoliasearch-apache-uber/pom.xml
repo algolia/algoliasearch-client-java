@@ -17,6 +17,7 @@
     </dependencies>
     <properties>
         <relocated.org.apache>com.algolia.search.org.apache</relocated.org.apache>
+        <relocated.com.fasterxml.jackson>com.algolia.search.com.fasterxml.jackson</relocated.com.fasterxml.jackson>
     </properties>
     <build>
         <plugins>
@@ -48,7 +49,11 @@
                         <Bundle-SymbolicName>com.algolia.algoliasearch-apache-uber</Bundle-SymbolicName>
                         <Bundle-Name>algoliasearch-apache-uber</Bundle-Name>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Export-Package>com.algolia.search.*,${relocated.org.apache}.http.impl.nio.client</Export-Package>
+                        <Export-Package>
+                            com.algolia.search.*,
+                            ${relocated.org.apache}.http.impl.nio.client,
+                            ${relocated.com.fasterxml.jackson}.annotation.JsonInclude.Include
+                        </Export-Package>
                         <Import-Package>
                             javax.net.ssl,javax.naming,!org.apache.avalon.framework.logger,!org.apache.log,!javax.servlet,*
                         </Import-Package>
