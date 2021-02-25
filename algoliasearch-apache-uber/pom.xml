@@ -34,7 +34,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>4.2.1</version>
+                <version>5.1.1</version>
                 <executions>
                     <execution>
                         <id>bundle-manifest</id>
@@ -52,7 +52,8 @@
                         <Export-Package>
                             com.algolia.search.*,
                             ${relocated.org.apache}.http.impl.nio.client,
-                            ${relocated.com.fasterxml.jackson}.annotation.JsonInclude.Include
+                            ${relocated.com.fasterxml.jackson}.annotation,
+                            ${relocated.com.fasterxml.jackson}.databind
                         </Export-Package>
                         <Import-Package>
                             javax.net.ssl,javax.naming,!org.apache.avalon.framework.logger,!org.apache.log,!javax.servlet,*
@@ -91,11 +92,21 @@
                                         <exclude>META-INF/**</exclude>
                                     </excludes>
                                 </filter>
+                                <filter>
+                                    <artifact>com.fasterxml.jackson.*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/**</exclude>
+                                    </excludes>
+                                </filter>
                             </filters>
                             <relocations combine.children="append">
                                 <relocation>
                                     <pattern>org.apache</pattern>
                                     <shadedPattern>${relocated.org.apache}</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.fasterxml.jackson</pattern>
+                                    <shadedPattern>${relocated.com.fasterxml.jackson}</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
