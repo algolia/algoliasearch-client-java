@@ -689,8 +689,7 @@ public class IndexSettings implements Serializable {
     return attributesToTransliterate;
   }
 
-  public IndexSettings setAttributesToTransliterate(
-      List<String> attributesToTransliterate) {
+  public IndexSettings setAttributesToTransliterate(List<String> attributesToTransliterate) {
     this.attributesToTransliterate = attributesToTransliterate;
     return this;
   }
