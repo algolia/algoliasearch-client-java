@@ -29,6 +29,8 @@ public class SearchResult<T> implements Serializable {
   private List<Map<String, Object>> userData;
   private List<Map<String, Object>> appliedRules;
   private Boolean exhaustiveNbHits;
+  private Integer appliedRelevancyStrictness;
+  private Integer nbSortedHits;
 
   public Explain getExplain() {
     return explain;
@@ -323,6 +325,24 @@ public class SearchResult<T> implements Serializable {
     return this;
   }
 
+  public Integer getAppliedRelevancyStrictness() {
+    return appliedRelevancyStrictness;
+  }
+
+  public SearchResult<T> setAppliedRelevancyStrictness(Integer appliedRelevancyStrictness) {
+    this.appliedRelevancyStrictness = appliedRelevancyStrictness;
+    return this;
+  }
+
+  public Integer getNbSortedHits() {
+    return nbSortedHits;
+  }
+
+  public SearchResult<T> setNbSortedHits(Integer nbSortedHits) {
+    this.nbSortedHits = nbSortedHits;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "SearchResult{"
@@ -358,6 +378,12 @@ public class SearchResult<T> implements Serializable {
         + '\''
         + ", exhaustiveNbHits="
         + exhaustiveNbHits
+        + '\''
+        + ", appliedRelevancyStrictness="
+        + appliedRelevancyStrictness
+        + '\''
+        + ", nbSortedHits="
+        + nbSortedHits
         + '}';
   }
 }

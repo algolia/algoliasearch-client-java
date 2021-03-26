@@ -658,6 +658,15 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
+  public Integer getRelevancyStrictness() {
+    return relevancyStrictness;
+  }
+
+  public SearchParameters<T> setRelevancyStrictness(Integer relevancyStrictness) {
+    this.relevancyStrictness = relevancyStrictness;
+    return this;
+  }
+
   public String toParam() {
     return QueryStringUtils.buildQueryAsQueryParams(this);
   }
@@ -777,4 +786,7 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
 
   /* Custom Parameters */
   protected Map<String, Object> customParameters = new HashMap<>();
+
+  /* Virtual Indices */
+  protected Integer relevancyStrictness;
 }

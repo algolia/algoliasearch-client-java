@@ -99,6 +99,9 @@ public class IndexSettings implements Serializable {
   /* custom */
   private Map<String, Object> customSettings = new HashMap<>();
 
+  /* Virtual Indices */
+  protected Integer relevancyStrictness;
+
   public List<String> getAttributesForFaceting() {
     return attributesForFaceting;
   }
@@ -677,6 +680,15 @@ public class IndexSettings implements Serializable {
 
   public IndexSettings setEnablePersonalization(Boolean enablePersonalization) {
     this.enablePersonalization = enablePersonalization;
+    return this;
+  }
+
+  public Integer getRelevancyStrictness() {
+    return relevancyStrictness;
+  }
+
+  public IndexSettings setRelevancyStrictness(Integer relevancyStrictness) {
+    this.relevancyStrictness = relevancyStrictness;
     return this;
   }
 
