@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.algolia</groupId>
     <artifactId>example-osgi</artifactId>
-    <version>3.9.0</version>
+    <version>3.12.1</version>
     <packaging>bundle</packaging>
 
     <properties>
@@ -27,7 +27,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>4.2.1</version>
+                <version>5.1.1</version>
                 <extensions>true</extensions>
                 <executions>
                     <execution>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>com.algolia</groupId>
             <artifactId>algoliasearch-apache-uber</artifactId>
-            <version>3.9.0</version>
+            <version>3.12.1</version>
         </dependency>
     </dependencies>
 </project>
