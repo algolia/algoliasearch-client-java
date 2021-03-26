@@ -641,6 +641,15 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
+  public Boolean getDecompoundQuery() {
+    return decompoundQuery;
+  }
+
+  public SearchParameters<T> setDecompoundQuery(Boolean decompoundQuery) {
+    this.decompoundQuery = decompoundQuery;
+    return this;
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getCustomParameters() {
     return customParameters;
@@ -699,6 +708,7 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   protected Long maxFacetHits;
   protected Boolean percentileComputation;
   protected List<String> queryLanguages;
+  protected Boolean decompoundQuery;
 
   /* attributes */
   protected List<String> attributesToRetrieve;

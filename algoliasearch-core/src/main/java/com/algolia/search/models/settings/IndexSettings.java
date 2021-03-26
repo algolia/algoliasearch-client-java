@@ -39,6 +39,8 @@ public class IndexSettings implements Serializable {
   private Map<String, List<String>> decompoundedAttributes;
   private String primary;
   private Map<String, Object> userData;
+  private List<String> attributesToTransliterate;
+  private Boolean decompoundQuery;
 
   /* filtering-faceting */
   private Long maxValuesPerFacet;
@@ -683,6 +685,24 @@ public class IndexSettings implements Serializable {
     return this;
   }
 
+  public List<String> getAttributesToTransliterate() {
+    return attributesToTransliterate;
+  }
+
+  public IndexSettings setAttributesToTransliterate(List<String> attributesToTransliterate) {
+    this.attributesToTransliterate = attributesToTransliterate;
+    return this;
+  }
+
+  public Boolean getDecompoundQuery() {
+    return decompoundQuery;
+  }
+
+  public IndexSettings setDecompoundQuery(Boolean decompoundQuery) {
+    this.decompoundQuery = decompoundQuery;
+    return this;
+  }
+
   public Integer getRelevancyStrictness() {
     return relevancyStrictness;
   }
@@ -800,6 +820,12 @@ public class IndexSettings implements Serializable {
         + '\''
         + ", queryLanguages="
         + queryLanguages
+        + '\''
+        + ", attributesToTransliterate="
+        + attributesToTransliterate
+        + '\''
+        + ", decompoundQuery="
+        + decompoundQuery
         + '}';
   }
 }
