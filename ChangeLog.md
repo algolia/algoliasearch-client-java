@@ -1,5 +1,24 @@
 # ChangeLog
 
+## [3.13.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.12.1...3.13.0) (2021-03-31)
+
+### Feat
+
+- **settings**: add attributesToTransliterate and decompoundQuery parameters (#741) ([b730e1a](https://github.com/algolia/algoliasearch-client-java-2/commit/b730e1a))
+- **indices**: add missing fields to IndicesResponse (#742) ([ec1f4ac](https://github.com/algolia/algoliasearch-client-java-2/commit/ec1f4ac))
+- **virtual indices**: virtual indices related parameters  (#739) ([0bb458d](https://github.com/algolia/algoliasearch-client-java-2/commit/0bb458d))
+
+### Misc
+
+- **search**: `replaceExistingSynonyms` to `clearExistingSynonyms` ([6af339d](https://github.com/algolia/algoliasearch-client-java-2/commit/6af339d))
+
+### Fix
+
+- **osgi**: add missing embedded classes to the exported packages (#738) ([e02b2c2](https://github.com/algolia/algoliasearch-client-java-2/commit/e02b2c2))
+- **transport**: apply retry strategy when SSLException occurs using apache client ([29b223e](https://github.com/algolia/algoliasearch-client-java-2/commit/29b223e))
+
+
+
 ## [3.12.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.12.0...3.12.1) (2020-11-03)
 
 ### Fix
