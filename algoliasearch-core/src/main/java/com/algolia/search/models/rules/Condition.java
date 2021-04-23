@@ -14,6 +14,7 @@ public class Condition implements Serializable {
   private String anchoring;
   private String context;
   private Alternatives alternatives;
+  private String filters;
 
   public Condition() {}
 
@@ -50,6 +51,15 @@ public class Condition implements Serializable {
 
   public Condition setAlternatives(Alternatives alternatives) {
     this.alternatives = alternatives;
+    return this;
+  }
+
+  public String getFilters() {
+    return filters;
+  }
+
+  public Condition setFilters(String filters) {
+    this.filters = filters;
     return this;
   }
 }
