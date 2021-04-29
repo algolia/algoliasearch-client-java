@@ -12,4 +12,8 @@ public interface SearchClientBase {
       @Nonnull String indexName, long taskId, long timeToWait, RequestOptions requestOptions);
 
   void waitTask(@Nonnull String indexName, long taskId);
+
+  void waitAppTask(long taskId, long timeToWait, RequestOptions requestOptions);
+
+  void waitAppTask(long taskId);
 }

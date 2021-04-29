@@ -3,11 +3,16 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.exceptions.LaunderThrowable;
+import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
+import com.algolia.search.models.common.CallType;
+import com.algolia.search.models.common.TaskStatusResponse;
 import com.algolia.search.util.AlgoliaUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nonnull;
 
 /**
@@ -26,7 +31,8 @@ public final class SearchClient
         SearchClientMcm,
         SearchClientAPIKeys,
         SearchClientPersonalization,
-        SearchClientAdvanced {
+        SearchClientAdvanced,
+        SearchClientDictionary {
 
   /** The transport layer. Must be reused. */
   private final HttpTransport transport;
@@ -176,5 +182,104 @@ public final class SearchClient
 
     SearchIndex<?> indexToWait = initIndex(indexName);
     indexToWait.waitTask(taskID, timeToWait, requestOptions);
+  }
+
+  /**
+   * Wait for a dictionary task to complete before executing the next line of code. All write
+   * operations in Algolia are asynchronous by design.
+   *
+   * @param taskID The Algolia taskID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public void waitAppTask(long taskID) {
+    waitAppTask(taskID, 100, null);
+  }
+
+  /**
+   * Wait for a dictionary task to complete before executing the next line of code. All write
+   * operations in Algolia are asynchronous by design.
+   *
+   * @param taskID The Algolia taskID
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public void waitAppTask(long taskID, RequestOptions requestOptions) {
+    waitAppTask(taskID, 100, requestOptions);
+  }
+
+  /**
+   * Wait for a dictionary task to complete before executing the next line of code. All write
+   * operations in Algolia are asynchronous by design.
+   *
+   * @param taskID The Algolia taskID
+   * @param timeToWait The time to wait between each call
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public void waitAppTask(long taskID, long timeToWait, RequestOptions requestOptions) {
+    TaskUtils.waitTask(taskID, timeToWait, requestOptions, this::getAppTaskAsync);
+  }
+
+  /**
+   * Get the status of the given dictionary task.
+   *
+   * @param taskID The Algolia taskID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public TaskStatusResponse getAppTask(long taskID) {
+    return getAppTask(taskID, null);
+  }
+
+  /**
+   * Get the status of the given dictionary task.
+   *
+   * @param taskID The Algolia taskID
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public TaskStatusResponse getAppTask(long taskID, RequestOptions requestOptions) {
+    return LaunderThrowable.await(getAppTaskAsync(taskID, requestOptions));
+  }
+
+  /**
+   * Get the status of the given dictionary task.
+   *
+   * @param taskID The Algolia taskID
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<TaskStatusResponse> getAppTaskAsync(long taskID) {
+    return getAppTaskAsync(taskID, null);
+  }
+
+  /**
+   * Get the status of the given dictionary task.
+   *
+   * @param taskID The Algolia taskID
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<TaskStatusResponse> getAppTaskAsync(
+      long taskID, RequestOptions requestOptions) {
+    return getTransport()
+        .executeRequestAsync(
+            HttpMethod.GET,
+            "/1/task/" + taskID,
+            CallType.READ,
+            TaskStatusResponse.class,
+            requestOptions);
   }
 }
