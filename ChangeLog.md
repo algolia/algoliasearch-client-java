@@ -1,5 +1,14 @@
 # ChangeLog
 
+## [3.14.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.13.0...3.14.0) (2021-04-29)
+
+### Feat
+
+- **dictionaries**: dictionaries API implementation (#735) ([96897e5](https://github.com/algolia/algoliasearch-client-java-2/commit/96897e5))
+- **rules**: add filters param to rules condition (#740) ([760d2f1](https://github.com/algolia/algoliasearch-client-java-2/commit/760d2f1))
+
+
+
 ## [3.13.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.12.1...3.13.0) (2021-03-31)
 
 ### Feat
