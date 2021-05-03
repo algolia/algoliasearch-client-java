@@ -645,9 +645,9 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return decompoundQuery;
   }
 
-  public SearchParameters<T> setDecompoundQuery(Boolean decompoundQuery) {
+  public T setDecompoundQuery(Boolean decompoundQuery) {
     this.decompoundQuery = decompoundQuery;
-    return this;
+    return getThis();
   }
 
   @JsonAnyGetter
@@ -671,9 +671,9 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return relevancyStrictness;
   }
 
-  public SearchParameters<T> setRelevancyStrictness(Integer relevancyStrictness) {
+  public T setRelevancyStrictness(Integer relevancyStrictness) {
     this.relevancyStrictness = relevancyStrictness;
-    return this;
+    return getThis();
   }
 
   public String toParam() {
