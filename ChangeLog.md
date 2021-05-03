@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [3.14.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.14.0...3.14.1) (2021-05-03)
+
+### Fix
+
+- **search**: search parameters setters return type (#744) ([b2b0173](https://github.com/algolia/algoliasearch-client-java-2/commit/b2b0173))
+
+
+
 ## [3.14.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.13.0...3.14.0) (2021-04-29)
 
 ### Feat
