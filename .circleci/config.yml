@@ -71,9 +71,14 @@ jobs:
       - run:
           name: Release new version
           command: |
-            if [[ -z "$BINTRAY_USER" ]];    then echo '$BINTRAY_USER is not set';     exit 1; fi
-            if [[ -z "$BINTRAY_API_KEY" ]]; then echo '$BINTRAY_API_KEY is not set';  exit 1; fi
-            mvn -s .circleci/settings.xml deploy -DskipTests
+            echo -e "$GPG_KEY" | gpg --import
+            if [[ -z "$OSSRH_USERNAME" ]]; then echo '$OSSRH_USERNAME is not set';    exit 1; fi
+            if [[ -z "$OSSRH_PASSWORD" ]]; then echo '$OSSRH_PASSWORD is not set';    exit 1; fi
+            if [[ -z "$GPG_KEY ]];         then echo '$GPG_KEY' is not set;           exit 1; fi
+            if [[ -z "$GPG_KEYNAME ]];     then echo '$GPG_KEYNAME' is not set;       exit 1; fi
+            if [[ -z "$GPG_PASSPHRASE ]];  then echo '$GPG_PASSPHRASE' is not set;    exit 1; fi
+            echo -e "$GPG_KEY" | gpg --import --no-tty --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
+            mvn -s .circleci/settings.xml clean deploy -P release -DskipTests
       - save_cache:
           key: mvn-cache-11
           paths:
