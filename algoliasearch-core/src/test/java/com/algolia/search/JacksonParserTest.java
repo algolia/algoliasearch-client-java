@@ -991,7 +991,7 @@ class JacksonParserTest {
     assertThat(json).isEqualTo("{\"from\":1619807400,\"until\":1630263239}");
 
     TimeRange retrieveTimeRange = Defaults.getObjectMapper().readValue(json, TimeRange.class);
-    assertThat(timerange.getFrom().isEqual(retrieveTimeRange.getFrom())).isTrue();
-    assertThat(timerange.getUntil().isEqual(retrieveTimeRange.getUntil())).isTrue();
+    assertThat(timerange.getFrom()).isEqualTo(retrieveTimeRange.getFrom());
+    assertThat(timerange.getUntil()).isEqualTo(retrieveTimeRange.getUntil());
   }
 }
