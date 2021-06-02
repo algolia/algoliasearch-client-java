@@ -20,6 +20,7 @@ import com.algolia.search.models.rules.ConsequenceQuery;
 import com.algolia.search.models.rules.Edit;
 import com.algolia.search.models.rules.EditType;
 import com.algolia.search.models.rules.Rule;
+import com.algolia.search.models.rules.TimeRange;
 import com.algolia.search.models.settings.Distinct;
 import com.algolia.search.models.settings.IgnorePlurals;
 import com.algolia.search.models.settings.IndexSettings;
@@ -28,6 +29,8 @@ import com.algolia.search.models.settings.TypoTolerance;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -973,5 +976,22 @@ class JacksonParserTest {
     // Multiple ObjectIDs case
     assertThat(promote.get(1).getObjectID()).isNull();
     assertThat(promote.get(1).getObjectIDs()).isEqualTo(Arrays.asList("b", "c"));
+  }
+
+  @Test
+  void rulesValidityTimeRange() throws IOException {
+    ZoneOffset offset = ZoneOffset.of("+05:30");
+    // Nanoseconds precisions will be lost and should not be considered.
+    TimeRange timerange =
+        new TimeRange(
+            OffsetDateTime.of(2021, 5, 1, 0, 0, 0, 0, offset),
+            OffsetDateTime.of(2021, 8, 30, 0, 23, 59, 0, offset));
+
+    String json = Defaults.getObjectMapper().writeValueAsString(timerange);
+    assertThat(json).isEqualTo("{\"from\":1619807400,\"until\":1630263239}");
+
+    TimeRange retrieveTimeRange = Defaults.getObjectMapper().readValue(json, TimeRange.class);
+    assertThat(timerange.getFrom()).isEqualTo(retrieveTimeRange.getFrom());
+    assertThat(timerange.getUntil()).isEqualTo(retrieveTimeRange.getUntil());
   }
 }
