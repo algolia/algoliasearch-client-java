@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [3.14.2](https://github.com/algolia/algoliasearch-client-java-2/compare/3.14.1...3.14.2) (2021-06-02)
+
+### Fix
+
+- **rules**: `TimeRange` serialization (#745) ([6ee40f3](https://github.com/algolia/algoliasearch-client-java-2/commit/6ee40f3))
+
+
+
 ## [3.14.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.14.0...3.14.1) (2021-05-03)
 
 ### Fix
