@@ -87,18 +87,15 @@ jobs:
 workflows:
   version: 2
   build:
-    codestyle:
-      jobs:
-        - format:
-            filters:
-              tags:
-                only: /.*/
-    test-java-8:
-      jobs:
-        - test-java-8:
-            filters:
-              tags:
-                only: /.*/
+    jobs:
+      - format:
+          filters:
+            tags:
+              only: /.*/
+      - test-java-8:
+          filters:
+            tags:
+              only: /.*/
       - test-java-11:
           filters:
             tags:
