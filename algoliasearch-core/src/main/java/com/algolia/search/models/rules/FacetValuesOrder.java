@@ -5,9 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Facet values ordering rule container.
- */
+/** Facet values ordering rule container. */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FacetValuesOrder implements Serializable {
   private List<String> order;
