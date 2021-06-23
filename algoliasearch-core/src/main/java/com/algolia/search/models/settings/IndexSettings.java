@@ -1,6 +1,13 @@
 package com.algolia.search.models.settings;
 
-import com.fasterxml.jackson.annotation.*;
+import com.algolia.search.models.rules.RenderingContent;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +110,9 @@ public class IndexSettings implements Serializable {
 
   /* Virtual Indices */
   protected Integer relevancyStrictness;
+
+  /* Facets Ordering */
+  private RenderingContent renderingContent;
 
   public List<String> getAttributesForFaceting() {
     return attributesForFaceting;
@@ -712,6 +722,15 @@ public class IndexSettings implements Serializable {
     return this;
   }
 
+  public RenderingContent getRenderingContent() {
+    return renderingContent;
+  }
+
+  public IndexSettings setRenderingContent(RenderingContent renderingContent) {
+    this.renderingContent = renderingContent;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "IndexSettings{"
@@ -826,6 +845,9 @@ public class IndexSettings implements Serializable {
         + '\''
         + ", decompoundQuery="
         + decompoundQuery
+        + '\''
+        + ", renderingContent="
+        + renderingContent
         + '}';
   }
 }
