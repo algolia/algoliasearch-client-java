@@ -2,14 +2,15 @@ package com.algolia.search.models.rules;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 /** Facet values ordering rule container. */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FacetValuesOrder implements Serializable {
-  private List<String> order;
-  private String sortRemainingBy;
+  private List<String> order = Collections.emptyList();
+  private String sortRemainingBy = "count"; // "alpha", "count" or "hidden"
 
   public FacetValuesOrder() {}
 
