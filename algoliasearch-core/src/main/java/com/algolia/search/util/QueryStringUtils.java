@@ -69,7 +69,7 @@ public class QueryStringUtils {
                         List<Object> tmpList = (List) e.getValue();
 
                         // Work around for nested List<List<?>> could be improved
-                        if (tmpList.get(0) != null && tmpList.get(0) instanceof List<?>) {
+                        if (!tmpList.isEmpty() && tmpList.get(0) instanceof List<?>) {
 
                           List<List<Object>> listOfList = (List) e.getValue();
 
