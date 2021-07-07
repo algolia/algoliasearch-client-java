@@ -7,7 +7,9 @@ import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.models.recommendation.DeletePersonalizationProfileResponse;
 import com.algolia.search.models.recommendation.GetStrategyResponse;
+import com.algolia.search.models.recommendation.PersonalizationProfileResponse;
 import com.algolia.search.models.recommendation.SetStrategyRequest;
 import com.algolia.search.models.recommendation.SetStrategyResponse;
 import java.io.Closeable;
@@ -24,6 +26,7 @@ import javax.annotation.Nonnull;
  *
  * @see <a href="https://www.algolia.com/doc/rest-api/personalization/">Algolia.com</a>
  */
+@SuppressWarnings("unused")
 public class PersonalizationClient implements Closeable {
 
   /** The transport layer. Must be reused. */
@@ -174,6 +177,176 @@ public class PersonalizationClient implements Closeable {
         CallType.WRITE,
         request,
         SetStrategyResponse.class,
+        requestOptions);
+  }
+
+  /**
+   * Get the user profile built from Personalization strategy.
+   *
+   * <p>The profile is structured by facet name used in the strategy. Each facet value is mapped to
+   * its score. Each score represents the user affinity for a specific facet value given the
+   * userToken past events and the Personalization strategy defined. Scores are bounded to 20. The
+   * last processed event timestamp is provided using the ISO 8601 format for debugging purposes.
+   *
+   * @param userToken userToken representing the user for which to fetch the Personalization profile
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public PersonalizationProfileResponse getPersonalizationProfile(String userToken) {
+    return LaunderThrowable.await(getPersonalizationProfileAsync(userToken));
+  }
+
+  /**
+   * Get the user profile built from Personalization strategy.
+   *
+   * <p>The profile is structured by facet name used in the strategy. Each facet value is mapped to
+   * its score. Each score represents the user affinity for a specific facet value given the
+   * userToken past events and the Personalization strategy defined. Scores are bounded to 20. The
+   * last processed event timestamp is provided using the ISO 8601 format for debugging purposes.
+   *
+   * @param userToken userToken representing the user for which to fetch the Personalization profile
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public PersonalizationProfileResponse getPersonalizationProfile(
+      String userToken, RequestOptions requestOptions) {
+    return LaunderThrowable.await(getPersonalizationProfileAsync(userToken, requestOptions));
+  }
+
+  /**
+   * Get the user profile built from Personalization strategy.
+   *
+   * <p>The profile is structured by facet name used in the strategy. Each facet value is mapped to
+   * its score. Each score represents the user affinity for a specific facet value given the
+   * userToken past events and the Personalization strategy defined. Scores are bounded to 20. The
+   * last processed event timestamp is provided using the ISO 8601 format for debugging purposes.
+   *
+   * @param userToken userToken representing the user for which to fetch the Personalization profile
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<PersonalizationProfileResponse> getPersonalizationProfileAsync(
+      String userToken) {
+    return getPersonalizationProfileAsync(userToken, null);
+  }
+
+  /**
+   * Get the user profile built from Personalization strategy.
+   *
+   * <p>The profile is structured by facet name used in the strategy. Each facet value is mapped to
+   * its score. Each score represents the user affinity for a specific facet value given the
+   * userToken past events and the Personalization strategy defined. Scores are bounded to 20. The
+   * last processed event timestamp is provided using the ISO 8601 format for debugging purposes.
+   *
+   * @param userToken userToken representing the user for which to fetch the Personalization profile
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<PersonalizationProfileResponse> getPersonalizationProfileAsync(
+      String userToken, RequestOptions requestOptions) {
+    Objects.requireNonNull(userToken, "userToken is required.");
+    return transport.executeRequestAsync(
+        HttpMethod.GET,
+        "1/profiles/personalization/" + userToken,
+        CallType.READ,
+        PersonalizationProfileResponse.class,
+        requestOptions);
+  }
+
+  /**
+   * Delete the user profile and all its associated data.
+   *
+   * <p>Returns, as part of the response, a date until which the data can safely be considered as
+   * deleted for the given user. This means that if you send events for the given user before this
+   * date, they will be ignored. Any data received after the deletedUntil date will start building a
+   * new user profile.
+   *
+   * <p>It might take a couple hours before for the deletion request to be fully processed.
+   *
+   * @param userToken userToken representing the user for which to delete the Personalization
+   *     profile and associated data.
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public DeletePersonalizationProfileResponse deletePersonalizationProfile(String userToken) {
+    return LaunderThrowable.await(deletePersonalizationProfileAsync(userToken));
+  }
+
+  /**
+   * Delete the user profile and all its associated data.
+   *
+   * <p>Returns, as part of the response, a date until which the data can safely be considered as
+   * deleted for the given user. This means that if you send events for the given user before this
+   * date, they will be ignored. Any data received after the deletedUntil date will start building a
+   * new user profile.
+   *
+   * <p>It might take a couple hours before for the deletion request to be fully processed.
+   *
+   * @param userToken userToken representing the user for which to delete the Personalization
+   *     profile and associated data.
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public DeletePersonalizationProfileResponse deletePersonalizationProfile(
+      String userToken, RequestOptions requestOptions) {
+    return LaunderThrowable.await(deletePersonalizationProfileAsync(userToken, requestOptions));
+  }
+
+  /**
+   * Delete the user profile and all its associated data.
+   *
+   * <p>Returns, as part of the response, a date until which the data can safely be considered as
+   * deleted for the given user. This means that if you send events for the given user before this
+   * date, they will be ignored. Any data received after the deletedUntil date will start building a
+   * new user profile.
+   *
+   * <p>It might take a couple hours before for the deletion request to be fully processed.
+   *
+   * @param userToken userToken representing the user for which to delete the Personalization
+   *     profile and associated data.
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<DeletePersonalizationProfileResponse> deletePersonalizationProfileAsync(
+      String userToken) {
+    return deletePersonalizationProfileAsync(userToken, null);
+  }
+
+  /**
+   * Delete the user profile and all its associated data.
+   *
+   * <p>Returns, as part of the response, a date until which the data can safely be considered as
+   * deleted for the given user. This means that if you send events for the given user before this
+   * date, they will be ignored. Any data received after the deletedUntil date will start building a
+   * new user profile.
+   *
+   * <p>It might take a couple hours before for the deletion request to be fully processed.
+   *
+   * @param userToken userToken representing the user for which to delete the Personalization
+   *     profile and associated data.
+   * @param requestOptions Options to pass to this request
+   * @throws AlgoliaRetryException When the retry has failed on all hosts
+   * @throws AlgoliaApiException When the API sends an http error code
+   * @throws AlgoliaRuntimeException When an error occurred during the serialization
+   */
+  public CompletableFuture<DeletePersonalizationProfileResponse> deletePersonalizationProfileAsync(
+      String userToken, RequestOptions requestOptions) {
+    Objects.requireNonNull(userToken, "userToken is required.");
+    return transport.executeRequestAsync(
+        HttpMethod.DELETE,
+        "1/profiles/" + userToken,
+        CallType.WRITE,
+        DeletePersonalizationProfileResponse.class,
         requestOptions);
   }
 
