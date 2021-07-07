@@ -43,7 +43,7 @@ public class PersonalizationConfig extends ConfigBase {
 
       return Collections.singletonList(
           new StatefulHost(
-              String.format("recommendation.%s.algolia.com", region),
+              String.format("personalization.%s.algolia.com", region),
               EnumSet.of(CallType.READ, CallType.WRITE)));
     }
   }
