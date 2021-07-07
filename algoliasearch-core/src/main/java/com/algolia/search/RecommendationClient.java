@@ -1,6 +1,8 @@
 package com.algolia.search;
 
-import com.algolia.search.exceptions.*;
+import com.algolia.search.exceptions.AlgoliaApiException;
+import com.algolia.search.exceptions.AlgoliaRetryException;
+import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
@@ -21,8 +23,10 @@ import javax.annotation.Nonnull;
  * be reused and it's thread-safe.
  *
  * @see <a href="https://www.algolia.com/doc/rest-api/recommendation/">Algolia.com</a>
+ * @deprecated use {@link PersonalizationClient} instead
  */
 @SuppressWarnings({"WeakerAccess", "Unused"})
+@Deprecated
 public class RecommendationClient implements Closeable {
 
   /** The transport layer. Must be reused. */
