@@ -193,7 +193,7 @@ public class PersonalizationClient implements Closeable {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public PersonalizationProfileResponse getPersonalizationProfile(String userToken) {
+  public PersonalizationProfileResponse getPersonalizationProfile(@Nonnull String userToken) {
     return LaunderThrowable.await(getPersonalizationProfileAsync(userToken));
   }
 
@@ -212,7 +212,7 @@ public class PersonalizationClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public PersonalizationProfileResponse getPersonalizationProfile(
-      String userToken, RequestOptions requestOptions) {
+      @Nonnull String userToken, RequestOptions requestOptions) {
     return LaunderThrowable.await(getPersonalizationProfileAsync(userToken, requestOptions));
   }
 
@@ -230,7 +230,7 @@ public class PersonalizationClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<PersonalizationProfileResponse> getPersonalizationProfileAsync(
-      String userToken) {
+      @Nonnull String userToken) {
     return getPersonalizationProfileAsync(userToken, null);
   }
 
@@ -249,7 +249,7 @@ public class PersonalizationClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<PersonalizationProfileResponse> getPersonalizationProfileAsync(
-      String userToken, RequestOptions requestOptions) {
+      @Nonnull String userToken, RequestOptions requestOptions) {
     Objects.requireNonNull(userToken, "userToken is required.");
     return transport.executeRequestAsync(
         HttpMethod.GET,
@@ -275,7 +275,8 @@ public class PersonalizationClient implements Closeable {
    * @throws AlgoliaApiException When the API sends an http error code
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
-  public DeletePersonalizationProfileResponse deletePersonalizationProfile(String userToken) {
+  public DeletePersonalizationProfileResponse deletePersonalizationProfile(
+      @Nonnull String userToken) {
     return LaunderThrowable.await(deletePersonalizationProfileAsync(userToken));
   }
 
@@ -297,7 +298,7 @@ public class PersonalizationClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public DeletePersonalizationProfileResponse deletePersonalizationProfile(
-      String userToken, RequestOptions requestOptions) {
+      @Nonnull String userToken, RequestOptions requestOptions) {
     return LaunderThrowable.await(deletePersonalizationProfileAsync(userToken, requestOptions));
   }
 
@@ -318,7 +319,7 @@ public class PersonalizationClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<DeletePersonalizationProfileResponse> deletePersonalizationProfileAsync(
-      String userToken) {
+      @Nonnull String userToken) {
     return deletePersonalizationProfileAsync(userToken, null);
   }
 
@@ -340,7 +341,7 @@ public class PersonalizationClient implements Closeable {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   public CompletableFuture<DeletePersonalizationProfileResponse> deletePersonalizationProfileAsync(
-      String userToken, RequestOptions requestOptions) {
+      @Nonnull String userToken, RequestOptions requestOptions) {
     Objects.requireNonNull(userToken, "userToken is required.");
     return transport.executeRequestAsync(
         HttpMethod.DELETE,
