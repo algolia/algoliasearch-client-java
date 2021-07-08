@@ -4,7 +4,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.algolia.search.Defaults;
 import com.algolia.search.PersonalizationClient;
-import com.algolia.search.RecommendationClient;
 import com.algolia.search.models.recommendation.EventsScoring;
 import com.algolia.search.models.recommendation.FacetsScoring;
 import com.algolia.search.models.recommendation.GetStrategyResponse;
