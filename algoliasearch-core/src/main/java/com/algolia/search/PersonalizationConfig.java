@@ -9,33 +9,31 @@ import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 
-/** @deprecated use {@link PersonalizationConfig} instead */
-@Deprecated
-public class RecommendationConfig extends ConfigBase {
+public class PersonalizationConfig extends ConfigBase {
 
   public static class Builder extends ConfigBase.Builder<Builder> {
     /**
-     * Creates an {@link RecommendationConfig} with the default hosts
+     * Creates an {@link PersonalizationConfig} with the default hosts
      *
      * @param applicationID The Application ID
      * @param apiKey The API Key
      * @param region Region where your personalization data is stored and processed.
      */
     public Builder(@Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
-      super(applicationID, apiKey, createRecommendationHosts(region), CompressionType.NONE);
+      super(applicationID, apiKey, createPersonalizationHosts(region), CompressionType.NONE);
     }
 
     @Override
-    public RecommendationConfig.Builder getThis() {
+    public PersonalizationConfig.Builder getThis() {
       return this;
     }
 
-    public RecommendationConfig build() {
-      return new RecommendationConfig(this);
+    public PersonalizationConfig build() {
+      return new PersonalizationConfig(this);
     }
 
     /** Create hosts for the recommendation configuration */
-    private static List<StatefulHost> createRecommendationHosts(@Nonnull String region) {
+    private static List<StatefulHost> createPersonalizationHosts(@Nonnull String region) {
 
       Objects.requireNonNull(region, "The region can't be null");
 
@@ -45,12 +43,12 @@ public class RecommendationConfig extends ConfigBase {
 
       return Collections.singletonList(
           new StatefulHost(
-              String.format("recommendation.%s.algolia.com", region),
+              String.format("personalization.%s.algolia.com", region),
               EnumSet.of(CallType.READ, CallType.WRITE)));
     }
   }
 
-  private RecommendationConfig(Builder builder) {
+  private PersonalizationConfig(Builder builder) {
     super(builder);
   }
 }
