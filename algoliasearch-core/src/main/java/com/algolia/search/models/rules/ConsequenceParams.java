@@ -88,8 +88,7 @@ public class ConsequenceParams extends SearchParameters<ConsequenceParams> {
     return renderingContent;
   }
 
-  public ConsequenceParams setRenderingContent(
-      RenderingContent renderingContent) {
+  public ConsequenceParams setRenderingContent(RenderingContent renderingContent) {
     this.renderingContent = renderingContent;
     return this;
   }
