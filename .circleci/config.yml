@@ -93,10 +93,14 @@ workflows:
             tags:
               only: /.*/
       - test-java-8:
+          requires:
+            - format
           filters:
             tags:
               only: /.*/
       - test-java-11:
+          requires:
+            - test-java-8
           filters:
             tags:
               only: /.*/
