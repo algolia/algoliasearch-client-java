@@ -84,6 +84,16 @@ public class ConsequenceParams extends SearchParameters<ConsequenceParams> {
     return this;
   }
 
+  public RenderingContent getRenderingContent() {
+    return renderingContent;
+  }
+
+  public ConsequenceParams setRenderingContent(RenderingContent renderingContent) {
+    this.renderingContent = renderingContent;
+    return this;
+  }
+
+  private RenderingContent renderingContent;
   private ConsequenceQuery query;
 
   @JsonDeserialize(using = AutomaticFacetFilterDeserializer.class)

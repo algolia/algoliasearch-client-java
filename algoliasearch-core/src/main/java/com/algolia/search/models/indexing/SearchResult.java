@@ -1,5 +1,6 @@
 package com.algolia.search.models.indexing;
 
+import com.algolia.search.models.rules.RenderingContent;
 import com.algolia.search.util.AlgoliaUtils;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
@@ -31,6 +32,7 @@ public class SearchResult<T> implements Serializable {
   private Boolean exhaustiveNbHits;
   private Integer appliedRelevancyStrictness;
   private Integer nbSortedHits;
+  private RenderingContent renderingContent;
 
   public Explain getExplain() {
     return explain;
@@ -128,6 +130,15 @@ public class SearchResult<T> implements Serializable {
 
   public SearchResult<T> setQueryAfterRemoval(String queryAfterRemoval) {
     this.queryAfterRemoval = queryAfterRemoval;
+    return this;
+  }
+
+  public RenderingContent getRenderingContent() {
+    return renderingContent;
+  }
+
+  public SearchResult<T> setRenderingContent(RenderingContent renderingContent) {
+    this.renderingContent = renderingContent;
     return this;
   }
 
@@ -384,6 +395,9 @@ public class SearchResult<T> implements Serializable {
         + '\''
         + ", nbSortedHits="
         + nbSortedHits
+        + '\''
+        + ", renderingContent="
+        + renderingContent
         + '}';
   }
 }
