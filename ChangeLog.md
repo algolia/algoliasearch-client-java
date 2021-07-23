@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [3.15.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.14.3...3.15.0) (2021-07-23)
+
+### Feat
+
+- **dynamic facets**: facet ordering support (#747) ([53dc256](https://github.com/algolia/algoliasearch-client-java-2/commit/53dc256))
+
+### Change
+
+- rename `RecommendationClient` to `PersonalizationClient`  (#750) ([ddbec57](https://github.com/algolia/algoliasearch-client-java-2/commit/ddbec57))
+
+
+
 ## [3.14.3](https://github.com/algolia/algoliasearch-client-java-2/compare/3.14.2...3.14.3) (2021-06-29)
 
 ### Fix
