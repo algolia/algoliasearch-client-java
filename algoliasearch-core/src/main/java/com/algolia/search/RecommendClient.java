@@ -1,9 +1,13 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.LaunderThrowable;
+import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
+import com.algolia.search.models.common.CallType;
+import com.algolia.search.models.indexing.RecommendationsResult;
 import com.algolia.search.models.recommend.GetRecommendationsResponse;
 import com.algolia.search.models.recommend.RecommendationsQuery;
+import com.algolia.search.models.recommend.RecommendationsRequests;
 import com.algolia.search.models.recommend.RelatedProductsQuery;
 import java.io.Closeable;
 import java.io.IOException;
@@ -26,13 +30,13 @@ public final class RecommendClient implements Closeable {
   private final HttpTransport transport;
 
   /** Client's configuration. Must be reused. */
-  private final ConfigBase config;
+  private final SearchConfig config;
 
-  public RecommendClient(@Nonnull ConfigBase config, @Nonnull HttpTransport httpRequester) {
+  public RecommendClient(@Nonnull SearchConfig config, @Nonnull HttpRequester httpRequester) {
     Objects.requireNonNull(httpRequester, "An httpRequester is required.");
     Objects.requireNonNull(config, "A configuration is required.");
-    this.transport = httpRequester;
     this.config = config;
+    this.transport = new HttpTransport(config, httpRequester);
   }
 
   /**
@@ -45,13 +49,22 @@ public final class RecommendClient implements Closeable {
     transport.close();
   }
 
-  //region get_recommendations
+  public HttpTransport getTransport() {
+    return transport;
+  }
+
+  public SearchConfig getConfig() {
+    return config;
+  }
+
+  // region get_recommendations
   /**
    * Returns recommendations for a specific model and objectID.
    *
    * @param requests a list of recommendation requests to execute
    */
-  public GetRecommendationsResponse getRecommendations(@Nonnull List<RecommendationsQuery> requests) {
+  public List<RecommendationsResult<Object>> getRecommendations(
+      @Nonnull List<RecommendationsQuery> requests) {
     return LaunderThrowable.await(getRecommendationsAsync(requests));
   }
 
@@ -59,10 +72,23 @@ public final class RecommendClient implements Closeable {
    * Returns recommendations for a specific model and objectID.
    *
    * @param requests a list of recommendation requests to execute
+   * @param clazz The class held by the index. Could be your business object or {@link Object}
+   */
+  public <T> List<RecommendationsResult<T>> getRecommendations(
+      @Nonnull List<RecommendationsQuery> requests, Class<T> clazz) {
+    return LaunderThrowable.await(getRecommendationsAsync(requests, clazz));
+  }
+
+  /**
+   * Returns recommendations for a specific model and objectID.
+   *
+   * @param requests a list of recommendation requests to execute
+   * @param clazz The class held by the index. Could be your business object or {@link Object}
    * @param requestOptions options to pass to this request
    */
-  public GetRecommendationsResponse getRecommendations(@Nonnull List<RecommendationsQuery> requests, RequestOptions requestOptions) {
-    return LaunderThrowable.await(getRecommendationsAsync(requests, requestOptions));
+  public <T> List<RecommendationsResult<T>> getRecommendations(
+      @Nonnull List<RecommendationsQuery> requests, Class<T> clazz, RequestOptions requestOptions) {
+    return LaunderThrowable.await(getRecommendationsAsync(requests, clazz, requestOptions));
   }
 
   /**
@@ -70,28 +96,61 @@ public final class RecommendClient implements Closeable {
    *
    * @param requests a list of recommendation requests to execute
    */
-  public CompletableFuture<GetRecommendationsResponse> getRecommendationsAsync(@Nonnull List<RecommendationsQuery> requests) {
-    return getRecommendationsAsync(requests, null);
+  public CompletableFuture<List<RecommendationsResult<Object>>> getRecommendationsAsync(
+      @Nonnull List<RecommendationsQuery> requests) {
+    return getRecommendationsAsync(requests, Object.class, null);
   }
 
   /**
    * Returns recommendations for a specific model and objectID.
    *
    * @param requests a list of recommendation requests to execute
+   * @param clazz The class held by the index. Could be your business object or {@link Object}
+   */
+  public <T> CompletableFuture<List<RecommendationsResult<T>>> getRecommendationsAsync(
+      @Nonnull List<RecommendationsQuery> requests, Class<T> clazz) {
+    return getRecommendationsAsync(requests, clazz, null);
+  }
+
+  /**
+   * Returns recommendations for a specific model and objectID.
+   *
+   * @param requests a list of recommendation requests to execute
+   * @param clazz The class held by the index. Could be your business object or {@link Object}
    * @param requestOptions options to pass to this request
    */
-  public CompletableFuture<GetRecommendationsResponse> getRecommendationsAsync(@Nonnull List<RecommendationsQuery> requests, RequestOptions requestOptions) {
-    // TODO
-  }
-  //endregion
+  @SuppressWarnings("unchecked")
+  public <T> CompletableFuture<List<RecommendationsResult<T>>> getRecommendationsAsync(
+      @Nonnull List<RecommendationsQuery> requests, Class<T> clazz, RequestOptions requestOptions) {
+    Objects.requireNonNull(requests);
 
-  //region get_related_products
+    return transport
+        .executeRequestAsync(
+            HttpMethod.POST,
+            "/1/indexes/*/recommendations",
+            CallType.READ,
+            new RecommendationsRequests<>(requests),
+            GetRecommendationsResponse.class,
+            clazz,
+            requestOptions)
+        .thenComposeAsync(
+            resp -> {
+              CompletableFuture<List<RecommendationsResult<T>>> r = new CompletableFuture<>();
+              r.complete(resp.getResults());
+              return r;
+            },
+            config.getExecutor());
+  }
+  // endregion
+
+  // region get_related_products
   /**
    * Returns related products recommendations for a specific model and objectID.
    *
    * @param requests a list of recommendation requests to execute
    */
-  public GetRecommendationsResponse getRelatedProducts(@Nonnull List<RelatedProductsQuery> requests) {
+  public <T> GetRecommendationsResponse<T> getRelatedProducts(
+      @Nonnull List<RelatedProductsQuery> requests) {
     return LaunderThrowable.await(getRelatedProductsAsync(requests));
   }
 
@@ -101,7 +160,8 @@ public final class RecommendClient implements Closeable {
    * @param requests a list of recommendation requests to execute
    * @param requestOptions options to pass to this request
    */
-  public GetRecommendationsResponse getRelatedProducts(@Nonnull List<RelatedProductsQuery> requests, RequestOptions requestOptions) {
+  public <T> GetRecommendationsResponse<T> getRelatedProducts(
+      @Nonnull List<RelatedProductsQuery> requests, RequestOptions requestOptions) {
     return LaunderThrowable.await(getRelatedProductsAsync(requests, requestOptions));
   }
 
@@ -110,7 +170,8 @@ public final class RecommendClient implements Closeable {
    *
    * @param requests a list of recommendation requests to execute
    */
-  public CompletableFuture<GetRecommendationsResponse> getRelatedProductsAsync(@Nonnull List<RelatedProductsQuery> requests) {
+  public <T> CompletableFuture<GetRecommendationsResponse<T>> getRelatedProductsAsync(
+      @Nonnull List<RelatedProductsQuery> requests) {
     return getRelatedProductsAsync(requests, null);
   }
 
@@ -120,18 +181,21 @@ public final class RecommendClient implements Closeable {
    * @param requests a list of recommendation requests to execute
    * @param requestOptions options to pass to this request
    */
-  public CompletableFuture<GetRecommendationsResponse> getRelatedProductsAsync(@Nonnull List<RelatedProductsQuery> requests, RequestOptions requestOptions) {
+  public <T> CompletableFuture<GetRecommendationsResponse<T>> getRelatedProductsAsync(
+      @Nonnull List<RelatedProductsQuery> requests, RequestOptions requestOptions) {
     // TODO
+    return null;
   }
-  //endregion
+  // endregion
 
-  //region get_frequently_bought_together
+  // region get_frequently_bought_together
   /**
    * Returns frequently bought together recommendations for a specific model and objectID.
    *
    * @param requests a list of recommendation requests to execute
    */
-  public GetRecommendationsResponse getFrequentlyBoughtTogether(@Nonnull List<RecommendationsQuery> requests) {
+  public <T> GetRecommendationsResponse<T> getFrequentlyBoughtTogether(
+      @Nonnull List<RecommendationsQuery> requests) {
     return LaunderThrowable.await(getFrequentlyBoughtTogetherAsync(requests, null));
   }
 
@@ -141,7 +205,8 @@ public final class RecommendClient implements Closeable {
    * @param requests a list of recommendation requests to execute
    * @param requestOptions options to pass to this request
    */
-  public GetRecommendationsResponse getFrequentlyBoughtTogether(@Nonnull List<RecommendationsQuery> requests, RequestOptions requestOptions) {
+  public <T> GetRecommendationsResponse<T> getFrequentlyBoughtTogether(
+      @Nonnull List<RecommendationsQuery> requests, RequestOptions requestOptions) {
     return LaunderThrowable.await(getFrequentlyBoughtTogetherAsync(requests, requestOptions));
   }
 
@@ -150,7 +215,8 @@ public final class RecommendClient implements Closeable {
    *
    * @param requests a list of recommendation requests to execute
    */
-  public CompletableFuture<GetRecommendationsResponse> getFrequentlyBoughtTogetherAsync(@Nonnull List<RecommendationsQuery> requests) {
+  public <T> CompletableFuture<GetRecommendationsResponse<T>> getFrequentlyBoughtTogetherAsync(
+      @Nonnull List<RecommendationsQuery> requests) {
     return getFrequentlyBoughtTogetherAsync(requests, null);
   }
 
@@ -160,8 +226,21 @@ public final class RecommendClient implements Closeable {
    * @param requests a list of recommendation requests to execute
    * @param requestOptions options to pass to this request
    */
-  public CompletableFuture<GetRecommendationsResponse> getFrequentlyBoughtTogetherAsync(@Nonnull List<RecommendationsQuery> requests, RequestOptions requestOptions) {
+  public <T> CompletableFuture<GetRecommendationsResponse<T>> getFrequentlyBoughtTogetherAsync(
+      @Nonnull List<RecommendationsQuery> requests, RequestOptions requestOptions) {
     // TODO
+    return null;
   }
-  //endregion
+  // endregion
+
+  // private <T> CompletableFuture<GetRecommendationsResponse<T>> requestRecommendations(
+  //    T requests, RequestOptions requestOptions) {
+  //  return transport.executeRequestAsync(
+  //      HttpMethod.POST,
+  //      "/1/indexes/*/recommendations",
+  //      CallType.READ,
+  //      requests,
+  //      GetRecommendationsResponse<T>.class,
+  //      requestOptions);
+  // }
 }
