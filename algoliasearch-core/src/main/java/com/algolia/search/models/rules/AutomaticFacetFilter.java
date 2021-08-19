@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -89,7 +93,7 @@ class AutomaticFacetFilterDeserializer extends JsonDeserializer {
             objectMapper.readerFor(new TypeReference<List<AutomaticFacetFilter>>() {});
         return reader.readValue(node);
       } else {
-        ObjectReader reader = objectMapper.readerFor(List.class);
+        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<String>>() {});
         List<String> list = reader.readValue(node);
 
         return list.stream()
