@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.algolia.search.SearchClient;
 import com.algolia.search.SearchIndex;
 import com.algolia.search.integration.models.CopyIndexTestObject;
+import com.algolia.search.iterators.RulesIterable;
 import com.algolia.search.models.indexing.BatchIndexingResponse;
 import com.algolia.search.models.indexing.CopyResponse;
 import com.algolia.search.models.rules.*;
@@ -13,6 +14,7 @@ import com.algolia.search.models.settings.IndexSettings;
 import com.algolia.search.models.settings.SetSettingsResponse;
 import com.algolia.search.models.synonyms.SaveSynonymResponse;
 import com.algolia.search.models.synonyms.Synonym;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -77,7 +79,12 @@ public abstract class CopyIndexTest {
                     .setParams(
                         new ConsequenceParams()
                             .setAutomaticFacetFilters(
-                                Collections.singletonList(new AutomaticFacetFilter("company")))));
+                                Arrays.asList(
+                                    new AutomaticFacetFilter("company"),
+                                    new AutomaticFacetFilter("company", true),
+                                    new AutomaticFacetFilter("company", true, 1),
+                                    new AutomaticFacetFilter("company", false, 1)
+                                ))));
 
     CompletableFuture<SaveRuleResponse> saveRuleFuture = sourceIndex.saveRuleAsync(ruleToSave);
 
@@ -118,6 +125,8 @@ public abstract class CopyIndexTest {
     Rule copiedRules = rulesIndex.getRule(ruleToSave.getObjectID());
     assertThat(copiedRules).usingRecursiveComparison().isEqualTo(ruleToSave);
 
+
+
     // Check index with copied synonyms
     Synonym copiedSynonym = syonymsIndex.getSynonymAsync(synonymToSave.getObjectID()).get();
     assertThat(copiedSynonym).usingRecursiveComparison().isEqualTo(synonymToSave);
@@ -129,5 +138,15 @@ public abstract class CopyIndexTest {
         fullIndex.getSynonymAsync(synonymToSave.getObjectID());
 
     CompletableFuture.allOf(fullSettingsFuture, fullRuleFuture, fullSynonymFuture);
+
+    List<Rule> rules = new ArrayList();
+    RulesIterable sourceRules1 = sourceIndex.browseRules();
+    RulesIterable sourceRules2 = settingsIndex.browseRules();
+    RulesIterable sourceRules3 = syonymsIndex.browseRules();
+    RulesIterable sourceRules4 = rulesIndex.browseRules();
+    RulesIterable sourceRules5 = fullIndex.browseRules();
+    sourceRules1.forEach(rules::add);
+
+    rules.forEach(System.out::println);
   }
 }
