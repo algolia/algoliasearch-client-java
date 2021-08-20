@@ -83,8 +83,7 @@ public abstract class CopyIndexTest {
                                     new AutomaticFacetFilter("company"),
                                     new AutomaticFacetFilter("company", true),
                                     new AutomaticFacetFilter("company", true, 1),
-                                    new AutomaticFacetFilter("company", false, 1)
-                                ))));
+                                    new AutomaticFacetFilter("company", false, 1)))));
 
     CompletableFuture<SaveRuleResponse> saveRuleFuture = sourceIndex.saveRuleAsync(ruleToSave);
 
@@ -124,8 +123,6 @@ public abstract class CopyIndexTest {
     // Check index with copied rules
     Rule copiedRules = rulesIndex.getRule(ruleToSave.getObjectID());
     assertThat(copiedRules).usingRecursiveComparison().isEqualTo(ruleToSave);
-
-
 
     // Check index with copied synonyms
     Synonym copiedSynonym = syonymsIndex.getSynonymAsync(synonymToSave.getObjectID()).get();

@@ -1,5 +1,3 @@
 package com.algolia.search.models.recommend;
 
-public class FrequencyBoughtTogetherQuery {
-
-}
+public class FrequencyBoughtTogetherQuery {}

@@ -16,15 +16,15 @@ abstract class RecommendationsOptions {
   String objectID;
 
   /**
-   * The threshold to use when filtering recommendations by their score,
-   * default 0, between 0 and 100
+   * The threshold to use when filtering recommendations by their score, default 0, between 0 and
+   * 100
    */
   Integer threshold;
 
   /** The maximum number of recommendations to retrieve */
   Integer maxRecommendations;
 
-  /** search parameters to filter the recommendations,  */
+  /** search parameters to filter the recommendations, */
   Query queryParameters;
 
   /** search parameters to use as fallback when there are no recommendations */
