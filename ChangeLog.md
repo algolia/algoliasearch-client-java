@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [3.15.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.15.0...3.15.1) (2021-08-20)
+
+### Fix
+
+- **rules**: automatic facet filter deserialization (#753) ([c3647a9](https://github.com/algolia/algoliasearch-client-java-2/commit/c3647a9))
+
+
+
 ## [3.15.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.14.3...3.15.0) (2021-07-23)
 
 ### Feat
