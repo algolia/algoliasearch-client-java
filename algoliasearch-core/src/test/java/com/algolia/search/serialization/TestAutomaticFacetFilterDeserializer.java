@@ -48,7 +48,8 @@ public class TestAutomaticFacetFilterDeserializer {
   void testDeserializerLegacyList() throws JsonProcessingException {
     String json = "[\"lastname\",\"firstname\"]";
     List<AutomaticFacetFilter> deserialized =
-        Defaults.getObjectMapper().readValue(json, new TypeReference<List<AutomaticFacetFilter>>() {});
+        Defaults.getObjectMapper()
+            .readValue(json, new TypeReference<List<AutomaticFacetFilter>>() {});
 
     AutomaticFacetFilter lastname = deserialized.get(0);
     assertThat(lastname.getFacet()).isEqualTo("lastname");
