@@ -6,14 +6,14 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RelatedProductsQuery extends RecommendationsOptions {
+public class FrequentlyBoughtTogetherQuery extends RecommendationsOptions {
 
-  public RelatedProductsQuery(@Nonnull String indexName, @Nonnull String objectID) {
+  public FrequentlyBoughtTogetherQuery(@Nonnull String indexName, @Nonnull String objectID) {
     Objects.requireNonNull(indexName, "an index is required");
     Objects.requireNonNull(objectID, "an objectID is required");
     this.indexName = indexName;
     this.objectID = objectID;
-    this.model = "related-products";
+    this.model = "bought-together";
   }
 
   public String getIndexName() {
@@ -37,7 +37,7 @@ public class RelatedProductsQuery extends RecommendationsOptions {
     return threshold;
   }
 
-  public RelatedProductsQuery setThreshold(@Nonnull Integer threshold) {
+  public FrequentlyBoughtTogetherQuery setThreshold(@Nonnull Integer threshold) {
     this.threshold = threshold;
     return this;
   }
@@ -46,7 +46,7 @@ public class RelatedProductsQuery extends RecommendationsOptions {
     return maxRecommendations;
   }
 
-  public RelatedProductsQuery setMaxRecommendations(Integer maxRecommendations) {
+  public FrequentlyBoughtTogetherQuery setMaxRecommendations(Integer maxRecommendations) {
     this.maxRecommendations = maxRecommendations;
     return this;
   }
@@ -55,7 +55,7 @@ public class RelatedProductsQuery extends RecommendationsOptions {
     return queryParameters;
   }
 
-  public RelatedProductsQuery setQueryParameters(@Nonnull Query queryParameters) {
+  public FrequentlyBoughtTogetherQuery setQueryParameters(@Nonnull Query queryParameters) {
     this.queryParameters = queryParameters;
     return this;
   }
@@ -64,7 +64,7 @@ public class RelatedProductsQuery extends RecommendationsOptions {
     return fallbackParameters;
   }
 
-  public RelatedProductsQuery setFallbackParameters(@Nonnull Query fallbackParameters) {
+  public FrequentlyBoughtTogetherQuery setFallbackParameters(@Nonnull Query fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
