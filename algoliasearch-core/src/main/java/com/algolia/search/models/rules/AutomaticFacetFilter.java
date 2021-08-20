@@ -88,12 +88,12 @@ class AutomaticFacetFilterDeserializer extends JsonDeserializer {
     ObjectMapper objectMapper = Defaults.getObjectMapper();
 
     if ((!node.isNull() && node.size() > 0)) {
-      if (node.get(0).has("disjunctive") || node.get(0).has("score")) {
+      if (node.get(0).has("facet") || node.get(0).has("disjunctive") || node.get(0).has("score")) {
         ObjectReader reader =
             objectMapper.readerFor(new TypeReference<List<AutomaticFacetFilter>>() {});
         return reader.readValue(node);
       } else {
-        ObjectReader reader = objectMapper.readerFor(new TypeReference<List<String>>() {});
+        ObjectReader reader = objectMapper.readerFor(List.class);
         List<String> list = reader.readValue(node);
 
         return list.stream()
