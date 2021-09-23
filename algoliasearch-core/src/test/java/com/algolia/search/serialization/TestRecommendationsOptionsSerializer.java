@@ -22,7 +22,9 @@ public class TestRecommendationsOptionsSerializer {
             .setQueryParameters(
                 new Query().setAttributesToRetrieve(Collections.singletonList("*")));
     String json = Defaults.getObjectMapper().writeValueAsString(query);
-    assertThat(json).isEqualTo("{\"indexName\":\"products\",\"model\":\"bought-together\",\"objectID\":\"B018APC4LE\",\"threshold\":10,\"maxRecommendations\":10,\"queryParameters\":{\"attributesToRetrieve\":[\"*\"]}}");
+    assertThat(json)
+        .isEqualTo(
+            "{\"indexName\":\"products\",\"model\":\"bought-together\",\"objectID\":\"B018APC4LE\",\"threshold\":10,\"maxRecommendations\":10,\"queryParameters\":{\"attributesToRetrieve\":[\"*\"]}}");
   }
 
   @Test
@@ -33,7 +35,9 @@ public class TestRecommendationsOptionsSerializer {
             .setQueryParameters(
                 new Query().setAttributesToRetrieve(Collections.singletonList("*")));
     String json = Defaults.getObjectMapper().writeValueAsString(query);
-    assertThat(json).isEqualTo("{\"indexName\":\"products\",\"model\":\"bought-together\",\"objectID\":\"B018APC4LE\",\"threshold\":0,\"maxRecommendations\":10,\"queryParameters\":{\"attributesToRetrieve\":[\"*\"]}}");
+    assertThat(json)
+        .isEqualTo(
+            "{\"indexName\":\"products\",\"model\":\"bought-together\",\"objectID\":\"B018APC4LE\",\"threshold\":0,\"maxRecommendations\":10,\"queryParameters\":{\"attributesToRetrieve\":[\"*\"]}}");
   }
 
   @Test
@@ -45,7 +49,9 @@ public class TestRecommendationsOptionsSerializer {
             .setQueryParameters(
                 new Query().setAttributesToRetrieve(Collections.singletonList("*")));
     String json = Defaults.getObjectMapper().writeValueAsString(query);
-    assertThat(json).isEqualTo("{\"indexName\":\"products\",\"model\":\"related-products\",\"objectID\":\"B018APC4LE\",\"threshold\":10,\"maxRecommendations\":10,\"queryParameters\":{\"attributesToRetrieve\":[\"*\"]}}");
+    assertThat(json)
+        .isEqualTo(
+            "{\"indexName\":\"products\",\"model\":\"related-products\",\"objectID\":\"B018APC4LE\",\"threshold\":10,\"maxRecommendations\":10,\"queryParameters\":{\"attributesToRetrieve\":[\"*\"]}}");
   }
 
   @Test
@@ -57,6 +63,8 @@ public class TestRecommendationsOptionsSerializer {
             .setQueryParameters(
                 new Query().setAttributesToRetrieve(Collections.singletonList("*")));
     String json = Defaults.getObjectMapper().writeValueAsString(query);
-    assertThat(json).isEqualTo("{\"indexName\":\"products\",\"model\":\"bought-together\",\"objectID\":\"B018APC4LE\",\"threshold\":10,\"maxRecommendations\":10,\"queryParameters\":{\"attributesToRetrieve\":[\"*\"]}}");
+    assertThat(json)
+        .isEqualTo(
+            "{\"indexName\":\"products\",\"model\":\"bought-together\",\"objectID\":\"B018APC4LE\",\"threshold\":10,\"maxRecommendations\":10,\"queryParameters\":{\"attributesToRetrieve\":[\"*\"]}}");
   }
 }
