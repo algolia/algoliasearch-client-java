@@ -14,6 +14,7 @@ public class RelatedProductsQuery extends RecommendationsOptions {
     this.indexName = indexName;
     this.objectID = objectID;
     this.model = "related-products";
+    this.threshold = 0;
   }
 
   public String getIndexName() {

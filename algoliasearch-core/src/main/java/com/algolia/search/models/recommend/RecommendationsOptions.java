@@ -3,6 +3,11 @@ package com.algolia.search.models.recommend;
 import com.algolia.search.models.indexing.Query;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * Recommendations query options.
+ *
+ * @see <a href="https://www.algolia.com/doc/rest-api/recommend/#method-param-request-object">Algolia.com</a>
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 abstract class RecommendationsOptions {
 

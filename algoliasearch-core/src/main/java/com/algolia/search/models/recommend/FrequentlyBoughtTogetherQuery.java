@@ -14,6 +14,7 @@ public class FrequentlyBoughtTogetherQuery extends RecommendationsOptions {
     this.indexName = indexName;
     this.objectID = objectID;
     this.model = "bought-together";
+    this.threshold = 0;
   }
 
   public String getIndexName() {
