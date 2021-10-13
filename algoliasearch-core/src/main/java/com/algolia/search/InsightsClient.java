@@ -71,6 +71,11 @@ public final class InsightsClient implements Closeable {
     return config;
   }
 
+  /** Transport object responsible for the serialization/deserialization and the retry strategy. */
+  public HttpTransport getTransport() {
+    return transport;
+  }
+
   /** @param userToken the user config */
   public UserInsightsClient user(@Nonnull String userToken) {
     return new UserInsightsClient(userToken, this);
