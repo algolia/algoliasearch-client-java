@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [3.16.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.15.1...3.16.0) (2021-10-14)
+
+### Fix
+
+- **rules**: deserialize optional filters (#758) ([89251ff](https://github.com/algolia/algoliasearch-client-java-2/commit/89251ff))
+
+### Feat
+
+- recommend client implementation (#752) ([e362d90](https://github.com/algolia/algoliasearch-client-java-2/commit/e362d90))
+
+
+
 ## [3.15.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.15.0...3.15.1) (2021-08-20)
 
 ### Fix
