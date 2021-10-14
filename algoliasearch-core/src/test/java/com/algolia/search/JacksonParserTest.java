@@ -212,6 +212,16 @@ class JacksonParserTest {
             Defaults.getObjectMapper().readValue(nestedArrayFilters, ConsequenceParams.class),
             input));
 
+    // Testing mixed case with array and string
+    // [["color:green","color:yellow"],"color:blue"]
+    String stringAndArrayFilters =
+        String.format("{\"%s\":[[\"color:green\",\"color:yellow\"],\"color:blue\"]}", input);
+    List<List<String>> mixedDeserialized =
+        extractFilters(
+            Defaults.getObjectMapper().readValue(stringAndArrayFilters, ConsequenceParams.class),
+            input);
+    assertOREDLatestResult(mixedDeserialized);
+
     // Testing the latest format of filters i.e nested arrays
     String nestedAndedArrayFilters =
         String.format("{\"%s\":[[\"color:green\",\"color:yellow\"],[\"color:blue\"]]}", input);
@@ -220,13 +230,7 @@ class JacksonParserTest {
         extractFilters(
             Defaults.getObjectMapper().readValue(nestedAndedArrayFilters, ConsequenceParams.class),
             input);
-
-    assertThat(deserialized).hasSize(2);
-    assertThat(deserialized.get(0)).hasSize(2);
-    assertThat(deserialized.get(0).get(0)).containsSubsequence("color:green");
-    assertThat(deserialized.get(0).get(1)).containsSubsequence("color:yellow");
-    assertThat(deserialized.get(1)).hasSize(1);
-    assertThat(deserialized.get(1).get(0)).containsSubsequence("color:blue");
+    assertOREDLatestResult(deserialized);
   }
 
   List<List<String>> extractFilters(ConsequenceParams consequenceParams, String input) {
@@ -255,6 +259,15 @@ class JacksonParserTest {
     assertThat(result.get(0)).hasSize(2);
     assertThat(result.get(0)).containsSequence("color:green");
     assertThat(result.get(0)).containsSequence("color:yellow");
+  }
+
+  void assertOREDLatestResult(List<List<String>> result) {
+    assertThat(result).hasSize(2);
+    assertThat(result.get(0)).hasSize(2);
+    assertThat(result.get(0).get(0)).containsSubsequence("color:green");
+    assertThat(result.get(0).get(1)).containsSubsequence("color:yellow");
+    assertThat(result.get(1)).hasSize(1);
+    assertThat(result.get(1).get(0)).containsSubsequence("color:blue");
   }
 
   @Test

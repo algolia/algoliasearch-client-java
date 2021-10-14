@@ -9,8 +9,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-class FiltersJsonDeserializer extends JsonDeserializer {
+class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
 
   /**
    * Algolia's specific deserializer handling multiple form of (legacy) filters This reader is
@@ -19,7 +20,8 @@ class FiltersJsonDeserializer extends JsonDeserializer {
    */
   @Override
   @SuppressWarnings("unchecked")
-  public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+  public List<List<String>> deserialize(JsonParser p, DeserializationContext ctxt)
+      throws IOException {
 
     JsonToken currentToken = p.getCurrentToken();
 
@@ -28,10 +30,10 @@ class FiltersJsonDeserializer extends JsonDeserializer {
     switch (currentToken) {
       case START_ARRAY:
         List list = p.readValueAs(List.class);
-        if (list.get(0) instanceof String) {
+        if (list.stream().allMatch(String.class::isInstance)) { // are all elements strings?
           result = Collections.singletonList(list);
         } else {
-          result = list;
+          result = buildFilters(list);
         }
         break;
       case VALUE_STRING:
@@ -45,5 +47,20 @@ class FiltersJsonDeserializer extends JsonDeserializer {
     }
 
     return result;
+  }
+
+  @SuppressWarnings("unchecked")
+  private List<List<String>> buildFilters(List list) {
+    return (List<List<String>>)
+        list.stream()
+            .map(
+                element -> {
+                  if (element instanceof String) {
+                    return Collections.singletonList((String) element);
+                  } else {
+                    return element; // we suppose it's a List<String>
+                  }
+                })
+            .collect(Collectors.toList());
   }
 }
