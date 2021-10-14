@@ -24,19 +24,19 @@ class FiltersJsonDeserializer extends JsonDeserializer {
 
     JsonToken currentToken = p.getCurrentToken();
 
-    ArrayList<List<String>> result = new ArrayList<>();
+    final List<List<String>> result = new ArrayList<>();
 
     switch (currentToken) {
       case START_ARRAY:
-        List list = p.readValueAs(List.class);
+        List<Object> list = p.readValueAs(List.class);
         list.forEach(
-          v -> {
-            if (v instanceof String) {
-              result.add(Collections.singletonList((String) v));
-            } else {
-              result.add((List<String>) v);
-            }
-        });
+            value -> {
+              if (value instanceof String) {
+                result.add(Collections.singletonList((String) value));
+              } else {
+                result.add((List<String>) value);
+              }
+            });
         break;
       case VALUE_STRING:
         result.add(Arrays.asList(p.getValueAsString().split(",")));
