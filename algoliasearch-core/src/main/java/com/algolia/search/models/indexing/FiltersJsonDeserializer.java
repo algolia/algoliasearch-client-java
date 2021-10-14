@@ -6,12 +6,12 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-class FiltersJsonDeserializer extends JsonDeserializer {
+class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
 
   /**
    * Algolia's specific deserializer handling multiple form of (legacy) filters This reader is
@@ -20,26 +20,24 @@ class FiltersJsonDeserializer extends JsonDeserializer {
    */
   @Override
   @SuppressWarnings("unchecked")
-  public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+  public List<List<String>> deserialize(JsonParser p, DeserializationContext ctxt)
+      throws IOException {
 
     JsonToken currentToken = p.getCurrentToken();
 
-    final List<List<String>> result = new ArrayList<>();
+    List<List<String>> result = null;
 
     switch (currentToken) {
       case START_ARRAY:
-        List<Object> list = p.readValueAs(List.class);
-        list.forEach(
-            value -> {
-              if (value instanceof String) {
-                result.add(Collections.singletonList((String) value));
-              } else {
-                result.add((List<String>) value);
-              }
-            });
+        List list = p.readValueAs(List.class);
+        if (list.stream().allMatch(String.class::isInstance)) { // are all elements strings?
+          result = Collections.singletonList(list);
+        } else {
+          result = buildFilters(list);
+        }
         break;
       case VALUE_STRING:
-        result.add(Arrays.asList(p.getValueAsString().split(",")));
+        result = Collections.singletonList(Arrays.asList(p.getValueAsString().split(",")));
         break;
       case VALUE_NULL:
         break;
@@ -49,5 +47,20 @@ class FiltersJsonDeserializer extends JsonDeserializer {
     }
 
     return result;
+  }
+
+  @SuppressWarnings("unchecked")
+  private List<List<String>> buildFilters(List list) {
+    return (List<List<String>>)
+        list.stream()
+            .map(
+                element -> {
+                  if (element instanceof String) {
+                    return Collections.singletonList((String) element);
+                  } else {
+                    return element; // we suppose it's a List<String>
+                  }
+                })
+            .collect(Collectors.toList());
   }
 }
