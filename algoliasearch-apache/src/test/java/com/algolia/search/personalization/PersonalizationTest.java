@@ -14,7 +14,7 @@ class PersonalizationTest
 
   private static final PersonalizationClient personalizationClient =
       DefaultPersonalizationClient.create(
-          TestHelpers.ALGOLIA_APPLICATION_ID_1, TestHelpers.ALGOLIA_ADMIN_KEY_1, "eu");
+          TestHelpers.ALGOLIA_APPLICATION_ID_1, TestHelpers.ALGOLIA_ADMIN_KEY_1, "us");
 
   PersonalizationTest() {
     super(personalizationClient);
