@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,16 +29,17 @@ class FiltersJsonDeserializer extends JsonDeserializer {
     switch (currentToken) {
       case START_ARRAY:
         List list = p.readValueAs(List.class);
-        list.forEach( v -> {  
-          if (v instanceof String) {
-            result.add(Collections.singletonList(list));
-          } else {
-            result.add(v);
-          }          
+        list.forEach(
+          v -> {
+            if (v instanceof String) {
+              result.add(Collections.singletonList((String) v));
+            } else {
+              result.add((List<String>) v);
+            }
         });
         break;
       case VALUE_STRING:
-        result = Collections.singletonList(Arrays.asList(p.getValueAsString().split(",")));
+        result.add(Arrays.asList(p.getValueAsString().split(",")));
         break;
       case VALUE_NULL:
         break;
