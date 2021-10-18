@@ -6,7 +6,12 @@ import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
-import com.algolia.search.models.analytics.*;
+import com.algolia.search.models.analytics.ABTest;
+import com.algolia.search.models.analytics.ABTestResponse;
+import com.algolia.search.models.analytics.ABTests;
+import com.algolia.search.models.analytics.AddABTestResponse;
+import com.algolia.search.models.analytics.DeleteAbTestResponse;
+import com.algolia.search.models.analytics.StopAbTestResponse;
 import com.algolia.search.models.common.CallType;
 import java.io.Closeable;
 import java.io.IOException;
@@ -65,6 +70,11 @@ public final class AnalyticsClient implements Closeable {
   /** Get Client's configuration */
   public ConfigBase getConfig() {
     return config;
+  }
+
+  /** Transport object responsible for the serialization/deserialization and the retry strategy. */
+  public HttpTransport getTransport() {
+    return transport;
   }
 
   /** Get an A/B test information and results. */

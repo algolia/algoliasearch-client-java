@@ -67,6 +67,11 @@ public class PersonalizationClient implements Closeable {
     transport.close();
   }
 
+  /** Transport object responsible for the serialization/deserialization and the retry strategy. */
+  public HttpTransport getTransport() {
+    return transport;
+  }
+
   /**
    * Returns the personalization strategy of the application
    *
