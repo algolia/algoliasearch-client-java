@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 /**
  * The transport layer is responsible of the serialization/deserialization and the retry strategy.
  */
-class HttpTransport {
+public class HttpTransport {
 
   private final HttpRequester httpRequester;
   private final RetryStrategy retryStrategy;
@@ -53,7 +53,7 @@ class HttpTransport {
    * @throws AlgoliaApiException When the API sends an error
    * @throws AlgoliaRuntimeException When an error occurred during the serialization.
    */
-  <TResult> CompletableFuture<TResult> executeRequestAsync(
+  public <TResult> CompletableFuture<TResult> executeRequestAsync(
       @Nonnull HttpMethod method,
       @Nonnull String path,
       @Nonnull CallType callType,
@@ -78,7 +78,7 @@ class HttpTransport {
    * @throws AlgoliaApiException When the API sends an error
    * @throws AlgoliaRuntimeException When an error occurred during the serialization.
    */
-  <TResult, TData> CompletableFuture<TResult> executeRequestAsync(
+  public <TResult, TData> CompletableFuture<TResult> executeRequestAsync(
       @Nonnull HttpMethod method,
       @Nonnull String path,
       @Nonnull CallType callType,
@@ -105,7 +105,7 @@ class HttpTransport {
    * @throws AlgoliaApiException When the API sends an error
    * @throws AlgoliaRuntimeException When an error occurred during the serialization.
    */
-  <TResult, TInnerResult, TData> CompletableFuture<TResult> executeRequestAsync(
+  public <TResult, TInnerResult, TData> CompletableFuture<TResult> executeRequestAsync(
       @Nonnull HttpMethod method,
       @Nonnull String path,
       @Nonnull CallType callType,
