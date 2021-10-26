@@ -1,44 +1,26 @@
 package com.algolia.search;
 
-import static com.algolia.search.models.synonyms.SynonymType.ALT_CORRECTION_1;
-import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.algolia.search.integration.models.RecommendObject;
 import com.algolia.search.models.common.InnerQuery;
-import com.algolia.search.models.indexing.Alternative;
-import com.algolia.search.models.indexing.AroundPrecision;
-import com.algolia.search.models.indexing.AroundRadius;
-import com.algolia.search.models.indexing.PartialUpdateOperation;
-import com.algolia.search.models.indexing.Query;
-import com.algolia.search.models.rules.Alternatives;
-import com.algolia.search.models.rules.AutomaticFacetFilter;
-import com.algolia.search.models.rules.Condition;
-import com.algolia.search.models.rules.Consequence;
-import com.algolia.search.models.rules.ConsequenceParams;
-import com.algolia.search.models.rules.ConsequencePromote;
-import com.algolia.search.models.rules.ConsequenceQuery;
-import com.algolia.search.models.rules.Edit;
-import com.algolia.search.models.rules.EditType;
-import com.algolia.search.models.rules.Rule;
-import com.algolia.search.models.rules.TimeRange;
-import com.algolia.search.models.settings.Distinct;
-import com.algolia.search.models.settings.IgnorePlurals;
-import com.algolia.search.models.settings.IndexSettings;
-import com.algolia.search.models.settings.RemoveStopWords;
-import com.algolia.search.models.settings.TypoTolerance;
+import com.algolia.search.models.indexing.*;
+import com.algolia.search.models.recommend.GetRecommendationsResponse;
+import com.algolia.search.models.rules.*;
+import com.algolia.search.models.settings.*;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.databind.JavaType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.*;
+
+import static com.algolia.search.models.synonyms.SynonymType.ALT_CORRECTION_1;
+import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class JacksonParserTest {
 
@@ -1006,5 +988,21 @@ class JacksonParserTest {
     TimeRange retrieveTimeRange = Defaults.getObjectMapper().readValue(json, TimeRange.class);
     assertThat(timerange.getFrom()).isEqualTo(retrieveTimeRange.getFrom());
     assertThat(timerange.getUntil()).isEqualTo(retrieveTimeRange.getUntil());
+  }
+
+  @Test
+  void recommendations() throws JsonProcessingException {
+    String json =
+        "{\"results\":[{\"hits\":[{\"_highlightResult\":{\"category\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"Men - T-Shirts\"},\"image_link\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"https:\\/\\/example.org\\/image\\/D05927-8161-111-F01.jpg\"},\"name\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"Jirgi Half-Zip T-Shirt\"}},\"_score\":32.72,\"category\":\"Men - T-Shirts\",\"image_link\":\"https:\\/\\/example.org\\/image\\/D05927-8161-111-F01.jpg\",\"name\":\"Jirgi Half-Zip T-Shirt\",\"objectID\":\"D05927-8161-111\",\"position\":105,\"url\":\"men\\/t-shirts\\/d05927-8161-111\"}],\"hitsPerPage\":1,\"nbHits\":1,\"nbPages\":1,\"page\":0,\"processingTimeMS\":6,\"renderingContent\":{}}]}";
+    JavaType type =
+        Defaults.getObjectMapper()
+            .getTypeFactory()
+            .constructParametricType(GetRecommendationsResponse.class, RecommendObject.class);
+    GetRecommendationsResponse<RecommendObject> recommendations =
+        Defaults.getObjectMapper().readValue(json, type);
+    RecommendationsResult<RecommendObject> result = recommendations.getResults().get(0);
+    RecommendObject recommendHit = result.getHits().get(0);
+    assertThat(recommendHit.getObjectID()).isEqualTo("D05927-8161-111");
+    assertThat(recommendHit.getScore()).isEqualTo(32.72f);
   }
 }
