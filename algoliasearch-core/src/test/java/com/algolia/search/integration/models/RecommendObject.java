@@ -2,7 +2,6 @@ package com.algolia.search.integration.models;
 
 import com.algolia.search.models.indexing.RecommendHit;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.annotation.Nonnull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

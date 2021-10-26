@@ -4,7 +4,6 @@ import com.algolia.search.models.indexing.RecommendHit;
 import com.algolia.search.models.indexing.RecommendationsResult;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.io.Serializable;
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.algolia.search.models.indexing;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.annotation.Nonnull;
 
 /** Recommend hit, similar to a search hit but associated with a score. */
