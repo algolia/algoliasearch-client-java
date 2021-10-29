@@ -4,15 +4,17 @@ import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.HttpMethod;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
+import com.algolia.search.models.indexing.DefaultRecommendHit;
 import com.algolia.search.models.indexing.RecommendHit;
 import com.algolia.search.models.indexing.RecommendationsResult;
 import com.algolia.search.models.recommend.*;
+
+import javax.annotation.Nonnull;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import javax.annotation.Nonnull;
 
 /**
  * Algolia's REST recommend client that wraps an instance of the transporter {@link HttpTransport}
@@ -57,6 +59,11 @@ public final class RecommendClient implements Closeable {
   }
 
   // region get_recommendations
+
+  public List<RecommendationsResult<DefaultRecommendHit>> getRecommendations(
+      @Nonnull List<RecommendationsQuery> requests) {
+    return LaunderThrowable.await(getRecommendationsAsync(requests, DefaultRecommendHit.class));
+  }
   /**
    * Returns recommendations for a specific model and objectID.
    *
@@ -118,6 +125,16 @@ public final class RecommendClient implements Closeable {
    * Returns related products recommendations for a specific model and objectID.
    *
    * @param requests a list of recommendation requests to execute
+   */
+  public List<RecommendationsResult<DefaultRecommendHit>> getRelatedProducts(
+      @Nonnull List<RelatedProductsQuery> requests) {
+    return LaunderThrowable.await(getRelatedProductsAsync(requests, DefaultRecommendHit.class));
+  }
+
+  /**
+   * Returns related products recommendations for a specific model and objectID.
+   *
+   * @param requests a list of recommendation requests to execute
    * @param clazz The class held by the index. Could be your business object or {@link Object}
    */
   public <T extends RecommendHit> List<RecommendationsResult<T>> getRelatedProducts(
@@ -171,6 +188,17 @@ public final class RecommendClient implements Closeable {
   // endregion
 
   // region get_frequently_bought_together
+  /**
+   * Returns frequently bought together recommendations for a specific model and objectID.
+   *
+   * @param requests a list of recommendation requests to execute
+   */
+  public List<RecommendationsResult<DefaultRecommendHit>> getFrequentlyBoughtTogether(
+      @Nonnull List<FrequentlyBoughtTogetherQuery> requests) {
+    return LaunderThrowable.await(
+        getFrequentlyBoughtTogetherAsync(requests, DefaultRecommendHit.class));
+  }
+
   /**
    * Returns frequently bought together recommendations for a specific model and objectID.
    *

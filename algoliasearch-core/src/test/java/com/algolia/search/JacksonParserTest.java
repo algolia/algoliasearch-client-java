@@ -1,9 +1,5 @@
 package com.algolia.search;
 
-import static com.algolia.search.models.synonyms.SynonymType.ALT_CORRECTION_1;
-import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.algolia.search.integration.models.RecommendObject;
 import com.algolia.search.models.common.InnerQuery;
 import com.algolia.search.models.indexing.*;
@@ -13,13 +9,18 @@ import com.algolia.search.models.settings.*;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+
+import static com.algolia.search.models.synonyms.SynonymType.ALT_CORRECTION_1;
+import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class JacksonParserTest {
 
@@ -1002,6 +1003,22 @@ class JacksonParserTest {
     RecommendationsResult<RecommendObject> result = recommendations.getResults().get(0);
     RecommendObject recommendHit = result.getHits().get(0);
     assertThat(recommendHit.getObjectID()).isEqualTo("D05927-8161-111");
+    assertThat(recommendHit.getScore()).isEqualTo(32.72f);
+  }
+
+  @Test
+  void recommendationsDefault() throws JsonProcessingException {
+    String json =
+        "{\"results\":[{\"hits\":[{\"_highlightResult\":{\"category\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"Men - T-Shirts\"},\"image_link\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"https:\\/\\/example.org\\/image\\/D05927-8161-111-F01.jpg\"},\"name\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"Jirgi Half-Zip T-Shirt\"}},\"_score\":32.72,\"category\":\"Men - T-Shirts\",\"image_link\":\"https:\\/\\/example.org\\/image\\/D05927-8161-111-F01.jpg\",\"name\":\"Jirgi Half-Zip T-Shirt\",\"objectID\":\"D05927-8161-111\",\"position\":105,\"url\":\"men\\/t-shirts\\/d05927-8161-111\"}],\"hitsPerPage\":1,\"nbHits\":1,\"nbPages\":1,\"page\":0,\"processingTimeMS\":6,\"renderingContent\":{}}]}";
+    JavaType type =
+        Defaults.getObjectMapper()
+            .getTypeFactory()
+            .constructParametricType(GetRecommendationsResponse.class, DefaultRecommendHit.class);
+    GetRecommendationsResponse<DefaultRecommendHit> recommendations =
+        Defaults.getObjectMapper().readValue(json, type);
+    RecommendationsResult<DefaultRecommendHit> result = recommendations.getResults().get(0);
+    DefaultRecommendHit recommendHit = result.getHits().get(0);
+    assertThat(recommendHit.getFields().get("objectID")).isEqualTo("D05927-8161-111");
     assertThat(recommendHit.getScore()).isEqualTo(32.72f);
   }
 }
