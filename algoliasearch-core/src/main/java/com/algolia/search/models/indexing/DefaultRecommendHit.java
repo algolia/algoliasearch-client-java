@@ -1,10 +1,9 @@
 package com.algolia.search.models.indexing;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
 
 /** Default Recommend hit implementation */
 public class DefaultRecommendHit implements RecommendHit {

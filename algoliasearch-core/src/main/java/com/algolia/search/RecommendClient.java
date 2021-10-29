@@ -8,13 +8,12 @@ import com.algolia.search.models.indexing.DefaultRecommendHit;
 import com.algolia.search.models.indexing.RecommendHit;
 import com.algolia.search.models.indexing.RecommendationsResult;
 import com.algolia.search.models.recommend.*;
-
-import javax.annotation.Nonnull;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import javax.annotation.Nonnull;
 
 /**
  * Algolia's REST recommend client that wraps an instance of the transporter {@link HttpTransport}

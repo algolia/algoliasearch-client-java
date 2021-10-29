@@ -1,5 +1,7 @@
 package com.algolia.search.integration.recommend;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.RecommendClient;
 import com.algolia.search.integration.models.RecommendObject;
 import com.algolia.search.models.indexing.DefaultRecommendHit;
@@ -7,13 +9,10 @@ import com.algolia.search.models.indexing.RecommendationsResult;
 import com.algolia.search.models.recommend.FrequentlyBoughtTogetherQuery;
 import com.algolia.search.models.recommend.RecommendationsQuery;
 import com.algolia.search.models.recommend.RelatedProductsQuery;
-import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 public abstract class RecommendTest {
 

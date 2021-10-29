@@ -1,5 +1,9 @@
 package com.algolia.search;
 
+import static com.algolia.search.models.synonyms.SynonymType.ALT_CORRECTION_1;
+import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.integration.models.RecommendObject;
 import com.algolia.search.models.common.InnerQuery;
 import com.algolia.search.models.indexing.*;
@@ -9,18 +13,13 @@ import com.algolia.search.models.settings.*;
 import com.algolia.search.models.synonyms.SynonymQuery;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
-
-import static com.algolia.search.models.synonyms.SynonymType.ALT_CORRECTION_1;
-import static com.algolia.search.models.synonyms.SynonymType.ONE_WAY_SYNONYM;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class JacksonParserTest {
 
