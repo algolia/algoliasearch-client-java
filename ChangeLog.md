@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [3.16.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.0...3.16.1) (2021-10-29)
+
+### Fix
+
+- **recommendation**: `_score` field as member of `RecommendHit` (#761) ([645678f](https://github.com/algolia/algoliasearch-client-java-2/commit/645678f))
+
+### Feat
+
+- **search**: custom requests (#757) ([6e7d842](https://github.com/algolia/algoliasearch-client-java-2/commit/6e7d842))
+
+
+
 ## [3.16.0](https://github.com/algolia/algoliasearch-client-java-2/compare/3.15.1...3.16.0) (2021-10-14)
 
 ### Fix
