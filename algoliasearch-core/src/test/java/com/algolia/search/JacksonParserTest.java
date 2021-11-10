@@ -671,6 +671,12 @@ class JacksonParserTest {
   }
 
   @Test
+  void queryWitEnabledReRanking() {
+    Query query = new Query("").setEnableReRanking(false);
+    assertThat(query.toParam()).isEqualTo("enableReRanking=false&query=");
+  }
+
+  @Test
   void queryWithMultipleParams() {
     Query query =
         new Query("é®„")

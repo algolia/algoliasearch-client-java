@@ -676,6 +676,15 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
     return getThis();
   }
 
+  public Boolean getEnableReRanking() {
+    return enableReRanking;
+  }
+
+  public T setEnableReRanking(Boolean enableReRanking) {
+    this.enableReRanking = enableReRanking;
+    return getThis();
+  }
+
   public String toParam() {
     return QueryStringUtils.buildQueryAsQueryParams(this);
   }
@@ -709,6 +718,7 @@ public abstract class SearchParameters<T extends SearchParameters<T>> implements
   protected Boolean percentileComputation;
   protected List<String> queryLanguages;
   protected Boolean decompoundQuery;
+  protected Boolean enableReRanking;
 
   /* attributes */
   protected List<String> attributesToRetrieve;
