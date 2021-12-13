@@ -142,7 +142,7 @@
                         <version>3.0.0</version>
                         <executions>
                             <execution>
-                                <id>ban-bad-log4j-versions</id>
+                                <id>cve-2021-44228</id>
                                 <phase>validate</phase>
                                 <goals>
                                     <goal>enforce</goal>
