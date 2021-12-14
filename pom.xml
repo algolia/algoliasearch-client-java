@@ -139,23 +139,25 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>3.0.0</version>
+                        <version>3.0.0-M3</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.sonatype.ossindex.maven</groupId>
+                                <artifactId>ossindex-maven-enforcer-rules</artifactId>
+                                <version>3.1.0</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
-                                <id>cve-2021-44228</id>
+                                <id>vulnerability-checks</id>
                                 <phase>validate</phase>
                                 <goals>
                                     <goal>enforce</goal>
                                 </goals>
                                 <configuration>
                                     <rules>
-                                        <bannedDependencies>
-                                            <excludes>
-                                                <exclude>org.apache.logging.log4j:log4j-core:(,2.15.0)</exclude>
-                                            </excludes>
-                                        </bannedDependencies>
+                                        <banVulnerable implementation="org.sonatype.ossindex.maven.enforcer.BanVulnerableDependencies"/>
                                     </rules>
-                                    <fail>true</fail>
                                 </configuration>
                             </execution>
                         </executions>
