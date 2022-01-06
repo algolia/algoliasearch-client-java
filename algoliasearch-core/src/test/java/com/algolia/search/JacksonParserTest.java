@@ -1010,4 +1010,11 @@ class JacksonParserTest {
     assertThat(recommendHit.getObjectID()).isEqualTo("D05927-8161-111");
     assertThat(recommendHit.getScore()).isEqualTo(32.72f);
   }
+
+  @Test
+  void consequenceParams_emptyQuery_nullEdits() throws JsonProcessingException {
+    ConsequenceParams params = new ConsequenceParams().setQuery("");
+    String json = Defaults.getObjectMapper().writeValueAsString(params);
+    assertThat(json).isEqualTo("{\"query\":\"\"}");
+  }
 }
