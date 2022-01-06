@@ -1,7 +1,6 @@
 package com.algolia.search.models.rules;
 
 import com.algolia.search.Defaults;
-import com.algolia.search.util.AlgoliaUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
