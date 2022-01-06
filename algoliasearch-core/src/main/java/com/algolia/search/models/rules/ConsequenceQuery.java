@@ -80,7 +80,7 @@ class ConsequenceQuerySerializer extends JsonSerializer<ConsequenceQuery> {
      * Consequence query edits will override regular "query" - both can't be set at the same time
      * https://www.algolia.com/doc/api-reference/api-methods/save-rule/#method-param-query
      * */
-    if (!AlgoliaUtils.isNullOrEmptyWhiteSpace(value.getQueryString())) {
+    if (value.getQueryString() != null) {
       gen.writeString(value.getQueryString());
     } else {
       gen.writeStartObject();
