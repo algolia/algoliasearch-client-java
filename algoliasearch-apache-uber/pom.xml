@@ -4,7 +4,7 @@
     <parent>
         <artifactId>algoliasearch</artifactId>
         <groupId>com.algolia</groupId>
-        <version>3.16.1</version>
+        <version>3.16.2</version>
     </parent>
     <artifactId>algoliasearch-apache-uber</artifactId>
     <packaging>jar</packaging>

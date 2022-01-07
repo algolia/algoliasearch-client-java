@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [3.16.2](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.1...3.16.2) (2022-01-07)
+
+### Fix
+
+- **search**: serialize `ConsequenceParams` empty query (#766) ([01b0bcd](https://github.com/algolia/algoliasearch-client-java-2/commit/01b0bcd))
+
+### Feat
+
+- **search**: add 'enableReRanking' query parameter (#764) ([f41e062](https://github.com/algolia/algoliasearch-client-java-2/commit/f41e062))
+
+
+
 ## [3.16.1](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.0...3.16.1) (2021-10-29)
 
 ### Fix
