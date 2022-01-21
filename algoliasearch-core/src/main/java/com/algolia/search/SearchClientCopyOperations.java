@@ -28,7 +28,7 @@ public interface SearchClientCopyOperations extends SearchClientBase {
    * @throws AlgoliaRuntimeException When an error occurred during the serialization
    */
   default CopyResponse copySettings(@Nonnull String sourceIndex, @Nonnull String destinationIndex) {
-    return LaunderThrowable.await(copyIndexAsync(sourceIndex, destinationIndex));
+    return LaunderThrowable.await(copySettingsAsync(sourceIndex, destinationIndex));
   }
 
   /**
