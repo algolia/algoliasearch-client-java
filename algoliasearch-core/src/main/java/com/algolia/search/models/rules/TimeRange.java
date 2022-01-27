@@ -67,11 +67,11 @@ class TimeRangeDeserializer extends JsonDeserializer<TimeRange> {
   public TimeRange deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
     JsonNode node = p.getCodec().readTree(p);
     // 'from' unix timestamp
-    int fromTimestamp = (Integer) node.get("from").numberValue();
+    long fromTimestamp = node.get("from").asLong();
     Instant fromInstant = Instant.ofEpochSecond(fromTimestamp);
     OffsetDateTime from = OffsetDateTime.ofInstant(fromInstant, ZoneOffset.UTC);
     // 'until' unix timestamp
-    int untilTimestamp = (Integer) node.get("until").numberValue();
+    long untilTimestamp = node.get("until").asLong();
     Instant untilInstant = Instant.ofEpochSecond(untilTimestamp);
     OffsetDateTime until = OffsetDateTime.ofInstant(untilInstant, ZoneOffset.UTC);
     return new TimeRange(from, until);
