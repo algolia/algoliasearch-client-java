@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [3.16.3](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.2...3.16.3) (2022-01-27)
+
+### Fix
+
+- **rules**: TimeRange: deserialize time as long (#769) ([c541a5e](https://github.com/algolia/algoliasearch-client-java-2/commit/c541a5e6fb51a670fbdbe60731ac387801e866d0))
+
+- **indexing**: copySettings func not calling expected base func (#768) ([f7432af](https://github.com/algolia/algoliasearch-client-java-2/commit/f7432af48e04fe2bc3386dd99fba148111fca15c))
+
 ## [3.16.2](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.1...3.16.2) (2022-01-07)
 
 ### Fix
