@@ -60,4 +60,3 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
             .collect(Collectors.toList());
   }
 }
-
