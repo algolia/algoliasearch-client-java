@@ -29,12 +29,8 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
 
     switch (currentToken) {
       case START_ARRAY:
-        List list = p.readValueAs(List.class);
-        if (list.stream().allMatch(String.class::isInstance)) { // are all elements strings?
-          result = Collections.singletonList(list);
-        } else {
-          result = buildFilters(list);
-        }
+        List<Object> list = p.readValueAs(List.class);
+        result = buildFilters(list);
         break;
       case VALUE_STRING:
         result = Collections.singletonList(Arrays.asList(p.getValueAsString().split(",")));
@@ -64,3 +60,4 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
             .collect(Collectors.toList());
   }
 }
+
