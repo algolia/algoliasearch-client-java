@@ -180,7 +180,7 @@ class JacksonParserTest {
             Defaults.getObjectMapper().readValue(stringFilters, ConsequenceParams.class), input));
 
     // Testing "one array" legacy filters => should be converted to "ORED" nested filters
-    // [["color:green","color:yellow"]]
+    // [["color:green"],["color:yellow"]]
     String arrayFilters = String.format("{\"%s\":[\"color:green\",\"color:yellow\"]}", input);
     assertOREDListResult(
         extractFilters(
@@ -242,7 +242,7 @@ class JacksonParserTest {
     assertThat(result.get(0)).containsSequence("color:yellow");
   }
 
-  void assertOREDListResult(List<List<String>> result) {
+  void assertANDEDListResult(List<List<String>> result) {
     assertThat(result).hasSize(2);
     assertThat(result.get(0)).hasSize(1);
     assertThat(result.get(0)).containsSequence("color:green");
