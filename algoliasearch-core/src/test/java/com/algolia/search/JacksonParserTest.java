@@ -171,18 +171,18 @@ class JacksonParserTest {
   @ValueSource(strings = {"facetFilters", "optionalFilters", "tagFilters", "numericFilters"})
   void testLegacyFiltersFormat(String input) throws IOException {
 
-    // Testing "one string" legacy filters => should be converted to "ORED" nested filters
-    // [["color:green","color:yellow"]]
+    // Testing "one string" legacy filters => should be converted to "ANDED" filters
+    // [["color:green"],["color:yellow"]]
     String stringFilters = String.format("{\"%s\":\"color:green,color:yellow\"}", input);
 
-    assertOREDResult(
+    assertANDEDListResult(
         extractFilters(
             Defaults.getObjectMapper().readValue(stringFilters, ConsequenceParams.class), input));
 
-    // Testing "one array" legacy filters => should be converted to "ORED" nested filters
+    // Testing "one array" legacy filters => should be converted to "ANDED" filters
     // [["color:green"],["color:yellow"]]
     String arrayFilters = String.format("{\"%s\":[\"color:green\",\"color:yellow\"]}", input);
-    assertOREDListResult(
+    assertANDEDListResult(
         extractFilters(
             Defaults.getObjectMapper().readValue(arrayFilters, ConsequenceParams.class), input));
 

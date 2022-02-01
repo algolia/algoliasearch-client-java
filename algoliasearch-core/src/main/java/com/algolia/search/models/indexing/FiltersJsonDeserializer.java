@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,7 +34,10 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
         result = buildFilters(list);
         break;
       case VALUE_STRING:
-        result = Collections.singletonList(Arrays.asList(p.getValueAsString().split(",")));
+        result =
+            Arrays.stream(p.getValueAsString().split(","))
+                .map(Collections::singletonList)
+                .collect(Collectors.toList());
         break;
       case VALUE_NULL:
         break;
