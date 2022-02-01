@@ -193,16 +193,16 @@ class JacksonParserTest {
             input));
 
     // Testing "one string with parenthesis" legacy filters => should be converted to "ORED" filters
-    // [["color:green", "color:yellow"]]
+    // [["color:green", "color:yellow"], ["color:blue"]]
     String stringParenthesisFilters =
-        String.format("{\"%s\":\"(color:green,color:yellow)\"}", input);
-    assertOREDResult(
+        String.format("{\"%s\":\"(color:green,color:yellow),color:blue\"}", input);
+    assertOREDLatestResult(
         extractFilters(
             Defaults.getObjectMapper().readValue(stringParenthesisFilters, ConsequenceParams.class),
             input));
 
     // Testing mixed case with array and string
-    // [["color:green","color:yellow"],"color:blue"]
+    // [["color:green","color:yellow"], ["color:blue"]]
     String stringAndArrayFilters =
         String.format("{\"%s\":[[\"color:green\",\"color:yellow\"],\"color:blue\"]}", input);
     List<List<String>> mixedDeserialized =

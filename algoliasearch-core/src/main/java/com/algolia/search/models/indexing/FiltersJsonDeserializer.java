@@ -64,13 +64,18 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
 
   /** Build filters from (legacy) string */
   private List<List<String>> buildFilters(String string) {
-    if (string.startsWith("(") && string.endsWith(")")) {
-      String input = string.substring(1, string.length() - 1);
-      return Collections.singletonList(Arrays.asList(input.split(",")));
-    } else {
-      return Arrays.stream(string.split(","))
-          .map(Collections::singletonList)
-          .collect(Collectors.toList());
-    }
+    // Extract groups: "(A:1,B:2),C:3" -> ["(A:1,B:2)","C:3"]
+    List<String> groups = Arrays.asList(string.split(",(?![^()]*\\))"));
+    return groups.stream()
+        .map(
+            group -> {
+              if (group.startsWith("(") && group.endsWith(")")) {
+                String input = group.substring(1, group.length() - 1);
+                return Arrays.asList(input.split(","));
+              } else {
+                return Collections.singletonList(group);
+              }
+            })
+        .collect(Collectors.toList());
   }
 }
