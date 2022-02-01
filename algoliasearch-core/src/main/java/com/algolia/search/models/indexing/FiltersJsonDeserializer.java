@@ -33,10 +33,8 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
         result = buildFilters(list);
         break;
       case VALUE_STRING:
-        result =
-            Arrays.stream(p.getValueAsString().split(","))
-                .map(Collections::singletonList)
-                .collect(Collectors.toList());
+        String string = p.getValueAsString();
+        result = buildFilters(string);
         break;
       case VALUE_NULL:
         break;
@@ -48,6 +46,7 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
     return result;
   }
 
+  /** Build filters from a list */
   @SuppressWarnings("unchecked")
   private List<List<String>> buildFilters(List list) {
     return (List<List<String>>)
@@ -61,5 +60,17 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
                   }
                 })
             .collect(Collectors.toList());
+  }
+
+  /** Build filters from (legacy) string */
+  private List<List<String>> buildFilters(String string) {
+    if (string.startsWith("(") && string.endsWith(")")) {
+      String input = string.substring(1, string.length() - 1);
+      return Collections.singletonList(Arrays.asList(input.split(",")));
+    } else {
+      return Arrays.stream(string.split(","))
+          .map(Collections::singletonList)
+          .collect(Collectors.toList());
+    }
   }
 }

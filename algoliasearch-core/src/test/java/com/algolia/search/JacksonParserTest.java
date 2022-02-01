@@ -174,7 +174,6 @@ class JacksonParserTest {
     // Testing "one string" legacy filters => should be converted to "ANDED" filters
     // [["color:green"],["color:yellow"]]
     String stringFilters = String.format("{\"%s\":\"color:green,color:yellow\"}", input);
-
     assertANDEDListResult(
         extractFilters(
             Defaults.getObjectMapper().readValue(stringFilters, ConsequenceParams.class), input));
@@ -191,6 +190,15 @@ class JacksonParserTest {
     assertOREDResult(
         extractFilters(
             Defaults.getObjectMapper().readValue(nestedArrayFilters, ConsequenceParams.class),
+            input));
+
+    // Testing "one string with parenthesis" legacy filters => should be converted to "ORED" filters
+    // [["color:green", "color:yellow"]]
+    String stringParenthesisFilters =
+        String.format("{\"%s\":\"(color:green,color:yellow)\"}", input);
+    assertOREDResult(
+        extractFilters(
+            Defaults.getObjectMapper().readValue(stringParenthesisFilters, ConsequenceParams.class),
             input));
 
     // Testing mixed case with array and string
