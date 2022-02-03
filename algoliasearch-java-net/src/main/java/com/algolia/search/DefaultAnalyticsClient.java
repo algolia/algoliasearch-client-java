@@ -1,0 +1,59 @@
+package com.algolia.search;
+
+import javax.annotation.Nonnull;
+
+/**
+ * Algolia's REST analytics client that wraps an instance of the transporter. which wraps the HTTP
+ * Client This client allows to build typed requests and read typed responses. Requests are made
+ * under the Algolia's retry-strategy. This client is intended to be reused and it's thread-safe.
+ *
+ * @see <a href="https://www.algolia.com/doc/rest-api/analytics/">Algolia.com</a>
+ */
+public class DefaultAnalyticsClient {
+
+  // Suppress default constructor for noninstantiability
+  private DefaultAnalyticsClient() {
+    throw new AssertionError();
+  }
+
+  /**
+   * Creates a default {@link AnalyticsClient} with the given credentials. The default HttpClient
+   * implementation is {@link ApacheHttpRequester}
+   *
+   * @param applicationID The Algolia Application ID
+   * @param apiKey The Algolia API Key
+   * @throws NullPointerException If one of the following ApplicationID/ApiKey is null
+   * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
+   */
+  public static AnalyticsClient create(@Nonnull String applicationID, @Nonnull String apiKey) {
+    return create(applicationID, apiKey, "us");
+  }
+
+  /**
+   * Creates a default {@link AnalyticsClient} with the given credentials. The default HttpClient
+   * implementation is {@link ApacheHttpRequester}
+   *
+   * @param applicationID The Algolia Application ID
+   * @param apiKey The Algolia API Key
+   * @param region The region of the Analytics cluster
+   * @throws NullPointerException If one of the following ApplicationID/ApiKey is null
+   * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
+   */
+  public static AnalyticsClient create(
+      @Nonnull String applicationID, @Nonnull String apiKey, @Nonnull String region) {
+    return create(new AnalyticsConfig.Builder(applicationID, apiKey, region).build());
+  }
+
+  /**
+   * Creates a default {@link AnalyticsClient} with the given {@link AnalyticsConfig}. The default
+   * HttpClient implementation is {@link ApacheHttpRequester}
+   *
+   * @param config The configuration allows you to advanced configuration of the clients such as
+   *     batch size or custom hosts and timeout.
+   * @throws NullPointerException If one of the following ApplicationID/ApiKey/Config is null
+   * @throws IllegalArgumentException If the ApplicationID or the APIKey are empty
+   */
+  public static AnalyticsClient create(@Nonnull AnalyticsConfig config) {
+    return new AnalyticsClient(config, new JavaNetHttpRequester(config));
+  }
+}
