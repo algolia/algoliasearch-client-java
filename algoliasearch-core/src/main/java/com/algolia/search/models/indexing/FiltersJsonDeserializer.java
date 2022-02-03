@@ -29,15 +29,12 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
 
     switch (currentToken) {
       case START_ARRAY:
-        List list = p.readValueAs(List.class);
-        if (list.stream().allMatch(String.class::isInstance)) { // are all elements strings?
-          result = Collections.singletonList(list);
-        } else {
-          result = buildFilters(list);
-        }
+        List<Object> list = p.readValueAs(List.class);
+        result = buildFilters(list);
         break;
       case VALUE_STRING:
-        result = Collections.singletonList(Arrays.asList(p.getValueAsString().split(",")));
+        String string = p.getValueAsString();
+        result = buildFilters(string);
         break;
       case VALUE_NULL:
         break;
@@ -49,6 +46,7 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
     return result;
   }
 
+  /** Build filters from a list */
   @SuppressWarnings("unchecked")
   private List<List<String>> buildFilters(List list) {
     return (List<List<String>>)
@@ -62,5 +60,22 @@ class FiltersJsonDeserializer extends JsonDeserializer<List<List<String>>> {
                   }
                 })
             .collect(Collectors.toList());
+  }
+
+  /** Build filters from (legacy) string */
+  private List<List<String>> buildFilters(String string) {
+    // Extract groups: "(A:1,B:2),C:3" -> ["(A:1,B:2)","C:3"]
+    List<String> groups = Arrays.asList(string.split(",(?![^()]*\\))"));
+    return groups.stream()
+        .map(
+            group -> {
+              if (group.startsWith("(") && group.endsWith(")")) {
+                String input = group.substring(1, group.length() - 1);
+                return Arrays.asList(input.split(","));
+              } else {
+                return Collections.singletonList(group);
+              }
+            })
+        .collect(Collectors.toList());
   }
 }
