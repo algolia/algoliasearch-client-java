@@ -1,5 +1,21 @@
 # ChangeLog
 
+## [3.16.4](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.3...3.16.4) (2022-02-07)
+
+### Feat
+
+- add default utility classes for Java.net client (#772) ([48aeae3](https://github.com/algolia/algoliasearch-client-java-2/commit/48aeae3))
+
+### Fix
+
+- optional filters deserialization (#771) ([0e58180](https://github.com/algolia/algoliasearch-client-java-2/commit/0e58180))
+
+### Misc
+
+- fail on warning (#770) ([20793bf](https://github.com/algolia/algoliasearch-client-java-2/commit/20793bf))
+
+
+
 ## [3.16.3](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.2...3.16.3) (2022-01-27)
 
 ### Fix
