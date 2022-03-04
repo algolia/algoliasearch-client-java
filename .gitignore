@@ -1,23 +1,20 @@
-node_modules
-.bash_profile
-.env
-.pnp.cjs
-.parcel-cache
+*.class
 
-yarn-error.log
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
+# Package Files #
+*.jar
+*.war
+*.ear
 
-.vscode/
-.idea/
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
 
+# build files
+**/target
 target
-**/.DS_Store
 .gradle
 build
-
-dist
 
 .openapi-generator
