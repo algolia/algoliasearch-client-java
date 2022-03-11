@@ -5,6 +5,7 @@ import com.algolia.search.models.HttpRequest;
 import com.algolia.search.models.HttpResponse;
 import com.algolia.search.util.HttpStatusCodeUtils;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.Map;
@@ -133,19 +134,19 @@ public final class ApacheHttpRequester implements HttpRequester {
 
       case HttpPost.METHOD_NAME:
         HttpPost post = new HttpPost(algoliaRequest.getUri().toString());
-        if (algoliaRequest.getBody() != null) post.setEntity(addEntity(algoliaRequest));
+        if (algoliaRequest.getBodySupplier() != null) post.setEntity(addEntity(algoliaRequest));
         post.setConfig(buildRequestConfig(algoliaRequest));
         return addHeaders(post, algoliaRequest.getHeaders());
 
       case HttpPut.METHOD_NAME:
         HttpPut put = new HttpPut(algoliaRequest.getUri().toString());
-        if (algoliaRequest.getBody() != null) put.setEntity(addEntity(algoliaRequest));
+        if (algoliaRequest.getBodySupplier() != null) put.setEntity(addEntity(algoliaRequest));
         put.setConfig(buildRequestConfig(algoliaRequest));
         return addHeaders(put, algoliaRequest.getHeaders());
 
       case HttpPatch.METHOD_NAME:
         HttpPatch patch = new HttpPatch(algoliaRequest.getUri().toString());
-        if (algoliaRequest.getBody() != null) patch.setEntity(addEntity(algoliaRequest));
+        if (algoliaRequest.getBodySupplier() != null) patch.setEntity(addEntity(algoliaRequest));
         patch.setConfig(buildRequestConfig(algoliaRequest));
         return addHeaders(patch, algoliaRequest.getHeaders());
 
@@ -167,9 +168,9 @@ public final class ApacheHttpRequester implements HttpRequester {
 
   private HttpEntity addEntity(@Nonnull HttpRequest request) {
     try {
+      InputStream body = request.getBodySupplier().get();
       InputStreamEntity entity =
-          new InputStreamEntity(
-              request.getBody(), request.getBody().available(), ContentType.APPLICATION_JSON);
+          new InputStreamEntity(body, body.available(), ContentType.APPLICATION_JSON);
 
       if (request.canCompress()) {
         entity.setContentEncoding(Defaults.CONTENT_ENCODING_GZIP);

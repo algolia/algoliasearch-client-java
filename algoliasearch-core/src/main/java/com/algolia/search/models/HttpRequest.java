@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class HttpRequest {
 
@@ -62,10 +63,14 @@ public class HttpRequest {
     return this;
   }
 
+  /** @deprecated produced input stream is not reusable, use {@link #getBodySupplier()} instead. */
+  @Deprecated
   public InputStream getBody() {
     return body;
   }
 
+  /** @deprecated use {@link #setBodySupplier(Supplier)} instead. */
+  @Deprecated
   public HttpRequest setBody(InputStream body) {
     this.body = body;
     return this;
@@ -109,11 +114,21 @@ public class HttpRequest {
     this.timeout *= (retryCount + 1);
   }
 
+  public Supplier<InputStream> getBodySupplier() {
+    return bodySupplier;
+  }
+
+  public HttpRequest setBodySupplier(Supplier<InputStream> bodySupplier) {
+    this.bodySupplier = bodySupplier;
+    return this;
+  }
+
   private HttpMethod method;
   private URL uri;
   private String methodPath;
   private Map<String, String> headers;
-  private InputStream body;
+  private InputStream body; // deprecated since, not reusable
   private int timeout;
   private CompressionType compressionType;
+  private Supplier<InputStream> bodySupplier;
 }

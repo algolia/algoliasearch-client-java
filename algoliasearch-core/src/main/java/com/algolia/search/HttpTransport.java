@@ -3,13 +3,18 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
-import com.algolia.search.models.*;
+import com.algolia.search.models.HttpMethod;
+import com.algolia.search.models.HttpRequest;
+import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.util.CompletableFutureUtils;
 import com.algolia.search.util.QueryStringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -25,10 +30,10 @@ import javax.annotation.Nonnull;
  */
 public class HttpTransport {
 
+  private static final Logger LOGGER = Logger.getLogger(HttpTransport.class.getName());
   private final HttpRequester httpRequester;
   private final RetryStrategy retryStrategy;
   private final ConfigBase config;
-  private static final Logger LOGGER = Logger.getLogger(HttpTransport.class.getName());
 
   HttpTransport(@Nonnull ConfigBase config, @Nonnull HttpRequester httpRequester) {
     this.config = config;
@@ -221,7 +226,7 @@ public class HttpTransport {
         new HttpRequest(method, fullPath, headersToSend, timeout, config.getCompressionType());
 
     if (data != null) {
-      request.setBody(serializeJSON(data, request));
+      request.setBodySupplier(() -> serializeJSON(data, request));
       logRequest(request, data);
     }
 
