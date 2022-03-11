@@ -1,17 +1,16 @@
 package com.algolia.search;
 
+import static com.algolia.search.integration.TestHelpers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.algolia.search.integration.models.AlgoliaObject;
 import com.algolia.search.models.common.CallType;
 import com.algolia.search.models.indexing.Query;
 import com.algolia.search.models.indexing.SearchResult;
-import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
-
-import static com.algolia.search.integration.TestHelpers.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 public abstract class RetryStrategyE2ETest {
 
