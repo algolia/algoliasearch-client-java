@@ -61,6 +61,25 @@ jobs:
           paths:
             - "~/.m2"
 
+  test-java-17:
+    docker:
+      - image: cimg/openjdk:17.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: mvn-cache-11
+      - credentials
+      - run:
+          name: "Compile project"
+          command: mvn clean compile
+      - run:
+          name: "Run the tests"
+          command: mvn clean test
+      - save_cache:
+          key: mvn-cache-11
+          paths:
+            - "~/.m2"
+
   release:
     docker:
       - image: cimg/openjdk:11.0
@@ -104,11 +123,18 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - test-java-17:
+          requires:
+            - test-java-11
+          filters:
+            tags:
+              only: /.*/
       - release:
           requires:
             - format
             - test-java-8
             - test-java-11
+            - test-java-17
           filters:
             tags:
               only: /^[1-9]+.[0-9]+.[0-9]+.*/
