@@ -4,6 +4,8 @@ import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.HttpRequest;
 import com.algolia.search.models.HttpResponse;
 import com.algolia.search.util.HttpStatusCodeUtils;
+
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ProxySelector;
@@ -22,7 +24,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.zip.GZIPInputStream;
-import javax.annotation.Nonnull;
 
 /** Implementation of {@code HttpRequester} for the built-in Java.net 11 HTTP Client */
 public final class JavaNetHttpRequester implements HttpRequester {
@@ -36,13 +37,25 @@ public final class JavaNetHttpRequester implements HttpRequester {
    * @param config HTTPClient agnostic Algolia's configuration.
    */
   public JavaNetHttpRequester(@Nonnull ConfigBase config) {
+    this(
+        config,
+        config.getUseSystemProxy()
+            ? HttpClient.newBuilder().proxy(ProxySelector.getDefault())
+            : HttpClient.newBuilder());
+  }
+
+  /**
+   * Build the reusable instance of httpClient with the given configuration.
+   *
+   * @param config HTTPClient agnostic Algolia's configuration
+   * @param builder Builder for {@linkplain HttpClient HTTP Clients}
+   */
+  public JavaNetHttpRequester(@Nonnull ConfigBase config, HttpClient.Builder builder) {
     client =
-        HttpClient.newBuilder()
+        builder
             .executor(config.getExecutor())
             .version(HttpClient.Version.HTTP_2)
-            .sslParameters(SSLUtils.getDefaultSSLParameters())
             .followRedirects(HttpClient.Redirect.NEVER)
-            .proxy(ProxySelector.getDefault())
             .connectTimeout(Duration.ofMillis(config.getConnectTimeOut()))
             .build();
   }
