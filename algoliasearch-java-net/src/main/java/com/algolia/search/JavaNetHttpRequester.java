@@ -4,9 +4,6 @@ import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.HttpRequest;
 import com.algolia.search.models.HttpResponse;
 import com.algolia.search.util.HttpStatusCodeUtils;
-
-import javax.annotation.Nonnull;
-import javax.net.ssl.SSLParameters;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ProxySelector;
@@ -25,6 +22,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.zip.GZIPInputStream;
+import javax.annotation.Nonnull;
+import javax.net.ssl.SSLParameters;
 
 /** Implementation of {@code HttpRequester} for the built-in Java.net 11 HTTP Client */
 public final class JavaNetHttpRequester implements HttpRequester {
