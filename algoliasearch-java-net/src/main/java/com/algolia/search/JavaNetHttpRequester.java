@@ -4,6 +4,9 @@ import com.algolia.search.exceptions.AlgoliaRuntimeException;
 import com.algolia.search.models.HttpRequest;
 import com.algolia.search.models.HttpResponse;
 import com.algolia.search.util.HttpStatusCodeUtils;
+
+import javax.annotation.Nonnull;
+import javax.net.ssl.SSLParameters;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ProxySelector;
@@ -22,10 +25,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.zip.GZIPInputStream;
-import javax.annotation.Nonnull;
 
 /** Implementation of {@code HttpRequester} for the built-in Java.net 11 HTTP Client */
 public final class JavaNetHttpRequester implements HttpRequester {
+
+  /** Cipher suites for TLSv1.3. */
+  private static final String[] TLSV13_CIPHER_SUITES = {
+    "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384"
+  };
 
   /** Reusable instance of the httpClient. */
   private final HttpClient client;
@@ -40,10 +47,15 @@ public final class JavaNetHttpRequester implements HttpRequester {
         HttpClient.newBuilder()
             .executor(config.getExecutor())
             .version(HttpClient.Version.HTTP_2)
+            .sslParameters(sslParametersCiphers())
             .followRedirects(HttpClient.Redirect.NEVER)
             .proxy(ProxySelector.getDefault())
             .connectTimeout(Duration.ofMillis(config.getConnectTimeOut()))
             .build();
+  }
+
+  private SSLParameters sslParametersCiphers() {
+    return new SSLParameters(TLSV13_CIPHER_SUITES);
   }
 
   /**
