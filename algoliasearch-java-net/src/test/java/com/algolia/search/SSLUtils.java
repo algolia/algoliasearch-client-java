@@ -1,10 +1,9 @@
 package com.algolia.search;
 
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
-
+import java.security.NoSuchAlgorithmException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLParameters;
-import java.security.NoSuchAlgorithmException;
 
 public class SSLUtils {
 
