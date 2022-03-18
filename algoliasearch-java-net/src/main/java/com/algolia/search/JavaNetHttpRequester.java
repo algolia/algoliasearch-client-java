@@ -36,12 +36,25 @@ public final class JavaNetHttpRequester implements HttpRequester {
    * @param config HTTPClient agnostic Algolia's configuration.
    */
   public JavaNetHttpRequester(@Nonnull ConfigBase config) {
+    this(
+        config,
+        config.getUseSystemProxy()
+            ? HttpClient.newBuilder().proxy(ProxySelector.getDefault())
+            : HttpClient.newBuilder());
+  }
+
+  /**
+   * Build the reusable instance of httpClient with the given configuration.
+   *
+   * @param config HTTPClient agnostic Algolia's configuration
+   * @param builder Builder for {@linkplain HttpClient HTTP Clients}
+   */
+  public JavaNetHttpRequester(@Nonnull ConfigBase config, HttpClient.Builder builder) {
     client =
-        HttpClient.newBuilder()
+        builder
             .executor(config.getExecutor())
             .version(HttpClient.Version.HTTP_2)
             .followRedirects(HttpClient.Redirect.NEVER)
-            .proxy(ProxySelector.getDefault())
             .connectTimeout(Duration.ofMillis(config.getConnectTimeOut()))
             .build();
   }
