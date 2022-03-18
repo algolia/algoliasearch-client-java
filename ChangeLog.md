@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [3.16.5](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.4...3.16.5) (2022-03-18)
+
+### Feat
+
+- java http client requester with `HttpClient.Builder` (#776) ([ca20347b](https://github.com/algolia/algoliasearch-client-java-2/commit/ca20347b))
+
+
+
 ## [3.16.4](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.3...3.16.4) (2022-02-07)
 
 ### Feat
