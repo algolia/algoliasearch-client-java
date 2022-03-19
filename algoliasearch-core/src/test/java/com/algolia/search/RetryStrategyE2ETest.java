@@ -1,8 +1,6 @@
 package com.algolia.search;
 
-import static com.algolia.search.integration.TestHelpers.ALGOLIA_APPLICATION_ID_1;
-import static com.algolia.search.integration.TestHelpers.ALGOLIA_SEARCH_KEY_1;
-import static com.algolia.search.integration.TestHelpers.getTestIndexName;
+import static com.algolia.search.integration.TestHelpers.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.algolia.search.integration.models.AlgoliaObject;
@@ -17,16 +15,16 @@ import org.junit.jupiter.api.Test;
 public abstract class RetryStrategyE2ETest {
 
   protected final SearchClient searchClient;
+  protected final SearchConfig config;
   protected HttpRequester httpRequester;
   protected List<StatefulHost> customHosts;
-
-  protected final SearchConfig config;
 
   protected RetryStrategyE2ETest(SearchClient searchClient) {
     this.searchClient = searchClient;
     this.customHosts =
         Arrays.asList(
             new StatefulHost("expired.badssl.com", EnumSet.of(CallType.READ)),
+            new StatefulHost("http.badssl.com", EnumSet.of(CallType.READ)),
             new StatefulHost(
                 String.format("%s-dsn.algolia.net", ALGOLIA_APPLICATION_ID_1),
                 EnumSet.of(CallType.READ)));

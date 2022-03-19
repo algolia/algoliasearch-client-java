@@ -21,6 +21,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
 import javax.annotation.Nonnull;
 
@@ -125,7 +126,9 @@ public final class JavaNetHttpRequester implements HttpRequester {
   private BodyPublisher buildRequestBody(
       @Nonnull Builder builder, @Nonnull HttpRequest algoliaRequest) {
 
-    if (algoliaRequest.getBody() == null) {
+    Supplier<InputStream> bodySupplier = algoliaRequest.getBodySupplier();
+
+    if (bodySupplier == null) {
       return java.net.http.HttpRequest.BodyPublishers.noBody();
     }
 
@@ -135,7 +138,7 @@ public final class JavaNetHttpRequester implements HttpRequester {
       builder.header(Defaults.CONTENT_TYPE_HEADER, Defaults.APPLICATION_JSON);
     }
 
-    return BodyPublishers.ofInputStream(algoliaRequest::getBody);
+    return BodyPublishers.ofInputStream(bodySupplier);
   }
 
   /**
