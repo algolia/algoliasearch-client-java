@@ -1,4 +1,4 @@
-package com.algolia;
+package com.algolia.utils;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
