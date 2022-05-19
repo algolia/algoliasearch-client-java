@@ -5,21 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** MultipleQueriesParams */
-public class MultipleQueriesParams {
+/** SearchMethodParams */
+public class SearchMethodParams {
 
   @SerializedName("requests")
-  private List<MultipleQueries> requests = new ArrayList<>();
+  private List<SearchQueries> requests = new ArrayList<>();
 
   @SerializedName("strategy")
-  private MultipleQueriesStrategy strategy;
+  private SearchStrategy strategy;
 
-  public MultipleQueriesParams setRequests(List<MultipleQueries> requests) {
+  public SearchMethodParams setRequests(List<SearchQueries> requests) {
     this.requests = requests;
     return this;
   }
 
-  public MultipleQueriesParams addRequests(MultipleQueries requestsItem) {
+  public SearchMethodParams addRequests(SearchQueries requestsItem) {
     this.requests.add(requestsItem);
     return this;
   }
@@ -30,11 +30,11 @@ public class MultipleQueriesParams {
    * @return requests
    */
   @javax.annotation.Nonnull
-  public List<MultipleQueries> getRequests() {
+  public List<SearchQueries> getRequests() {
     return requests;
   }
 
-  public MultipleQueriesParams setStrategy(MultipleQueriesStrategy strategy) {
+  public SearchMethodParams setStrategy(SearchStrategy strategy) {
     this.strategy = strategy;
     return this;
   }
@@ -45,7 +45,7 @@ public class MultipleQueriesParams {
    * @return strategy
    */
   @javax.annotation.Nullable
-  public MultipleQueriesStrategy getStrategy() {
+  public SearchStrategy getStrategy() {
     return strategy;
   }
 
@@ -57,10 +57,10 @@ public class MultipleQueriesParams {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MultipleQueriesParams multipleQueriesParams = (MultipleQueriesParams) o;
+    SearchMethodParams searchMethodParams = (SearchMethodParams) o;
     return (
-      Objects.equals(this.requests, multipleQueriesParams.requests) &&
-      Objects.equals(this.strategy, multipleQueriesParams.strategy)
+      Objects.equals(this.requests, searchMethodParams.requests) &&
+      Objects.equals(this.strategy, searchMethodParams.strategy)
     );
   }
 
@@ -72,7 +72,7 @@ public class MultipleQueriesParams {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MultipleQueriesParams {\n");
+    sb.append("class SearchMethodParams {\n");
     sb.append("    requests: ").append(toIndentedString(requests)).append("\n");
     sb.append("    strategy: ").append(toIndentedString(strategy)).append("\n");
     sb.append("}");

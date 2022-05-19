@@ -6,16 +6,16 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-/** Gets or Sets multipleQueriesStrategy */
-@JsonAdapter(MultipleQueriesStrategy.Adapter.class)
-public enum MultipleQueriesStrategy {
-  NONE("none"),
+/** Perform a search query with `default`, will search for facet values if `facet` is given. */
+@JsonAdapter(SearchType.Adapter.class)
+public enum SearchType {
+  DEFAULT("default"),
 
-  STOP_IF_ENOUGH_MATCHES("stopIfEnoughMatches");
+  FACET("facet");
 
   private final String value;
 
-  MultipleQueriesStrategy(String value) {
+  SearchType(String value) {
     this.value = value;
   }
 
@@ -28,8 +28,8 @@ public enum MultipleQueriesStrategy {
     return String.valueOf(value);
   }
 
-  public static MultipleQueriesStrategy fromValue(String value) {
-    for (MultipleQueriesStrategy b : MultipleQueriesStrategy.values()) {
+  public static SearchType fromValue(String value) {
+    for (SearchType b : SearchType.values()) {
       if (b.value.equals(value)) {
         return b;
       }
@@ -37,21 +37,20 @@ public enum MultipleQueriesStrategy {
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
-  public static class Adapter extends TypeAdapter<MultipleQueriesStrategy> {
+  public static class Adapter extends TypeAdapter<SearchType> {
 
     @Override
     public void write(
       final JsonWriter jsonWriter,
-      final MultipleQueriesStrategy enumeration
+      final SearchType enumeration
     ) throws IOException {
       jsonWriter.value(enumeration.getValue());
     }
 
     @Override
-    public MultipleQueriesStrategy read(final JsonReader jsonReader)
-      throws IOException {
+    public SearchType read(final JsonReader jsonReader) throws IOException {
       String value = jsonReader.nextString();
-      return MultipleQueriesStrategy.fromValue(value);
+      return SearchType.fromValue(value);
     }
   }
 }

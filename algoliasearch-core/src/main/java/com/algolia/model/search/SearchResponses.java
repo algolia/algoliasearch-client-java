@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** MultipleQueriesResponse */
-public class MultipleQueriesResponse {
+/** SearchResponses */
+public class SearchResponses {
 
   @SerializedName("results")
   private List<SearchResponse> results = null;
 
-  public MultipleQueriesResponse setResults(List<SearchResponse> results) {
+  public SearchResponses setResults(List<SearchResponse> results) {
     this.results = results;
     return this;
   }
 
-  public MultipleQueriesResponse addResults(SearchResponse resultsItem) {
+  public SearchResponses addResults(SearchResponse resultsItem) {
     if (this.results == null) {
       this.results = new ArrayList<>();
     }
@@ -42,8 +42,8 @@ public class MultipleQueriesResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MultipleQueriesResponse multipleQueriesResponse = (MultipleQueriesResponse) o;
-    return Objects.equals(this.results, multipleQueriesResponse.results);
+    SearchResponses searchResponses = (SearchResponses) o;
+    return Objects.equals(this.results, searchResponses.results);
   }
 
   @Override
@@ -54,7 +54,7 @@ public class MultipleQueriesResponse {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MultipleQueriesResponse {\n");
+    sb.append("class SearchResponses {\n");
     sb.append("    results: ").append(toIndentedString(results)).append("\n");
     sb.append("}");
     return sb.toString();

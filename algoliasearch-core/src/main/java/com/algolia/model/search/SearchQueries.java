@@ -3,8 +3,8 @@ package com.algolia.model.search;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** MultipleQueries */
-public class MultipleQueries {
+/** SearchQueries */
+public class SearchQueries {
 
   @SerializedName("indexName")
   private String indexName;
@@ -13,15 +13,15 @@ public class MultipleQueries {
   private String query = "";
 
   @SerializedName("type")
-  private MultipleQueriesType type = MultipleQueriesType.DEFAULT;
+  private SearchType type = SearchType.DEFAULT;
 
   @SerializedName("facet")
   private String facet;
 
   @SerializedName("params")
-  private String params;
+  private SearchParams params;
 
-  public MultipleQueries setIndexName(String indexName) {
+  public SearchQueries setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
@@ -36,7 +36,7 @@ public class MultipleQueries {
     return indexName;
   }
 
-  public MultipleQueries setQuery(String query) {
+  public SearchQueries setQuery(String query) {
     this.query = query;
     return this;
   }
@@ -51,7 +51,7 @@ public class MultipleQueries {
     return query;
   }
 
-  public MultipleQueries setType(MultipleQueriesType type) {
+  public SearchQueries setType(SearchType type) {
     this.type = type;
     return this;
   }
@@ -62,11 +62,11 @@ public class MultipleQueries {
    * @return type
    */
   @javax.annotation.Nullable
-  public MultipleQueriesType getType() {
+  public SearchType getType() {
     return type;
   }
 
-  public MultipleQueries setFacet(String facet) {
+  public SearchQueries setFacet(String facet) {
     this.facet = facet;
     return this;
   }
@@ -81,18 +81,18 @@ public class MultipleQueries {
     return facet;
   }
 
-  public MultipleQueries setParams(String params) {
+  public SearchQueries setParams(SearchParams params) {
     this.params = params;
     return this;
   }
 
   /**
-   * A query string of search parameters.
+   * Get params
    *
    * @return params
    */
   @javax.annotation.Nullable
-  public String getParams() {
+  public SearchParams getParams() {
     return params;
   }
 
@@ -104,13 +104,13 @@ public class MultipleQueries {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MultipleQueries multipleQueries = (MultipleQueries) o;
+    SearchQueries searchQueries = (SearchQueries) o;
     return (
-      Objects.equals(this.indexName, multipleQueries.indexName) &&
-      Objects.equals(this.query, multipleQueries.query) &&
-      Objects.equals(this.type, multipleQueries.type) &&
-      Objects.equals(this.facet, multipleQueries.facet) &&
-      Objects.equals(this.params, multipleQueries.params)
+      Objects.equals(this.indexName, searchQueries.indexName) &&
+      Objects.equals(this.query, searchQueries.query) &&
+      Objects.equals(this.type, searchQueries.type) &&
+      Objects.equals(this.facet, searchQueries.facet) &&
+      Objects.equals(this.params, searchQueries.params)
     );
   }
 
@@ -122,7 +122,7 @@ public class MultipleQueries {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MultipleQueries {\n");
+    sb.append("class SearchQueries {\n");
     sb
       .append("    indexName: ")
       .append(toIndentedString(indexName))
