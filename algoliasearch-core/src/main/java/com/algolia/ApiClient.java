@@ -37,8 +37,8 @@ public abstract class ApiClient {
 
     this.contentType = "application/json";
 
-    AlgoliaAgent ua = new AlgoliaAgent("0.0.1");
-    ua.addSegment(new AlgoliaAgent.Segment(clientName, "0.0.1"));
+    AlgoliaAgent ua = new AlgoliaAgent("4.0.0-SNAPSHOT");
+    ua.addSegment(new AlgoliaAgent.Segment(clientName, "4.0.0-SNAPSHOT"));
     if (options.getAlgoliaAgentSegments() != null) {
       for (AlgoliaAgent.Segment segment : options.getAlgoliaAgentSegments()) {
         ua.addSegment(segment);
