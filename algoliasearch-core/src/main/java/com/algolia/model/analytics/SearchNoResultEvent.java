@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetSearchesNoClicksResponseSearches */
-public class GetSearchesNoClicksResponseSearches {
+/** SearchNoResultEvent */
+public class SearchNoResultEvent {
 
   @SerializedName("search")
   private String search;
@@ -12,10 +12,10 @@ public class GetSearchesNoClicksResponseSearches {
   @SerializedName("count")
   private Integer count;
 
-  @SerializedName("withFilterCount")
-  private Integer withFilterCount;
+  @SerializedName("nbHits")
+  private Integer nbHits;
 
-  public GetSearchesNoClicksResponseSearches setSearch(String search) {
+  public SearchNoResultEvent setSearch(String search) {
     this.search = search;
     return this;
   }
@@ -30,7 +30,7 @@ public class GetSearchesNoClicksResponseSearches {
     return search;
   }
 
-  public GetSearchesNoClicksResponseSearches setCount(Integer count) {
+  public SearchNoResultEvent setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -45,19 +45,19 @@ public class GetSearchesNoClicksResponseSearches {
     return count;
   }
 
-  public GetSearchesNoClicksResponseSearches setWithFilterCount(Integer withFilterCount) {
-    this.withFilterCount = withFilterCount;
+  public SearchNoResultEvent setNbHits(Integer nbHits) {
+    this.nbHits = nbHits;
     return this;
   }
 
   /**
-   * The number of occurrences.
+   * Number of hits that the search query matched.
    *
-   * @return withFilterCount
+   * @return nbHits
    */
   @javax.annotation.Nonnull
-  public Integer getWithFilterCount() {
-    return withFilterCount;
+  public Integer getNbHits() {
+    return nbHits;
   }
 
   @Override
@@ -68,26 +68,26 @@ public class GetSearchesNoClicksResponseSearches {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetSearchesNoClicksResponseSearches getSearchesNoClicksResponseSearches = (GetSearchesNoClicksResponseSearches) o;
+    SearchNoResultEvent searchNoResultEvent = (SearchNoResultEvent) o;
     return (
-      Objects.equals(this.search, getSearchesNoClicksResponseSearches.search) &&
-      Objects.equals(this.count, getSearchesNoClicksResponseSearches.count) &&
-      Objects.equals(this.withFilterCount, getSearchesNoClicksResponseSearches.withFilterCount)
+      Objects.equals(this.search, searchNoResultEvent.search) &&
+      Objects.equals(this.count, searchNoResultEvent.count) &&
+      Objects.equals(this.nbHits, searchNoResultEvent.nbHits)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(search, count, withFilterCount);
+    return Objects.hash(search, count, nbHits);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetSearchesNoClicksResponseSearches {\n");
+    sb.append("class SearchNoResultEvent {\n");
     sb.append("    search: ").append(toIndentedString(search)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
-    sb.append("    withFilterCount: ").append(toIndentedString(withFilterCount)).append("\n");
+    sb.append("    nbHits: ").append(toIndentedString(nbHits)).append("\n");
     sb.append("}");
     return sb.toString();
   }

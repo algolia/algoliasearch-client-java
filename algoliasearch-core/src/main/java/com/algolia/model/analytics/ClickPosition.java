@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** GetClickPositionsResponsePositions */
-public class GetClickPositionsResponsePositions {
+/** ClickPosition */
+public class ClickPosition {
 
   @SerializedName("position")
   private List<Integer> position = new ArrayList<>();
@@ -14,12 +14,12 @@ public class GetClickPositionsResponsePositions {
   @SerializedName("clickCount")
   private Integer clickCount;
 
-  public GetClickPositionsResponsePositions setPosition(List<Integer> position) {
+  public ClickPosition setPosition(List<Integer> position) {
     this.position = position;
     return this;
   }
 
-  public GetClickPositionsResponsePositions addPosition(Integer positionItem) {
+  public ClickPosition addPosition(Integer positionItem) {
     this.position.add(positionItem);
     return this;
   }
@@ -36,7 +36,7 @@ public class GetClickPositionsResponsePositions {
     return position;
   }
 
-  public GetClickPositionsResponsePositions setClickCount(Integer clickCount) {
+  public ClickPosition setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
@@ -59,11 +59,8 @@ public class GetClickPositionsResponsePositions {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetClickPositionsResponsePositions getClickPositionsResponsePositions = (GetClickPositionsResponsePositions) o;
-    return (
-      Objects.equals(this.position, getClickPositionsResponsePositions.position) &&
-      Objects.equals(this.clickCount, getClickPositionsResponsePositions.clickCount)
-    );
+    ClickPosition clickPosition = (ClickPosition) o;
+    return Objects.equals(this.position, clickPosition.position) && Objects.equals(this.clickCount, clickPosition.clickCount);
   }
 
   @Override
@@ -74,7 +71,7 @@ public class GetClickPositionsResponsePositions {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetClickPositionsResponsePositions {\n");
+    sb.append("class ClickPosition {\n");
     sb.append("    position: ").append(toIndentedString(position)).append("\n");
     sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("}");

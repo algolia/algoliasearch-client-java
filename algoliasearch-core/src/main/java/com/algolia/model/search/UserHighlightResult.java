@@ -3,8 +3,8 @@ package com.algolia.model.search;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** SearchUserIdsResponseHighlightResult */
-public class SearchUserIdsResponseHighlightResult {
+/** UserHighlightResult */
+public class UserHighlightResult {
 
   @SerializedName("userID")
   private HighlightResult userID;
@@ -12,7 +12,7 @@ public class SearchUserIdsResponseHighlightResult {
   @SerializedName("clusterName")
   private HighlightResult clusterName;
 
-  public SearchUserIdsResponseHighlightResult setUserID(HighlightResult userID) {
+  public UserHighlightResult setUserID(HighlightResult userID) {
     this.userID = userID;
     return this;
   }
@@ -27,7 +27,7 @@ public class SearchUserIdsResponseHighlightResult {
     return userID;
   }
 
-  public SearchUserIdsResponseHighlightResult setClusterName(HighlightResult clusterName) {
+  public UserHighlightResult setClusterName(HighlightResult clusterName) {
     this.clusterName = clusterName;
     return this;
   }
@@ -50,11 +50,8 @@ public class SearchUserIdsResponseHighlightResult {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SearchUserIdsResponseHighlightResult searchUserIdsResponseHighlightResult = (SearchUserIdsResponseHighlightResult) o;
-    return (
-      Objects.equals(this.userID, searchUserIdsResponseHighlightResult.userID) &&
-      Objects.equals(this.clusterName, searchUserIdsResponseHighlightResult.clusterName)
-    );
+    UserHighlightResult userHighlightResult = (UserHighlightResult) o;
+    return Objects.equals(this.userID, userHighlightResult.userID) && Objects.equals(this.clusterName, userHighlightResult.clusterName);
   }
 
   @Override
@@ -65,7 +62,7 @@ public class SearchUserIdsResponseHighlightResult {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SearchUserIdsResponseHighlightResult {\n");
+    sb.append("class UserHighlightResult {\n");
     sb.append("    userID: ").append(toIndentedString(userID)).append("\n");
     sb.append("    clusterName: ").append(toIndentedString(clusterName)).append("\n");
     sb.append("}");

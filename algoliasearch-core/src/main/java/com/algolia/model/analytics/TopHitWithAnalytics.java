@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** TopHitsResponseWithAnalyticsHits */
-public class TopHitsResponseWithAnalyticsHits {
+/** TopHitWithAnalytics */
+public class TopHitWithAnalytics {
 
   @SerializedName("hit")
   private String hit;
@@ -27,7 +27,7 @@ public class TopHitsResponseWithAnalyticsHits {
   @SerializedName("conversionCount")
   private Integer conversionCount;
 
-  public TopHitsResponseWithAnalyticsHits setHit(String hit) {
+  public TopHitWithAnalytics setHit(String hit) {
     this.hit = hit;
     return this;
   }
@@ -42,7 +42,7 @@ public class TopHitsResponseWithAnalyticsHits {
     return hit;
   }
 
-  public TopHitsResponseWithAnalyticsHits setCount(Integer count) {
+  public TopHitWithAnalytics setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -57,7 +57,7 @@ public class TopHitsResponseWithAnalyticsHits {
     return count;
   }
 
-  public TopHitsResponseWithAnalyticsHits setClickThroughRate(Double clickThroughRate) {
+  public TopHitWithAnalytics setClickThroughRate(Double clickThroughRate) {
     this.clickThroughRate = clickThroughRate;
     return this;
   }
@@ -72,7 +72,7 @@ public class TopHitsResponseWithAnalyticsHits {
     return clickThroughRate;
   }
 
-  public TopHitsResponseWithAnalyticsHits setConversionRate(Double conversionRate) {
+  public TopHitWithAnalytics setConversionRate(Double conversionRate) {
     this.conversionRate = conversionRate;
     return this;
   }
@@ -87,7 +87,7 @@ public class TopHitsResponseWithAnalyticsHits {
     return conversionRate;
   }
 
-  public TopHitsResponseWithAnalyticsHits setTrackedSearchCount(Integer trackedSearchCount) {
+  public TopHitWithAnalytics setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
@@ -102,7 +102,7 @@ public class TopHitsResponseWithAnalyticsHits {
     return trackedSearchCount;
   }
 
-  public TopHitsResponseWithAnalyticsHits setClickCount(Integer clickCount) {
+  public TopHitWithAnalytics setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
@@ -117,7 +117,7 @@ public class TopHitsResponseWithAnalyticsHits {
     return clickCount;
   }
 
-  public TopHitsResponseWithAnalyticsHits setConversionCount(Integer conversionCount) {
+  public TopHitWithAnalytics setConversionCount(Integer conversionCount) {
     this.conversionCount = conversionCount;
     return this;
   }
@@ -140,15 +140,15 @@ public class TopHitsResponseWithAnalyticsHits {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TopHitsResponseWithAnalyticsHits topHitsResponseWithAnalyticsHits = (TopHitsResponseWithAnalyticsHits) o;
+    TopHitWithAnalytics topHitWithAnalytics = (TopHitWithAnalytics) o;
     return (
-      Objects.equals(this.hit, topHitsResponseWithAnalyticsHits.hit) &&
-      Objects.equals(this.count, topHitsResponseWithAnalyticsHits.count) &&
-      Objects.equals(this.clickThroughRate, topHitsResponseWithAnalyticsHits.clickThroughRate) &&
-      Objects.equals(this.conversionRate, topHitsResponseWithAnalyticsHits.conversionRate) &&
-      Objects.equals(this.trackedSearchCount, topHitsResponseWithAnalyticsHits.trackedSearchCount) &&
-      Objects.equals(this.clickCount, topHitsResponseWithAnalyticsHits.clickCount) &&
-      Objects.equals(this.conversionCount, topHitsResponseWithAnalyticsHits.conversionCount)
+      Objects.equals(this.hit, topHitWithAnalytics.hit) &&
+      Objects.equals(this.count, topHitWithAnalytics.count) &&
+      Objects.equals(this.clickThroughRate, topHitWithAnalytics.clickThroughRate) &&
+      Objects.equals(this.conversionRate, topHitWithAnalytics.conversionRate) &&
+      Objects.equals(this.trackedSearchCount, topHitWithAnalytics.trackedSearchCount) &&
+      Objects.equals(this.clickCount, topHitWithAnalytics.clickCount) &&
+      Objects.equals(this.conversionCount, topHitWithAnalytics.conversionCount)
     );
   }
 
@@ -160,7 +160,7 @@ public class TopHitsResponseWithAnalyticsHits {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TopHitsResponseWithAnalyticsHits {\n");
+    sb.append("class TopHitWithAnalytics {\n");
     sb.append("    hit: ").append(toIndentedString(hit)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("    clickThroughRate: ").append(toIndentedString(clickThroughRate)).append("\n");

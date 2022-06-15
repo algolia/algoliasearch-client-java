@@ -3,8 +3,8 @@ package com.algolia.model.search;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetLogsResponseInnerQueries */
-public class GetLogsResponseInnerQueries {
+/** LogQuery */
+public class LogQuery {
 
   @SerializedName("index_name")
   private String indexName;
@@ -15,7 +15,7 @@ public class GetLogsResponseInnerQueries {
   @SerializedName("query_id")
   private String queryId;
 
-  public GetLogsResponseInnerQueries setIndexName(String indexName) {
+  public LogQuery setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
@@ -30,7 +30,7 @@ public class GetLogsResponseInnerQueries {
     return indexName;
   }
 
-  public GetLogsResponseInnerQueries setUserToken(String userToken) {
+  public LogQuery setUserToken(String userToken) {
     this.userToken = userToken;
     return this;
   }
@@ -45,7 +45,7 @@ public class GetLogsResponseInnerQueries {
     return userToken;
   }
 
-  public GetLogsResponseInnerQueries setQueryId(String queryId) {
+  public LogQuery setQueryId(String queryId) {
     this.queryId = queryId;
     return this;
   }
@@ -68,11 +68,11 @@ public class GetLogsResponseInnerQueries {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetLogsResponseInnerQueries getLogsResponseInnerQueries = (GetLogsResponseInnerQueries) o;
+    LogQuery logQuery = (LogQuery) o;
     return (
-      Objects.equals(this.indexName, getLogsResponseInnerQueries.indexName) &&
-      Objects.equals(this.userToken, getLogsResponseInnerQueries.userToken) &&
-      Objects.equals(this.queryId, getLogsResponseInnerQueries.queryId)
+      Objects.equals(this.indexName, logQuery.indexName) &&
+      Objects.equals(this.userToken, logQuery.userToken) &&
+      Objects.equals(this.queryId, logQuery.queryId)
     );
   }
 
@@ -84,7 +84,7 @@ public class GetLogsResponseInnerQueries {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetLogsResponseInnerQueries {\n");
+    sb.append("class LogQuery {\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    userToken: ").append(toIndentedString(userToken)).append("\n");
     sb.append("    queryId: ").append(toIndentedString(queryId)).append("\n");

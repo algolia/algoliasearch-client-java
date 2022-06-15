@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetSearchesNoResultsResponseSearches */
-public class GetSearchesNoResultsResponseSearches {
+/** TopSearch */
+public class TopSearch {
 
   @SerializedName("search")
   private String search;
@@ -15,7 +15,7 @@ public class GetSearchesNoResultsResponseSearches {
   @SerializedName("nbHits")
   private Integer nbHits;
 
-  public GetSearchesNoResultsResponseSearches setSearch(String search) {
+  public TopSearch setSearch(String search) {
     this.search = search;
     return this;
   }
@@ -30,7 +30,7 @@ public class GetSearchesNoResultsResponseSearches {
     return search;
   }
 
-  public GetSearchesNoResultsResponseSearches setCount(Integer count) {
+  public TopSearch setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -45,7 +45,7 @@ public class GetSearchesNoResultsResponseSearches {
     return count;
   }
 
-  public GetSearchesNoResultsResponseSearches setNbHits(Integer nbHits) {
+  public TopSearch setNbHits(Integer nbHits) {
     this.nbHits = nbHits;
     return this;
   }
@@ -68,11 +68,11 @@ public class GetSearchesNoResultsResponseSearches {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetSearchesNoResultsResponseSearches getSearchesNoResultsResponseSearches = (GetSearchesNoResultsResponseSearches) o;
+    TopSearch topSearch = (TopSearch) o;
     return (
-      Objects.equals(this.search, getSearchesNoResultsResponseSearches.search) &&
-      Objects.equals(this.count, getSearchesNoResultsResponseSearches.count) &&
-      Objects.equals(this.nbHits, getSearchesNoResultsResponseSearches.nbHits)
+      Objects.equals(this.search, topSearch.search) &&
+      Objects.equals(this.count, topSearch.count) &&
+      Objects.equals(this.nbHits, topSearch.nbHits)
     );
   }
 
@@ -84,7 +84,7 @@ public class GetSearchesNoResultsResponseSearches {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetSearchesNoResultsResponseSearches {\n");
+    sb.append("class TopSearch {\n");
     sb.append("    search: ").append(toIndentedString(search)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("    nbHits: ").append(toIndentedString(nbHits)).append("\n");

@@ -3,8 +3,8 @@ package com.algolia.model.search;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** SearchUserIdsResponseHits */
-public class SearchUserIdsResponseHits {
+/** UserHit */
+public class UserHit {
 
   @SerializedName("userID")
   private String userID;
@@ -22,9 +22,9 @@ public class SearchUserIdsResponseHits {
   private String objectID;
 
   @SerializedName("_highlightResult")
-  private SearchUserIdsResponseHighlightResult highlightResult;
+  private UserHighlightResult highlightResult;
 
-  public SearchUserIdsResponseHits setUserID(String userID) {
+  public UserHit setUserID(String userID) {
     this.userID = userID;
     return this;
   }
@@ -39,7 +39,7 @@ public class SearchUserIdsResponseHits {
     return userID;
   }
 
-  public SearchUserIdsResponseHits setClusterName(String clusterName) {
+  public UserHit setClusterName(String clusterName) {
     this.clusterName = clusterName;
     return this;
   }
@@ -54,7 +54,7 @@ public class SearchUserIdsResponseHits {
     return clusterName;
   }
 
-  public SearchUserIdsResponseHits setNbRecords(Integer nbRecords) {
+  public UserHit setNbRecords(Integer nbRecords) {
     this.nbRecords = nbRecords;
     return this;
   }
@@ -69,7 +69,7 @@ public class SearchUserIdsResponseHits {
     return nbRecords;
   }
 
-  public SearchUserIdsResponseHits setDataSize(Integer dataSize) {
+  public UserHit setDataSize(Integer dataSize) {
     this.dataSize = dataSize;
     return this;
   }
@@ -84,7 +84,7 @@ public class SearchUserIdsResponseHits {
     return dataSize;
   }
 
-  public SearchUserIdsResponseHits setObjectID(String objectID) {
+  public UserHit setObjectID(String objectID) {
     this.objectID = objectID;
     return this;
   }
@@ -99,7 +99,7 @@ public class SearchUserIdsResponseHits {
     return objectID;
   }
 
-  public SearchUserIdsResponseHits setHighlightResult(SearchUserIdsResponseHighlightResult highlightResult) {
+  public UserHit setHighlightResult(UserHighlightResult highlightResult) {
     this.highlightResult = highlightResult;
     return this;
   }
@@ -110,7 +110,7 @@ public class SearchUserIdsResponseHits {
    * @return highlightResult
    */
   @javax.annotation.Nonnull
-  public SearchUserIdsResponseHighlightResult getHighlightResult() {
+  public UserHighlightResult getHighlightResult() {
     return highlightResult;
   }
 
@@ -122,14 +122,14 @@ public class SearchUserIdsResponseHits {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SearchUserIdsResponseHits searchUserIdsResponseHits = (SearchUserIdsResponseHits) o;
+    UserHit userHit = (UserHit) o;
     return (
-      Objects.equals(this.userID, searchUserIdsResponseHits.userID) &&
-      Objects.equals(this.clusterName, searchUserIdsResponseHits.clusterName) &&
-      Objects.equals(this.nbRecords, searchUserIdsResponseHits.nbRecords) &&
-      Objects.equals(this.dataSize, searchUserIdsResponseHits.dataSize) &&
-      Objects.equals(this.objectID, searchUserIdsResponseHits.objectID) &&
-      Objects.equals(this.highlightResult, searchUserIdsResponseHits.highlightResult)
+      Objects.equals(this.userID, userHit.userID) &&
+      Objects.equals(this.clusterName, userHit.clusterName) &&
+      Objects.equals(this.nbRecords, userHit.nbRecords) &&
+      Objects.equals(this.dataSize, userHit.dataSize) &&
+      Objects.equals(this.objectID, userHit.objectID) &&
+      Objects.equals(this.highlightResult, userHit.highlightResult)
     );
   }
 
@@ -141,7 +141,7 @@ public class SearchUserIdsResponseHits {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SearchUserIdsResponseHits {\n");
+    sb.append("class UserHit {\n");
     sb.append("    userID: ").append(toIndentedString(userID)).append("\n");
     sb.append("    clusterName: ").append(toIndentedString(clusterName)).append("\n");
     sb.append("    nbRecords: ").append(toIndentedString(nbRecords)).append("\n");

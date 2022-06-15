@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetClickThroughRateResponseDates */
-public class GetClickThroughRateResponseDates {
+/** ClickThroughRateEvent */
+public class ClickThroughRateEvent {
 
   @SerializedName("rate")
   private Double rate;
@@ -18,7 +18,7 @@ public class GetClickThroughRateResponseDates {
   @SerializedName("date")
   private String date;
 
-  public GetClickThroughRateResponseDates setRate(Double rate) {
+  public ClickThroughRateEvent setRate(Double rate) {
     this.rate = rate;
     return this;
   }
@@ -33,7 +33,7 @@ public class GetClickThroughRateResponseDates {
     return rate;
   }
 
-  public GetClickThroughRateResponseDates setClickCount(Integer clickCount) {
+  public ClickThroughRateEvent setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
@@ -48,7 +48,7 @@ public class GetClickThroughRateResponseDates {
     return clickCount;
   }
 
-  public GetClickThroughRateResponseDates setTrackedSearchCount(Integer trackedSearchCount) {
+  public ClickThroughRateEvent setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
@@ -63,7 +63,7 @@ public class GetClickThroughRateResponseDates {
     return trackedSearchCount;
   }
 
-  public GetClickThroughRateResponseDates setDate(String date) {
+  public ClickThroughRateEvent setDate(String date) {
     this.date = date;
     return this;
   }
@@ -86,12 +86,12 @@ public class GetClickThroughRateResponseDates {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetClickThroughRateResponseDates getClickThroughRateResponseDates = (GetClickThroughRateResponseDates) o;
+    ClickThroughRateEvent clickThroughRateEvent = (ClickThroughRateEvent) o;
     return (
-      Objects.equals(this.rate, getClickThroughRateResponseDates.rate) &&
-      Objects.equals(this.clickCount, getClickThroughRateResponseDates.clickCount) &&
-      Objects.equals(this.trackedSearchCount, getClickThroughRateResponseDates.trackedSearchCount) &&
-      Objects.equals(this.date, getClickThroughRateResponseDates.date)
+      Objects.equals(this.rate, clickThroughRateEvent.rate) &&
+      Objects.equals(this.clickCount, clickThroughRateEvent.clickCount) &&
+      Objects.equals(this.trackedSearchCount, clickThroughRateEvent.trackedSearchCount) &&
+      Objects.equals(this.date, clickThroughRateEvent.date)
     );
   }
 
@@ -103,7 +103,7 @@ public class GetClickThroughRateResponseDates {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetClickThroughRateResponseDates {\n");
+    sb.append("class ClickThroughRateEvent {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("    trackedSearchCount: ").append(toIndentedString(trackedSearchCount)).append("\n");

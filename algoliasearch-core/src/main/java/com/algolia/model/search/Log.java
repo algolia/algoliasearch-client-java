@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** GetLogsResponseLogs */
-public class GetLogsResponseLogs {
+/** Log */
+public class Log {
 
   @SerializedName("timestamp")
   private String timestamp;
@@ -51,9 +51,9 @@ public class GetLogsResponseLogs {
   private String queryNbHits;
 
   @SerializedName("inner_queries")
-  private List<GetLogsResponseInnerQueries> innerQueries = null;
+  private List<LogQuery> innerQueries = null;
 
-  public GetLogsResponseLogs setTimestamp(String timestamp) {
+  public Log setTimestamp(String timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -68,7 +68,7 @@ public class GetLogsResponseLogs {
     return timestamp;
   }
 
-  public GetLogsResponseLogs setMethod(String method) {
+  public Log setMethod(String method) {
     this.method = method;
     return this;
   }
@@ -83,7 +83,7 @@ public class GetLogsResponseLogs {
     return method;
   }
 
-  public GetLogsResponseLogs setAnswerCode(String answerCode) {
+  public Log setAnswerCode(String answerCode) {
     this.answerCode = answerCode;
     return this;
   }
@@ -98,7 +98,7 @@ public class GetLogsResponseLogs {
     return answerCode;
   }
 
-  public GetLogsResponseLogs setQueryBody(String queryBody) {
+  public Log setQueryBody(String queryBody) {
     this.queryBody = queryBody;
     return this;
   }
@@ -113,7 +113,7 @@ public class GetLogsResponseLogs {
     return queryBody;
   }
 
-  public GetLogsResponseLogs setAnswer(String answer) {
+  public Log setAnswer(String answer) {
     this.answer = answer;
     return this;
   }
@@ -128,7 +128,7 @@ public class GetLogsResponseLogs {
     return answer;
   }
 
-  public GetLogsResponseLogs setUrl(String url) {
+  public Log setUrl(String url) {
     this.url = url;
     return this;
   }
@@ -143,7 +143,7 @@ public class GetLogsResponseLogs {
     return url;
   }
 
-  public GetLogsResponseLogs setIp(String ip) {
+  public Log setIp(String ip) {
     this.ip = ip;
     return this;
   }
@@ -158,7 +158,7 @@ public class GetLogsResponseLogs {
     return ip;
   }
 
-  public GetLogsResponseLogs setQueryHeaders(String queryHeaders) {
+  public Log setQueryHeaders(String queryHeaders) {
     this.queryHeaders = queryHeaders;
     return this;
   }
@@ -173,7 +173,7 @@ public class GetLogsResponseLogs {
     return queryHeaders;
   }
 
-  public GetLogsResponseLogs setSha1(String sha1) {
+  public Log setSha1(String sha1) {
     this.sha1 = sha1;
     return this;
   }
@@ -188,7 +188,7 @@ public class GetLogsResponseLogs {
     return sha1;
   }
 
-  public GetLogsResponseLogs setNbApiCalls(String nbApiCalls) {
+  public Log setNbApiCalls(String nbApiCalls) {
     this.nbApiCalls = nbApiCalls;
     return this;
   }
@@ -203,7 +203,7 @@ public class GetLogsResponseLogs {
     return nbApiCalls;
   }
 
-  public GetLogsResponseLogs setProcessingTimeMs(String processingTimeMs) {
+  public Log setProcessingTimeMs(String processingTimeMs) {
     this.processingTimeMs = processingTimeMs;
     return this;
   }
@@ -218,7 +218,7 @@ public class GetLogsResponseLogs {
     return processingTimeMs;
   }
 
-  public GetLogsResponseLogs setIndex(String index) {
+  public Log setIndex(String index) {
     this.index = index;
     return this;
   }
@@ -233,7 +233,7 @@ public class GetLogsResponseLogs {
     return index;
   }
 
-  public GetLogsResponseLogs setQueryParams(String queryParams) {
+  public Log setQueryParams(String queryParams) {
     this.queryParams = queryParams;
     return this;
   }
@@ -248,7 +248,7 @@ public class GetLogsResponseLogs {
     return queryParams;
   }
 
-  public GetLogsResponseLogs setQueryNbHits(String queryNbHits) {
+  public Log setQueryNbHits(String queryNbHits) {
     this.queryNbHits = queryNbHits;
     return this;
   }
@@ -263,12 +263,12 @@ public class GetLogsResponseLogs {
     return queryNbHits;
   }
 
-  public GetLogsResponseLogs setInnerQueries(List<GetLogsResponseInnerQueries> innerQueries) {
+  public Log setInnerQueries(List<LogQuery> innerQueries) {
     this.innerQueries = innerQueries;
     return this;
   }
 
-  public GetLogsResponseLogs addInnerQueries(GetLogsResponseInnerQueries innerQueriesItem) {
+  public Log addInnerQueries(LogQuery innerQueriesItem) {
     if (this.innerQueries == null) {
       this.innerQueries = new ArrayList<>();
     }
@@ -282,7 +282,7 @@ public class GetLogsResponseLogs {
    * @return innerQueries
    */
   @javax.annotation.Nullable
-  public List<GetLogsResponseInnerQueries> getInnerQueries() {
+  public List<LogQuery> getInnerQueries() {
     return innerQueries;
   }
 
@@ -294,23 +294,23 @@ public class GetLogsResponseLogs {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetLogsResponseLogs getLogsResponseLogs = (GetLogsResponseLogs) o;
+    Log log = (Log) o;
     return (
-      Objects.equals(this.timestamp, getLogsResponseLogs.timestamp) &&
-      Objects.equals(this.method, getLogsResponseLogs.method) &&
-      Objects.equals(this.answerCode, getLogsResponseLogs.answerCode) &&
-      Objects.equals(this.queryBody, getLogsResponseLogs.queryBody) &&
-      Objects.equals(this.answer, getLogsResponseLogs.answer) &&
-      Objects.equals(this.url, getLogsResponseLogs.url) &&
-      Objects.equals(this.ip, getLogsResponseLogs.ip) &&
-      Objects.equals(this.queryHeaders, getLogsResponseLogs.queryHeaders) &&
-      Objects.equals(this.sha1, getLogsResponseLogs.sha1) &&
-      Objects.equals(this.nbApiCalls, getLogsResponseLogs.nbApiCalls) &&
-      Objects.equals(this.processingTimeMs, getLogsResponseLogs.processingTimeMs) &&
-      Objects.equals(this.index, getLogsResponseLogs.index) &&
-      Objects.equals(this.queryParams, getLogsResponseLogs.queryParams) &&
-      Objects.equals(this.queryNbHits, getLogsResponseLogs.queryNbHits) &&
-      Objects.equals(this.innerQueries, getLogsResponseLogs.innerQueries)
+      Objects.equals(this.timestamp, log.timestamp) &&
+      Objects.equals(this.method, log.method) &&
+      Objects.equals(this.answerCode, log.answerCode) &&
+      Objects.equals(this.queryBody, log.queryBody) &&
+      Objects.equals(this.answer, log.answer) &&
+      Objects.equals(this.url, log.url) &&
+      Objects.equals(this.ip, log.ip) &&
+      Objects.equals(this.queryHeaders, log.queryHeaders) &&
+      Objects.equals(this.sha1, log.sha1) &&
+      Objects.equals(this.nbApiCalls, log.nbApiCalls) &&
+      Objects.equals(this.processingTimeMs, log.processingTimeMs) &&
+      Objects.equals(this.index, log.index) &&
+      Objects.equals(this.queryParams, log.queryParams) &&
+      Objects.equals(this.queryNbHits, log.queryNbHits) &&
+      Objects.equals(this.innerQueries, log.innerQueries)
     );
   }
 
@@ -338,7 +338,7 @@ public class GetLogsResponseLogs {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetLogsResponseLogs {\n");
+    sb.append("class Log {\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    method: ").append(toIndentedString(method)).append("\n");
     sb.append("    answerCode: ").append(toIndentedString(answerCode)).append("\n");

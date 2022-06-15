@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetNoResultsRateResponseDates */
-public class GetNoResultsRateResponseDates {
+/** NoResultsRateEvent */
+public class NoResultsRateEvent {
 
   @SerializedName("date")
   private String date;
@@ -18,7 +18,7 @@ public class GetNoResultsRateResponseDates {
   @SerializedName("rate")
   private Double rate;
 
-  public GetNoResultsRateResponseDates setDate(String date) {
+  public NoResultsRateEvent setDate(String date) {
     this.date = date;
     return this;
   }
@@ -33,7 +33,7 @@ public class GetNoResultsRateResponseDates {
     return date;
   }
 
-  public GetNoResultsRateResponseDates setNoResultCount(Integer noResultCount) {
+  public NoResultsRateEvent setNoResultCount(Integer noResultCount) {
     this.noResultCount = noResultCount;
     return this;
   }
@@ -48,7 +48,7 @@ public class GetNoResultsRateResponseDates {
     return noResultCount;
   }
 
-  public GetNoResultsRateResponseDates setCount(Integer count) {
+  public NoResultsRateEvent setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -63,7 +63,7 @@ public class GetNoResultsRateResponseDates {
     return count;
   }
 
-  public GetNoResultsRateResponseDates setRate(Double rate) {
+  public NoResultsRateEvent setRate(Double rate) {
     this.rate = rate;
     return this;
   }
@@ -86,12 +86,12 @@ public class GetNoResultsRateResponseDates {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetNoResultsRateResponseDates getNoResultsRateResponseDates = (GetNoResultsRateResponseDates) o;
+    NoResultsRateEvent noResultsRateEvent = (NoResultsRateEvent) o;
     return (
-      Objects.equals(this.date, getNoResultsRateResponseDates.date) &&
-      Objects.equals(this.noResultCount, getNoResultsRateResponseDates.noResultCount) &&
-      Objects.equals(this.count, getNoResultsRateResponseDates.count) &&
-      Objects.equals(this.rate, getNoResultsRateResponseDates.rate)
+      Objects.equals(this.date, noResultsRateEvent.date) &&
+      Objects.equals(this.noResultCount, noResultsRateEvent.noResultCount) &&
+      Objects.equals(this.count, noResultsRateEvent.count) &&
+      Objects.equals(this.rate, noResultsRateEvent.rate)
     );
   }
 
@@ -103,7 +103,7 @@ public class GetNoResultsRateResponseDates {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetNoResultsRateResponseDates {\n");
+    sb.append("class NoResultsRateEvent {\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    noResultCount: ").append(toIndentedString(noResultCount)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");

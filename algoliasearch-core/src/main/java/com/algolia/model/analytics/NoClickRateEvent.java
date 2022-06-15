@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetNoClickRateResponseDates */
-public class GetNoClickRateResponseDates {
+/** NoClickRateEvent */
+public class NoClickRateEvent {
 
   @SerializedName("rate")
   private Double rate;
@@ -18,7 +18,7 @@ public class GetNoClickRateResponseDates {
   @SerializedName("date")
   private String date;
 
-  public GetNoClickRateResponseDates setRate(Double rate) {
+  public NoClickRateEvent setRate(Double rate) {
     this.rate = rate;
     return this;
   }
@@ -33,7 +33,7 @@ public class GetNoClickRateResponseDates {
     return rate;
   }
 
-  public GetNoClickRateResponseDates setCount(Integer count) {
+  public NoClickRateEvent setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -48,7 +48,7 @@ public class GetNoClickRateResponseDates {
     return count;
   }
 
-  public GetNoClickRateResponseDates setNoClickCount(Integer noClickCount) {
+  public NoClickRateEvent setNoClickCount(Integer noClickCount) {
     this.noClickCount = noClickCount;
     return this;
   }
@@ -63,7 +63,7 @@ public class GetNoClickRateResponseDates {
     return noClickCount;
   }
 
-  public GetNoClickRateResponseDates setDate(String date) {
+  public NoClickRateEvent setDate(String date) {
     this.date = date;
     return this;
   }
@@ -86,12 +86,12 @@ public class GetNoClickRateResponseDates {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetNoClickRateResponseDates getNoClickRateResponseDates = (GetNoClickRateResponseDates) o;
+    NoClickRateEvent noClickRateEvent = (NoClickRateEvent) o;
     return (
-      Objects.equals(this.rate, getNoClickRateResponseDates.rate) &&
-      Objects.equals(this.count, getNoClickRateResponseDates.count) &&
-      Objects.equals(this.noClickCount, getNoClickRateResponseDates.noClickCount) &&
-      Objects.equals(this.date, getNoClickRateResponseDates.date)
+      Objects.equals(this.rate, noClickRateEvent.rate) &&
+      Objects.equals(this.count, noClickRateEvent.count) &&
+      Objects.equals(this.noClickCount, noClickRateEvent.noClickCount) &&
+      Objects.equals(this.date, noClickRateEvent.date)
     );
   }
 
@@ -103,7 +103,7 @@ public class GetNoClickRateResponseDates {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetNoClickRateResponseDates {\n");
+    sb.append("class NoClickRateEvent {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("    noClickCount: ").append(toIndentedString(noClickCount)).append("\n");

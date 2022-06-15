@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetAverageClickPositionResponseDates */
-public class GetAverageClickPositionResponseDates {
+/** AverageClickEvent */
+public class AverageClickEvent {
 
   @SerializedName("average")
   private Double average;
@@ -15,7 +15,7 @@ public class GetAverageClickPositionResponseDates {
   @SerializedName("date")
   private String date;
 
-  public GetAverageClickPositionResponseDates setAverage(Double average) {
+  public AverageClickEvent setAverage(Double average) {
     this.average = average;
     return this;
   }
@@ -30,7 +30,7 @@ public class GetAverageClickPositionResponseDates {
     return average;
   }
 
-  public GetAverageClickPositionResponseDates setClickCount(Integer clickCount) {
+  public AverageClickEvent setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
@@ -45,7 +45,7 @@ public class GetAverageClickPositionResponseDates {
     return clickCount;
   }
 
-  public GetAverageClickPositionResponseDates setDate(String date) {
+  public AverageClickEvent setDate(String date) {
     this.date = date;
     return this;
   }
@@ -68,11 +68,11 @@ public class GetAverageClickPositionResponseDates {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetAverageClickPositionResponseDates getAverageClickPositionResponseDates = (GetAverageClickPositionResponseDates) o;
+    AverageClickEvent averageClickEvent = (AverageClickEvent) o;
     return (
-      Objects.equals(this.average, getAverageClickPositionResponseDates.average) &&
-      Objects.equals(this.clickCount, getAverageClickPositionResponseDates.clickCount) &&
-      Objects.equals(this.date, getAverageClickPositionResponseDates.date)
+      Objects.equals(this.average, averageClickEvent.average) &&
+      Objects.equals(this.clickCount, averageClickEvent.clickCount) &&
+      Objects.equals(this.date, averageClickEvent.date)
     );
   }
 
@@ -84,7 +84,7 @@ public class GetAverageClickPositionResponseDates {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetAverageClickPositionResponseDates {\n");
+    sb.append("class AverageClickEvent {\n");
     sb.append("    average: ").append(toIndentedString(average)).append("\n");
     sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");

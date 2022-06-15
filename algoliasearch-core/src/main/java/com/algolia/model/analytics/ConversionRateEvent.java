@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetConversationRateResponseDates */
-public class GetConversationRateResponseDates {
+/** ConversionRateEvent */
+public class ConversionRateEvent {
 
   @SerializedName("rate")
   private Double rate;
@@ -18,7 +18,7 @@ public class GetConversationRateResponseDates {
   @SerializedName("date")
   private String date;
 
-  public GetConversationRateResponseDates setRate(Double rate) {
+  public ConversionRateEvent setRate(Double rate) {
     this.rate = rate;
     return this;
   }
@@ -33,7 +33,7 @@ public class GetConversationRateResponseDates {
     return rate;
   }
 
-  public GetConversationRateResponseDates setTrackedSearchCount(Integer trackedSearchCount) {
+  public ConversionRateEvent setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
@@ -48,7 +48,7 @@ public class GetConversationRateResponseDates {
     return trackedSearchCount;
   }
 
-  public GetConversationRateResponseDates setConversionCount(Integer conversionCount) {
+  public ConversionRateEvent setConversionCount(Integer conversionCount) {
     this.conversionCount = conversionCount;
     return this;
   }
@@ -63,7 +63,7 @@ public class GetConversationRateResponseDates {
     return conversionCount;
   }
 
-  public GetConversationRateResponseDates setDate(String date) {
+  public ConversionRateEvent setDate(String date) {
     this.date = date;
     return this;
   }
@@ -86,12 +86,12 @@ public class GetConversationRateResponseDates {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetConversationRateResponseDates getConversationRateResponseDates = (GetConversationRateResponseDates) o;
+    ConversionRateEvent conversionRateEvent = (ConversionRateEvent) o;
     return (
-      Objects.equals(this.rate, getConversationRateResponseDates.rate) &&
-      Objects.equals(this.trackedSearchCount, getConversationRateResponseDates.trackedSearchCount) &&
-      Objects.equals(this.conversionCount, getConversationRateResponseDates.conversionCount) &&
-      Objects.equals(this.date, getConversationRateResponseDates.date)
+      Objects.equals(this.rate, conversionRateEvent.rate) &&
+      Objects.equals(this.trackedSearchCount, conversionRateEvent.trackedSearchCount) &&
+      Objects.equals(this.conversionCount, conversionRateEvent.conversionCount) &&
+      Objects.equals(this.date, conversionRateEvent.date)
     );
   }
 
@@ -103,7 +103,7 @@ public class GetConversationRateResponseDates {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetConversationRateResponseDates {\n");
+    sb.append("class ConversionRateEvent {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    trackedSearchCount: ").append(toIndentedString(trackedSearchCount)).append("\n");
     sb.append("    conversionCount: ").append(toIndentedString(conversionCount)).append("\n");

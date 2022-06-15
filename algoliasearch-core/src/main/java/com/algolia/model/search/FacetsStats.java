@@ -3,8 +3,8 @@ package com.algolia.model.search;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** BaseSearchResponseFacetsStats */
-public class BaseSearchResponseFacetsStats {
+/** FacetsStats */
+public class FacetsStats {
 
   @SerializedName("min")
   private Integer min;
@@ -18,7 +18,7 @@ public class BaseSearchResponseFacetsStats {
   @SerializedName("sum")
   private Integer sum;
 
-  public BaseSearchResponseFacetsStats setMin(Integer min) {
+  public FacetsStats setMin(Integer min) {
     this.min = min;
     return this;
   }
@@ -33,7 +33,7 @@ public class BaseSearchResponseFacetsStats {
     return min;
   }
 
-  public BaseSearchResponseFacetsStats setMax(Integer max) {
+  public FacetsStats setMax(Integer max) {
     this.max = max;
     return this;
   }
@@ -48,7 +48,7 @@ public class BaseSearchResponseFacetsStats {
     return max;
   }
 
-  public BaseSearchResponseFacetsStats setAvg(Integer avg) {
+  public FacetsStats setAvg(Integer avg) {
     this.avg = avg;
     return this;
   }
@@ -63,7 +63,7 @@ public class BaseSearchResponseFacetsStats {
     return avg;
   }
 
-  public BaseSearchResponseFacetsStats setSum(Integer sum) {
+  public FacetsStats setSum(Integer sum) {
     this.sum = sum;
     return this;
   }
@@ -86,12 +86,12 @@ public class BaseSearchResponseFacetsStats {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BaseSearchResponseFacetsStats baseSearchResponseFacetsStats = (BaseSearchResponseFacetsStats) o;
+    FacetsStats facetsStats = (FacetsStats) o;
     return (
-      Objects.equals(this.min, baseSearchResponseFacetsStats.min) &&
-      Objects.equals(this.max, baseSearchResponseFacetsStats.max) &&
-      Objects.equals(this.avg, baseSearchResponseFacetsStats.avg) &&
-      Objects.equals(this.sum, baseSearchResponseFacetsStats.sum)
+      Objects.equals(this.min, facetsStats.min) &&
+      Objects.equals(this.max, facetsStats.max) &&
+      Objects.equals(this.avg, facetsStats.avg) &&
+      Objects.equals(this.sum, facetsStats.sum)
     );
   }
 
@@ -103,7 +103,7 @@ public class BaseSearchResponseFacetsStats {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BaseSearchResponseFacetsStats {\n");
+    sb.append("class FacetsStats {\n");
     sb.append("    min: ").append(toIndentedString(min)).append("\n");
     sb.append("    max: ").append(toIndentedString(max)).append("\n");
     sb.append("    avg: ").append(toIndentedString(avg)).append("\n");

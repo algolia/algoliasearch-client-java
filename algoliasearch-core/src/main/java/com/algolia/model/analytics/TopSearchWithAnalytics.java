@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** TopSearchesResponseWithAnalyticsSearches */
-public class TopSearchesResponseWithAnalyticsSearches {
+/** TopSearchWithAnalytics */
+public class TopSearchWithAnalytics {
 
   @SerializedName("search")
   private String search;
@@ -33,7 +33,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
   @SerializedName("nbHits")
   private Integer nbHits;
 
-  public TopSearchesResponseWithAnalyticsSearches setSearch(String search) {
+  public TopSearchWithAnalytics setSearch(String search) {
     this.search = search;
     return this;
   }
@@ -48,7 +48,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
     return search;
   }
 
-  public TopSearchesResponseWithAnalyticsSearches setCount(Integer count) {
+  public TopSearchWithAnalytics setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -63,7 +63,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
     return count;
   }
 
-  public TopSearchesResponseWithAnalyticsSearches setClickThroughRate(Double clickThroughRate) {
+  public TopSearchWithAnalytics setClickThroughRate(Double clickThroughRate) {
     this.clickThroughRate = clickThroughRate;
     return this;
   }
@@ -78,7 +78,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
     return clickThroughRate;
   }
 
-  public TopSearchesResponseWithAnalyticsSearches setAverageClickPosition(Integer averageClickPosition) {
+  public TopSearchWithAnalytics setAverageClickPosition(Integer averageClickPosition) {
     this.averageClickPosition = averageClickPosition;
     return this;
   }
@@ -93,7 +93,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
     return averageClickPosition;
   }
 
-  public TopSearchesResponseWithAnalyticsSearches setConversionRate(Double conversionRate) {
+  public TopSearchWithAnalytics setConversionRate(Double conversionRate) {
     this.conversionRate = conversionRate;
     return this;
   }
@@ -108,7 +108,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
     return conversionRate;
   }
 
-  public TopSearchesResponseWithAnalyticsSearches setTrackedSearchCount(Integer trackedSearchCount) {
+  public TopSearchWithAnalytics setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
@@ -123,7 +123,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
     return trackedSearchCount;
   }
 
-  public TopSearchesResponseWithAnalyticsSearches setClickCount(Integer clickCount) {
+  public TopSearchWithAnalytics setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
@@ -138,7 +138,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
     return clickCount;
   }
 
-  public TopSearchesResponseWithAnalyticsSearches setConversionCount(Integer conversionCount) {
+  public TopSearchWithAnalytics setConversionCount(Integer conversionCount) {
     this.conversionCount = conversionCount;
     return this;
   }
@@ -153,7 +153,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
     return conversionCount;
   }
 
-  public TopSearchesResponseWithAnalyticsSearches setNbHits(Integer nbHits) {
+  public TopSearchWithAnalytics setNbHits(Integer nbHits) {
     this.nbHits = nbHits;
     return this;
   }
@@ -176,17 +176,17 @@ public class TopSearchesResponseWithAnalyticsSearches {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TopSearchesResponseWithAnalyticsSearches topSearchesResponseWithAnalyticsSearches = (TopSearchesResponseWithAnalyticsSearches) o;
+    TopSearchWithAnalytics topSearchWithAnalytics = (TopSearchWithAnalytics) o;
     return (
-      Objects.equals(this.search, topSearchesResponseWithAnalyticsSearches.search) &&
-      Objects.equals(this.count, topSearchesResponseWithAnalyticsSearches.count) &&
-      Objects.equals(this.clickThroughRate, topSearchesResponseWithAnalyticsSearches.clickThroughRate) &&
-      Objects.equals(this.averageClickPosition, topSearchesResponseWithAnalyticsSearches.averageClickPosition) &&
-      Objects.equals(this.conversionRate, topSearchesResponseWithAnalyticsSearches.conversionRate) &&
-      Objects.equals(this.trackedSearchCount, topSearchesResponseWithAnalyticsSearches.trackedSearchCount) &&
-      Objects.equals(this.clickCount, topSearchesResponseWithAnalyticsSearches.clickCount) &&
-      Objects.equals(this.conversionCount, topSearchesResponseWithAnalyticsSearches.conversionCount) &&
-      Objects.equals(this.nbHits, topSearchesResponseWithAnalyticsSearches.nbHits)
+      Objects.equals(this.search, topSearchWithAnalytics.search) &&
+      Objects.equals(this.count, topSearchWithAnalytics.count) &&
+      Objects.equals(this.clickThroughRate, topSearchWithAnalytics.clickThroughRate) &&
+      Objects.equals(this.averageClickPosition, topSearchWithAnalytics.averageClickPosition) &&
+      Objects.equals(this.conversionRate, topSearchWithAnalytics.conversionRate) &&
+      Objects.equals(this.trackedSearchCount, topSearchWithAnalytics.trackedSearchCount) &&
+      Objects.equals(this.clickCount, topSearchWithAnalytics.clickCount) &&
+      Objects.equals(this.conversionCount, topSearchWithAnalytics.conversionCount) &&
+      Objects.equals(this.nbHits, topSearchWithAnalytics.nbHits)
     );
   }
 
@@ -208,7 +208,7 @@ public class TopSearchesResponseWithAnalyticsSearches {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TopSearchesResponseWithAnalyticsSearches {\n");
+    sb.append("class TopSearchWithAnalytics {\n");
     sb.append("    search: ").append(toIndentedString(search)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("    clickThroughRate: ").append(toIndentedString(clickThroughRate)).append("\n");

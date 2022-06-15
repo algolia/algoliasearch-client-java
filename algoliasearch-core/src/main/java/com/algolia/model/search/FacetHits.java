@@ -3,8 +3,8 @@ package com.algolia.model.search;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** SearchForFacetValuesResponseFacetHits */
-public class SearchForFacetValuesResponseFacetHits {
+/** FacetHits */
+public class FacetHits {
 
   @SerializedName("value")
   private String value;
@@ -15,7 +15,7 @@ public class SearchForFacetValuesResponseFacetHits {
   @SerializedName("count")
   private Integer count;
 
-  public SearchForFacetValuesResponseFacetHits setValue(String value) {
+  public FacetHits setValue(String value) {
     this.value = value;
     return this;
   }
@@ -30,7 +30,7 @@ public class SearchForFacetValuesResponseFacetHits {
     return value;
   }
 
-  public SearchForFacetValuesResponseFacetHits setHighlighted(String highlighted) {
+  public FacetHits setHighlighted(String highlighted) {
     this.highlighted = highlighted;
     return this;
   }
@@ -45,7 +45,7 @@ public class SearchForFacetValuesResponseFacetHits {
     return highlighted;
   }
 
-  public SearchForFacetValuesResponseFacetHits setCount(Integer count) {
+  public FacetHits setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -69,11 +69,11 @@ public class SearchForFacetValuesResponseFacetHits {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SearchForFacetValuesResponseFacetHits searchForFacetValuesResponseFacetHits = (SearchForFacetValuesResponseFacetHits) o;
+    FacetHits facetHits = (FacetHits) o;
     return (
-      Objects.equals(this.value, searchForFacetValuesResponseFacetHits.value) &&
-      Objects.equals(this.highlighted, searchForFacetValuesResponseFacetHits.highlighted) &&
-      Objects.equals(this.count, searchForFacetValuesResponseFacetHits.count)
+      Objects.equals(this.value, facetHits.value) &&
+      Objects.equals(this.highlighted, facetHits.highlighted) &&
+      Objects.equals(this.count, facetHits.count)
     );
   }
 
@@ -85,7 +85,7 @@ public class SearchForFacetValuesResponseFacetHits {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SearchForFacetValuesResponseFacetHits {\n");
+    sb.append("class FacetHits {\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("    highlighted: ").append(toIndentedString(highlighted)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");

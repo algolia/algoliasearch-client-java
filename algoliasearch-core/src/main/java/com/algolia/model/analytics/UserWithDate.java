@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetSearchesCountResponseDates */
-public class GetSearchesCountResponseDates {
+/** UserWithDate */
+public class UserWithDate {
 
   @SerializedName("date")
   private String date;
@@ -12,7 +12,7 @@ public class GetSearchesCountResponseDates {
   @SerializedName("count")
   private Integer count;
 
-  public GetSearchesCountResponseDates setDate(String date) {
+  public UserWithDate setDate(String date) {
     this.date = date;
     return this;
   }
@@ -27,7 +27,7 @@ public class GetSearchesCountResponseDates {
     return date;
   }
 
-  public GetSearchesCountResponseDates setCount(Integer count) {
+  public UserWithDate setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -50,8 +50,8 @@ public class GetSearchesCountResponseDates {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetSearchesCountResponseDates getSearchesCountResponseDates = (GetSearchesCountResponseDates) o;
-    return Objects.equals(this.date, getSearchesCountResponseDates.date) && Objects.equals(this.count, getSearchesCountResponseDates.count);
+    UserWithDate userWithDate = (UserWithDate) o;
+    return Objects.equals(this.date, userWithDate.date) && Objects.equals(this.count, userWithDate.count);
   }
 
   @Override
@@ -62,7 +62,7 @@ public class GetSearchesCountResponseDates {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetSearchesCountResponseDates {\n");
+    sb.append("class UserWithDate {\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("}");

@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** TopHitsResponseHits */
-public class TopHitsResponseHits {
+/** TopHit */
+public class TopHit {
 
   @SerializedName("hit")
   private String hit;
@@ -12,7 +12,7 @@ public class TopHitsResponseHits {
   @SerializedName("count")
   private Integer count;
 
-  public TopHitsResponseHits setHit(String hit) {
+  public TopHit setHit(String hit) {
     this.hit = hit;
     return this;
   }
@@ -27,7 +27,7 @@ public class TopHitsResponseHits {
     return hit;
   }
 
-  public TopHitsResponseHits setCount(Integer count) {
+  public TopHit setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -50,8 +50,8 @@ public class TopHitsResponseHits {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TopHitsResponseHits topHitsResponseHits = (TopHitsResponseHits) o;
-    return Objects.equals(this.hit, topHitsResponseHits.hit) && Objects.equals(this.count, topHitsResponseHits.count);
+    TopHit topHit = (TopHit) o;
+    return Objects.equals(this.hit, topHit.hit) && Objects.equals(this.count, topHit.count);
   }
 
   @Override
@@ -62,7 +62,7 @@ public class TopHitsResponseHits {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TopHitsResponseHits {\n");
+    sb.append("class TopHit {\n");
     sb.append("    hit: ").append(toIndentedString(hit)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("}");

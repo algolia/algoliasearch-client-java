@@ -3,8 +3,8 @@ package com.algolia.model.analytics;
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 
-/** GetTopCountriesResponseCountries */
-public class GetTopCountriesResponseCountries {
+/** TopCountry */
+public class TopCountry {
 
   @SerializedName("country")
   private String country;
@@ -12,7 +12,7 @@ public class GetTopCountriesResponseCountries {
   @SerializedName("count")
   private Integer count;
 
-  public GetTopCountriesResponseCountries setCountry(String country) {
+  public TopCountry setCountry(String country) {
     this.country = country;
     return this;
   }
@@ -27,7 +27,7 @@ public class GetTopCountriesResponseCountries {
     return country;
   }
 
-  public GetTopCountriesResponseCountries setCount(Integer count) {
+  public TopCountry setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -50,11 +50,8 @@ public class GetTopCountriesResponseCountries {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetTopCountriesResponseCountries getTopCountriesResponseCountries = (GetTopCountriesResponseCountries) o;
-    return (
-      Objects.equals(this.country, getTopCountriesResponseCountries.country) &&
-      Objects.equals(this.count, getTopCountriesResponseCountries.count)
-    );
+    TopCountry topCountry = (TopCountry) o;
+    return Objects.equals(this.country, topCountry.country) && Objects.equals(this.count, topCountry.count);
   }
 
   @Override
@@ -65,7 +62,7 @@ public class GetTopCountriesResponseCountries {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetTopCountriesResponseCountries {\n");
+    sb.append("class TopCountry {\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("}");
