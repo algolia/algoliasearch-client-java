@@ -1117,7 +1117,7 @@ public final class SearchIndex<T>
     return transport
         .executeRequestAsync(
             HttpMethod.DELETE,
-            "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
+            "/1/indexes/" + urlEncodedIndexName + "/" + QueryStringUtils.urlEncodeUTF8(objectID),
             CallType.WRITE,
             DeleteResponse.class,
             requestOptions)
