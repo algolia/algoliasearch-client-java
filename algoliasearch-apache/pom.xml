@@ -19,6 +19,13 @@
             <version>4.1.5</version>
         </dependency>
 
+        <!-- override apache http client transitive dependency until updated -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>
+
         <!--Algolia dependencies-->
         <dependency>
             <groupId>com.algolia</groupId>
