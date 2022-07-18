@@ -491,7 +491,12 @@ public final class SearchIndex<T>
     return transport
         .executeRequestAsync(
             HttpMethod.POST,
-            "/1/indexes/" + urlEncodedIndexName + "/" + objectID + "/" + "partial",
+            "/1/indexes/"
+                + urlEncodedIndexName
+                + "/"
+                + QueryStringUtils.urlEncodeUTF8(objectID)
+                + "/"
+                + "partial",
             CallType.WRITE,
             data,
             UpdateObjectResponse.class,
@@ -1117,7 +1122,7 @@ public final class SearchIndex<T>
     return transport
         .executeRequestAsync(
             HttpMethod.DELETE,
-            "/1/indexes/" + urlEncodedIndexName + "/" + objectID,
+            "/1/indexes/" + urlEncodedIndexName + "/" + QueryStringUtils.urlEncodeUTF8(objectID),
             CallType.WRITE,
             DeleteResponse.class,
             requestOptions)
