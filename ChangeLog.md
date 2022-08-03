@@ -1,5 +1,16 @@
 # ChangeLog
 
+## [3.16.6](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.5...3.16.6) (2022-08-03)
+
+### Fix
+
+- HttpRequester: use body supplier (#774)
+- URL unsafe characters (#779)
+
+### Misc
+
+- Update jackson to `2.13.x` (#777)
+
 ## [3.16.5](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.4...3.16.5) (2022-03-18)
 
 ### Feat
