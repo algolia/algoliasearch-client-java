@@ -71,9 +71,11 @@ public final class ApacheHttpRequester implements HttpRequester {
   public CompletableFuture<HttpResponse> performRequestAsync(HttpRequest request) {
     HttpRequestBase requestToSend = buildRequest(request);
     return toCompletableFuture(fc -> asyncHttpClient.execute(requestToSend, fc))
-        .thenApplyAsync(this::buildResponse, config.getExecutor())
-        .exceptionally(
-            t -> {
+        //.thenApplyAsync(this::buildResponse, config.getExecutor())
+        .handle(
+            (res, t) -> {
+              return config.getExecutor().submit(() -> buildResponse(res)).get();
+              if (res != null) return res;
               if (t.getCause() instanceof ConnectTimeoutException
                   || t.getCause() instanceof SocketTimeoutException
                   || t.getCause() instanceof ConnectException
