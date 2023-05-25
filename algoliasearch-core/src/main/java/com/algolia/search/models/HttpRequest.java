@@ -111,7 +111,12 @@ public class HttpRequest {
   }
 
   public void incrementTimeout(int retryCount) {
-    this.timeout *= (retryCount + 1);
+    // check for overflow
+    if (timeout > 0 && retryCount > Integer.MAX_VALUE / timeout - 1) {
+      timeout = Integer.MAX_VALUE;
+    } else {
+      timeout *= (retryCount + 1);
+    }
   }
 
   public Supplier<InputStream> getBodySupplier() {
