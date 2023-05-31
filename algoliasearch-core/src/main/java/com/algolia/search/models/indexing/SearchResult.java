@@ -33,6 +33,7 @@ public class SearchResult<T> implements Serializable {
   private Integer appliedRelevancyStrictness;
   private Integer nbSortedHits;
   private RenderingContent renderingContent;
+  private Integer abTestID;
 
   public Explain getExplain() {
     return explain;
@@ -139,6 +140,15 @@ public class SearchResult<T> implements Serializable {
 
   public SearchResult<T> setRenderingContent(RenderingContent renderingContent) {
     this.renderingContent = renderingContent;
+    return this;
+  }
+
+  public Integer getAbTestID() {
+    return abTestID;
+  }
+
+  public SearchResult<T> setAbTestID(Integer abTestID) {
+    this.abTestID = abTestID;
     return this;
   }
 
@@ -398,6 +408,9 @@ public class SearchResult<T> implements Serializable {
         + '\''
         + ", renderingContent="
         + renderingContent
+        + '\''
+        + ", abTestID="
+        + abTestID
         + '}';
   }
 }
