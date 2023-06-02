@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [3.16.7](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.6...3.16.7) (2023-06-02)
+
+### Fix
+
+- **core**: http request timeout overflow (#785)
+- **search**: add abTestID to search result (#787)
+
+### Misc
+
+- update jackson to 2.14.3 (#786)
+
+
 ## [3.16.6](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.5...3.16.6) (2022-08-03)
 
 ### Fix
