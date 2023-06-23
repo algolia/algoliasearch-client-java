@@ -8,29 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** Object containing the events sent. */
-public class InsightEvents {
+/** InsightsEvents */
+public class InsightsEvents {
 
   @JsonProperty("events")
-  private List<InsightEvent> events = new ArrayList<>();
+  private List<EventsItems> events = new ArrayList<>();
 
-  public InsightEvents setEvents(List<InsightEvent> events) {
+  public InsightsEvents setEvents(List<EventsItems> events) {
     this.events = events;
     return this;
   }
 
-  public InsightEvents addEvents(InsightEvent eventsItem) {
+  public InsightsEvents addEvents(EventsItems eventsItem) {
     this.events.add(eventsItem);
     return this;
   }
 
   /**
-   * Array of events sent.
+   * List of click and conversion events. An event is an object representing a user interaction.
+   * Events have attributes that describe the interaction, such as an event name, a type, or a user
+   * token. Some attributes require other attributes to be declared, and some attributes can't be
+   * declared at the same time. **All** events must be valid, otherwise the API returns an error.
    *
    * @return events
    */
   @javax.annotation.Nonnull
-  public List<InsightEvent> getEvents() {
+  public List<EventsItems> getEvents() {
     return events;
   }
 
@@ -42,8 +45,8 @@ public class InsightEvents {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InsightEvents insightEvents = (InsightEvents) o;
-    return Objects.equals(this.events, insightEvents.events);
+    InsightsEvents insightsEvents = (InsightsEvents) o;
+    return Objects.equals(this.events, insightsEvents.events);
   }
 
   @Override
@@ -54,7 +57,7 @@ public class InsightEvents {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InsightEvents {\n");
+    sb.append("class InsightsEvents {\n");
     sb.append("    events: ").append(toIndentedString(events)).append("\n");
     sb.append("}");
     return sb.toString();

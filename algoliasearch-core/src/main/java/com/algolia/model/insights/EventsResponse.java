@@ -6,25 +6,43 @@ package com.algolia.model.insights;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Objects;
 
-/** PushEventsResponse */
-public class PushEventsResponse {
+/** The response of the Insights API. */
+public class EventsResponse {
 
   @JsonProperty("message")
   private String message;
 
-  public PushEventsResponse setMessage(String message) {
+  @JsonProperty("status")
+  private Integer status;
+
+  public EventsResponse setMessage(String message) {
     this.message = message;
     return this;
   }
 
   /**
-   * A message confirming the event push.
+   * Details about the response, such as error messages.
    *
    * @return message
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getMessage() {
     return message;
+  }
+
+  public EventsResponse setStatus(Integer status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * The HTTP status code of the response.
+   *
+   * @return status
+   */
+  @javax.annotation.Nullable
+  public Integer getStatus() {
+    return status;
   }
 
   @Override
@@ -35,20 +53,21 @@ public class PushEventsResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PushEventsResponse pushEventsResponse = (PushEventsResponse) o;
-    return Objects.equals(this.message, pushEventsResponse.message);
+    EventsResponse eventsResponse = (EventsResponse) o;
+    return Objects.equals(this.message, eventsResponse.message) && Objects.equals(this.status, eventsResponse.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(message);
+    return Objects.hash(message, status);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PushEventsResponse {\n");
+    sb.append("class EventsResponse {\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }

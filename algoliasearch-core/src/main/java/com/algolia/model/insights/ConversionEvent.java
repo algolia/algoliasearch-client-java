@@ -7,17 +7,13 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/** Gets or Sets eventType */
-public enum EventType {
-  CLICK("click"),
-
-  CONVERSION("conversion"),
-
-  VIEW("view");
+/** Gets or Sets ConversionEvent */
+public enum ConversionEvent {
+  CONVERSION("conversion");
 
   private final String value;
 
-  EventType(String value) {
+  ConversionEvent(String value) {
     this.value = value;
   }
 
@@ -32,8 +28,8 @@ public enum EventType {
   }
 
   @JsonCreator
-  public static EventType fromValue(String value) {
-    for (EventType b : EventType.values()) {
+  public static ConversionEvent fromValue(String value) {
+    for (ConversionEvent b : ConversionEvent.values()) {
       if (b.value.equals(value)) {
         return b;
       }
