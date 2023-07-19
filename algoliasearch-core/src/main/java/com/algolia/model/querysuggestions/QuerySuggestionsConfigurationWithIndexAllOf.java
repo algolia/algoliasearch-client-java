@@ -6,19 +6,19 @@ package com.algolia.model.querysuggestions;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Objects;
 
-/** IndexName */
-public class IndexName {
+/** QuerySuggestionsConfigurationWithIndexAllOf */
+public class QuerySuggestionsConfigurationWithIndexAllOf {
 
   @JsonProperty("indexName")
   private String indexName;
 
-  public IndexName setIndexName(String indexName) {
+  public QuerySuggestionsConfigurationWithIndexAllOf setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
 
   /**
-   * Index name to target.
+   * Query Suggestions index name.
    *
    * @return indexName
    */
@@ -35,8 +35,9 @@ public class IndexName {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    IndexName indexName = (IndexName) o;
-    return Objects.equals(this.indexName, indexName.indexName);
+    QuerySuggestionsConfigurationWithIndexAllOf querySuggestionsConfigurationWithIndexAllOf =
+      (QuerySuggestionsConfigurationWithIndexAllOf) o;
+    return Objects.equals(this.indexName, querySuggestionsConfigurationWithIndexAllOf.indexName);
   }
 
   @Override
@@ -47,7 +48,7 @@ public class IndexName {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class IndexName {\n");
+    sb.append("class QuerySuggestionsConfigurationWithIndexAllOf {\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("}");
     return sb.toString();

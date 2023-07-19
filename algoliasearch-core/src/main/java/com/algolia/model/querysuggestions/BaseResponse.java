@@ -6,8 +6,8 @@ package com.algolia.model.querysuggestions;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Objects;
 
-/** SuccessResponse */
-public class SuccessResponse {
+/** BaseResponse */
+public class BaseResponse {
 
   @JsonProperty("status")
   private Integer status;
@@ -15,32 +15,32 @@ public class SuccessResponse {
   @JsonProperty("message")
   private String message;
 
-  public SuccessResponse setStatus(Integer status) {
+  public BaseResponse setStatus(Integer status) {
     this.status = status;
     return this;
   }
 
   /**
-   * Status code.
+   * HTTP status code.
    *
    * @return status
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Integer getStatus() {
     return status;
   }
 
-  public SuccessResponse setMessage(String message) {
+  public BaseResponse setMessage(String message) {
     this.message = message;
     return this;
   }
 
   /**
-   * Response message.
+   * Details about the response, such as error messages.
    *
    * @return message
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getMessage() {
     return message;
   }
@@ -53,8 +53,8 @@ public class SuccessResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SuccessResponse successResponse = (SuccessResponse) o;
-    return Objects.equals(this.status, successResponse.status) && Objects.equals(this.message, successResponse.message);
+    BaseResponse baseResponse = (BaseResponse) o;
+    return Objects.equals(this.status, baseResponse.status) && Objects.equals(this.message, baseResponse.message);
   }
 
   @Override
@@ -65,7 +65,7 @@ public class SuccessResponse {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SuccessResponse {\n");
+    sb.append("class BaseResponse {\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");

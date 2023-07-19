@@ -6,8 +6,8 @@ package com.algolia.model.querysuggestions;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Objects;
 
-/** LogFile */
-public class LogFile {
+/** GetLogFile200Response */
+public class GetLogFile200Response {
 
   @JsonProperty("timestamp")
   private String timestamp;
@@ -21,22 +21,22 @@ public class LogFile {
   @JsonProperty("contextLevel")
   private Integer contextLevel;
 
-  public LogFile setTimestamp(String timestamp) {
+  public GetLogFile200Response setTimestamp(String timestamp) {
     this.timestamp = timestamp;
     return this;
   }
 
   /**
-   * date and time of creation of the record.
+   * Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
    *
    * @return timestamp
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getTimestamp() {
     return timestamp;
   }
 
-  public LogFile setLevel(LogLevel level) {
+  public GetLogFile200Response setLevel(LogLevel level) {
     this.level = level;
     return this;
   }
@@ -46,38 +46,39 @@ public class LogFile {
    *
    * @return level
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public LogLevel getLevel() {
     return level;
   }
 
-  public LogFile setMessage(String message) {
+  public GetLogFile200Response setMessage(String message) {
     this.message = message;
     return this;
   }
 
   /**
-   * detailed description of what happened.
+   * Details about this log entry.
    *
    * @return message
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getMessage() {
     return message;
   }
 
-  public LogFile setContextLevel(Integer contextLevel) {
+  public GetLogFile200Response setContextLevel(Integer contextLevel) {
     this.contextLevel = contextLevel;
     return this;
   }
 
   /**
-   * indicates the hierarchy of the records. For example, a record with contextLevel=1 belongs to a
-   * preceding record with contextLevel=0.
+   * Level indicating the position of a suggestion in a hierarchy of records. For example, a
+   * `contextLevel` of 1 indicates that this suggestion belongs to a previous suggestion with
+   * `contextLevel` 0.
    *
    * @return contextLevel
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Integer getContextLevel() {
     return contextLevel;
   }
@@ -90,12 +91,12 @@ public class LogFile {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LogFile logFile = (LogFile) o;
+    GetLogFile200Response getLogFile200Response = (GetLogFile200Response) o;
     return (
-      Objects.equals(this.timestamp, logFile.timestamp) &&
-      Objects.equals(this.level, logFile.level) &&
-      Objects.equals(this.message, logFile.message) &&
-      Objects.equals(this.contextLevel, logFile.contextLevel)
+      Objects.equals(this.timestamp, getLogFile200Response.timestamp) &&
+      Objects.equals(this.level, getLogFile200Response.level) &&
+      Objects.equals(this.message, getLogFile200Response.message) &&
+      Objects.equals(this.contextLevel, getLogFile200Response.contextLevel)
     );
   }
 
@@ -107,7 +108,7 @@ public class LogFile {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LogFile {\n");
+    sb.append("class GetLogFile200Response {\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    level: ").append(toIndentedString(level)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
