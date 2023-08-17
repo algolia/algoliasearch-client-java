@@ -6,16 +6,31 @@ package com.algolia.model.recommend;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Objects;
 
-/** BaseRecommendationRequest */
-public class BaseRecommendationRequest {
+/** BaseTrendingFacetsQuery */
+public class BaseTrendingFacetsQuery {
+
+  @JsonProperty("facetName")
+  private String facetName;
 
   @JsonProperty("model")
-  private RecommendationModels model;
+  private TrendingFacetsModel model;
 
-  @JsonProperty("objectID")
-  private String objectID;
+  public BaseTrendingFacetsQuery setFacetName(String facetName) {
+    this.facetName = facetName;
+    return this;
+  }
 
-  public BaseRecommendationRequest setModel(RecommendationModels model) {
+  /**
+   * Facet name for trending models.
+   *
+   * @return facetName
+   */
+  @javax.annotation.Nonnull
+  public String getFacetName() {
+    return facetName;
+  }
+
+  public BaseTrendingFacetsQuery setModel(TrendingFacetsModel model) {
     this.model = model;
     return this;
   }
@@ -25,24 +40,9 @@ public class BaseRecommendationRequest {
    *
    * @return model
    */
-  @javax.annotation.Nonnull
-  public RecommendationModels getModel() {
+  @javax.annotation.Nullable
+  public TrendingFacetsModel getModel() {
     return model;
-  }
-
-  public BaseRecommendationRequest setObjectID(String objectID) {
-    this.objectID = objectID;
-    return this;
-  }
-
-  /**
-   * Unique object identifier.
-   *
-   * @return objectID
-   */
-  @javax.annotation.Nonnull
-  public String getObjectID() {
-    return objectID;
   }
 
   @Override
@@ -53,21 +53,21 @@ public class BaseRecommendationRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BaseRecommendationRequest baseRecommendationRequest = (BaseRecommendationRequest) o;
-    return Objects.equals(this.model, baseRecommendationRequest.model) && Objects.equals(this.objectID, baseRecommendationRequest.objectID);
+    BaseTrendingFacetsQuery baseTrendingFacetsQuery = (BaseTrendingFacetsQuery) o;
+    return Objects.equals(this.facetName, baseTrendingFacetsQuery.facetName) && Objects.equals(this.model, baseTrendingFacetsQuery.model);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(model, objectID);
+    return Objects.hash(facetName, model);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BaseRecommendationRequest {\n");
+    sb.append("class BaseTrendingFacetsQuery {\n");
+    sb.append("    facetName: ").append(toIndentedString(facetName)).append("\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
-    sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -6,14 +6,20 @@ package com.algolia.model.recommend;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Objects;
 
-/** RecommendationRequest */
-public class RecommendationRequest {
+/** RecommendationsQuery */
+public class RecommendationsQuery {
 
   @JsonProperty("model")
   private RecommendationModels model;
 
   @JsonProperty("objectID")
   private String objectID;
+
+  @JsonProperty("queryParameters")
+  private SearchParamsObject queryParameters;
+
+  @JsonProperty("fallbackParameters")
+  private SearchParamsObject fallbackParameters;
 
   @JsonProperty("indexName")
   private String indexName;
@@ -24,13 +30,7 @@ public class RecommendationRequest {
   @JsonProperty("maxRecommendations")
   private Integer maxRecommendations;
 
-  @JsonProperty("queryParameters")
-  private SearchParamsObject queryParameters;
-
-  @JsonProperty("fallbackParameters")
-  private SearchParamsObject fallbackParameters;
-
-  public RecommendationRequest setModel(RecommendationModels model) {
+  public RecommendationsQuery setModel(RecommendationModels model) {
     this.model = model;
     return this;
   }
@@ -45,7 +45,7 @@ public class RecommendationRequest {
     return model;
   }
 
-  public RecommendationRequest setObjectID(String objectID) {
+  public RecommendationsQuery setObjectID(String objectID) {
     this.objectID = objectID;
     return this;
   }
@@ -60,54 +60,7 @@ public class RecommendationRequest {
     return objectID;
   }
 
-  public RecommendationRequest setIndexName(String indexName) {
-    this.indexName = indexName;
-    return this;
-  }
-
-  /**
-   * Algolia index name.
-   *
-   * @return indexName
-   */
-  @javax.annotation.Nonnull
-  public String getIndexName() {
-    return indexName;
-  }
-
-  public RecommendationRequest setThreshold(Integer threshold) {
-    this.threshold = threshold;
-    return this;
-  }
-
-  /**
-   * Recommendations with a confidence score lower than `threshold` won't appear in results. >
-   * **Note**: Each recommendation has a confidence score of 0 to 100. The closer the score is to
-   * 100, the more relevant the recommendations are. minimum: 0 maximum: 100
-   *
-   * @return threshold
-   */
-  @javax.annotation.Nonnull
-  public Integer getThreshold() {
-    return threshold;
-  }
-
-  public RecommendationRequest setMaxRecommendations(Integer maxRecommendations) {
-    this.maxRecommendations = maxRecommendations;
-    return this;
-  }
-
-  /**
-   * Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
-   *
-   * @return maxRecommendations
-   */
-  @javax.annotation.Nullable
-  public Integer getMaxRecommendations() {
-    return maxRecommendations;
-  }
-
-  public RecommendationRequest setQueryParameters(SearchParamsObject queryParameters) {
+  public RecommendationsQuery setQueryParameters(SearchParamsObject queryParameters) {
     this.queryParameters = queryParameters;
     return this;
   }
@@ -122,7 +75,7 @@ public class RecommendationRequest {
     return queryParameters;
   }
 
-  public RecommendationRequest setFallbackParameters(SearchParamsObject fallbackParameters) {
+  public RecommendationsQuery setFallbackParameters(SearchParamsObject fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
@@ -137,6 +90,53 @@ public class RecommendationRequest {
     return fallbackParameters;
   }
 
+  public RecommendationsQuery setIndexName(String indexName) {
+    this.indexName = indexName;
+    return this;
+  }
+
+  /**
+   * Algolia index name.
+   *
+   * @return indexName
+   */
+  @javax.annotation.Nonnull
+  public String getIndexName() {
+    return indexName;
+  }
+
+  public RecommendationsQuery setThreshold(Integer threshold) {
+    this.threshold = threshold;
+    return this;
+  }
+
+  /**
+   * Recommendations with a confidence score lower than `threshold` won't appear in results. >
+   * **Note**: Each recommendation has a confidence score of 0 to 100. The closer the score is to
+   * 100, the more relevant the recommendations are. minimum: 0 maximum: 100
+   *
+   * @return threshold
+   */
+  @javax.annotation.Nullable
+  public Integer getThreshold() {
+    return threshold;
+  }
+
+  public RecommendationsQuery setMaxRecommendations(Integer maxRecommendations) {
+    this.maxRecommendations = maxRecommendations;
+    return this;
+  }
+
+  /**
+   * Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
+   *
+   * @return maxRecommendations
+   */
+  @javax.annotation.Nullable
+  public Integer getMaxRecommendations() {
+    return maxRecommendations;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -145,34 +145,34 @@ public class RecommendationRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RecommendationRequest recommendationRequest = (RecommendationRequest) o;
+    RecommendationsQuery recommendationsQuery = (RecommendationsQuery) o;
     return (
-      Objects.equals(this.model, recommendationRequest.model) &&
-      Objects.equals(this.objectID, recommendationRequest.objectID) &&
-      Objects.equals(this.indexName, recommendationRequest.indexName) &&
-      Objects.equals(this.threshold, recommendationRequest.threshold) &&
-      Objects.equals(this.maxRecommendations, recommendationRequest.maxRecommendations) &&
-      Objects.equals(this.queryParameters, recommendationRequest.queryParameters) &&
-      Objects.equals(this.fallbackParameters, recommendationRequest.fallbackParameters)
+      Objects.equals(this.model, recommendationsQuery.model) &&
+      Objects.equals(this.objectID, recommendationsQuery.objectID) &&
+      Objects.equals(this.queryParameters, recommendationsQuery.queryParameters) &&
+      Objects.equals(this.fallbackParameters, recommendationsQuery.fallbackParameters) &&
+      Objects.equals(this.indexName, recommendationsQuery.indexName) &&
+      Objects.equals(this.threshold, recommendationsQuery.threshold) &&
+      Objects.equals(this.maxRecommendations, recommendationsQuery.maxRecommendations)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(model, objectID, indexName, threshold, maxRecommendations, queryParameters, fallbackParameters);
+    return Objects.hash(model, objectID, queryParameters, fallbackParameters, indexName, threshold, maxRecommendations);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RecommendationRequest {\n");
+    sb.append("class RecommendationsQuery {\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
     sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
+    sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
+    sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    threshold: ").append(toIndentedString(threshold)).append("\n");
     sb.append("    maxRecommendations: ").append(toIndentedString(maxRecommendations)).append("\n");
-    sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
-    sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("}");
     return sb.toString();
   }

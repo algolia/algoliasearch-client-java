@@ -6,8 +6,14 @@ package com.algolia.model.recommend;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Objects;
 
-/** BaseRecommendRequest */
-public class BaseRecommendRequest {
+/** TrendingFacetsQuery */
+public class TrendingFacetsQuery {
+
+  @JsonProperty("facetName")
+  private String facetName;
+
+  @JsonProperty("model")
+  private TrendingFacetsModel model;
 
   @JsonProperty("indexName")
   private String indexName;
@@ -18,7 +24,37 @@ public class BaseRecommendRequest {
   @JsonProperty("maxRecommendations")
   private Integer maxRecommendations;
 
-  public BaseRecommendRequest setIndexName(String indexName) {
+  public TrendingFacetsQuery setFacetName(String facetName) {
+    this.facetName = facetName;
+    return this;
+  }
+
+  /**
+   * Facet name for trending models.
+   *
+   * @return facetName
+   */
+  @javax.annotation.Nonnull
+  public String getFacetName() {
+    return facetName;
+  }
+
+  public TrendingFacetsQuery setModel(TrendingFacetsModel model) {
+    this.model = model;
+    return this;
+  }
+
+  /**
+   * Get model
+   *
+   * @return model
+   */
+  @javax.annotation.Nullable
+  public TrendingFacetsModel getModel() {
+    return model;
+  }
+
+  public TrendingFacetsQuery setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
@@ -33,7 +69,7 @@ public class BaseRecommendRequest {
     return indexName;
   }
 
-  public BaseRecommendRequest setThreshold(Integer threshold) {
+  public TrendingFacetsQuery setThreshold(Integer threshold) {
     this.threshold = threshold;
     return this;
   }
@@ -50,7 +86,7 @@ public class BaseRecommendRequest {
     return threshold;
   }
 
-  public BaseRecommendRequest setMaxRecommendations(Integer maxRecommendations) {
+  public TrendingFacetsQuery setMaxRecommendations(Integer maxRecommendations) {
     this.maxRecommendations = maxRecommendations;
     return this;
   }
@@ -73,23 +109,27 @@ public class BaseRecommendRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BaseRecommendRequest baseRecommendRequest = (BaseRecommendRequest) o;
+    TrendingFacetsQuery trendingFacetsQuery = (TrendingFacetsQuery) o;
     return (
-      Objects.equals(this.indexName, baseRecommendRequest.indexName) &&
-      Objects.equals(this.threshold, baseRecommendRequest.threshold) &&
-      Objects.equals(this.maxRecommendations, baseRecommendRequest.maxRecommendations)
+      Objects.equals(this.facetName, trendingFacetsQuery.facetName) &&
+      Objects.equals(this.model, trendingFacetsQuery.model) &&
+      Objects.equals(this.indexName, trendingFacetsQuery.indexName) &&
+      Objects.equals(this.threshold, trendingFacetsQuery.threshold) &&
+      Objects.equals(this.maxRecommendations, trendingFacetsQuery.maxRecommendations)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indexName, threshold, maxRecommendations);
+    return Objects.hash(facetName, model, indexName, threshold, maxRecommendations);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BaseRecommendRequest {\n");
+    sb.append("class TrendingFacetsQuery {\n");
+    sb.append("    facetName: ").append(toIndentedString(facetName)).append("\n");
+    sb.append("    model: ").append(toIndentedString(model)).append("\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    threshold: ").append(toIndentedString(threshold)).append("\n");
     sb.append("    maxRecommendations: ").append(toIndentedString(maxRecommendations)).append("\n");

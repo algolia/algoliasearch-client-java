@@ -7,15 +7,13 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/** Trending model. */
-public enum TrendingModels {
-  FACETS("trending-facets"),
-
-  ITEMS("trending-items");
+/** Trending items model. */
+public enum TrendingItemsModel {
+  TRENDING_ITEMS("trending-items");
 
   private final String value;
 
-  TrendingModels(String value) {
+  TrendingItemsModel(String value) {
     this.value = value;
   }
 
@@ -30,8 +28,8 @@ public enum TrendingModels {
   }
 
   @JsonCreator
-  public static TrendingModels fromValue(String value) {
-    for (TrendingModels b : TrendingModels.values()) {
+  public static TrendingItemsModel fromValue(String value) {
+    for (TrendingItemsModel b : TrendingItemsModel.values()) {
       if (b.value.equals(value)) {
         return b;
       }

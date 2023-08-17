@@ -6,17 +6,23 @@ package com.algolia.model.recommend;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Objects;
 
-/** TrendingRequest */
-public class TrendingRequest {
-
-  @JsonProperty("model")
-  private TrendingModels model;
+/** TrendingItemsQuery */
+public class TrendingItemsQuery {
 
   @JsonProperty("facetName")
   private String facetName;
 
   @JsonProperty("facetValue")
   private String facetValue;
+
+  @JsonProperty("model")
+  private TrendingItemsModel model;
+
+  @JsonProperty("queryParameters")
+  private SearchParamsObject queryParameters;
+
+  @JsonProperty("fallbackParameters")
+  private SearchParamsObject fallbackParameters;
 
   @JsonProperty("indexName")
   private String indexName;
@@ -27,28 +33,7 @@ public class TrendingRequest {
   @JsonProperty("maxRecommendations")
   private Integer maxRecommendations;
 
-  @JsonProperty("queryParameters")
-  private SearchParamsObject queryParameters;
-
-  @JsonProperty("fallbackParameters")
-  private SearchParamsObject fallbackParameters;
-
-  public TrendingRequest setModel(TrendingModels model) {
-    this.model = model;
-    return this;
-  }
-
-  /**
-   * Get model
-   *
-   * @return model
-   */
-  @javax.annotation.Nonnull
-  public TrendingModels getModel() {
-    return model;
-  }
-
-  public TrendingRequest setFacetName(String facetName) {
+  public TrendingItemsQuery setFacetName(String facetName) {
     this.facetName = facetName;
     return this;
   }
@@ -63,7 +48,7 @@ public class TrendingRequest {
     return facetName;
   }
 
-  public TrendingRequest setFacetValue(String facetValue) {
+  public TrendingItemsQuery setFacetValue(String facetValue) {
     this.facetValue = facetValue;
     return this;
   }
@@ -78,54 +63,22 @@ public class TrendingRequest {
     return facetValue;
   }
 
-  public TrendingRequest setIndexName(String indexName) {
-    this.indexName = indexName;
+  public TrendingItemsQuery setModel(TrendingItemsModel model) {
+    this.model = model;
     return this;
   }
 
   /**
-   * Algolia index name.
+   * Get model
    *
-   * @return indexName
-   */
-  @javax.annotation.Nonnull
-  public String getIndexName() {
-    return indexName;
-  }
-
-  public TrendingRequest setThreshold(Integer threshold) {
-    this.threshold = threshold;
-    return this;
-  }
-
-  /**
-   * Recommendations with a confidence score lower than `threshold` won't appear in results. >
-   * **Note**: Each recommendation has a confidence score of 0 to 100. The closer the score is to
-   * 100, the more relevant the recommendations are. minimum: 0 maximum: 100
-   *
-   * @return threshold
-   */
-  @javax.annotation.Nonnull
-  public Integer getThreshold() {
-    return threshold;
-  }
-
-  public TrendingRequest setMaxRecommendations(Integer maxRecommendations) {
-    this.maxRecommendations = maxRecommendations;
-    return this;
-  }
-
-  /**
-   * Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
-   *
-   * @return maxRecommendations
+   * @return model
    */
   @javax.annotation.Nullable
-  public Integer getMaxRecommendations() {
-    return maxRecommendations;
+  public TrendingItemsModel getModel() {
+    return model;
   }
 
-  public TrendingRequest setQueryParameters(SearchParamsObject queryParameters) {
+  public TrendingItemsQuery setQueryParameters(SearchParamsObject queryParameters) {
     this.queryParameters = queryParameters;
     return this;
   }
@@ -140,7 +93,7 @@ public class TrendingRequest {
     return queryParameters;
   }
 
-  public TrendingRequest setFallbackParameters(SearchParamsObject fallbackParameters) {
+  public TrendingItemsQuery setFallbackParameters(SearchParamsObject fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
@@ -155,6 +108,53 @@ public class TrendingRequest {
     return fallbackParameters;
   }
 
+  public TrendingItemsQuery setIndexName(String indexName) {
+    this.indexName = indexName;
+    return this;
+  }
+
+  /**
+   * Algolia index name.
+   *
+   * @return indexName
+   */
+  @javax.annotation.Nonnull
+  public String getIndexName() {
+    return indexName;
+  }
+
+  public TrendingItemsQuery setThreshold(Integer threshold) {
+    this.threshold = threshold;
+    return this;
+  }
+
+  /**
+   * Recommendations with a confidence score lower than `threshold` won't appear in results. >
+   * **Note**: Each recommendation has a confidence score of 0 to 100. The closer the score is to
+   * 100, the more relevant the recommendations are. minimum: 0 maximum: 100
+   *
+   * @return threshold
+   */
+  @javax.annotation.Nullable
+  public Integer getThreshold() {
+    return threshold;
+  }
+
+  public TrendingItemsQuery setMaxRecommendations(Integer maxRecommendations) {
+    this.maxRecommendations = maxRecommendations;
+    return this;
+  }
+
+  /**
+   * Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
+   *
+   * @return maxRecommendations
+   */
+  @javax.annotation.Nullable
+  public Integer getMaxRecommendations() {
+    return maxRecommendations;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -163,36 +163,36 @@ public class TrendingRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TrendingRequest trendingRequest = (TrendingRequest) o;
+    TrendingItemsQuery trendingItemsQuery = (TrendingItemsQuery) o;
     return (
-      Objects.equals(this.model, trendingRequest.model) &&
-      Objects.equals(this.facetName, trendingRequest.facetName) &&
-      Objects.equals(this.facetValue, trendingRequest.facetValue) &&
-      Objects.equals(this.indexName, trendingRequest.indexName) &&
-      Objects.equals(this.threshold, trendingRequest.threshold) &&
-      Objects.equals(this.maxRecommendations, trendingRequest.maxRecommendations) &&
-      Objects.equals(this.queryParameters, trendingRequest.queryParameters) &&
-      Objects.equals(this.fallbackParameters, trendingRequest.fallbackParameters)
+      Objects.equals(this.facetName, trendingItemsQuery.facetName) &&
+      Objects.equals(this.facetValue, trendingItemsQuery.facetValue) &&
+      Objects.equals(this.model, trendingItemsQuery.model) &&
+      Objects.equals(this.queryParameters, trendingItemsQuery.queryParameters) &&
+      Objects.equals(this.fallbackParameters, trendingItemsQuery.fallbackParameters) &&
+      Objects.equals(this.indexName, trendingItemsQuery.indexName) &&
+      Objects.equals(this.threshold, trendingItemsQuery.threshold) &&
+      Objects.equals(this.maxRecommendations, trendingItemsQuery.maxRecommendations)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(model, facetName, facetValue, indexName, threshold, maxRecommendations, queryParameters, fallbackParameters);
+    return Objects.hash(facetName, facetValue, model, queryParameters, fallbackParameters, indexName, threshold, maxRecommendations);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TrendingRequest {\n");
-    sb.append("    model: ").append(toIndentedString(model)).append("\n");
+    sb.append("class TrendingItemsQuery {\n");
     sb.append("    facetName: ").append(toIndentedString(facetName)).append("\n");
     sb.append("    facetValue: ").append(toIndentedString(facetValue)).append("\n");
+    sb.append("    model: ").append(toIndentedString(model)).append("\n");
+    sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
+    sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    threshold: ").append(toIndentedString(threshold)).append("\n");
     sb.append("    maxRecommendations: ").append(toIndentedString(maxRecommendations)).append("\n");
-    sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
-    sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("}");
     return sb.toString();
   }
