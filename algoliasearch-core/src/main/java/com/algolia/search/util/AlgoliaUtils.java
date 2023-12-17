@@ -1,10 +1,9 @@
 package com.algolia.search.util;
 
+import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
-import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -66,16 +65,22 @@ public class AlgoliaUtils {
      * annotations using Jackson's {@link BeanDescription}
      */
     protected static boolean containsObjectID(BeanDescription introspection) {
-        return introspection.findProperties().stream().anyMatch(d -> PROPERTY_OBJECT_ID.equals(d.getName()));
+        return introspection.findProperties().stream()
+                .filter(d -> d.getPrimaryType().isTypeOrSubTypeOf(String.class))
+                .anyMatch(d -> PROPERTY_OBJECT_ID.equals(d.getName()));
     }
 
     /**
      * Introspection of the class using Jackson
      */
     protected static <T> BeanDescription introspectClass(Class<T> clazz) {
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = getMapper();
         JavaType type = mapper.getTypeFactory().constructType(clazz);
         return mapper.getSerializationConfig().introspect(type);
+    }
+
+    private static ObjectMapper getMapper() {
+        return Defaults.getObjectMapper();
     }
 
     /**
@@ -85,8 +90,9 @@ public class AlgoliaUtils {
      *                                 annotation @JsonProperty(\"objectID\"")
      */
     public static <T> String getObjectID(@Nonnull T data) {
-        return Optional.ofNullable(new ObjectMapper().valueToTree(data)
-                .get(PROPERTY_OBJECT_ID))
+        return Optional.ofNullable(getMapper().valueToTree(data)
+                        .get(PROPERTY_OBJECT_ID))
+                .filter(JsonNode::isTextual)
                 .map(JsonNode::asText)
                 .orElseThrow(() -> objectIDNotFoundException(data.getClass()));
     }

@@ -88,13 +88,26 @@ class AlgoliaUtilsTest {
      * To test if {@link ObjectMapper} fails because of missing type converters
      */
     protected static class SomeClassWithInvalidObjectIDType extends BaseClass {
-        public SomeNonTextualObject someNonTextualObject = new SomeNonTextualObject();
+        public SomeNonTextualObject objectID = new SomeNonTextualObject();
 
         protected static class SomeNonTextualObject {
         }
 
         @Override
         public void set(String objectId) {
+        }
+    }
+
+    /**
+     * Although this would theoretically work, we only allowing Strings
+     */
+    protected static class SomeClassWithPublicFieldOfTypeInt extends BaseClass {
+
+        public int objectID;
+
+        @Override
+        public void set(String objectId) {
+            this.objectID = Integer.parseInt(objectId);
         }
     }
 
@@ -122,13 +135,16 @@ class AlgoliaUtilsTest {
     }
 
     @Test
-    void containsObjectID_WithInvalidType_ThrowsError() {
+    void containsObjectID_WithInvalidType_ReturnsFalse() {
         BeanDescription introspection = AlgoliaUtils.introspectClass(SomeClassWithInvalidObjectIDType.class);
         assertFalse(AlgoliaUtils.containsObjectID(introspection));
     }
 
-    @Test
-    void getObjectID_WithInvalidType_ThrowsError() {
-        assertThrows(AlgoliaRuntimeException.class, () -> AlgoliaUtils.getObjectID(new SomeClassWithInvalidObjectIDType()));
+    @ParameterizedTest
+    @ValueSource(classes = {SomeClassWithInvalidObjectIDType.class, SomeClassWithPublicFieldOfTypeInt.class})
+    void getObjectID_WithInvalidType_ThrowsError(Class<? extends SetObjectId> clazz) throws Exception {
+        SetObjectId instance = clazz.getDeclaredConstructor().newInstance();
+        instance.set("1234");
+        assertThrows(AlgoliaRuntimeException.class, () -> AlgoliaUtils.getObjectID(instance));
     }
 }
