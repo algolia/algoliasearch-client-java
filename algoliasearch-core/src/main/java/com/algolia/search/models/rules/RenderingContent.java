@@ -11,6 +11,7 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RenderingContent implements Serializable {
   private FacetOrdering facetOrdering;
+  private Redirect redirect;
 
   public RenderingContent() {}
 
@@ -24,6 +25,15 @@ public class RenderingContent implements Serializable {
 
   public RenderingContent setFacetOrdering(FacetOrdering facetOrdering) {
     this.facetOrdering = facetOrdering;
+    return this;
+  }
+
+  public Redirect getRedirect() {
+    return redirect;
+  }
+
+  public RenderingContent setRedirect(Redirect redirect) {
+    this.redirect = redirect;
     return this;
   }
 
@@ -42,6 +52,6 @@ public class RenderingContent implements Serializable {
 
   @Override
   public String toString() {
-    return "RenderingContent{" + "facetOrdering=" + facetOrdering + '}';
+    return "RenderingContent{" + "facetOrdering=" + facetOrdering + ", redirect=" + redirect + '}';
   }
 }
