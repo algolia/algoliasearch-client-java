@@ -1,5 +1,12 @@
 # ChangeLog
 
+## [3.16.8](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.7...3.16.8) (2023-12-20)
+
+### Fix
+
+- **rules**: add redirect to RenderingContent (#793)
+
+
 ## [3.16.7](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.6...3.16.7) (2023-06-02)
 
 ### Fix
