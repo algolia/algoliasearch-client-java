@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/** RecommendationsResponse */
-public class RecommendationsResponse {
+/** RecommendationsResults */
+public class RecommendationsResults {
 
   @JsonProperty("abTestID")
   private Integer abTestID;
@@ -96,7 +96,7 @@ public class RecommendationsResponse {
   private Object userData;
 
   @JsonProperty("hits")
-  private List<RecommendHit> hits = new ArrayList<>();
+  private List<RecommendationsHit> hits = new ArrayList<>();
 
   @JsonProperty("query")
   private String query;
@@ -104,7 +104,7 @@ public class RecommendationsResponse {
   @JsonProperty("params")
   private String params;
 
-  public RecommendationsResponse setAbTestID(Integer abTestID) {
+  public RecommendationsResults setAbTestID(Integer abTestID) {
     this.abTestID = abTestID;
     return this;
   }
@@ -117,7 +117,7 @@ public class RecommendationsResponse {
     return abTestID;
   }
 
-  public RecommendationsResponse setAbTestVariantID(Integer abTestVariantID) {
+  public RecommendationsResults setAbTestVariantID(Integer abTestVariantID) {
     this.abTestVariantID = abTestVariantID;
     return this;
   }
@@ -131,7 +131,7 @@ public class RecommendationsResponse {
     return abTestVariantID;
   }
 
-  public RecommendationsResponse setAroundLatLng(String aroundLatLng) {
+  public RecommendationsResults setAroundLatLng(String aroundLatLng) {
     this.aroundLatLng = aroundLatLng;
     return this;
   }
@@ -142,7 +142,7 @@ public class RecommendationsResponse {
     return aroundLatLng;
   }
 
-  public RecommendationsResponse setAutomaticRadius(String automaticRadius) {
+  public RecommendationsResults setAutomaticRadius(String automaticRadius) {
     this.automaticRadius = automaticRadius;
     return this;
   }
@@ -153,7 +153,7 @@ public class RecommendationsResponse {
     return automaticRadius;
   }
 
-  public RecommendationsResponse setExhaustive(Exhaustive exhaustive) {
+  public RecommendationsResults setExhaustive(Exhaustive exhaustive) {
     this.exhaustive = exhaustive;
     return this;
   }
@@ -164,7 +164,7 @@ public class RecommendationsResponse {
     return exhaustive;
   }
 
-  public RecommendationsResponse setExhaustiveFacetsCount(Boolean exhaustiveFacetsCount) {
+  public RecommendationsResults setExhaustiveFacetsCount(Boolean exhaustiveFacetsCount) {
     this.exhaustiveFacetsCount = exhaustiveFacetsCount;
     return this;
   }
@@ -180,7 +180,7 @@ public class RecommendationsResponse {
     return exhaustiveFacetsCount;
   }
 
-  public RecommendationsResponse setExhaustiveNbHits(Boolean exhaustiveNbHits) {
+  public RecommendationsResults setExhaustiveNbHits(Boolean exhaustiveNbHits) {
     this.exhaustiveNbHits = exhaustiveNbHits;
     return this;
   }
@@ -196,7 +196,7 @@ public class RecommendationsResponse {
     return exhaustiveNbHits;
   }
 
-  public RecommendationsResponse setExhaustiveTypo(Boolean exhaustiveTypo) {
+  public RecommendationsResults setExhaustiveTypo(Boolean exhaustiveTypo) {
     this.exhaustiveTypo = exhaustiveTypo;
     return this;
   }
@@ -212,12 +212,12 @@ public class RecommendationsResponse {
     return exhaustiveTypo;
   }
 
-  public RecommendationsResponse setFacets(Map<String, Map<String, Integer>> facets) {
+  public RecommendationsResults setFacets(Map<String, Map<String, Integer>> facets) {
     this.facets = facets;
     return this;
   }
 
-  public RecommendationsResponse putFacets(String key, Map<String, Integer> facetsItem) {
+  public RecommendationsResults putFacets(String key, Map<String, Integer> facetsItem) {
     if (this.facets == null) {
       this.facets = new HashMap<>();
     }
@@ -231,12 +231,12 @@ public class RecommendationsResponse {
     return facets;
   }
 
-  public RecommendationsResponse setFacetsStats(Map<String, FacetsStats> facetsStats) {
+  public RecommendationsResults setFacetsStats(Map<String, FacetsStats> facetsStats) {
     this.facetsStats = facetsStats;
     return this;
   }
 
-  public RecommendationsResponse putFacetsStats(String key, FacetsStats facetsStatsItem) {
+  public RecommendationsResults putFacetsStats(String key, FacetsStats facetsStatsItem) {
     if (this.facetsStats == null) {
       this.facetsStats = new HashMap<>();
     }
@@ -250,7 +250,7 @@ public class RecommendationsResponse {
     return facetsStats;
   }
 
-  public RecommendationsResponse setHitsPerPage(Integer hitsPerPage) {
+  public RecommendationsResults setHitsPerPage(Integer hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
   }
@@ -261,7 +261,7 @@ public class RecommendationsResponse {
     return hitsPerPage;
   }
 
-  public RecommendationsResponse setIndex(String index) {
+  public RecommendationsResults setIndex(String index) {
     this.index = index;
     return this;
   }
@@ -272,7 +272,7 @@ public class RecommendationsResponse {
     return index;
   }
 
-  public RecommendationsResponse setIndexUsed(String indexUsed) {
+  public RecommendationsResults setIndexUsed(String indexUsed) {
     this.indexUsed = indexUsed;
     return this;
   }
@@ -286,7 +286,7 @@ public class RecommendationsResponse {
     return indexUsed;
   }
 
-  public RecommendationsResponse setMessage(String message) {
+  public RecommendationsResults setMessage(String message) {
     this.message = message;
     return this;
   }
@@ -297,7 +297,7 @@ public class RecommendationsResponse {
     return message;
   }
 
-  public RecommendationsResponse setNbHits(Integer nbHits) {
+  public RecommendationsResults setNbHits(Integer nbHits) {
     this.nbHits = nbHits;
     return this;
   }
@@ -308,7 +308,7 @@ public class RecommendationsResponse {
     return nbHits;
   }
 
-  public RecommendationsResponse setNbPages(Integer nbPages) {
+  public RecommendationsResults setNbPages(Integer nbPages) {
     this.nbPages = nbPages;
     return this;
   }
@@ -319,7 +319,7 @@ public class RecommendationsResponse {
     return nbPages;
   }
 
-  public RecommendationsResponse setNbSortedHits(Integer nbSortedHits) {
+  public RecommendationsResults setNbSortedHits(Integer nbSortedHits) {
     this.nbSortedHits = nbSortedHits;
     return this;
   }
@@ -330,7 +330,7 @@ public class RecommendationsResponse {
     return nbSortedHits;
   }
 
-  public RecommendationsResponse setPage(Integer page) {
+  public RecommendationsResults setPage(Integer page) {
     this.page = page;
     return this;
   }
@@ -341,7 +341,7 @@ public class RecommendationsResponse {
     return page;
   }
 
-  public RecommendationsResponse setParsedQuery(String parsedQuery) {
+  public RecommendationsResults setParsedQuery(String parsedQuery) {
     this.parsedQuery = parsedQuery;
     return this;
   }
@@ -355,7 +355,7 @@ public class RecommendationsResponse {
     return parsedQuery;
   }
 
-  public RecommendationsResponse setProcessingTimeMS(Integer processingTimeMS) {
+  public RecommendationsResults setProcessingTimeMS(Integer processingTimeMS) {
     this.processingTimeMS = processingTimeMS;
     return this;
   }
@@ -366,7 +366,7 @@ public class RecommendationsResponse {
     return processingTimeMS;
   }
 
-  public RecommendationsResponse setProcessingTimingsMS(Object processingTimingsMS) {
+  public RecommendationsResults setProcessingTimingsMS(Object processingTimingsMS) {
     this.processingTimingsMS = processingTimingsMS;
     return this;
   }
@@ -380,7 +380,7 @@ public class RecommendationsResponse {
     return processingTimingsMS;
   }
 
-  public RecommendationsResponse setQueryAfterRemoval(String queryAfterRemoval) {
+  public RecommendationsResults setQueryAfterRemoval(String queryAfterRemoval) {
     this.queryAfterRemoval = queryAfterRemoval;
     return this;
   }
@@ -394,7 +394,7 @@ public class RecommendationsResponse {
     return queryAfterRemoval;
   }
 
-  public RecommendationsResponse setRedirect(Redirect redirect) {
+  public RecommendationsResults setRedirect(Redirect redirect) {
     this.redirect = redirect;
     return this;
   }
@@ -405,7 +405,7 @@ public class RecommendationsResponse {
     return redirect;
   }
 
-  public RecommendationsResponse setRenderingContent(RenderingContent renderingContent) {
+  public RecommendationsResults setRenderingContent(RenderingContent renderingContent) {
     this.renderingContent = renderingContent;
     return this;
   }
@@ -416,7 +416,7 @@ public class RecommendationsResponse {
     return renderingContent;
   }
 
-  public RecommendationsResponse setServerTimeMS(Integer serverTimeMS) {
+  public RecommendationsResults setServerTimeMS(Integer serverTimeMS) {
     this.serverTimeMS = serverTimeMS;
     return this;
   }
@@ -427,7 +427,7 @@ public class RecommendationsResponse {
     return serverTimeMS;
   }
 
-  public RecommendationsResponse setServerUsed(String serverUsed) {
+  public RecommendationsResults setServerUsed(String serverUsed) {
     this.serverUsed = serverUsed;
     return this;
   }
@@ -438,7 +438,7 @@ public class RecommendationsResponse {
     return serverUsed;
   }
 
-  public RecommendationsResponse setUserData(Object userData) {
+  public RecommendationsResults setUserData(Object userData) {
     this.userData = userData;
     return this;
   }
@@ -449,23 +449,23 @@ public class RecommendationsResponse {
     return userData;
   }
 
-  public RecommendationsResponse setHits(List<RecommendHit> hits) {
+  public RecommendationsResults setHits(List<RecommendationsHit> hits) {
     this.hits = hits;
     return this;
   }
 
-  public RecommendationsResponse addHits(RecommendHit hitsItem) {
+  public RecommendationsResults addHits(RecommendationsHit hitsItem) {
     this.hits.add(hitsItem);
     return this;
   }
 
   /** Get hits */
   @javax.annotation.Nonnull
-  public List<RecommendHit> getHits() {
+  public List<RecommendationsHit> getHits() {
     return hits;
   }
 
-  public RecommendationsResponse setQuery(String query) {
+  public RecommendationsResults setQuery(String query) {
     this.query = query;
     return this;
   }
@@ -476,7 +476,7 @@ public class RecommendationsResponse {
     return query;
   }
 
-  public RecommendationsResponse setParams(String params) {
+  public RecommendationsResults setParams(String params) {
     this.params = params;
     return this;
   }
@@ -495,38 +495,38 @@ public class RecommendationsResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RecommendationsResponse recommendationsResponse = (RecommendationsResponse) o;
+    RecommendationsResults recommendationsResults = (RecommendationsResults) o;
     return (
-      Objects.equals(this.abTestID, recommendationsResponse.abTestID) &&
-      Objects.equals(this.abTestVariantID, recommendationsResponse.abTestVariantID) &&
-      Objects.equals(this.aroundLatLng, recommendationsResponse.aroundLatLng) &&
-      Objects.equals(this.automaticRadius, recommendationsResponse.automaticRadius) &&
-      Objects.equals(this.exhaustive, recommendationsResponse.exhaustive) &&
-      Objects.equals(this.exhaustiveFacetsCount, recommendationsResponse.exhaustiveFacetsCount) &&
-      Objects.equals(this.exhaustiveNbHits, recommendationsResponse.exhaustiveNbHits) &&
-      Objects.equals(this.exhaustiveTypo, recommendationsResponse.exhaustiveTypo) &&
-      Objects.equals(this.facets, recommendationsResponse.facets) &&
-      Objects.equals(this.facetsStats, recommendationsResponse.facetsStats) &&
-      Objects.equals(this.hitsPerPage, recommendationsResponse.hitsPerPage) &&
-      Objects.equals(this.index, recommendationsResponse.index) &&
-      Objects.equals(this.indexUsed, recommendationsResponse.indexUsed) &&
-      Objects.equals(this.message, recommendationsResponse.message) &&
-      Objects.equals(this.nbHits, recommendationsResponse.nbHits) &&
-      Objects.equals(this.nbPages, recommendationsResponse.nbPages) &&
-      Objects.equals(this.nbSortedHits, recommendationsResponse.nbSortedHits) &&
-      Objects.equals(this.page, recommendationsResponse.page) &&
-      Objects.equals(this.parsedQuery, recommendationsResponse.parsedQuery) &&
-      Objects.equals(this.processingTimeMS, recommendationsResponse.processingTimeMS) &&
-      Objects.equals(this.processingTimingsMS, recommendationsResponse.processingTimingsMS) &&
-      Objects.equals(this.queryAfterRemoval, recommendationsResponse.queryAfterRemoval) &&
-      Objects.equals(this.redirect, recommendationsResponse.redirect) &&
-      Objects.equals(this.renderingContent, recommendationsResponse.renderingContent) &&
-      Objects.equals(this.serverTimeMS, recommendationsResponse.serverTimeMS) &&
-      Objects.equals(this.serverUsed, recommendationsResponse.serverUsed) &&
-      Objects.equals(this.userData, recommendationsResponse.userData) &&
-      Objects.equals(this.hits, recommendationsResponse.hits) &&
-      Objects.equals(this.query, recommendationsResponse.query) &&
-      Objects.equals(this.params, recommendationsResponse.params)
+      Objects.equals(this.abTestID, recommendationsResults.abTestID) &&
+      Objects.equals(this.abTestVariantID, recommendationsResults.abTestVariantID) &&
+      Objects.equals(this.aroundLatLng, recommendationsResults.aroundLatLng) &&
+      Objects.equals(this.automaticRadius, recommendationsResults.automaticRadius) &&
+      Objects.equals(this.exhaustive, recommendationsResults.exhaustive) &&
+      Objects.equals(this.exhaustiveFacetsCount, recommendationsResults.exhaustiveFacetsCount) &&
+      Objects.equals(this.exhaustiveNbHits, recommendationsResults.exhaustiveNbHits) &&
+      Objects.equals(this.exhaustiveTypo, recommendationsResults.exhaustiveTypo) &&
+      Objects.equals(this.facets, recommendationsResults.facets) &&
+      Objects.equals(this.facetsStats, recommendationsResults.facetsStats) &&
+      Objects.equals(this.hitsPerPage, recommendationsResults.hitsPerPage) &&
+      Objects.equals(this.index, recommendationsResults.index) &&
+      Objects.equals(this.indexUsed, recommendationsResults.indexUsed) &&
+      Objects.equals(this.message, recommendationsResults.message) &&
+      Objects.equals(this.nbHits, recommendationsResults.nbHits) &&
+      Objects.equals(this.nbPages, recommendationsResults.nbPages) &&
+      Objects.equals(this.nbSortedHits, recommendationsResults.nbSortedHits) &&
+      Objects.equals(this.page, recommendationsResults.page) &&
+      Objects.equals(this.parsedQuery, recommendationsResults.parsedQuery) &&
+      Objects.equals(this.processingTimeMS, recommendationsResults.processingTimeMS) &&
+      Objects.equals(this.processingTimingsMS, recommendationsResults.processingTimingsMS) &&
+      Objects.equals(this.queryAfterRemoval, recommendationsResults.queryAfterRemoval) &&
+      Objects.equals(this.redirect, recommendationsResults.redirect) &&
+      Objects.equals(this.renderingContent, recommendationsResults.renderingContent) &&
+      Objects.equals(this.serverTimeMS, recommendationsResults.serverTimeMS) &&
+      Objects.equals(this.serverUsed, recommendationsResults.serverUsed) &&
+      Objects.equals(this.userData, recommendationsResults.userData) &&
+      Objects.equals(this.hits, recommendationsResults.hits) &&
+      Objects.equals(this.query, recommendationsResults.query) &&
+      Objects.equals(this.params, recommendationsResults.params)
     );
   }
 
@@ -569,7 +569,7 @@ public class RecommendationsResponse {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RecommendationsResponse {\n");
+    sb.append("class RecommendationsResults {\n");
     sb.append("    abTestID: ").append(toIndentedString(abTestID)).append("\n");
     sb.append("    abTestVariantID: ").append(toIndentedString(abTestVariantID)).append("\n");
     sb.append("    aroundLatLng: ").append(toIndentedString(aroundLatLng)).append("\n");

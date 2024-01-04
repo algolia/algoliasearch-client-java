@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** RecommendationsQuery */
-@JsonDeserialize(as = RecommendationsQuery.class)
-public class RecommendationsQuery implements RecommendationsRequest {
+/** RecommendedForYouQuery */
+@JsonDeserialize(as = RecommendedForYouQuery.class)
+public class RecommendedForYouQuery implements RecommendationsRequest {
 
   @JsonProperty("indexName")
   private String indexName;
@@ -21,18 +21,15 @@ public class RecommendationsQuery implements RecommendationsRequest {
   private Integer maxRecommendations;
 
   @JsonProperty("model")
-  private RecommendationModels model;
-
-  @JsonProperty("objectID")
-  private String objectID;
+  private RecommendedForYouModel model;
 
   @JsonProperty("queryParameters")
-  private SearchParamsObject queryParameters;
+  private RecommendedForYouQueryParameters queryParameters;
 
   @JsonProperty("fallbackParameters")
-  private SearchParamsObject fallbackParameters;
+  private RecommendedForYouQueryParameters fallbackParameters;
 
-  public RecommendationsQuery setIndexName(String indexName) {
+  public RecommendedForYouQuery setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
@@ -43,7 +40,7 @@ public class RecommendationsQuery implements RecommendationsRequest {
     return indexName;
   }
 
-  public RecommendationsQuery setThreshold(Integer threshold) {
+  public RecommendedForYouQuery setThreshold(Integer threshold) {
     this.threshold = threshold;
     return this;
   }
@@ -58,7 +55,7 @@ public class RecommendationsQuery implements RecommendationsRequest {
     return threshold;
   }
 
-  public RecommendationsQuery setMaxRecommendations(Integer maxRecommendations) {
+  public RecommendedForYouQuery setMaxRecommendations(Integer maxRecommendations) {
     this.maxRecommendations = maxRecommendations;
     return this;
   }
@@ -69,47 +66,36 @@ public class RecommendationsQuery implements RecommendationsRequest {
     return maxRecommendations;
   }
 
-  public RecommendationsQuery setModel(RecommendationModels model) {
+  public RecommendedForYouQuery setModel(RecommendedForYouModel model) {
     this.model = model;
     return this;
   }
 
   /** Get model */
   @javax.annotation.Nonnull
-  public RecommendationModels getModel() {
+  public RecommendedForYouModel getModel() {
     return model;
   }
 
-  public RecommendationsQuery setObjectID(String objectID) {
-    this.objectID = objectID;
-    return this;
-  }
-
-  /** Unique object identifier. */
-  @javax.annotation.Nonnull
-  public String getObjectID() {
-    return objectID;
-  }
-
-  public RecommendationsQuery setQueryParameters(SearchParamsObject queryParameters) {
+  public RecommendedForYouQuery setQueryParameters(RecommendedForYouQueryParameters queryParameters) {
     this.queryParameters = queryParameters;
     return this;
   }
 
   /** Get queryParameters */
   @javax.annotation.Nullable
-  public SearchParamsObject getQueryParameters() {
+  public RecommendedForYouQueryParameters getQueryParameters() {
     return queryParameters;
   }
 
-  public RecommendationsQuery setFallbackParameters(SearchParamsObject fallbackParameters) {
+  public RecommendedForYouQuery setFallbackParameters(RecommendedForYouQueryParameters fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
 
   /** Get fallbackParameters */
   @javax.annotation.Nullable
-  public SearchParamsObject getFallbackParameters() {
+  public RecommendedForYouQueryParameters getFallbackParameters() {
     return fallbackParameters;
   }
 
@@ -121,32 +107,30 @@ public class RecommendationsQuery implements RecommendationsRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RecommendationsQuery recommendationsQuery = (RecommendationsQuery) o;
+    RecommendedForYouQuery recommendedForYouQuery = (RecommendedForYouQuery) o;
     return (
-      Objects.equals(this.indexName, recommendationsQuery.indexName) &&
-      Objects.equals(this.threshold, recommendationsQuery.threshold) &&
-      Objects.equals(this.maxRecommendations, recommendationsQuery.maxRecommendations) &&
-      Objects.equals(this.model, recommendationsQuery.model) &&
-      Objects.equals(this.objectID, recommendationsQuery.objectID) &&
-      Objects.equals(this.queryParameters, recommendationsQuery.queryParameters) &&
-      Objects.equals(this.fallbackParameters, recommendationsQuery.fallbackParameters)
+      Objects.equals(this.indexName, recommendedForYouQuery.indexName) &&
+      Objects.equals(this.threshold, recommendedForYouQuery.threshold) &&
+      Objects.equals(this.maxRecommendations, recommendedForYouQuery.maxRecommendations) &&
+      Objects.equals(this.model, recommendedForYouQuery.model) &&
+      Objects.equals(this.queryParameters, recommendedForYouQuery.queryParameters) &&
+      Objects.equals(this.fallbackParameters, recommendedForYouQuery.fallbackParameters)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indexName, threshold, maxRecommendations, model, objectID, queryParameters, fallbackParameters);
+    return Objects.hash(indexName, threshold, maxRecommendations, model, queryParameters, fallbackParameters);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RecommendationsQuery {\n");
+    sb.append("class RecommendedForYouQuery {\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    threshold: ").append(toIndentedString(threshold)).append("\n");
     sb.append("    maxRecommendations: ").append(toIndentedString(maxRecommendations)).append("\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
-    sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
     sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
     sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("}");

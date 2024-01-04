@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** RecommendHits */
-public class RecommendHits {
+/** RecommendationsHits */
+public class RecommendationsHits {
 
   @JsonProperty("hits")
-  private List<RecommendHit> hits = new ArrayList<>();
+  private List<RecommendationsHit> hits = new ArrayList<>();
 
   @JsonProperty("query")
   private String query;
@@ -21,23 +21,23 @@ public class RecommendHits {
   @JsonProperty("params")
   private String params;
 
-  public RecommendHits setHits(List<RecommendHit> hits) {
+  public RecommendationsHits setHits(List<RecommendationsHit> hits) {
     this.hits = hits;
     return this;
   }
 
-  public RecommendHits addHits(RecommendHit hitsItem) {
+  public RecommendationsHits addHits(RecommendationsHit hitsItem) {
     this.hits.add(hitsItem);
     return this;
   }
 
   /** Get hits */
   @javax.annotation.Nonnull
-  public List<RecommendHit> getHits() {
+  public List<RecommendationsHit> getHits() {
     return hits;
   }
 
-  public RecommendHits setQuery(String query) {
+  public RecommendationsHits setQuery(String query) {
     this.query = query;
     return this;
   }
@@ -48,7 +48,7 @@ public class RecommendHits {
     return query;
   }
 
-  public RecommendHits setParams(String params) {
+  public RecommendationsHits setParams(String params) {
     this.params = params;
     return this;
   }
@@ -67,11 +67,11 @@ public class RecommendHits {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RecommendHits recommendHits = (RecommendHits) o;
+    RecommendationsHits recommendationsHits = (RecommendationsHits) o;
     return (
-      Objects.equals(this.hits, recommendHits.hits) &&
-      Objects.equals(this.query, recommendHits.query) &&
-      Objects.equals(this.params, recommendHits.params)
+      Objects.equals(this.hits, recommendationsHits.hits) &&
+      Objects.equals(this.query, recommendationsHits.query) &&
+      Objects.equals(this.params, recommendationsHits.params)
     );
   }
 
@@ -83,7 +83,7 @@ public class RecommendHits {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RecommendHits {\n");
+    sb.append("class RecommendationsHits {\n");
     sb.append("    hits: ").append(toIndentedString(hits)).append("\n");
     sb.append("    query: ").append(toIndentedString(query)).append("\n");
     sb.append("    params: ").append(toIndentedString(params)).append("\n");
