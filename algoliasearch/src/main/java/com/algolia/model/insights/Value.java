@@ -11,22 +11,22 @@ import com.fasterxml.jackson.databind.annotation.*;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-/** The absolute value of the discount for this product, in units of `currency`. */
-@JsonDeserialize(using = Discount.Deserializer.class)
-public interface Discount {
-  /** Discount as Double wrapper. */
-  static Discount of(Double value) {
+/** Total monetary value of this event in units of `currency`. */
+@JsonDeserialize(using = Value.Deserializer.class)
+public interface Value {
+  /** Value as Double wrapper. */
+  static Value of(Double value) {
     return new DoubleWrapper(value);
   }
 
-  /** Discount as String wrapper. */
-  static Discount of(String value) {
+  /** Value as String wrapper. */
+  static Value of(String value) {
     return new StringWrapper(value);
   }
 
-  /** Discount as Double wrapper. */
+  /** Value as Double wrapper. */
   @JsonSerialize(using = DoubleWrapper.Serializer.class)
-  class DoubleWrapper implements Discount {
+  class DoubleWrapper implements Value {
 
     private final Double value;
 
@@ -47,9 +47,9 @@ public interface Discount {
     }
   }
 
-  /** Discount as String wrapper. */
+  /** Value as String wrapper. */
   @JsonSerialize(using = StringWrapper.Serializer.class)
-  class StringWrapper implements Discount {
+  class StringWrapper implements Value {
 
     private final String value;
 
@@ -70,18 +70,18 @@ public interface Discount {
     }
   }
 
-  class Deserializer extends JsonDeserializer<Discount> {
+  class Deserializer extends JsonDeserializer<Value> {
 
     private static final Logger LOGGER = Logger.getLogger(Deserializer.class.getName());
 
     @Override
-    public Discount deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public Value deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       JsonNode tree = jp.readValueAsTree();
       // deserialize Double
       if (tree.isDouble()) {
         try (JsonParser parser = tree.traverse(jp.getCodec())) {
           Double value = parser.readValueAs(Double.class);
-          return new Discount.DoubleWrapper(value);
+          return new Value.DoubleWrapper(value);
         } catch (Exception e) {
           // deserialization failed, continue
           LOGGER.finest("Failed to deserialize oneOf Double (error: " + e.getMessage() + ") (type: Double)");
@@ -91,7 +91,7 @@ public interface Discount {
       if (tree.isTextual()) {
         try (JsonParser parser = tree.traverse(jp.getCodec())) {
           String value = parser.readValueAs(String.class);
-          return new Discount.StringWrapper(value);
+          return new Value.StringWrapper(value);
         } catch (Exception e) {
           // deserialization failed, continue
           LOGGER.finest("Failed to deserialize oneOf String (error: " + e.getMessage() + ") (type: String)");
@@ -102,8 +102,8 @@ public interface Discount {
 
     /** Handle deserialization of the 'null' value. */
     @Override
-    public Discount getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-      throw new JsonMappingException(ctxt.getParser(), "Discount cannot be null");
+    public Value getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+      throw new JsonMappingException(ctxt.getParser(), "Value cannot be null");
     }
   }
 }
