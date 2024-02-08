@@ -1,5 +1,12 @@
 # ChangeLog
 
+## [3.16.9](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.8...3.16.9) (2023-02-08)
+
+### Fix
+
+**apache**: Treat all I/O exceptions as network errors (#791)
+
+
 ## [3.16.8](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.7...3.16.8) (2023-12-20)
 
 ### Fix
