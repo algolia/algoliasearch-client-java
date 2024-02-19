@@ -88,11 +88,11 @@ public abstract class SearchTest {
         searchFacetFuture);
 
     assertThat(searchAlgoliaFuture.get().getHits()).hasSize(2);
-    assertThat(searchAlgoliaFuture.get().getObjectPosition("nicolas-dessaigne", Employee.class))
+    assertThat(searchAlgoliaFuture.get().getObjectPosition("nicolas-dessaigne"))
         .isEqualTo(0);
-    assertThat(searchAlgoliaFuture.get().getObjectPosition("julien-lemoine", Employee.class))
+    assertThat(searchAlgoliaFuture.get().getObjectPosition("julien-lemoine"))
         .isEqualTo(1);
-    assertThat(searchAlgoliaFuture.get().getObjectPosition("unknown", Employee.class))
+    assertThat(searchAlgoliaFuture.get().getObjectPosition("unknown"))
         .isEqualTo(-1);
     assertTrue(searchAlgoliaFuture.get().getExhaustiveNbHits());
     assertThat(searchElonFuture.get().getQueryID()).isNotNull();

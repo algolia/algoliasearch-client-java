@@ -480,7 +480,7 @@ public final class SearchIndex<T>
     Objects.requireNonNull(data, "Data is required.");
     Objects.requireNonNull(createIfNotExists, "createIfNotExists is required.");
 
-    String objectID = AlgoliaUtils.getObjectID(data, clazz);
+    String objectID = AlgoliaUtils.getObjectID(data);
 
     if (requestOptions == null) {
       requestOptions = new RequestOptions();
