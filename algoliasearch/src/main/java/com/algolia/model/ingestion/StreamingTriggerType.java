@@ -6,19 +6,13 @@ package com.algolia.model.ingestion;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 
-/** The action to perform on the Algolia index. */
-public enum ActionType {
-  REPLACE("replace"),
-
-  SAVE("save"),
-
-  PARTIAL("partial"),
-
-  APPEND("append");
+/** A task that runs continuously. */
+public enum StreamingTriggerType {
+  STREAMING("streaming");
 
   private final String value;
 
-  ActionType(String value) {
+  StreamingTriggerType(String value) {
     this.value = value;
   }
 
@@ -33,8 +27,8 @@ public enum ActionType {
   }
 
   @JsonCreator
-  public static ActionType fromValue(String value) {
-    for (ActionType b : ActionType.values()) {
+  public static StreamingTriggerType fromValue(String value) {
+    for (StreamingTriggerType b : StreamingTriggerType.values()) {
       if (b.value.equals(value)) {
         return b;
       }
