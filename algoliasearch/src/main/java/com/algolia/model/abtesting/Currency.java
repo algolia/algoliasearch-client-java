@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** CurrenciesValue */
-public class CurrenciesValue {
+/** Currency */
+public class Currency {
 
   @JsonProperty("currency")
   private String currency;
@@ -22,7 +22,7 @@ public class CurrenciesValue {
   @JsonProperty("standardDeviation")
   private Double standardDeviation;
 
-  public CurrenciesValue setCurrency(String currency) {
+  public Currency setCurrency(String currency) {
     this.currency = currency;
     return this;
   }
@@ -33,7 +33,7 @@ public class CurrenciesValue {
     return currency;
   }
 
-  public CurrenciesValue setRevenue(Double revenue) {
+  public Currency setRevenue(Double revenue) {
     this.revenue = revenue;
     return this;
   }
@@ -44,7 +44,7 @@ public class CurrenciesValue {
     return revenue;
   }
 
-  public CurrenciesValue setMean(Double mean) {
+  public Currency setMean(Double mean) {
     this.mean = mean;
     return this;
   }
@@ -55,7 +55,7 @@ public class CurrenciesValue {
     return mean;
   }
 
-  public CurrenciesValue setStandardDeviation(Double standardDeviation) {
+  public Currency setStandardDeviation(Double standardDeviation) {
     this.standardDeviation = standardDeviation;
     return this;
   }
@@ -74,12 +74,12 @@ public class CurrenciesValue {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CurrenciesValue currenciesValue = (CurrenciesValue) o;
+    Currency currency = (Currency) o;
     return (
-      Objects.equals(this.currency, currenciesValue.currency) &&
-      Objects.equals(this.revenue, currenciesValue.revenue) &&
-      Objects.equals(this.mean, currenciesValue.mean) &&
-      Objects.equals(this.standardDeviation, currenciesValue.standardDeviation)
+      Objects.equals(this.currency, currency.currency) &&
+      Objects.equals(this.revenue, currency.revenue) &&
+      Objects.equals(this.mean, currency.mean) &&
+      Objects.equals(this.standardDeviation, currency.standardDeviation)
     );
   }
 
@@ -91,7 +91,7 @@ public class CurrenciesValue {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CurrenciesValue {\n");
+    sb.append("class Currency {\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    revenue: ").append(toIndentedString(revenue)).append("\n");
     sb.append("    mean: ").append(toIndentedString(mean)).append("\n");

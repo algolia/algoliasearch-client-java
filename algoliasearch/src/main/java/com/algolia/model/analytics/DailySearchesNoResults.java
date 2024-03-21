@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** SearchNoClickEvent */
-public class SearchNoClickEvent {
+/** DailySearchesNoResults */
+public class DailySearchesNoResults {
 
   @JsonProperty("search")
   private String search;
@@ -19,18 +19,18 @@ public class SearchNoClickEvent {
   @JsonProperty("withFilterCount")
   private Integer withFilterCount;
 
-  public SearchNoClickEvent setSearch(String search) {
+  public DailySearchesNoResults setSearch(String search) {
     this.search = search;
     return this;
   }
 
-  /** User query. */
+  /** Search query. */
   @javax.annotation.Nonnull
   public String getSearch() {
     return search;
   }
 
-  public SearchNoClickEvent setCount(Integer count) {
+  public DailySearchesNoResults setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -41,12 +41,12 @@ public class SearchNoClickEvent {
     return count;
   }
 
-  public SearchNoClickEvent setWithFilterCount(Integer withFilterCount) {
+  public DailySearchesNoResults setWithFilterCount(Integer withFilterCount) {
     this.withFilterCount = withFilterCount;
     return this;
   }
 
-  /** Number of occurrences. */
+  /** Number of searches for this term with applied filters. minimum: 0 */
   @javax.annotation.Nonnull
   public Integer getWithFilterCount() {
     return withFilterCount;
@@ -60,11 +60,11 @@ public class SearchNoClickEvent {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SearchNoClickEvent searchNoClickEvent = (SearchNoClickEvent) o;
+    DailySearchesNoResults dailySearchesNoResults = (DailySearchesNoResults) o;
     return (
-      Objects.equals(this.search, searchNoClickEvent.search) &&
-      Objects.equals(this.count, searchNoClickEvent.count) &&
-      Objects.equals(this.withFilterCount, searchNoClickEvent.withFilterCount)
+      Objects.equals(this.search, dailySearchesNoResults.search) &&
+      Objects.equals(this.count, dailySearchesNoResults.count) &&
+      Objects.equals(this.withFilterCount, dailySearchesNoResults.withFilterCount)
     );
   }
 
@@ -76,7 +76,7 @@ public class SearchNoClickEvent {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SearchNoClickEvent {\n");
+    sb.append("class DailySearchesNoResults {\n");
     sb.append("    search: ").append(toIndentedString(search)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("    withFilterCount: ").append(toIndentedString(withFilterCount)).append("\n");

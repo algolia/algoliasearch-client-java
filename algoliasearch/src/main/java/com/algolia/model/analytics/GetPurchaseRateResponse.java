@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** GetConversationRateResponse */
-public class GetConversationRateResponse {
+/** GetPurchaseRateResponse */
+public class GetPurchaseRateResponse {
 
   @JsonProperty("rate")
   private Double rate;
@@ -18,65 +18,65 @@ public class GetConversationRateResponse {
   @JsonProperty("trackedSearchCount")
   private Integer trackedSearchCount;
 
-  @JsonProperty("conversionCount")
-  private Integer conversionCount;
+  @JsonProperty("purchaseCount")
+  private Integer purchaseCount;
 
   @JsonProperty("dates")
-  private List<ConversionRateEvent> dates = new ArrayList<>();
+  private List<DailyPurchaseRates> dates = new ArrayList<>();
 
-  public GetConversationRateResponse setRate(Double rate) {
+  public GetPurchaseRateResponse setRate(Double rate) {
     this.rate = rate;
     return this;
   }
 
   /**
-   * [Click-through rate
-   * (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-   * minimum: 0 maximum: 1
+   * Purchase rate, calculated as number of tracked searches with at least one purchase event
+   * divided by the number of tracked searches. If null, Algolia didn't receive any search requests
+   * with `clickAnalytics` set to true. minimum: 0 maximum: 1
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Double getRate() {
     return rate;
   }
 
-  public GetConversationRateResponse setTrackedSearchCount(Integer trackedSearchCount) {
+  public GetPurchaseRateResponse setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
 
   /**
-   * Number of tracked searches. This is the number of search requests where the `clickAnalytics`
-   * parameter is `true`.
+   * Number of tracked searches. Tracked searches are search requests where the `clickAnalytics`
+   * parameter is true.
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   public Integer getTrackedSearchCount() {
     return trackedSearchCount;
   }
 
-  public GetConversationRateResponse setConversionCount(Integer conversionCount) {
-    this.conversionCount = conversionCount;
+  public GetPurchaseRateResponse setPurchaseCount(Integer purchaseCount) {
+    this.purchaseCount = purchaseCount;
     return this;
   }
 
-  /** Number of converted clicks. */
+  /** Number of purchase events from this search. */
   @javax.annotation.Nonnull
-  public Integer getConversionCount() {
-    return conversionCount;
+  public Integer getPurchaseCount() {
+    return purchaseCount;
   }
 
-  public GetConversationRateResponse setDates(List<ConversionRateEvent> dates) {
+  public GetPurchaseRateResponse setDates(List<DailyPurchaseRates> dates) {
     this.dates = dates;
     return this;
   }
 
-  public GetConversationRateResponse addDates(ConversionRateEvent datesItem) {
+  public GetPurchaseRateResponse addDates(DailyPurchaseRates datesItem) {
     this.dates.add(datesItem);
     return this;
   }
 
-  /** Conversion events. */
+  /** Daily purchase rates. */
   @javax.annotation.Nonnull
-  public List<ConversionRateEvent> getDates() {
+  public List<DailyPurchaseRates> getDates() {
     return dates;
   }
 
@@ -88,27 +88,27 @@ public class GetConversationRateResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetConversationRateResponse getConversationRateResponse = (GetConversationRateResponse) o;
+    GetPurchaseRateResponse getPurchaseRateResponse = (GetPurchaseRateResponse) o;
     return (
-      Objects.equals(this.rate, getConversationRateResponse.rate) &&
-      Objects.equals(this.trackedSearchCount, getConversationRateResponse.trackedSearchCount) &&
-      Objects.equals(this.conversionCount, getConversationRateResponse.conversionCount) &&
-      Objects.equals(this.dates, getConversationRateResponse.dates)
+      Objects.equals(this.rate, getPurchaseRateResponse.rate) &&
+      Objects.equals(this.trackedSearchCount, getPurchaseRateResponse.trackedSearchCount) &&
+      Objects.equals(this.purchaseCount, getPurchaseRateResponse.purchaseCount) &&
+      Objects.equals(this.dates, getPurchaseRateResponse.dates)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rate, trackedSearchCount, conversionCount, dates);
+    return Objects.hash(rate, trackedSearchCount, purchaseCount, dates);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetConversationRateResponse {\n");
+    sb.append("class GetPurchaseRateResponse {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    trackedSearchCount: ").append(toIndentedString(trackedSearchCount)).append("\n");
-    sb.append("    conversionCount: ").append(toIndentedString(conversionCount)).append("\n");
+    sb.append("    purchaseCount: ").append(toIndentedString(purchaseCount)).append("\n");
     sb.append("    dates: ").append(toIndentedString(dates)).append("\n");
     sb.append("}");
     return sb.toString();

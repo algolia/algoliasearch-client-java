@@ -7,21 +7,27 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 
 /**
- * Attribute by which to order the response items. If the `clickAnalytics` parameter is false, only
- * `searchCount` is available.
+ * Character that characterizes how the filter is applied. For example, for a facet filter
+ * `facet:value`, `:` is the operator. For a numeric filter `count>50`, `>` is the operator.
  */
-public enum OrderBy {
-  SEARCH_COUNT("searchCount"),
+public enum Operator {
+  APPLY(":"),
 
-  CLICK_THROUGH_RATE("clickThroughRate"),
+  LESS_THAN("<"),
 
-  CONVERSION_RATE("conversionRate"),
+  LESS_EQUALS("<="),
 
-  AVERAGE_CLICK_POSITION("averageClickPosition");
+  EQUALS("="),
+
+  NOT_EQUALS("!="),
+
+  GREATER_THAN(">"),
+
+  GREATER_EQUALS(">=");
 
   private final String value;
 
-  OrderBy(String value) {
+  Operator(String value) {
     this.value = value;
   }
 
@@ -36,8 +42,8 @@ public enum OrderBy {
   }
 
   @JsonCreator
-  public static OrderBy fromValue(String value) {
-    for (OrderBy b : OrderBy.values()) {
+  public static Operator fromValue(String value) {
+    for (Operator b : Operator.values()) {
       if (b.value.equals(value)) {
         return b;
       }

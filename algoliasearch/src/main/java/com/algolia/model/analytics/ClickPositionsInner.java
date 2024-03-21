@@ -9,42 +9,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** ClickPosition */
-public class ClickPosition {
+/** Click position. */
+public class ClickPositionsInner {
 
   @JsonProperty("position")
-  private List<Integer> position = new ArrayList<>();
+  private List<Integer> position;
 
   @JsonProperty("clickCount")
   private Integer clickCount;
 
-  public ClickPosition setPosition(List<Integer> position) {
+  public ClickPositionsInner setPosition(List<Integer> position) {
     this.position = position;
     return this;
   }
 
-  public ClickPosition addPosition(Integer positionItem) {
+  public ClickPositionsInner addPosition(Integer positionItem) {
+    if (this.position == null) {
+      this.position = new ArrayList<>();
+    }
     this.position.add(positionItem);
     return this;
   }
 
   /**
-   * Range of positions with the following pattern: - For positions 1 to 10, the number of click
-   * events are shown for each position - For positions 11 to 20, all click events are grouped - For
-   * positions 21 and up, all click events are grouped.
+   * Range of positions in the search results, using the pattern `[start,end]`. For positions 11 and
+   * up, click events are summed over the specified range. `-1` indicates the end of the list of
+   * search results.
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public List<Integer> getPosition() {
     return position;
   }
 
-  public ClickPosition setClickCount(Integer clickCount) {
+  public ClickPositionsInner setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
 
-  /** Number of click events. */
-  @javax.annotation.Nonnull
+  /** Number of times this search has been clicked at that position. minimum: 0 */
+  @javax.annotation.Nullable
   public Integer getClickCount() {
     return clickCount;
   }
@@ -57,8 +60,8 @@ public class ClickPosition {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ClickPosition clickPosition = (ClickPosition) o;
-    return Objects.equals(this.position, clickPosition.position) && Objects.equals(this.clickCount, clickPosition.clickCount);
+    ClickPositionsInner clickPositionsInner = (ClickPositionsInner) o;
+    return Objects.equals(this.position, clickPositionsInner.position) && Objects.equals(this.clickCount, clickPositionsInner.clickCount);
   }
 
   @Override
@@ -69,7 +72,7 @@ public class ClickPosition {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ClickPosition {\n");
+    sb.append("class ClickPositionsInner {\n");
     sb.append("    position: ").append(toIndentedString(position)).append("\n");
     sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("}");

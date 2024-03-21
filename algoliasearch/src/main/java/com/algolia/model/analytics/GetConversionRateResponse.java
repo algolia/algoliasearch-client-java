@@ -9,28 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** GetClickThroughRateResponse */
-public class GetClickThroughRateResponse {
+/** GetConversionRateResponse */
+public class GetConversionRateResponse {
 
   @JsonProperty("rate")
   private Double rate;
 
-  @JsonProperty("clickCount")
-  private Integer clickCount;
-
   @JsonProperty("trackedSearchCount")
   private Integer trackedSearchCount;
 
-  @JsonProperty("dates")
-  private List<DailyClickThroughRates> dates = new ArrayList<>();
+  @JsonProperty("conversionCount")
+  private Integer conversionCount;
 
-  public GetClickThroughRateResponse setRate(Double rate) {
+  @JsonProperty("dates")
+  private List<DailyConversionRates> dates = new ArrayList<>();
+
+  public GetConversionRateResponse setRate(Double rate) {
     this.rate = rate;
     return this;
   }
 
   /**
-   * Click-through rate, calculated as number of tracked searches with at least one click event
+   * Conversion rate, calculated as number of tracked searches with at least one conversion event
    * divided by the number of tracked searches. If null, Algolia didn't receive any search requests
    * with `clickAnalytics` set to true. minimum: 0 maximum: 1
    */
@@ -39,18 +39,7 @@ public class GetClickThroughRateResponse {
     return rate;
   }
 
-  public GetClickThroughRateResponse setClickCount(Integer clickCount) {
-    this.clickCount = clickCount;
-    return this;
-  }
-
-  /** Number of clicks associated with this search. minimum: 0 */
-  @javax.annotation.Nonnull
-  public Integer getClickCount() {
-    return clickCount;
-  }
-
-  public GetClickThroughRateResponse setTrackedSearchCount(Integer trackedSearchCount) {
+  public GetConversionRateResponse setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
@@ -64,19 +53,30 @@ public class GetClickThroughRateResponse {
     return trackedSearchCount;
   }
 
-  public GetClickThroughRateResponse setDates(List<DailyClickThroughRates> dates) {
+  public GetConversionRateResponse setConversionCount(Integer conversionCount) {
+    this.conversionCount = conversionCount;
+    return this;
+  }
+
+  /** Number of conversions from this search. minimum: 0 */
+  @javax.annotation.Nonnull
+  public Integer getConversionCount() {
+    return conversionCount;
+  }
+
+  public GetConversionRateResponse setDates(List<DailyConversionRates> dates) {
     this.dates = dates;
     return this;
   }
 
-  public GetClickThroughRateResponse addDates(DailyClickThroughRates datesItem) {
+  public GetConversionRateResponse addDates(DailyConversionRates datesItem) {
     this.dates.add(datesItem);
     return this;
   }
 
-  /** Daily click-through rates. */
+  /** Daily conversion rates. */
   @javax.annotation.Nonnull
-  public List<DailyClickThroughRates> getDates() {
+  public List<DailyConversionRates> getDates() {
     return dates;
   }
 
@@ -88,27 +88,27 @@ public class GetClickThroughRateResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetClickThroughRateResponse getClickThroughRateResponse = (GetClickThroughRateResponse) o;
+    GetConversionRateResponse getConversionRateResponse = (GetConversionRateResponse) o;
     return (
-      Objects.equals(this.rate, getClickThroughRateResponse.rate) &&
-      Objects.equals(this.clickCount, getClickThroughRateResponse.clickCount) &&
-      Objects.equals(this.trackedSearchCount, getClickThroughRateResponse.trackedSearchCount) &&
-      Objects.equals(this.dates, getClickThroughRateResponse.dates)
+      Objects.equals(this.rate, getConversionRateResponse.rate) &&
+      Objects.equals(this.trackedSearchCount, getConversionRateResponse.trackedSearchCount) &&
+      Objects.equals(this.conversionCount, getConversionRateResponse.conversionCount) &&
+      Objects.equals(this.dates, getConversionRateResponse.dates)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rate, clickCount, trackedSearchCount, dates);
+    return Objects.hash(rate, trackedSearchCount, conversionCount, dates);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetClickThroughRateResponse {\n");
+    sb.append("class GetConversionRateResponse {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
-    sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("    trackedSearchCount: ").append(toIndentedString(trackedSearchCount)).append("\n");
+    sb.append("    conversionCount: ").append(toIndentedString(conversionCount)).append("\n");
     sb.append("    dates: ").append(toIndentedString(dates)).append("\n");
     sb.append("}");
     return sb.toString();

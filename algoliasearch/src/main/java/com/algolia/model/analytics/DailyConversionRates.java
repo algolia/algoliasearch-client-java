@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** ConversionRateEvent */
-public class ConversionRateEvent {
+/** DailyConversionRates */
+public class DailyConversionRates {
 
   @JsonProperty("rate")
   private Double rate;
@@ -22,52 +22,52 @@ public class ConversionRateEvent {
   @JsonProperty("date")
   private String date;
 
-  public ConversionRateEvent setRate(Double rate) {
+  public DailyConversionRates setRate(Double rate) {
     this.rate = rate;
     return this;
   }
 
   /**
-   * [Click-through rate
-   * (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-   * minimum: 0 maximum: 1
+   * Conversion rate, calculated as number of tracked searches with at least one conversion event
+   * divided by the number of tracked searches. If null, Algolia didn't receive any search requests
+   * with `clickAnalytics` set to true. minimum: 0 maximum: 1
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Double getRate() {
     return rate;
   }
 
-  public ConversionRateEvent setTrackedSearchCount(Integer trackedSearchCount) {
+  public DailyConversionRates setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
 
   /**
-   * Number of tracked searches. This is the number of search requests where the `clickAnalytics`
-   * parameter is `true`.
+   * Number of tracked searches. Tracked searches are search requests where the `clickAnalytics`
+   * parameter is true.
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   public Integer getTrackedSearchCount() {
     return trackedSearchCount;
   }
 
-  public ConversionRateEvent setConversionCount(Integer conversionCount) {
+  public DailyConversionRates setConversionCount(Integer conversionCount) {
     this.conversionCount = conversionCount;
     return this;
   }
 
-  /** Number of converted clicks. */
+  /** Number of conversions from this search. minimum: 0 */
   @javax.annotation.Nonnull
   public Integer getConversionCount() {
     return conversionCount;
   }
 
-  public ConversionRateEvent setDate(String date) {
+  public DailyConversionRates setDate(String date) {
     this.date = date;
     return this;
   }
 
-  /** Date of the event in the format YYYY-MM-DD. */
+  /** Date in the format YYYY-MM-DD. */
   @javax.annotation.Nonnull
   public String getDate() {
     return date;
@@ -81,12 +81,12 @@ public class ConversionRateEvent {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ConversionRateEvent conversionRateEvent = (ConversionRateEvent) o;
+    DailyConversionRates dailyConversionRates = (DailyConversionRates) o;
     return (
-      Objects.equals(this.rate, conversionRateEvent.rate) &&
-      Objects.equals(this.trackedSearchCount, conversionRateEvent.trackedSearchCount) &&
-      Objects.equals(this.conversionCount, conversionRateEvent.conversionCount) &&
-      Objects.equals(this.date, conversionRateEvent.date)
+      Objects.equals(this.rate, dailyConversionRates.rate) &&
+      Objects.equals(this.trackedSearchCount, dailyConversionRates.trackedSearchCount) &&
+      Objects.equals(this.conversionCount, dailyConversionRates.conversionCount) &&
+      Objects.equals(this.date, dailyConversionRates.date)
     );
   }
 
@@ -98,7 +98,7 @@ public class ConversionRateEvent {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ConversionRateEvent {\n");
+    sb.append("class DailyConversionRates {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    trackedSearchCount: ").append(toIndentedString(trackedSearchCount)).append("\n");
     sb.append("    conversionCount: ").append(toIndentedString(conversionCount)).append("\n");

@@ -9,28 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** GetClickThroughRateResponse */
-public class GetClickThroughRateResponse {
+/** GetAddToCartRateResponse */
+public class GetAddToCartRateResponse {
 
   @JsonProperty("rate")
   private Double rate;
 
-  @JsonProperty("clickCount")
-  private Integer clickCount;
-
   @JsonProperty("trackedSearchCount")
   private Integer trackedSearchCount;
 
-  @JsonProperty("dates")
-  private List<DailyClickThroughRates> dates = new ArrayList<>();
+  @JsonProperty("addToCartCount")
+  private Integer addToCartCount;
 
-  public GetClickThroughRateResponse setRate(Double rate) {
+  @JsonProperty("dates")
+  private List<DailyAddToCartRates> dates = new ArrayList<>();
+
+  public GetAddToCartRateResponse setRate(Double rate) {
     this.rate = rate;
     return this;
   }
 
   /**
-   * Click-through rate, calculated as number of tracked searches with at least one click event
+   * Add-to-cart rate, calculated as number of tracked searches with at least one add-to-cart event
    * divided by the number of tracked searches. If null, Algolia didn't receive any search requests
    * with `clickAnalytics` set to true. minimum: 0 maximum: 1
    */
@@ -39,18 +39,7 @@ public class GetClickThroughRateResponse {
     return rate;
   }
 
-  public GetClickThroughRateResponse setClickCount(Integer clickCount) {
-    this.clickCount = clickCount;
-    return this;
-  }
-
-  /** Number of clicks associated with this search. minimum: 0 */
-  @javax.annotation.Nonnull
-  public Integer getClickCount() {
-    return clickCount;
-  }
-
-  public GetClickThroughRateResponse setTrackedSearchCount(Integer trackedSearchCount) {
+  public GetAddToCartRateResponse setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
@@ -64,19 +53,30 @@ public class GetClickThroughRateResponse {
     return trackedSearchCount;
   }
 
-  public GetClickThroughRateResponse setDates(List<DailyClickThroughRates> dates) {
+  public GetAddToCartRateResponse setAddToCartCount(Integer addToCartCount) {
+    this.addToCartCount = addToCartCount;
+    return this;
+  }
+
+  /** Number of add-to-cart events from this search. minimum: 0 */
+  @javax.annotation.Nonnull
+  public Integer getAddToCartCount() {
+    return addToCartCount;
+  }
+
+  public GetAddToCartRateResponse setDates(List<DailyAddToCartRates> dates) {
     this.dates = dates;
     return this;
   }
 
-  public GetClickThroughRateResponse addDates(DailyClickThroughRates datesItem) {
+  public GetAddToCartRateResponse addDates(DailyAddToCartRates datesItem) {
     this.dates.add(datesItem);
     return this;
   }
 
-  /** Daily click-through rates. */
+  /** Daily add-to-cart rates. */
   @javax.annotation.Nonnull
-  public List<DailyClickThroughRates> getDates() {
+  public List<DailyAddToCartRates> getDates() {
     return dates;
   }
 
@@ -88,27 +88,27 @@ public class GetClickThroughRateResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetClickThroughRateResponse getClickThroughRateResponse = (GetClickThroughRateResponse) o;
+    GetAddToCartRateResponse getAddToCartRateResponse = (GetAddToCartRateResponse) o;
     return (
-      Objects.equals(this.rate, getClickThroughRateResponse.rate) &&
-      Objects.equals(this.clickCount, getClickThroughRateResponse.clickCount) &&
-      Objects.equals(this.trackedSearchCount, getClickThroughRateResponse.trackedSearchCount) &&
-      Objects.equals(this.dates, getClickThroughRateResponse.dates)
+      Objects.equals(this.rate, getAddToCartRateResponse.rate) &&
+      Objects.equals(this.trackedSearchCount, getAddToCartRateResponse.trackedSearchCount) &&
+      Objects.equals(this.addToCartCount, getAddToCartRateResponse.addToCartCount) &&
+      Objects.equals(this.dates, getAddToCartRateResponse.dates)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rate, clickCount, trackedSearchCount, dates);
+    return Objects.hash(rate, trackedSearchCount, addToCartCount, dates);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetClickThroughRateResponse {\n");
+    sb.append("class GetAddToCartRateResponse {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
-    sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("    trackedSearchCount: ").append(toIndentedString(trackedSearchCount)).append("\n");
+    sb.append("    addToCartCount: ").append(toIndentedString(addToCartCount)).append("\n");
     sb.append("    dates: ").append(toIndentedString(dates)).append("\n");
     sb.append("}");
     return sb.toString();

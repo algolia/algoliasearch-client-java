@@ -9,26 +9,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** TopHitsResponseWithAnalytics */
-@JsonDeserialize(as = TopHitsResponseWithAnalytics.class)
-public class TopHitsResponseWithAnalytics implements GetTopHitsResponse {
+/** TopHitsResponseWithRevenueAnalytics */
+@JsonDeserialize(as = TopHitsResponseWithRevenueAnalytics.class)
+public class TopHitsResponseWithRevenueAnalytics implements GetTopHitsResponse {
 
   @JsonProperty("hits")
-  private List<TopHitWithAnalytics> hits = new ArrayList<>();
+  private List<TopHitWithRevenueAnalytics> hits = new ArrayList<>();
 
-  public TopHitsResponseWithAnalytics setHits(List<TopHitWithAnalytics> hits) {
+  public TopHitsResponseWithRevenueAnalytics setHits(List<TopHitWithRevenueAnalytics> hits) {
     this.hits = hits;
     return this;
   }
 
-  public TopHitsResponseWithAnalytics addHits(TopHitWithAnalytics hitsItem) {
+  public TopHitsResponseWithRevenueAnalytics addHits(TopHitWithRevenueAnalytics hitsItem) {
     this.hits.add(hitsItem);
     return this;
   }
 
-  /** Most frequent search results with click and conversion metrics. */
+  /** Most frequent search results with click, conversion, and revenue metrics. */
   @javax.annotation.Nonnull
-  public List<TopHitWithAnalytics> getHits() {
+  public List<TopHitWithRevenueAnalytics> getHits() {
     return hits;
   }
 
@@ -40,8 +40,8 @@ public class TopHitsResponseWithAnalytics implements GetTopHitsResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TopHitsResponseWithAnalytics topHitsResponseWithAnalytics = (TopHitsResponseWithAnalytics) o;
-    return Objects.equals(this.hits, topHitsResponseWithAnalytics.hits);
+    TopHitsResponseWithRevenueAnalytics topHitsResponseWithRevenueAnalytics = (TopHitsResponseWithRevenueAnalytics) o;
+    return Objects.equals(this.hits, topHitsResponseWithRevenueAnalytics.hits);
   }
 
   @Override
@@ -52,7 +52,7 @@ public class TopHitsResponseWithAnalytics implements GetTopHitsResponse {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TopHitsResponseWithAnalytics {\n");
+    sb.append("class TopHitsResponseWithRevenueAnalytics {\n");
     sb.append("    hits: ").append(toIndentedString(hits)).append("\n");
     sb.append("}");
     return sb.toString();

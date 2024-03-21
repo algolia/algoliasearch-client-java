@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** ClickThroughRateEvent */
-public class ClickThroughRateEvent {
+/** DailyClickThroughRates */
+public class DailyClickThroughRates {
 
   @JsonProperty("rate")
   private Double rate;
@@ -22,52 +22,52 @@ public class ClickThroughRateEvent {
   @JsonProperty("date")
   private String date;
 
-  public ClickThroughRateEvent setRate(Double rate) {
+  public DailyClickThroughRates setRate(Double rate) {
     this.rate = rate;
     return this;
   }
 
   /**
-   * [Click-through rate
-   * (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-   * minimum: 0 maximum: 1
+   * Click-through rate, calculated as number of tracked searches with at least one click event
+   * divided by the number of tracked searches. If null, Algolia didn't receive any search requests
+   * with `clickAnalytics` set to true. minimum: 0 maximum: 1
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Double getRate() {
     return rate;
   }
 
-  public ClickThroughRateEvent setClickCount(Integer clickCount) {
+  public DailyClickThroughRates setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
 
-  /** Number of click events. */
+  /** Number of clicks associated with this search. minimum: 0 */
   @javax.annotation.Nonnull
   public Integer getClickCount() {
     return clickCount;
   }
 
-  public ClickThroughRateEvent setTrackedSearchCount(Integer trackedSearchCount) {
+  public DailyClickThroughRates setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
 
   /**
-   * Number of tracked searches. This is the number of search requests where the `clickAnalytics`
-   * parameter is `true`.
+   * Number of tracked searches. Tracked searches are search requests where the `clickAnalytics`
+   * parameter is true.
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   public Integer getTrackedSearchCount() {
     return trackedSearchCount;
   }
 
-  public ClickThroughRateEvent setDate(String date) {
+  public DailyClickThroughRates setDate(String date) {
     this.date = date;
     return this;
   }
 
-  /** Date of the event in the format YYYY-MM-DD. */
+  /** Date in the format YYYY-MM-DD. */
   @javax.annotation.Nonnull
   public String getDate() {
     return date;
@@ -81,12 +81,12 @@ public class ClickThroughRateEvent {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ClickThroughRateEvent clickThroughRateEvent = (ClickThroughRateEvent) o;
+    DailyClickThroughRates dailyClickThroughRates = (DailyClickThroughRates) o;
     return (
-      Objects.equals(this.rate, clickThroughRateEvent.rate) &&
-      Objects.equals(this.clickCount, clickThroughRateEvent.clickCount) &&
-      Objects.equals(this.trackedSearchCount, clickThroughRateEvent.trackedSearchCount) &&
-      Objects.equals(this.date, clickThroughRateEvent.date)
+      Objects.equals(this.rate, dailyClickThroughRates.rate) &&
+      Objects.equals(this.clickCount, dailyClickThroughRates.clickCount) &&
+      Objects.equals(this.trackedSearchCount, dailyClickThroughRates.trackedSearchCount) &&
+      Objects.equals(this.date, dailyClickThroughRates.date)
     );
   }
 
@@ -98,7 +98,7 @@ public class ClickThroughRateEvent {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ClickThroughRateEvent {\n");
+    sb.append("class DailyClickThroughRates {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("    trackedSearchCount: ").append(toIndentedString(trackedSearchCount)).append("\n");

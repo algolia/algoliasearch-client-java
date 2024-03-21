@@ -6,42 +6,49 @@ package com.algolia.model.analytics;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-/** GetSearchesCountResponse */
-public class GetSearchesCountResponse {
+/** GetRevenue */
+public class GetRevenue {
 
-  @JsonProperty("count")
-  private Integer count;
+  @JsonProperty("currencies")
+  private Map<String, CurrenciesValue> currencies = new HashMap<>();
 
   @JsonProperty("dates")
-  private List<DailySearches> dates = new ArrayList<>();
+  private List<DailyRevenue> dates = new ArrayList<>();
 
-  public GetSearchesCountResponse setCount(Integer count) {
-    this.count = count;
+  public GetRevenue setCurrencies(Map<String, CurrenciesValue> currencies) {
+    this.currencies = currencies;
     return this;
   }
 
-  /** Number of occurrences. */
-  @javax.annotation.Nonnull
-  public Integer getCount() {
-    return count;
+  public GetRevenue putCurrencies(String key, CurrenciesValue currenciesItem) {
+    this.currencies.put(key, currenciesItem);
+    return this;
   }
 
-  public GetSearchesCountResponse setDates(List<DailySearches> dates) {
+  /** Revenue associated with this search, broken-down by currencies. */
+  @javax.annotation.Nonnull
+  public Map<String, CurrenciesValue> getCurrencies() {
+    return currencies;
+  }
+
+  public GetRevenue setDates(List<DailyRevenue> dates) {
     this.dates = dates;
     return this;
   }
 
-  public GetSearchesCountResponse addDates(DailySearches datesItem) {
+  public GetRevenue addDates(DailyRevenue datesItem) {
     this.dates.add(datesItem);
     return this;
   }
 
-  /** Daily number of searches. */
+  /** Daily revenue. */
   @javax.annotation.Nonnull
-  public List<DailySearches> getDates() {
+  public List<DailyRevenue> getDates() {
     return dates;
   }
 
@@ -53,20 +60,20 @@ public class GetSearchesCountResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetSearchesCountResponse getSearchesCountResponse = (GetSearchesCountResponse) o;
-    return Objects.equals(this.count, getSearchesCountResponse.count) && Objects.equals(this.dates, getSearchesCountResponse.dates);
+    GetRevenue getRevenue = (GetRevenue) o;
+    return Objects.equals(this.currencies, getRevenue.currencies) && Objects.equals(this.dates, getRevenue.dates);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(count, dates);
+    return Objects.hash(currencies, dates);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetSearchesCountResponse {\n");
-    sb.append("    count: ").append(toIndentedString(count)).append("\n");
+    sb.append("class GetRevenue {\n");
+    sb.append("    currencies: ").append(toIndentedString(currencies)).append("\n");
     sb.append("    dates: ").append(toIndentedString(dates)).append("\n");
     sb.append("}");
     return sb.toString();

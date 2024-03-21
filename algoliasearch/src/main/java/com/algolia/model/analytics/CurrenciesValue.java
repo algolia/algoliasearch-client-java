@@ -7,35 +7,35 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** TopHit */
-public class TopHit {
+/** Currency code. */
+public class CurrenciesValue {
 
-  @JsonProperty("hit")
-  private String hit;
+  @JsonProperty("currency")
+  private String currency;
 
-  @JsonProperty("count")
-  private Integer count;
+  @JsonProperty("revenue")
+  private Float revenue;
 
-  public TopHit setHit(String hit) {
-    this.hit = hit;
+  public CurrenciesValue setCurrency(String currency) {
+    this.currency = currency;
     return this;
   }
 
-  /** Object ID of a record that's returned as a search result. */
-  @javax.annotation.Nonnull
-  public String getHit() {
-    return hit;
+  /** Currency code. */
+  @javax.annotation.Nullable
+  public String getCurrency() {
+    return currency;
   }
 
-  public TopHit setCount(Integer count) {
-    this.count = count;
+  public CurrenciesValue setRevenue(Float revenue) {
+    this.revenue = revenue;
     return this;
   }
 
-  /** Number of occurrences. */
-  @javax.annotation.Nonnull
-  public Integer getCount() {
-    return count;
+  /** Revenue associated with this search in this currency. */
+  @javax.annotation.Nullable
+  public Float getRevenue() {
+    return revenue;
   }
 
   @Override
@@ -46,21 +46,21 @@ public class TopHit {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TopHit topHit = (TopHit) o;
-    return Objects.equals(this.hit, topHit.hit) && Objects.equals(this.count, topHit.count);
+    CurrenciesValue currenciesValue = (CurrenciesValue) o;
+    return Objects.equals(this.currency, currenciesValue.currency) && Objects.equals(this.revenue, currenciesValue.revenue);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hit, count);
+    return Objects.hash(currency, revenue);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TopHit {\n");
-    sb.append("    hit: ").append(toIndentedString(hit)).append("\n");
-    sb.append("    count: ").append(toIndentedString(count)).append("\n");
+    sb.append("class CurrenciesValue {\n");
+    sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
+    sb.append("    revenue: ").append(toIndentedString(revenue)).append("\n");
     sb.append("}");
     return sb.toString();
   }

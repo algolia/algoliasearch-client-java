@@ -6,11 +6,13 @@ package com.algolia.model.analytics;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-/** TopSearchWithAnalytics */
-public class TopSearchWithAnalytics {
+/** TopSearchWithRevenueAnalytics */
+public class TopSearchWithRevenueAnalytics {
 
   @JsonProperty("search")
   private String search;
@@ -42,7 +44,22 @@ public class TopSearchWithAnalytics {
   @JsonProperty("nbHits")
   private Integer nbHits;
 
-  public TopSearchWithAnalytics setSearch(String search) {
+  @JsonProperty("currencies")
+  private Map<String, CurrenciesValue> currencies = new HashMap<>();
+
+  @JsonProperty("addToCartRate")
+  private Double addToCartRate;
+
+  @JsonProperty("addToCartCount")
+  private Integer addToCartCount;
+
+  @JsonProperty("purchaseRate")
+  private Double purchaseRate;
+
+  @JsonProperty("purchaseCount")
+  private Integer purchaseCount;
+
+  public TopSearchWithRevenueAnalytics setSearch(String search) {
     this.search = search;
     return this;
   }
@@ -53,7 +70,7 @@ public class TopSearchWithAnalytics {
     return search;
   }
 
-  public TopSearchWithAnalytics setCount(Integer count) {
+  public TopSearchWithRevenueAnalytics setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -64,7 +81,7 @@ public class TopSearchWithAnalytics {
     return count;
   }
 
-  public TopSearchWithAnalytics setClickThroughRate(Double clickThroughRate) {
+  public TopSearchWithRevenueAnalytics setClickThroughRate(Double clickThroughRate) {
     this.clickThroughRate = clickThroughRate;
     return this;
   }
@@ -79,7 +96,7 @@ public class TopSearchWithAnalytics {
     return clickThroughRate;
   }
 
-  public TopSearchWithAnalytics setAverageClickPosition(Double averageClickPosition) {
+  public TopSearchWithRevenueAnalytics setAverageClickPosition(Double averageClickPosition) {
     this.averageClickPosition = averageClickPosition;
     return this;
   }
@@ -93,12 +110,12 @@ public class TopSearchWithAnalytics {
     return averageClickPosition;
   }
 
-  public TopSearchWithAnalytics setClickPositions(List<ClickPositionsInner> clickPositions) {
+  public TopSearchWithRevenueAnalytics setClickPositions(List<ClickPositionsInner> clickPositions) {
     this.clickPositions = clickPositions;
     return this;
   }
 
-  public TopSearchWithAnalytics addClickPositions(ClickPositionsInner clickPositionsItem) {
+  public TopSearchWithRevenueAnalytics addClickPositions(ClickPositionsInner clickPositionsItem) {
     this.clickPositions.add(clickPositionsItem);
     return this;
   }
@@ -109,7 +126,7 @@ public class TopSearchWithAnalytics {
     return clickPositions;
   }
 
-  public TopSearchWithAnalytics setConversionRate(Double conversionRate) {
+  public TopSearchWithRevenueAnalytics setConversionRate(Double conversionRate) {
     this.conversionRate = conversionRate;
     return this;
   }
@@ -124,7 +141,7 @@ public class TopSearchWithAnalytics {
     return conversionRate;
   }
 
-  public TopSearchWithAnalytics setTrackedSearchCount(Integer trackedSearchCount) {
+  public TopSearchWithRevenueAnalytics setTrackedSearchCount(Integer trackedSearchCount) {
     this.trackedSearchCount = trackedSearchCount;
     return this;
   }
@@ -138,7 +155,7 @@ public class TopSearchWithAnalytics {
     return trackedSearchCount;
   }
 
-  public TopSearchWithAnalytics setClickCount(Integer clickCount) {
+  public TopSearchWithRevenueAnalytics setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
@@ -149,7 +166,7 @@ public class TopSearchWithAnalytics {
     return clickCount;
   }
 
-  public TopSearchWithAnalytics setConversionCount(Integer conversionCount) {
+  public TopSearchWithRevenueAnalytics setConversionCount(Integer conversionCount) {
     this.conversionCount = conversionCount;
     return this;
   }
@@ -160,7 +177,7 @@ public class TopSearchWithAnalytics {
     return conversionCount;
   }
 
-  public TopSearchWithAnalytics setNbHits(Integer nbHits) {
+  public TopSearchWithRevenueAnalytics setNbHits(Integer nbHits) {
     this.nbHits = nbHits;
     return this;
   }
@@ -171,6 +188,74 @@ public class TopSearchWithAnalytics {
     return nbHits;
   }
 
+  public TopSearchWithRevenueAnalytics setCurrencies(Map<String, CurrenciesValue> currencies) {
+    this.currencies = currencies;
+    return this;
+  }
+
+  public TopSearchWithRevenueAnalytics putCurrencies(String key, CurrenciesValue currenciesItem) {
+    this.currencies.put(key, currenciesItem);
+    return this;
+  }
+
+  /** Revenue associated with this search, broken-down by currencies. */
+  @javax.annotation.Nonnull
+  public Map<String, CurrenciesValue> getCurrencies() {
+    return currencies;
+  }
+
+  public TopSearchWithRevenueAnalytics setAddToCartRate(Double addToCartRate) {
+    this.addToCartRate = addToCartRate;
+    return this;
+  }
+
+  /**
+   * Add-to-cart rate, calculated as number of tracked searches with at least one add-to-cart event
+   * divided by the number of tracked searches. If null, Algolia didn't receive any search requests
+   * with `clickAnalytics` set to true. minimum: 0 maximum: 1
+   */
+  @javax.annotation.Nullable
+  public Double getAddToCartRate() {
+    return addToCartRate;
+  }
+
+  public TopSearchWithRevenueAnalytics setAddToCartCount(Integer addToCartCount) {
+    this.addToCartCount = addToCartCount;
+    return this;
+  }
+
+  /** Number of add-to-cart events from this search. minimum: 0 */
+  @javax.annotation.Nonnull
+  public Integer getAddToCartCount() {
+    return addToCartCount;
+  }
+
+  public TopSearchWithRevenueAnalytics setPurchaseRate(Double purchaseRate) {
+    this.purchaseRate = purchaseRate;
+    return this;
+  }
+
+  /**
+   * Purchase rate, calculated as number of tracked searches with at least one purchase event
+   * divided by the number of tracked searches. If null, Algolia didn't receive any search requests
+   * with `clickAnalytics` set to true. minimum: 0 maximum: 1
+   */
+  @javax.annotation.Nullable
+  public Double getPurchaseRate() {
+    return purchaseRate;
+  }
+
+  public TopSearchWithRevenueAnalytics setPurchaseCount(Integer purchaseCount) {
+    this.purchaseCount = purchaseCount;
+    return this;
+  }
+
+  /** Number of purchase events from this search. */
+  @javax.annotation.Nonnull
+  public Integer getPurchaseCount() {
+    return purchaseCount;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -179,18 +264,23 @@ public class TopSearchWithAnalytics {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TopSearchWithAnalytics topSearchWithAnalytics = (TopSearchWithAnalytics) o;
+    TopSearchWithRevenueAnalytics topSearchWithRevenueAnalytics = (TopSearchWithRevenueAnalytics) o;
     return (
-      Objects.equals(this.search, topSearchWithAnalytics.search) &&
-      Objects.equals(this.count, topSearchWithAnalytics.count) &&
-      Objects.equals(this.clickThroughRate, topSearchWithAnalytics.clickThroughRate) &&
-      Objects.equals(this.averageClickPosition, topSearchWithAnalytics.averageClickPosition) &&
-      Objects.equals(this.clickPositions, topSearchWithAnalytics.clickPositions) &&
-      Objects.equals(this.conversionRate, topSearchWithAnalytics.conversionRate) &&
-      Objects.equals(this.trackedSearchCount, topSearchWithAnalytics.trackedSearchCount) &&
-      Objects.equals(this.clickCount, topSearchWithAnalytics.clickCount) &&
-      Objects.equals(this.conversionCount, topSearchWithAnalytics.conversionCount) &&
-      Objects.equals(this.nbHits, topSearchWithAnalytics.nbHits)
+      Objects.equals(this.search, topSearchWithRevenueAnalytics.search) &&
+      Objects.equals(this.count, topSearchWithRevenueAnalytics.count) &&
+      Objects.equals(this.clickThroughRate, topSearchWithRevenueAnalytics.clickThroughRate) &&
+      Objects.equals(this.averageClickPosition, topSearchWithRevenueAnalytics.averageClickPosition) &&
+      Objects.equals(this.clickPositions, topSearchWithRevenueAnalytics.clickPositions) &&
+      Objects.equals(this.conversionRate, topSearchWithRevenueAnalytics.conversionRate) &&
+      Objects.equals(this.trackedSearchCount, topSearchWithRevenueAnalytics.trackedSearchCount) &&
+      Objects.equals(this.clickCount, topSearchWithRevenueAnalytics.clickCount) &&
+      Objects.equals(this.conversionCount, topSearchWithRevenueAnalytics.conversionCount) &&
+      Objects.equals(this.nbHits, topSearchWithRevenueAnalytics.nbHits) &&
+      Objects.equals(this.currencies, topSearchWithRevenueAnalytics.currencies) &&
+      Objects.equals(this.addToCartRate, topSearchWithRevenueAnalytics.addToCartRate) &&
+      Objects.equals(this.addToCartCount, topSearchWithRevenueAnalytics.addToCartCount) &&
+      Objects.equals(this.purchaseRate, topSearchWithRevenueAnalytics.purchaseRate) &&
+      Objects.equals(this.purchaseCount, topSearchWithRevenueAnalytics.purchaseCount)
     );
   }
 
@@ -206,14 +296,19 @@ public class TopSearchWithAnalytics {
       trackedSearchCount,
       clickCount,
       conversionCount,
-      nbHits
+      nbHits,
+      currencies,
+      addToCartRate,
+      addToCartCount,
+      purchaseRate,
+      purchaseCount
     );
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TopSearchWithAnalytics {\n");
+    sb.append("class TopSearchWithRevenueAnalytics {\n");
     sb.append("    search: ").append(toIndentedString(search)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("    clickThroughRate: ").append(toIndentedString(clickThroughRate)).append("\n");
@@ -224,6 +319,11 @@ public class TopSearchWithAnalytics {
     sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("    conversionCount: ").append(toIndentedString(conversionCount)).append("\n");
     sb.append("    nbHits: ").append(toIndentedString(nbHits)).append("\n");
+    sb.append("    currencies: ").append(toIndentedString(currencies)).append("\n");
+    sb.append("    addToCartRate: ").append(toIndentedString(addToCartRate)).append("\n");
+    sb.append("    addToCartCount: ").append(toIndentedString(addToCartCount)).append("\n");
+    sb.append("    purchaseRate: ").append(toIndentedString(purchaseRate)).append("\n");
+    sb.append("    purchaseCount: ").append(toIndentedString(purchaseCount)).append("\n");
     sb.append("}");
     return sb.toString();
   }

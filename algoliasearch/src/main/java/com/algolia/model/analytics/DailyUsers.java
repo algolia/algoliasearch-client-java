@@ -7,49 +7,35 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** SearchNoResultEvent */
-public class SearchNoResultEvent {
+/** DailyUsers */
+public class DailyUsers {
 
-  @JsonProperty("search")
-  private String search;
+  @JsonProperty("date")
+  private String date;
 
   @JsonProperty("count")
   private Integer count;
 
-  @JsonProperty("nbHits")
-  private Integer nbHits;
-
-  public SearchNoResultEvent setSearch(String search) {
-    this.search = search;
+  public DailyUsers setDate(String date) {
+    this.date = date;
     return this;
   }
 
-  /** User query. */
+  /** Date in the format YYYY-MM-DD. */
   @javax.annotation.Nonnull
-  public String getSearch() {
-    return search;
+  public String getDate() {
+    return date;
   }
 
-  public SearchNoResultEvent setCount(Integer count) {
+  public DailyUsers setCount(Integer count) {
     this.count = count;
     return this;
   }
 
-  /** Number of occurrences. */
+  /** Number of unique users. */
   @javax.annotation.Nonnull
   public Integer getCount() {
     return count;
-  }
-
-  public SearchNoResultEvent setNbHits(Integer nbHits) {
-    this.nbHits = nbHits;
-    return this;
-  }
-
-  /** Number of results (hits). */
-  @javax.annotation.Nonnull
-  public Integer getNbHits() {
-    return nbHits;
   }
 
   @Override
@@ -60,26 +46,21 @@ public class SearchNoResultEvent {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SearchNoResultEvent searchNoResultEvent = (SearchNoResultEvent) o;
-    return (
-      Objects.equals(this.search, searchNoResultEvent.search) &&
-      Objects.equals(this.count, searchNoResultEvent.count) &&
-      Objects.equals(this.nbHits, searchNoResultEvent.nbHits)
-    );
+    DailyUsers dailyUsers = (DailyUsers) o;
+    return Objects.equals(this.date, dailyUsers.date) && Objects.equals(this.count, dailyUsers.count);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(search, count, nbHits);
+    return Objects.hash(date, count);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SearchNoResultEvent {\n");
-    sb.append("    search: ").append(toIndentedString(search)).append("\n");
+    sb.append("class DailyUsers {\n");
+    sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
-    sb.append("    nbHits: ").append(toIndentedString(nbHits)).append("\n");
     sb.append("}");
     return sb.toString();
   }

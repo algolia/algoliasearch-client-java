@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** SearchEvent */
-public class SearchEvent {
+/** DailySearches */
+public class DailySearches {
 
   @JsonProperty("date")
   private String date;
@@ -16,18 +16,18 @@ public class SearchEvent {
   @JsonProperty("count")
   private Integer count;
 
-  public SearchEvent setDate(String date) {
+  public DailySearches setDate(String date) {
     this.date = date;
     return this;
   }
 
-  /** Date of the event in the format YYYY-MM-DD. */
+  /** Date in the format YYYY-MM-DD. */
   @javax.annotation.Nonnull
   public String getDate() {
     return date;
   }
 
-  public SearchEvent setCount(Integer count) {
+  public DailySearches setCount(Integer count) {
     this.count = count;
     return this;
   }
@@ -46,8 +46,8 @@ public class SearchEvent {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SearchEvent searchEvent = (SearchEvent) o;
-    return Objects.equals(this.date, searchEvent.date) && Objects.equals(this.count, searchEvent.count);
+    DailySearches dailySearches = (DailySearches) o;
+    return Objects.equals(this.date, dailySearches.date) && Objects.equals(this.count, dailySearches.count);
   }
 
   @Override
@@ -58,7 +58,7 @@ public class SearchEvent {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SearchEvent {\n");
+    sb.append("class DailySearches {\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("}");

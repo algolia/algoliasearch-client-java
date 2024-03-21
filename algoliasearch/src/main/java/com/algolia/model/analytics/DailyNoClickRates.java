@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** NoClickRateEvent */
-public class NoClickRateEvent {
+/** DailyNoClickRates */
+public class DailyNoClickRates {
 
   @JsonProperty("rate")
   private Double rate;
@@ -22,51 +22,51 @@ public class NoClickRateEvent {
   @JsonProperty("date")
   private String date;
 
-  public NoClickRateEvent setRate(Double rate) {
+  public DailyNoClickRates setRate(Double rate) {
     this.rate = rate;
     return this;
   }
 
   /**
-   * [Click-through rate
-   * (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-   * minimum: 0 maximum: 1
+   * No click rate, calculated as number of tracked searches without any click divided by the number
+   * of tracked searches. minimum: 0 maximum: 1
    */
   @javax.annotation.Nonnull
   public Double getRate() {
     return rate;
   }
 
-  public NoClickRateEvent setCount(Integer count) {
+  public DailyNoClickRates setCount(Integer count) {
     this.count = count;
     return this;
   }
 
   /**
-   * Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`).
+   * Number of tracked searches. Tracked searches are search requests where the `clickAnalytics`
+   * parameter is true.
    */
   @javax.annotation.Nonnull
   public Integer getCount() {
     return count;
   }
 
-  public NoClickRateEvent setNoClickCount(Integer noClickCount) {
+  public DailyNoClickRates setNoClickCount(Integer noClickCount) {
     this.noClickCount = noClickCount;
     return this;
   }
 
-  /** Number of click events. */
+  /** Number of times this search was returned as a result without any click. minimum: 1 */
   @javax.annotation.Nonnull
   public Integer getNoClickCount() {
     return noClickCount;
   }
 
-  public NoClickRateEvent setDate(String date) {
+  public DailyNoClickRates setDate(String date) {
     this.date = date;
     return this;
   }
 
-  /** Date of the event in the format YYYY-MM-DD. */
+  /** Date in the format YYYY-MM-DD. */
   @javax.annotation.Nonnull
   public String getDate() {
     return date;
@@ -80,12 +80,12 @@ public class NoClickRateEvent {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NoClickRateEvent noClickRateEvent = (NoClickRateEvent) o;
+    DailyNoClickRates dailyNoClickRates = (DailyNoClickRates) o;
     return (
-      Objects.equals(this.rate, noClickRateEvent.rate) &&
-      Objects.equals(this.count, noClickRateEvent.count) &&
-      Objects.equals(this.noClickCount, noClickRateEvent.noClickCount) &&
-      Objects.equals(this.date, noClickRateEvent.date)
+      Objects.equals(this.rate, dailyNoClickRates.rate) &&
+      Objects.equals(this.count, dailyNoClickRates.count) &&
+      Objects.equals(this.noClickCount, dailyNoClickRates.noClickCount) &&
+      Objects.equals(this.date, dailyNoClickRates.date)
     );
   }
 
@@ -97,7 +97,7 @@ public class NoClickRateEvent {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NoClickRateEvent {\n");
+    sb.append("class DailyNoClickRates {\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("    noClickCount: ").append(toIndentedString(noClickCount)).append("\n");

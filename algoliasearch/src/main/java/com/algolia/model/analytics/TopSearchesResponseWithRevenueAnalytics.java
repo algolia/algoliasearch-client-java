@@ -9,26 +9,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** TopSearchesResponseWithAnalytics */
-@JsonDeserialize(as = TopSearchesResponseWithAnalytics.class)
-public class TopSearchesResponseWithAnalytics implements GetTopSearchesResponse {
+/** TopSearchesResponseWithRevenueAnalytics */
+@JsonDeserialize(as = TopSearchesResponseWithRevenueAnalytics.class)
+public class TopSearchesResponseWithRevenueAnalytics implements GetTopSearchesResponse {
 
   @JsonProperty("searches")
-  private List<TopSearchWithAnalytics> searches = new ArrayList<>();
+  private List<TopSearchWithRevenueAnalytics> searches = new ArrayList<>();
 
-  public TopSearchesResponseWithAnalytics setSearches(List<TopSearchWithAnalytics> searches) {
+  public TopSearchesResponseWithRevenueAnalytics setSearches(List<TopSearchWithRevenueAnalytics> searches) {
     this.searches = searches;
     return this;
   }
 
-  public TopSearchesResponseWithAnalytics addSearches(TopSearchWithAnalytics searchesItem) {
+  public TopSearchesResponseWithRevenueAnalytics addSearches(TopSearchWithRevenueAnalytics searchesItem) {
     this.searches.add(searchesItem);
     return this;
   }
 
-  /** Most popular searches and their associated click and conversion metrics. */
+  /** Most popular searches, including their click and revenue metrics. */
   @javax.annotation.Nonnull
-  public List<TopSearchWithAnalytics> getSearches() {
+  public List<TopSearchWithRevenueAnalytics> getSearches() {
     return searches;
   }
 
@@ -40,8 +40,8 @@ public class TopSearchesResponseWithAnalytics implements GetTopSearchesResponse 
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TopSearchesResponseWithAnalytics topSearchesResponseWithAnalytics = (TopSearchesResponseWithAnalytics) o;
-    return Objects.equals(this.searches, topSearchesResponseWithAnalytics.searches);
+    TopSearchesResponseWithRevenueAnalytics topSearchesResponseWithRevenueAnalytics = (TopSearchesResponseWithRevenueAnalytics) o;
+    return Objects.equals(this.searches, topSearchesResponseWithRevenueAnalytics.searches);
   }
 
   @Override
@@ -52,7 +52,7 @@ public class TopSearchesResponseWithAnalytics implements GetTopSearchesResponse 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TopSearchesResponseWithAnalytics {\n");
+    sb.append("class TopSearchesResponseWithRevenueAnalytics {\n");
     sb.append("    searches: ").append(toIndentedString(searches)).append("\n");
     sb.append("}");
     return sb.toString();

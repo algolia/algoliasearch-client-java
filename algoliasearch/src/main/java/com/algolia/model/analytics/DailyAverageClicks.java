@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** AverageClickEvent */
-public class AverageClickEvent {
+/** DailyAverageClicks */
+public class DailyAverageClicks {
 
   @JsonProperty("average")
   private Double average;
@@ -19,34 +19,37 @@ public class AverageClickEvent {
   @JsonProperty("date")
   private String date;
 
-  public AverageClickEvent setAverage(Double average) {
+  public DailyAverageClicks setAverage(Double average) {
     this.average = average;
     return this;
   }
 
-  /** Average count of all click events. */
-  @javax.annotation.Nonnull
+  /**
+   * Average position of a clicked search result in the list of search results. If null, Algolia
+   * didn't receive any search requests with `clickAnalytics` set to true. minimum: 1
+   */
+  @javax.annotation.Nullable
   public Double getAverage() {
     return average;
   }
 
-  public AverageClickEvent setClickCount(Integer clickCount) {
+  public DailyAverageClicks setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
 
-  /** Number of click events. */
+  /** Number of clicks associated with this search. minimum: 0 */
   @javax.annotation.Nonnull
   public Integer getClickCount() {
     return clickCount;
   }
 
-  public AverageClickEvent setDate(String date) {
+  public DailyAverageClicks setDate(String date) {
     this.date = date;
     return this;
   }
 
-  /** Date of the event in the format YYYY-MM-DD. */
+  /** Date in the format YYYY-MM-DD. */
   @javax.annotation.Nonnull
   public String getDate() {
     return date;
@@ -60,11 +63,11 @@ public class AverageClickEvent {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AverageClickEvent averageClickEvent = (AverageClickEvent) o;
+    DailyAverageClicks dailyAverageClicks = (DailyAverageClicks) o;
     return (
-      Objects.equals(this.average, averageClickEvent.average) &&
-      Objects.equals(this.clickCount, averageClickEvent.clickCount) &&
-      Objects.equals(this.date, averageClickEvent.date)
+      Objects.equals(this.average, dailyAverageClicks.average) &&
+      Objects.equals(this.clickCount, dailyAverageClicks.clickCount) &&
+      Objects.equals(this.date, dailyAverageClicks.date)
     );
   }
 
@@ -76,7 +79,7 @@ public class AverageClickEvent {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AverageClickEvent {\n");
+    sb.append("class DailyAverageClicks {\n");
     sb.append("    average: ").append(toIndentedString(average)).append("\n");
     sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");

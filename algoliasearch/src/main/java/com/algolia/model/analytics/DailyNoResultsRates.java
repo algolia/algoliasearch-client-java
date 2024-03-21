@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** NoResultsRateEvent */
-public class NoResultsRateEvent {
+/** DailyNoResultsRates */
+public class DailyNoResultsRates {
 
   @JsonProperty("date")
   private String date;
@@ -22,50 +22,47 @@ public class NoResultsRateEvent {
   @JsonProperty("rate")
   private Double rate;
 
-  public NoResultsRateEvent setDate(String date) {
+  public DailyNoResultsRates setDate(String date) {
     this.date = date;
     return this;
   }
 
-  /** Date of the event in the format YYYY-MM-DD. */
+  /** Date in the format YYYY-MM-DD. */
   @javax.annotation.Nonnull
   public String getDate() {
     return date;
   }
 
-  public NoResultsRateEvent setNoResultCount(Integer noResultCount) {
+  public DailyNoResultsRates setNoResultCount(Integer noResultCount) {
     this.noResultCount = noResultCount;
     return this;
   }
 
-  /** Number of occurences. */
+  /** Number of searches without any results. */
   @javax.annotation.Nonnull
   public Integer getNoResultCount() {
     return noResultCount;
   }
 
-  public NoResultsRateEvent setCount(Integer count) {
+  public DailyNoResultsRates setCount(Integer count) {
     this.count = count;
     return this;
   }
 
-  /**
-   * Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`).
-   */
+  /** Number of searches. */
   @javax.annotation.Nonnull
   public Integer getCount() {
     return count;
   }
 
-  public NoResultsRateEvent setRate(Double rate) {
+  public DailyNoResultsRates setRate(Double rate) {
     this.rate = rate;
     return this;
   }
 
   /**
-   * [Click-through rate
-   * (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-   * minimum: 0 maximum: 1
+   * No results rate, calculated as number of searches with zero results divided by the total number
+   * of searches. minimum: 0 maximum: 1
    */
   @javax.annotation.Nonnull
   public Double getRate() {
@@ -80,12 +77,12 @@ public class NoResultsRateEvent {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NoResultsRateEvent noResultsRateEvent = (NoResultsRateEvent) o;
+    DailyNoResultsRates dailyNoResultsRates = (DailyNoResultsRates) o;
     return (
-      Objects.equals(this.date, noResultsRateEvent.date) &&
-      Objects.equals(this.noResultCount, noResultsRateEvent.noResultCount) &&
-      Objects.equals(this.count, noResultsRateEvent.count) &&
-      Objects.equals(this.rate, noResultsRateEvent.rate)
+      Objects.equals(this.date, dailyNoResultsRates.date) &&
+      Objects.equals(this.noResultCount, dailyNoResultsRates.noResultCount) &&
+      Objects.equals(this.count, dailyNoResultsRates.count) &&
+      Objects.equals(this.rate, dailyNoResultsRates.rate)
     );
   }
 
@@ -97,7 +94,7 @@ public class NoResultsRateEvent {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NoResultsRateEvent {\n");
+    sb.append("class DailyNoResultsRates {\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    noResultCount: ").append(toIndentedString(noResultCount)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
