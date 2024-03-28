@@ -6,21 +6,13 @@ package com.algolia.model.ingestion;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 
-/** Property by which to sort the list of tasks. */
-public enum TaskSortKeys {
-  ENABLED("enabled"),
-
-  TRIGGER_TYPE("triggerType"),
-
-  ACTION("action"),
-
-  UPDATED_AT("updatedAt"),
-
-  CREATED_AT("createdAt");
+/** Mapping format schema. */
+public enum MappingFormatSchema {
+  MAPPINGKIT_V1("mappingkit/v1");
 
   private final String value;
 
-  TaskSortKeys(String value) {
+  MappingFormatSchema(String value) {
     this.value = value;
   }
 
@@ -35,8 +27,8 @@ public enum TaskSortKeys {
   }
 
   @JsonCreator
-  public static TaskSortKeys fromValue(String value) {
-    for (TaskSortKeys b : TaskSortKeys.values()) {
+  public static MappingFormatSchema fromValue(String value) {
+    for (MappingFormatSchema b : MappingFormatSchema.values()) {
       if (b.value.equals(value)) {
         return b;
       }
