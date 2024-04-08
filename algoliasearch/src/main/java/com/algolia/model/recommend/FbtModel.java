@@ -7,23 +7,15 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 
 /**
- * Which part of the search query the pattern should match: - `startsWith`. The pattern must match
- * the begginning of the query. - `endsWith`. The pattern must match the end of the query. - `is`.
- * The pattern must match the query exactly. - `contains`. The pattern must match anywhere in the
- * query. Empty queries are only allowed as pattern with `anchoring: is`.
+ * Frequently bought together model. This model recommends items that have been purchased within 1
+ * day with the item with the ID `objectID`.
  */
-public enum Anchoring {
-  IS("is"),
-
-  STARTS_WITH("startsWith"),
-
-  ENDS_WITH("endsWith"),
-
-  CONTAINS("contains");
+public enum FbtModel {
+  BOUGHT_TOGETHER("bought-together");
 
   private final String value;
 
-  Anchoring(String value) {
+  FbtModel(String value) {
     this.value = value;
   }
 
@@ -38,8 +30,8 @@ public enum Anchoring {
   }
 
   @JsonCreator
-  public static Anchoring fromValue(String value) {
-    for (Anchoring b : Anchoring.values()) {
+  public static FbtModel fromValue(String value) {
+    for (FbtModel b : FbtModel.values()) {
       if (b.value.equals(value)) {
         return b;
       }

@@ -7,13 +7,27 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** Object ID of the record to hide. */
-public class ConsequenceHide {
+/** FrequentlyBoughtTogether */
+public class FrequentlyBoughtTogether {
+
+  @JsonProperty("model")
+  private FbtModel model;
 
   @JsonProperty("objectID")
   private String objectID;
 
-  public ConsequenceHide setObjectID(String objectID) {
+  public FrequentlyBoughtTogether setModel(FbtModel model) {
+    this.model = model;
+    return this;
+  }
+
+  /** Get model */
+  @javax.annotation.Nonnull
+  public FbtModel getModel() {
+    return model;
+  }
+
+  public FrequentlyBoughtTogether setObjectID(String objectID) {
     this.objectID = objectID;
     return this;
   }
@@ -32,19 +46,20 @@ public class ConsequenceHide {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ConsequenceHide consequenceHide = (ConsequenceHide) o;
-    return Objects.equals(this.objectID, consequenceHide.objectID);
+    FrequentlyBoughtTogether frequentlyBoughtTogether = (FrequentlyBoughtTogether) o;
+    return Objects.equals(this.model, frequentlyBoughtTogether.model) && Objects.equals(this.objectID, frequentlyBoughtTogether.objectID);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(objectID);
+    return Objects.hash(model, objectID);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ConsequenceHide {\n");
+    sb.append("class FrequentlyBoughtTogether {\n");
+    sb.append("    model: ").append(toIndentedString(model)).append("\n");
     sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
     sb.append("}");
     return sb.toString();

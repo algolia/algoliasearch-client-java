@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** RuleResponseMetadata */
-public class RuleResponseMetadata {
+/** Rule metadata. */
+public class RecommendRuleMetadata {
 
   @JsonProperty("lastUpdate")
   private String lastUpdate;
 
-  public RuleResponseMetadata setLastUpdate(String lastUpdate) {
+  public RecommendRuleMetadata setLastUpdate(String lastUpdate) {
     this.lastUpdate = lastUpdate;
     return this;
   }
@@ -32,8 +32,8 @@ public class RuleResponseMetadata {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RuleResponseMetadata ruleResponseMetadata = (RuleResponseMetadata) o;
-    return Objects.equals(this.lastUpdate, ruleResponseMetadata.lastUpdate);
+    RecommendRuleMetadata recommendRuleMetadata = (RecommendRuleMetadata) o;
+    return Objects.equals(this.lastUpdate, recommendRuleMetadata.lastUpdate);
   }
 
   @Override
@@ -44,7 +44,7 @@ public class RuleResponseMetadata {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RuleResponseMetadata {\n");
+    sb.append("class RecommendRuleMetadata {\n");
     sb.append("    lastUpdate: ").append(toIndentedString(lastUpdate)).append("\n");
     sb.append("}");
     return sb.toString();

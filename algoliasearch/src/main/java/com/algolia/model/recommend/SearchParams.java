@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** ConsequenceParams */
-public class ConsequenceParams {
+/** SearchParams */
+public class SearchParams {
+
+  @JsonProperty("query")
+  private String query;
 
   @JsonProperty("similarQuery")
   private String similarQuery;
@@ -237,16 +240,18 @@ public class ConsequenceParams {
   @JsonProperty("reRankingApplyFilter")
   private ReRankingApplyFilter reRankingApplyFilter;
 
-  @JsonProperty("query")
-  private ConsequenceQuery query;
+  public SearchParams setQuery(String query) {
+    this.query = query;
+    return this;
+  }
 
-  @JsonProperty("automaticFacetFilters")
-  private AutomaticFacetFilters automaticFacetFilters;
+  /** Search query. */
+  @javax.annotation.Nullable
+  public String getQuery() {
+    return query;
+  }
 
-  @JsonProperty("automaticOptionalFacetFilters")
-  private AutomaticFacetFilters automaticOptionalFacetFilters;
-
-  public ConsequenceParams setSimilarQuery(String similarQuery) {
+  public SearchParams setSimilarQuery(String similarQuery) {
     this.similarQuery = similarQuery;
     return this;
   }
@@ -264,26 +269,26 @@ public class ConsequenceParams {
     return similarQuery;
   }
 
-  public ConsequenceParams setFilters(String filters) {
+  public SearchParams setFilters(String filters) {
     this.filters = filters;
     return this;
   }
 
   /**
-   * Filter the search so that only records with matching values are included in the results. These
-   * filters are supported: - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of
-   * `<`, `<=`, `=`, `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and
-   * `<upper>` are the lower and upper limits of the range (inclusive). - **Facet filters.**
-   * `<facet>:<value>` where `<facet>` is a facet attribute (case-sensitive) and `<value>` a facet
-   * value. - **Tag filters.** `_tags:<value>` or just `<value>` (case-sensitive). - **Boolean
-   * filters.** `<facet>: true | false`. You can combine filters with `AND`, `OR`, and `NOT`
-   * operators with the following restrictions: - You can only combine filters of the same type with
-   * `OR`. **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of
-   * filters. **Not supported:** `NOT(facet:value OR facet:value)` - You can't combine conjunctions
-   * (`AND`) with `OR`. **Not supported:** `facet:value OR (facet:value AND facet:value)` Use quotes
-   * around your filters, if the facet attribute name or facet value has spaces, keywords (`OR`,
-   * `AND`, `NOT`), or quotes. If a facet attribute is an array, the filter matches if it matches at
-   * least one element of the array. For more information, see
+   * Filter expression to only include items that match the filter criteria in the response. You can
+   * use these filter expressions: - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is
+   * one of `<`, `<=`, `=`, `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where
+   * `<lower>` and `<upper>` are the lower and upper limits of the range (inclusive). - **Facet
+   * filters.** `<facet>:<value>` where `<facet>` is a facet attribute (case-sensitive) and
+   * `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>` (case-sensitive).
+   * - **Boolean filters.** `<facet>: true | false`. You can combine filters with `AND`, `OR`, and
+   * `NOT` operators with the following restrictions: - You can only combine filters of the same
+   * type with `OR`. **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with
+   * combinations of filters. **Not supported:** `NOT(facet:value OR facet:value)` - You can't
+   * combine conjunctions (`AND`) with `OR`. **Not supported:** `facet:value OR (facet:value AND
+   * facet:value)` Use quotes around your filters, if the facet attribute name or facet value has
+   * spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an array, the filter
+   * matches if it matches at least one element of the array. For more information, see
    * [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
    */
   @javax.annotation.Nullable
@@ -291,7 +296,7 @@ public class ConsequenceParams {
     return filters;
   }
 
-  public ConsequenceParams setFacetFilters(FacetFilters facetFilters) {
+  public SearchParams setFacetFilters(FacetFilters facetFilters) {
     this.facetFilters = facetFilters;
     return this;
   }
@@ -302,7 +307,7 @@ public class ConsequenceParams {
     return facetFilters;
   }
 
-  public ConsequenceParams setOptionalFilters(OptionalFilters optionalFilters) {
+  public SearchParams setOptionalFilters(OptionalFilters optionalFilters) {
     this.optionalFilters = optionalFilters;
     return this;
   }
@@ -313,7 +318,7 @@ public class ConsequenceParams {
     return optionalFilters;
   }
 
-  public ConsequenceParams setNumericFilters(NumericFilters numericFilters) {
+  public SearchParams setNumericFilters(NumericFilters numericFilters) {
     this.numericFilters = numericFilters;
     return this;
   }
@@ -324,7 +329,7 @@ public class ConsequenceParams {
     return numericFilters;
   }
 
-  public ConsequenceParams setTagFilters(TagFilters tagFilters) {
+  public SearchParams setTagFilters(TagFilters tagFilters) {
     this.tagFilters = tagFilters;
     return this;
   }
@@ -335,7 +340,7 @@ public class ConsequenceParams {
     return tagFilters;
   }
 
-  public ConsequenceParams setSumOrFiltersScores(Boolean sumOrFiltersScores) {
+  public SearchParams setSumOrFiltersScores(Boolean sumOrFiltersScores) {
     this.sumOrFiltersScores = sumOrFiltersScores;
     return this;
   }
@@ -350,12 +355,12 @@ public class ConsequenceParams {
     return sumOrFiltersScores;
   }
 
-  public ConsequenceParams setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
+  public SearchParams setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
     this.restrictSearchableAttributes = restrictSearchableAttributes;
     return this;
   }
 
-  public ConsequenceParams addRestrictSearchableAttributes(String restrictSearchableAttributesItem) {
+  public SearchParams addRestrictSearchableAttributes(String restrictSearchableAttributesItem) {
     if (this.restrictSearchableAttributes == null) {
       this.restrictSearchableAttributes = new ArrayList<>();
     }
@@ -369,12 +374,12 @@ public class ConsequenceParams {
     return restrictSearchableAttributes;
   }
 
-  public ConsequenceParams setFacets(List<String> facets) {
+  public SearchParams setFacets(List<String> facets) {
     this.facets = facets;
     return this;
   }
 
-  public ConsequenceParams addFacets(String facetsItem) {
+  public SearchParams addFacets(String facetsItem) {
     if (this.facets == null) {
       this.facets = new ArrayList<>();
     }
@@ -393,7 +398,7 @@ public class ConsequenceParams {
     return facets;
   }
 
-  public ConsequenceParams setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
+  public SearchParams setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
     this.facetingAfterDistinct = facetingAfterDistinct;
     return this;
   }
@@ -410,7 +415,7 @@ public class ConsequenceParams {
     return facetingAfterDistinct;
   }
 
-  public ConsequenceParams setPage(Integer page) {
+  public SearchParams setPage(Integer page) {
     this.page = page;
     return this;
   }
@@ -421,7 +426,7 @@ public class ConsequenceParams {
     return page;
   }
 
-  public ConsequenceParams setOffset(Integer offset) {
+  public SearchParams setOffset(Integer offset) {
     this.offset = offset;
     return this;
   }
@@ -432,7 +437,7 @@ public class ConsequenceParams {
     return offset;
   }
 
-  public ConsequenceParams setLength(Integer length) {
+  public SearchParams setLength(Integer length) {
     this.length = length;
     return this;
   }
@@ -443,7 +448,7 @@ public class ConsequenceParams {
     return length;
   }
 
-  public ConsequenceParams setAroundLatLng(String aroundLatLng) {
+  public SearchParams setAroundLatLng(String aroundLatLng) {
     this.aroundLatLng = aroundLatLng;
     return this;
   }
@@ -459,7 +464,7 @@ public class ConsequenceParams {
     return aroundLatLng;
   }
 
-  public ConsequenceParams setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
+  public SearchParams setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
     this.aroundLatLngViaIP = aroundLatLngViaIP;
     return this;
   }
@@ -470,7 +475,7 @@ public class ConsequenceParams {
     return aroundLatLngViaIP;
   }
 
-  public ConsequenceParams setAroundRadius(AroundRadius aroundRadius) {
+  public SearchParams setAroundRadius(AroundRadius aroundRadius) {
     this.aroundRadius = aroundRadius;
     return this;
   }
@@ -481,7 +486,7 @@ public class ConsequenceParams {
     return aroundRadius;
   }
 
-  public ConsequenceParams setAroundPrecision(AroundPrecision aroundPrecision) {
+  public SearchParams setAroundPrecision(AroundPrecision aroundPrecision) {
     this.aroundPrecision = aroundPrecision;
     return this;
   }
@@ -492,7 +497,7 @@ public class ConsequenceParams {
     return aroundPrecision;
   }
 
-  public ConsequenceParams setMinimumAroundRadius(Integer minimumAroundRadius) {
+  public SearchParams setMinimumAroundRadius(Integer minimumAroundRadius) {
     this.minimumAroundRadius = minimumAroundRadius;
     return this;
   }
@@ -506,12 +511,12 @@ public class ConsequenceParams {
     return minimumAroundRadius;
   }
 
-  public ConsequenceParams setInsideBoundingBox(List<List<Double>> insideBoundingBox) {
+  public SearchParams setInsideBoundingBox(List<List<Double>> insideBoundingBox) {
     this.insideBoundingBox = insideBoundingBox;
     return this;
   }
 
-  public ConsequenceParams addInsideBoundingBox(List<Double> insideBoundingBoxItem) {
+  public SearchParams addInsideBoundingBox(List<Double> insideBoundingBoxItem) {
     if (this.insideBoundingBox == null) {
       this.insideBoundingBox = new ArrayList<>();
     }
@@ -531,12 +536,12 @@ public class ConsequenceParams {
     return insideBoundingBox;
   }
 
-  public ConsequenceParams setInsidePolygon(List<List<Double>> insidePolygon) {
+  public SearchParams setInsidePolygon(List<List<Double>> insidePolygon) {
     this.insidePolygon = insidePolygon;
     return this;
   }
 
-  public ConsequenceParams addInsidePolygon(List<Double> insidePolygonItem) {
+  public SearchParams addInsidePolygon(List<Double> insidePolygonItem) {
     if (this.insidePolygon == null) {
       this.insidePolygon = new ArrayList<>();
     }
@@ -556,12 +561,12 @@ public class ConsequenceParams {
     return insidePolygon;
   }
 
-  public ConsequenceParams setNaturalLanguages(List<String> naturalLanguages) {
+  public SearchParams setNaturalLanguages(List<String> naturalLanguages) {
     this.naturalLanguages = naturalLanguages;
     return this;
   }
 
-  public ConsequenceParams addNaturalLanguages(String naturalLanguagesItem) {
+  public SearchParams addNaturalLanguages(String naturalLanguagesItem) {
     if (this.naturalLanguages == null) {
       this.naturalLanguages = new ArrayList<>();
     }
@@ -580,12 +585,12 @@ public class ConsequenceParams {
     return naturalLanguages;
   }
 
-  public ConsequenceParams setRuleContexts(List<String> ruleContexts) {
+  public SearchParams setRuleContexts(List<String> ruleContexts) {
     this.ruleContexts = ruleContexts;
     return this;
   }
 
-  public ConsequenceParams addRuleContexts(String ruleContextsItem) {
+  public SearchParams addRuleContexts(String ruleContextsItem) {
     if (this.ruleContexts == null) {
       this.ruleContexts = new ArrayList<>();
     }
@@ -603,7 +608,7 @@ public class ConsequenceParams {
     return ruleContexts;
   }
 
-  public ConsequenceParams setPersonalizationImpact(Integer personalizationImpact) {
+  public SearchParams setPersonalizationImpact(Integer personalizationImpact) {
     this.personalizationImpact = personalizationImpact;
     return this;
   }
@@ -620,7 +625,7 @@ public class ConsequenceParams {
     return personalizationImpact;
   }
 
-  public ConsequenceParams setUserToken(String userToken) {
+  public SearchParams setUserToken(String userToken) {
     this.userToken = userToken;
     return this;
   }
@@ -635,7 +640,7 @@ public class ConsequenceParams {
     return userToken;
   }
 
-  public ConsequenceParams setGetRankingInfo(Boolean getRankingInfo) {
+  public SearchParams setGetRankingInfo(Boolean getRankingInfo) {
     this.getRankingInfo = getRankingInfo;
     return this;
   }
@@ -646,7 +651,7 @@ public class ConsequenceParams {
     return getRankingInfo;
   }
 
-  public ConsequenceParams setSynonyms(Boolean synonyms) {
+  public SearchParams setSynonyms(Boolean synonyms) {
     this.synonyms = synonyms;
     return this;
   }
@@ -657,7 +662,7 @@ public class ConsequenceParams {
     return synonyms;
   }
 
-  public ConsequenceParams setClickAnalytics(Boolean clickAnalytics) {
+  public SearchParams setClickAnalytics(Boolean clickAnalytics) {
     this.clickAnalytics = clickAnalytics;
     return this;
   }
@@ -672,7 +677,7 @@ public class ConsequenceParams {
     return clickAnalytics;
   }
 
-  public ConsequenceParams setAnalytics(Boolean analytics) {
+  public SearchParams setAnalytics(Boolean analytics) {
     this.analytics = analytics;
     return this;
   }
@@ -683,12 +688,12 @@ public class ConsequenceParams {
     return analytics;
   }
 
-  public ConsequenceParams setAnalyticsTags(List<String> analyticsTags) {
+  public SearchParams setAnalyticsTags(List<String> analyticsTags) {
     this.analyticsTags = analyticsTags;
     return this;
   }
 
-  public ConsequenceParams addAnalyticsTags(String analyticsTagsItem) {
+  public SearchParams addAnalyticsTags(String analyticsTagsItem) {
     if (this.analyticsTags == null) {
       this.analyticsTags = new ArrayList<>();
     }
@@ -705,7 +710,7 @@ public class ConsequenceParams {
     return analyticsTags;
   }
 
-  public ConsequenceParams setPercentileComputation(Boolean percentileComputation) {
+  public SearchParams setPercentileComputation(Boolean percentileComputation) {
     this.percentileComputation = percentileComputation;
     return this;
   }
@@ -716,7 +721,7 @@ public class ConsequenceParams {
     return percentileComputation;
   }
 
-  public ConsequenceParams setEnableABTest(Boolean enableABTest) {
+  public SearchParams setEnableABTest(Boolean enableABTest) {
     this.enableABTest = enableABTest;
     return this;
   }
@@ -727,12 +732,12 @@ public class ConsequenceParams {
     return enableABTest;
   }
 
-  public ConsequenceParams setAttributesToRetrieve(List<String> attributesToRetrieve) {
+  public SearchParams setAttributesToRetrieve(List<String> attributesToRetrieve) {
     this.attributesToRetrieve = attributesToRetrieve;
     return this;
   }
 
-  public ConsequenceParams addAttributesToRetrieve(String attributesToRetrieveItem) {
+  public SearchParams addAttributesToRetrieve(String attributesToRetrieveItem) {
     if (this.attributesToRetrieve == null) {
       this.attributesToRetrieve = new ArrayList<>();
     }
@@ -752,12 +757,12 @@ public class ConsequenceParams {
     return attributesToRetrieve;
   }
 
-  public ConsequenceParams setRanking(List<String> ranking) {
+  public SearchParams setRanking(List<String> ranking) {
     this.ranking = ranking;
     return this;
   }
 
-  public ConsequenceParams addRanking(String rankingItem) {
+  public SearchParams addRanking(String rankingItem) {
     if (this.ranking == null) {
       this.ranking = new ArrayList<>();
     }
@@ -783,12 +788,12 @@ public class ConsequenceParams {
     return ranking;
   }
 
-  public ConsequenceParams setCustomRanking(List<String> customRanking) {
+  public SearchParams setCustomRanking(List<String> customRanking) {
     this.customRanking = customRanking;
     return this;
   }
 
-  public ConsequenceParams addCustomRanking(String customRankingItem) {
+  public SearchParams addCustomRanking(String customRankingItem) {
     if (this.customRanking == null) {
       this.customRanking = new ArrayList<>();
     }
@@ -813,7 +818,7 @@ public class ConsequenceParams {
     return customRanking;
   }
 
-  public ConsequenceParams setRelevancyStrictness(Integer relevancyStrictness) {
+  public SearchParams setRelevancyStrictness(Integer relevancyStrictness) {
     this.relevancyStrictness = relevancyStrictness;
     return this;
   }
@@ -829,12 +834,12 @@ public class ConsequenceParams {
     return relevancyStrictness;
   }
 
-  public ConsequenceParams setAttributesToHighlight(List<String> attributesToHighlight) {
+  public SearchParams setAttributesToHighlight(List<String> attributesToHighlight) {
     this.attributesToHighlight = attributesToHighlight;
     return this;
   }
 
-  public ConsequenceParams addAttributesToHighlight(String attributesToHighlightItem) {
+  public SearchParams addAttributesToHighlight(String attributesToHighlightItem) {
     if (this.attributesToHighlight == null) {
       this.attributesToHighlight = new ArrayList<>();
     }
@@ -855,12 +860,12 @@ public class ConsequenceParams {
     return attributesToHighlight;
   }
 
-  public ConsequenceParams setAttributesToSnippet(List<String> attributesToSnippet) {
+  public SearchParams setAttributesToSnippet(List<String> attributesToSnippet) {
     this.attributesToSnippet = attributesToSnippet;
     return this;
   }
 
-  public ConsequenceParams addAttributesToSnippet(String attributesToSnippetItem) {
+  public SearchParams addAttributesToSnippet(String attributesToSnippetItem) {
     if (this.attributesToSnippet == null) {
       this.attributesToSnippet = new ArrayList<>();
     }
@@ -879,7 +884,7 @@ public class ConsequenceParams {
     return attributesToSnippet;
   }
 
-  public ConsequenceParams setHighlightPreTag(String highlightPreTag) {
+  public SearchParams setHighlightPreTag(String highlightPreTag) {
     this.highlightPreTag = highlightPreTag;
     return this;
   }
@@ -890,7 +895,7 @@ public class ConsequenceParams {
     return highlightPreTag;
   }
 
-  public ConsequenceParams setHighlightPostTag(String highlightPostTag) {
+  public SearchParams setHighlightPostTag(String highlightPostTag) {
     this.highlightPostTag = highlightPostTag;
     return this;
   }
@@ -901,7 +906,7 @@ public class ConsequenceParams {
     return highlightPostTag;
   }
 
-  public ConsequenceParams setSnippetEllipsisText(String snippetEllipsisText) {
+  public SearchParams setSnippetEllipsisText(String snippetEllipsisText) {
     this.snippetEllipsisText = snippetEllipsisText;
     return this;
   }
@@ -912,7 +917,7 @@ public class ConsequenceParams {
     return snippetEllipsisText;
   }
 
-  public ConsequenceParams setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
+  public SearchParams setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
     this.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays;
     return this;
   }
@@ -926,7 +931,7 @@ public class ConsequenceParams {
     return restrictHighlightAndSnippetArrays;
   }
 
-  public ConsequenceParams setHitsPerPage(Integer hitsPerPage) {
+  public SearchParams setHitsPerPage(Integer hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
   }
@@ -937,7 +942,7 @@ public class ConsequenceParams {
     return hitsPerPage;
   }
 
-  public ConsequenceParams setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
+  public SearchParams setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
     this.minWordSizefor1Typo = minWordSizefor1Typo;
     return this;
   }
@@ -952,7 +957,7 @@ public class ConsequenceParams {
     return minWordSizefor1Typo;
   }
 
-  public ConsequenceParams setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
+  public SearchParams setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
     this.minWordSizefor2Typos = minWordSizefor2Typos;
     return this;
   }
@@ -967,7 +972,7 @@ public class ConsequenceParams {
     return minWordSizefor2Typos;
   }
 
-  public ConsequenceParams setTypoTolerance(TypoTolerance typoTolerance) {
+  public SearchParams setTypoTolerance(TypoTolerance typoTolerance) {
     this.typoTolerance = typoTolerance;
     return this;
   }
@@ -978,7 +983,7 @@ public class ConsequenceParams {
     return typoTolerance;
   }
 
-  public ConsequenceParams setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
+  public SearchParams setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
     this.allowTyposOnNumericTokens = allowTyposOnNumericTokens;
     return this;
   }
@@ -992,12 +997,12 @@ public class ConsequenceParams {
     return allowTyposOnNumericTokens;
   }
 
-  public ConsequenceParams setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
+  public SearchParams setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
     this.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes;
     return this;
   }
 
-  public ConsequenceParams addDisableTypoToleranceOnAttributes(String disableTypoToleranceOnAttributesItem) {
+  public SearchParams addDisableTypoToleranceOnAttributes(String disableTypoToleranceOnAttributesItem) {
     if (this.disableTypoToleranceOnAttributes == null) {
       this.disableTypoToleranceOnAttributes = new ArrayList<>();
     }
@@ -1020,7 +1025,7 @@ public class ConsequenceParams {
     return disableTypoToleranceOnAttributes;
   }
 
-  public ConsequenceParams setIgnorePlurals(IgnorePlurals ignorePlurals) {
+  public SearchParams setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
     return this;
   }
@@ -1031,7 +1036,7 @@ public class ConsequenceParams {
     return ignorePlurals;
   }
 
-  public ConsequenceParams setRemoveStopWords(RemoveStopWords removeStopWords) {
+  public SearchParams setRemoveStopWords(RemoveStopWords removeStopWords) {
     this.removeStopWords = removeStopWords;
     return this;
   }
@@ -1042,7 +1047,7 @@ public class ConsequenceParams {
     return removeStopWords;
   }
 
-  public ConsequenceParams setKeepDiacriticsOnCharacters(String keepDiacriticsOnCharacters) {
+  public SearchParams setKeepDiacriticsOnCharacters(String keepDiacriticsOnCharacters) {
     this.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters;
     return this;
   }
@@ -1057,12 +1062,12 @@ public class ConsequenceParams {
     return keepDiacriticsOnCharacters;
   }
 
-  public ConsequenceParams setQueryLanguages(List<SupportedLanguage> queryLanguages) {
+  public SearchParams setQueryLanguages(List<SupportedLanguage> queryLanguages) {
     this.queryLanguages = queryLanguages;
     return this;
   }
 
-  public ConsequenceParams addQueryLanguages(SupportedLanguage queryLanguagesItem) {
+  public SearchParams addQueryLanguages(SupportedLanguage queryLanguagesItem) {
     if (this.queryLanguages == null) {
       this.queryLanguages = new ArrayList<>();
     }
@@ -1089,7 +1094,7 @@ public class ConsequenceParams {
     return queryLanguages;
   }
 
-  public ConsequenceParams setDecompoundQuery(Boolean decompoundQuery) {
+  public SearchParams setDecompoundQuery(Boolean decompoundQuery) {
     this.decompoundQuery = decompoundQuery;
     return this;
   }
@@ -1105,7 +1110,7 @@ public class ConsequenceParams {
     return decompoundQuery;
   }
 
-  public ConsequenceParams setEnableRules(Boolean enableRules) {
+  public SearchParams setEnableRules(Boolean enableRules) {
     this.enableRules = enableRules;
     return this;
   }
@@ -1116,7 +1121,7 @@ public class ConsequenceParams {
     return enableRules;
   }
 
-  public ConsequenceParams setEnablePersonalization(Boolean enablePersonalization) {
+  public SearchParams setEnablePersonalization(Boolean enablePersonalization) {
     this.enablePersonalization = enablePersonalization;
     return this;
   }
@@ -1127,7 +1132,7 @@ public class ConsequenceParams {
     return enablePersonalization;
   }
 
-  public ConsequenceParams setQueryType(QueryType queryType) {
+  public SearchParams setQueryType(QueryType queryType) {
     this.queryType = queryType;
     return this;
   }
@@ -1138,7 +1143,7 @@ public class ConsequenceParams {
     return queryType;
   }
 
-  public ConsequenceParams setRemoveWordsIfNoResults(RemoveWordsIfNoResults removeWordsIfNoResults) {
+  public SearchParams setRemoveWordsIfNoResults(RemoveWordsIfNoResults removeWordsIfNoResults) {
     this.removeWordsIfNoResults = removeWordsIfNoResults;
     return this;
   }
@@ -1149,7 +1154,7 @@ public class ConsequenceParams {
     return removeWordsIfNoResults;
   }
 
-  public ConsequenceParams setMode(Mode mode) {
+  public SearchParams setMode(Mode mode) {
     this.mode = mode;
     return this;
   }
@@ -1160,7 +1165,7 @@ public class ConsequenceParams {
     return mode;
   }
 
-  public ConsequenceParams setSemanticSearch(SemanticSearch semanticSearch) {
+  public SearchParams setSemanticSearch(SemanticSearch semanticSearch) {
     this.semanticSearch = semanticSearch;
     return this;
   }
@@ -1171,7 +1176,7 @@ public class ConsequenceParams {
     return semanticSearch;
   }
 
-  public ConsequenceParams setAdvancedSyntax(Boolean advancedSyntax) {
+  public SearchParams setAdvancedSyntax(Boolean advancedSyntax) {
     this.advancedSyntax = advancedSyntax;
     return this;
   }
@@ -1185,12 +1190,12 @@ public class ConsequenceParams {
     return advancedSyntax;
   }
 
-  public ConsequenceParams setOptionalWords(List<String> optionalWords) {
+  public SearchParams setOptionalWords(List<String> optionalWords) {
     this.optionalWords = optionalWords;
     return this;
   }
 
-  public ConsequenceParams addOptionalWords(String optionalWordsItem) {
+  public SearchParams addOptionalWords(String optionalWordsItem) {
     if (this.optionalWords == null) {
       this.optionalWords = new ArrayList<>();
     }
@@ -1220,12 +1225,12 @@ public class ConsequenceParams {
     return optionalWords;
   }
 
-  public ConsequenceParams setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
+  public SearchParams setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
     this.disableExactOnAttributes = disableExactOnAttributes;
     return this;
   }
 
-  public ConsequenceParams addDisableExactOnAttributes(String disableExactOnAttributesItem) {
+  public SearchParams addDisableExactOnAttributes(String disableExactOnAttributesItem) {
     if (this.disableExactOnAttributes == null) {
       this.disableExactOnAttributes = new ArrayList<>();
     }
@@ -1246,7 +1251,7 @@ public class ConsequenceParams {
     return disableExactOnAttributes;
   }
 
-  public ConsequenceParams setExactOnSingleWordQuery(ExactOnSingleWordQuery exactOnSingleWordQuery) {
+  public SearchParams setExactOnSingleWordQuery(ExactOnSingleWordQuery exactOnSingleWordQuery) {
     this.exactOnSingleWordQuery = exactOnSingleWordQuery;
     return this;
   }
@@ -1257,12 +1262,12 @@ public class ConsequenceParams {
     return exactOnSingleWordQuery;
   }
 
-  public ConsequenceParams setAlternativesAsExact(List<AlternativesAsExact> alternativesAsExact) {
+  public SearchParams setAlternativesAsExact(List<AlternativesAsExact> alternativesAsExact) {
     this.alternativesAsExact = alternativesAsExact;
     return this;
   }
 
-  public ConsequenceParams addAlternativesAsExact(AlternativesAsExact alternativesAsExactItem) {
+  public SearchParams addAlternativesAsExact(AlternativesAsExact alternativesAsExactItem) {
     if (this.alternativesAsExact == null) {
       this.alternativesAsExact = new ArrayList<>();
     }
@@ -1282,12 +1287,12 @@ public class ConsequenceParams {
     return alternativesAsExact;
   }
 
-  public ConsequenceParams setAdvancedSyntaxFeatures(List<AdvancedSyntaxFeatures> advancedSyntaxFeatures) {
+  public SearchParams setAdvancedSyntaxFeatures(List<AdvancedSyntaxFeatures> advancedSyntaxFeatures) {
     this.advancedSyntaxFeatures = advancedSyntaxFeatures;
     return this;
   }
 
-  public ConsequenceParams addAdvancedSyntaxFeatures(AdvancedSyntaxFeatures advancedSyntaxFeaturesItem) {
+  public SearchParams addAdvancedSyntaxFeatures(AdvancedSyntaxFeatures advancedSyntaxFeaturesItem) {
     if (this.advancedSyntaxFeatures == null) {
       this.advancedSyntaxFeatures = new ArrayList<>();
     }
@@ -1307,7 +1312,7 @@ public class ConsequenceParams {
     return advancedSyntaxFeatures;
   }
 
-  public ConsequenceParams setDistinct(Distinct distinct) {
+  public SearchParams setDistinct(Distinct distinct) {
     this.distinct = distinct;
     return this;
   }
@@ -1318,7 +1323,7 @@ public class ConsequenceParams {
     return distinct;
   }
 
-  public ConsequenceParams setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
+  public SearchParams setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
     this.replaceSynonymsInHighlight = replaceSynonymsInHighlight;
     return this;
   }
@@ -1336,7 +1341,7 @@ public class ConsequenceParams {
     return replaceSynonymsInHighlight;
   }
 
-  public ConsequenceParams setMinProximity(Integer minProximity) {
+  public SearchParams setMinProximity(Integer minProximity) {
     this.minProximity = minProximity;
     return this;
   }
@@ -1353,12 +1358,12 @@ public class ConsequenceParams {
     return minProximity;
   }
 
-  public ConsequenceParams setResponseFields(List<String> responseFields) {
+  public SearchParams setResponseFields(List<String> responseFields) {
     this.responseFields = responseFields;
     return this;
   }
 
-  public ConsequenceParams addResponseFields(String responseFieldsItem) {
+  public SearchParams addResponseFields(String responseFieldsItem) {
     if (this.responseFields == null) {
       this.responseFields = new ArrayList<>();
     }
@@ -1378,7 +1383,7 @@ public class ConsequenceParams {
     return responseFields;
   }
 
-  public ConsequenceParams setMaxFacetHits(Integer maxFacetHits) {
+  public SearchParams setMaxFacetHits(Integer maxFacetHits) {
     this.maxFacetHits = maxFacetHits;
     return this;
   }
@@ -1393,7 +1398,7 @@ public class ConsequenceParams {
     return maxFacetHits;
   }
 
-  public ConsequenceParams setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+  public SearchParams setMaxValuesPerFacet(Integer maxValuesPerFacet) {
     this.maxValuesPerFacet = maxValuesPerFacet;
     return this;
   }
@@ -1404,7 +1409,7 @@ public class ConsequenceParams {
     return maxValuesPerFacet;
   }
 
-  public ConsequenceParams setSortFacetValuesBy(String sortFacetValuesBy) {
+  public SearchParams setSortFacetValuesBy(String sortFacetValuesBy) {
     this.sortFacetValuesBy = sortFacetValuesBy;
     return this;
   }
@@ -1421,7 +1426,7 @@ public class ConsequenceParams {
     return sortFacetValuesBy;
   }
 
-  public ConsequenceParams setAttributeCriteriaComputedByMinProximity(Boolean attributeCriteriaComputedByMinProximity) {
+  public SearchParams setAttributeCriteriaComputedByMinProximity(Boolean attributeCriteriaComputedByMinProximity) {
     this.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity;
     return this;
   }
@@ -1438,7 +1443,7 @@ public class ConsequenceParams {
     return attributeCriteriaComputedByMinProximity;
   }
 
-  public ConsequenceParams setRenderingContent(RenderingContent renderingContent) {
+  public SearchParams setRenderingContent(RenderingContent renderingContent) {
     this.renderingContent = renderingContent;
     return this;
   }
@@ -1449,7 +1454,7 @@ public class ConsequenceParams {
     return renderingContent;
   }
 
-  public ConsequenceParams setEnableReRanking(Boolean enableReRanking) {
+  public SearchParams setEnableReRanking(Boolean enableReRanking) {
     this.enableReRanking = enableReRanking;
     return this;
   }
@@ -1464,7 +1469,7 @@ public class ConsequenceParams {
     return enableReRanking;
   }
 
-  public ConsequenceParams setReRankingApplyFilter(ReRankingApplyFilter reRankingApplyFilter) {
+  public SearchParams setReRankingApplyFilter(ReRankingApplyFilter reRankingApplyFilter) {
     this.reRankingApplyFilter = reRankingApplyFilter;
     return this;
   }
@@ -1475,39 +1480,6 @@ public class ConsequenceParams {
     return reRankingApplyFilter;
   }
 
-  public ConsequenceParams setQuery(ConsequenceQuery query) {
-    this.query = query;
-    return this;
-  }
-
-  /** Get query */
-  @javax.annotation.Nullable
-  public ConsequenceQuery getQuery() {
-    return query;
-  }
-
-  public ConsequenceParams setAutomaticFacetFilters(AutomaticFacetFilters automaticFacetFilters) {
-    this.automaticFacetFilters = automaticFacetFilters;
-    return this;
-  }
-
-  /** Get automaticFacetFilters */
-  @javax.annotation.Nullable
-  public AutomaticFacetFilters getAutomaticFacetFilters() {
-    return automaticFacetFilters;
-  }
-
-  public ConsequenceParams setAutomaticOptionalFacetFilters(AutomaticFacetFilters automaticOptionalFacetFilters) {
-    this.automaticOptionalFacetFilters = automaticOptionalFacetFilters;
-    return this;
-  }
-
-  /** Get automaticOptionalFacetFilters */
-  @javax.annotation.Nullable
-  public AutomaticFacetFilters getAutomaticOptionalFacetFilters() {
-    return automaticOptionalFacetFilters;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -1516,92 +1488,91 @@ public class ConsequenceParams {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ConsequenceParams consequenceParams = (ConsequenceParams) o;
+    SearchParams searchParams = (SearchParams) o;
     return (
-      Objects.equals(this.similarQuery, consequenceParams.similarQuery) &&
-      Objects.equals(this.filters, consequenceParams.filters) &&
-      Objects.equals(this.facetFilters, consequenceParams.facetFilters) &&
-      Objects.equals(this.optionalFilters, consequenceParams.optionalFilters) &&
-      Objects.equals(this.numericFilters, consequenceParams.numericFilters) &&
-      Objects.equals(this.tagFilters, consequenceParams.tagFilters) &&
-      Objects.equals(this.sumOrFiltersScores, consequenceParams.sumOrFiltersScores) &&
-      Objects.equals(this.restrictSearchableAttributes, consequenceParams.restrictSearchableAttributes) &&
-      Objects.equals(this.facets, consequenceParams.facets) &&
-      Objects.equals(this.facetingAfterDistinct, consequenceParams.facetingAfterDistinct) &&
-      Objects.equals(this.page, consequenceParams.page) &&
-      Objects.equals(this.offset, consequenceParams.offset) &&
-      Objects.equals(this.length, consequenceParams.length) &&
-      Objects.equals(this.aroundLatLng, consequenceParams.aroundLatLng) &&
-      Objects.equals(this.aroundLatLngViaIP, consequenceParams.aroundLatLngViaIP) &&
-      Objects.equals(this.aroundRadius, consequenceParams.aroundRadius) &&
-      Objects.equals(this.aroundPrecision, consequenceParams.aroundPrecision) &&
-      Objects.equals(this.minimumAroundRadius, consequenceParams.minimumAroundRadius) &&
-      Objects.equals(this.insideBoundingBox, consequenceParams.insideBoundingBox) &&
-      Objects.equals(this.insidePolygon, consequenceParams.insidePolygon) &&
-      Objects.equals(this.naturalLanguages, consequenceParams.naturalLanguages) &&
-      Objects.equals(this.ruleContexts, consequenceParams.ruleContexts) &&
-      Objects.equals(this.personalizationImpact, consequenceParams.personalizationImpact) &&
-      Objects.equals(this.userToken, consequenceParams.userToken) &&
-      Objects.equals(this.getRankingInfo, consequenceParams.getRankingInfo) &&
-      Objects.equals(this.synonyms, consequenceParams.synonyms) &&
-      Objects.equals(this.clickAnalytics, consequenceParams.clickAnalytics) &&
-      Objects.equals(this.analytics, consequenceParams.analytics) &&
-      Objects.equals(this.analyticsTags, consequenceParams.analyticsTags) &&
-      Objects.equals(this.percentileComputation, consequenceParams.percentileComputation) &&
-      Objects.equals(this.enableABTest, consequenceParams.enableABTest) &&
-      Objects.equals(this.attributesToRetrieve, consequenceParams.attributesToRetrieve) &&
-      Objects.equals(this.ranking, consequenceParams.ranking) &&
-      Objects.equals(this.customRanking, consequenceParams.customRanking) &&
-      Objects.equals(this.relevancyStrictness, consequenceParams.relevancyStrictness) &&
-      Objects.equals(this.attributesToHighlight, consequenceParams.attributesToHighlight) &&
-      Objects.equals(this.attributesToSnippet, consequenceParams.attributesToSnippet) &&
-      Objects.equals(this.highlightPreTag, consequenceParams.highlightPreTag) &&
-      Objects.equals(this.highlightPostTag, consequenceParams.highlightPostTag) &&
-      Objects.equals(this.snippetEllipsisText, consequenceParams.snippetEllipsisText) &&
-      Objects.equals(this.restrictHighlightAndSnippetArrays, consequenceParams.restrictHighlightAndSnippetArrays) &&
-      Objects.equals(this.hitsPerPage, consequenceParams.hitsPerPage) &&
-      Objects.equals(this.minWordSizefor1Typo, consequenceParams.minWordSizefor1Typo) &&
-      Objects.equals(this.minWordSizefor2Typos, consequenceParams.minWordSizefor2Typos) &&
-      Objects.equals(this.typoTolerance, consequenceParams.typoTolerance) &&
-      Objects.equals(this.allowTyposOnNumericTokens, consequenceParams.allowTyposOnNumericTokens) &&
-      Objects.equals(this.disableTypoToleranceOnAttributes, consequenceParams.disableTypoToleranceOnAttributes) &&
-      Objects.equals(this.ignorePlurals, consequenceParams.ignorePlurals) &&
-      Objects.equals(this.removeStopWords, consequenceParams.removeStopWords) &&
-      Objects.equals(this.keepDiacriticsOnCharacters, consequenceParams.keepDiacriticsOnCharacters) &&
-      Objects.equals(this.queryLanguages, consequenceParams.queryLanguages) &&
-      Objects.equals(this.decompoundQuery, consequenceParams.decompoundQuery) &&
-      Objects.equals(this.enableRules, consequenceParams.enableRules) &&
-      Objects.equals(this.enablePersonalization, consequenceParams.enablePersonalization) &&
-      Objects.equals(this.queryType, consequenceParams.queryType) &&
-      Objects.equals(this.removeWordsIfNoResults, consequenceParams.removeWordsIfNoResults) &&
-      Objects.equals(this.mode, consequenceParams.mode) &&
-      Objects.equals(this.semanticSearch, consequenceParams.semanticSearch) &&
-      Objects.equals(this.advancedSyntax, consequenceParams.advancedSyntax) &&
-      Objects.equals(this.optionalWords, consequenceParams.optionalWords) &&
-      Objects.equals(this.disableExactOnAttributes, consequenceParams.disableExactOnAttributes) &&
-      Objects.equals(this.exactOnSingleWordQuery, consequenceParams.exactOnSingleWordQuery) &&
-      Objects.equals(this.alternativesAsExact, consequenceParams.alternativesAsExact) &&
-      Objects.equals(this.advancedSyntaxFeatures, consequenceParams.advancedSyntaxFeatures) &&
-      Objects.equals(this.distinct, consequenceParams.distinct) &&
-      Objects.equals(this.replaceSynonymsInHighlight, consequenceParams.replaceSynonymsInHighlight) &&
-      Objects.equals(this.minProximity, consequenceParams.minProximity) &&
-      Objects.equals(this.responseFields, consequenceParams.responseFields) &&
-      Objects.equals(this.maxFacetHits, consequenceParams.maxFacetHits) &&
-      Objects.equals(this.maxValuesPerFacet, consequenceParams.maxValuesPerFacet) &&
-      Objects.equals(this.sortFacetValuesBy, consequenceParams.sortFacetValuesBy) &&
-      Objects.equals(this.attributeCriteriaComputedByMinProximity, consequenceParams.attributeCriteriaComputedByMinProximity) &&
-      Objects.equals(this.renderingContent, consequenceParams.renderingContent) &&
-      Objects.equals(this.enableReRanking, consequenceParams.enableReRanking) &&
-      Objects.equals(this.reRankingApplyFilter, consequenceParams.reRankingApplyFilter) &&
-      Objects.equals(this.query, consequenceParams.query) &&
-      Objects.equals(this.automaticFacetFilters, consequenceParams.automaticFacetFilters) &&
-      Objects.equals(this.automaticOptionalFacetFilters, consequenceParams.automaticOptionalFacetFilters)
+      Objects.equals(this.query, searchParams.query) &&
+      Objects.equals(this.similarQuery, searchParams.similarQuery) &&
+      Objects.equals(this.filters, searchParams.filters) &&
+      Objects.equals(this.facetFilters, searchParams.facetFilters) &&
+      Objects.equals(this.optionalFilters, searchParams.optionalFilters) &&
+      Objects.equals(this.numericFilters, searchParams.numericFilters) &&
+      Objects.equals(this.tagFilters, searchParams.tagFilters) &&
+      Objects.equals(this.sumOrFiltersScores, searchParams.sumOrFiltersScores) &&
+      Objects.equals(this.restrictSearchableAttributes, searchParams.restrictSearchableAttributes) &&
+      Objects.equals(this.facets, searchParams.facets) &&
+      Objects.equals(this.facetingAfterDistinct, searchParams.facetingAfterDistinct) &&
+      Objects.equals(this.page, searchParams.page) &&
+      Objects.equals(this.offset, searchParams.offset) &&
+      Objects.equals(this.length, searchParams.length) &&
+      Objects.equals(this.aroundLatLng, searchParams.aroundLatLng) &&
+      Objects.equals(this.aroundLatLngViaIP, searchParams.aroundLatLngViaIP) &&
+      Objects.equals(this.aroundRadius, searchParams.aroundRadius) &&
+      Objects.equals(this.aroundPrecision, searchParams.aroundPrecision) &&
+      Objects.equals(this.minimumAroundRadius, searchParams.minimumAroundRadius) &&
+      Objects.equals(this.insideBoundingBox, searchParams.insideBoundingBox) &&
+      Objects.equals(this.insidePolygon, searchParams.insidePolygon) &&
+      Objects.equals(this.naturalLanguages, searchParams.naturalLanguages) &&
+      Objects.equals(this.ruleContexts, searchParams.ruleContexts) &&
+      Objects.equals(this.personalizationImpact, searchParams.personalizationImpact) &&
+      Objects.equals(this.userToken, searchParams.userToken) &&
+      Objects.equals(this.getRankingInfo, searchParams.getRankingInfo) &&
+      Objects.equals(this.synonyms, searchParams.synonyms) &&
+      Objects.equals(this.clickAnalytics, searchParams.clickAnalytics) &&
+      Objects.equals(this.analytics, searchParams.analytics) &&
+      Objects.equals(this.analyticsTags, searchParams.analyticsTags) &&
+      Objects.equals(this.percentileComputation, searchParams.percentileComputation) &&
+      Objects.equals(this.enableABTest, searchParams.enableABTest) &&
+      Objects.equals(this.attributesToRetrieve, searchParams.attributesToRetrieve) &&
+      Objects.equals(this.ranking, searchParams.ranking) &&
+      Objects.equals(this.customRanking, searchParams.customRanking) &&
+      Objects.equals(this.relevancyStrictness, searchParams.relevancyStrictness) &&
+      Objects.equals(this.attributesToHighlight, searchParams.attributesToHighlight) &&
+      Objects.equals(this.attributesToSnippet, searchParams.attributesToSnippet) &&
+      Objects.equals(this.highlightPreTag, searchParams.highlightPreTag) &&
+      Objects.equals(this.highlightPostTag, searchParams.highlightPostTag) &&
+      Objects.equals(this.snippetEllipsisText, searchParams.snippetEllipsisText) &&
+      Objects.equals(this.restrictHighlightAndSnippetArrays, searchParams.restrictHighlightAndSnippetArrays) &&
+      Objects.equals(this.hitsPerPage, searchParams.hitsPerPage) &&
+      Objects.equals(this.minWordSizefor1Typo, searchParams.minWordSizefor1Typo) &&
+      Objects.equals(this.minWordSizefor2Typos, searchParams.minWordSizefor2Typos) &&
+      Objects.equals(this.typoTolerance, searchParams.typoTolerance) &&
+      Objects.equals(this.allowTyposOnNumericTokens, searchParams.allowTyposOnNumericTokens) &&
+      Objects.equals(this.disableTypoToleranceOnAttributes, searchParams.disableTypoToleranceOnAttributes) &&
+      Objects.equals(this.ignorePlurals, searchParams.ignorePlurals) &&
+      Objects.equals(this.removeStopWords, searchParams.removeStopWords) &&
+      Objects.equals(this.keepDiacriticsOnCharacters, searchParams.keepDiacriticsOnCharacters) &&
+      Objects.equals(this.queryLanguages, searchParams.queryLanguages) &&
+      Objects.equals(this.decompoundQuery, searchParams.decompoundQuery) &&
+      Objects.equals(this.enableRules, searchParams.enableRules) &&
+      Objects.equals(this.enablePersonalization, searchParams.enablePersonalization) &&
+      Objects.equals(this.queryType, searchParams.queryType) &&
+      Objects.equals(this.removeWordsIfNoResults, searchParams.removeWordsIfNoResults) &&
+      Objects.equals(this.mode, searchParams.mode) &&
+      Objects.equals(this.semanticSearch, searchParams.semanticSearch) &&
+      Objects.equals(this.advancedSyntax, searchParams.advancedSyntax) &&
+      Objects.equals(this.optionalWords, searchParams.optionalWords) &&
+      Objects.equals(this.disableExactOnAttributes, searchParams.disableExactOnAttributes) &&
+      Objects.equals(this.exactOnSingleWordQuery, searchParams.exactOnSingleWordQuery) &&
+      Objects.equals(this.alternativesAsExact, searchParams.alternativesAsExact) &&
+      Objects.equals(this.advancedSyntaxFeatures, searchParams.advancedSyntaxFeatures) &&
+      Objects.equals(this.distinct, searchParams.distinct) &&
+      Objects.equals(this.replaceSynonymsInHighlight, searchParams.replaceSynonymsInHighlight) &&
+      Objects.equals(this.minProximity, searchParams.minProximity) &&
+      Objects.equals(this.responseFields, searchParams.responseFields) &&
+      Objects.equals(this.maxFacetHits, searchParams.maxFacetHits) &&
+      Objects.equals(this.maxValuesPerFacet, searchParams.maxValuesPerFacet) &&
+      Objects.equals(this.sortFacetValuesBy, searchParams.sortFacetValuesBy) &&
+      Objects.equals(this.attributeCriteriaComputedByMinProximity, searchParams.attributeCriteriaComputedByMinProximity) &&
+      Objects.equals(this.renderingContent, searchParams.renderingContent) &&
+      Objects.equals(this.enableReRanking, searchParams.enableReRanking) &&
+      Objects.equals(this.reRankingApplyFilter, searchParams.reRankingApplyFilter)
     );
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
+      query,
       similarQuery,
       filters,
       facetFilters,
@@ -1676,17 +1647,15 @@ public class ConsequenceParams {
       attributeCriteriaComputedByMinProximity,
       renderingContent,
       enableReRanking,
-      reRankingApplyFilter,
-      query,
-      automaticFacetFilters,
-      automaticOptionalFacetFilters
+      reRankingApplyFilter
     );
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ConsequenceParams {\n");
+    sb.append("class SearchParams {\n");
+    sb.append("    query: ").append(toIndentedString(query)).append("\n");
     sb.append("    similarQuery: ").append(toIndentedString(similarQuery)).append("\n");
     sb.append("    filters: ").append(toIndentedString(filters)).append("\n");
     sb.append("    facetFilters: ").append(toIndentedString(facetFilters)).append("\n");
@@ -1765,9 +1734,6 @@ public class ConsequenceParams {
     sb.append("    renderingContent: ").append(toIndentedString(renderingContent)).append("\n");
     sb.append("    enableReRanking: ").append(toIndentedString(enableReRanking)).append("\n");
     sb.append("    reRankingApplyFilter: ").append(toIndentedString(reRankingApplyFilter)).append("\n");
-    sb.append("    query: ").append(toIndentedString(query)).append("\n");
-    sb.append("    automaticFacetFilters: ").append(toIndentedString(automaticFacetFilters)).append("\n");
-    sb.append("    automaticOptionalFacetFilters: ").append(toIndentedString(automaticOptionalFacetFilters)).append("\n");
     sb.append("}");
     return sb.toString();
   }

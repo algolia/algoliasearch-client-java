@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** BaseTrendingItemsQuery */
-public class BaseTrendingItemsQuery {
+/** TrendingItems */
+public class TrendingItems {
 
   @JsonProperty("facetName")
   private String facetName;
@@ -19,57 +19,49 @@ public class BaseTrendingItemsQuery {
   @JsonProperty("model")
   private TrendingItemsModel model;
 
-  @JsonProperty("queryParameters")
-  private SearchParamsObject queryParameters;
-
   @JsonProperty("fallbackParameters")
   private SearchParamsObject fallbackParameters;
 
-  public BaseTrendingItemsQuery setFacetName(String facetName) {
+  public TrendingItems setFacetName(String facetName) {
     this.facetName = facetName;
     return this;
   }
 
-  /** Facet name for trending models. */
-  @javax.annotation.Nullable
+  /**
+   * Facet attribute. To be used in combination with `facetValue`. If specified, only
+   * recommendations matching the facet filter will be returned.
+   */
+  @javax.annotation.Nonnull
   public String getFacetName() {
     return facetName;
   }
 
-  public BaseTrendingItemsQuery setFacetValue(String facetValue) {
+  public TrendingItems setFacetValue(String facetValue) {
     this.facetValue = facetValue;
     return this;
   }
 
-  /** Facet value for trending models. */
-  @javax.annotation.Nullable
+  /**
+   * Facet value. To be used in combination with `facetName`. If specified, only recommendations
+   * matching the facet filter will be returned.
+   */
+  @javax.annotation.Nonnull
   public String getFacetValue() {
     return facetValue;
   }
 
-  public BaseTrendingItemsQuery setModel(TrendingItemsModel model) {
+  public TrendingItems setModel(TrendingItemsModel model) {
     this.model = model;
     return this;
   }
 
   /** Get model */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   public TrendingItemsModel getModel() {
     return model;
   }
 
-  public BaseTrendingItemsQuery setQueryParameters(SearchParamsObject queryParameters) {
-    this.queryParameters = queryParameters;
-    return this;
-  }
-
-  /** Get queryParameters */
-  @javax.annotation.Nullable
-  public SearchParamsObject getQueryParameters() {
-    return queryParameters;
-  }
-
-  public BaseTrendingItemsQuery setFallbackParameters(SearchParamsObject fallbackParameters) {
+  public TrendingItems setFallbackParameters(SearchParamsObject fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
@@ -88,29 +80,27 @@ public class BaseTrendingItemsQuery {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BaseTrendingItemsQuery baseTrendingItemsQuery = (BaseTrendingItemsQuery) o;
+    TrendingItems trendingItems = (TrendingItems) o;
     return (
-      Objects.equals(this.facetName, baseTrendingItemsQuery.facetName) &&
-      Objects.equals(this.facetValue, baseTrendingItemsQuery.facetValue) &&
-      Objects.equals(this.model, baseTrendingItemsQuery.model) &&
-      Objects.equals(this.queryParameters, baseTrendingItemsQuery.queryParameters) &&
-      Objects.equals(this.fallbackParameters, baseTrendingItemsQuery.fallbackParameters)
+      Objects.equals(this.facetName, trendingItems.facetName) &&
+      Objects.equals(this.facetValue, trendingItems.facetValue) &&
+      Objects.equals(this.model, trendingItems.model) &&
+      Objects.equals(this.fallbackParameters, trendingItems.fallbackParameters)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(facetName, facetValue, model, queryParameters, fallbackParameters);
+    return Objects.hash(facetName, facetValue, model, fallbackParameters);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BaseTrendingItemsQuery {\n");
+    sb.append("class TrendingItems {\n");
     sb.append("    facetName: ").append(toIndentedString(facetName)).append("\n");
     sb.append("    facetValue: ").append(toIndentedString(facetValue)).append("\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
-    sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
     sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("}");
     return sb.toString();

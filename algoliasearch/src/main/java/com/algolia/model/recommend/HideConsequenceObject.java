@@ -5,30 +5,23 @@ package com.algolia.model.recommend;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-/** RecommendationsHits */
-public class RecommendationsHits {
+/** Object ID of the recommendation you want to exclude. */
+public class HideConsequenceObject {
 
-  @JsonProperty("hits")
-  private List<RecommendationsHit> hits = new ArrayList<>();
+  @JsonProperty("objectID")
+  private String objectID;
 
-  public RecommendationsHits setHits(List<RecommendationsHit> hits) {
-    this.hits = hits;
+  public HideConsequenceObject setObjectID(String objectID) {
+    this.objectID = objectID;
     return this;
   }
 
-  public RecommendationsHits addHits(RecommendationsHit hitsItem) {
-    this.hits.add(hitsItem);
-    return this;
-  }
-
-  /** Get hits */
-  @javax.annotation.Nonnull
-  public List<RecommendationsHit> getHits() {
-    return hits;
+  /** Unique record identifier. */
+  @javax.annotation.Nullable
+  public String getObjectID() {
+    return objectID;
   }
 
   @Override
@@ -39,20 +32,20 @@ public class RecommendationsHits {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RecommendationsHits recommendationsHits = (RecommendationsHits) o;
-    return Objects.equals(this.hits, recommendationsHits.hits);
+    HideConsequenceObject hideConsequenceObject = (HideConsequenceObject) o;
+    return Objects.equals(this.objectID, hideConsequenceObject.objectID);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hits);
+    return Objects.hash(objectID);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RecommendationsHits {\n");
-    sb.append("    hits: ").append(toIndentedString(hits)).append("\n");
+    sb.append("class HideConsequenceObject {\n");
+    sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -7,9 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** Record to promote. */
-@JsonDeserialize(as = PromoteObjectID.class)
-public class PromoteObjectID implements Promote {
+/** Object ID and position of the recommendation you want to pin. */
+public class PromoteConsequenceObject {
 
   @JsonProperty("objectID")
   private String objectID;
@@ -17,24 +16,24 @@ public class PromoteObjectID implements Promote {
   @JsonProperty("position")
   private Integer position;
 
-  public PromoteObjectID setObjectID(String objectID) {
+  public PromoteConsequenceObject setObjectID(String objectID) {
     this.objectID = objectID;
     return this;
   }
 
   /** Unique record identifier. */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getObjectID() {
     return objectID;
   }
 
-  public PromoteObjectID setPosition(Integer position) {
+  public PromoteConsequenceObject setPosition(Integer position) {
     this.position = position;
     return this;
   }
 
-  /** Position in the search results where you want to show the promoted records. */
-  @javax.annotation.Nonnull
+  /** Index in the list of recommendations where to place this item. minimum: 0 */
+  @javax.annotation.Nullable
   public Integer getPosition() {
     return position;
   }
@@ -47,8 +46,10 @@ public class PromoteObjectID implements Promote {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PromoteObjectID promoteObjectID = (PromoteObjectID) o;
-    return Objects.equals(this.objectID, promoteObjectID.objectID) && Objects.equals(this.position, promoteObjectID.position);
+    PromoteConsequenceObject promoteConsequenceObject = (PromoteConsequenceObject) o;
+    return (
+      Objects.equals(this.objectID, promoteConsequenceObject.objectID) && Objects.equals(this.position, promoteConsequenceObject.position)
+    );
   }
 
   @Override
@@ -59,7 +60,7 @@ public class PromoteObjectID implements Promote {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PromoteObjectID {\n");
+    sb.append("class PromoteConsequenceObject {\n");
     sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
     sb.append("    position: ").append(toIndentedString(position)).append("\n");
     sb.append("}");

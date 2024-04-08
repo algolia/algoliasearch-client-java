@@ -5,21 +5,19 @@ package com.algolia.model.recommend;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-/** Rule object. */
-public class RuleResponse {
+/** Recommend rule. */
+public class RecommendRule {
 
   @JsonProperty("_metadata")
-  private RuleResponseMetadata metadata;
+  private RecommendRuleMetadata metadata;
 
   @JsonProperty("objectID")
   private String objectID;
 
-  @JsonProperty("conditions")
-  private List<Condition> conditions;
+  @JsonProperty("condition")
+  private Condition condition;
 
   @JsonProperty("consequence")
   private Consequence consequence;
@@ -30,51 +28,40 @@ public class RuleResponse {
   @JsonProperty("enabled")
   private Boolean enabled;
 
-  public RuleResponse setMetadata(RuleResponseMetadata metadata) {
+  public RecommendRule setMetadata(RecommendRuleMetadata metadata) {
     this.metadata = metadata;
     return this;
   }
 
   /** Get metadata */
   @javax.annotation.Nullable
-  public RuleResponseMetadata getMetadata() {
+  public RecommendRuleMetadata getMetadata() {
     return metadata;
   }
 
-  public RuleResponse setObjectID(String objectID) {
+  public RecommendRule setObjectID(String objectID) {
     this.objectID = objectID;
     return this;
   }
 
-  /** Unique identifier for a rule object. */
-  @javax.annotation.Nonnull
+  /** Unique identifier of a rule object. */
+  @javax.annotation.Nullable
   public String getObjectID() {
     return objectID;
   }
 
-  public RuleResponse setConditions(List<Condition> conditions) {
-    this.conditions = conditions;
+  public RecommendRule setCondition(Condition condition) {
+    this.condition = condition;
     return this;
   }
 
-  public RuleResponse addConditions(Condition conditionsItem) {
-    if (this.conditions == null) {
-      this.conditions = new ArrayList<>();
-    }
-    this.conditions.add(conditionsItem);
-    return this;
-  }
-
-  /**
-   * [Conditions](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#conditions)
-   * required to activate a rule. You can use up to 25 conditions per rule.
-   */
+  /** Get condition */
   @javax.annotation.Nullable
-  public List<Condition> getConditions() {
-    return conditions;
+  public Condition getCondition() {
+    return condition;
   }
 
-  public RuleResponse setConsequence(Consequence consequence) {
+  public RecommendRule setConsequence(Consequence consequence) {
     this.consequence = consequence;
     return this;
   }
@@ -85,7 +72,7 @@ public class RuleResponse {
     return consequence;
   }
 
-  public RuleResponse setDescription(String description) {
+  public RecommendRule setDescription(String description) {
     this.description = description;
     return this;
   }
@@ -98,7 +85,7 @@ public class RuleResponse {
     return description;
   }
 
-  public RuleResponse setEnabled(Boolean enabled) {
+  public RecommendRule setEnabled(Boolean enabled) {
     this.enabled = enabled;
     return this;
   }
@@ -117,29 +104,29 @@ public class RuleResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RuleResponse ruleResponse = (RuleResponse) o;
+    RecommendRule recommendRule = (RecommendRule) o;
     return (
-      Objects.equals(this.metadata, ruleResponse.metadata) &&
-      Objects.equals(this.objectID, ruleResponse.objectID) &&
-      Objects.equals(this.conditions, ruleResponse.conditions) &&
-      Objects.equals(this.consequence, ruleResponse.consequence) &&
-      Objects.equals(this.description, ruleResponse.description) &&
-      Objects.equals(this.enabled, ruleResponse.enabled)
+      Objects.equals(this.metadata, recommendRule.metadata) &&
+      Objects.equals(this.objectID, recommendRule.objectID) &&
+      Objects.equals(this.condition, recommendRule.condition) &&
+      Objects.equals(this.consequence, recommendRule.consequence) &&
+      Objects.equals(this.description, recommendRule.description) &&
+      Objects.equals(this.enabled, recommendRule.enabled)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(metadata, objectID, conditions, consequence, description, enabled);
+    return Objects.hash(metadata, objectID, condition, consequence, description, enabled);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RuleResponse {\n");
+    sb.append("class RecommendRule {\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
-    sb.append("    conditions: ").append(toIndentedString(conditions)).append("\n");
+    sb.append("    condition: ").append(toIndentedString(condition)).append("\n");
     sb.append("    consequence: ").append(toIndentedString(consequence)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");

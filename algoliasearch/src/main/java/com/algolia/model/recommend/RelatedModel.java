@@ -6,15 +6,16 @@ package com.algolia.model.recommend;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 
-/** Type of edit. */
-public enum EditType {
-  REMOVE("remove"),
-
-  REPLACE("replace");
+/**
+ * Related products or similar content model. This model recommends items that are similar to the
+ * item with the ID `objectID`. Similarity is determined from the user interactions and attributes.
+ */
+public enum RelatedModel {
+  RELATED_PRODUCTS("related-products");
 
   private final String value;
 
-  EditType(String value) {
+  RelatedModel(String value) {
     this.value = value;
   }
 
@@ -29,8 +30,8 @@ public enum EditType {
   }
 
   @JsonCreator
-  public static EditType fromValue(String value) {
-    for (EditType b : EditType.values()) {
+  public static RelatedModel fromValue(String value) {
+    for (RelatedModel b : RelatedModel.values()) {
       if (b.value.equals(value)) {
         return b;
       }

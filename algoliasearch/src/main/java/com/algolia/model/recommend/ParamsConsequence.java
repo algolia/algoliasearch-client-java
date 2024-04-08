@@ -5,21 +5,45 @@ package com.algolia.model.recommend;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-/**
- * Condition that triggers the rule. If not specified, the rule is triggered for all
- * recommendations.
- */
-public class Condition {
+/** Filter or boost recommendations matching a facet filter. */
+public class ParamsConsequence {
+
+  @JsonProperty("automaticFacetFilters")
+  private List<AutoFacetFilter> automaticFacetFilters;
 
   @JsonProperty("filters")
   private String filters;
 
-  @JsonProperty("context")
-  private String context;
+  @JsonProperty("optionalFilters")
+  private List<String> optionalFilters;
 
-  public Condition setFilters(String filters) {
+  public ParamsConsequence setAutomaticFacetFilters(List<AutoFacetFilter> automaticFacetFilters) {
+    this.automaticFacetFilters = automaticFacetFilters;
+    return this;
+  }
+
+  public ParamsConsequence addAutomaticFacetFilters(AutoFacetFilter automaticFacetFiltersItem) {
+    if (this.automaticFacetFilters == null) {
+      this.automaticFacetFilters = new ArrayList<>();
+    }
+    this.automaticFacetFilters.add(automaticFacetFiltersItem);
+    return this;
+  }
+
+  /**
+   * Filter recommendations that match or don't match the same `facet:facet_value` combination as
+   * the viewed item.
+   */
+  @javax.annotation.Nullable
+  public List<AutoFacetFilter> getAutomaticFacetFilters() {
+    return automaticFacetFilters;
+  }
+
+  public ParamsConsequence setFilters(String filters) {
     this.filters = filters;
     return this;
   }
@@ -46,20 +70,29 @@ public class Condition {
     return filters;
   }
 
-  public Condition setContext(String context) {
-    this.context = context;
+  public ParamsConsequence setOptionalFilters(List<String> optionalFilters) {
+    this.optionalFilters = optionalFilters;
+    return this;
+  }
+
+  public ParamsConsequence addOptionalFilters(String optionalFiltersItem) {
+    if (this.optionalFilters == null) {
+      this.optionalFilters = new ArrayList<>();
+    }
+    this.optionalFilters.add(optionalFiltersItem);
     return this;
   }
 
   /**
-   * An additional restriction that only triggers the rule, when the search has the same value as
-   * `ruleContexts` parameter. For example, if `context: mobile`, the rule is only triggered when
-   * the search request has a matching `ruleContexts: mobile`. A rule context must only contain
-   * alphanumeric characters.
+   * Filters to promote or demote records in the search results. Optional filters work like facet
+   * filters, but they don't exclude records from the search results. Records that match the
+   * optional filter rank before records that don't match. Matches with higher weights (`<score=N>`)
+   * rank before matches with lower weights. If you're using a negative filter `facet:-value`,
+   * matching records rank after records that don't match.
    */
   @javax.annotation.Nullable
-  public String getContext() {
-    return context;
+  public List<String> getOptionalFilters() {
+    return optionalFilters;
   }
 
   @Override
@@ -70,21 +103,26 @@ public class Condition {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Condition condition = (Condition) o;
-    return Objects.equals(this.filters, condition.filters) && Objects.equals(this.context, condition.context);
+    ParamsConsequence paramsConsequence = (ParamsConsequence) o;
+    return (
+      Objects.equals(this.automaticFacetFilters, paramsConsequence.automaticFacetFilters) &&
+      Objects.equals(this.filters, paramsConsequence.filters) &&
+      Objects.equals(this.optionalFilters, paramsConsequence.optionalFilters)
+    );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(filters, context);
+    return Objects.hash(automaticFacetFilters, filters, optionalFilters);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Condition {\n");
+    sb.append("class ParamsConsequence {\n");
+    sb.append("    automaticFacetFilters: ").append(toIndentedString(automaticFacetFilters)).append("\n");
     sb.append("    filters: ").append(toIndentedString(filters)).append("\n");
-    sb.append("    context: ").append(toIndentedString(context)).append("\n");
+    sb.append("    optionalFilters: ").append(toIndentedString(optionalFilters)).append("\n");
     sb.append("}");
     return sb.toString();
   }

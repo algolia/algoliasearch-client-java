@@ -7,8 +7,9 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** BaseRecommendRequest */
-public class BaseRecommendRequest {
+/** BoughtTogetherQuery */
+@JsonDeserialize(as = BoughtTogetherQuery.class)
+public class BoughtTogetherQuery implements RecommendationsRequest {
 
   @JsonProperty("indexName")
   private String indexName;
@@ -22,7 +23,13 @@ public class BaseRecommendRequest {
   @JsonProperty("queryParameters")
   private SearchParams queryParameters;
 
-  public BaseRecommendRequest setIndexName(String indexName) {
+  @JsonProperty("model")
+  private FbtModel model;
+
+  @JsonProperty("objectID")
+  private String objectID;
+
+  public BoughtTogetherQuery setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
@@ -33,7 +40,7 @@ public class BaseRecommendRequest {
     return indexName;
   }
 
-  public BaseRecommendRequest setThreshold(Double threshold) {
+  public BoughtTogetherQuery setThreshold(Double threshold) {
     this.threshold = threshold;
     return this;
   }
@@ -47,7 +54,7 @@ public class BaseRecommendRequest {
     return threshold;
   }
 
-  public BaseRecommendRequest setMaxRecommendations(Integer maxRecommendations) {
+  public BoughtTogetherQuery setMaxRecommendations(Integer maxRecommendations) {
     this.maxRecommendations = maxRecommendations;
     return this;
   }
@@ -63,7 +70,7 @@ public class BaseRecommendRequest {
     return maxRecommendations;
   }
 
-  public BaseRecommendRequest setQueryParameters(SearchParams queryParameters) {
+  public BoughtTogetherQuery setQueryParameters(SearchParams queryParameters) {
     this.queryParameters = queryParameters;
     return this;
   }
@@ -74,6 +81,28 @@ public class BaseRecommendRequest {
     return queryParameters;
   }
 
+  public BoughtTogetherQuery setModel(FbtModel model) {
+    this.model = model;
+    return this;
+  }
+
+  /** Get model */
+  @javax.annotation.Nonnull
+  public FbtModel getModel() {
+    return model;
+  }
+
+  public BoughtTogetherQuery setObjectID(String objectID) {
+    this.objectID = objectID;
+    return this;
+  }
+
+  /** Unique record identifier. */
+  @javax.annotation.Nonnull
+  public String getObjectID() {
+    return objectID;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -82,28 +111,32 @@ public class BaseRecommendRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BaseRecommendRequest baseRecommendRequest = (BaseRecommendRequest) o;
+    BoughtTogetherQuery boughtTogetherQuery = (BoughtTogetherQuery) o;
     return (
-      Objects.equals(this.indexName, baseRecommendRequest.indexName) &&
-      Objects.equals(this.threshold, baseRecommendRequest.threshold) &&
-      Objects.equals(this.maxRecommendations, baseRecommendRequest.maxRecommendations) &&
-      Objects.equals(this.queryParameters, baseRecommendRequest.queryParameters)
+      Objects.equals(this.indexName, boughtTogetherQuery.indexName) &&
+      Objects.equals(this.threshold, boughtTogetherQuery.threshold) &&
+      Objects.equals(this.maxRecommendations, boughtTogetherQuery.maxRecommendations) &&
+      Objects.equals(this.queryParameters, boughtTogetherQuery.queryParameters) &&
+      Objects.equals(this.model, boughtTogetherQuery.model) &&
+      Objects.equals(this.objectID, boughtTogetherQuery.objectID)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indexName, threshold, maxRecommendations, queryParameters);
+    return Objects.hash(indexName, threshold, maxRecommendations, queryParameters, model, objectID);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BaseRecommendRequest {\n");
+    sb.append("class BoughtTogetherQuery {\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    threshold: ").append(toIndentedString(threshold)).append("\n");
     sb.append("    maxRecommendations: ").append(toIndentedString(maxRecommendations)).append("\n");
     sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
+    sb.append("    model: ").append(toIndentedString(model)).append("\n");
+    sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
     sb.append("}");
     return sb.toString();
   }

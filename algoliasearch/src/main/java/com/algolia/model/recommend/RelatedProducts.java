@@ -7,33 +7,30 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** BaseRecommendationsQuery */
-public class BaseRecommendationsQuery {
+/** RelatedProducts */
+public class RelatedProducts {
 
   @JsonProperty("model")
-  private RecommendationModels model;
+  private RelatedModel model;
 
   @JsonProperty("objectID")
   private String objectID;
 
-  @JsonProperty("queryParameters")
-  private SearchParamsObject queryParameters;
-
   @JsonProperty("fallbackParameters")
-  private SearchParamsObject fallbackParameters;
+  private FallbackParams fallbackParameters;
 
-  public BaseRecommendationsQuery setModel(RecommendationModels model) {
+  public RelatedProducts setModel(RelatedModel model) {
     this.model = model;
     return this;
   }
 
   /** Get model */
   @javax.annotation.Nonnull
-  public RecommendationModels getModel() {
+  public RelatedModel getModel() {
     return model;
   }
 
-  public BaseRecommendationsQuery setObjectID(String objectID) {
+  public RelatedProducts setObjectID(String objectID) {
     this.objectID = objectID;
     return this;
   }
@@ -44,25 +41,14 @@ public class BaseRecommendationsQuery {
     return objectID;
   }
 
-  public BaseRecommendationsQuery setQueryParameters(SearchParamsObject queryParameters) {
-    this.queryParameters = queryParameters;
-    return this;
-  }
-
-  /** Get queryParameters */
-  @javax.annotation.Nullable
-  public SearchParamsObject getQueryParameters() {
-    return queryParameters;
-  }
-
-  public BaseRecommendationsQuery setFallbackParameters(SearchParamsObject fallbackParameters) {
+  public RelatedProducts setFallbackParameters(FallbackParams fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
 
   /** Get fallbackParameters */
   @javax.annotation.Nullable
-  public SearchParamsObject getFallbackParameters() {
+  public FallbackParams getFallbackParameters() {
     return fallbackParameters;
   }
 
@@ -74,27 +60,25 @@ public class BaseRecommendationsQuery {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BaseRecommendationsQuery baseRecommendationsQuery = (BaseRecommendationsQuery) o;
+    RelatedProducts relatedProducts = (RelatedProducts) o;
     return (
-      Objects.equals(this.model, baseRecommendationsQuery.model) &&
-      Objects.equals(this.objectID, baseRecommendationsQuery.objectID) &&
-      Objects.equals(this.queryParameters, baseRecommendationsQuery.queryParameters) &&
-      Objects.equals(this.fallbackParameters, baseRecommendationsQuery.fallbackParameters)
+      Objects.equals(this.model, relatedProducts.model) &&
+      Objects.equals(this.objectID, relatedProducts.objectID) &&
+      Objects.equals(this.fallbackParameters, relatedProducts.fallbackParameters)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(model, objectID, queryParameters, fallbackParameters);
+    return Objects.hash(model, objectID, fallbackParameters);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BaseRecommendationsQuery {\n");
+    sb.append("class RelatedProducts {\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
     sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
-    sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
     sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -7,35 +7,35 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** BaseTrendingFacetsQuery */
-public class BaseTrendingFacetsQuery {
-
-  @JsonProperty("facetName")
-  private String facetName;
+/** RecommendedForYou */
+public class RecommendedForYou {
 
   @JsonProperty("model")
-  private TrendingFacetsModel model;
+  private RecommendedForYouModel model;
 
-  public BaseTrendingFacetsQuery setFacetName(String facetName) {
-    this.facetName = facetName;
-    return this;
-  }
+  @JsonProperty("fallbackParameters")
+  private FallbackParams fallbackParameters;
 
-  /** Facet name for trending models. */
-  @javax.annotation.Nonnull
-  public String getFacetName() {
-    return facetName;
-  }
-
-  public BaseTrendingFacetsQuery setModel(TrendingFacetsModel model) {
+  public RecommendedForYou setModel(RecommendedForYouModel model) {
     this.model = model;
     return this;
   }
 
   /** Get model */
-  @javax.annotation.Nullable
-  public TrendingFacetsModel getModel() {
+  @javax.annotation.Nonnull
+  public RecommendedForYouModel getModel() {
     return model;
+  }
+
+  public RecommendedForYou setFallbackParameters(FallbackParams fallbackParameters) {
+    this.fallbackParameters = fallbackParameters;
+    return this;
+  }
+
+  /** Get fallbackParameters */
+  @javax.annotation.Nullable
+  public FallbackParams getFallbackParameters() {
+    return fallbackParameters;
   }
 
   @Override
@@ -46,21 +46,23 @@ public class BaseTrendingFacetsQuery {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BaseTrendingFacetsQuery baseTrendingFacetsQuery = (BaseTrendingFacetsQuery) o;
-    return Objects.equals(this.facetName, baseTrendingFacetsQuery.facetName) && Objects.equals(this.model, baseTrendingFacetsQuery.model);
+    RecommendedForYou recommendedForYou = (RecommendedForYou) o;
+    return (
+      Objects.equals(this.model, recommendedForYou.model) && Objects.equals(this.fallbackParameters, recommendedForYou.fallbackParameters)
+    );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(facetName, model);
+    return Objects.hash(model, fallbackParameters);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BaseTrendingFacetsQuery {\n");
-    sb.append("    facetName: ").append(toIndentedString(facetName)).append("\n");
+    sb.append("class RecommendedForYou {\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
+    sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("}");
     return sb.toString();
   }

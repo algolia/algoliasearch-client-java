@@ -6,15 +6,16 @@ package com.algolia.model.recommend;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 
-/** Recommendation model. */
-public enum RecommendationModels {
-  RELATED_PRODUCTS("related-products"),
-
-  BOUGHT_TOGETHER("bought-together");
+/**
+ * Looking similar model. This model recommends items that look similar to the item with the ID
+ * `objectID` based on image attributes in your index.
+ */
+public enum LookingSimilarModel {
+  LOOKING_SIMILAR("looking-similar");
 
   private final String value;
 
-  RecommendationModels(String value) {
+  LookingSimilarModel(String value) {
     this.value = value;
   }
 
@@ -29,8 +30,8 @@ public enum RecommendationModels {
   }
 
   @JsonCreator
-  public static RecommendationModels fromValue(String value) {
-    for (RecommendationModels b : RecommendationModels.values()) {
+  public static LookingSimilarModel fromValue(String value) {
+    for (LookingSimilarModel b : LookingSimilarModel.values()) {
       if (b.value.equals(value)) {
         return b;
       }

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** RecommendedForYouQueryParameters */
-public class RecommendedForYouQueryParameters {
+/** FallbackParams */
+public class FallbackParams {
 
   @JsonProperty("query")
   private String query;
@@ -240,7 +240,7 @@ public class RecommendedForYouQueryParameters {
   @JsonProperty("reRankingApplyFilter")
   private ReRankingApplyFilter reRankingApplyFilter;
 
-  public RecommendedForYouQueryParameters setQuery(String query) {
+  public FallbackParams setQuery(String query) {
     this.query = query;
     return this;
   }
@@ -251,7 +251,7 @@ public class RecommendedForYouQueryParameters {
     return query;
   }
 
-  public RecommendedForYouQueryParameters setSimilarQuery(String similarQuery) {
+  public FallbackParams setSimilarQuery(String similarQuery) {
     this.similarQuery = similarQuery;
     return this;
   }
@@ -269,26 +269,26 @@ public class RecommendedForYouQueryParameters {
     return similarQuery;
   }
 
-  public RecommendedForYouQueryParameters setFilters(String filters) {
+  public FallbackParams setFilters(String filters) {
     this.filters = filters;
     return this;
   }
 
   /**
-   * Filter the search so that only records with matching values are included in the results. These
-   * filters are supported: - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of
-   * `<`, `<=`, `=`, `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and
-   * `<upper>` are the lower and upper limits of the range (inclusive). - **Facet filters.**
-   * `<facet>:<value>` where `<facet>` is a facet attribute (case-sensitive) and `<value>` a facet
-   * value. - **Tag filters.** `_tags:<value>` or just `<value>` (case-sensitive). - **Boolean
-   * filters.** `<facet>: true | false`. You can combine filters with `AND`, `OR`, and `NOT`
-   * operators with the following restrictions: - You can only combine filters of the same type with
-   * `OR`. **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of
-   * filters. **Not supported:** `NOT(facet:value OR facet:value)` - You can't combine conjunctions
-   * (`AND`) with `OR`. **Not supported:** `facet:value OR (facet:value AND facet:value)` Use quotes
-   * around your filters, if the facet attribute name or facet value has spaces, keywords (`OR`,
-   * `AND`, `NOT`), or quotes. If a facet attribute is an array, the filter matches if it matches at
-   * least one element of the array. For more information, see
+   * Filter expression to only include items that match the filter criteria in the response. You can
+   * use these filter expressions: - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is
+   * one of `<`, `<=`, `=`, `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where
+   * `<lower>` and `<upper>` are the lower and upper limits of the range (inclusive). - **Facet
+   * filters.** `<facet>:<value>` where `<facet>` is a facet attribute (case-sensitive) and
+   * `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>` (case-sensitive).
+   * - **Boolean filters.** `<facet>: true | false`. You can combine filters with `AND`, `OR`, and
+   * `NOT` operators with the following restrictions: - You can only combine filters of the same
+   * type with `OR`. **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with
+   * combinations of filters. **Not supported:** `NOT(facet:value OR facet:value)` - You can't
+   * combine conjunctions (`AND`) with `OR`. **Not supported:** `facet:value OR (facet:value AND
+   * facet:value)` Use quotes around your filters, if the facet attribute name or facet value has
+   * spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an array, the filter
+   * matches if it matches at least one element of the array. For more information, see
    * [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
    */
   @javax.annotation.Nullable
@@ -296,7 +296,7 @@ public class RecommendedForYouQueryParameters {
     return filters;
   }
 
-  public RecommendedForYouQueryParameters setFacetFilters(FacetFilters facetFilters) {
+  public FallbackParams setFacetFilters(FacetFilters facetFilters) {
     this.facetFilters = facetFilters;
     return this;
   }
@@ -307,7 +307,7 @@ public class RecommendedForYouQueryParameters {
     return facetFilters;
   }
 
-  public RecommendedForYouQueryParameters setOptionalFilters(OptionalFilters optionalFilters) {
+  public FallbackParams setOptionalFilters(OptionalFilters optionalFilters) {
     this.optionalFilters = optionalFilters;
     return this;
   }
@@ -318,7 +318,7 @@ public class RecommendedForYouQueryParameters {
     return optionalFilters;
   }
 
-  public RecommendedForYouQueryParameters setNumericFilters(NumericFilters numericFilters) {
+  public FallbackParams setNumericFilters(NumericFilters numericFilters) {
     this.numericFilters = numericFilters;
     return this;
   }
@@ -329,7 +329,7 @@ public class RecommendedForYouQueryParameters {
     return numericFilters;
   }
 
-  public RecommendedForYouQueryParameters setTagFilters(TagFilters tagFilters) {
+  public FallbackParams setTagFilters(TagFilters tagFilters) {
     this.tagFilters = tagFilters;
     return this;
   }
@@ -340,7 +340,7 @@ public class RecommendedForYouQueryParameters {
     return tagFilters;
   }
 
-  public RecommendedForYouQueryParameters setSumOrFiltersScores(Boolean sumOrFiltersScores) {
+  public FallbackParams setSumOrFiltersScores(Boolean sumOrFiltersScores) {
     this.sumOrFiltersScores = sumOrFiltersScores;
     return this;
   }
@@ -355,12 +355,12 @@ public class RecommendedForYouQueryParameters {
     return sumOrFiltersScores;
   }
 
-  public RecommendedForYouQueryParameters setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
+  public FallbackParams setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
     this.restrictSearchableAttributes = restrictSearchableAttributes;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addRestrictSearchableAttributes(String restrictSearchableAttributesItem) {
+  public FallbackParams addRestrictSearchableAttributes(String restrictSearchableAttributesItem) {
     if (this.restrictSearchableAttributes == null) {
       this.restrictSearchableAttributes = new ArrayList<>();
     }
@@ -374,12 +374,12 @@ public class RecommendedForYouQueryParameters {
     return restrictSearchableAttributes;
   }
 
-  public RecommendedForYouQueryParameters setFacets(List<String> facets) {
+  public FallbackParams setFacets(List<String> facets) {
     this.facets = facets;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addFacets(String facetsItem) {
+  public FallbackParams addFacets(String facetsItem) {
     if (this.facets == null) {
       this.facets = new ArrayList<>();
     }
@@ -398,7 +398,7 @@ public class RecommendedForYouQueryParameters {
     return facets;
   }
 
-  public RecommendedForYouQueryParameters setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
+  public FallbackParams setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
     this.facetingAfterDistinct = facetingAfterDistinct;
     return this;
   }
@@ -415,7 +415,7 @@ public class RecommendedForYouQueryParameters {
     return facetingAfterDistinct;
   }
 
-  public RecommendedForYouQueryParameters setPage(Integer page) {
+  public FallbackParams setPage(Integer page) {
     this.page = page;
     return this;
   }
@@ -426,7 +426,7 @@ public class RecommendedForYouQueryParameters {
     return page;
   }
 
-  public RecommendedForYouQueryParameters setOffset(Integer offset) {
+  public FallbackParams setOffset(Integer offset) {
     this.offset = offset;
     return this;
   }
@@ -437,7 +437,7 @@ public class RecommendedForYouQueryParameters {
     return offset;
   }
 
-  public RecommendedForYouQueryParameters setLength(Integer length) {
+  public FallbackParams setLength(Integer length) {
     this.length = length;
     return this;
   }
@@ -448,7 +448,7 @@ public class RecommendedForYouQueryParameters {
     return length;
   }
 
-  public RecommendedForYouQueryParameters setAroundLatLng(String aroundLatLng) {
+  public FallbackParams setAroundLatLng(String aroundLatLng) {
     this.aroundLatLng = aroundLatLng;
     return this;
   }
@@ -464,7 +464,7 @@ public class RecommendedForYouQueryParameters {
     return aroundLatLng;
   }
 
-  public RecommendedForYouQueryParameters setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
+  public FallbackParams setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
     this.aroundLatLngViaIP = aroundLatLngViaIP;
     return this;
   }
@@ -475,7 +475,7 @@ public class RecommendedForYouQueryParameters {
     return aroundLatLngViaIP;
   }
 
-  public RecommendedForYouQueryParameters setAroundRadius(AroundRadius aroundRadius) {
+  public FallbackParams setAroundRadius(AroundRadius aroundRadius) {
     this.aroundRadius = aroundRadius;
     return this;
   }
@@ -486,7 +486,7 @@ public class RecommendedForYouQueryParameters {
     return aroundRadius;
   }
 
-  public RecommendedForYouQueryParameters setAroundPrecision(AroundPrecision aroundPrecision) {
+  public FallbackParams setAroundPrecision(AroundPrecision aroundPrecision) {
     this.aroundPrecision = aroundPrecision;
     return this;
   }
@@ -497,7 +497,7 @@ public class RecommendedForYouQueryParameters {
     return aroundPrecision;
   }
 
-  public RecommendedForYouQueryParameters setMinimumAroundRadius(Integer minimumAroundRadius) {
+  public FallbackParams setMinimumAroundRadius(Integer minimumAroundRadius) {
     this.minimumAroundRadius = minimumAroundRadius;
     return this;
   }
@@ -511,12 +511,12 @@ public class RecommendedForYouQueryParameters {
     return minimumAroundRadius;
   }
 
-  public RecommendedForYouQueryParameters setInsideBoundingBox(List<List<Double>> insideBoundingBox) {
+  public FallbackParams setInsideBoundingBox(List<List<Double>> insideBoundingBox) {
     this.insideBoundingBox = insideBoundingBox;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addInsideBoundingBox(List<Double> insideBoundingBoxItem) {
+  public FallbackParams addInsideBoundingBox(List<Double> insideBoundingBoxItem) {
     if (this.insideBoundingBox == null) {
       this.insideBoundingBox = new ArrayList<>();
     }
@@ -536,12 +536,12 @@ public class RecommendedForYouQueryParameters {
     return insideBoundingBox;
   }
 
-  public RecommendedForYouQueryParameters setInsidePolygon(List<List<Double>> insidePolygon) {
+  public FallbackParams setInsidePolygon(List<List<Double>> insidePolygon) {
     this.insidePolygon = insidePolygon;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addInsidePolygon(List<Double> insidePolygonItem) {
+  public FallbackParams addInsidePolygon(List<Double> insidePolygonItem) {
     if (this.insidePolygon == null) {
       this.insidePolygon = new ArrayList<>();
     }
@@ -561,12 +561,12 @@ public class RecommendedForYouQueryParameters {
     return insidePolygon;
   }
 
-  public RecommendedForYouQueryParameters setNaturalLanguages(List<String> naturalLanguages) {
+  public FallbackParams setNaturalLanguages(List<String> naturalLanguages) {
     this.naturalLanguages = naturalLanguages;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addNaturalLanguages(String naturalLanguagesItem) {
+  public FallbackParams addNaturalLanguages(String naturalLanguagesItem) {
     if (this.naturalLanguages == null) {
       this.naturalLanguages = new ArrayList<>();
     }
@@ -585,12 +585,12 @@ public class RecommendedForYouQueryParameters {
     return naturalLanguages;
   }
 
-  public RecommendedForYouQueryParameters setRuleContexts(List<String> ruleContexts) {
+  public FallbackParams setRuleContexts(List<String> ruleContexts) {
     this.ruleContexts = ruleContexts;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addRuleContexts(String ruleContextsItem) {
+  public FallbackParams addRuleContexts(String ruleContextsItem) {
     if (this.ruleContexts == null) {
       this.ruleContexts = new ArrayList<>();
     }
@@ -608,7 +608,7 @@ public class RecommendedForYouQueryParameters {
     return ruleContexts;
   }
 
-  public RecommendedForYouQueryParameters setPersonalizationImpact(Integer personalizationImpact) {
+  public FallbackParams setPersonalizationImpact(Integer personalizationImpact) {
     this.personalizationImpact = personalizationImpact;
     return this;
   }
@@ -625,7 +625,7 @@ public class RecommendedForYouQueryParameters {
     return personalizationImpact;
   }
 
-  public RecommendedForYouQueryParameters setUserToken(String userToken) {
+  public FallbackParams setUserToken(String userToken) {
     this.userToken = userToken;
     return this;
   }
@@ -635,12 +635,12 @@ public class RecommendedForYouQueryParameters {
    * conversion events. For more information, see [user
    * token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getUserToken() {
     return userToken;
   }
 
-  public RecommendedForYouQueryParameters setGetRankingInfo(Boolean getRankingInfo) {
+  public FallbackParams setGetRankingInfo(Boolean getRankingInfo) {
     this.getRankingInfo = getRankingInfo;
     return this;
   }
@@ -651,7 +651,7 @@ public class RecommendedForYouQueryParameters {
     return getRankingInfo;
   }
 
-  public RecommendedForYouQueryParameters setSynonyms(Boolean synonyms) {
+  public FallbackParams setSynonyms(Boolean synonyms) {
     this.synonyms = synonyms;
     return this;
   }
@@ -662,7 +662,7 @@ public class RecommendedForYouQueryParameters {
     return synonyms;
   }
 
-  public RecommendedForYouQueryParameters setClickAnalytics(Boolean clickAnalytics) {
+  public FallbackParams setClickAnalytics(Boolean clickAnalytics) {
     this.clickAnalytics = clickAnalytics;
     return this;
   }
@@ -677,7 +677,7 @@ public class RecommendedForYouQueryParameters {
     return clickAnalytics;
   }
 
-  public RecommendedForYouQueryParameters setAnalytics(Boolean analytics) {
+  public FallbackParams setAnalytics(Boolean analytics) {
     this.analytics = analytics;
     return this;
   }
@@ -688,12 +688,12 @@ public class RecommendedForYouQueryParameters {
     return analytics;
   }
 
-  public RecommendedForYouQueryParameters setAnalyticsTags(List<String> analyticsTags) {
+  public FallbackParams setAnalyticsTags(List<String> analyticsTags) {
     this.analyticsTags = analyticsTags;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addAnalyticsTags(String analyticsTagsItem) {
+  public FallbackParams addAnalyticsTags(String analyticsTagsItem) {
     if (this.analyticsTags == null) {
       this.analyticsTags = new ArrayList<>();
     }
@@ -710,7 +710,7 @@ public class RecommendedForYouQueryParameters {
     return analyticsTags;
   }
 
-  public RecommendedForYouQueryParameters setPercentileComputation(Boolean percentileComputation) {
+  public FallbackParams setPercentileComputation(Boolean percentileComputation) {
     this.percentileComputation = percentileComputation;
     return this;
   }
@@ -721,7 +721,7 @@ public class RecommendedForYouQueryParameters {
     return percentileComputation;
   }
 
-  public RecommendedForYouQueryParameters setEnableABTest(Boolean enableABTest) {
+  public FallbackParams setEnableABTest(Boolean enableABTest) {
     this.enableABTest = enableABTest;
     return this;
   }
@@ -732,12 +732,12 @@ public class RecommendedForYouQueryParameters {
     return enableABTest;
   }
 
-  public RecommendedForYouQueryParameters setAttributesToRetrieve(List<String> attributesToRetrieve) {
+  public FallbackParams setAttributesToRetrieve(List<String> attributesToRetrieve) {
     this.attributesToRetrieve = attributesToRetrieve;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addAttributesToRetrieve(String attributesToRetrieveItem) {
+  public FallbackParams addAttributesToRetrieve(String attributesToRetrieveItem) {
     if (this.attributesToRetrieve == null) {
       this.attributesToRetrieve = new ArrayList<>();
     }
@@ -757,12 +757,12 @@ public class RecommendedForYouQueryParameters {
     return attributesToRetrieve;
   }
 
-  public RecommendedForYouQueryParameters setRanking(List<String> ranking) {
+  public FallbackParams setRanking(List<String> ranking) {
     this.ranking = ranking;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addRanking(String rankingItem) {
+  public FallbackParams addRanking(String rankingItem) {
     if (this.ranking == null) {
       this.ranking = new ArrayList<>();
     }
@@ -788,12 +788,12 @@ public class RecommendedForYouQueryParameters {
     return ranking;
   }
 
-  public RecommendedForYouQueryParameters setCustomRanking(List<String> customRanking) {
+  public FallbackParams setCustomRanking(List<String> customRanking) {
     this.customRanking = customRanking;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addCustomRanking(String customRankingItem) {
+  public FallbackParams addCustomRanking(String customRankingItem) {
     if (this.customRanking == null) {
       this.customRanking = new ArrayList<>();
     }
@@ -818,7 +818,7 @@ public class RecommendedForYouQueryParameters {
     return customRanking;
   }
 
-  public RecommendedForYouQueryParameters setRelevancyStrictness(Integer relevancyStrictness) {
+  public FallbackParams setRelevancyStrictness(Integer relevancyStrictness) {
     this.relevancyStrictness = relevancyStrictness;
     return this;
   }
@@ -834,12 +834,12 @@ public class RecommendedForYouQueryParameters {
     return relevancyStrictness;
   }
 
-  public RecommendedForYouQueryParameters setAttributesToHighlight(List<String> attributesToHighlight) {
+  public FallbackParams setAttributesToHighlight(List<String> attributesToHighlight) {
     this.attributesToHighlight = attributesToHighlight;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addAttributesToHighlight(String attributesToHighlightItem) {
+  public FallbackParams addAttributesToHighlight(String attributesToHighlightItem) {
     if (this.attributesToHighlight == null) {
       this.attributesToHighlight = new ArrayList<>();
     }
@@ -860,12 +860,12 @@ public class RecommendedForYouQueryParameters {
     return attributesToHighlight;
   }
 
-  public RecommendedForYouQueryParameters setAttributesToSnippet(List<String> attributesToSnippet) {
+  public FallbackParams setAttributesToSnippet(List<String> attributesToSnippet) {
     this.attributesToSnippet = attributesToSnippet;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addAttributesToSnippet(String attributesToSnippetItem) {
+  public FallbackParams addAttributesToSnippet(String attributesToSnippetItem) {
     if (this.attributesToSnippet == null) {
       this.attributesToSnippet = new ArrayList<>();
     }
@@ -884,7 +884,7 @@ public class RecommendedForYouQueryParameters {
     return attributesToSnippet;
   }
 
-  public RecommendedForYouQueryParameters setHighlightPreTag(String highlightPreTag) {
+  public FallbackParams setHighlightPreTag(String highlightPreTag) {
     this.highlightPreTag = highlightPreTag;
     return this;
   }
@@ -895,7 +895,7 @@ public class RecommendedForYouQueryParameters {
     return highlightPreTag;
   }
 
-  public RecommendedForYouQueryParameters setHighlightPostTag(String highlightPostTag) {
+  public FallbackParams setHighlightPostTag(String highlightPostTag) {
     this.highlightPostTag = highlightPostTag;
     return this;
   }
@@ -906,7 +906,7 @@ public class RecommendedForYouQueryParameters {
     return highlightPostTag;
   }
 
-  public RecommendedForYouQueryParameters setSnippetEllipsisText(String snippetEllipsisText) {
+  public FallbackParams setSnippetEllipsisText(String snippetEllipsisText) {
     this.snippetEllipsisText = snippetEllipsisText;
     return this;
   }
@@ -917,7 +917,7 @@ public class RecommendedForYouQueryParameters {
     return snippetEllipsisText;
   }
 
-  public RecommendedForYouQueryParameters setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
+  public FallbackParams setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
     this.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays;
     return this;
   }
@@ -931,7 +931,7 @@ public class RecommendedForYouQueryParameters {
     return restrictHighlightAndSnippetArrays;
   }
 
-  public RecommendedForYouQueryParameters setHitsPerPage(Integer hitsPerPage) {
+  public FallbackParams setHitsPerPage(Integer hitsPerPage) {
     this.hitsPerPage = hitsPerPage;
     return this;
   }
@@ -942,7 +942,7 @@ public class RecommendedForYouQueryParameters {
     return hitsPerPage;
   }
 
-  public RecommendedForYouQueryParameters setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
+  public FallbackParams setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
     this.minWordSizefor1Typo = minWordSizefor1Typo;
     return this;
   }
@@ -957,7 +957,7 @@ public class RecommendedForYouQueryParameters {
     return minWordSizefor1Typo;
   }
 
-  public RecommendedForYouQueryParameters setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
+  public FallbackParams setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
     this.minWordSizefor2Typos = minWordSizefor2Typos;
     return this;
   }
@@ -972,7 +972,7 @@ public class RecommendedForYouQueryParameters {
     return minWordSizefor2Typos;
   }
 
-  public RecommendedForYouQueryParameters setTypoTolerance(TypoTolerance typoTolerance) {
+  public FallbackParams setTypoTolerance(TypoTolerance typoTolerance) {
     this.typoTolerance = typoTolerance;
     return this;
   }
@@ -983,7 +983,7 @@ public class RecommendedForYouQueryParameters {
     return typoTolerance;
   }
 
-  public RecommendedForYouQueryParameters setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
+  public FallbackParams setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
     this.allowTyposOnNumericTokens = allowTyposOnNumericTokens;
     return this;
   }
@@ -997,12 +997,12 @@ public class RecommendedForYouQueryParameters {
     return allowTyposOnNumericTokens;
   }
 
-  public RecommendedForYouQueryParameters setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
+  public FallbackParams setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
     this.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addDisableTypoToleranceOnAttributes(String disableTypoToleranceOnAttributesItem) {
+  public FallbackParams addDisableTypoToleranceOnAttributes(String disableTypoToleranceOnAttributesItem) {
     if (this.disableTypoToleranceOnAttributes == null) {
       this.disableTypoToleranceOnAttributes = new ArrayList<>();
     }
@@ -1025,7 +1025,7 @@ public class RecommendedForYouQueryParameters {
     return disableTypoToleranceOnAttributes;
   }
 
-  public RecommendedForYouQueryParameters setIgnorePlurals(IgnorePlurals ignorePlurals) {
+  public FallbackParams setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
     return this;
   }
@@ -1036,7 +1036,7 @@ public class RecommendedForYouQueryParameters {
     return ignorePlurals;
   }
 
-  public RecommendedForYouQueryParameters setRemoveStopWords(RemoveStopWords removeStopWords) {
+  public FallbackParams setRemoveStopWords(RemoveStopWords removeStopWords) {
     this.removeStopWords = removeStopWords;
     return this;
   }
@@ -1047,7 +1047,7 @@ public class RecommendedForYouQueryParameters {
     return removeStopWords;
   }
 
-  public RecommendedForYouQueryParameters setKeepDiacriticsOnCharacters(String keepDiacriticsOnCharacters) {
+  public FallbackParams setKeepDiacriticsOnCharacters(String keepDiacriticsOnCharacters) {
     this.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters;
     return this;
   }
@@ -1062,12 +1062,12 @@ public class RecommendedForYouQueryParameters {
     return keepDiacriticsOnCharacters;
   }
 
-  public RecommendedForYouQueryParameters setQueryLanguages(List<SupportedLanguage> queryLanguages) {
+  public FallbackParams setQueryLanguages(List<SupportedLanguage> queryLanguages) {
     this.queryLanguages = queryLanguages;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addQueryLanguages(SupportedLanguage queryLanguagesItem) {
+  public FallbackParams addQueryLanguages(SupportedLanguage queryLanguagesItem) {
     if (this.queryLanguages == null) {
       this.queryLanguages = new ArrayList<>();
     }
@@ -1094,7 +1094,7 @@ public class RecommendedForYouQueryParameters {
     return queryLanguages;
   }
 
-  public RecommendedForYouQueryParameters setDecompoundQuery(Boolean decompoundQuery) {
+  public FallbackParams setDecompoundQuery(Boolean decompoundQuery) {
     this.decompoundQuery = decompoundQuery;
     return this;
   }
@@ -1110,7 +1110,7 @@ public class RecommendedForYouQueryParameters {
     return decompoundQuery;
   }
 
-  public RecommendedForYouQueryParameters setEnableRules(Boolean enableRules) {
+  public FallbackParams setEnableRules(Boolean enableRules) {
     this.enableRules = enableRules;
     return this;
   }
@@ -1121,7 +1121,7 @@ public class RecommendedForYouQueryParameters {
     return enableRules;
   }
 
-  public RecommendedForYouQueryParameters setEnablePersonalization(Boolean enablePersonalization) {
+  public FallbackParams setEnablePersonalization(Boolean enablePersonalization) {
     this.enablePersonalization = enablePersonalization;
     return this;
   }
@@ -1132,7 +1132,7 @@ public class RecommendedForYouQueryParameters {
     return enablePersonalization;
   }
 
-  public RecommendedForYouQueryParameters setQueryType(QueryType queryType) {
+  public FallbackParams setQueryType(QueryType queryType) {
     this.queryType = queryType;
     return this;
   }
@@ -1143,7 +1143,7 @@ public class RecommendedForYouQueryParameters {
     return queryType;
   }
 
-  public RecommendedForYouQueryParameters setRemoveWordsIfNoResults(RemoveWordsIfNoResults removeWordsIfNoResults) {
+  public FallbackParams setRemoveWordsIfNoResults(RemoveWordsIfNoResults removeWordsIfNoResults) {
     this.removeWordsIfNoResults = removeWordsIfNoResults;
     return this;
   }
@@ -1154,7 +1154,7 @@ public class RecommendedForYouQueryParameters {
     return removeWordsIfNoResults;
   }
 
-  public RecommendedForYouQueryParameters setMode(Mode mode) {
+  public FallbackParams setMode(Mode mode) {
     this.mode = mode;
     return this;
   }
@@ -1165,7 +1165,7 @@ public class RecommendedForYouQueryParameters {
     return mode;
   }
 
-  public RecommendedForYouQueryParameters setSemanticSearch(SemanticSearch semanticSearch) {
+  public FallbackParams setSemanticSearch(SemanticSearch semanticSearch) {
     this.semanticSearch = semanticSearch;
     return this;
   }
@@ -1176,7 +1176,7 @@ public class RecommendedForYouQueryParameters {
     return semanticSearch;
   }
 
-  public RecommendedForYouQueryParameters setAdvancedSyntax(Boolean advancedSyntax) {
+  public FallbackParams setAdvancedSyntax(Boolean advancedSyntax) {
     this.advancedSyntax = advancedSyntax;
     return this;
   }
@@ -1190,12 +1190,12 @@ public class RecommendedForYouQueryParameters {
     return advancedSyntax;
   }
 
-  public RecommendedForYouQueryParameters setOptionalWords(List<String> optionalWords) {
+  public FallbackParams setOptionalWords(List<String> optionalWords) {
     this.optionalWords = optionalWords;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addOptionalWords(String optionalWordsItem) {
+  public FallbackParams addOptionalWords(String optionalWordsItem) {
     if (this.optionalWords == null) {
       this.optionalWords = new ArrayList<>();
     }
@@ -1225,12 +1225,12 @@ public class RecommendedForYouQueryParameters {
     return optionalWords;
   }
 
-  public RecommendedForYouQueryParameters setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
+  public FallbackParams setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
     this.disableExactOnAttributes = disableExactOnAttributes;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addDisableExactOnAttributes(String disableExactOnAttributesItem) {
+  public FallbackParams addDisableExactOnAttributes(String disableExactOnAttributesItem) {
     if (this.disableExactOnAttributes == null) {
       this.disableExactOnAttributes = new ArrayList<>();
     }
@@ -1251,7 +1251,7 @@ public class RecommendedForYouQueryParameters {
     return disableExactOnAttributes;
   }
 
-  public RecommendedForYouQueryParameters setExactOnSingleWordQuery(ExactOnSingleWordQuery exactOnSingleWordQuery) {
+  public FallbackParams setExactOnSingleWordQuery(ExactOnSingleWordQuery exactOnSingleWordQuery) {
     this.exactOnSingleWordQuery = exactOnSingleWordQuery;
     return this;
   }
@@ -1262,12 +1262,12 @@ public class RecommendedForYouQueryParameters {
     return exactOnSingleWordQuery;
   }
 
-  public RecommendedForYouQueryParameters setAlternativesAsExact(List<AlternativesAsExact> alternativesAsExact) {
+  public FallbackParams setAlternativesAsExact(List<AlternativesAsExact> alternativesAsExact) {
     this.alternativesAsExact = alternativesAsExact;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addAlternativesAsExact(AlternativesAsExact alternativesAsExactItem) {
+  public FallbackParams addAlternativesAsExact(AlternativesAsExact alternativesAsExactItem) {
     if (this.alternativesAsExact == null) {
       this.alternativesAsExact = new ArrayList<>();
     }
@@ -1287,12 +1287,12 @@ public class RecommendedForYouQueryParameters {
     return alternativesAsExact;
   }
 
-  public RecommendedForYouQueryParameters setAdvancedSyntaxFeatures(List<AdvancedSyntaxFeatures> advancedSyntaxFeatures) {
+  public FallbackParams setAdvancedSyntaxFeatures(List<AdvancedSyntaxFeatures> advancedSyntaxFeatures) {
     this.advancedSyntaxFeatures = advancedSyntaxFeatures;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addAdvancedSyntaxFeatures(AdvancedSyntaxFeatures advancedSyntaxFeaturesItem) {
+  public FallbackParams addAdvancedSyntaxFeatures(AdvancedSyntaxFeatures advancedSyntaxFeaturesItem) {
     if (this.advancedSyntaxFeatures == null) {
       this.advancedSyntaxFeatures = new ArrayList<>();
     }
@@ -1312,7 +1312,7 @@ public class RecommendedForYouQueryParameters {
     return advancedSyntaxFeatures;
   }
 
-  public RecommendedForYouQueryParameters setDistinct(Distinct distinct) {
+  public FallbackParams setDistinct(Distinct distinct) {
     this.distinct = distinct;
     return this;
   }
@@ -1323,7 +1323,7 @@ public class RecommendedForYouQueryParameters {
     return distinct;
   }
 
-  public RecommendedForYouQueryParameters setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
+  public FallbackParams setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
     this.replaceSynonymsInHighlight = replaceSynonymsInHighlight;
     return this;
   }
@@ -1341,7 +1341,7 @@ public class RecommendedForYouQueryParameters {
     return replaceSynonymsInHighlight;
   }
 
-  public RecommendedForYouQueryParameters setMinProximity(Integer minProximity) {
+  public FallbackParams setMinProximity(Integer minProximity) {
     this.minProximity = minProximity;
     return this;
   }
@@ -1358,12 +1358,12 @@ public class RecommendedForYouQueryParameters {
     return minProximity;
   }
 
-  public RecommendedForYouQueryParameters setResponseFields(List<String> responseFields) {
+  public FallbackParams setResponseFields(List<String> responseFields) {
     this.responseFields = responseFields;
     return this;
   }
 
-  public RecommendedForYouQueryParameters addResponseFields(String responseFieldsItem) {
+  public FallbackParams addResponseFields(String responseFieldsItem) {
     if (this.responseFields == null) {
       this.responseFields = new ArrayList<>();
     }
@@ -1383,7 +1383,7 @@ public class RecommendedForYouQueryParameters {
     return responseFields;
   }
 
-  public RecommendedForYouQueryParameters setMaxFacetHits(Integer maxFacetHits) {
+  public FallbackParams setMaxFacetHits(Integer maxFacetHits) {
     this.maxFacetHits = maxFacetHits;
     return this;
   }
@@ -1398,7 +1398,7 @@ public class RecommendedForYouQueryParameters {
     return maxFacetHits;
   }
 
-  public RecommendedForYouQueryParameters setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+  public FallbackParams setMaxValuesPerFacet(Integer maxValuesPerFacet) {
     this.maxValuesPerFacet = maxValuesPerFacet;
     return this;
   }
@@ -1409,7 +1409,7 @@ public class RecommendedForYouQueryParameters {
     return maxValuesPerFacet;
   }
 
-  public RecommendedForYouQueryParameters setSortFacetValuesBy(String sortFacetValuesBy) {
+  public FallbackParams setSortFacetValuesBy(String sortFacetValuesBy) {
     this.sortFacetValuesBy = sortFacetValuesBy;
     return this;
   }
@@ -1426,7 +1426,7 @@ public class RecommendedForYouQueryParameters {
     return sortFacetValuesBy;
   }
 
-  public RecommendedForYouQueryParameters setAttributeCriteriaComputedByMinProximity(Boolean attributeCriteriaComputedByMinProximity) {
+  public FallbackParams setAttributeCriteriaComputedByMinProximity(Boolean attributeCriteriaComputedByMinProximity) {
     this.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity;
     return this;
   }
@@ -1443,7 +1443,7 @@ public class RecommendedForYouQueryParameters {
     return attributeCriteriaComputedByMinProximity;
   }
 
-  public RecommendedForYouQueryParameters setRenderingContent(RenderingContent renderingContent) {
+  public FallbackParams setRenderingContent(RenderingContent renderingContent) {
     this.renderingContent = renderingContent;
     return this;
   }
@@ -1454,7 +1454,7 @@ public class RecommendedForYouQueryParameters {
     return renderingContent;
   }
 
-  public RecommendedForYouQueryParameters setEnableReRanking(Boolean enableReRanking) {
+  public FallbackParams setEnableReRanking(Boolean enableReRanking) {
     this.enableReRanking = enableReRanking;
     return this;
   }
@@ -1469,7 +1469,7 @@ public class RecommendedForYouQueryParameters {
     return enableReRanking;
   }
 
-  public RecommendedForYouQueryParameters setReRankingApplyFilter(ReRankingApplyFilter reRankingApplyFilter) {
+  public FallbackParams setReRankingApplyFilter(ReRankingApplyFilter reRankingApplyFilter) {
     this.reRankingApplyFilter = reRankingApplyFilter;
     return this;
   }
@@ -1488,87 +1488,84 @@ public class RecommendedForYouQueryParameters {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    RecommendedForYouQueryParameters recommendedForYouQueryParameters = (RecommendedForYouQueryParameters) o;
+    FallbackParams fallbackParams = (FallbackParams) o;
     return (
-      Objects.equals(this.query, recommendedForYouQueryParameters.query) &&
-      Objects.equals(this.similarQuery, recommendedForYouQueryParameters.similarQuery) &&
-      Objects.equals(this.filters, recommendedForYouQueryParameters.filters) &&
-      Objects.equals(this.facetFilters, recommendedForYouQueryParameters.facetFilters) &&
-      Objects.equals(this.optionalFilters, recommendedForYouQueryParameters.optionalFilters) &&
-      Objects.equals(this.numericFilters, recommendedForYouQueryParameters.numericFilters) &&
-      Objects.equals(this.tagFilters, recommendedForYouQueryParameters.tagFilters) &&
-      Objects.equals(this.sumOrFiltersScores, recommendedForYouQueryParameters.sumOrFiltersScores) &&
-      Objects.equals(this.restrictSearchableAttributes, recommendedForYouQueryParameters.restrictSearchableAttributes) &&
-      Objects.equals(this.facets, recommendedForYouQueryParameters.facets) &&
-      Objects.equals(this.facetingAfterDistinct, recommendedForYouQueryParameters.facetingAfterDistinct) &&
-      Objects.equals(this.page, recommendedForYouQueryParameters.page) &&
-      Objects.equals(this.offset, recommendedForYouQueryParameters.offset) &&
-      Objects.equals(this.length, recommendedForYouQueryParameters.length) &&
-      Objects.equals(this.aroundLatLng, recommendedForYouQueryParameters.aroundLatLng) &&
-      Objects.equals(this.aroundLatLngViaIP, recommendedForYouQueryParameters.aroundLatLngViaIP) &&
-      Objects.equals(this.aroundRadius, recommendedForYouQueryParameters.aroundRadius) &&
-      Objects.equals(this.aroundPrecision, recommendedForYouQueryParameters.aroundPrecision) &&
-      Objects.equals(this.minimumAroundRadius, recommendedForYouQueryParameters.minimumAroundRadius) &&
-      Objects.equals(this.insideBoundingBox, recommendedForYouQueryParameters.insideBoundingBox) &&
-      Objects.equals(this.insidePolygon, recommendedForYouQueryParameters.insidePolygon) &&
-      Objects.equals(this.naturalLanguages, recommendedForYouQueryParameters.naturalLanguages) &&
-      Objects.equals(this.ruleContexts, recommendedForYouQueryParameters.ruleContexts) &&
-      Objects.equals(this.personalizationImpact, recommendedForYouQueryParameters.personalizationImpact) &&
-      Objects.equals(this.userToken, recommendedForYouQueryParameters.userToken) &&
-      Objects.equals(this.getRankingInfo, recommendedForYouQueryParameters.getRankingInfo) &&
-      Objects.equals(this.synonyms, recommendedForYouQueryParameters.synonyms) &&
-      Objects.equals(this.clickAnalytics, recommendedForYouQueryParameters.clickAnalytics) &&
-      Objects.equals(this.analytics, recommendedForYouQueryParameters.analytics) &&
-      Objects.equals(this.analyticsTags, recommendedForYouQueryParameters.analyticsTags) &&
-      Objects.equals(this.percentileComputation, recommendedForYouQueryParameters.percentileComputation) &&
-      Objects.equals(this.enableABTest, recommendedForYouQueryParameters.enableABTest) &&
-      Objects.equals(this.attributesToRetrieve, recommendedForYouQueryParameters.attributesToRetrieve) &&
-      Objects.equals(this.ranking, recommendedForYouQueryParameters.ranking) &&
-      Objects.equals(this.customRanking, recommendedForYouQueryParameters.customRanking) &&
-      Objects.equals(this.relevancyStrictness, recommendedForYouQueryParameters.relevancyStrictness) &&
-      Objects.equals(this.attributesToHighlight, recommendedForYouQueryParameters.attributesToHighlight) &&
-      Objects.equals(this.attributesToSnippet, recommendedForYouQueryParameters.attributesToSnippet) &&
-      Objects.equals(this.highlightPreTag, recommendedForYouQueryParameters.highlightPreTag) &&
-      Objects.equals(this.highlightPostTag, recommendedForYouQueryParameters.highlightPostTag) &&
-      Objects.equals(this.snippetEllipsisText, recommendedForYouQueryParameters.snippetEllipsisText) &&
-      Objects.equals(this.restrictHighlightAndSnippetArrays, recommendedForYouQueryParameters.restrictHighlightAndSnippetArrays) &&
-      Objects.equals(this.hitsPerPage, recommendedForYouQueryParameters.hitsPerPage) &&
-      Objects.equals(this.minWordSizefor1Typo, recommendedForYouQueryParameters.minWordSizefor1Typo) &&
-      Objects.equals(this.minWordSizefor2Typos, recommendedForYouQueryParameters.minWordSizefor2Typos) &&
-      Objects.equals(this.typoTolerance, recommendedForYouQueryParameters.typoTolerance) &&
-      Objects.equals(this.allowTyposOnNumericTokens, recommendedForYouQueryParameters.allowTyposOnNumericTokens) &&
-      Objects.equals(this.disableTypoToleranceOnAttributes, recommendedForYouQueryParameters.disableTypoToleranceOnAttributes) &&
-      Objects.equals(this.ignorePlurals, recommendedForYouQueryParameters.ignorePlurals) &&
-      Objects.equals(this.removeStopWords, recommendedForYouQueryParameters.removeStopWords) &&
-      Objects.equals(this.keepDiacriticsOnCharacters, recommendedForYouQueryParameters.keepDiacriticsOnCharacters) &&
-      Objects.equals(this.queryLanguages, recommendedForYouQueryParameters.queryLanguages) &&
-      Objects.equals(this.decompoundQuery, recommendedForYouQueryParameters.decompoundQuery) &&
-      Objects.equals(this.enableRules, recommendedForYouQueryParameters.enableRules) &&
-      Objects.equals(this.enablePersonalization, recommendedForYouQueryParameters.enablePersonalization) &&
-      Objects.equals(this.queryType, recommendedForYouQueryParameters.queryType) &&
-      Objects.equals(this.removeWordsIfNoResults, recommendedForYouQueryParameters.removeWordsIfNoResults) &&
-      Objects.equals(this.mode, recommendedForYouQueryParameters.mode) &&
-      Objects.equals(this.semanticSearch, recommendedForYouQueryParameters.semanticSearch) &&
-      Objects.equals(this.advancedSyntax, recommendedForYouQueryParameters.advancedSyntax) &&
-      Objects.equals(this.optionalWords, recommendedForYouQueryParameters.optionalWords) &&
-      Objects.equals(this.disableExactOnAttributes, recommendedForYouQueryParameters.disableExactOnAttributes) &&
-      Objects.equals(this.exactOnSingleWordQuery, recommendedForYouQueryParameters.exactOnSingleWordQuery) &&
-      Objects.equals(this.alternativesAsExact, recommendedForYouQueryParameters.alternativesAsExact) &&
-      Objects.equals(this.advancedSyntaxFeatures, recommendedForYouQueryParameters.advancedSyntaxFeatures) &&
-      Objects.equals(this.distinct, recommendedForYouQueryParameters.distinct) &&
-      Objects.equals(this.replaceSynonymsInHighlight, recommendedForYouQueryParameters.replaceSynonymsInHighlight) &&
-      Objects.equals(this.minProximity, recommendedForYouQueryParameters.minProximity) &&
-      Objects.equals(this.responseFields, recommendedForYouQueryParameters.responseFields) &&
-      Objects.equals(this.maxFacetHits, recommendedForYouQueryParameters.maxFacetHits) &&
-      Objects.equals(this.maxValuesPerFacet, recommendedForYouQueryParameters.maxValuesPerFacet) &&
-      Objects.equals(this.sortFacetValuesBy, recommendedForYouQueryParameters.sortFacetValuesBy) &&
-      Objects.equals(
-        this.attributeCriteriaComputedByMinProximity,
-        recommendedForYouQueryParameters.attributeCriteriaComputedByMinProximity
-      ) &&
-      Objects.equals(this.renderingContent, recommendedForYouQueryParameters.renderingContent) &&
-      Objects.equals(this.enableReRanking, recommendedForYouQueryParameters.enableReRanking) &&
-      Objects.equals(this.reRankingApplyFilter, recommendedForYouQueryParameters.reRankingApplyFilter)
+      Objects.equals(this.query, fallbackParams.query) &&
+      Objects.equals(this.similarQuery, fallbackParams.similarQuery) &&
+      Objects.equals(this.filters, fallbackParams.filters) &&
+      Objects.equals(this.facetFilters, fallbackParams.facetFilters) &&
+      Objects.equals(this.optionalFilters, fallbackParams.optionalFilters) &&
+      Objects.equals(this.numericFilters, fallbackParams.numericFilters) &&
+      Objects.equals(this.tagFilters, fallbackParams.tagFilters) &&
+      Objects.equals(this.sumOrFiltersScores, fallbackParams.sumOrFiltersScores) &&
+      Objects.equals(this.restrictSearchableAttributes, fallbackParams.restrictSearchableAttributes) &&
+      Objects.equals(this.facets, fallbackParams.facets) &&
+      Objects.equals(this.facetingAfterDistinct, fallbackParams.facetingAfterDistinct) &&
+      Objects.equals(this.page, fallbackParams.page) &&
+      Objects.equals(this.offset, fallbackParams.offset) &&
+      Objects.equals(this.length, fallbackParams.length) &&
+      Objects.equals(this.aroundLatLng, fallbackParams.aroundLatLng) &&
+      Objects.equals(this.aroundLatLngViaIP, fallbackParams.aroundLatLngViaIP) &&
+      Objects.equals(this.aroundRadius, fallbackParams.aroundRadius) &&
+      Objects.equals(this.aroundPrecision, fallbackParams.aroundPrecision) &&
+      Objects.equals(this.minimumAroundRadius, fallbackParams.minimumAroundRadius) &&
+      Objects.equals(this.insideBoundingBox, fallbackParams.insideBoundingBox) &&
+      Objects.equals(this.insidePolygon, fallbackParams.insidePolygon) &&
+      Objects.equals(this.naturalLanguages, fallbackParams.naturalLanguages) &&
+      Objects.equals(this.ruleContexts, fallbackParams.ruleContexts) &&
+      Objects.equals(this.personalizationImpact, fallbackParams.personalizationImpact) &&
+      Objects.equals(this.userToken, fallbackParams.userToken) &&
+      Objects.equals(this.getRankingInfo, fallbackParams.getRankingInfo) &&
+      Objects.equals(this.synonyms, fallbackParams.synonyms) &&
+      Objects.equals(this.clickAnalytics, fallbackParams.clickAnalytics) &&
+      Objects.equals(this.analytics, fallbackParams.analytics) &&
+      Objects.equals(this.analyticsTags, fallbackParams.analyticsTags) &&
+      Objects.equals(this.percentileComputation, fallbackParams.percentileComputation) &&
+      Objects.equals(this.enableABTest, fallbackParams.enableABTest) &&
+      Objects.equals(this.attributesToRetrieve, fallbackParams.attributesToRetrieve) &&
+      Objects.equals(this.ranking, fallbackParams.ranking) &&
+      Objects.equals(this.customRanking, fallbackParams.customRanking) &&
+      Objects.equals(this.relevancyStrictness, fallbackParams.relevancyStrictness) &&
+      Objects.equals(this.attributesToHighlight, fallbackParams.attributesToHighlight) &&
+      Objects.equals(this.attributesToSnippet, fallbackParams.attributesToSnippet) &&
+      Objects.equals(this.highlightPreTag, fallbackParams.highlightPreTag) &&
+      Objects.equals(this.highlightPostTag, fallbackParams.highlightPostTag) &&
+      Objects.equals(this.snippetEllipsisText, fallbackParams.snippetEllipsisText) &&
+      Objects.equals(this.restrictHighlightAndSnippetArrays, fallbackParams.restrictHighlightAndSnippetArrays) &&
+      Objects.equals(this.hitsPerPage, fallbackParams.hitsPerPage) &&
+      Objects.equals(this.minWordSizefor1Typo, fallbackParams.minWordSizefor1Typo) &&
+      Objects.equals(this.minWordSizefor2Typos, fallbackParams.minWordSizefor2Typos) &&
+      Objects.equals(this.typoTolerance, fallbackParams.typoTolerance) &&
+      Objects.equals(this.allowTyposOnNumericTokens, fallbackParams.allowTyposOnNumericTokens) &&
+      Objects.equals(this.disableTypoToleranceOnAttributes, fallbackParams.disableTypoToleranceOnAttributes) &&
+      Objects.equals(this.ignorePlurals, fallbackParams.ignorePlurals) &&
+      Objects.equals(this.removeStopWords, fallbackParams.removeStopWords) &&
+      Objects.equals(this.keepDiacriticsOnCharacters, fallbackParams.keepDiacriticsOnCharacters) &&
+      Objects.equals(this.queryLanguages, fallbackParams.queryLanguages) &&
+      Objects.equals(this.decompoundQuery, fallbackParams.decompoundQuery) &&
+      Objects.equals(this.enableRules, fallbackParams.enableRules) &&
+      Objects.equals(this.enablePersonalization, fallbackParams.enablePersonalization) &&
+      Objects.equals(this.queryType, fallbackParams.queryType) &&
+      Objects.equals(this.removeWordsIfNoResults, fallbackParams.removeWordsIfNoResults) &&
+      Objects.equals(this.mode, fallbackParams.mode) &&
+      Objects.equals(this.semanticSearch, fallbackParams.semanticSearch) &&
+      Objects.equals(this.advancedSyntax, fallbackParams.advancedSyntax) &&
+      Objects.equals(this.optionalWords, fallbackParams.optionalWords) &&
+      Objects.equals(this.disableExactOnAttributes, fallbackParams.disableExactOnAttributes) &&
+      Objects.equals(this.exactOnSingleWordQuery, fallbackParams.exactOnSingleWordQuery) &&
+      Objects.equals(this.alternativesAsExact, fallbackParams.alternativesAsExact) &&
+      Objects.equals(this.advancedSyntaxFeatures, fallbackParams.advancedSyntaxFeatures) &&
+      Objects.equals(this.distinct, fallbackParams.distinct) &&
+      Objects.equals(this.replaceSynonymsInHighlight, fallbackParams.replaceSynonymsInHighlight) &&
+      Objects.equals(this.minProximity, fallbackParams.minProximity) &&
+      Objects.equals(this.responseFields, fallbackParams.responseFields) &&
+      Objects.equals(this.maxFacetHits, fallbackParams.maxFacetHits) &&
+      Objects.equals(this.maxValuesPerFacet, fallbackParams.maxValuesPerFacet) &&
+      Objects.equals(this.sortFacetValuesBy, fallbackParams.sortFacetValuesBy) &&
+      Objects.equals(this.attributeCriteriaComputedByMinProximity, fallbackParams.attributeCriteriaComputedByMinProximity) &&
+      Objects.equals(this.renderingContent, fallbackParams.renderingContent) &&
+      Objects.equals(this.enableReRanking, fallbackParams.enableReRanking) &&
+      Objects.equals(this.reRankingApplyFilter, fallbackParams.reRankingApplyFilter)
     );
   }
 
@@ -1657,7 +1654,7 @@ public class RecommendedForYouQueryParameters {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RecommendedForYouQueryParameters {\n");
+    sb.append("class FallbackParams {\n");
     sb.append("    query: ").append(toIndentedString(query)).append("\n");
     sb.append("    similarQuery: ").append(toIndentedString(similarQuery)).append("\n");
     sb.append("    filters: ").append(toIndentedString(filters)).append("\n");

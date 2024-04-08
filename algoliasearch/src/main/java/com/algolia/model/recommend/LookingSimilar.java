@@ -7,48 +7,48 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** BaseRecommendedForYouQuery */
-public class BaseRecommendedForYouQuery {
+/** LookingSimilar */
+public class LookingSimilar {
 
   @JsonProperty("model")
-  private RecommendedForYouModel model;
+  private LookingSimilarModel model;
 
-  @JsonProperty("queryParameters")
-  private RecommendedForYouQueryParameters queryParameters;
+  @JsonProperty("objectID")
+  private String objectID;
 
   @JsonProperty("fallbackParameters")
-  private RecommendedForYouQueryParameters fallbackParameters;
+  private FallbackParams fallbackParameters;
 
-  public BaseRecommendedForYouQuery setModel(RecommendedForYouModel model) {
+  public LookingSimilar setModel(LookingSimilarModel model) {
     this.model = model;
     return this;
   }
 
   /** Get model */
   @javax.annotation.Nonnull
-  public RecommendedForYouModel getModel() {
+  public LookingSimilarModel getModel() {
     return model;
   }
 
-  public BaseRecommendedForYouQuery setQueryParameters(RecommendedForYouQueryParameters queryParameters) {
-    this.queryParameters = queryParameters;
+  public LookingSimilar setObjectID(String objectID) {
+    this.objectID = objectID;
     return this;
   }
 
-  /** Get queryParameters */
-  @javax.annotation.Nullable
-  public RecommendedForYouQueryParameters getQueryParameters() {
-    return queryParameters;
+  /** Unique record identifier. */
+  @javax.annotation.Nonnull
+  public String getObjectID() {
+    return objectID;
   }
 
-  public BaseRecommendedForYouQuery setFallbackParameters(RecommendedForYouQueryParameters fallbackParameters) {
+  public LookingSimilar setFallbackParameters(FallbackParams fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
 
   /** Get fallbackParameters */
   @javax.annotation.Nullable
-  public RecommendedForYouQueryParameters getFallbackParameters() {
+  public FallbackParams getFallbackParameters() {
     return fallbackParameters;
   }
 
@@ -60,25 +60,25 @@ public class BaseRecommendedForYouQuery {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    BaseRecommendedForYouQuery baseRecommendedForYouQuery = (BaseRecommendedForYouQuery) o;
+    LookingSimilar lookingSimilar = (LookingSimilar) o;
     return (
-      Objects.equals(this.model, baseRecommendedForYouQuery.model) &&
-      Objects.equals(this.queryParameters, baseRecommendedForYouQuery.queryParameters) &&
-      Objects.equals(this.fallbackParameters, baseRecommendedForYouQuery.fallbackParameters)
+      Objects.equals(this.model, lookingSimilar.model) &&
+      Objects.equals(this.objectID, lookingSimilar.objectID) &&
+      Objects.equals(this.fallbackParameters, lookingSimilar.fallbackParameters)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(model, queryParameters, fallbackParameters);
+    return Objects.hash(model, objectID, fallbackParameters);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class BaseRecommendedForYouQuery {\n");
+    sb.append("class LookingSimilar {\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
-    sb.append("    queryParameters: ").append(toIndentedString(queryParameters)).append("\n");
+    sb.append("    objectID: ").append(toIndentedString(objectID)).append("\n");
     sb.append("    fallbackParameters: ").append(toIndentedString(fallbackParameters)).append("\n");
     sb.append("}");
     return sb.toString();
