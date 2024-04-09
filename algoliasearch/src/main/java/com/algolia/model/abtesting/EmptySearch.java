@@ -7,24 +7,21 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/**
- * Search parameters to add to the test variant. Only use this parameter if the two variants use the
- * same index.
- */
-public class CustomSearchParams {
+/** Configuration for handling empty searches. */
+public class EmptySearch {
 
-  @JsonProperty("customSearchParameters")
-  private Object customSearchParameters;
+  @JsonProperty("exclude")
+  private Boolean exclude;
 
-  public CustomSearchParams setCustomSearchParameters(Object customSearchParameters) {
-    this.customSearchParameters = customSearchParameters;
+  public EmptySearch setExclude(Boolean exclude) {
+    this.exclude = exclude;
     return this;
   }
 
-  /** Get customSearchParameters */
-  @javax.annotation.Nonnull
-  public Object getCustomSearchParameters() {
-    return customSearchParameters;
+  /** Whether to exclude empty searches when calculating A/B test results. */
+  @javax.annotation.Nullable
+  public Boolean getExclude() {
+    return exclude;
   }
 
   @Override
@@ -35,20 +32,20 @@ public class CustomSearchParams {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CustomSearchParams customSearchParams = (CustomSearchParams) o;
-    return Objects.equals(this.customSearchParameters, customSearchParams.customSearchParameters);
+    EmptySearch emptySearch = (EmptySearch) o;
+    return Objects.equals(this.exclude, emptySearch.exclude);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(customSearchParameters);
+    return Objects.hash(exclude);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CustomSearchParams {\n");
-    sb.append("    customSearchParameters: ").append(toIndentedString(customSearchParameters)).append("\n");
+    sb.append("class EmptySearch {\n");
+    sb.append("    exclude: ").append(toIndentedString(exclude)).append("\n");
     sb.append("}");
     return sb.toString();
   }
