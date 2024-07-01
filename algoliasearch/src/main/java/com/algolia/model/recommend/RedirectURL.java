@@ -5,37 +5,23 @@ package com.algolia.model.recommend;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-/**
- * [Redirect results to a
- * URL](https://www.algolia.com/doc/guides/managing-results/rules/merchandising-and-promoting/how-to/redirects/),
- * this this parameter is for internal use only.
- */
-public class Redirect {
+/** The redirect rule container. */
+public class RedirectURL {
 
-  @JsonProperty("index")
-  private List<RedirectRuleIndexMetadata> index;
+  @JsonProperty("url")
+  private String url;
 
-  public Redirect setIndex(List<RedirectRuleIndexMetadata> index) {
-    this.index = index;
+  public RedirectURL setUrl(String url) {
+    this.url = url;
     return this;
   }
 
-  public Redirect addIndex(RedirectRuleIndexMetadata indexItem) {
-    if (this.index == null) {
-      this.index = new ArrayList<>();
-    }
-    this.index.add(indexItem);
-    return this;
-  }
-
-  /** Get index */
+  /** Get url */
   @javax.annotation.Nullable
-  public List<RedirectRuleIndexMetadata> getIndex() {
-    return index;
+  public String getUrl() {
+    return url;
   }
 
   @Override
@@ -46,20 +32,20 @@ public class Redirect {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Redirect redirect = (Redirect) o;
-    return Objects.equals(this.index, redirect.index);
+    RedirectURL redirectURL = (RedirectURL) o;
+    return Objects.equals(this.url, redirectURL.url);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(index);
+    return Objects.hash(url);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Redirect {\n");
-    sb.append("    index: ").append(toIndentedString(index)).append("\n");
+    sb.append("class RedirectURL {\n");
+    sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("}");
     return sb.toString();
   }
