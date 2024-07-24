@@ -7,8 +7,14 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** API request body for creating a task. */
-public class TaskCreate {
+/**
+ * API request body for creating a task using the V1 shape, please use methods and types that don't
+ * contain the V1 suffix.
+ *
+ * @deprecated
+ */
+@Deprecated
+public class TaskCreateV1 {
 
   @JsonProperty("sourceID")
   private String sourceID;
@@ -16,11 +22,11 @@ public class TaskCreate {
   @JsonProperty("destinationID")
   private String destinationID;
 
+  @JsonProperty("trigger")
+  private TaskCreateTrigger trigger;
+
   @JsonProperty("action")
   private ActionType action;
-
-  @JsonProperty("cron")
-  private String cron;
 
   @JsonProperty("enabled")
   private Boolean enabled;
@@ -34,7 +40,7 @@ public class TaskCreate {
   @JsonProperty("cursor")
   private String cursor;
 
-  public TaskCreate setSourceID(String sourceID) {
+  public TaskCreateV1 setSourceID(String sourceID) {
     this.sourceID = sourceID;
     return this;
   }
@@ -45,7 +51,7 @@ public class TaskCreate {
     return sourceID;
   }
 
-  public TaskCreate setDestinationID(String destinationID) {
+  public TaskCreateV1 setDestinationID(String destinationID) {
     this.destinationID = destinationID;
     return this;
   }
@@ -56,7 +62,18 @@ public class TaskCreate {
     return destinationID;
   }
 
-  public TaskCreate setAction(ActionType action) {
+  public TaskCreateV1 setTrigger(TaskCreateTrigger trigger) {
+    this.trigger = trigger;
+    return this;
+  }
+
+  /** Get trigger */
+  @javax.annotation.Nonnull
+  public TaskCreateTrigger getTrigger() {
+    return trigger;
+  }
+
+  public TaskCreateV1 setAction(ActionType action) {
     this.action = action;
     return this;
   }
@@ -67,18 +84,7 @@ public class TaskCreate {
     return action;
   }
 
-  public TaskCreate setCron(String cron) {
-    this.cron = cron;
-    return this;
-  }
-
-  /** Cron expression for the task's schedule. */
-  @javax.annotation.Nullable
-  public String getCron() {
-    return cron;
-  }
-
-  public TaskCreate setEnabled(Boolean enabled) {
+  public TaskCreateV1 setEnabled(Boolean enabled) {
     this.enabled = enabled;
     return this;
   }
@@ -89,7 +95,7 @@ public class TaskCreate {
     return enabled;
   }
 
-  public TaskCreate setFailureThreshold(Integer failureThreshold) {
+  public TaskCreateV1 setFailureThreshold(Integer failureThreshold) {
     this.failureThreshold = failureThreshold;
     return this;
   }
@@ -103,7 +109,7 @@ public class TaskCreate {
     return failureThreshold;
   }
 
-  public TaskCreate setInput(TaskInput input) {
+  public TaskCreateV1 setInput(TaskInput input) {
     this.input = input;
     return this;
   }
@@ -114,7 +120,7 @@ public class TaskCreate {
     return input;
   }
 
-  public TaskCreate setCursor(String cursor) {
+  public TaskCreateV1 setCursor(String cursor) {
     this.cursor = cursor;
     return this;
   }
@@ -133,32 +139,32 @@ public class TaskCreate {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TaskCreate taskCreate = (TaskCreate) o;
+    TaskCreateV1 taskCreateV1 = (TaskCreateV1) o;
     return (
-      Objects.equals(this.sourceID, taskCreate.sourceID) &&
-      Objects.equals(this.destinationID, taskCreate.destinationID) &&
-      Objects.equals(this.action, taskCreate.action) &&
-      Objects.equals(this.cron, taskCreate.cron) &&
-      Objects.equals(this.enabled, taskCreate.enabled) &&
-      Objects.equals(this.failureThreshold, taskCreate.failureThreshold) &&
-      Objects.equals(this.input, taskCreate.input) &&
-      Objects.equals(this.cursor, taskCreate.cursor)
+      Objects.equals(this.sourceID, taskCreateV1.sourceID) &&
+      Objects.equals(this.destinationID, taskCreateV1.destinationID) &&
+      Objects.equals(this.trigger, taskCreateV1.trigger) &&
+      Objects.equals(this.action, taskCreateV1.action) &&
+      Objects.equals(this.enabled, taskCreateV1.enabled) &&
+      Objects.equals(this.failureThreshold, taskCreateV1.failureThreshold) &&
+      Objects.equals(this.input, taskCreateV1.input) &&
+      Objects.equals(this.cursor, taskCreateV1.cursor)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(sourceID, destinationID, action, cron, enabled, failureThreshold, input, cursor);
+    return Objects.hash(sourceID, destinationID, trigger, action, enabled, failureThreshold, input, cursor);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TaskCreate {\n");
+    sb.append("class TaskCreateV1 {\n");
     sb.append("    sourceID: ").append(toIndentedString(sourceID)).append("\n");
     sb.append("    destinationID: ").append(toIndentedString(destinationID)).append("\n");
+    sb.append("    trigger: ").append(toIndentedString(trigger)).append("\n");
     sb.append("    action: ").append(toIndentedString(action)).append("\n");
-    sb.append("    cron: ").append(toIndentedString(cron)).append("\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    failureThreshold: ").append(toIndentedString(failureThreshold)).append("\n");
     sb.append("    input: ").append(toIndentedString(input)).append("\n");

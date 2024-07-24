@@ -7,8 +7,13 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** Task */
-public class Task {
+/**
+ * The V1 task object, please use methods and types that don't contain the V1 suffix.
+ *
+ * @deprecated
+ */
+@Deprecated
+public class TaskV1 {
 
   @JsonProperty("taskID")
   private String taskID;
@@ -19,14 +24,8 @@ public class Task {
   @JsonProperty("destinationID")
   private String destinationID;
 
-  @JsonProperty("cron")
-  private String cron;
-
-  @JsonProperty("lastRun")
-  private String lastRun;
-
-  @JsonProperty("nextRun")
-  private String nextRun;
+  @JsonProperty("trigger")
+  private Trigger trigger;
 
   @JsonProperty("input")
   private TaskInput input;
@@ -49,7 +48,7 @@ public class Task {
   @JsonProperty("updatedAt")
   private String updatedAt;
 
-  public Task setTaskID(String taskID) {
+  public TaskV1 setTaskID(String taskID) {
     this.taskID = taskID;
     return this;
   }
@@ -60,7 +59,7 @@ public class Task {
     return taskID;
   }
 
-  public Task setSourceID(String sourceID) {
+  public TaskV1 setSourceID(String sourceID) {
     this.sourceID = sourceID;
     return this;
   }
@@ -71,7 +70,7 @@ public class Task {
     return sourceID;
   }
 
-  public Task setDestinationID(String destinationID) {
+  public TaskV1 setDestinationID(String destinationID) {
     this.destinationID = destinationID;
     return this;
   }
@@ -82,40 +81,18 @@ public class Task {
     return destinationID;
   }
 
-  public Task setCron(String cron) {
-    this.cron = cron;
+  public TaskV1 setTrigger(Trigger trigger) {
+    this.trigger = trigger;
     return this;
   }
 
-  /** Cron expression for the task's schedule. */
-  @javax.annotation.Nullable
-  public String getCron() {
-    return cron;
+  /** Get trigger */
+  @javax.annotation.Nonnull
+  public Trigger getTrigger() {
+    return trigger;
   }
 
-  public Task setLastRun(String lastRun) {
-    this.lastRun = lastRun;
-    return this;
-  }
-
-  /** The last time the scheduled task ran in RFC 3339 format. */
-  @javax.annotation.Nullable
-  public String getLastRun() {
-    return lastRun;
-  }
-
-  public Task setNextRun(String nextRun) {
-    this.nextRun = nextRun;
-    return this;
-  }
-
-  /** The next scheduled run of the task in RFC 3339 format. */
-  @javax.annotation.Nullable
-  public String getNextRun() {
-    return nextRun;
-  }
-
-  public Task setInput(TaskInput input) {
+  public TaskV1 setInput(TaskInput input) {
     this.input = input;
     return this;
   }
@@ -126,7 +103,7 @@ public class Task {
     return input;
   }
 
-  public Task setEnabled(Boolean enabled) {
+  public TaskV1 setEnabled(Boolean enabled) {
     this.enabled = enabled;
     return this;
   }
@@ -137,7 +114,7 @@ public class Task {
     return enabled;
   }
 
-  public Task setFailureThreshold(Integer failureThreshold) {
+  public TaskV1 setFailureThreshold(Integer failureThreshold) {
     this.failureThreshold = failureThreshold;
     return this;
   }
@@ -151,7 +128,7 @@ public class Task {
     return failureThreshold;
   }
 
-  public Task setAction(ActionType action) {
+  public TaskV1 setAction(ActionType action) {
     this.action = action;
     return this;
   }
@@ -162,7 +139,7 @@ public class Task {
     return action;
   }
 
-  public Task setCursor(String cursor) {
+  public TaskV1 setCursor(String cursor) {
     this.cursor = cursor;
     return this;
   }
@@ -173,7 +150,7 @@ public class Task {
     return cursor;
   }
 
-  public Task setCreatedAt(String createdAt) {
+  public TaskV1 setCreatedAt(String createdAt) {
     this.createdAt = createdAt;
     return this;
   }
@@ -184,7 +161,7 @@ public class Task {
     return createdAt;
   }
 
-  public Task setUpdatedAt(String updatedAt) {
+  public TaskV1 setUpdatedAt(String updatedAt) {
     this.updatedAt = updatedAt;
     return this;
   }
@@ -203,53 +180,35 @@ public class Task {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Task task = (Task) o;
+    TaskV1 taskV1 = (TaskV1) o;
     return (
-      Objects.equals(this.taskID, task.taskID) &&
-      Objects.equals(this.sourceID, task.sourceID) &&
-      Objects.equals(this.destinationID, task.destinationID) &&
-      Objects.equals(this.cron, task.cron) &&
-      Objects.equals(this.lastRun, task.lastRun) &&
-      Objects.equals(this.nextRun, task.nextRun) &&
-      Objects.equals(this.input, task.input) &&
-      Objects.equals(this.enabled, task.enabled) &&
-      Objects.equals(this.failureThreshold, task.failureThreshold) &&
-      Objects.equals(this.action, task.action) &&
-      Objects.equals(this.cursor, task.cursor) &&
-      Objects.equals(this.createdAt, task.createdAt) &&
-      Objects.equals(this.updatedAt, task.updatedAt)
+      Objects.equals(this.taskID, taskV1.taskID) &&
+      Objects.equals(this.sourceID, taskV1.sourceID) &&
+      Objects.equals(this.destinationID, taskV1.destinationID) &&
+      Objects.equals(this.trigger, taskV1.trigger) &&
+      Objects.equals(this.input, taskV1.input) &&
+      Objects.equals(this.enabled, taskV1.enabled) &&
+      Objects.equals(this.failureThreshold, taskV1.failureThreshold) &&
+      Objects.equals(this.action, taskV1.action) &&
+      Objects.equals(this.cursor, taskV1.cursor) &&
+      Objects.equals(this.createdAt, taskV1.createdAt) &&
+      Objects.equals(this.updatedAt, taskV1.updatedAt)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-      taskID,
-      sourceID,
-      destinationID,
-      cron,
-      lastRun,
-      nextRun,
-      input,
-      enabled,
-      failureThreshold,
-      action,
-      cursor,
-      createdAt,
-      updatedAt
-    );
+    return Objects.hash(taskID, sourceID, destinationID, trigger, input, enabled, failureThreshold, action, cursor, createdAt, updatedAt);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Task {\n");
+    sb.append("class TaskV1 {\n");
     sb.append("    taskID: ").append(toIndentedString(taskID)).append("\n");
     sb.append("    sourceID: ").append(toIndentedString(sourceID)).append("\n");
     sb.append("    destinationID: ").append(toIndentedString(destinationID)).append("\n");
-    sb.append("    cron: ").append(toIndentedString(cron)).append("\n");
-    sb.append("    lastRun: ").append(toIndentedString(lastRun)).append("\n");
-    sb.append("    nextRun: ").append(toIndentedString(nextRun)).append("\n");
+    sb.append("    trigger: ").append(toIndentedString(trigger)).append("\n");
     sb.append("    input: ").append(toIndentedString(input)).append("\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    failureThreshold: ").append(toIndentedString(failureThreshold)).append("\n");

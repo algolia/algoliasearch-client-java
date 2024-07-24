@@ -7,14 +7,20 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** API request body for updating a task. */
-public class TaskUpdate {
+/**
+ * API request body for updating a task using the V1 shape, please use methods and types that don't
+ * contain the V1 suffix.
+ *
+ * @deprecated
+ */
+@Deprecated
+public class TaskUpdateV1 {
 
   @JsonProperty("destinationID")
   private String destinationID;
 
-  @JsonProperty("cron")
-  private String cron;
+  @JsonProperty("trigger")
+  private TriggerUpdateInput trigger;
 
   @JsonProperty("input")
   private TaskInput input;
@@ -25,7 +31,7 @@ public class TaskUpdate {
   @JsonProperty("failureThreshold")
   private Integer failureThreshold;
 
-  public TaskUpdate setDestinationID(String destinationID) {
+  public TaskUpdateV1 setDestinationID(String destinationID) {
     this.destinationID = destinationID;
     return this;
   }
@@ -36,18 +42,18 @@ public class TaskUpdate {
     return destinationID;
   }
 
-  public TaskUpdate setCron(String cron) {
-    this.cron = cron;
+  public TaskUpdateV1 setTrigger(TriggerUpdateInput trigger) {
+    this.trigger = trigger;
     return this;
   }
 
-  /** Cron expression for the task's schedule. */
+  /** Get trigger */
   @javax.annotation.Nullable
-  public String getCron() {
-    return cron;
+  public TriggerUpdateInput getTrigger() {
+    return trigger;
   }
 
-  public TaskUpdate setInput(TaskInput input) {
+  public TaskUpdateV1 setInput(TaskInput input) {
     this.input = input;
     return this;
   }
@@ -58,7 +64,7 @@ public class TaskUpdate {
     return input;
   }
 
-  public TaskUpdate setEnabled(Boolean enabled) {
+  public TaskUpdateV1 setEnabled(Boolean enabled) {
     this.enabled = enabled;
     return this;
   }
@@ -69,7 +75,7 @@ public class TaskUpdate {
     return enabled;
   }
 
-  public TaskUpdate setFailureThreshold(Integer failureThreshold) {
+  public TaskUpdateV1 setFailureThreshold(Integer failureThreshold) {
     this.failureThreshold = failureThreshold;
     return this;
   }
@@ -91,27 +97,27 @@ public class TaskUpdate {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TaskUpdate taskUpdate = (TaskUpdate) o;
+    TaskUpdateV1 taskUpdateV1 = (TaskUpdateV1) o;
     return (
-      Objects.equals(this.destinationID, taskUpdate.destinationID) &&
-      Objects.equals(this.cron, taskUpdate.cron) &&
-      Objects.equals(this.input, taskUpdate.input) &&
-      Objects.equals(this.enabled, taskUpdate.enabled) &&
-      Objects.equals(this.failureThreshold, taskUpdate.failureThreshold)
+      Objects.equals(this.destinationID, taskUpdateV1.destinationID) &&
+      Objects.equals(this.trigger, taskUpdateV1.trigger) &&
+      Objects.equals(this.input, taskUpdateV1.input) &&
+      Objects.equals(this.enabled, taskUpdateV1.enabled) &&
+      Objects.equals(this.failureThreshold, taskUpdateV1.failureThreshold)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(destinationID, cron, input, enabled, failureThreshold);
+    return Objects.hash(destinationID, trigger, input, enabled, failureThreshold);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TaskUpdate {\n");
+    sb.append("class TaskUpdateV1 {\n");
     sb.append("    destinationID: ").append(toIndentedString(destinationID)).append("\n");
-    sb.append("    cron: ").append(toIndentedString(cron)).append("\n");
+    sb.append("    trigger: ").append(toIndentedString(trigger)).append("\n");
     sb.append("    input: ").append(toIndentedString(input)).append("\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    failureThreshold: ").append(toIndentedString(failureThreshold)).append("\n");
