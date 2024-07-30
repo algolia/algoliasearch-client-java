@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
 /** The error if the transformation failed. */
-public class TransformationTryResponseError {
+public class TransformationError {
 
   @JsonProperty("code")
   private Integer code;
@@ -16,7 +16,7 @@ public class TransformationTryResponseError {
   @JsonProperty("message")
   private String message;
 
-  public TransformationTryResponseError setCode(Integer code) {
+  public TransformationError setCode(Integer code) {
     this.code = code;
     return this;
   }
@@ -27,7 +27,7 @@ public class TransformationTryResponseError {
     return code;
   }
 
-  public TransformationTryResponseError setMessage(String message) {
+  public TransformationError setMessage(String message) {
     this.message = message;
     return this;
   }
@@ -46,10 +46,8 @@ public class TransformationTryResponseError {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TransformationTryResponseError transformationTryResponseError = (TransformationTryResponseError) o;
-    return (
-      Objects.equals(this.code, transformationTryResponseError.code) && Objects.equals(this.message, transformationTryResponseError.message)
-    );
+    TransformationError transformationError = (TransformationError) o;
+    return Objects.equals(this.code, transformationError.code) && Objects.equals(this.message, transformationError.message);
   }
 
   @Override
@@ -60,7 +58,7 @@ public class TransformationTryResponseError {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TransformationTryResponseError {\n");
+    sb.append("class TransformationError {\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");

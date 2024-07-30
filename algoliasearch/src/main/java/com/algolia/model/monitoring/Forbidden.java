@@ -5,34 +5,23 @@ package com.algolia.model.monitoring;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-/** LatencyResponseMetrics */
-public class LatencyResponseMetrics {
+/** Forbidden */
+public class Forbidden {
 
-  @JsonProperty("latency")
-  private Map<String, List<TimeInner>> latency;
+  @JsonProperty("reason")
+  private String reason;
 
-  public LatencyResponseMetrics setLatency(Map<String, List<TimeInner>> latency) {
-    this.latency = latency;
+  public Forbidden setReason(String reason) {
+    this.reason = reason;
     return this;
   }
 
-  public LatencyResponseMetrics putLatency(String key, List<TimeInner> latencyItem) {
-    if (this.latency == null) {
-      this.latency = new HashMap<>();
-    }
-    this.latency.put(key, latencyItem);
-    return this;
-  }
-
-  /** Get latency */
+  /** Get reason */
   @javax.annotation.Nullable
-  public Map<String, List<TimeInner>> getLatency() {
-    return latency;
+  public String getReason() {
+    return reason;
   }
 
   @Override
@@ -43,20 +32,20 @@ public class LatencyResponseMetrics {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LatencyResponseMetrics latencyResponseMetrics = (LatencyResponseMetrics) o;
-    return Objects.equals(this.latency, latencyResponseMetrics.latency);
+    Forbidden forbidden = (Forbidden) o;
+    return Objects.equals(this.reason, forbidden.reason);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(latency);
+    return Objects.hash(reason);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LatencyResponseMetrics {\n");
-    sb.append("    latency: ").append(toIndentedString(latency)).append("\n");
+    sb.append("class Forbidden {\n");
+    sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
     sb.append("}");
     return sb.toString();
   }

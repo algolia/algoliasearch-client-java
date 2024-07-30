@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
 /** Outliers removed from the A/B test as a result of configuration settings. */
-public class FilterEffectsOutliers {
+public class OutliersFilter {
 
   @JsonProperty("usersCount")
   private Integer usersCount;
@@ -16,7 +16,7 @@ public class FilterEffectsOutliers {
   @JsonProperty("trackedSearchesCount")
   private Integer trackedSearchesCount;
 
-  public FilterEffectsOutliers setUsersCount(Integer usersCount) {
+  public OutliersFilter setUsersCount(Integer usersCount) {
     this.usersCount = usersCount;
     return this;
   }
@@ -27,7 +27,7 @@ public class FilterEffectsOutliers {
     return usersCount;
   }
 
-  public FilterEffectsOutliers setTrackedSearchesCount(Integer trackedSearchesCount) {
+  public OutliersFilter setTrackedSearchesCount(Integer trackedSearchesCount) {
     this.trackedSearchesCount = trackedSearchesCount;
     return this;
   }
@@ -46,10 +46,10 @@ public class FilterEffectsOutliers {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FilterEffectsOutliers filterEffectsOutliers = (FilterEffectsOutliers) o;
+    OutliersFilter outliersFilter = (OutliersFilter) o;
     return (
-      Objects.equals(this.usersCount, filterEffectsOutliers.usersCount) &&
-      Objects.equals(this.trackedSearchesCount, filterEffectsOutliers.trackedSearchesCount)
+      Objects.equals(this.usersCount, outliersFilter.usersCount) &&
+      Objects.equals(this.trackedSearchesCount, outliersFilter.trackedSearchesCount)
     );
   }
 
@@ -61,7 +61,7 @@ public class FilterEffectsOutliers {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FilterEffectsOutliers {\n");
+    sb.append("class OutliersFilter {\n");
     sb.append("    usersCount: ").append(toIndentedString(usersCount)).append("\n");
     sb.append("    trackedSearchesCount: ").append(toIndentedString(trackedSearchesCount)).append("\n");
     sb.append("}");

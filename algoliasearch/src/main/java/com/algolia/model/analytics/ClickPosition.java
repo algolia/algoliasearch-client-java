@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 /** Click position. */
-public class ClickPositionsInner {
+public class ClickPosition {
 
   @JsonProperty("position")
   private List<Integer> position;
@@ -18,12 +18,12 @@ public class ClickPositionsInner {
   @JsonProperty("clickCount")
   private Integer clickCount;
 
-  public ClickPositionsInner setPosition(List<Integer> position) {
+  public ClickPosition setPosition(List<Integer> position) {
     this.position = position;
     return this;
   }
 
-  public ClickPositionsInner addPosition(Integer positionItem) {
+  public ClickPosition addPosition(Integer positionItem) {
     if (this.position == null) {
       this.position = new ArrayList<>();
     }
@@ -41,7 +41,7 @@ public class ClickPositionsInner {
     return position;
   }
 
-  public ClickPositionsInner setClickCount(Integer clickCount) {
+  public ClickPosition setClickCount(Integer clickCount) {
     this.clickCount = clickCount;
     return this;
   }
@@ -60,8 +60,8 @@ public class ClickPositionsInner {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ClickPositionsInner clickPositionsInner = (ClickPositionsInner) o;
-    return Objects.equals(this.position, clickPositionsInner.position) && Objects.equals(this.clickCount, clickPositionsInner.clickCount);
+    ClickPosition clickPosition = (ClickPosition) o;
+    return Objects.equals(this.position, clickPosition.position) && Objects.equals(this.clickCount, clickPosition.clickCount);
   }
 
   @Override
@@ -72,7 +72,7 @@ public class ClickPositionsInner {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ClickPositionsInner {\n");
+    sb.append("class ClickPosition {\n");
     sb.append("    position: ").append(toIndentedString(position)).append("\n");
     sb.append("    clickCount: ").append(toIndentedString(clickCount)).append("\n");
     sb.append("}");

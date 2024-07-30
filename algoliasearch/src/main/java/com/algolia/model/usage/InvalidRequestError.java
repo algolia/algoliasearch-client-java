@@ -5,10 +5,12 @@ package com.algolia.model.usage;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-/** GetUsage400ResponseErrorErrorsInner */
-public class GetUsage400ResponseErrorErrorsInner {
+/** InvalidRequestError */
+public class InvalidRequestError {
 
   @JsonProperty("code")
   private String code;
@@ -16,13 +18,10 @@ public class GetUsage400ResponseErrorErrorsInner {
   @JsonProperty("message")
   private String message;
 
-  @JsonProperty("line")
-  private Integer line;
+  @JsonProperty("errors")
+  private List<ErrorItem> errors;
 
-  @JsonProperty("position")
-  private Integer position;
-
-  public GetUsage400ResponseErrorErrorsInner setCode(String code) {
+  public InvalidRequestError setCode(String code) {
     this.code = code;
     return this;
   }
@@ -33,37 +32,34 @@ public class GetUsage400ResponseErrorErrorsInner {
     return code;
   }
 
-  public GetUsage400ResponseErrorErrorsInner setMessage(String message) {
+  public InvalidRequestError setMessage(String message) {
     this.message = message;
     return this;
   }
 
   /** Get message */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getMessage() {
     return message;
   }
 
-  public GetUsage400ResponseErrorErrorsInner setLine(Integer line) {
-    this.line = line;
+  public InvalidRequestError setErrors(List<ErrorItem> errors) {
+    this.errors = errors;
     return this;
   }
 
-  /** Get line */
-  @javax.annotation.Nullable
-  public Integer getLine() {
-    return line;
-  }
-
-  public GetUsage400ResponseErrorErrorsInner setPosition(Integer position) {
-    this.position = position;
+  public InvalidRequestError addErrors(ErrorItem errorsItem) {
+    if (this.errors == null) {
+      this.errors = new ArrayList<>();
+    }
+    this.errors.add(errorsItem);
     return this;
   }
 
-  /** Get position */
+  /** Get errors */
   @javax.annotation.Nullable
-  public Integer getPosition() {
-    return position;
+  public List<ErrorItem> getErrors() {
+    return errors;
   }
 
   @Override
@@ -74,28 +70,26 @@ public class GetUsage400ResponseErrorErrorsInner {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetUsage400ResponseErrorErrorsInner getUsage400ResponseErrorErrorsInner = (GetUsage400ResponseErrorErrorsInner) o;
+    InvalidRequestError invalidRequestError = (InvalidRequestError) o;
     return (
-      Objects.equals(this.code, getUsage400ResponseErrorErrorsInner.code) &&
-      Objects.equals(this.message, getUsage400ResponseErrorErrorsInner.message) &&
-      Objects.equals(this.line, getUsage400ResponseErrorErrorsInner.line) &&
-      Objects.equals(this.position, getUsage400ResponseErrorErrorsInner.position)
+      Objects.equals(this.code, invalidRequestError.code) &&
+      Objects.equals(this.message, invalidRequestError.message) &&
+      Objects.equals(this.errors, invalidRequestError.errors)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message, line, position);
+    return Objects.hash(code, message, errors);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetUsage400ResponseErrorErrorsInner {\n");
+    sb.append("class InvalidRequestError {\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
-    sb.append("    line: ").append(toIndentedString(line)).append("\n");
-    sb.append("    position: ").append(toIndentedString(position)).append("\n");
+    sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
     sb.append("}");
     return sb.toString();
   }

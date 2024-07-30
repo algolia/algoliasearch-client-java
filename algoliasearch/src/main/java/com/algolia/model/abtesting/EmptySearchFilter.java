@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
 /** Empty searches removed from the A/B test as a result of configuration settings. */
-public class FilterEffectsEmptySearch {
+public class EmptySearchFilter {
 
   @JsonProperty("usersCount")
   private Integer usersCount;
@@ -16,7 +16,7 @@ public class FilterEffectsEmptySearch {
   @JsonProperty("trackedSearchesCount")
   private Integer trackedSearchesCount;
 
-  public FilterEffectsEmptySearch setUsersCount(Integer usersCount) {
+  public EmptySearchFilter setUsersCount(Integer usersCount) {
     this.usersCount = usersCount;
     return this;
   }
@@ -27,7 +27,7 @@ public class FilterEffectsEmptySearch {
     return usersCount;
   }
 
-  public FilterEffectsEmptySearch setTrackedSearchesCount(Integer trackedSearchesCount) {
+  public EmptySearchFilter setTrackedSearchesCount(Integer trackedSearchesCount) {
     this.trackedSearchesCount = trackedSearchesCount;
     return this;
   }
@@ -46,10 +46,10 @@ public class FilterEffectsEmptySearch {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FilterEffectsEmptySearch filterEffectsEmptySearch = (FilterEffectsEmptySearch) o;
+    EmptySearchFilter emptySearchFilter = (EmptySearchFilter) o;
     return (
-      Objects.equals(this.usersCount, filterEffectsEmptySearch.usersCount) &&
-      Objects.equals(this.trackedSearchesCount, filterEffectsEmptySearch.trackedSearchesCount)
+      Objects.equals(this.usersCount, emptySearchFilter.usersCount) &&
+      Objects.equals(this.trackedSearchesCount, emptySearchFilter.trackedSearchesCount)
     );
   }
 
@@ -61,7 +61,7 @@ public class FilterEffectsEmptySearch {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FilterEffectsEmptySearch {\n");
+    sb.append("class EmptySearchFilter {\n");
     sb.append("    usersCount: ").append(toIndentedString(usersCount)).append("\n");
     sb.append("    trackedSearchesCount: ").append(toIndentedString(trackedSearchesCount)).append("\n");
     sb.append("}");

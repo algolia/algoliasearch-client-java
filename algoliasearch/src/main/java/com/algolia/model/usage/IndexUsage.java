@@ -5,37 +5,33 @@ package com.algolia.model.usage;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-/** GetUsage200ResponseStatisticsInner */
-public class GetUsage200ResponseStatisticsInner {
+/** IndexUsage */
+public class IndexUsage {
 
-  @JsonProperty("t")
-  private Integer t;
+  @JsonProperty("statistics")
+  private List<StatisticEntry> statistics;
 
-  @JsonProperty("v")
-  private StatisticValue v;
-
-  public GetUsage200ResponseStatisticsInner setT(Integer t) {
-    this.t = t;
+  public IndexUsage setStatistics(List<StatisticEntry> statistics) {
+    this.statistics = statistics;
     return this;
   }
 
-  /** Timestamp, measured in milliseconds since the Unix epoch. */
-  @javax.annotation.Nullable
-  public Integer getT() {
-    return t;
-  }
-
-  public GetUsage200ResponseStatisticsInner setV(StatisticValue v) {
-    this.v = v;
+  public IndexUsage addStatistics(StatisticEntry statisticsItem) {
+    if (this.statistics == null) {
+      this.statistics = new ArrayList<>();
+    }
+    this.statistics.add(statisticsItem);
     return this;
   }
 
-  /** Get v */
+  /** Get statistics */
   @javax.annotation.Nullable
-  public StatisticValue getV() {
-    return v;
+  public List<StatisticEntry> getStatistics() {
+    return statistics;
   }
 
   @Override
@@ -46,21 +42,20 @@ public class GetUsage200ResponseStatisticsInner {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetUsage200ResponseStatisticsInner getUsage200ResponseStatisticsInner = (GetUsage200ResponseStatisticsInner) o;
-    return Objects.equals(this.t, getUsage200ResponseStatisticsInner.t) && Objects.equals(this.v, getUsage200ResponseStatisticsInner.v);
+    IndexUsage indexUsage = (IndexUsage) o;
+    return Objects.equals(this.statistics, indexUsage.statistics);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(t, v);
+    return Objects.hash(statistics);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetUsage200ResponseStatisticsInner {\n");
-    sb.append("    t: ").append(toIndentedString(t)).append("\n");
-    sb.append("    v: ").append(toIndentedString(v)).append("\n");
+    sb.append("class IndexUsage {\n");
+    sb.append("    statistics: ").append(toIndentedString(statistics)).append("\n");
     sb.append("}");
     return sb.toString();
   }

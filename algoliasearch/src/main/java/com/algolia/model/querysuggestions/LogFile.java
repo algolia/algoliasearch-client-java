@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** GetLogFile200Response */
-public class GetLogFile200Response {
+/** LogFile */
+public class LogFile {
 
   @JsonProperty("timestamp")
   private String timestamp;
@@ -22,7 +22,7 @@ public class GetLogFile200Response {
   @JsonProperty("contextLevel")
   private Integer contextLevel;
 
-  public GetLogFile200Response setTimestamp(String timestamp) {
+  public LogFile setTimestamp(String timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -33,7 +33,7 @@ public class GetLogFile200Response {
     return timestamp;
   }
 
-  public GetLogFile200Response setLevel(LogLevel level) {
+  public LogFile setLevel(LogLevel level) {
     this.level = level;
     return this;
   }
@@ -44,7 +44,7 @@ public class GetLogFile200Response {
     return level;
   }
 
-  public GetLogFile200Response setMessage(String message) {
+  public LogFile setMessage(String message) {
     this.message = message;
     return this;
   }
@@ -55,7 +55,7 @@ public class GetLogFile200Response {
     return message;
   }
 
-  public GetLogFile200Response setContextLevel(Integer contextLevel) {
+  public LogFile setContextLevel(Integer contextLevel) {
     this.contextLevel = contextLevel;
     return this;
   }
@@ -78,12 +78,12 @@ public class GetLogFile200Response {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetLogFile200Response getLogFile200Response = (GetLogFile200Response) o;
+    LogFile logFile = (LogFile) o;
     return (
-      Objects.equals(this.timestamp, getLogFile200Response.timestamp) &&
-      Objects.equals(this.level, getLogFile200Response.level) &&
-      Objects.equals(this.message, getLogFile200Response.message) &&
-      Objects.equals(this.contextLevel, getLogFile200Response.contextLevel)
+      Objects.equals(this.timestamp, logFile.timestamp) &&
+      Objects.equals(this.level, logFile.level) &&
+      Objects.equals(this.message, logFile.message) &&
+      Objects.equals(this.contextLevel, logFile.contextLevel)
     );
   }
 
@@ -95,7 +95,7 @@ public class GetLogFile200Response {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetLogFile200Response {\n");
+    sb.append("class LogFile {\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    level: ").append(toIndentedString(level)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");

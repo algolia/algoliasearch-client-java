@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** GetUsage400ResponseError */
-public class GetUsage400ResponseError {
+/** ForbiddenError */
+public class ForbiddenError {
 
   @JsonProperty("code")
   private String code;
@@ -19,9 +19,9 @@ public class GetUsage400ResponseError {
   private String message;
 
   @JsonProperty("errors")
-  private List<GetUsage400ResponseErrorErrorsInner> errors;
+  private List<ErrorItem> errors;
 
-  public GetUsage400ResponseError setCode(String code) {
+  public ForbiddenError setCode(String code) {
     this.code = code;
     return this;
   }
@@ -32,7 +32,7 @@ public class GetUsage400ResponseError {
     return code;
   }
 
-  public GetUsage400ResponseError setMessage(String message) {
+  public ForbiddenError setMessage(String message) {
     this.message = message;
     return this;
   }
@@ -43,12 +43,12 @@ public class GetUsage400ResponseError {
     return message;
   }
 
-  public GetUsage400ResponseError setErrors(List<GetUsage400ResponseErrorErrorsInner> errors) {
+  public ForbiddenError setErrors(List<ErrorItem> errors) {
     this.errors = errors;
     return this;
   }
 
-  public GetUsage400ResponseError addErrors(GetUsage400ResponseErrorErrorsInner errorsItem) {
+  public ForbiddenError addErrors(ErrorItem errorsItem) {
     if (this.errors == null) {
       this.errors = new ArrayList<>();
     }
@@ -58,7 +58,7 @@ public class GetUsage400ResponseError {
 
   /** Get errors */
   @javax.annotation.Nullable
-  public List<GetUsage400ResponseErrorErrorsInner> getErrors() {
+  public List<ErrorItem> getErrors() {
     return errors;
   }
 
@@ -70,11 +70,11 @@ public class GetUsage400ResponseError {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetUsage400ResponseError getUsage400ResponseError = (GetUsage400ResponseError) o;
+    ForbiddenError forbiddenError = (ForbiddenError) o;
     return (
-      Objects.equals(this.code, getUsage400ResponseError.code) &&
-      Objects.equals(this.message, getUsage400ResponseError.message) &&
-      Objects.equals(this.errors, getUsage400ResponseError.errors)
+      Objects.equals(this.code, forbiddenError.code) &&
+      Objects.equals(this.message, forbiddenError.message) &&
+      Objects.equals(this.errors, forbiddenError.errors)
     );
   }
 
@@ -86,7 +86,7 @@ public class GetUsage400ResponseError {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetUsage400ResponseError {\n");
+    sb.append("class ForbiddenError {\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");

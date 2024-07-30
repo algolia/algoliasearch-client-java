@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** GetConfigStatus200Response */
-public class GetConfigStatus200Response {
+/** ConfigStatus */
+public class ConfigStatus {
 
   @JsonProperty("indexName")
   private String indexName;
@@ -25,7 +25,7 @@ public class GetConfigStatus200Response {
   @JsonProperty("lastSuccessfulBuildDuration")
   private String lastSuccessfulBuildDuration;
 
-  public GetConfigStatus200Response setIndexName(String indexName) {
+  public ConfigStatus setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
@@ -36,7 +36,7 @@ public class GetConfigStatus200Response {
     return indexName;
   }
 
-  public GetConfigStatus200Response setIsRunning(Boolean isRunning) {
+  public ConfigStatus setIsRunning(Boolean isRunning) {
     this.isRunning = isRunning;
     return this;
   }
@@ -47,7 +47,7 @@ public class GetConfigStatus200Response {
     return isRunning;
   }
 
-  public GetConfigStatus200Response setLastBuiltAt(String lastBuiltAt) {
+  public ConfigStatus setLastBuiltAt(String lastBuiltAt) {
     this.lastBuiltAt = lastBuiltAt;
     return this;
   }
@@ -58,7 +58,7 @@ public class GetConfigStatus200Response {
     return lastBuiltAt;
   }
 
-  public GetConfigStatus200Response setLastSuccessfulBuiltAt(String lastSuccessfulBuiltAt) {
+  public ConfigStatus setLastSuccessfulBuiltAt(String lastSuccessfulBuiltAt) {
     this.lastSuccessfulBuiltAt = lastSuccessfulBuiltAt;
     return this;
   }
@@ -69,7 +69,7 @@ public class GetConfigStatus200Response {
     return lastSuccessfulBuiltAt;
   }
 
-  public GetConfigStatus200Response setLastSuccessfulBuildDuration(String lastSuccessfulBuildDuration) {
+  public ConfigStatus setLastSuccessfulBuildDuration(String lastSuccessfulBuildDuration) {
     this.lastSuccessfulBuildDuration = lastSuccessfulBuildDuration;
     return this;
   }
@@ -88,13 +88,13 @@ public class GetConfigStatus200Response {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetConfigStatus200Response getConfigStatus200Response = (GetConfigStatus200Response) o;
+    ConfigStatus configStatus = (ConfigStatus) o;
     return (
-      Objects.equals(this.indexName, getConfigStatus200Response.indexName) &&
-      Objects.equals(this.isRunning, getConfigStatus200Response.isRunning) &&
-      Objects.equals(this.lastBuiltAt, getConfigStatus200Response.lastBuiltAt) &&
-      Objects.equals(this.lastSuccessfulBuiltAt, getConfigStatus200Response.lastSuccessfulBuiltAt) &&
-      Objects.equals(this.lastSuccessfulBuildDuration, getConfigStatus200Response.lastSuccessfulBuildDuration)
+      Objects.equals(this.indexName, configStatus.indexName) &&
+      Objects.equals(this.isRunning, configStatus.isRunning) &&
+      Objects.equals(this.lastBuiltAt, configStatus.lastBuiltAt) &&
+      Objects.equals(this.lastSuccessfulBuiltAt, configStatus.lastSuccessfulBuiltAt) &&
+      Objects.equals(this.lastSuccessfulBuildDuration, configStatus.lastSuccessfulBuildDuration)
     );
   }
 
@@ -106,7 +106,7 @@ public class GetConfigStatus200Response {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetConfigStatus200Response {\n");
+    sb.append("class ConfigStatus {\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    isRunning: ").append(toIndentedString(isRunning)).append("\n");
     sb.append("    lastBuiltAt: ").append(toIndentedString(lastBuiltAt)).append("\n");

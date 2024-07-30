@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/** InfrastructureResponseMetrics */
-public class InfrastructureResponseMetrics {
+/** Metrics */
+public class Metrics {
 
   @JsonProperty("cpu_usage")
   private Map<String, List<ProbesMetric>> cpuUsage;
@@ -28,12 +28,12 @@ public class InfrastructureResponseMetrics {
   @JsonProperty("avg_build_time")
   private Map<String, List<ProbesMetric>> avgBuildTime;
 
-  public InfrastructureResponseMetrics setCpuUsage(Map<String, List<ProbesMetric>> cpuUsage) {
+  public Metrics setCpuUsage(Map<String, List<ProbesMetric>> cpuUsage) {
     this.cpuUsage = cpuUsage;
     return this;
   }
 
-  public InfrastructureResponseMetrics putCpuUsage(String key, List<ProbesMetric> cpuUsageItem) {
+  public Metrics putCpuUsage(String key, List<ProbesMetric> cpuUsageItem) {
     if (this.cpuUsage == null) {
       this.cpuUsage = new HashMap<>();
     }
@@ -47,12 +47,12 @@ public class InfrastructureResponseMetrics {
     return cpuUsage;
   }
 
-  public InfrastructureResponseMetrics setRamIndexingUsage(Map<String, List<ProbesMetric>> ramIndexingUsage) {
+  public Metrics setRamIndexingUsage(Map<String, List<ProbesMetric>> ramIndexingUsage) {
     this.ramIndexingUsage = ramIndexingUsage;
     return this;
   }
 
-  public InfrastructureResponseMetrics putRamIndexingUsage(String key, List<ProbesMetric> ramIndexingUsageItem) {
+  public Metrics putRamIndexingUsage(String key, List<ProbesMetric> ramIndexingUsageItem) {
     if (this.ramIndexingUsage == null) {
       this.ramIndexingUsage = new HashMap<>();
     }
@@ -66,12 +66,12 @@ public class InfrastructureResponseMetrics {
     return ramIndexingUsage;
   }
 
-  public InfrastructureResponseMetrics setRamSearchUsage(Map<String, List<ProbesMetric>> ramSearchUsage) {
+  public Metrics setRamSearchUsage(Map<String, List<ProbesMetric>> ramSearchUsage) {
     this.ramSearchUsage = ramSearchUsage;
     return this;
   }
 
-  public InfrastructureResponseMetrics putRamSearchUsage(String key, List<ProbesMetric> ramSearchUsageItem) {
+  public Metrics putRamSearchUsage(String key, List<ProbesMetric> ramSearchUsageItem) {
     if (this.ramSearchUsage == null) {
       this.ramSearchUsage = new HashMap<>();
     }
@@ -85,12 +85,12 @@ public class InfrastructureResponseMetrics {
     return ramSearchUsage;
   }
 
-  public InfrastructureResponseMetrics setSsdUsage(Map<String, List<ProbesMetric>> ssdUsage) {
+  public Metrics setSsdUsage(Map<String, List<ProbesMetric>> ssdUsage) {
     this.ssdUsage = ssdUsage;
     return this;
   }
 
-  public InfrastructureResponseMetrics putSsdUsage(String key, List<ProbesMetric> ssdUsageItem) {
+  public Metrics putSsdUsage(String key, List<ProbesMetric> ssdUsageItem) {
     if (this.ssdUsage == null) {
       this.ssdUsage = new HashMap<>();
     }
@@ -107,12 +107,12 @@ public class InfrastructureResponseMetrics {
     return ssdUsage;
   }
 
-  public InfrastructureResponseMetrics setAvgBuildTime(Map<String, List<ProbesMetric>> avgBuildTime) {
+  public Metrics setAvgBuildTime(Map<String, List<ProbesMetric>> avgBuildTime) {
     this.avgBuildTime = avgBuildTime;
     return this;
   }
 
-  public InfrastructureResponseMetrics putAvgBuildTime(String key, List<ProbesMetric> avgBuildTimeItem) {
+  public Metrics putAvgBuildTime(String key, List<ProbesMetric> avgBuildTimeItem) {
     if (this.avgBuildTime == null) {
       this.avgBuildTime = new HashMap<>();
     }
@@ -134,13 +134,13 @@ public class InfrastructureResponseMetrics {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InfrastructureResponseMetrics infrastructureResponseMetrics = (InfrastructureResponseMetrics) o;
+    Metrics metrics = (Metrics) o;
     return (
-      Objects.equals(this.cpuUsage, infrastructureResponseMetrics.cpuUsage) &&
-      Objects.equals(this.ramIndexingUsage, infrastructureResponseMetrics.ramIndexingUsage) &&
-      Objects.equals(this.ramSearchUsage, infrastructureResponseMetrics.ramSearchUsage) &&
-      Objects.equals(this.ssdUsage, infrastructureResponseMetrics.ssdUsage) &&
-      Objects.equals(this.avgBuildTime, infrastructureResponseMetrics.avgBuildTime)
+      Objects.equals(this.cpuUsage, metrics.cpuUsage) &&
+      Objects.equals(this.ramIndexingUsage, metrics.ramIndexingUsage) &&
+      Objects.equals(this.ramSearchUsage, metrics.ramSearchUsage) &&
+      Objects.equals(this.ssdUsage, metrics.ssdUsage) &&
+      Objects.equals(this.avgBuildTime, metrics.avgBuildTime)
     );
   }
 
@@ -152,7 +152,7 @@ public class InfrastructureResponseMetrics {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InfrastructureResponseMetrics {\n");
+    sb.append("class Metrics {\n");
     sb.append("    cpuUsage: ").append(toIndentedString(cpuUsage)).append("\n");
     sb.append("    ramIndexingUsage: ").append(toIndentedString(ramIndexingUsage)).append("\n");
     sb.append("    ramSearchUsage: ").append(toIndentedString(ramSearchUsage)).append("\n");

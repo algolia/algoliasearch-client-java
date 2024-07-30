@@ -5,34 +5,37 @@ package com.algolia.model.monitoring;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-/** IndexingTimeResponseMetrics */
-public class IndexingTimeResponseMetrics {
+/** TimeEntry */
+public class TimeEntry {
 
-  @JsonProperty("indexing")
-  private Map<String, List<TimeInner>> indexing;
+  @JsonProperty("t")
+  private Long t;
 
-  public IndexingTimeResponseMetrics setIndexing(Map<String, List<TimeInner>> indexing) {
-    this.indexing = indexing;
+  @JsonProperty("v")
+  private Integer v;
+
+  public TimeEntry setT(Long t) {
+    this.t = t;
     return this;
   }
 
-  public IndexingTimeResponseMetrics putIndexing(String key, List<TimeInner> indexingItem) {
-    if (this.indexing == null) {
-      this.indexing = new HashMap<>();
-    }
-    this.indexing.put(key, indexingItem);
-    return this;
-  }
-
-  /** Get indexing */
+  /** Timestamp, measured in milliseconds since the Unix epoch. */
   @javax.annotation.Nullable
-  public Map<String, List<TimeInner>> getIndexing() {
-    return indexing;
+  public Long getT() {
+    return t;
+  }
+
+  public TimeEntry setV(Integer v) {
+    this.v = v;
+    return this;
+  }
+
+  /** Time in ms. */
+  @javax.annotation.Nullable
+  public Integer getV() {
+    return v;
   }
 
   @Override
@@ -43,20 +46,21 @@ public class IndexingTimeResponseMetrics {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    IndexingTimeResponseMetrics indexingTimeResponseMetrics = (IndexingTimeResponseMetrics) o;
-    return Objects.equals(this.indexing, indexingTimeResponseMetrics.indexing);
+    TimeEntry timeEntry = (TimeEntry) o;
+    return Objects.equals(this.t, timeEntry.t) && Objects.equals(this.v, timeEntry.v);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indexing);
+    return Objects.hash(t, v);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class IndexingTimeResponseMetrics {\n");
-    sb.append("    indexing: ").append(toIndentedString(indexing)).append("\n");
+    sb.append("class TimeEntry {\n");
+    sb.append("    t: ").append(toIndentedString(t)).append("\n");
+    sb.append("    v: ").append(toIndentedString(v)).append("\n");
     sb.append("}");
     return sb.toString();
   }

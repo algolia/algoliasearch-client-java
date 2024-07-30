@@ -7,16 +7,16 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** TimeInner */
-public class TimeInner {
+/** IncidentEntry */
+public class IncidentEntry {
 
   @JsonProperty("t")
   private Long t;
 
   @JsonProperty("v")
-  private Integer v;
+  private Incident v;
 
-  public TimeInner setT(Long t) {
+  public IncidentEntry setT(Long t) {
     this.t = t;
     return this;
   }
@@ -27,14 +27,14 @@ public class TimeInner {
     return t;
   }
 
-  public TimeInner setV(Integer v) {
+  public IncidentEntry setV(Incident v) {
     this.v = v;
     return this;
   }
 
-  /** Time in ms. */
+  /** Get v */
   @javax.annotation.Nullable
-  public Integer getV() {
+  public Incident getV() {
     return v;
   }
 
@@ -46,8 +46,8 @@ public class TimeInner {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TimeInner timeInner = (TimeInner) o;
-    return Objects.equals(this.t, timeInner.t) && Objects.equals(this.v, timeInner.v);
+    IncidentEntry incidentEntry = (IncidentEntry) o;
+    return Objects.equals(this.t, incidentEntry.t) && Objects.equals(this.v, incidentEntry.v);
   }
 
   @Override
@@ -58,7 +58,7 @@ public class TimeInner {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TimeInner {\n");
+    sb.append("class IncidentEntry {\n");
     sb.append("    t: ").append(toIndentedString(t)).append("\n");
     sb.append("    v: ").append(toIndentedString(v)).append("\n");
     sb.append("}");
