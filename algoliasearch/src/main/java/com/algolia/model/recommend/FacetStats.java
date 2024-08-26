@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** FacetsStats */
-public class FacetsStats {
+/** FacetStats */
+public class FacetStats {
 
   @JsonProperty("min")
   private Double min;
@@ -22,7 +22,7 @@ public class FacetsStats {
   @JsonProperty("sum")
   private Double sum;
 
-  public FacetsStats setMin(Double min) {
+  public FacetStats setMin(Double min) {
     this.min = min;
     return this;
   }
@@ -33,7 +33,7 @@ public class FacetsStats {
     return min;
   }
 
-  public FacetsStats setMax(Double max) {
+  public FacetStats setMax(Double max) {
     this.max = max;
     return this;
   }
@@ -44,7 +44,7 @@ public class FacetsStats {
     return max;
   }
 
-  public FacetsStats setAvg(Double avg) {
+  public FacetStats setAvg(Double avg) {
     this.avg = avg;
     return this;
   }
@@ -55,7 +55,7 @@ public class FacetsStats {
     return avg;
   }
 
-  public FacetsStats setSum(Double sum) {
+  public FacetStats setSum(Double sum) {
     this.sum = sum;
     return this;
   }
@@ -74,12 +74,12 @@ public class FacetsStats {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FacetsStats facetsStats = (FacetsStats) o;
+    FacetStats facetStats = (FacetStats) o;
     return (
-      Objects.equals(this.min, facetsStats.min) &&
-      Objects.equals(this.max, facetsStats.max) &&
-      Objects.equals(this.avg, facetsStats.avg) &&
-      Objects.equals(this.sum, facetsStats.sum)
+      Objects.equals(this.min, facetStats.min) &&
+      Objects.equals(this.max, facetStats.max) &&
+      Objects.equals(this.avg, facetStats.avg) &&
+      Objects.equals(this.sum, facetStats.sum)
     );
   }
 
@@ -91,7 +91,7 @@ public class FacetsStats {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FacetsStats {\n");
+    sb.append("class FacetStats {\n");
     sb.append("    min: ").append(toIndentedString(min)).append("\n");
     sb.append("    max: ").append(toIndentedString(max)).append("\n");
     sb.append("    avg: ").append(toIndentedString(avg)).append("\n");

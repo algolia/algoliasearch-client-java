@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
 /** Currency code. */
-public class CurrenciesValue {
+public class CurrencyCode {
 
   @JsonProperty("currency")
   private String currency;
@@ -16,7 +16,7 @@ public class CurrenciesValue {
   @JsonProperty("revenue")
   private Float revenue;
 
-  public CurrenciesValue setCurrency(String currency) {
+  public CurrencyCode setCurrency(String currency) {
     this.currency = currency;
     return this;
   }
@@ -27,7 +27,7 @@ public class CurrenciesValue {
     return currency;
   }
 
-  public CurrenciesValue setRevenue(Float revenue) {
+  public CurrencyCode setRevenue(Float revenue) {
     this.revenue = revenue;
     return this;
   }
@@ -46,8 +46,8 @@ public class CurrenciesValue {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CurrenciesValue currenciesValue = (CurrenciesValue) o;
-    return Objects.equals(this.currency, currenciesValue.currency) && Objects.equals(this.revenue, currenciesValue.revenue);
+    CurrencyCode currencyCode = (CurrencyCode) o;
+    return Objects.equals(this.currency, currencyCode.currency) && Objects.equals(this.revenue, currencyCode.revenue);
   }
 
   @Override
@@ -58,7 +58,7 @@ public class CurrenciesValue {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CurrenciesValue {\n");
+    sb.append("class CurrencyCode {\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    revenue: ").append(toIndentedString(revenue)).append("\n");
     sb.append("}");
