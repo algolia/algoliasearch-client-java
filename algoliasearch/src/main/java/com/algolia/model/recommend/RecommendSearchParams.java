@@ -6,14 +6,13 @@ package com.algolia.model.recommend;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-/** Each parameter value, including the `query` must not be larger than 512 bytes. */
-public class SearchParamsObject {
-
-  @JsonProperty("query")
-  private String query;
+/** Search parameters for filtering the recommendations. */
+public class RecommendSearchParams {
 
   @JsonProperty("similarQuery")
   private String similarQuery;
@@ -44,15 +43,6 @@ public class SearchParamsObject {
 
   @JsonProperty("facetingAfterDistinct")
   private Boolean facetingAfterDistinct;
-
-  @JsonProperty("page")
-  private Integer page;
-
-  @JsonProperty("offset")
-  private Integer offset;
-
-  @JsonProperty("length")
-  private Integer length;
 
   @JsonProperty("aroundLatLng")
   private String aroundLatLng;
@@ -108,14 +98,65 @@ public class SearchParamsObject {
   @JsonProperty("enableABTest")
   private Boolean enableABTest;
 
+  @JsonProperty("query")
+  private String query;
+
+  @JsonProperty("attributesForFaceting")
+  private List<String> attributesForFaceting;
+
+  @JsonProperty("replicas")
+  private List<String> replicas;
+
+  @JsonProperty("paginationLimitedTo")
+  private Integer paginationLimitedTo;
+
+  @JsonProperty("unretrievableAttributes")
+  private List<String> unretrievableAttributes;
+
+  @JsonProperty("disableTypoToleranceOnWords")
+  private List<String> disableTypoToleranceOnWords;
+
+  @JsonProperty("attributesToTransliterate")
+  private List<String> attributesToTransliterate;
+
+  @JsonProperty("camelCaseAttributes")
+  private List<String> camelCaseAttributes;
+
+  @JsonProperty("decompoundedAttributes")
+  private Object decompoundedAttributes;
+
+  @JsonProperty("indexLanguages")
+  private List<SupportedLanguage> indexLanguages;
+
+  @JsonProperty("disablePrefixOnAttributes")
+  private List<String> disablePrefixOnAttributes;
+
+  @JsonProperty("allowCompressionOfIntegerArray")
+  private Boolean allowCompressionOfIntegerArray;
+
+  @JsonProperty("numericAttributesForFiltering")
+  private List<String> numericAttributesForFiltering;
+
+  @JsonProperty("separatorsToIndex")
+  private String separatorsToIndex;
+
+  @JsonProperty("searchableAttributes")
+  private List<String> searchableAttributes;
+
+  @JsonProperty("userData")
+  private Object userData;
+
+  @JsonProperty("customNormalization")
+  private Map<String, Map<String, String>> customNormalization;
+
+  @JsonProperty("attributeForDistinct")
+  private String attributeForDistinct;
+
   @JsonProperty("attributesToRetrieve")
   private List<String> attributesToRetrieve;
 
   @JsonProperty("ranking")
   private List<String> ranking;
-
-  @JsonProperty("customRanking")
-  private List<String> customRanking;
 
   @JsonProperty("relevancyStrictness")
   private Integer relevancyStrictness;
@@ -138,9 +179,6 @@ public class SearchParamsObject {
   @JsonProperty("restrictHighlightAndSnippetArrays")
   private Boolean restrictHighlightAndSnippetArrays;
 
-  @JsonProperty("hitsPerPage")
-  private Integer hitsPerPage;
-
   @JsonProperty("minWordSizefor1Typo")
   private Integer minWordSizefor1Typo;
 
@@ -162,9 +200,6 @@ public class SearchParamsObject {
   @JsonProperty("removeStopWords")
   private RemoveStopWords removeStopWords;
 
-  @JsonProperty("keepDiacriticsOnCharacters")
-  private String keepDiacriticsOnCharacters;
-
   @JsonProperty("queryLanguages")
   private List<SupportedLanguage> queryLanguages;
 
@@ -182,12 +217,6 @@ public class SearchParamsObject {
 
   @JsonProperty("removeWordsIfNoResults")
   private RemoveWordsIfNoResults removeWordsIfNoResults;
-
-  @JsonProperty("mode")
-  private Mode mode;
-
-  @JsonProperty("semanticSearch")
-  private SemanticSearch semanticSearch;
 
   @JsonProperty("advancedSyntax")
   private Boolean advancedSyntax;
@@ -240,18 +269,7 @@ public class SearchParamsObject {
   @JsonProperty("reRankingApplyFilter")
   private ReRankingApplyFilter reRankingApplyFilter;
 
-  public SearchParamsObject setQuery(String query) {
-    this.query = query;
-    return this;
-  }
-
-  /** Search query. */
-  @javax.annotation.Nullable
-  public String getQuery() {
-    return query;
-  }
-
-  public SearchParamsObject setSimilarQuery(String similarQuery) {
+  public RecommendSearchParams setSimilarQuery(String similarQuery) {
     this.similarQuery = similarQuery;
     return this;
   }
@@ -269,7 +287,7 @@ public class SearchParamsObject {
     return similarQuery;
   }
 
-  public SearchParamsObject setFilters(String filters) {
+  public RecommendSearchParams setFilters(String filters) {
     this.filters = filters;
     return this;
   }
@@ -296,7 +314,7 @@ public class SearchParamsObject {
     return filters;
   }
 
-  public SearchParamsObject setFacetFilters(FacetFilters facetFilters) {
+  public RecommendSearchParams setFacetFilters(FacetFilters facetFilters) {
     this.facetFilters = facetFilters;
     return this;
   }
@@ -307,7 +325,7 @@ public class SearchParamsObject {
     return facetFilters;
   }
 
-  public SearchParamsObject setOptionalFilters(OptionalFilters optionalFilters) {
+  public RecommendSearchParams setOptionalFilters(OptionalFilters optionalFilters) {
     this.optionalFilters = optionalFilters;
     return this;
   }
@@ -318,7 +336,7 @@ public class SearchParamsObject {
     return optionalFilters;
   }
 
-  public SearchParamsObject setNumericFilters(NumericFilters numericFilters) {
+  public RecommendSearchParams setNumericFilters(NumericFilters numericFilters) {
     this.numericFilters = numericFilters;
     return this;
   }
@@ -329,7 +347,7 @@ public class SearchParamsObject {
     return numericFilters;
   }
 
-  public SearchParamsObject setTagFilters(TagFilters tagFilters) {
+  public RecommendSearchParams setTagFilters(TagFilters tagFilters) {
     this.tagFilters = tagFilters;
     return this;
   }
@@ -340,7 +358,7 @@ public class SearchParamsObject {
     return tagFilters;
   }
 
-  public SearchParamsObject setSumOrFiltersScores(Boolean sumOrFiltersScores) {
+  public RecommendSearchParams setSumOrFiltersScores(Boolean sumOrFiltersScores) {
     this.sumOrFiltersScores = sumOrFiltersScores;
     return this;
   }
@@ -355,12 +373,12 @@ public class SearchParamsObject {
     return sumOrFiltersScores;
   }
 
-  public SearchParamsObject setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
+  public RecommendSearchParams setRestrictSearchableAttributes(List<String> restrictSearchableAttributes) {
     this.restrictSearchableAttributes = restrictSearchableAttributes;
     return this;
   }
 
-  public SearchParamsObject addRestrictSearchableAttributes(String restrictSearchableAttributesItem) {
+  public RecommendSearchParams addRestrictSearchableAttributes(String restrictSearchableAttributesItem) {
     if (this.restrictSearchableAttributes == null) {
       this.restrictSearchableAttributes = new ArrayList<>();
     }
@@ -377,12 +395,12 @@ public class SearchParamsObject {
     return restrictSearchableAttributes;
   }
 
-  public SearchParamsObject setFacets(List<String> facets) {
+  public RecommendSearchParams setFacets(List<String> facets) {
     this.facets = facets;
     return this;
   }
 
-  public SearchParamsObject addFacets(String facetsItem) {
+  public RecommendSearchParams addFacets(String facetsItem) {
     if (this.facets == null) {
       this.facets = new ArrayList<>();
     }
@@ -401,7 +419,7 @@ public class SearchParamsObject {
     return facets;
   }
 
-  public SearchParamsObject setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
+  public RecommendSearchParams setFacetingAfterDistinct(Boolean facetingAfterDistinct) {
     this.facetingAfterDistinct = facetingAfterDistinct;
     return this;
   }
@@ -418,40 +436,7 @@ public class SearchParamsObject {
     return facetingAfterDistinct;
   }
 
-  public SearchParamsObject setPage(Integer page) {
-    this.page = page;
-    return this;
-  }
-
-  /** Page of search results to retrieve. minimum: 0 */
-  @javax.annotation.Nullable
-  public Integer getPage() {
-    return page;
-  }
-
-  public SearchParamsObject setOffset(Integer offset) {
-    this.offset = offset;
-    return this;
-  }
-
-  /** Position of the first hit to retrieve. */
-  @javax.annotation.Nullable
-  public Integer getOffset() {
-    return offset;
-  }
-
-  public SearchParamsObject setLength(Integer length) {
-    this.length = length;
-    return this;
-  }
-
-  /** Number of hits to retrieve (used in combination with `offset`). minimum: 0 maximum: 1000 */
-  @javax.annotation.Nullable
-  public Integer getLength() {
-    return length;
-  }
-
-  public SearchParamsObject setAroundLatLng(String aroundLatLng) {
+  public RecommendSearchParams setAroundLatLng(String aroundLatLng) {
     this.aroundLatLng = aroundLatLng;
     return this;
   }
@@ -467,7 +452,7 @@ public class SearchParamsObject {
     return aroundLatLng;
   }
 
-  public SearchParamsObject setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
+  public RecommendSearchParams setAroundLatLngViaIP(Boolean aroundLatLngViaIP) {
     this.aroundLatLngViaIP = aroundLatLngViaIP;
     return this;
   }
@@ -478,7 +463,7 @@ public class SearchParamsObject {
     return aroundLatLngViaIP;
   }
 
-  public SearchParamsObject setAroundRadius(AroundRadius aroundRadius) {
+  public RecommendSearchParams setAroundRadius(AroundRadius aroundRadius) {
     this.aroundRadius = aroundRadius;
     return this;
   }
@@ -489,7 +474,7 @@ public class SearchParamsObject {
     return aroundRadius;
   }
 
-  public SearchParamsObject setAroundPrecision(AroundPrecision aroundPrecision) {
+  public RecommendSearchParams setAroundPrecision(AroundPrecision aroundPrecision) {
     this.aroundPrecision = aroundPrecision;
     return this;
   }
@@ -500,7 +485,7 @@ public class SearchParamsObject {
     return aroundPrecision;
   }
 
-  public SearchParamsObject setMinimumAroundRadius(Integer minimumAroundRadius) {
+  public RecommendSearchParams setMinimumAroundRadius(Integer minimumAroundRadius) {
     this.minimumAroundRadius = minimumAroundRadius;
     return this;
   }
@@ -514,12 +499,12 @@ public class SearchParamsObject {
     return minimumAroundRadius;
   }
 
-  public SearchParamsObject setInsideBoundingBox(List<List<Double>> insideBoundingBox) {
+  public RecommendSearchParams setInsideBoundingBox(List<List<Double>> insideBoundingBox) {
     this.insideBoundingBox = insideBoundingBox;
     return this;
   }
 
-  public SearchParamsObject addInsideBoundingBox(List<Double> insideBoundingBoxItem) {
+  public RecommendSearchParams addInsideBoundingBox(List<Double> insideBoundingBoxItem) {
     if (this.insideBoundingBox == null) {
       this.insideBoundingBox = new ArrayList<>();
     }
@@ -539,12 +524,12 @@ public class SearchParamsObject {
     return insideBoundingBox;
   }
 
-  public SearchParamsObject setInsidePolygon(List<List<Double>> insidePolygon) {
+  public RecommendSearchParams setInsidePolygon(List<List<Double>> insidePolygon) {
     this.insidePolygon = insidePolygon;
     return this;
   }
 
-  public SearchParamsObject addInsidePolygon(List<Double> insidePolygonItem) {
+  public RecommendSearchParams addInsidePolygon(List<Double> insidePolygonItem) {
     if (this.insidePolygon == null) {
       this.insidePolygon = new ArrayList<>();
     }
@@ -564,12 +549,12 @@ public class SearchParamsObject {
     return insidePolygon;
   }
 
-  public SearchParamsObject setNaturalLanguages(List<SupportedLanguage> naturalLanguages) {
+  public RecommendSearchParams setNaturalLanguages(List<SupportedLanguage> naturalLanguages) {
     this.naturalLanguages = naturalLanguages;
     return this;
   }
 
-  public SearchParamsObject addNaturalLanguages(SupportedLanguage naturalLanguagesItem) {
+  public RecommendSearchParams addNaturalLanguages(SupportedLanguage naturalLanguagesItem) {
     if (this.naturalLanguages == null) {
       this.naturalLanguages = new ArrayList<>();
     }
@@ -588,12 +573,12 @@ public class SearchParamsObject {
     return naturalLanguages;
   }
 
-  public SearchParamsObject setRuleContexts(List<String> ruleContexts) {
+  public RecommendSearchParams setRuleContexts(List<String> ruleContexts) {
     this.ruleContexts = ruleContexts;
     return this;
   }
 
-  public SearchParamsObject addRuleContexts(String ruleContextsItem) {
+  public RecommendSearchParams addRuleContexts(String ruleContextsItem) {
     if (this.ruleContexts == null) {
       this.ruleContexts = new ArrayList<>();
     }
@@ -611,7 +596,7 @@ public class SearchParamsObject {
     return ruleContexts;
   }
 
-  public SearchParamsObject setPersonalizationImpact(Integer personalizationImpact) {
+  public RecommendSearchParams setPersonalizationImpact(Integer personalizationImpact) {
     this.personalizationImpact = personalizationImpact;
     return this;
   }
@@ -628,7 +613,7 @@ public class SearchParamsObject {
     return personalizationImpact;
   }
 
-  public SearchParamsObject setUserToken(String userToken) {
+  public RecommendSearchParams setUserToken(String userToken) {
     this.userToken = userToken;
     return this;
   }
@@ -643,7 +628,7 @@ public class SearchParamsObject {
     return userToken;
   }
 
-  public SearchParamsObject setGetRankingInfo(Boolean getRankingInfo) {
+  public RecommendSearchParams setGetRankingInfo(Boolean getRankingInfo) {
     this.getRankingInfo = getRankingInfo;
     return this;
   }
@@ -654,7 +639,7 @@ public class SearchParamsObject {
     return getRankingInfo;
   }
 
-  public SearchParamsObject setSynonyms(Boolean synonyms) {
+  public RecommendSearchParams setSynonyms(Boolean synonyms) {
     this.synonyms = synonyms;
     return this;
   }
@@ -665,7 +650,7 @@ public class SearchParamsObject {
     return synonyms;
   }
 
-  public SearchParamsObject setClickAnalytics(Boolean clickAnalytics) {
+  public RecommendSearchParams setClickAnalytics(Boolean clickAnalytics) {
     this.clickAnalytics = clickAnalytics;
     return this;
   }
@@ -680,7 +665,7 @@ public class SearchParamsObject {
     return clickAnalytics;
   }
 
-  public SearchParamsObject setAnalytics(Boolean analytics) {
+  public RecommendSearchParams setAnalytics(Boolean analytics) {
     this.analytics = analytics;
     return this;
   }
@@ -691,12 +676,12 @@ public class SearchParamsObject {
     return analytics;
   }
 
-  public SearchParamsObject setAnalyticsTags(List<String> analyticsTags) {
+  public RecommendSearchParams setAnalyticsTags(List<String> analyticsTags) {
     this.analyticsTags = analyticsTags;
     return this;
   }
 
-  public SearchParamsObject addAnalyticsTags(String analyticsTagsItem) {
+  public RecommendSearchParams addAnalyticsTags(String analyticsTagsItem) {
     if (this.analyticsTags == null) {
       this.analyticsTags = new ArrayList<>();
     }
@@ -713,7 +698,7 @@ public class SearchParamsObject {
     return analyticsTags;
   }
 
-  public SearchParamsObject setPercentileComputation(Boolean percentileComputation) {
+  public RecommendSearchParams setPercentileComputation(Boolean percentileComputation) {
     this.percentileComputation = percentileComputation;
     return this;
   }
@@ -724,7 +709,7 @@ public class SearchParamsObject {
     return percentileComputation;
   }
 
-  public SearchParamsObject setEnableABTest(Boolean enableABTest) {
+  public RecommendSearchParams setEnableABTest(Boolean enableABTest) {
     this.enableABTest = enableABTest;
     return this;
   }
@@ -735,12 +720,406 @@ public class SearchParamsObject {
     return enableABTest;
   }
 
-  public SearchParamsObject setAttributesToRetrieve(List<String> attributesToRetrieve) {
+  public RecommendSearchParams setQuery(String query) {
+    this.query = query;
+    return this;
+  }
+
+  /** Search query. */
+  @javax.annotation.Nullable
+  public String getQuery() {
+    return query;
+  }
+
+  public RecommendSearchParams setAttributesForFaceting(List<String> attributesForFaceting) {
+    this.attributesForFaceting = attributesForFaceting;
+    return this;
+  }
+
+  public RecommendSearchParams addAttributesForFaceting(String attributesForFacetingItem) {
+    if (this.attributesForFaceting == null) {
+      this.attributesForFaceting = new ArrayList<>();
+    }
+    this.attributesForFaceting.add(attributesForFacetingItem);
+    return this;
+  }
+
+  /**
+   * Attributes used for
+   * [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/).
+   * Facets are attributes that let you categorize search results. They can be used for filtering
+   * search results. By default, no attribute is used for faceting. Attribute names are
+   * case-sensitive. **Modifiers** - `filterOnly(\"ATTRIBUTE\")`. Allows using this attribute as a
+   * filter, but doesn't evalue the facet values. - `searchable(\"ATTRIBUTE\")`. Allows searching
+   * for facet values. - `afterDistinct(\"ATTRIBUTE\")`. Evaluates the facet count _after_
+   * deduplication with `distinct`. This ensures accurate facet counts. You can apply this modifier
+   * to searchable facets: `afterDistinct(searchable(ATTRIBUTE))`.
+   */
+  @javax.annotation.Nullable
+  public List<String> getAttributesForFaceting() {
+    return attributesForFaceting;
+  }
+
+  public RecommendSearchParams setReplicas(List<String> replicas) {
+    this.replicas = replicas;
+    return this;
+  }
+
+  public RecommendSearchParams addReplicas(String replicasItem) {
+    if (this.replicas == null) {
+      this.replicas = new ArrayList<>();
+    }
+    this.replicas.add(replicasItem);
+    return this;
+  }
+
+  /**
+   * Creates [replica
+   * indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/).
+   * Replicas are copies of a primary index with the same records but different settings, synonyms,
+   * or rules. If you want to offer a different ranking or sorting of your search results, you'll
+   * use replica indices. All index operations on a primary index are automatically forwarded to its
+   * replicas. To add a replica index, you must provide the complete set of replicas to this
+   * parameter. If you omit a replica from this list, the replica turns into a regular, standalone
+   * index that will no longer by synced with the primary index. **Modifier** -
+   * `virtual(\"REPLICA\")`. Create a virtual replica, Virtual replicas don't increase the number of
+   * records and are optimized for [Relevant
+   * sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/).
+   */
+  @javax.annotation.Nullable
+  public List<String> getReplicas() {
+    return replicas;
+  }
+
+  public RecommendSearchParams setPaginationLimitedTo(Integer paginationLimitedTo) {
+    this.paginationLimitedTo = paginationLimitedTo;
+    return this;
+  }
+
+  /**
+   * Maximum number of search results that can be obtained through pagination. Higher pagination
+   * limits might slow down your search. For pagination limits above 1,000, the sorting of results
+   * beyond the 1,000th hit can't be guaranteed. maximum: 20000
+   */
+  @javax.annotation.Nullable
+  public Integer getPaginationLimitedTo() {
+    return paginationLimitedTo;
+  }
+
+  public RecommendSearchParams setUnretrievableAttributes(List<String> unretrievableAttributes) {
+    this.unretrievableAttributes = unretrievableAttributes;
+    return this;
+  }
+
+  public RecommendSearchParams addUnretrievableAttributes(String unretrievableAttributesItem) {
+    if (this.unretrievableAttributes == null) {
+      this.unretrievableAttributes = new ArrayList<>();
+    }
+    this.unretrievableAttributes.add(unretrievableAttributesItem);
+    return this;
+  }
+
+  /**
+   * Attributes that can't be retrieved at query time. This can be useful if you want to use an
+   * attribute for ranking or to [restrict
+   * access](https://www.algolia.com/doc/guides/security/api-keys/how-to/user-restricted-access-to-data/),
+   * but don't want to include it in the search results. Attribute names are case-sensitive.
+   */
+  @javax.annotation.Nullable
+  public List<String> getUnretrievableAttributes() {
+    return unretrievableAttributes;
+  }
+
+  public RecommendSearchParams setDisableTypoToleranceOnWords(List<String> disableTypoToleranceOnWords) {
+    this.disableTypoToleranceOnWords = disableTypoToleranceOnWords;
+    return this;
+  }
+
+  public RecommendSearchParams addDisableTypoToleranceOnWords(String disableTypoToleranceOnWordsItem) {
+    if (this.disableTypoToleranceOnWords == null) {
+      this.disableTypoToleranceOnWords = new ArrayList<>();
+    }
+    this.disableTypoToleranceOnWords.add(disableTypoToleranceOnWordsItem);
+    return this;
+  }
+
+  /**
+   * Words for which you want to turn off [typo
+   * tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/).
+   * This also turns off [word splitting and
+   * concatenation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/splitting-and-concatenation/)
+   * for the specified words.
+   */
+  @javax.annotation.Nullable
+  public List<String> getDisableTypoToleranceOnWords() {
+    return disableTypoToleranceOnWords;
+  }
+
+  public RecommendSearchParams setAttributesToTransliterate(List<String> attributesToTransliterate) {
+    this.attributesToTransliterate = attributesToTransliterate;
+    return this;
+  }
+
+  public RecommendSearchParams addAttributesToTransliterate(String attributesToTransliterateItem) {
+    if (this.attributesToTransliterate == null) {
+      this.attributesToTransliterate = new ArrayList<>();
+    }
+    this.attributesToTransliterate.add(attributesToTransliterateItem);
+    return this;
+  }
+
+  /**
+   * Attributes, for which you want to support [Japanese
+   * transliteration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#japanese-transliteration-and-type-ahead).
+   * Transliteration supports searching in any of the Japanese writing systems. To support
+   * transliteration, you must set the indexing language to Japanese. Attribute names are
+   * case-sensitive.
+   */
+  @javax.annotation.Nullable
+  public List<String> getAttributesToTransliterate() {
+    return attributesToTransliterate;
+  }
+
+  public RecommendSearchParams setCamelCaseAttributes(List<String> camelCaseAttributes) {
+    this.camelCaseAttributes = camelCaseAttributes;
+    return this;
+  }
+
+  public RecommendSearchParams addCamelCaseAttributes(String camelCaseAttributesItem) {
+    if (this.camelCaseAttributes == null) {
+      this.camelCaseAttributes = new ArrayList<>();
+    }
+    this.camelCaseAttributes.add(camelCaseAttributesItem);
+    return this;
+  }
+
+  /**
+   * Attributes for which to split [camel case](https://wikipedia.org/wiki/Camel_case) words.
+   * Attribute names are case-sensitive.
+   */
+  @javax.annotation.Nullable
+  public List<String> getCamelCaseAttributes() {
+    return camelCaseAttributes;
+  }
+
+  public RecommendSearchParams setDecompoundedAttributes(Object decompoundedAttributes) {
+    this.decompoundedAttributes = decompoundedAttributes;
+    return this;
+  }
+
+  /**
+   * Searchable attributes to which Algolia should apply [word
+   * segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/)
+   * (decompounding). Attribute names are case-sensitive. Compound words are formed by combining two
+   * or more individual words, and are particularly prevalent in Germanic languages—for example,
+   * \"firefighter\". With decompounding, the individual components are indexed separately. You can
+   * specify different lists for different languages. Decompounding is supported for these
+   * languages: Dutch (`nl`), German (`de`), Finnish (`fi`), Danish (`da`), Swedish (`sv`), and
+   * Norwegian (`no`). Decompounding doesn't work for words with [non-spacing mark Unicode
+   * characters](https://www.charactercodes.net/category/non-spacing_mark). For example,
+   * `Gartenstühle` won't be decompounded if the `ü` consists of `u` (U+0075) and `◌̈` (U+0308).
+   */
+  @javax.annotation.Nullable
+  public Object getDecompoundedAttributes() {
+    return decompoundedAttributes;
+  }
+
+  public RecommendSearchParams setIndexLanguages(List<SupportedLanguage> indexLanguages) {
+    this.indexLanguages = indexLanguages;
+    return this;
+  }
+
+  public RecommendSearchParams addIndexLanguages(SupportedLanguage indexLanguagesItem) {
+    if (this.indexLanguages == null) {
+      this.indexLanguages = new ArrayList<>();
+    }
+    this.indexLanguages.add(indexLanguagesItem);
+    return this;
+  }
+
+  /**
+   * Languages for language-specific processing steps, such as word detection and dictionary
+   * settings. **You should always specify an indexing language.** If you don't specify an indexing
+   * language, the search engine uses all [supported
+   * languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
+   * or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This
+   * can lead to unexpected search results. For more information, see [Language-specific
+   * configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
+   */
+  @javax.annotation.Nullable
+  public List<SupportedLanguage> getIndexLanguages() {
+    return indexLanguages;
+  }
+
+  public RecommendSearchParams setDisablePrefixOnAttributes(List<String> disablePrefixOnAttributes) {
+    this.disablePrefixOnAttributes = disablePrefixOnAttributes;
+    return this;
+  }
+
+  public RecommendSearchParams addDisablePrefixOnAttributes(String disablePrefixOnAttributesItem) {
+    if (this.disablePrefixOnAttributes == null) {
+      this.disablePrefixOnAttributes = new ArrayList<>();
+    }
+    this.disablePrefixOnAttributes.add(disablePrefixOnAttributesItem);
+    return this;
+  }
+
+  /**
+   * Searchable attributes for which you want to turn off [prefix
+   * matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
+   * Attribute names are case-sensitive.
+   */
+  @javax.annotation.Nullable
+  public List<String> getDisablePrefixOnAttributes() {
+    return disablePrefixOnAttributes;
+  }
+
+  public RecommendSearchParams setAllowCompressionOfIntegerArray(Boolean allowCompressionOfIntegerArray) {
+    this.allowCompressionOfIntegerArray = allowCompressionOfIntegerArray;
+    return this;
+  }
+
+  /**
+   * Whether arrays with exclusively non-negative integers should be compressed for better
+   * performance. If true, the compressed arrays may be reordered.
+   */
+  @javax.annotation.Nullable
+  public Boolean getAllowCompressionOfIntegerArray() {
+    return allowCompressionOfIntegerArray;
+  }
+
+  public RecommendSearchParams setNumericAttributesForFiltering(List<String> numericAttributesForFiltering) {
+    this.numericAttributesForFiltering = numericAttributesForFiltering;
+    return this;
+  }
+
+  public RecommendSearchParams addNumericAttributesForFiltering(String numericAttributesForFilteringItem) {
+    if (this.numericAttributesForFiltering == null) {
+      this.numericAttributesForFiltering = new ArrayList<>();
+    }
+    this.numericAttributesForFiltering.add(numericAttributesForFilteringItem);
+    return this;
+  }
+
+  /**
+   * Numeric attributes that can be used as [numerical
+   * filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters).
+   * Attribute names are case-sensitive. By default, all numeric attributes are available as
+   * numerical filters. For faster indexing, reduce the number of numeric attributes. If you want to
+   * turn off filtering for all numeric attributes, specifiy an attribute that doesn't exist in your
+   * index, such as `NO_NUMERIC_FILTERING`. **Modifier** - `equalOnly(\"ATTRIBUTE\")`. Support only
+   * filtering based on equality comparisons `=` and `!=`.
+   */
+  @javax.annotation.Nullable
+  public List<String> getNumericAttributesForFiltering() {
+    return numericAttributesForFiltering;
+  }
+
+  public RecommendSearchParams setSeparatorsToIndex(String separatorsToIndex) {
+    this.separatorsToIndex = separatorsToIndex;
+    return this;
+  }
+
+  /**
+   * Controls which separators are indexed. Separators are all non-letter characters except spaces
+   * and currency characters, such as $€£¥. By default, separator characters aren't indexed. With
+   * `separatorsToIndex`, Algolia treats separator characters as separate words. For example, a
+   * search for `C#` would report two matches.
+   */
+  @javax.annotation.Nullable
+  public String getSeparatorsToIndex() {
+    return separatorsToIndex;
+  }
+
+  public RecommendSearchParams setSearchableAttributes(List<String> searchableAttributes) {
+    this.searchableAttributes = searchableAttributes;
+    return this;
+  }
+
+  public RecommendSearchParams addSearchableAttributes(String searchableAttributesItem) {
+    if (this.searchableAttributes == null) {
+      this.searchableAttributes = new ArrayList<>();
+    }
+    this.searchableAttributes.add(searchableAttributesItem);
+    return this;
+  }
+
+  /**
+   * Attributes used for searching. Attribute names are case-sensitive. By default, all attributes
+   * are searchable and the
+   * [Attribute](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#attribute)
+   * ranking criterion is turned off. With a non-empty list, Algolia only returns results with
+   * matches in the selected attributes. In addition, the Attribute ranking criterion is turned on:
+   * matches in attributes that are higher in the list of `searchableAttributes` rank first. To make
+   * matches in two attributes rank equally, include them in a comma-separated string, such as
+   * `\"title,alternate_title\"`. Attributes with the same priority are always unordered. For more
+   * information, see [Searchable
+   * attributes](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/setting-searchable-attributes/).
+   * **Modifier** - `unordered(\"ATTRIBUTE\")`. Ignore the position of a match within the attribute.
+   * Without modifier, matches at the beginning of an attribute rank higer than matches at the end.
+   */
+  @javax.annotation.Nullable
+  public List<String> getSearchableAttributes() {
+    return searchableAttributes;
+  }
+
+  public RecommendSearchParams setUserData(Object userData) {
+    this.userData = userData;
+    return this;
+  }
+
+  /** An object with custom data. You can store up to 32kB as custom data. */
+  @javax.annotation.Nullable
+  public Object getUserData() {
+    return userData;
+  }
+
+  public RecommendSearchParams setCustomNormalization(Map<String, Map<String, String>> customNormalization) {
+    this.customNormalization = customNormalization;
+    return this;
+  }
+
+  public RecommendSearchParams putCustomNormalization(String key, Map<String, String> customNormalizationItem) {
+    if (this.customNormalization == null) {
+      this.customNormalization = new HashMap<>();
+    }
+    this.customNormalization.put(key, customNormalizationItem);
+    return this;
+  }
+
+  /**
+   * Characters and their normalized replacements. This overrides Algolia's default
+   * [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/).
+   */
+  @javax.annotation.Nullable
+  public Map<String, Map<String, String>> getCustomNormalization() {
+    return customNormalization;
+  }
+
+  public RecommendSearchParams setAttributeForDistinct(String attributeForDistinct) {
+    this.attributeForDistinct = attributeForDistinct;
+    return this;
+  }
+
+  /**
+   * Attribute that should be used to establish groups of results. Attribute names are
+   * case-sensitive. All records with the same value for this attribute are considered a group. You
+   * can combine `attributeForDistinct` with the `distinct` search parameter to control how many
+   * items per group are included in the search results. If you want to use the same attribute also
+   * for faceting, use the `afterDistinct` modifier of the `attributesForFaceting` setting. This
+   * applies faceting _after_ deduplication, which will result in accurate facet counts.
+   */
+  @javax.annotation.Nullable
+  public String getAttributeForDistinct() {
+    return attributeForDistinct;
+  }
+
+  public RecommendSearchParams setAttributesToRetrieve(List<String> attributesToRetrieve) {
     this.attributesToRetrieve = attributesToRetrieve;
     return this;
   }
 
-  public SearchParamsObject addAttributesToRetrieve(String attributesToRetrieveItem) {
+  public RecommendSearchParams addAttributesToRetrieve(String attributesToRetrieveItem) {
     if (this.attributesToRetrieve == null) {
       this.attributesToRetrieve = new ArrayList<>();
     }
@@ -761,12 +1140,12 @@ public class SearchParamsObject {
     return attributesToRetrieve;
   }
 
-  public SearchParamsObject setRanking(List<String> ranking) {
+  public RecommendSearchParams setRanking(List<String> ranking) {
     this.ranking = ranking;
     return this;
   }
 
-  public SearchParamsObject addRanking(String rankingItem) {
+  public RecommendSearchParams addRanking(String rankingItem) {
     if (this.ranking == null) {
       this.ranking = new ArrayList<>();
     }
@@ -792,37 +1171,7 @@ public class SearchParamsObject {
     return ranking;
   }
 
-  public SearchParamsObject setCustomRanking(List<String> customRanking) {
-    this.customRanking = customRanking;
-    return this;
-  }
-
-  public SearchParamsObject addCustomRanking(String customRankingItem) {
-    if (this.customRanking == null) {
-      this.customRanking = new ArrayList<>();
-    }
-    this.customRanking.add(customRankingItem);
-    return this;
-  }
-
-  /**
-   * Attributes to use as [custom
-   * ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/).
-   * Attribute names are case-sensitive. The custom ranking attributes decide which items are shown
-   * first if the other ranking criteria are equal. Records with missing values for your selected
-   * custom ranking attributes are always sorted last. Boolean attributes are sorted based on their
-   * alphabetical order. **Modifiers** - `asc(\"ATTRIBUTE\")`. Sort the index by the values of an
-   * attribute, in ascending order. - `desc(\"ATTRIBUTE\")`. Sort the index by the values of an
-   * attribute, in descending order. If you use two or more custom ranking attributes, [reduce the
-   * precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
-   * of your first attributes, or the other attributes will never be applied.
-   */
-  @javax.annotation.Nullable
-  public List<String> getCustomRanking() {
-    return customRanking;
-  }
-
-  public SearchParamsObject setRelevancyStrictness(Integer relevancyStrictness) {
+  public RecommendSearchParams setRelevancyStrictness(Integer relevancyStrictness) {
     this.relevancyStrictness = relevancyStrictness;
     return this;
   }
@@ -838,12 +1187,12 @@ public class SearchParamsObject {
     return relevancyStrictness;
   }
 
-  public SearchParamsObject setAttributesToHighlight(List<String> attributesToHighlight) {
+  public RecommendSearchParams setAttributesToHighlight(List<String> attributesToHighlight) {
     this.attributesToHighlight = attributesToHighlight;
     return this;
   }
 
-  public SearchParamsObject addAttributesToHighlight(String attributesToHighlightItem) {
+  public RecommendSearchParams addAttributesToHighlight(String attributesToHighlightItem) {
     if (this.attributesToHighlight == null) {
       this.attributesToHighlight = new ArrayList<>();
     }
@@ -865,12 +1214,12 @@ public class SearchParamsObject {
     return attributesToHighlight;
   }
 
-  public SearchParamsObject setAttributesToSnippet(List<String> attributesToSnippet) {
+  public RecommendSearchParams setAttributesToSnippet(List<String> attributesToSnippet) {
     this.attributesToSnippet = attributesToSnippet;
     return this;
   }
 
-  public SearchParamsObject addAttributesToSnippet(String attributesToSnippetItem) {
+  public RecommendSearchParams addAttributesToSnippet(String attributesToSnippetItem) {
     if (this.attributesToSnippet == null) {
       this.attributesToSnippet = new ArrayList<>();
     }
@@ -890,7 +1239,7 @@ public class SearchParamsObject {
     return attributesToSnippet;
   }
 
-  public SearchParamsObject setHighlightPreTag(String highlightPreTag) {
+  public RecommendSearchParams setHighlightPreTag(String highlightPreTag) {
     this.highlightPreTag = highlightPreTag;
     return this;
   }
@@ -901,7 +1250,7 @@ public class SearchParamsObject {
     return highlightPreTag;
   }
 
-  public SearchParamsObject setHighlightPostTag(String highlightPostTag) {
+  public RecommendSearchParams setHighlightPostTag(String highlightPostTag) {
     this.highlightPostTag = highlightPostTag;
     return this;
   }
@@ -912,7 +1261,7 @@ public class SearchParamsObject {
     return highlightPostTag;
   }
 
-  public SearchParamsObject setSnippetEllipsisText(String snippetEllipsisText) {
+  public RecommendSearchParams setSnippetEllipsisText(String snippetEllipsisText) {
     this.snippetEllipsisText = snippetEllipsisText;
     return this;
   }
@@ -923,7 +1272,7 @@ public class SearchParamsObject {
     return snippetEllipsisText;
   }
 
-  public SearchParamsObject setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
+  public RecommendSearchParams setRestrictHighlightAndSnippetArrays(Boolean restrictHighlightAndSnippetArrays) {
     this.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays;
     return this;
   }
@@ -937,18 +1286,7 @@ public class SearchParamsObject {
     return restrictHighlightAndSnippetArrays;
   }
 
-  public SearchParamsObject setHitsPerPage(Integer hitsPerPage) {
-    this.hitsPerPage = hitsPerPage;
-    return this;
-  }
-
-  /** Number of hits per page. minimum: 1 maximum: 1000 */
-  @javax.annotation.Nullable
-  public Integer getHitsPerPage() {
-    return hitsPerPage;
-  }
-
-  public SearchParamsObject setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
+  public RecommendSearchParams setMinWordSizefor1Typo(Integer minWordSizefor1Typo) {
     this.minWordSizefor1Typo = minWordSizefor1Typo;
     return this;
   }
@@ -963,7 +1301,7 @@ public class SearchParamsObject {
     return minWordSizefor1Typo;
   }
 
-  public SearchParamsObject setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
+  public RecommendSearchParams setMinWordSizefor2Typos(Integer minWordSizefor2Typos) {
     this.minWordSizefor2Typos = minWordSizefor2Typos;
     return this;
   }
@@ -978,7 +1316,7 @@ public class SearchParamsObject {
     return minWordSizefor2Typos;
   }
 
-  public SearchParamsObject setTypoTolerance(TypoTolerance typoTolerance) {
+  public RecommendSearchParams setTypoTolerance(TypoTolerance typoTolerance) {
     this.typoTolerance = typoTolerance;
     return this;
   }
@@ -989,7 +1327,7 @@ public class SearchParamsObject {
     return typoTolerance;
   }
 
-  public SearchParamsObject setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
+  public RecommendSearchParams setAllowTyposOnNumericTokens(Boolean allowTyposOnNumericTokens) {
     this.allowTyposOnNumericTokens = allowTyposOnNumericTokens;
     return this;
   }
@@ -1003,12 +1341,12 @@ public class SearchParamsObject {
     return allowTyposOnNumericTokens;
   }
 
-  public SearchParamsObject setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
+  public RecommendSearchParams setDisableTypoToleranceOnAttributes(List<String> disableTypoToleranceOnAttributes) {
     this.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes;
     return this;
   }
 
-  public SearchParamsObject addDisableTypoToleranceOnAttributes(String disableTypoToleranceOnAttributesItem) {
+  public RecommendSearchParams addDisableTypoToleranceOnAttributes(String disableTypoToleranceOnAttributesItem) {
     if (this.disableTypoToleranceOnAttributes == null) {
       this.disableTypoToleranceOnAttributes = new ArrayList<>();
     }
@@ -1032,7 +1370,7 @@ public class SearchParamsObject {
     return disableTypoToleranceOnAttributes;
   }
 
-  public SearchParamsObject setIgnorePlurals(IgnorePlurals ignorePlurals) {
+  public RecommendSearchParams setIgnorePlurals(IgnorePlurals ignorePlurals) {
     this.ignorePlurals = ignorePlurals;
     return this;
   }
@@ -1043,7 +1381,7 @@ public class SearchParamsObject {
     return ignorePlurals;
   }
 
-  public SearchParamsObject setRemoveStopWords(RemoveStopWords removeStopWords) {
+  public RecommendSearchParams setRemoveStopWords(RemoveStopWords removeStopWords) {
     this.removeStopWords = removeStopWords;
     return this;
   }
@@ -1054,27 +1392,12 @@ public class SearchParamsObject {
     return removeStopWords;
   }
 
-  public SearchParamsObject setKeepDiacriticsOnCharacters(String keepDiacriticsOnCharacters) {
-    this.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters;
-    return this;
-  }
-
-  /**
-   * Characters for which diacritics should be preserved. By default, Algolia removes diacritics
-   * from letters. For example, `é` becomes `e`. If this causes issues in your search, you can
-   * specify characters that should keep their diacritics.
-   */
-  @javax.annotation.Nullable
-  public String getKeepDiacriticsOnCharacters() {
-    return keepDiacriticsOnCharacters;
-  }
-
-  public SearchParamsObject setQueryLanguages(List<SupportedLanguage> queryLanguages) {
+  public RecommendSearchParams setQueryLanguages(List<SupportedLanguage> queryLanguages) {
     this.queryLanguages = queryLanguages;
     return this;
   }
 
-  public SearchParamsObject addQueryLanguages(SupportedLanguage queryLanguagesItem) {
+  public RecommendSearchParams addQueryLanguages(SupportedLanguage queryLanguagesItem) {
     if (this.queryLanguages == null) {
       this.queryLanguages = new ArrayList<>();
     }
@@ -1101,7 +1424,7 @@ public class SearchParamsObject {
     return queryLanguages;
   }
 
-  public SearchParamsObject setDecompoundQuery(Boolean decompoundQuery) {
+  public RecommendSearchParams setDecompoundQuery(Boolean decompoundQuery) {
     this.decompoundQuery = decompoundQuery;
     return this;
   }
@@ -1120,7 +1443,7 @@ public class SearchParamsObject {
     return decompoundQuery;
   }
 
-  public SearchParamsObject setEnableRules(Boolean enableRules) {
+  public RecommendSearchParams setEnableRules(Boolean enableRules) {
     this.enableRules = enableRules;
     return this;
   }
@@ -1131,7 +1454,7 @@ public class SearchParamsObject {
     return enableRules;
   }
 
-  public SearchParamsObject setEnablePersonalization(Boolean enablePersonalization) {
+  public RecommendSearchParams setEnablePersonalization(Boolean enablePersonalization) {
     this.enablePersonalization = enablePersonalization;
     return this;
   }
@@ -1142,7 +1465,7 @@ public class SearchParamsObject {
     return enablePersonalization;
   }
 
-  public SearchParamsObject setQueryType(QueryType queryType) {
+  public RecommendSearchParams setQueryType(QueryType queryType) {
     this.queryType = queryType;
     return this;
   }
@@ -1153,7 +1476,7 @@ public class SearchParamsObject {
     return queryType;
   }
 
-  public SearchParamsObject setRemoveWordsIfNoResults(RemoveWordsIfNoResults removeWordsIfNoResults) {
+  public RecommendSearchParams setRemoveWordsIfNoResults(RemoveWordsIfNoResults removeWordsIfNoResults) {
     this.removeWordsIfNoResults = removeWordsIfNoResults;
     return this;
   }
@@ -1164,29 +1487,7 @@ public class SearchParamsObject {
     return removeWordsIfNoResults;
   }
 
-  public SearchParamsObject setMode(Mode mode) {
-    this.mode = mode;
-    return this;
-  }
-
-  /** Get mode */
-  @javax.annotation.Nullable
-  public Mode getMode() {
-    return mode;
-  }
-
-  public SearchParamsObject setSemanticSearch(SemanticSearch semanticSearch) {
-    this.semanticSearch = semanticSearch;
-    return this;
-  }
-
-  /** Get semanticSearch */
-  @javax.annotation.Nullable
-  public SemanticSearch getSemanticSearch() {
-    return semanticSearch;
-  }
-
-  public SearchParamsObject setAdvancedSyntax(Boolean advancedSyntax) {
+  public RecommendSearchParams setAdvancedSyntax(Boolean advancedSyntax) {
     this.advancedSyntax = advancedSyntax;
     return this;
   }
@@ -1200,12 +1501,12 @@ public class SearchParamsObject {
     return advancedSyntax;
   }
 
-  public SearchParamsObject setOptionalWords(List<String> optionalWords) {
+  public RecommendSearchParams setOptionalWords(List<String> optionalWords) {
     this.optionalWords = optionalWords;
     return this;
   }
 
-  public SearchParamsObject addOptionalWords(String optionalWordsItem) {
+  public RecommendSearchParams addOptionalWords(String optionalWordsItem) {
     if (this.optionalWords == null) {
       this.optionalWords = new ArrayList<>();
     }
@@ -1235,12 +1536,12 @@ public class SearchParamsObject {
     return optionalWords;
   }
 
-  public SearchParamsObject setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
+  public RecommendSearchParams setDisableExactOnAttributes(List<String> disableExactOnAttributes) {
     this.disableExactOnAttributes = disableExactOnAttributes;
     return this;
   }
 
-  public SearchParamsObject addDisableExactOnAttributes(String disableExactOnAttributesItem) {
+  public RecommendSearchParams addDisableExactOnAttributes(String disableExactOnAttributesItem) {
     if (this.disableExactOnAttributes == null) {
       this.disableExactOnAttributes = new ArrayList<>();
     }
@@ -1261,7 +1562,7 @@ public class SearchParamsObject {
     return disableExactOnAttributes;
   }
 
-  public SearchParamsObject setExactOnSingleWordQuery(ExactOnSingleWordQuery exactOnSingleWordQuery) {
+  public RecommendSearchParams setExactOnSingleWordQuery(ExactOnSingleWordQuery exactOnSingleWordQuery) {
     this.exactOnSingleWordQuery = exactOnSingleWordQuery;
     return this;
   }
@@ -1272,12 +1573,12 @@ public class SearchParamsObject {
     return exactOnSingleWordQuery;
   }
 
-  public SearchParamsObject setAlternativesAsExact(List<AlternativesAsExact> alternativesAsExact) {
+  public RecommendSearchParams setAlternativesAsExact(List<AlternativesAsExact> alternativesAsExact) {
     this.alternativesAsExact = alternativesAsExact;
     return this;
   }
 
-  public SearchParamsObject addAlternativesAsExact(AlternativesAsExact alternativesAsExactItem) {
+  public RecommendSearchParams addAlternativesAsExact(AlternativesAsExact alternativesAsExactItem) {
     if (this.alternativesAsExact == null) {
       this.alternativesAsExact = new ArrayList<>();
     }
@@ -1297,12 +1598,12 @@ public class SearchParamsObject {
     return alternativesAsExact;
   }
 
-  public SearchParamsObject setAdvancedSyntaxFeatures(List<AdvancedSyntaxFeatures> advancedSyntaxFeatures) {
+  public RecommendSearchParams setAdvancedSyntaxFeatures(List<AdvancedSyntaxFeatures> advancedSyntaxFeatures) {
     this.advancedSyntaxFeatures = advancedSyntaxFeatures;
     return this;
   }
 
-  public SearchParamsObject addAdvancedSyntaxFeatures(AdvancedSyntaxFeatures advancedSyntaxFeaturesItem) {
+  public RecommendSearchParams addAdvancedSyntaxFeatures(AdvancedSyntaxFeatures advancedSyntaxFeaturesItem) {
     if (this.advancedSyntaxFeatures == null) {
       this.advancedSyntaxFeatures = new ArrayList<>();
     }
@@ -1322,7 +1623,7 @@ public class SearchParamsObject {
     return advancedSyntaxFeatures;
   }
 
-  public SearchParamsObject setDistinct(Distinct distinct) {
+  public RecommendSearchParams setDistinct(Distinct distinct) {
     this.distinct = distinct;
     return this;
   }
@@ -1333,7 +1634,7 @@ public class SearchParamsObject {
     return distinct;
   }
 
-  public SearchParamsObject setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
+  public RecommendSearchParams setReplaceSynonymsInHighlight(Boolean replaceSynonymsInHighlight) {
     this.replaceSynonymsInHighlight = replaceSynonymsInHighlight;
     return this;
   }
@@ -1351,7 +1652,7 @@ public class SearchParamsObject {
     return replaceSynonymsInHighlight;
   }
 
-  public SearchParamsObject setMinProximity(Integer minProximity) {
+  public RecommendSearchParams setMinProximity(Integer minProximity) {
     this.minProximity = minProximity;
     return this;
   }
@@ -1368,12 +1669,12 @@ public class SearchParamsObject {
     return minProximity;
   }
 
-  public SearchParamsObject setResponseFields(List<String> responseFields) {
+  public RecommendSearchParams setResponseFields(List<String> responseFields) {
     this.responseFields = responseFields;
     return this;
   }
 
-  public SearchParamsObject addResponseFields(String responseFieldsItem) {
+  public RecommendSearchParams addResponseFields(String responseFieldsItem) {
     if (this.responseFields == null) {
       this.responseFields = new ArrayList<>();
     }
@@ -1393,7 +1694,7 @@ public class SearchParamsObject {
     return responseFields;
   }
 
-  public SearchParamsObject setMaxFacetHits(Integer maxFacetHits) {
+  public RecommendSearchParams setMaxFacetHits(Integer maxFacetHits) {
     this.maxFacetHits = maxFacetHits;
     return this;
   }
@@ -1408,7 +1709,7 @@ public class SearchParamsObject {
     return maxFacetHits;
   }
 
-  public SearchParamsObject setMaxValuesPerFacet(Integer maxValuesPerFacet) {
+  public RecommendSearchParams setMaxValuesPerFacet(Integer maxValuesPerFacet) {
     this.maxValuesPerFacet = maxValuesPerFacet;
     return this;
   }
@@ -1419,7 +1720,7 @@ public class SearchParamsObject {
     return maxValuesPerFacet;
   }
 
-  public SearchParamsObject setSortFacetValuesBy(String sortFacetValuesBy) {
+  public RecommendSearchParams setSortFacetValuesBy(String sortFacetValuesBy) {
     this.sortFacetValuesBy = sortFacetValuesBy;
     return this;
   }
@@ -1436,7 +1737,7 @@ public class SearchParamsObject {
     return sortFacetValuesBy;
   }
 
-  public SearchParamsObject setAttributeCriteriaComputedByMinProximity(Boolean attributeCriteriaComputedByMinProximity) {
+  public RecommendSearchParams setAttributeCriteriaComputedByMinProximity(Boolean attributeCriteriaComputedByMinProximity) {
     this.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity;
     return this;
   }
@@ -1453,7 +1754,7 @@ public class SearchParamsObject {
     return attributeCriteriaComputedByMinProximity;
   }
 
-  public SearchParamsObject setRenderingContent(RenderingContent renderingContent) {
+  public RecommendSearchParams setRenderingContent(RenderingContent renderingContent) {
     this.renderingContent = renderingContent;
     return this;
   }
@@ -1464,7 +1765,7 @@ public class SearchParamsObject {
     return renderingContent;
   }
 
-  public SearchParamsObject setEnableReRanking(Boolean enableReRanking) {
+  public RecommendSearchParams setEnableReRanking(Boolean enableReRanking) {
     this.enableReRanking = enableReRanking;
     return this;
   }
@@ -1479,7 +1780,7 @@ public class SearchParamsObject {
     return enableReRanking;
   }
 
-  public SearchParamsObject setReRankingApplyFilter(ReRankingApplyFilter reRankingApplyFilter) {
+  public RecommendSearchParams setReRankingApplyFilter(ReRankingApplyFilter reRankingApplyFilter) {
     this.reRankingApplyFilter = reRankingApplyFilter;
     return this;
   }
@@ -1498,91 +1799,99 @@ public class SearchParamsObject {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SearchParamsObject searchParamsObject = (SearchParamsObject) o;
+    RecommendSearchParams recommendSearchParams = (RecommendSearchParams) o;
     return (
-      Objects.equals(this.query, searchParamsObject.query) &&
-      Objects.equals(this.similarQuery, searchParamsObject.similarQuery) &&
-      Objects.equals(this.filters, searchParamsObject.filters) &&
-      Objects.equals(this.facetFilters, searchParamsObject.facetFilters) &&
-      Objects.equals(this.optionalFilters, searchParamsObject.optionalFilters) &&
-      Objects.equals(this.numericFilters, searchParamsObject.numericFilters) &&
-      Objects.equals(this.tagFilters, searchParamsObject.tagFilters) &&
-      Objects.equals(this.sumOrFiltersScores, searchParamsObject.sumOrFiltersScores) &&
-      Objects.equals(this.restrictSearchableAttributes, searchParamsObject.restrictSearchableAttributes) &&
-      Objects.equals(this.facets, searchParamsObject.facets) &&
-      Objects.equals(this.facetingAfterDistinct, searchParamsObject.facetingAfterDistinct) &&
-      Objects.equals(this.page, searchParamsObject.page) &&
-      Objects.equals(this.offset, searchParamsObject.offset) &&
-      Objects.equals(this.length, searchParamsObject.length) &&
-      Objects.equals(this.aroundLatLng, searchParamsObject.aroundLatLng) &&
-      Objects.equals(this.aroundLatLngViaIP, searchParamsObject.aroundLatLngViaIP) &&
-      Objects.equals(this.aroundRadius, searchParamsObject.aroundRadius) &&
-      Objects.equals(this.aroundPrecision, searchParamsObject.aroundPrecision) &&
-      Objects.equals(this.minimumAroundRadius, searchParamsObject.minimumAroundRadius) &&
-      Objects.equals(this.insideBoundingBox, searchParamsObject.insideBoundingBox) &&
-      Objects.equals(this.insidePolygon, searchParamsObject.insidePolygon) &&
-      Objects.equals(this.naturalLanguages, searchParamsObject.naturalLanguages) &&
-      Objects.equals(this.ruleContexts, searchParamsObject.ruleContexts) &&
-      Objects.equals(this.personalizationImpact, searchParamsObject.personalizationImpact) &&
-      Objects.equals(this.userToken, searchParamsObject.userToken) &&
-      Objects.equals(this.getRankingInfo, searchParamsObject.getRankingInfo) &&
-      Objects.equals(this.synonyms, searchParamsObject.synonyms) &&
-      Objects.equals(this.clickAnalytics, searchParamsObject.clickAnalytics) &&
-      Objects.equals(this.analytics, searchParamsObject.analytics) &&
-      Objects.equals(this.analyticsTags, searchParamsObject.analyticsTags) &&
-      Objects.equals(this.percentileComputation, searchParamsObject.percentileComputation) &&
-      Objects.equals(this.enableABTest, searchParamsObject.enableABTest) &&
-      Objects.equals(this.attributesToRetrieve, searchParamsObject.attributesToRetrieve) &&
-      Objects.equals(this.ranking, searchParamsObject.ranking) &&
-      Objects.equals(this.customRanking, searchParamsObject.customRanking) &&
-      Objects.equals(this.relevancyStrictness, searchParamsObject.relevancyStrictness) &&
-      Objects.equals(this.attributesToHighlight, searchParamsObject.attributesToHighlight) &&
-      Objects.equals(this.attributesToSnippet, searchParamsObject.attributesToSnippet) &&
-      Objects.equals(this.highlightPreTag, searchParamsObject.highlightPreTag) &&
-      Objects.equals(this.highlightPostTag, searchParamsObject.highlightPostTag) &&
-      Objects.equals(this.snippetEllipsisText, searchParamsObject.snippetEllipsisText) &&
-      Objects.equals(this.restrictHighlightAndSnippetArrays, searchParamsObject.restrictHighlightAndSnippetArrays) &&
-      Objects.equals(this.hitsPerPage, searchParamsObject.hitsPerPage) &&
-      Objects.equals(this.minWordSizefor1Typo, searchParamsObject.minWordSizefor1Typo) &&
-      Objects.equals(this.minWordSizefor2Typos, searchParamsObject.minWordSizefor2Typos) &&
-      Objects.equals(this.typoTolerance, searchParamsObject.typoTolerance) &&
-      Objects.equals(this.allowTyposOnNumericTokens, searchParamsObject.allowTyposOnNumericTokens) &&
-      Objects.equals(this.disableTypoToleranceOnAttributes, searchParamsObject.disableTypoToleranceOnAttributes) &&
-      Objects.equals(this.ignorePlurals, searchParamsObject.ignorePlurals) &&
-      Objects.equals(this.removeStopWords, searchParamsObject.removeStopWords) &&
-      Objects.equals(this.keepDiacriticsOnCharacters, searchParamsObject.keepDiacriticsOnCharacters) &&
-      Objects.equals(this.queryLanguages, searchParamsObject.queryLanguages) &&
-      Objects.equals(this.decompoundQuery, searchParamsObject.decompoundQuery) &&
-      Objects.equals(this.enableRules, searchParamsObject.enableRules) &&
-      Objects.equals(this.enablePersonalization, searchParamsObject.enablePersonalization) &&
-      Objects.equals(this.queryType, searchParamsObject.queryType) &&
-      Objects.equals(this.removeWordsIfNoResults, searchParamsObject.removeWordsIfNoResults) &&
-      Objects.equals(this.mode, searchParamsObject.mode) &&
-      Objects.equals(this.semanticSearch, searchParamsObject.semanticSearch) &&
-      Objects.equals(this.advancedSyntax, searchParamsObject.advancedSyntax) &&
-      Objects.equals(this.optionalWords, searchParamsObject.optionalWords) &&
-      Objects.equals(this.disableExactOnAttributes, searchParamsObject.disableExactOnAttributes) &&
-      Objects.equals(this.exactOnSingleWordQuery, searchParamsObject.exactOnSingleWordQuery) &&
-      Objects.equals(this.alternativesAsExact, searchParamsObject.alternativesAsExact) &&
-      Objects.equals(this.advancedSyntaxFeatures, searchParamsObject.advancedSyntaxFeatures) &&
-      Objects.equals(this.distinct, searchParamsObject.distinct) &&
-      Objects.equals(this.replaceSynonymsInHighlight, searchParamsObject.replaceSynonymsInHighlight) &&
-      Objects.equals(this.minProximity, searchParamsObject.minProximity) &&
-      Objects.equals(this.responseFields, searchParamsObject.responseFields) &&
-      Objects.equals(this.maxFacetHits, searchParamsObject.maxFacetHits) &&
-      Objects.equals(this.maxValuesPerFacet, searchParamsObject.maxValuesPerFacet) &&
-      Objects.equals(this.sortFacetValuesBy, searchParamsObject.sortFacetValuesBy) &&
-      Objects.equals(this.attributeCriteriaComputedByMinProximity, searchParamsObject.attributeCriteriaComputedByMinProximity) &&
-      Objects.equals(this.renderingContent, searchParamsObject.renderingContent) &&
-      Objects.equals(this.enableReRanking, searchParamsObject.enableReRanking) &&
-      Objects.equals(this.reRankingApplyFilter, searchParamsObject.reRankingApplyFilter)
+      Objects.equals(this.similarQuery, recommendSearchParams.similarQuery) &&
+      Objects.equals(this.filters, recommendSearchParams.filters) &&
+      Objects.equals(this.facetFilters, recommendSearchParams.facetFilters) &&
+      Objects.equals(this.optionalFilters, recommendSearchParams.optionalFilters) &&
+      Objects.equals(this.numericFilters, recommendSearchParams.numericFilters) &&
+      Objects.equals(this.tagFilters, recommendSearchParams.tagFilters) &&
+      Objects.equals(this.sumOrFiltersScores, recommendSearchParams.sumOrFiltersScores) &&
+      Objects.equals(this.restrictSearchableAttributes, recommendSearchParams.restrictSearchableAttributes) &&
+      Objects.equals(this.facets, recommendSearchParams.facets) &&
+      Objects.equals(this.facetingAfterDistinct, recommendSearchParams.facetingAfterDistinct) &&
+      Objects.equals(this.aroundLatLng, recommendSearchParams.aroundLatLng) &&
+      Objects.equals(this.aroundLatLngViaIP, recommendSearchParams.aroundLatLngViaIP) &&
+      Objects.equals(this.aroundRadius, recommendSearchParams.aroundRadius) &&
+      Objects.equals(this.aroundPrecision, recommendSearchParams.aroundPrecision) &&
+      Objects.equals(this.minimumAroundRadius, recommendSearchParams.minimumAroundRadius) &&
+      Objects.equals(this.insideBoundingBox, recommendSearchParams.insideBoundingBox) &&
+      Objects.equals(this.insidePolygon, recommendSearchParams.insidePolygon) &&
+      Objects.equals(this.naturalLanguages, recommendSearchParams.naturalLanguages) &&
+      Objects.equals(this.ruleContexts, recommendSearchParams.ruleContexts) &&
+      Objects.equals(this.personalizationImpact, recommendSearchParams.personalizationImpact) &&
+      Objects.equals(this.userToken, recommendSearchParams.userToken) &&
+      Objects.equals(this.getRankingInfo, recommendSearchParams.getRankingInfo) &&
+      Objects.equals(this.synonyms, recommendSearchParams.synonyms) &&
+      Objects.equals(this.clickAnalytics, recommendSearchParams.clickAnalytics) &&
+      Objects.equals(this.analytics, recommendSearchParams.analytics) &&
+      Objects.equals(this.analyticsTags, recommendSearchParams.analyticsTags) &&
+      Objects.equals(this.percentileComputation, recommendSearchParams.percentileComputation) &&
+      Objects.equals(this.enableABTest, recommendSearchParams.enableABTest) &&
+      Objects.equals(this.query, recommendSearchParams.query) &&
+      Objects.equals(this.attributesForFaceting, recommendSearchParams.attributesForFaceting) &&
+      Objects.equals(this.replicas, recommendSearchParams.replicas) &&
+      Objects.equals(this.paginationLimitedTo, recommendSearchParams.paginationLimitedTo) &&
+      Objects.equals(this.unretrievableAttributes, recommendSearchParams.unretrievableAttributes) &&
+      Objects.equals(this.disableTypoToleranceOnWords, recommendSearchParams.disableTypoToleranceOnWords) &&
+      Objects.equals(this.attributesToTransliterate, recommendSearchParams.attributesToTransliterate) &&
+      Objects.equals(this.camelCaseAttributes, recommendSearchParams.camelCaseAttributes) &&
+      Objects.equals(this.decompoundedAttributes, recommendSearchParams.decompoundedAttributes) &&
+      Objects.equals(this.indexLanguages, recommendSearchParams.indexLanguages) &&
+      Objects.equals(this.disablePrefixOnAttributes, recommendSearchParams.disablePrefixOnAttributes) &&
+      Objects.equals(this.allowCompressionOfIntegerArray, recommendSearchParams.allowCompressionOfIntegerArray) &&
+      Objects.equals(this.numericAttributesForFiltering, recommendSearchParams.numericAttributesForFiltering) &&
+      Objects.equals(this.separatorsToIndex, recommendSearchParams.separatorsToIndex) &&
+      Objects.equals(this.searchableAttributes, recommendSearchParams.searchableAttributes) &&
+      Objects.equals(this.userData, recommendSearchParams.userData) &&
+      Objects.equals(this.customNormalization, recommendSearchParams.customNormalization) &&
+      Objects.equals(this.attributeForDistinct, recommendSearchParams.attributeForDistinct) &&
+      Objects.equals(this.attributesToRetrieve, recommendSearchParams.attributesToRetrieve) &&
+      Objects.equals(this.ranking, recommendSearchParams.ranking) &&
+      Objects.equals(this.relevancyStrictness, recommendSearchParams.relevancyStrictness) &&
+      Objects.equals(this.attributesToHighlight, recommendSearchParams.attributesToHighlight) &&
+      Objects.equals(this.attributesToSnippet, recommendSearchParams.attributesToSnippet) &&
+      Objects.equals(this.highlightPreTag, recommendSearchParams.highlightPreTag) &&
+      Objects.equals(this.highlightPostTag, recommendSearchParams.highlightPostTag) &&
+      Objects.equals(this.snippetEllipsisText, recommendSearchParams.snippetEllipsisText) &&
+      Objects.equals(this.restrictHighlightAndSnippetArrays, recommendSearchParams.restrictHighlightAndSnippetArrays) &&
+      Objects.equals(this.minWordSizefor1Typo, recommendSearchParams.minWordSizefor1Typo) &&
+      Objects.equals(this.minWordSizefor2Typos, recommendSearchParams.minWordSizefor2Typos) &&
+      Objects.equals(this.typoTolerance, recommendSearchParams.typoTolerance) &&
+      Objects.equals(this.allowTyposOnNumericTokens, recommendSearchParams.allowTyposOnNumericTokens) &&
+      Objects.equals(this.disableTypoToleranceOnAttributes, recommendSearchParams.disableTypoToleranceOnAttributes) &&
+      Objects.equals(this.ignorePlurals, recommendSearchParams.ignorePlurals) &&
+      Objects.equals(this.removeStopWords, recommendSearchParams.removeStopWords) &&
+      Objects.equals(this.queryLanguages, recommendSearchParams.queryLanguages) &&
+      Objects.equals(this.decompoundQuery, recommendSearchParams.decompoundQuery) &&
+      Objects.equals(this.enableRules, recommendSearchParams.enableRules) &&
+      Objects.equals(this.enablePersonalization, recommendSearchParams.enablePersonalization) &&
+      Objects.equals(this.queryType, recommendSearchParams.queryType) &&
+      Objects.equals(this.removeWordsIfNoResults, recommendSearchParams.removeWordsIfNoResults) &&
+      Objects.equals(this.advancedSyntax, recommendSearchParams.advancedSyntax) &&
+      Objects.equals(this.optionalWords, recommendSearchParams.optionalWords) &&
+      Objects.equals(this.disableExactOnAttributes, recommendSearchParams.disableExactOnAttributes) &&
+      Objects.equals(this.exactOnSingleWordQuery, recommendSearchParams.exactOnSingleWordQuery) &&
+      Objects.equals(this.alternativesAsExact, recommendSearchParams.alternativesAsExact) &&
+      Objects.equals(this.advancedSyntaxFeatures, recommendSearchParams.advancedSyntaxFeatures) &&
+      Objects.equals(this.distinct, recommendSearchParams.distinct) &&
+      Objects.equals(this.replaceSynonymsInHighlight, recommendSearchParams.replaceSynonymsInHighlight) &&
+      Objects.equals(this.minProximity, recommendSearchParams.minProximity) &&
+      Objects.equals(this.responseFields, recommendSearchParams.responseFields) &&
+      Objects.equals(this.maxFacetHits, recommendSearchParams.maxFacetHits) &&
+      Objects.equals(this.maxValuesPerFacet, recommendSearchParams.maxValuesPerFacet) &&
+      Objects.equals(this.sortFacetValuesBy, recommendSearchParams.sortFacetValuesBy) &&
+      Objects.equals(this.attributeCriteriaComputedByMinProximity, recommendSearchParams.attributeCriteriaComputedByMinProximity) &&
+      Objects.equals(this.renderingContent, recommendSearchParams.renderingContent) &&
+      Objects.equals(this.enableReRanking, recommendSearchParams.enableReRanking) &&
+      Objects.equals(this.reRankingApplyFilter, recommendSearchParams.reRankingApplyFilter)
     );
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      query,
       similarQuery,
       filters,
       facetFilters,
@@ -1593,9 +1902,6 @@ public class SearchParamsObject {
       restrictSearchableAttributes,
       facets,
       facetingAfterDistinct,
-      page,
-      offset,
-      length,
       aroundLatLng,
       aroundLatLngViaIP,
       aroundRadius,
@@ -1614,9 +1920,26 @@ public class SearchParamsObject {
       analyticsTags,
       percentileComputation,
       enableABTest,
+      query,
+      attributesForFaceting,
+      replicas,
+      paginationLimitedTo,
+      unretrievableAttributes,
+      disableTypoToleranceOnWords,
+      attributesToTransliterate,
+      camelCaseAttributes,
+      decompoundedAttributes,
+      indexLanguages,
+      disablePrefixOnAttributes,
+      allowCompressionOfIntegerArray,
+      numericAttributesForFiltering,
+      separatorsToIndex,
+      searchableAttributes,
+      userData,
+      customNormalization,
+      attributeForDistinct,
       attributesToRetrieve,
       ranking,
-      customRanking,
       relevancyStrictness,
       attributesToHighlight,
       attributesToSnippet,
@@ -1624,7 +1947,6 @@ public class SearchParamsObject {
       highlightPostTag,
       snippetEllipsisText,
       restrictHighlightAndSnippetArrays,
-      hitsPerPage,
       minWordSizefor1Typo,
       minWordSizefor2Typos,
       typoTolerance,
@@ -1632,15 +1954,12 @@ public class SearchParamsObject {
       disableTypoToleranceOnAttributes,
       ignorePlurals,
       removeStopWords,
-      keepDiacriticsOnCharacters,
       queryLanguages,
       decompoundQuery,
       enableRules,
       enablePersonalization,
       queryType,
       removeWordsIfNoResults,
-      mode,
-      semanticSearch,
       advancedSyntax,
       optionalWords,
       disableExactOnAttributes,
@@ -1664,8 +1983,7 @@ public class SearchParamsObject {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SearchParamsObject {\n");
-    sb.append("    query: ").append(toIndentedString(query)).append("\n");
+    sb.append("class RecommendSearchParams {\n");
     sb.append("    similarQuery: ").append(toIndentedString(similarQuery)).append("\n");
     sb.append("    filters: ").append(toIndentedString(filters)).append("\n");
     sb.append("    facetFilters: ").append(toIndentedString(facetFilters)).append("\n");
@@ -1676,9 +1994,6 @@ public class SearchParamsObject {
     sb.append("    restrictSearchableAttributes: ").append(toIndentedString(restrictSearchableAttributes)).append("\n");
     sb.append("    facets: ").append(toIndentedString(facets)).append("\n");
     sb.append("    facetingAfterDistinct: ").append(toIndentedString(facetingAfterDistinct)).append("\n");
-    sb.append("    page: ").append(toIndentedString(page)).append("\n");
-    sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
-    sb.append("    length: ").append(toIndentedString(length)).append("\n");
     sb.append("    aroundLatLng: ").append(toIndentedString(aroundLatLng)).append("\n");
     sb.append("    aroundLatLngViaIP: ").append(toIndentedString(aroundLatLngViaIP)).append("\n");
     sb.append("    aroundRadius: ").append(toIndentedString(aroundRadius)).append("\n");
@@ -1697,9 +2012,26 @@ public class SearchParamsObject {
     sb.append("    analyticsTags: ").append(toIndentedString(analyticsTags)).append("\n");
     sb.append("    percentileComputation: ").append(toIndentedString(percentileComputation)).append("\n");
     sb.append("    enableABTest: ").append(toIndentedString(enableABTest)).append("\n");
+    sb.append("    query: ").append(toIndentedString(query)).append("\n");
+    sb.append("    attributesForFaceting: ").append(toIndentedString(attributesForFaceting)).append("\n");
+    sb.append("    replicas: ").append(toIndentedString(replicas)).append("\n");
+    sb.append("    paginationLimitedTo: ").append(toIndentedString(paginationLimitedTo)).append("\n");
+    sb.append("    unretrievableAttributes: ").append(toIndentedString(unretrievableAttributes)).append("\n");
+    sb.append("    disableTypoToleranceOnWords: ").append(toIndentedString(disableTypoToleranceOnWords)).append("\n");
+    sb.append("    attributesToTransliterate: ").append(toIndentedString(attributesToTransliterate)).append("\n");
+    sb.append("    camelCaseAttributes: ").append(toIndentedString(camelCaseAttributes)).append("\n");
+    sb.append("    decompoundedAttributes: ").append(toIndentedString(decompoundedAttributes)).append("\n");
+    sb.append("    indexLanguages: ").append(toIndentedString(indexLanguages)).append("\n");
+    sb.append("    disablePrefixOnAttributes: ").append(toIndentedString(disablePrefixOnAttributes)).append("\n");
+    sb.append("    allowCompressionOfIntegerArray: ").append(toIndentedString(allowCompressionOfIntegerArray)).append("\n");
+    sb.append("    numericAttributesForFiltering: ").append(toIndentedString(numericAttributesForFiltering)).append("\n");
+    sb.append("    separatorsToIndex: ").append(toIndentedString(separatorsToIndex)).append("\n");
+    sb.append("    searchableAttributes: ").append(toIndentedString(searchableAttributes)).append("\n");
+    sb.append("    userData: ").append(toIndentedString(userData)).append("\n");
+    sb.append("    customNormalization: ").append(toIndentedString(customNormalization)).append("\n");
+    sb.append("    attributeForDistinct: ").append(toIndentedString(attributeForDistinct)).append("\n");
     sb.append("    attributesToRetrieve: ").append(toIndentedString(attributesToRetrieve)).append("\n");
     sb.append("    ranking: ").append(toIndentedString(ranking)).append("\n");
-    sb.append("    customRanking: ").append(toIndentedString(customRanking)).append("\n");
     sb.append("    relevancyStrictness: ").append(toIndentedString(relevancyStrictness)).append("\n");
     sb.append("    attributesToHighlight: ").append(toIndentedString(attributesToHighlight)).append("\n");
     sb.append("    attributesToSnippet: ").append(toIndentedString(attributesToSnippet)).append("\n");
@@ -1707,7 +2039,6 @@ public class SearchParamsObject {
     sb.append("    highlightPostTag: ").append(toIndentedString(highlightPostTag)).append("\n");
     sb.append("    snippetEllipsisText: ").append(toIndentedString(snippetEllipsisText)).append("\n");
     sb.append("    restrictHighlightAndSnippetArrays: ").append(toIndentedString(restrictHighlightAndSnippetArrays)).append("\n");
-    sb.append("    hitsPerPage: ").append(toIndentedString(hitsPerPage)).append("\n");
     sb.append("    minWordSizefor1Typo: ").append(toIndentedString(minWordSizefor1Typo)).append("\n");
     sb.append("    minWordSizefor2Typos: ").append(toIndentedString(minWordSizefor2Typos)).append("\n");
     sb.append("    typoTolerance: ").append(toIndentedString(typoTolerance)).append("\n");
@@ -1715,15 +2046,12 @@ public class SearchParamsObject {
     sb.append("    disableTypoToleranceOnAttributes: ").append(toIndentedString(disableTypoToleranceOnAttributes)).append("\n");
     sb.append("    ignorePlurals: ").append(toIndentedString(ignorePlurals)).append("\n");
     sb.append("    removeStopWords: ").append(toIndentedString(removeStopWords)).append("\n");
-    sb.append("    keepDiacriticsOnCharacters: ").append(toIndentedString(keepDiacriticsOnCharacters)).append("\n");
     sb.append("    queryLanguages: ").append(toIndentedString(queryLanguages)).append("\n");
     sb.append("    decompoundQuery: ").append(toIndentedString(decompoundQuery)).append("\n");
     sb.append("    enableRules: ").append(toIndentedString(enableRules)).append("\n");
     sb.append("    enablePersonalization: ").append(toIndentedString(enablePersonalization)).append("\n");
     sb.append("    queryType: ").append(toIndentedString(queryType)).append("\n");
     sb.append("    removeWordsIfNoResults: ").append(toIndentedString(removeWordsIfNoResults)).append("\n");
-    sb.append("    mode: ").append(toIndentedString(mode)).append("\n");
-    sb.append("    semanticSearch: ").append(toIndentedString(semanticSearch)).append("\n");
     sb.append("    advancedSyntax: ").append(toIndentedString(advancedSyntax)).append("\n");
     sb.append("    optionalWords: ").append(toIndentedString(optionalWords)).append("\n");
     sb.append("    disableExactOnAttributes: ").append(toIndentedString(disableExactOnAttributes)).append("\n");
