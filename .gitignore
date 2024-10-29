@@ -3,6 +3,7 @@ target/
 .classpath
 .project
 .settings
+.m2/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -16,6 +17,7 @@ target/
 hs_err_pid*
 
 .idea/
+.gradle/
 *.iml
 .DS_Store
 *.logQueryTest

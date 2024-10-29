@@ -5,7 +5,7 @@
     <parent>
         <artifactId>algoliasearch</artifactId>
         <groupId>com.algolia</groupId>
-        <version>3.16.9</version>
+        <version>3.16.10</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

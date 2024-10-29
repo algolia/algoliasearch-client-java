@@ -1,5 +1,12 @@
 # ChangeLog
 
+## [3.16.10](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.9...3.16.10) (2024-10-29)
+
+### Fix
+
+**rules**: add `hide` to `FacetValuesOrder` (#794)
+
+
 ## [3.16.9](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.8...3.16.9) (2023-02-08)
 
 ### Fix
