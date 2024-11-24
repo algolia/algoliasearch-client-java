@@ -1,162 +1,100 @@
 package com.algolia.search.util;
 
+import com.algolia.search.Defaults;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.reflect.Field;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
+
 import java.time.Clock;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.zone.ZoneRules;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import javax.annotation.Nonnull;
 
 public class AlgoliaUtils {
 
-  /** Checks if the given string is empty or white spaces */
-  public static Boolean isEmptyWhiteSpace(final String stringToCheck) {
-    return stringToCheck.trim().length() == 0;
-  }
+    public static final String PROPERTY_OBJECT_ID = "objectID";
 
-  /** Checks if the given string is null, empty or white spaces */
-  public static Boolean isNullOrEmptyWhiteSpace(final String stringToCheck) {
-    return stringToCheck == null || stringToCheck.trim().length() == 0;
-  }
-
-  private static final ZoneRules ZONE_RULES_UTC = ZoneOffset.UTC.getRules();
-
-  /**
-   * Memory optimization for getZoneRules with the same ZoneOffset (UTC). ZoneRules is immutable and
-   * threadsafe, but getRules method consumes a lot of memory during load testing.
-   */
-  public static OffsetDateTime nowUTC() {
-    final Instant now = Clock.system(ZoneOffset.UTC).instant();
-    return OffsetDateTime.ofInstant(now, ZONE_RULES_UTC.getOffset(now));
-  }
-
-  /**
-   * Ensure that the objectID field or the @JsonProperty(\"objectID\")" is present in the given
-   * class
-   *
-   * @param clazz The class to scan
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
-   *     annotation @JsonProperty(\"objectID\"")
-   */
-  public static <T> void ensureObjectID(@Nonnull Class<T> clazz) {
-    // Try to find the objectID field
-    Field objectIDField = getField(clazz, "objectID");
-
-    // If objectID field doesn't exist, let's check for Jackson annotations in all the fields
-    Optional<Field> optObjectIDField = findObjectIDInAnnotation(clazz);
-
-    if (objectIDField == null && !optObjectIDField.isPresent()) {
-      throw new AlgoliaRuntimeException(
-          "The "
-              + clazz
-              + " must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
-    }
-  }
-
-  /**
-   * Get the objectID of the given class at runtime
-   *
-   * @param clazz The class to scan
-   * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
-   *     annotation @JsonProperty(\"objectID\"")
-   */
-  public static <T> String getObjectID(@Nonnull T data, @Nonnull Class<T> clazz) {
-
-    String objectID = null;
-
-    // Try to find the objectID field
-    try {
-      Field objectIDField = getField(clazz, "objectID");
-      if (objectIDField != null) {
-        objectID = (String) objectIDField.get(data);
-      }
-    } catch (
-        IllegalAccessException
-            ignored) { // Ignored because if it fails we want to move forward on annotations
+    /**
+     * Checks if the given string is empty or white spaces
+     */
+    public static Boolean isEmptyWhiteSpace(final String stringToCheck) {
+        return stringToCheck.trim().isEmpty();
     }
 
-    if (objectID != null) {
-      return objectID;
+    /**
+     * Checks if the given string is null, empty or white spaces
+     */
+    public static Boolean isNullOrEmptyWhiteSpace(final String stringToCheck) {
+        return stringToCheck == null || stringToCheck.trim().isEmpty();
     }
 
-    // If objectID field doesn't exist, let's check for Jackson annotations in all the fields
-    Optional<Field> optObjectIDField = findObjectIDInAnnotation(clazz);
+    private static final ZoneRules ZONE_RULES_UTC = ZoneOffset.UTC.getRules();
 
-    if (optObjectIDField.isPresent()) {
-      Field objectIDField = optObjectIDField.get();
-      try {
-        objectIDField.setAccessible(true);
-
-        objectID = (String) objectIDField.get(data);
-
-        if (objectID != null) {
-          return objectID;
-        }
-
-      } catch (IllegalAccessException ignored) {
-        throw new AlgoliaRuntimeException("Can't access the ObjectID field.");
-      }
+    /**
+     * Memory optimization for getZoneRules with the same ZoneOffset (UTC). ZoneRules is immutable and
+     * thread-safe, but getRules method consumes a lot of memory during load testing.
+     */
+    public static OffsetDateTime nowUTC() {
+        final Instant now = Clock.system(ZoneOffset.UTC).instant();
+        return OffsetDateTime.ofInstant(now, ZONE_RULES_UTC.getOffset(now));
     }
 
-    // If non of the both above the method fails
-    throw new AlgoliaRuntimeException(
-        "The "
-            + clazz
-            + " must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
-  }
-
-  private static Optional<Field> findObjectIDInAnnotation(@Nonnull Class<?> clazz) {
-    List<Field> fields = getFields(clazz);
-    return fields.stream()
-        .filter(
-            f ->
-                f.getAnnotation(JsonProperty.class) != null
-                    && f.getAnnotation(JsonProperty.class).value().equals("objectID"))
-        .findFirst();
-  }
-
-  /**
-   * Recursively search for the given field in the given class
-   *
-   * @param clazz The class to reflect on
-   * @param fieldName The field to reach
-   */
-  private static Field getField(@Nonnull Class<?> clazz, @Nonnull String fieldName) {
-    Class<?> tmpClass = clazz;
-    do {
-      try {
-        Field f = tmpClass.getDeclaredField(fieldName);
-        f.setAccessible(true);
-        return f;
-      } catch (NoSuchFieldException e) {
-        tmpClass = tmpClass.getSuperclass();
-      }
-    } while (tmpClass != null);
-
-    return null;
-  }
-
-  /**
-   * Recursively search for all fields in the given class
-   *
-   * @param clazz The class to reflect on
-   */
-  private static List<Field> getFields(@Nonnull Class<?> clazz) {
-    List<Field> result = new ArrayList<>();
-    Class<?> i = clazz;
-
-    while (i != null && i != Object.class) {
-      Collections.addAll(result, i.getDeclaredFields());
-      i = i.getSuperclass();
+    /**
+     * Ensure that the objectID field or the @JsonProperty(\"objectID\")" is present in the given
+     * class
+     *
+     * @param clazz The class to scan
+     * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+     *                                 annotation @JsonProperty(\"objectID\"")
+     */
+    public static <T> void ensureObjectID(@Nonnull Class<T> clazz) {
+        BeanDescription introspection = introspectClass(clazz);
+        if (!containsObjectID(introspection)) throw objectIDNotFoundException(clazz);
     }
 
-    return result;
-  }
+    private static <T> AlgoliaRuntimeException objectIDNotFoundException(Class<T> clazz) {
+        return new AlgoliaRuntimeException(
+                "The " + clazz + " must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
+    }
+
+    /**
+     * Checks if the {@value PROPERTY_OBJECT_ID} is present in the classes public fields, getter methods or
+     * annotations using Jackson's {@link BeanDescription}
+     */
+    protected static boolean containsObjectID(BeanDescription introspection) {
+        return introspection.findProperties().stream()
+                .filter(d -> d.getPrimaryType().isTypeOrSubTypeOf(String.class))
+                .anyMatch(d -> PROPERTY_OBJECT_ID.equals(d.getName()));
+    }
+
+    /**
+     * Introspection of the class using Jackson
+     */
+    protected static <T> BeanDescription introspectClass(Class<T> clazz) {
+        ObjectMapper mapper = getMapper();
+        JavaType type = mapper.getTypeFactory().constructType(clazz);
+        return mapper.getSerializationConfig().introspect(type);
+    }
+
+    private static ObjectMapper getMapper() {
+        return Defaults.getObjectMapper();
+    }
+
+    /**
+     * Get the objectID of the given class at runtime
+     *
+     * @throws AlgoliaRuntimeException When the class doesn't have an objectID field or a Jackson
+     *                                 annotation @JsonProperty(\"objectID\"")
+     */
+    public static <T> String getObjectID(@Nonnull T data) {
+        return Optional.ofNullable(getMapper().valueToTree(data)
+                        .get(PROPERTY_OBJECT_ID))
+                .filter(JsonNode::isTextual)
+                .map(JsonNode::asText)
+                .orElseThrow(() -> objectIDNotFoundException(data.getClass()));
+    }
+
 }
