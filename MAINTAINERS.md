@@ -1,4 +1,4 @@
-## `algolia/algoliasearch-client-java-2` maintainers
+## `algolia/algoliasearch-client-java` maintainers
 
 | Name                        | Email                      |
 |-----------------------------|----------------------------|

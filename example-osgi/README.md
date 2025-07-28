@@ -85,7 +85,7 @@ Algolia Demo Bundle is starting (listIndices() listed 7993 indices)
 
 ## References
 
-- https://github.com/algolia/algoliasearch-client-java-2/pull/697/files
+- https://github.com/algolia/algoliasearch-client-java/pull/697/files
 - https://karaf.apache.org/manual/latest/#_directory_structure
 - https://michaelrice.com/2015/04/the-simplest-osgi-karaf-hello-world-demo-i-could-come-up-with/
 - https://www.baeldung.com/osgi

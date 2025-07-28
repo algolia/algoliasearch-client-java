@@ -70,3 +70,17 @@ Labels across all Algolia API clients repositories are normalized.
 - [Contributing to Open Source on GitHub](https://guides.github.com/activities/contributing-to-open-source/)
 - [Using Pull Requests](https://help.github.com/articles/using-pull-requests/)
 - [GitHub Help](https://help.github.com)
+
+## Releasing
+
+The CI has been disabled for the v3 branch since this is a legacy project, follow those steps to release a patch:
+
+1. use the docker image:
+    1. `docker build -t algolia-java .`
+    2. `docker run -it --rm -v $PWD:/app -w /app algolia-java bash`
+2. import the gpg private key and sub key from vault
+    1. If the key is expired, you can extend it with `gpg --edit-key` and `expire`
+3. build the jars with `mvn clean compile package gpg:sign -DskipTests`
+    1. If you get a error with gpg, try to run `export GPG_TTY=$(tty)`
+4. set the credentials in settings.xml for maven central
+5. release with `mvn -s .circleci/settings.xml clean deploy -P release -DskipTests`
