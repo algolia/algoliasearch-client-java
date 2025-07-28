@@ -1012,6 +1012,23 @@ class JacksonParserTest {
   }
 
   @Test
+  void rulesValidityTimeRange_oneSided() throws IOException {
+    ZoneOffset offset = ZoneOffset.of("+05:30");
+    // Nanoseconds precisions will be lost and should not be considered.
+    TimeRange timerange =
+        new TimeRange(
+            OffsetDateTime.of(2021, 5, 1, 0, 0, 0, 0, offset),
+            null);
+
+    String json = Defaults.getObjectMapper().writeValueAsString(timerange);
+    assertThat(json).isEqualTo("{\"from\":1619807400}");
+
+    TimeRange retrieveTimeRange = Defaults.getObjectMapper().readValue(json, TimeRange.class);
+    assertThat(timerange.getFrom()).isEqualTo(retrieveTimeRange.getFrom());
+    assertThat(timerange.getUntil()).isNull();
+  }
+
+  @Test
   void recommendations() throws JsonProcessingException {
     String json =
         "{\"results\":[{\"hits\":[{\"_highlightResult\":{\"category\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"Men - T-Shirts\"},\"image_link\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"https:\\/\\/example.org\\/image\\/D05927-8161-111-F01.jpg\"},\"name\":{\"matchLevel\":\"none\",\"matchedWords\":[],\"value\":\"Jirgi Half-Zip T-Shirt\"}},\"_score\":32.72,\"category\":\"Men - T-Shirts\",\"image_link\":\"https:\\/\\/example.org\\/image\\/D05927-8161-111-F01.jpg\",\"name\":\"Jirgi Half-Zip T-Shirt\",\"objectID\":\"D05927-8161-111\",\"position\":105,\"url\":\"men\\/t-shirts\\/d05927-8161-111\"}],\"hitsPerPage\":1,\"nbHits\":1,\"nbPages\":1,\"page\":0,\"processingTimeMS\":6,\"renderingContent\":{}}]}";

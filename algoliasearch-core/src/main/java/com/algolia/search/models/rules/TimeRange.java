@@ -55,8 +55,12 @@ class TimeRangeSerializer extends JsonSerializer<TimeRange> {
   public void serialize(TimeRange value, JsonGenerator gen, SerializerProvider serializers)
       throws IOException {
     gen.writeStartObject();
-    gen.writeObjectField("from", value.getFrom().toEpochSecond());
-    gen.writeObjectField("until", value.getUntil().toEpochSecond());
+    if (value.getFrom() != null) {
+      gen.writeObjectField("from", value.getFrom().toEpochSecond());
+    }
+    if (value.getUntil() != null) {
+      gen.writeObjectField("until", value.getUntil().toEpochSecond());
+    }
     gen.writeEndObject();
   }
 }
@@ -66,14 +70,20 @@ class TimeRangeDeserializer extends JsonDeserializer<TimeRange> {
   @Override
   public TimeRange deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
     JsonNode node = p.getCodec().readTree(p);
-    // 'from' unix timestamp
-    long fromTimestamp = node.get("from").asLong();
-    Instant fromInstant = Instant.ofEpochSecond(fromTimestamp);
-    OffsetDateTime from = OffsetDateTime.ofInstant(fromInstant, ZoneOffset.UTC);
-    // 'until' unix timestamp
-    long untilTimestamp = node.get("until").asLong();
-    Instant untilInstant = Instant.ofEpochSecond(untilTimestamp);
-    OffsetDateTime until = OffsetDateTime.ofInstant(untilInstant, ZoneOffset.UTC);
+    OffsetDateTime from = null, until = null;
+    if (node.hasNonNull("from")) {
+      // 'from' unix timestamp
+      long fromTimestamp = node.get("from").asLong();
+      Instant fromInstant = Instant.ofEpochSecond(fromTimestamp);
+      from = OffsetDateTime.ofInstant(fromInstant, ZoneOffset.UTC);
+    }
+    if (node.hasNonNull("until")) {
+      // 'until' unix timestamp
+      long untilTimestamp = node.get("until").asLong();
+      Instant untilInstant = Instant.ofEpochSecond(untilTimestamp);
+      until = OffsetDateTime.ofInstant(untilInstant, ZoneOffset.UTC);
+    }
+    
     return new TimeRange(from, until);
   }
 }
