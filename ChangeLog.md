@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [3.16.11](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.10...3.16.11) (2025-07-28)
+
+### Fix
+
+**rules**: allow one-sided timeRange (#795)
+
 ## [3.16.10](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.9...3.16.10) (2024-10-29)
 
 ### Fix
