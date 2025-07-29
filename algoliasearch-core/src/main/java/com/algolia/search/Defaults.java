@@ -35,6 +35,10 @@ public class Defaults {
             .disable(
                 DeserializationFeature
                     .READ_DATE_TIMESTAMPS_AS_NANOSECONDS) // Nano seconds not supported by the
+
+            .disable(
+                SerializationFeature
+                        .FAIL_ON_EMPTY_BEANS)
             // engine
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
   }
