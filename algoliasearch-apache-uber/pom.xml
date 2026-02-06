@@ -94,6 +94,11 @@
                                     <artifact>commons-logging:*</artifact>
                                     <excludes>
                                         <exclude>META-INF/**</exclude>
+                                        <exclude>org/apache/commons/logging/impl/Log4JLogger.class</exclude>
+                                        <exclude>org/apache/commons/logging/impl/AvalonLogger.class</exclude>
+                                        <exclude>org/apache/commons/logging/impl/LogKitLogger.class</exclude>
+                                        <exclude>org/apache/commons/logging/impl/Jdk13LumberjackLogger.class</exclude>
+                                        <exclude>org/apache/commons/logging/impl/ServletContextCleaner.class</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
