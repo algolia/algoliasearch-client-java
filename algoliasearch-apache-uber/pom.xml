@@ -60,7 +60,7 @@
                             ${relocated.com.fasterxml.jackson}.databind
                         </Export-Package>
                         <Import-Package>
-                            javax.net.ssl,javax.naming,!org.apache.avalon.framework.logger,!org.apache.log,!javax.servlet,*
+                            javax.net.ssl,javax.naming,!org.apache.avalon.framework.logger,!org.apache.log,!org.apache.log4j,!javax.servlet,*
                         </Import-Package>
                         <Embed-Dependency>*;scope=compile|runtime;inline=true</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
@@ -94,11 +94,7 @@
                                     <artifact>commons-logging:*</artifact>
                                     <excludes>
                                         <exclude>META-INF/**</exclude>
-                                        <exclude>org/apache/commons/logging/impl/Log4JLogger.class</exclude>
-                                        <exclude>org/apache/commons/logging/impl/AvalonLogger.class</exclude>
-                                        <exclude>org/apache/commons/logging/impl/LogKitLogger.class</exclude>
-                                        <exclude>org/apache/commons/logging/impl/Jdk13LumberjackLogger.class</exclude>
-                                        <exclude>org/apache/commons/logging/impl/ServletContextCleaner.class</exclude>
+                                        <exclude>org/apache/commons/logging/impl/**</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
