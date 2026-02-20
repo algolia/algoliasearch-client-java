@@ -1,11 +1,16 @@
 # ChangeLog
 
+## [3.16.13](https://github.com/algolia/algoliasearch-client-java/compare/3.16.12...3.16.13) (2026-02-20)
+
+### Fix
+
+**core**: update logging exclusions (#798)
+
 ## [3.16.12](https://github.com/algolia/algoliasearch-client-java/compare/3.16.11...3.16.12) (2026-02-11)
 
 ### Fix
 
 **core**: strip unused logging adapters from shaded uber jar (#797)
-
 
 ## [3.16.11](https://github.com/algolia/algoliasearch-client-java-2/compare/3.16.10...3.16.11) (2025-07-28)
 
