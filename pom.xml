@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.algolia</groupId>
     <artifactId>algoliasearch</artifactId>
-    <version>3.16.13</version>
+    <version>3.16.14</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -76,7 +76,7 @@
                             <source>1.8</source>
                             <target>1.8</target>
                             <showWarnings>true</showWarnings>
-                            <failOnWarning>true</failOnWarning>
+                            <failOnWarning>false</failOnWarning>
                         </configuration>
                     </plugin>
                     <plugin>

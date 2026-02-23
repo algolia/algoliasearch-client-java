@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [3.16.14](https://github.com/algolia/algoliasearch-client-java/compare/3.16.13...3.16.14) (2026-02-23)
+
+### Fix
+
+**core**: less aggressive exclusions
+
 ## [3.16.13](https://github.com/algolia/algoliasearch-client-java/compare/3.16.12...3.16.13) (2026-02-20)
 
 ### Fix
