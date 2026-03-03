@@ -330,9 +330,9 @@ public class SearchResult<T> implements Serializable {
     return this;
   }
 
-  public int getObjectPosition(@Nonnull String objectID, @Nonnull Class<T> clazz) {
+  public int getObjectPosition(@Nonnull String objectID) {
     return IntStream.range(0, hits.size())
-        .filter(i -> objectID.equals(AlgoliaUtils.getObjectID(hits.get(i), clazz)))
+        .filter(i -> objectID.equals(AlgoliaUtils.getObjectID(hits.get(i))))
         .findFirst()
         .orElse(-1);
   }
