@@ -7,21 +7,21 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** Injected items will originate from a search request performed on the specified index. */
-@JsonDeserialize(as = SearchSource.class)
-public class SearchSource implements InjectedItemSource {
+/** Organic result set will originate from a search request performed on the specified index. */
+@JsonDeserialize(as = InjectionMainSearchSource.class)
+public class InjectionMainSearchSource implements InjectionMainSource {
 
   @JsonProperty("search")
-  private Search search;
+  private MainSearch search;
 
-  public SearchSource setSearch(Search search) {
+  public InjectionMainSearchSource setSearch(MainSearch search) {
     this.search = search;
     return this;
   }
 
   /** Get search */
   @javax.annotation.Nonnull
-  public Search getSearch() {
+  public MainSearch getSearch() {
     return search;
   }
 
@@ -33,8 +33,8 @@ public class SearchSource implements InjectedItemSource {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SearchSource searchSource = (SearchSource) o;
-    return Objects.equals(this.search, searchSource.search);
+    InjectionMainSearchSource injectionMainSearchSource = (InjectionMainSearchSource) o;
+    return Objects.equals(this.search, injectionMainSearchSource.search);
   }
 
   @Override
@@ -45,7 +45,7 @@ public class SearchSource implements InjectedItemSource {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SearchSource {\n");
+    sb.append("class InjectionMainSearchSource {\n");
     sb.append("    search: ").append(toIndentedString(search)).append("\n");
     sb.append("}");
     return sb.toString();

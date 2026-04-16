@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** Search */
-public class Search {
+/** InjectedItemExternal */
+public class InjectedItemExternal {
 
   @JsonProperty("index")
   private String index;
@@ -16,7 +16,10 @@ public class Search {
   @JsonProperty("params")
   private BaseInjectionQueryParameters params;
 
-  public Search setIndex(String index) {
+  @JsonProperty("ordering")
+  private ExternalOrdering ordering;
+
+  public InjectedItemExternal setIndex(String index) {
     this.index = index;
     return this;
   }
@@ -27,7 +30,7 @@ public class Search {
     return index;
   }
 
-  public Search setParams(BaseInjectionQueryParameters params) {
+  public InjectedItemExternal setParams(BaseInjectionQueryParameters params) {
     this.params = params;
     return this;
   }
@@ -38,6 +41,17 @@ public class Search {
     return params;
   }
 
+  public InjectedItemExternal setOrdering(ExternalOrdering ordering) {
+    this.ordering = ordering;
+    return this;
+  }
+
+  /** Get ordering */
+  @javax.annotation.Nullable
+  public ExternalOrdering getOrdering() {
+    return ordering;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -46,21 +60,26 @@ public class Search {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Search search = (Search) o;
-    return Objects.equals(this.index, search.index) && Objects.equals(this.params, search.params);
+    InjectedItemExternal injectedItemExternal = (InjectedItemExternal) o;
+    return (
+      Objects.equals(this.index, injectedItemExternal.index) &&
+      Objects.equals(this.params, injectedItemExternal.params) &&
+      Objects.equals(this.ordering, injectedItemExternal.ordering)
+    );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(index, params);
+    return Objects.hash(index, params, ordering);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Search {\n");
+    sb.append("class InjectedItemExternal {\n");
     sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    params: ").append(toIndentedString(params)).append("\n");
+    sb.append("    ordering: ").append(toIndentedString(ordering)).append("\n");
     sb.append("}");
     return sb.toString();
   }

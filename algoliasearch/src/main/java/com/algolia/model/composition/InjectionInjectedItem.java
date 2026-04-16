@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** InjectedItem */
-public class InjectedItem {
+/** InjectionInjectedItem */
+public class InjectionInjectedItem {
 
   @JsonProperty("key")
   private String key;
@@ -25,7 +25,7 @@ public class InjectedItem {
   @JsonProperty("metadata")
   private InjectedItemMetadata metadata;
 
-  public InjectedItem setKey(String key) {
+  public InjectionInjectedItem setKey(String key) {
     this.key = key;
     return this;
   }
@@ -36,7 +36,7 @@ public class InjectedItem {
     return key;
   }
 
-  public InjectedItem setSource(InjectedItemSource source) {
+  public InjectionInjectedItem setSource(InjectedItemSource source) {
     this.source = source;
     return this;
   }
@@ -47,29 +47,29 @@ public class InjectedItem {
     return source;
   }
 
-  public InjectedItem setPosition(Integer position) {
+  public InjectionInjectedItem setPosition(Integer position) {
     this.position = position;
     return this;
   }
 
-  /** Get position minimum: 0 maximum: 19 */
+  /** Get position minimum: 0 maximum: 99 */
   @javax.annotation.Nonnull
   public Integer getPosition() {
     return position;
   }
 
-  public InjectedItem setLength(Integer length) {
+  public InjectionInjectedItem setLength(Integer length) {
     this.length = length;
     return this;
   }
 
-  /** Get length minimum: 0 maximum: 20 */
+  /** Get length minimum: 0 maximum: 50 */
   @javax.annotation.Nonnull
   public Integer getLength() {
     return length;
   }
 
-  public InjectedItem setMetadata(InjectedItemMetadata metadata) {
+  public InjectionInjectedItem setMetadata(InjectedItemMetadata metadata) {
     this.metadata = metadata;
     return this;
   }
@@ -88,13 +88,13 @@ public class InjectedItem {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InjectedItem injectedItem = (InjectedItem) o;
+    InjectionInjectedItem injectionInjectedItem = (InjectionInjectedItem) o;
     return (
-      Objects.equals(this.key, injectedItem.key) &&
-      Objects.equals(this.source, injectedItem.source) &&
-      Objects.equals(this.position, injectedItem.position) &&
-      Objects.equals(this.length, injectedItem.length) &&
-      Objects.equals(this.metadata, injectedItem.metadata)
+      Objects.equals(this.key, injectionInjectedItem.key) &&
+      Objects.equals(this.source, injectionInjectedItem.source) &&
+      Objects.equals(this.position, injectionInjectedItem.position) &&
+      Objects.equals(this.length, injectionInjectedItem.length) &&
+      Objects.equals(this.metadata, injectionInjectedItem.metadata)
     );
   }
 
@@ -106,7 +106,7 @@ public class InjectedItem {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InjectedItem {\n");
+    sb.append("class InjectionInjectedItem {\n");
     sb.append("    key: ").append(toIndentedString(key)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    position: ").append(toIndentedString(position)).append("\n");

@@ -7,21 +7,22 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** CompositionSource */
-public class CompositionSource {
+/** Organic result set will originate from a recommend request. */
+@JsonDeserialize(as = InjectionMainRecommendSource.class)
+public class InjectionMainRecommendSource implements InjectionMainSource {
 
-  @JsonProperty("search")
-  private CompositionSourceSearch search;
+  @JsonProperty("recommend")
+  private MainRecommend recommend;
 
-  public CompositionSource setSearch(CompositionSourceSearch search) {
-    this.search = search;
+  public InjectionMainRecommendSource setRecommend(MainRecommend recommend) {
+    this.recommend = recommend;
     return this;
   }
 
-  /** Get search */
+  /** Get recommend */
   @javax.annotation.Nonnull
-  public CompositionSourceSearch getSearch() {
-    return search;
+  public MainRecommend getRecommend() {
+    return recommend;
   }
 
   @Override
@@ -32,20 +33,20 @@ public class CompositionSource {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CompositionSource compositionSource = (CompositionSource) o;
-    return Objects.equals(this.search, compositionSource.search);
+    InjectionMainRecommendSource injectionMainRecommendSource = (InjectionMainRecommendSource) o;
+    return Objects.equals(this.recommend, injectionMainRecommendSource.recommend);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(search);
+    return Objects.hash(recommend);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CompositionSource {\n");
-    sb.append("    search: ").append(toIndentedString(search)).append("\n");
+    sb.append("class InjectionMainRecommendSource {\n");
+    sb.append("    recommend: ").append(toIndentedString(recommend)).append("\n");
     sb.append("}");
     return sb.toString();
   }

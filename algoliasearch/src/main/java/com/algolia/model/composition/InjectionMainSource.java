@@ -11,35 +11,35 @@ import com.fasterxml.jackson.databind.annotation.*;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-/** InjectedItemSource */
-@JsonDeserialize(using = InjectedItemSource.Deserializer.class)
-public interface InjectedItemSource {
-  class Deserializer extends JsonDeserializer<InjectedItemSource> {
+/** Source to be used to retrieve organic result set. */
+@JsonDeserialize(using = InjectionMainSource.Deserializer.class)
+public interface InjectionMainSource {
+  class Deserializer extends JsonDeserializer<InjectionMainSource> {
 
     private static final Logger LOGGER = Logger.getLogger(Deserializer.class.getName());
 
     @Override
-    public InjectedItemSource deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public InjectionMainSource deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       JsonNode tree = jp.readValueAsTree();
-      // deserialize InjectedItemSearchSource
+      // deserialize InjectionMainSearchSource
       if (tree.isObject() && tree.has("search")) {
         try (JsonParser parser = tree.traverse(jp.getCodec())) {
-          return parser.readValueAs(InjectedItemSearchSource.class);
+          return parser.readValueAs(InjectionMainSearchSource.class);
         } catch (Exception e) {
           // deserialization failed, continue
           LOGGER.finest(
-            "Failed to deserialize oneOf InjectedItemSearchSource (error: " + e.getMessage() + ") (type: InjectedItemSearchSource)"
+            "Failed to deserialize oneOf InjectionMainSearchSource (error: " + e.getMessage() + ") (type: InjectionMainSearchSource)"
           );
         }
       }
-      // deserialize InjectedItemExternalSource
-      if (tree.isObject() && tree.has("external")) {
+      // deserialize InjectionMainRecommendSource
+      if (tree.isObject() && tree.has("recommend")) {
         try (JsonParser parser = tree.traverse(jp.getCodec())) {
-          return parser.readValueAs(InjectedItemExternalSource.class);
+          return parser.readValueAs(InjectionMainRecommendSource.class);
         } catch (Exception e) {
           // deserialization failed, continue
           LOGGER.finest(
-            "Failed to deserialize oneOf InjectedItemExternalSource (error: " + e.getMessage() + ") (type: InjectedItemExternalSource)"
+            "Failed to deserialize oneOf InjectionMainRecommendSource (error: " + e.getMessage() + ") (type: InjectionMainRecommendSource)"
           );
         }
       }
@@ -48,8 +48,8 @@ public interface InjectedItemSource {
 
     /** Handle deserialization of the 'null' value. */
     @Override
-    public InjectedItemSource getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-      throw new JsonMappingException(ctxt.getParser(), "InjectedItemSource cannot be null");
+    public InjectionMainSource getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+      throw new JsonMappingException(ctxt.getParser(), "InjectionMainSource cannot be null");
     }
   }
 }

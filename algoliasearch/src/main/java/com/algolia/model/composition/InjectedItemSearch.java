@@ -7,34 +7,34 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** CompositionSourceSearch */
-public class CompositionSourceSearch {
+/** InjectedItemSearch */
+public class InjectedItemSearch {
 
   @JsonProperty("index")
   private String index;
 
   @JsonProperty("params")
-  private MainInjectionQueryParameters params;
+  private BaseInjectionQueryParameters params;
 
-  public CompositionSourceSearch setIndex(String index) {
+  public InjectedItemSearch setIndex(String index) {
     this.index = index;
     return this;
   }
 
-  /** Composition Main Index name. */
+  /** Composition Index name. */
   @javax.annotation.Nonnull
   public String getIndex() {
     return index;
   }
 
-  public CompositionSourceSearch setParams(MainInjectionQueryParameters params) {
+  public InjectedItemSearch setParams(BaseInjectionQueryParameters params) {
     this.params = params;
     return this;
   }
 
   /** Get params */
   @javax.annotation.Nullable
-  public MainInjectionQueryParameters getParams() {
+  public BaseInjectionQueryParameters getParams() {
     return params;
   }
 
@@ -46,8 +46,8 @@ public class CompositionSourceSearch {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CompositionSourceSearch compositionSourceSearch = (CompositionSourceSearch) o;
-    return Objects.equals(this.index, compositionSourceSearch.index) && Objects.equals(this.params, compositionSourceSearch.params);
+    InjectedItemSearch injectedItemSearch = (InjectedItemSearch) o;
+    return Objects.equals(this.index, injectedItemSearch.index) && Objects.equals(this.params, injectedItemSearch.params);
   }
 
   @Override
@@ -58,7 +58,7 @@ public class CompositionSourceSearch {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CompositionSourceSearch {\n");
+    sb.append("class InjectedItemSearch {\n");
     sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    params: ").append(toIndentedString(params)).append("\n");
     sb.append("}");

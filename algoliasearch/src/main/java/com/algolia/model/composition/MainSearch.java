@@ -7,21 +7,35 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** Main */
-public class Main {
+/** MainSearch */
+public class MainSearch {
 
-  @JsonProperty("source")
-  private CompositionSource source;
+  @JsonProperty("index")
+  private String index;
 
-  public Main setSource(CompositionSource source) {
-    this.source = source;
+  @JsonProperty("params")
+  private MainInjectionQueryParameters params;
+
+  public MainSearch setIndex(String index) {
+    this.index = index;
     return this;
   }
 
-  /** Get source */
+  /** Targeted index name. */
   @javax.annotation.Nonnull
-  public CompositionSource getSource() {
-    return source;
+  public String getIndex() {
+    return index;
+  }
+
+  public MainSearch setParams(MainInjectionQueryParameters params) {
+    this.params = params;
+    return this;
+  }
+
+  /** Get params */
+  @javax.annotation.Nullable
+  public MainInjectionQueryParameters getParams() {
+    return params;
   }
 
   @Override
@@ -32,20 +46,21 @@ public class Main {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Main main = (Main) o;
-    return Objects.equals(this.source, main.source);
+    MainSearch mainSearch = (MainSearch) o;
+    return Objects.equals(this.index, mainSearch.index) && Objects.equals(this.params, mainSearch.params);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(source);
+    return Objects.hash(index, params);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Main {\n");
-    sb.append("    source: ").append(toIndentedString(source)).append("\n");
+    sb.append("class MainSearch {\n");
+    sb.append("    index: ").append(toIndentedString(index)).append("\n");
+    sb.append("    params: ").append(toIndentedString(params)).append("\n");
     sb.append("}");
     return sb.toString();
   }

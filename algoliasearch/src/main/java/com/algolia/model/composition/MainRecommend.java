@@ -7,49 +7,21 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** External */
-public class External {
+/** MainRecommend */
+public class MainRecommend {
 
   @JsonProperty("index")
   private String index;
 
-  @JsonProperty("params")
-  private BaseInjectionQueryParameters params;
-
-  @JsonProperty("ordering")
-  private ExternalOrdering ordering;
-
-  public External setIndex(String index) {
+  public MainRecommend setIndex(String index) {
     this.index = index;
     return this;
   }
 
-  /** Composition Index name. */
+  /** Targeted index name. */
   @javax.annotation.Nonnull
   public String getIndex() {
     return index;
-  }
-
-  public External setParams(BaseInjectionQueryParameters params) {
-    this.params = params;
-    return this;
-  }
-
-  /** Get params */
-  @javax.annotation.Nullable
-  public BaseInjectionQueryParameters getParams() {
-    return params;
-  }
-
-  public External setOrdering(ExternalOrdering ordering) {
-    this.ordering = ordering;
-    return this;
-  }
-
-  /** Get ordering */
-  @javax.annotation.Nullable
-  public ExternalOrdering getOrdering() {
-    return ordering;
   }
 
   @Override
@@ -60,26 +32,20 @@ public class External {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    External external = (External) o;
-    return (
-      Objects.equals(this.index, external.index) &&
-      Objects.equals(this.params, external.params) &&
-      Objects.equals(this.ordering, external.ordering)
-    );
+    MainRecommend mainRecommend = (MainRecommend) o;
+    return Objects.equals(this.index, mainRecommend.index);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(index, params, ordering);
+    return Objects.hash(index);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class External {\n");
+    sb.append("class MainRecommend {\n");
     sb.append("    index: ").append(toIndentedString(index)).append("\n");
-    sb.append("    params: ").append(toIndentedString(params)).append("\n");
-    sb.append("    ordering: ").append(toIndentedString(ordering)).append("\n");
     sb.append("}");
     return sb.toString();
   }

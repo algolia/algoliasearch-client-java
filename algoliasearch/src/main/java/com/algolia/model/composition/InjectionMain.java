@@ -7,25 +7,21 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/**
- * Injected items will originate from externally provided objectIDs (that must exist in the index)
- * given at runtime in the run request payload.
- */
-@JsonDeserialize(as = ExternalSource.class)
-public class ExternalSource implements InjectedItemSource {
+/** Main defines the organic result set of the injection. */
+public class InjectionMain {
 
-  @JsonProperty("external")
-  private External external;
+  @JsonProperty("source")
+  private InjectionMainSource source;
 
-  public ExternalSource setExternal(External external) {
-    this.external = external;
+  public InjectionMain setSource(InjectionMainSource source) {
+    this.source = source;
     return this;
   }
 
-  /** Get external */
-  @javax.annotation.Nonnull
-  public External getExternal() {
-    return external;
+  /** Get source */
+  @javax.annotation.Nullable
+  public InjectionMainSource getSource() {
+    return source;
   }
 
   @Override
@@ -36,20 +32,20 @@ public class ExternalSource implements InjectedItemSource {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ExternalSource externalSource = (ExternalSource) o;
-    return Objects.equals(this.external, externalSource.external);
+    InjectionMain injectionMain = (InjectionMain) o;
+    return Objects.equals(this.source, injectionMain.source);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(external);
+    return Objects.hash(source);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ExternalSource {\n");
-    sb.append("    external: ").append(toIndentedString(external)).append("\n");
+    sb.append("class InjectionMain {\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("}");
     return sb.toString();
   }
