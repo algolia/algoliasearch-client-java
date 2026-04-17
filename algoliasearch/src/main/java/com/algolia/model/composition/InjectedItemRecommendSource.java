@@ -7,35 +7,22 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** MainSearch */
-public class MainSearch {
+/** Injected items will originate from a recommendation request performed on the specified index. */
+@JsonDeserialize(as = InjectedItemRecommendSource.class)
+public class InjectedItemRecommendSource implements InjectedItemSource {
 
-  @JsonProperty("index")
-  private String index;
+  @JsonProperty("recommend")
+  private Recommend recommend;
 
-  @JsonProperty("params")
-  private MainInjectionQueryParameters params;
-
-  public MainSearch setIndex(String index) {
-    this.index = index;
+  public InjectedItemRecommendSource setRecommend(Recommend recommend) {
+    this.recommend = recommend;
     return this;
   }
 
-  /** Index to retrieve search results from. */
+  /** Get recommend */
   @javax.annotation.Nonnull
-  public String getIndex() {
-    return index;
-  }
-
-  public MainSearch setParams(MainInjectionQueryParameters params) {
-    this.params = params;
-    return this;
-  }
-
-  /** Get params */
-  @javax.annotation.Nullable
-  public MainInjectionQueryParameters getParams() {
-    return params;
+  public Recommend getRecommend() {
+    return recommend;
   }
 
   @Override
@@ -46,21 +33,20 @@ public class MainSearch {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MainSearch mainSearch = (MainSearch) o;
-    return Objects.equals(this.index, mainSearch.index) && Objects.equals(this.params, mainSearch.params);
+    InjectedItemRecommendSource injectedItemRecommendSource = (InjectedItemRecommendSource) o;
+    return Objects.equals(this.recommend, injectedItemRecommendSource.recommend);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(index, params);
+    return Objects.hash(recommend);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MainSearch {\n");
-    sb.append("    index: ").append(toIndentedString(index)).append("\n");
-    sb.append("    params: ").append(toIndentedString(params)).append("\n");
+    sb.append("class InjectedItemRecommendSource {\n");
+    sb.append("    recommend: ").append(toIndentedString(recommend)).append("\n");
     sb.append("}");
     return sb.toString();
   }
