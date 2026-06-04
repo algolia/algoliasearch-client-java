@@ -3,6 +3,7 @@ package com.algolia.search;
 import com.algolia.search.exceptions.AlgoliaApiException;
 import com.algolia.search.exceptions.AlgoliaRetryException;
 import com.algolia.search.exceptions.AlgoliaRuntimeException;
+import com.algolia.search.exceptions.LaunderThrowable;
 import com.algolia.search.models.RequestOptions;
 import com.algolia.search.models.common.TaskStatusResponse;
 import java.util.Objects;
@@ -38,11 +39,13 @@ class TaskUtils {
 
       try {
         response = getTaskAsync.apply(taskId, requestOptions).get();
-      } catch (InterruptedException | ExecutionException e) {
-        // If the future was cancelled or the thread was interrupted or future completed
-        // exceptionally
-        // We stop
-        break;
+      } catch (InterruptedException e) {
+        // Restore the interrupted status and surface the failure
+        Thread.currentThread().interrupt();
+        throw new AlgoliaRuntimeException(e);
+      } catch (ExecutionException e) {
+        // Surface the underlying error
+        throw LaunderThrowable.launder(e);
       }
 
       if (Objects.equals("published", response.getStatus())) return;
