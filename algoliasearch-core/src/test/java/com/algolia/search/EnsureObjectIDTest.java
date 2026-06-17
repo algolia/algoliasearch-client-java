@@ -65,7 +65,7 @@ class EnsureObjectIDTest {
     assertThatThrownBy(
             () ->
                 AlgoliaUtils.getObjectID(
-                    new DummyObjectWithoutObjectId(), DummyObjectWithoutObjectId.class))
+                    new DummyObjectWithoutObjectId()))
         .isInstanceOf(AlgoliaRuntimeException.class)
         .hasMessageContaining(
             "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
@@ -73,7 +73,7 @@ class EnsureObjectIDTest {
     assertThatThrownBy(
             () ->
                 AlgoliaUtils.getObjectID(
-                    new DummyChildWithoutObjectID(), DummyChildWithoutObjectID.class))
+                    new DummyChildWithoutObjectID()))
         .isInstanceOf(AlgoliaRuntimeException.class)
         .hasMessageContaining(
             "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
@@ -85,7 +85,7 @@ class EnsureObjectIDTest {
     assertThatThrownBy(
             () ->
                 AlgoliaUtils.getObjectID(
-                    new DummyObjectWithWrongAnnotation(), DummyObjectWithWrongAnnotation.class))
+                    new DummyObjectWithWrongAnnotation()))
         .isInstanceOf(AlgoliaRuntimeException.class)
         .hasMessageContaining(
             "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
@@ -93,7 +93,7 @@ class EnsureObjectIDTest {
     assertThatThrownBy(
             () ->
                 AlgoliaUtils.getObjectID(
-                    new DummyChildWithWrongAnnotation(), DummyChildWithWrongAnnotation.class))
+                    new DummyChildWithWrongAnnotation()))
         .isInstanceOf(AlgoliaRuntimeException.class)
         .hasMessageContaining(
             "must have an objectID property or a Jackson annotation @JsonProperty(\"objectID\")");
@@ -105,15 +105,15 @@ class EnsureObjectIDTest {
     assertThatCode(
             () ->
                 AlgoliaUtils.getObjectID(
-                    new DummyObjectWithObjectID().setObjectID("foo"),
-                    DummyObjectWithObjectID.class))
+                    new DummyObjectWithObjectID().setObjectID("foo")
+                ))
         .doesNotThrowAnyException();
 
     assertThatCode(
             () ->
                 AlgoliaUtils.getObjectID(
-                    (DummyChildWithObjectID) new DummyChildWithObjectID().setObjectID("foo"),
-                    DummyChildWithObjectID.class))
+                    (DummyChildWithObjectID) new DummyChildWithObjectID().setObjectID("foo")
+                ))
         .doesNotThrowAnyException();
   }
 
@@ -123,14 +123,14 @@ class EnsureObjectIDTest {
     assertThatCode(
             () ->
                 AlgoliaUtils.getObjectID(
-                    new DummyObjectWithAnnotation().setId("foo"), DummyObjectWithAnnotation.class))
+                    new DummyObjectWithAnnotation().setId("foo")))
         .doesNotThrowAnyException();
 
     assertThatCode(
             () ->
                 AlgoliaUtils.getObjectID(
-                    (DummyChildWithAnnotation) new DummyChildWithAnnotation().setId("foo"),
-                    DummyChildWithAnnotation.class))
+                    (DummyChildWithAnnotation) new DummyChildWithAnnotation().setId("foo")
+                ))
         .doesNotThrowAnyException();
   }
 }
