@@ -1,5 +1,11 @@
 # ChangeLog
 
+## [3.16.15](https://github.com/algolia/algoliasearch-client-java/compare/3.16.14...3.16.15) (2026-07-10)
+
+### Fix
+
+**core**: ensure waitTask exception propagation (#799)
+
 ## [3.16.14](https://github.com/algolia/algoliasearch-client-java/compare/3.16.13...3.16.14) (2026-02-23)
 
 ### Fix
