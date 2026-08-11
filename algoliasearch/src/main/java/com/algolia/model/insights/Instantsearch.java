@@ -5,33 +5,17 @@ package com.algolia.model.insights;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-/**
- * Use this event to track when users convert after a previous Algolia request. For example, a user
- * clicks on an item in the search results to view the product detail page. Then, the user adds the
- * item to their shopping cart. If you're building your category pages with Algolia, you'll also use
- * this event.
- */
-@JsonDeserialize(as = ConvertedObjectIDsAfterSearch.class)
-public class ConvertedObjectIDsAfterSearch implements EventsItems {
+/** Instantsearch */
+@JsonDeserialize(as = Instantsearch.class)
+public class Instantsearch implements EventsItems {
 
   @JsonProperty("eventName")
   private String eventName;
 
   @JsonProperty("eventType")
-  private ConversionEvent eventType;
-
-  @JsonProperty("index")
-  private String index;
-
-  @JsonProperty("objectIDs")
-  private List<String> objectIDs = new ArrayList<>();
-
-  @JsonProperty("queryID")
-  private String queryID;
+  private InstantsearchEvent eventType;
 
   @JsonProperty("userToken")
   private String userToken;
@@ -42,7 +26,10 @@ public class ConvertedObjectIDsAfterSearch implements EventsItems {
   @JsonProperty("timestamp")
   private Long timestamp;
 
-  public ConvertedObjectIDsAfterSearch setEventName(String eventName) {
+  @JsonProperty("agentID")
+  private String agentID;
+
+  public Instantsearch setEventName(String eventName) {
     this.eventName = eventName;
     return this;
   }
@@ -58,61 +45,18 @@ public class ConvertedObjectIDsAfterSearch implements EventsItems {
     return eventName;
   }
 
-  public ConvertedObjectIDsAfterSearch setEventType(ConversionEvent eventType) {
+  public Instantsearch setEventType(InstantsearchEvent eventType) {
     this.eventType = eventType;
     return this;
   }
 
   /** Get eventType */
   @javax.annotation.Nonnull
-  public ConversionEvent getEventType() {
+  public InstantsearchEvent getEventType() {
     return eventType;
   }
 
-  public ConvertedObjectIDsAfterSearch setIndex(String index) {
-    this.index = index;
-    return this;
-  }
-
-  /** Index name (case-sensitive) to which the event's items belong. */
-  @javax.annotation.Nonnull
-  public String getIndex() {
-    return index;
-  }
-
-  public ConvertedObjectIDsAfterSearch setObjectIDs(List<String> objectIDs) {
-    this.objectIDs = objectIDs;
-    return this;
-  }
-
-  public ConvertedObjectIDsAfterSearch addObjectIDs(String objectIDsItem) {
-    this.objectIDs.add(objectIDsItem);
-    return this;
-  }
-
-  /** Object IDs of the records that are part of the event. */
-  @javax.annotation.Nonnull
-  public List<String> getObjectIDs() {
-    return objectIDs;
-  }
-
-  public ConvertedObjectIDsAfterSearch setQueryID(String queryID) {
-    this.queryID = queryID;
-    return this;
-  }
-
-  /**
-   * Unique identifier for a search query. The query ID is required for events related to search or
-   * browse requests. If you add `clickAnalytics: true` as a search request parameter, the query ID
-   * is included in the API response. For agentic analytics events, the query ID may be prefixed
-   * with `message_` followed by any printable string.
-   */
-  @javax.annotation.Nonnull
-  public String getQueryID() {
-    return queryID;
-  }
-
-  public ConvertedObjectIDsAfterSearch setUserToken(String userToken) {
+  public Instantsearch setUserToken(String userToken) {
     this.userToken = userToken;
     return this;
   }
@@ -127,7 +71,7 @@ public class ConvertedObjectIDsAfterSearch implements EventsItems {
     return userToken;
   }
 
-  public ConvertedObjectIDsAfterSearch setAuthenticatedUserToken(String authenticatedUserToken) {
+  public Instantsearch setAuthenticatedUserToken(String authenticatedUserToken) {
     this.authenticatedUserToken = authenticatedUserToken;
     return this;
   }
@@ -144,7 +88,7 @@ public class ConvertedObjectIDsAfterSearch implements EventsItems {
     return authenticatedUserToken;
   }
 
-  public ConvertedObjectIDsAfterSearch setTimestamp(Long timestamp) {
+  public Instantsearch setTimestamp(Long timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -158,6 +102,20 @@ public class ConvertedObjectIDsAfterSearch implements EventsItems {
     return timestamp;
   }
 
+  public Instantsearch setAgentID(String agentID) {
+    this.agentID = agentID;
+    return this;
+  }
+
+  /**
+   * Unique identifier for an agent session. Used to correlate instantsearch events with a specific
+   * agent interaction.
+   */
+  @javax.annotation.Nullable
+  public String getAgentID() {
+    return agentID;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -166,36 +124,32 @@ public class ConvertedObjectIDsAfterSearch implements EventsItems {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ConvertedObjectIDsAfterSearch convertedObjectIDsAfterSearch = (ConvertedObjectIDsAfterSearch) o;
+    Instantsearch instantsearch = (Instantsearch) o;
     return (
-      Objects.equals(this.eventName, convertedObjectIDsAfterSearch.eventName) &&
-      Objects.equals(this.eventType, convertedObjectIDsAfterSearch.eventType) &&
-      Objects.equals(this.index, convertedObjectIDsAfterSearch.index) &&
-      Objects.equals(this.objectIDs, convertedObjectIDsAfterSearch.objectIDs) &&
-      Objects.equals(this.queryID, convertedObjectIDsAfterSearch.queryID) &&
-      Objects.equals(this.userToken, convertedObjectIDsAfterSearch.userToken) &&
-      Objects.equals(this.authenticatedUserToken, convertedObjectIDsAfterSearch.authenticatedUserToken) &&
-      Objects.equals(this.timestamp, convertedObjectIDsAfterSearch.timestamp)
+      Objects.equals(this.eventName, instantsearch.eventName) &&
+      Objects.equals(this.eventType, instantsearch.eventType) &&
+      Objects.equals(this.userToken, instantsearch.userToken) &&
+      Objects.equals(this.authenticatedUserToken, instantsearch.authenticatedUserToken) &&
+      Objects.equals(this.timestamp, instantsearch.timestamp) &&
+      Objects.equals(this.agentID, instantsearch.agentID)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(eventName, eventType, index, objectIDs, queryID, userToken, authenticatedUserToken, timestamp);
+    return Objects.hash(eventName, eventType, userToken, authenticatedUserToken, timestamp, agentID);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ConvertedObjectIDsAfterSearch {\n");
+    sb.append("class Instantsearch {\n");
     sb.append("    eventName: ").append(toIndentedString(eventName)).append("\n");
     sb.append("    eventType: ").append(toIndentedString(eventType)).append("\n");
-    sb.append("    index: ").append(toIndentedString(index)).append("\n");
-    sb.append("    objectIDs: ").append(toIndentedString(objectIDs)).append("\n");
-    sb.append("    queryID: ").append(toIndentedString(queryID)).append("\n");
     sb.append("    userToken: ").append(toIndentedString(userToken)).append("\n");
     sb.append("    authenticatedUserToken: ").append(toIndentedString(authenticatedUserToken)).append("\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
+    sb.append("    agentID: ").append(toIndentedString(agentID)).append("\n");
     sb.append("}");
     return sb.toString();
   }
