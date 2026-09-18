@@ -8,17 +8,16 @@ import com.algolia.internal.interceptors.LogInterceptor;
 import com.algolia.utils.UseReadTransporter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import okhttp3.*;
 import okhttp3.internal.http.HttpMethod;
-import okio.BufferedSink;
 
 /**
  * HttpRequester is responsible for making HTTP requests using the OkHttp client. It provides a
@@ -27,6 +26,7 @@ import okio.BufferedSink;
 public final class HttpRequester implements Requester {
 
   private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json");
+  private static final RequestBody EMPTY_BODY = RequestBody.create(new byte[0], JSON_MEDIA_TYPE);
   private final OkHttpClient httpClient;
   private final JsonSerializer serializer;
   private final AtomicBoolean isClosed = new AtomicBoolean(false);
@@ -125,29 +125,24 @@ public final class HttpRequester implements Requester {
   private RequestBody createRequestBody(HttpRequest httpRequest) {
     String method = httpRequest.getMethod();
     Object body = httpRequest.getBody();
-    if (!HttpMethod.permitsRequestBody(method) || (method.equals("DELETE") && body == null)) {
+    if (!HttpMethod.permitsRequestBody(method)) {
       return null;
     }
     if (body == null) {
-      body = HttpMethod.requiresRequestBody(method) ? Collections.emptyMap() : "";
+      return HttpMethod.requiresRequestBody(method) ? EMPTY_BODY : null;
     }
     return buildRequestBody(body);
   }
 
-  /** Serializes the request body into JSON format. */
+  /**
+   * Serializes the request body into JSON and returns a fixed-length request body so OkHttp sends
+   * {@code Content-Length} instead of {@code Transfer-Encoding: chunked}.
+   */
   @Nonnull
   private RequestBody buildRequestBody(Object requestBody) {
-    return new RequestBody() {
-      @Override
-      public MediaType contentType() {
-        return JSON_MEDIA_TYPE;
-      }
-
-      @Override
-      public void writeTo(@Nonnull BufferedSink bufferedSink) {
-        serializer.serialize(bufferedSink.outputStream(), requestBody);
-      }
-    };
+    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    serializer.serialize(stream, requestBody);
+    return RequestBody.create(stream.toByteArray(), JSON_MEDIA_TYPE);
   }
 
   /** Constructs the headers for the HTTP request. */
