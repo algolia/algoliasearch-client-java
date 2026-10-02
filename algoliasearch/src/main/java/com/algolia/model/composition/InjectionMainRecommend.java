@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** Recommend */
-public class Recommend {
+/** InjectionMainRecommend */
+public class InjectionMainRecommend {
 
   @JsonProperty("indexName")
   private String indexName;
@@ -20,12 +20,12 @@ public class Recommend {
   private Integer threshold;
 
   @JsonProperty("queryParameters")
-  private BaseInjectionQueryParameters queryParameters;
+  private MainInjectionQueryParameters queryParameters;
 
   @JsonProperty("fallbackParameters")
-  private BaseInjectionQueryParameters fallbackParameters;
+  private MainInjectionQueryParameters fallbackParameters;
 
-  public Recommend setIndexName(String indexName) {
+  public InjectionMainRecommend setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
@@ -36,7 +36,7 @@ public class Recommend {
     return indexName;
   }
 
-  public Recommend setModel(Model model) {
+  public InjectionMainRecommend setModel(Model model) {
     this.model = model;
     return this;
   }
@@ -47,7 +47,7 @@ public class Recommend {
     return model;
   }
 
-  public Recommend setThreshold(Integer threshold) {
+  public InjectionMainRecommend setThreshold(Integer threshold) {
     this.threshold = threshold;
     return this;
   }
@@ -58,25 +58,25 @@ public class Recommend {
     return threshold;
   }
 
-  public Recommend setQueryParameters(BaseInjectionQueryParameters queryParameters) {
+  public InjectionMainRecommend setQueryParameters(MainInjectionQueryParameters queryParameters) {
     this.queryParameters = queryParameters;
     return this;
   }
 
   /** Get queryParameters */
   @javax.annotation.Nullable
-  public BaseInjectionQueryParameters getQueryParameters() {
+  public MainInjectionQueryParameters getQueryParameters() {
     return queryParameters;
   }
 
-  public Recommend setFallbackParameters(BaseInjectionQueryParameters fallbackParameters) {
+  public InjectionMainRecommend setFallbackParameters(MainInjectionQueryParameters fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
 
   /** Get fallbackParameters */
   @javax.annotation.Nullable
-  public BaseInjectionQueryParameters getFallbackParameters() {
+  public MainInjectionQueryParameters getFallbackParameters() {
     return fallbackParameters;
   }
 
@@ -88,13 +88,13 @@ public class Recommend {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Recommend recommend = (Recommend) o;
+    InjectionMainRecommend injectionMainRecommend = (InjectionMainRecommend) o;
     return (
-      Objects.equals(this.indexName, recommend.indexName) &&
-      Objects.equals(this.model, recommend.model) &&
-      Objects.equals(this.threshold, recommend.threshold) &&
-      Objects.equals(this.queryParameters, recommend.queryParameters) &&
-      Objects.equals(this.fallbackParameters, recommend.fallbackParameters)
+      Objects.equals(this.indexName, injectionMainRecommend.indexName) &&
+      Objects.equals(this.model, injectionMainRecommend.model) &&
+      Objects.equals(this.threshold, injectionMainRecommend.threshold) &&
+      Objects.equals(this.queryParameters, injectionMainRecommend.queryParameters) &&
+      Objects.equals(this.fallbackParameters, injectionMainRecommend.fallbackParameters)
     );
   }
 
@@ -106,7 +106,7 @@ public class Recommend {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Recommend {\n");
+    sb.append("class InjectionMainRecommend {\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
     sb.append("    threshold: ").append(toIndentedString(threshold)).append("\n");

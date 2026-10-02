@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-/** MainExternalProvider */
-public class MainExternalProvider {
+/** InjectionMainExternalProvider */
+public class InjectionMainExternalProvider {
 
   @JsonProperty("index")
   private String index;
@@ -21,13 +21,13 @@ public class MainExternalProvider {
   @JsonProperty("configurationParams")
   private Map<String, Object> configurationParams;
 
-  @JsonProperty("params")
-  private MainInjectionQueryParameters params;
-
   @JsonProperty("ordering")
   private ExternalProviderOrdering ordering;
 
-  public MainExternalProvider setIndex(String index) {
+  @JsonProperty("params")
+  private MainInjectionQueryParameters params;
+
+  public InjectionMainExternalProvider setIndex(String index) {
     this.index = index;
     return this;
   }
@@ -38,7 +38,7 @@ public class MainExternalProvider {
     return index;
   }
 
-  public MainExternalProvider setConfigurationID(String configurationID) {
+  public InjectionMainExternalProvider setConfigurationID(String configurationID) {
     this.configurationID = configurationID;
     return this;
   }
@@ -49,12 +49,12 @@ public class MainExternalProvider {
     return configurationID;
   }
 
-  public MainExternalProvider setConfigurationParams(Map<String, Object> configurationParams) {
+  public InjectionMainExternalProvider setConfigurationParams(Map<String, Object> configurationParams) {
     this.configurationParams = configurationParams;
     return this;
   }
 
-  public MainExternalProvider putConfigurationParams(String key, Object configurationParamsItem) {
+  public InjectionMainExternalProvider putConfigurationParams(String key, Object configurationParamsItem) {
     if (this.configurationParams == null) {
       this.configurationParams = new HashMap<>();
     }
@@ -71,18 +71,7 @@ public class MainExternalProvider {
     return configurationParams;
   }
 
-  public MainExternalProvider setParams(MainInjectionQueryParameters params) {
-    this.params = params;
-    return this;
-  }
-
-  /** Get params */
-  @javax.annotation.Nullable
-  public MainInjectionQueryParameters getParams() {
-    return params;
-  }
-
-  public MainExternalProvider setOrdering(ExternalProviderOrdering ordering) {
+  public InjectionMainExternalProvider setOrdering(ExternalProviderOrdering ordering) {
     this.ordering = ordering;
     return this;
   }
@@ -93,6 +82,17 @@ public class MainExternalProvider {
     return ordering;
   }
 
+  public InjectionMainExternalProvider setParams(MainInjectionQueryParameters params) {
+    this.params = params;
+    return this;
+  }
+
+  /** Get params */
+  @javax.annotation.Nullable
+  public MainInjectionQueryParameters getParams() {
+    return params;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -101,30 +101,30 @@ public class MainExternalProvider {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MainExternalProvider mainExternalProvider = (MainExternalProvider) o;
+    InjectionMainExternalProvider injectionMainExternalProvider = (InjectionMainExternalProvider) o;
     return (
-      Objects.equals(this.index, mainExternalProvider.index) &&
-      Objects.equals(this.configurationID, mainExternalProvider.configurationID) &&
-      Objects.equals(this.configurationParams, mainExternalProvider.configurationParams) &&
-      Objects.equals(this.params, mainExternalProvider.params) &&
-      Objects.equals(this.ordering, mainExternalProvider.ordering)
+      Objects.equals(this.index, injectionMainExternalProvider.index) &&
+      Objects.equals(this.configurationID, injectionMainExternalProvider.configurationID) &&
+      Objects.equals(this.configurationParams, injectionMainExternalProvider.configurationParams) &&
+      Objects.equals(this.ordering, injectionMainExternalProvider.ordering) &&
+      Objects.equals(this.params, injectionMainExternalProvider.params)
     );
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(index, configurationID, configurationParams, params, ordering);
+    return Objects.hash(index, configurationID, configurationParams, ordering, params);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MainExternalProvider {\n");
+    sb.append("class InjectionMainExternalProvider {\n");
     sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    configurationID: ").append(toIndentedString(configurationID)).append("\n");
     sb.append("    configurationParams: ").append(toIndentedString(configurationParams)).append("\n");
-    sb.append("    params: ").append(toIndentedString(params)).append("\n");
     sb.append("    ordering: ").append(toIndentedString(ordering)).append("\n");
+    sb.append("    params: ").append(toIndentedString(params)).append("\n");
     sb.append("}");
     return sb.toString();
   }

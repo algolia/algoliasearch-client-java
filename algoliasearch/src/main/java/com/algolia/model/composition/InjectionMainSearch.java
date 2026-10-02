@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** MainSearch */
-public class MainSearch {
+/** InjectionMainSearch */
+public class InjectionMainSearch {
 
   @JsonProperty("index")
   private String index;
@@ -16,18 +16,18 @@ public class MainSearch {
   @JsonProperty("params")
   private MainInjectionQueryParameters params;
 
-  public MainSearch setIndex(String index) {
+  public InjectionMainSearch setIndex(String index) {
     this.index = index;
     return this;
   }
 
-  /** Index to retrieve search results from. */
+  /** Algolia index used to retrieve records. */
   @javax.annotation.Nonnull
   public String getIndex() {
     return index;
   }
 
-  public MainSearch setParams(MainInjectionQueryParameters params) {
+  public InjectionMainSearch setParams(MainInjectionQueryParameters params) {
     this.params = params;
     return this;
   }
@@ -46,8 +46,8 @@ public class MainSearch {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MainSearch mainSearch = (MainSearch) o;
-    return Objects.equals(this.index, mainSearch.index) && Objects.equals(this.params, mainSearch.params);
+    InjectionMainSearch injectionMainSearch = (InjectionMainSearch) o;
+    return Objects.equals(this.index, injectionMainSearch.index) && Objects.equals(this.params, injectionMainSearch.params);
   }
 
   @Override
@@ -58,7 +58,7 @@ public class MainSearch {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MainSearch {\n");
+    sb.append("class InjectionMainSearch {\n");
     sb.append("    index: ").append(toIndentedString(index)).append("\n");
     sb.append("    params: ").append(toIndentedString(params)).append("\n");
     sb.append("}");

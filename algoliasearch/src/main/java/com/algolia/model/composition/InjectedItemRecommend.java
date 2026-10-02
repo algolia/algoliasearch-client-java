@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.*;
 import java.util.Objects;
 
-/** MainRecommend */
-public class MainRecommend {
+/** InjectedItemRecommend */
+public class InjectedItemRecommend {
 
   @JsonProperty("indexName")
   private String indexName;
@@ -20,12 +20,12 @@ public class MainRecommend {
   private Integer threshold;
 
   @JsonProperty("queryParameters")
-  private MainInjectionQueryParameters queryParameters;
+  private BaseInjectionQueryParameters queryParameters;
 
   @JsonProperty("fallbackParameters")
-  private MainInjectionQueryParameters fallbackParameters;
+  private BaseInjectionQueryParameters fallbackParameters;
 
-  public MainRecommend setIndexName(String indexName) {
+  public InjectedItemRecommend setIndexName(String indexName) {
     this.indexName = indexName;
     return this;
   }
@@ -36,7 +36,7 @@ public class MainRecommend {
     return indexName;
   }
 
-  public MainRecommend setModel(Model model) {
+  public InjectedItemRecommend setModel(Model model) {
     this.model = model;
     return this;
   }
@@ -47,7 +47,7 @@ public class MainRecommend {
     return model;
   }
 
-  public MainRecommend setThreshold(Integer threshold) {
+  public InjectedItemRecommend setThreshold(Integer threshold) {
     this.threshold = threshold;
     return this;
   }
@@ -58,25 +58,25 @@ public class MainRecommend {
     return threshold;
   }
 
-  public MainRecommend setQueryParameters(MainInjectionQueryParameters queryParameters) {
+  public InjectedItemRecommend setQueryParameters(BaseInjectionQueryParameters queryParameters) {
     this.queryParameters = queryParameters;
     return this;
   }
 
   /** Get queryParameters */
   @javax.annotation.Nullable
-  public MainInjectionQueryParameters getQueryParameters() {
+  public BaseInjectionQueryParameters getQueryParameters() {
     return queryParameters;
   }
 
-  public MainRecommend setFallbackParameters(MainInjectionQueryParameters fallbackParameters) {
+  public InjectedItemRecommend setFallbackParameters(BaseInjectionQueryParameters fallbackParameters) {
     this.fallbackParameters = fallbackParameters;
     return this;
   }
 
   /** Get fallbackParameters */
   @javax.annotation.Nullable
-  public MainInjectionQueryParameters getFallbackParameters() {
+  public BaseInjectionQueryParameters getFallbackParameters() {
     return fallbackParameters;
   }
 
@@ -88,13 +88,13 @@ public class MainRecommend {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MainRecommend mainRecommend = (MainRecommend) o;
+    InjectedItemRecommend injectedItemRecommend = (InjectedItemRecommend) o;
     return (
-      Objects.equals(this.indexName, mainRecommend.indexName) &&
-      Objects.equals(this.model, mainRecommend.model) &&
-      Objects.equals(this.threshold, mainRecommend.threshold) &&
-      Objects.equals(this.queryParameters, mainRecommend.queryParameters) &&
-      Objects.equals(this.fallbackParameters, mainRecommend.fallbackParameters)
+      Objects.equals(this.indexName, injectedItemRecommend.indexName) &&
+      Objects.equals(this.model, injectedItemRecommend.model) &&
+      Objects.equals(this.threshold, injectedItemRecommend.threshold) &&
+      Objects.equals(this.queryParameters, injectedItemRecommend.queryParameters) &&
+      Objects.equals(this.fallbackParameters, injectedItemRecommend.fallbackParameters)
     );
   }
 
@@ -106,7 +106,7 @@ public class MainRecommend {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MainRecommend {\n");
+    sb.append("class InjectedItemRecommend {\n");
     sb.append("    indexName: ").append(toIndentedString(indexName)).append("\n");
     sb.append("    model: ").append(toIndentedString(model)).append("\n");
     sb.append("    threshold: ").append(toIndentedString(threshold)).append("\n");
