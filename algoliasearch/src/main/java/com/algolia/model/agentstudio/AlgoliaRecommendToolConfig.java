@@ -15,8 +15,8 @@ import java.util.Objects;
  * Configuration for the Algolia Recommend tool. Allows specifying recommend models and related
  * parameters.
  */
-@JsonDeserialize(as = AlgoliaRecommendToolConfigInput.class)
-public class AlgoliaRecommendToolConfigInput implements ToolConfigInput {
+@JsonDeserialize(as = AlgoliaRecommendToolConfig.class)
+public class AlgoliaRecommendToolConfig implements ToolConfigOutput, ItemsUnion, ToolConfigInput {
 
   @JsonProperty("name")
   private String name;
@@ -30,7 +30,7 @@ public class AlgoliaRecommendToolConfigInput implements ToolConfigInput {
   @JsonProperty("predefinedRecommendParameters")
   private Map<String, Object> predefinedRecommendParameters;
 
-  public AlgoliaRecommendToolConfigInput setName(String name) {
+  public AlgoliaRecommendToolConfig setName(String name) {
     this.name = name;
     return this;
   }
@@ -41,7 +41,7 @@ public class AlgoliaRecommendToolConfigInput implements ToolConfigInput {
     return name;
   }
 
-  public AlgoliaRecommendToolConfigInput setType(String type) {
+  public AlgoliaRecommendToolConfig setType(String type) {
     this.type = type;
     return this;
   }
@@ -52,12 +52,12 @@ public class AlgoliaRecommendToolConfigInput implements ToolConfigInput {
     return type;
   }
 
-  public AlgoliaRecommendToolConfigInput setAllowedConfigs(List<AlgoliaRecommendToolIndexConfig> allowedConfigs) {
+  public AlgoliaRecommendToolConfig setAllowedConfigs(List<AlgoliaRecommendToolIndexConfig> allowedConfigs) {
     this.allowedConfigs = allowedConfigs;
     return this;
   }
 
-  public AlgoliaRecommendToolConfigInput addAllowedConfigs(AlgoliaRecommendToolIndexConfig allowedConfigsItem) {
+  public AlgoliaRecommendToolConfig addAllowedConfigs(AlgoliaRecommendToolIndexConfig allowedConfigsItem) {
     if (this.allowedConfigs == null) {
       this.allowedConfigs = new ArrayList<>();
     }
@@ -71,12 +71,12 @@ public class AlgoliaRecommendToolConfigInput implements ToolConfigInput {
     return allowedConfigs;
   }
 
-  public AlgoliaRecommendToolConfigInput setPredefinedRecommendParameters(Map<String, Object> predefinedRecommendParameters) {
+  public AlgoliaRecommendToolConfig setPredefinedRecommendParameters(Map<String, Object> predefinedRecommendParameters) {
     this.predefinedRecommendParameters = predefinedRecommendParameters;
     return this;
   }
 
-  public AlgoliaRecommendToolConfigInput putPredefinedRecommendParameters(String key, Object predefinedRecommendParametersItem) {
+  public AlgoliaRecommendToolConfig putPredefinedRecommendParameters(String key, Object predefinedRecommendParametersItem) {
     if (this.predefinedRecommendParameters == null) {
       this.predefinedRecommendParameters = new HashMap<>();
     }
@@ -98,12 +98,12 @@ public class AlgoliaRecommendToolConfigInput implements ToolConfigInput {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AlgoliaRecommendToolConfigInput algoliaRecommendToolConfigInput = (AlgoliaRecommendToolConfigInput) o;
+    AlgoliaRecommendToolConfig algoliaRecommendToolConfig = (AlgoliaRecommendToolConfig) o;
     return (
-      Objects.equals(this.name, algoliaRecommendToolConfigInput.name) &&
-      Objects.equals(this.type, algoliaRecommendToolConfigInput.type) &&
-      Objects.equals(this.allowedConfigs, algoliaRecommendToolConfigInput.allowedConfigs) &&
-      Objects.equals(this.predefinedRecommendParameters, algoliaRecommendToolConfigInput.predefinedRecommendParameters)
+      Objects.equals(this.name, algoliaRecommendToolConfig.name) &&
+      Objects.equals(this.type, algoliaRecommendToolConfig.type) &&
+      Objects.equals(this.allowedConfigs, algoliaRecommendToolConfig.allowedConfigs) &&
+      Objects.equals(this.predefinedRecommendParameters, algoliaRecommendToolConfig.predefinedRecommendParameters)
     );
   }
 
@@ -115,7 +115,7 @@ public class AlgoliaRecommendToolConfigInput implements ToolConfigInput {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AlgoliaRecommendToolConfigInput {\n");
+    sb.append("class AlgoliaRecommendToolConfig {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    allowedConfigs: ").append(toIndentedString(allowedConfigs)).append("\n");

@@ -11,17 +11,17 @@ import com.fasterxml.jackson.databind.annotation.*;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-/** ToolConfig */
-@JsonDeserialize(using = ToolConfig.Deserializer.class)
-public interface ToolConfig {
-  // ToolConfig as Boolean wrapper.
-  static ToolConfig of(Boolean value) {
+/** ToolConfigOrBooleanUnion */
+@JsonDeserialize(using = ToolConfigOrBooleanUnion.Deserializer.class)
+public interface ToolConfigOrBooleanUnion {
+  // ToolConfigOrBooleanUnion as Boolean wrapper.
+  static ToolConfigOrBooleanUnion of(Boolean value) {
     return new BooleanWrapper(value);
   }
 
-  // ToolConfig as Boolean wrapper.
+  // ToolConfigOrBooleanUnion as Boolean wrapper.
   @JsonSerialize(using = BooleanWrapper.Serializer.class)
-  class BooleanWrapper implements ToolConfig {
+  class BooleanWrapper implements ToolConfigOrBooleanUnion {
 
     private final Boolean value;
 
@@ -42,12 +42,12 @@ public interface ToolConfig {
     }
   }
 
-  class Deserializer extends JsonDeserializer<ToolConfig> {
+  class Deserializer extends JsonDeserializer<ToolConfigOrBooleanUnion> {
 
     private static final Logger LOGGER = Logger.getLogger(Deserializer.class.getName());
 
     @Override
-    public ToolConfig deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public ToolConfigOrBooleanUnion deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       JsonNode tree = jp.readValueAsTree();
       // deserialize McpToolConfig
       if (tree.isObject()) {
@@ -62,7 +62,7 @@ public interface ToolConfig {
       if (tree.isBoolean()) {
         try (JsonParser parser = tree.traverse(jp.getCodec())) {
           Boolean value = parser.readValueAs(Boolean.class);
-          return new ToolConfig.BooleanWrapper(value);
+          return new ToolConfigOrBooleanUnion.BooleanWrapper(value);
         } catch (Exception e) {
           // deserialization failed, continue
           LOGGER.finest("Failed to deserialize oneOf Boolean (error: " + e.getMessage() + ") (type: Boolean)");
@@ -73,8 +73,8 @@ public interface ToolConfig {
 
     /** Handle deserialization of the 'null' value. */
     @Override
-    public ToolConfig getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-      throw new JsonMappingException(ctxt.getParser(), "ToolConfig cannot be null");
+    public ToolConfigOrBooleanUnion getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+      throw new JsonMappingException(ctxt.getParser(), "ToolConfigOrBooleanUnion cannot be null");
     }
   }
 }
